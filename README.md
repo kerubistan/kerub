@@ -17,5 +17,4 @@ Such solutions and technologies are:
  * No cluster
  * KSM
  * Simplicity in deployment and development
-   Single WAR file, no multi-module, no multiple packages to install.
  * Minimal hardware requirements
