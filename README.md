@@ -14,7 +14,7 @@ Such solutions and technologies are:
  * NoSQL for VM data
  * User requirements
  * Scheduling as an optimization problem
- * No cluster
+ * No host-cluster
  * KSM
  * Simplicity in deployment and development
  * Minimal hardware requirements
