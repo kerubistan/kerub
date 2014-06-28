@@ -2,16 +2,48 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+            http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+            http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
+
+    <!--
+    infinispan config
+    -->
+
+    <bean id="cacheManager" class="org.infinispan.manager.DefaultCacheManager">
+    </bean>
+
+    <bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
+
+    <bean id="vmCache" parent="cache">
+        <constructor-arg value="vmCache"/>
+    </bean>
+
+    <bean id="hostCache" parent="cache">
+        <constructor-arg value="hostCache"/>
+    </bean>
+
+    <bean id="projectCache" parent="cache">
+        <constructor-arg value="projectCache"/>
+    </bean>
 
     <!--
     DAO
     -->
 
-    <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl"></bean>
-    <bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl"></bean>
+    <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl">
+        <constructor-arg ref="vmCache"/>
+    </bean>
+
+    <bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl">
+        <constructor-arg ref="hostCache"/>
+    </bean>
+
+    <bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl">
+        <constructor-arg ref="projectCache"/>
+    </bean>
 
     <!--
     REST
@@ -20,15 +52,24 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="customerService" address="/rest">
-        <jaxrs:serviceBeans>
+    <jaxrs:server id="customerService" address="/r" serviceName="rest">
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>
+        </jaxrs:providers>        <jaxrs:serviceBeans>
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
                 <constructor-arg ref="hostDao"/>
             </bean>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>
             </bean>
+            <bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
+                <constructor-arg ref="projectDao"/>
+            </bean>
         </jaxrs:serviceBeans>
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+        </jaxrs:extensionMappings>
     </jaxrs:server>
 
 

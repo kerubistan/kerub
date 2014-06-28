@@ -4,9 +4,10 @@ import com.github.K0zka.kerub.services.HostService
 import java.util.UUID
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.HostDao
+import com.github.K0zka.kerub.data.ListableDao
 
 public class HostServiceImpl(dao : HostDao) : BaseServiceImpl<Host, UUID>(dao), HostService {
 	override fun listAll(): List<Host> {
-		throw UnsupportedOperationException()
+		return (dao as ListableDao<Host, UUID>).listAll()
 	}
 }

@@ -1,19 +1,14 @@
 package com.github.K0zka.kerub.model
 
 import java.util.UUID
+import java.util.Date
 import javax.xml.bind.annotation.XmlRootElement
 
-XmlRootElement(name = "vm")
-data class VirtualMachine : Entity<UUID> {
+XmlRootElement(name = "project")
+public class Project : Entity<UUID>{
 	override var id: UUID? = null
-
 	var name : String? = null
-
-	var nrOfCpus : Int? = 1
-
-	var memory : Range<Int> = Range(1024, 2048)
-
+	var description : String? = null
+	var created : Date? = null
 	var expectations : List<Expectation>? = null
-
-
 }

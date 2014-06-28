@@ -2,21 +2,23 @@ package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.data.CrudDao
 import com.github.K0zka.kerub.model.Entity
+import org.infinispan.Cache
 
-open class IspnDaoBase<T : Entity<I>, I> : CrudDao<T, I> {
+open class IspnDaoBase<T : Entity<I>, I> (protected val cache : Cache<I, T>) : CrudDao<T, I> {
 	override fun add(entity: T): I {
-		throw UnsupportedOperationException()
+		cache.put(entity.id!!, entity)
+		return entity.id!!
 	}
 	override fun get(id: I): T {
-		throw UnsupportedOperationException()
+		return cache[id]!!
 	}
 	override fun remove(entity: T) {
-		throw UnsupportedOperationException()
+		cache.remove(entity.id)
 	}
 	override fun remove(id: I) {
-		throw UnsupportedOperationException()
+		cache.remove(id)
 	}
 	override fun update(entity: T) {
-		throw UnsupportedOperationException()
+		cache.put(entity.id!!, entity)
 	}
 }
