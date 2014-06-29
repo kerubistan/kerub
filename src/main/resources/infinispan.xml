@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan xmlns="urn:infinispan:config:7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="urn:infinispan:config:7.0 http://infinispan.org/schemas/infinispan-config-7.0.xsd">
+
+    <jgroups>
+        <stack-file name="udp" path="jgroups-udp.xml"/>
+    </jgroups>
+
+    <cache-container default-cache="default">
+        <transport stack="udp"/>
+        <serialization>
+        </serialization>
+        <jmx></jmx>
+        <distributed-cache name="hostCache" mode="SYNC">
+            <persistence>
+                <file-store path="store/hosts"/>
+            </persistence>
+        </distributed-cache>
+        <distributed-cache name="vmCache">
+            <persistence>
+                <file-store path="store/vms"/>
+            </persistence>
+        </distributed-cache>
+        <distributed-cache name="projectCache">
+            <persistence>
+                <file-store path="store/projects"/>
+            </persistence>
+        </distributed-cache>
+    </cache-container>
+</infinispan>

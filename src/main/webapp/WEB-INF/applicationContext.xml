@@ -13,6 +13,7 @@
     -->
 
     <bean id="cacheManager" class="org.infinispan.manager.DefaultCacheManager">
+        <constructor-arg value="infinispan.xml"/>
     </bean>
 
     <bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
