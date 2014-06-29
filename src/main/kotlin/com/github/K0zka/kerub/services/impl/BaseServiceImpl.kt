@@ -4,9 +4,9 @@ import com.github.K0zka.kerub.services.RestCrud
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.data.CrudDao
 
-open class BaseServiceImpl<T : Entity<I>, I> (public val dao : CrudDao<T, I>) : RestCrud<T, I> {
+open class BaseServiceImpl<T : Entity<I>, I> (protected val dao : CrudDao<T, I>, val entityType : String) : RestCrud<T, I> {
 	override fun getById(id: I): T {
-		return dao.get(id)
+		return assertExist(entityType, dao[id], id)
 	}
 	override fun update(id: I, entity: T): T {
 		dao.update(entity)

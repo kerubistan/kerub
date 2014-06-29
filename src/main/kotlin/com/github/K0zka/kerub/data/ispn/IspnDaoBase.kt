@@ -9,8 +9,8 @@ open class IspnDaoBase<T : Entity<I>, I> (protected val cache : Cache<I, T>) : C
 		cache.put(entity.id!!, entity)
 		return entity.id!!
 	}
-	override fun get(id: I): T {
-		return cache[id]!!
+	override fun get(id: I): T? {
+		return cache[id]
 	}
 	override fun remove(entity: T) {
 		cache.remove(entity.id)

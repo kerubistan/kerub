@@ -7,5 +7,5 @@ public trait CrudDao<T : Entity<I>, I> {
 	fun remove(entity : T)
 	fun remove(id : I)
 	fun update(entity : T)
-	fun get(id : I) : T
+	fun get(id : I) : T?
 }
