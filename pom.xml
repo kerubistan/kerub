@@ -215,7 +215,7 @@
                 <configuration>
                     <stopPort>8081</stopPort>
                     <stopKey>stop</stopKey>
-                    <useTestClasspath>true</useTestClasspath>
+                    <contextXml>src/build/env/jetty.xml</contextXml>
                 </configuration>
                 <executions>
                     <execution>
@@ -228,6 +228,7 @@
                             <dumpOnStart>true</dumpOnStart>
                             <daemon>true</daemon>
                             <scanIntervalSeconds>0</scanIntervalSeconds>
+
                         </configuration>
                     </execution>
                     <execution>

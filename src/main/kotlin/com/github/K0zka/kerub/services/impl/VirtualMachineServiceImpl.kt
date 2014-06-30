@@ -6,6 +6,6 @@ import java.util.UUID
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.ListableDao
 
-public class VirtualMachineServiceImpl(dao: VirtualMachineDao) : BaseServiceImpl<VirtualMachine>(dao, "vm"),
+public class VirtualMachineServiceImpl(dao: VirtualMachineDao) : ListableBaseService<VirtualMachine>(dao, "vm"),
 		VirtualMachineService {
 }

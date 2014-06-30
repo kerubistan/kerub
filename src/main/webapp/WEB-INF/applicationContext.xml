@@ -57,6 +57,11 @@
         <constructor-arg ref="eventListener"/>
     </bean>
 
+    <bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
+        <constructor-arg ref="hostCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
     <bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
         <constructor-arg ref="projectCache"/>
         <constructor-arg ref="eventListener"/>
@@ -74,7 +79,26 @@
     Managers
     -->
 
-    <bean id="hostManager" class="com.github.K0zka.kerub.host.HostManagerImpl"/>
+    <bean
+            id="keyPairFactory"
+            class="com.github.K0zka.kerub.host.KeyPairFactory">
+        <property name="keyStorePassword" value="password"/>
+        <property name="certificatePassword" value="password"/>
+    </bean>
+
+    <bean id="keyPair"
+          factory-bean="keyPairFactory"
+          factory-method="createKeyPair"/>
+
+    <bean
+            id="hostManager"
+            class="com.github.K0zka.kerub.host.HostManagerImpl"
+            init-method="start"
+            destroy-method="stop">
+        <constructor-arg ref="keyPair"/>
+        <constructor-arg ref="hostDao"/>
+        <constructor-arg ref="hostDynamicDao"/>
+    </bean>
 
     <!--
     MQ
@@ -182,5 +206,14 @@
             class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
             init-method="logStart"
             destroy-method="logStop"/>
+
+    <!--
+    Configuration, utilities
+    -->
+
+    <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+        <property name="location" value="kerub.properties"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
 
 </beans>

@@ -4,8 +4,14 @@ import com.github.K0zka.kerub.utils.getLogger
 import java.util.regex.Pattern
 import com.github.K0zka.kerub.utils.elemOrNull
 import java.io.Serializable
+import org.hibernate.search.annotations.Field
 
-public class Version (val major : String, val minor: String?, val build : String?) : Serializable {
+public data class Version (Field val major : String,
+                           Field val minor: String?,
+                           Field val build : String?) : Serializable, Comparable<Version> {
+	override fun compareTo(other: Version): Int {
+		return -1
+	}
 	class object {
 		private val logger = getLogger(javaClass<Version>())
 

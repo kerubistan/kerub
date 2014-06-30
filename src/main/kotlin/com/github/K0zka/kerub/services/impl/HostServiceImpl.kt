@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.data.ListableDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.services.HostPubKey
 
-public class HostServiceImpl(dao: HostDao, val manager: HostManager) : BaseServiceImpl<Host>(dao, "host"), HostService {
+public class HostServiceImpl(dao: HostDao, val manager: HostManager) : ListableBaseService<Host>(dao, "host"), HostService {
 	override fun getHostPubkey(address: String): HostPubKey {
 		val publicKey = manager.getHostPublicKey(address)
 		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), publicKey.getEncoded()!!)

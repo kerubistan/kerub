@@ -8,6 +8,7 @@ import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.DocumentId
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.K0zka.kerub.model.HostCapabilities
 
 /**
  *
@@ -25,4 +26,6 @@ data class Host : Entity<UUID> {
 	Field
 	var dedicated : Boolean = true
 
+	Field
+	var capabilities: HostCapabilities? = null
 }
