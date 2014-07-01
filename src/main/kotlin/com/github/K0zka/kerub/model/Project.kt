@@ -10,5 +10,5 @@ public class Project : Entity<UUID>{
 	var name : String? = null
 	var description : String? = null
 	var created : Date? = null
-	var expectations : List<Expectation>? = null
+	var expectations : List<Expectation> = listOf()
 }

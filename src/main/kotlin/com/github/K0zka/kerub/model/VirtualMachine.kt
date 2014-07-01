@@ -13,7 +13,7 @@ data class VirtualMachine : Entity<UUID> {
 
 	var memory : Range<Int> = Range(1024, 2048)
 
-	var expectations : List<Expectation>? = null
+	var expectations : List<Expectation> = listOf()
 
-
+	var disks : List<Disk> = listOf()
 }
