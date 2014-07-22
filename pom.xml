@@ -6,7 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
-        <kotlin.version>0.7.1217</kotlin.version>
+        <kotlin.version>0.8.11</kotlin.version>
     </properties>
     <dependencies>
         <dependency>
