@@ -7,6 +7,9 @@
     <packaging>war</packaging>
     <properties>
         <kotlin.version>0.8.11</kotlin.version>
+        <spring.version>3.2.0.RELEASE</spring.version>
+        <cxf.version>3.0.0</cxf.version>
+        <infinispan.version>7.0.0.Alpha4</infinispan.version>
     </properties>
     <dependencies>
         <dependency>
@@ -38,42 +41,42 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>3.2.0.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.2.0.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>3.2.0.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-core</artifactId>
-            <version>7.0.0.Alpha4</version>
+            <version>${infinispan.version}</version>
         </dependency>
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-spring</artifactId>
-            <version>7.0.0.Alpha4</version>
+            <version>${infinispan.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
-            <version>3.0.0</version>
+            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>3.0.0</version>
+            <version>${cxf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.0.0</version>
+            <version>${cxf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -118,6 +121,19 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.2.1.v20140609</version>
+                <configuration>
+                    <stopPort>8081</stopPort>
+                    <stopKey>stop</stopKey>
+                </configuration>
+                <!--
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-util</artifactId>
+                        <version>9.2.1.v20140609</version>
+                    </dependency>
+                </dependencies>
+                -->
                 <executions>
                     <execution>
                         <id>start-jetty</id>
