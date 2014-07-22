@@ -125,15 +125,6 @@
                     <stopPort>8081</stopPort>
                     <stopKey>stop</stopKey>
                 </configuration>
-                <!--
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.jetty</groupId>
-                        <artifactId>jetty-util</artifactId>
-                        <version>9.2.1.v20140609</version>
-                    </dependency>
-                </dependencies>
-                -->
                 <executions>
                     <execution>
                         <id>start-jetty</id>
