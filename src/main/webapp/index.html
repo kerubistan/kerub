@@ -9,17 +9,44 @@
     <script src="js/MainTabs.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
-
 </head>
 <body>
 
     <div ng-controller="MainTabs">
         <tabset>
             <tab heading="Virtual machines">
-            </tab>
-            <tab heading="Hosts">
+                <button type="button" class="btn btn-default">New VM</button>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>name</td>
+                            <td>vCPUs</td>
+                            <td>RAM</td>
+                            <td>OS</td>
+                            <td>status</td>
+                            <td>load</td>
+                            <td>actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </tab>
             <tab heading="Virtual networks">
+            </tab>
+            <tab heading="Virtual disks">
+                <button type="button" class="btn btn-default">New Disk</button>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>name</td>
+                        <td>size</td>
+                        <td>comments</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </tab>
             <tab heading="Storage">
             </tab>
