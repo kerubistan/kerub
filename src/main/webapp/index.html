@@ -15,8 +15,11 @@
 
     <div ng-controller="MainTabs">
         <tabset>
-            <tab heading="Virtual machines">
-                <button type="button" class="btn btn-default">New VM</button>
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-cog"></i>Virtual machines
+                </tab-heading>
+                <button type="button" class="btn btn-default glyphicon glyphicon-plus">New VM</button>
                 <table class="table">
                     <thead>
                         <tr>
@@ -33,10 +36,17 @@
                     </tbody>
                 </table>
             </tab>
-            <tab heading="Virtual networks">
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-cloud"></i>Virtual networks
+                </tab-heading>
+
             </tab>
-            <tab heading="Virtual disks">
-                <button type="button" class="btn btn-default glyphicon-plus">New Disk</button>
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-hdd"></i>Virtual disks
+                </tab-heading>
+                <button type="button" class="btn btn-default glyphicon glyphicon-plus">New Disk</button>
                 <table class="table">
                     <thead>
                     <tr>
@@ -49,9 +59,18 @@
                     </tbody>
                 </table>
             </tab>
+            <tab>
+                <tab-heading>
+                    <i class="glyphicon glyphicon-wrench"></i>Hosts
+                </tab-heading>
+
+            </tab>
             <tab heading="Storage">
             </tab>
-            <tab heading="About" ng-controller="VersionInfo">
+            <tab ng-controller="VersionInfo">
+                <tab-heading>
+                    <i class="glyphicon glyphicon-info-sign"></i>About
+                </tab-heading>
                 <span>version: {{versionInfo.version}}</span>
             </tab>
         </tabset>
@@ -65,7 +84,7 @@
             <input ng-bind="username" class="form-control" placeholder="username">
             <input ng-bind="password" class="form-control" type="password" placeholder="password">
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="login">
+                <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login">
                     Login
                 </button>
             </div>
