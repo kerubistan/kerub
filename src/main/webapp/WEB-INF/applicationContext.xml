@@ -66,6 +66,7 @@
             <bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
                 <constructor-arg ref="projectDao"/>
             </bean>
+            <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionService"/>
         </jaxrs:serviceBeans>
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>

@@ -7,6 +7,7 @@
     <script src="webjars/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/MainTabs.js"></script>
+    <script src="js/VersionInfo.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
 </head>
@@ -35,7 +36,7 @@
             <tab heading="Virtual networks">
             </tab>
             <tab heading="Virtual disks">
-                <button type="button" class="btn btn-default">New Disk</button>
+                <button type="button" class="btn btn-default glyphicon-plus">New Disk</button>
                 <table class="table">
                     <thead>
                     <tr>
@@ -49,6 +50,9 @@
                 </table>
             </tab>
             <tab heading="Storage">
+            </tab>
+            <tab heading="About" ng-controller="VersionInfo">
+                <span>version: {{versionInfo.version}}</span>
             </tab>
         </tabset>
     </div>
@@ -68,7 +72,6 @@
 
         </script>
     </div>
-
 
 </body>
 </html>

@@ -5,6 +5,14 @@
     <artifactId>kerub</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
+    <name>Kerub</name>
+    <description>Infrastructure as a Service prototype app</description>
+    <url>https://github.com/K0zka/kerub</url>
+    <inceptionYear>2014</inceptionYear>
+    <organization>
+        <name>Duct Tape Solutions LTD</name>
+        <url>https://github.com/K0zka/</url>
+    </organization>
     <properties>
         <kotlin.version>0.8.11</kotlin.version>
         <spring.version>3.2.0.RELEASE</spring.version>
@@ -158,6 +166,17 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>
