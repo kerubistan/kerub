@@ -7,6 +7,7 @@
     <script src="webjars/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/MainTabs.js"></script>
+    <script src="js/HostTab.js"></script>
     <script src="js/VersionInfo.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
@@ -59,10 +60,27 @@
                     </tbody>
                 </table>
             </tab>
-            <tab>
+            <tab ng-controller="HostTab">
                 <tab-heading>
                     <i class="glyphicon glyphicon-wrench"></i>Hosts
                 </tab-heading>
+                <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newHostForm()">New Host</button>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>address</td>
+                        <td>status</td>
+                        <td>dedicated</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="host in hosts">
+                            <td>{{host.address}}</td>
+                            <td>N/A</td>
+                            <td>{{host.dedicated}}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </tab>
             <tab heading="Storage">
