@@ -110,5 +110,21 @@
         </script>
     </div>
 
+    <div ng-controller="NewHostWizard">
+        <script type="text/ng-template" id="NewHostWizard">
+            <div class="modal-header">
+                <h3 class="modal-title">New Host</h3>
+            </div>
+            <input ng-bind="address" class="form-control" placeholder="username">
+            <input ng-bind="password" class="form-control" type="password" placeholder="password">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login">
+                    Login
+                </button>
+            </div>
+
+        </script>
+    </div>
+
 </body>
 </html>
