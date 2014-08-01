@@ -6,9 +6,10 @@
     <script src="webjars/angularjs/1.2.21/angular.min.js"></script>
     <script src="webjars/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/MainTabs.js"></script>
     <script src="js/HostTab.js"></script>
     <script src="js/VersionInfo.js"></script>
+    <script src="js/NewHostWizard.js"></script>
+    <script src="js/MainTabs.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
 </head>
@@ -110,21 +111,30 @@
         </script>
     </div>
 
-    <div ng-controller="NewHostWizard">
-        <script type="text/ng-template" id="NewHostWizard">
-            <div class="modal-header">
-                <h3 class="modal-title">New Host</h3>
-            </div>
-            <input ng-bind="address" class="form-control" placeholder="username">
-            <input ng-bind="password" class="form-control" type="password" placeholder="password">
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login">
-                    Login
-                </button>
-            </div>
+    <script type="text/ng-template" id="NewHostWizard.html">
+        <div class="modal-header">
+            <h3 class="modal-title">New Host {{host.address}}</h3>
+        </div>
+        <input ng-model="host.address" class="form-control" placeholder="address" ng-change="updatePubkey()">
 
-        </script>
-    </div>
+        <span ng-show="{{pubkeyUptoDate}}">
+            <label>format</label><input ng-bind="pubkey.format">
+            <label>algorithm</label><input ng-bind="pubkey.algorithm">
+            <label>key</label><input ng-bind="pubkey.key">
+        </span>
+        <span ng-show="{{pubkeyUpdating}}">
+
+        </span>
+        <input ng-bind="password" class="form-control" type="password" placeholder="password">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addHost()">
+                Add
+            </button>
+            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()">
+                Cancel
+            </button>
+        </div>
+    </script>
 
 </body>
 </html>

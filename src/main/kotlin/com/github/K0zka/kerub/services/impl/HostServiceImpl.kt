@@ -5,8 +5,14 @@ import java.util.UUID
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.ListableDao
+import com.github.K0zka.kerub.host.HostManager
+import com.github.K0zka.kerub.services.HostPubKey
 
-public class HostServiceImpl(dao : HostDao) : BaseServiceImpl<Host, UUID>(dao, "host"), HostService {
+public class HostServiceImpl(dao: HostDao, val manager: HostManager) : BaseServiceImpl<Host>(dao, "host"), HostService {
+	override fun getHostPubkey(address: String): HostPubKey {
+		val publicKey = manager.getHostPublicKey(address)
+		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), publicKey.getEncoded()!!)
+	}
 	override fun listAll(): List<Host> {
 		return (dao as ListableDao<Host, UUID>).listAll()
 	}

@@ -47,6 +47,12 @@
     </bean>
 
     <!--
+    Managers
+    -->
+
+    <bean id="hostManager" class="com.github.K0zka.kerub.host.HostManagerImpl"/>
+
+    <!--
     REST
     -->
 
@@ -56,9 +62,11 @@
     <jaxrs:server id="customerService" address="/r" serviceName="rest">
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>
-        </jaxrs:providers>        <jaxrs:serviceBeans>
+        </jaxrs:providers>
+        <jaxrs:serviceBeans>
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
                 <constructor-arg ref="hostDao"/>
+                <constructor-arg ref="hostManager"/>
             </bean>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>

@@ -11,6 +11,7 @@ data class Host : Entity<UUID> {
 	override var id : UUID? = null
 
 	var address : String? = null
+	var publicKey : String? = null
 
 	var dedicated : Boolean = true
 
