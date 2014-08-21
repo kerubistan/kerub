@@ -13,10 +13,11 @@ import com.wordnik.swagger.annotations.ApiResponse
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiParam
 import com.wordnik.swagger.annotations.ApiResponses
+import java.util.UUID
 
 Produces("application/json")
 Consumes("application/json")
-public trait RestCrud<T, I> {
+public trait RestCrud<T> {
 
 	ApiOperation("Get the object by it's ID.")
 	ApiResponses(
@@ -26,7 +27,7 @@ public trait RestCrud<T, I> {
 	            )
 	GET
 	Path("/{id}")
-	fun getById(ApiParam(value="ID of the object", name="id", required = true) PathParam("id") id : I) : T
+	fun getById(ApiParam(value="ID of the object", name="id", required = true) PathParam("id") id : UUID) : T
 
 	ApiOperation("Update the object")
 	ApiResponses(
@@ -36,7 +37,7 @@ public trait RestCrud<T, I> {
 	            )
 	POST
 	Path("/{id}")
-	fun update(ApiParam(value="ID of the object", name="id", required = true) PathParam("id") id : I, entity: T) : T
+	fun update(ApiParam(value="ID of the object", name="id", required = true) PathParam("id") id : UUID, entity: T) : T
 
 	ApiOperation("Delete the object")
 	ApiResponses(
@@ -46,7 +47,7 @@ public trait RestCrud<T, I> {
 	            )
 	DELETE
 	Path("/{id}")
-	fun delete(ApiParam(value="Object ID", name="id", required = true) PathParam("id") id : I)
+	fun delete(ApiParam(value="Object ID", name="id", required = true) PathParam("id") id : UUID)
 
 	ApiOperation("Add new object")
 	ApiResponses(

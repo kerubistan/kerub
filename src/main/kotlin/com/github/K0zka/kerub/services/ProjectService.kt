@@ -7,5 +7,5 @@ import com.wordnik.swagger.annotations.Api
 
 Api("s/r/project", description="Project service")
 Path("/project")
-public trait ProjectService : RestCrud<Project, UUID> {
+public trait ProjectService : RestCrud<Project> {
 }

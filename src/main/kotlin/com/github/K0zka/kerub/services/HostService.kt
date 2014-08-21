@@ -11,7 +11,7 @@ import com.wordnik.swagger.annotations.ApiOperation
 
 Api("s/r/host", description = "Host service")
 Path("/host")
-public trait HostService : Listable<Host>, RestCrud<Host, UUID> {
+public trait HostService : Listable<Host>, RestCrud<Host> {
 	ApiOperation("Get the public key of the server", httpMethod = "GET")
 	GET
 	Path("/helpers/pubkey")
