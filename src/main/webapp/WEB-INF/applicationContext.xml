@@ -59,9 +59,11 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-    <jaxrs:server id="customerService" address="/r" serviceName="rest">
+    <jaxrs:server id="customerService" address="/r" serviceName="r" >
         <jaxrs:providers>
             <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>
+            <bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
+            <bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
@@ -75,12 +77,20 @@
                 <constructor-arg ref="projectDao"/>
             </bean>
             <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionService"/>
+            <bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
         </jaxrs:serviceBeans>
-        <jaxrs:extensionMappings>
-            <entry key="json" value="application/json"/>
-            <entry key="xml" value="application/xml"/>
-        </jaxrs:extensionMappings>
     </jaxrs:server>
 
+    <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
+        <property name="resourcePackage" value="com.github.K0zka.kerub"/>
+        <property name="version" value="0.0.1-SNAPSHOT"/>
+        <property name="basePath" value="http://localhost:8080/s/r"/>
+        <property name="title" value="Kerub"/>
+        <property name="description" value="Lightweight IaaS app"/>
+        <property name="contact" value="http://github.com/k0zka"/>
+        <property name="license" value="Apache 2.0 License"/>
+        <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+        <property name="scan" value="true"/>
+    </bean>
 
 </beans>
