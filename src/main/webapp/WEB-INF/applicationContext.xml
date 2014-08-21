@@ -76,18 +76,19 @@
             <bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
                 <constructor-arg ref="projectDao"/>
             </bean>
-            <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionService"/>
+            <ref bean="version"/>
             <bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
+    <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionService"/>
+
     <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
         <property name="resourcePackage" value="com.github.K0zka.kerub"/>
-        <property name="version" value="0.0.1-SNAPSHOT"/>
+        <property name="version" value="#{ version.versionInfo.version }"/>
         <property name="basePath" value="http://localhost:8080/s/r"/>
-        <property name="title" value="Kerub"/>
-        <property name="description" value="Lightweight IaaS app"/>
-        <property name="contact" value="http://github.com/k0zka"/>
+        <property name="title" value="#{ version.versionInfo.title }"/>
+        <property name="description" value="Lightweight experimental IaaS app"/>
         <property name="license" value="Apache 2.0 License"/>
         <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
         <property name="scan" value="true"/>
