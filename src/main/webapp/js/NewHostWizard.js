@@ -17,7 +17,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout) {
             $timeout.cancel($scope.updateTimeout);
         }
         $scope.updateTimeout = $timeout(function() {
-            $http.get('s/r/host/helpers/pubkey.json?address='+$scope.host.address)
+            $http.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
                 .success(function(pubkey) {
                     $scope.pubkey = pubkey;
                 });

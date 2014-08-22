@@ -12,7 +12,7 @@ kerubApp.controller('HostTab', function($scope, $http, $modal, $log) {
         $log.debug(modalInstance);
         $log.info('opened new host wizard');
     };
-    $http.get('s/r/host.json').success(function(hosts) {
+    $http.get('s/r/host').success(function(hosts) {
         $scope.hosts = hosts
     });
 });
