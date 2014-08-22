@@ -53,6 +53,18 @@
     <bean id="hostManager" class="com.github.K0zka.kerub.host.HostManagerImpl"/>
 
     <!--
+    MQ
+    -->
+
+    <bean id="hornetqConfig"
+          class="org.hornetq.core.config.impl.ConfigurationImpl"/>
+
+    <bean id="hornetqServer"
+          class="org.hornetq.core.server.impl.HornetQServerImpl">
+        <constructor-arg ref="hornetqConfig"/>
+    </bean>
+
+    <!--
     REST
     -->
 
