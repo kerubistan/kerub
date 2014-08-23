@@ -20,8 +20,8 @@ class VersionInfo (
 }
 
 Api(description = "Version information", value = "s/r/meta/version")
-Produces("application/xml", "application/json")
-Consumes("application/xml", "application/json")
+Produces("application/json")
+Consumes("application/json")
 Path("/meta/version")
 class VersionService {
 	ApiOperation(value = "Get version", notes = "Get the Kerub version")
