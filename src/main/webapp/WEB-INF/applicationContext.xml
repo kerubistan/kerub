@@ -81,7 +81,7 @@
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionService"/>
+    <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"/>
 
     <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
         <property name="resourcePackage" value="com.github.K0zka.kerub"/>

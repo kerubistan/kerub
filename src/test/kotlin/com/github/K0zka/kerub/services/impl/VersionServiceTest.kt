@@ -6,6 +6,6 @@ import org.junit.Assert
 public class VersionServiceTest {
 	Test
 	fun getVersionInfo() {
-		Assert.assertNotNull(VersionService().getVersionInfo())
+		Assert.assertNotNull(VersionServiceImpl().getVersionInfo())
 	}
 }
