@@ -24,11 +24,18 @@ Produces("application/json")
 Consumes("application/json")
 Path("/meta/version")
 class VersionService {
+
+	private val versionInfo = buildVersionInfo()
+
 	ApiOperation(value = "Get version", notes = "Get the Kerub version")
 	ApiResponses(ApiResponse(code = 200, message = "OK", response = javaClass<VersionInfo>()))
 	Path("/")
 	GET
 	fun getVersionInfo(): VersionInfo {
+		return versionInfo
+	}
+
+	class object fun buildVersionInfo(): VersionInfo {
 		val pack = javaClass<VersionService>().getPackage()
 		return VersionInfo(pack?.getImplementationVersion() ?: "dev",
 		                   pack?.getImplementationVendor() ?: "",
