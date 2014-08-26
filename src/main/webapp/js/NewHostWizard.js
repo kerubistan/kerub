@@ -9,7 +9,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout) {
     $scope.updateTimeout = null;
     $scope.updatePubkey = function () {
         if($scope.host.address.length < 6) {
-            $log.debug('too short ' + $scope.host.address)
+            $log.debug('too short ' + $scope.host.address);
             return;
         }
         $log.debug('change in hostname: '+$scope.host.address);
