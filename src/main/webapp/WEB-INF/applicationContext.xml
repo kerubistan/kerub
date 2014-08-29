@@ -64,6 +64,32 @@
         <constructor-arg ref="hornetqConfig"/>
     </bean>
 
+    <bean id="hornetqConnectionFactory"
+          class="org.hornetq.jms.client.HornetQConnectionFactory">
+    </bean>
+
+    <!--
+    Asynchronous invocations
+    -->
+
+    <bean id="asyncInvocationsQueue" class="org.hornetq.jms.client.HornetQQueue">
+        <constructor-arg value="asyncInvocations"/>
+    </bean>
+
+    <bean id="asyncInvocationsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="hornetqConnectionFactory"/>
+        <property name="defaultDestination" ref="asyncInvocationsQueue"/>
+    </bean>
+
+    <bean id="asyncInvocationsListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="hornetqConnectionFactory"/>
+        <property name="concurrency" value="1-8"/>
+        <property name="destination" ref="asyncInvocationsQueue"/>
+        <property name="messageListener" ref="asyncInvocationsMessageListener"/>
+    </bean>
+
+    <bean id="asyncInvocationsMessageListener" class="com.github.K0zka.kerub.utils.activeobject.MqExecutor"/>
+
     <!--
     REST
     -->

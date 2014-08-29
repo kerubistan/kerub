@@ -4,7 +4,7 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.context.ApplicationContext
 import org.slf4j.LoggerFactory
 
-public class Executor : ApplicationContextAware {
+public open class Executor : ApplicationContextAware {
 	private var appCtx : ApplicationContext? = null
 
 	private class object val logger = LoggerFactory.getLogger(javaClass())!!
