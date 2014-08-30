@@ -251,6 +251,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <webDriverClassName>org.openqa.selenium.firefox.FirefoxDriver</webDriverClassName>
                     <jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/js</jsTestSrcDir>
                     <preloadSources>
