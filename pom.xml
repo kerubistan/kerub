@@ -71,6 +71,12 @@
             <artifactId>infinispan-spring</artifactId>
             <version>${infinispan.version}</version>
         </dependency>
+        <!-- osgi needed by infinispan -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>6.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
