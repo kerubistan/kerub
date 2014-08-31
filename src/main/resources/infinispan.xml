@@ -3,7 +3,7 @@
             xsi:schemaLocation="urn:infinispan:config:7.0 http://infinispan.org/schemas/infinispan-config-7.0.xsd">
 
     <jgroups>
-        <stack-file name="udp" path="jgroups-udp.xml"/>
+        <stack-file name="udp" path="default-configs/default-jgroups-udp.xml"/>
     </jgroups>
 
     <cache-container default-cache="default">

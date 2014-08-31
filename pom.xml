@@ -17,7 +17,7 @@
         <kotlin.version>0.8.11</kotlin.version>
         <spring.version>3.2.0.RELEASE</spring.version>
         <cxf.version>3.0.0</cxf.version>
-        <infinispan.version>7.0.0.Alpha4</infinispan.version>
+        <infinispan.version>7.0.0.Beta1</infinispan.version>
     </properties>
     <dependencies>
         <dependency>
