@@ -100,8 +100,6 @@
     <jaxrs:server id="customerService" address="/r" serviceName="r" >
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
-            <bean id="resourceWriter" class="com.wordnik.swagger.jaxrs.listing.ResourceListingProvider" />
-            <bean id="apiWriter" class="com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider" />
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
@@ -115,21 +113,9 @@
                 <constructor-arg ref="projectDao"/>
             </bean>
             <ref bean="version"/>
-            <bean id="swaggerResourceJSON" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
     <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"/>
-
-    <bean id="swaggerConfig" class="com.wordnik.swagger.jaxrs.config.BeanConfig">
-        <property name="resourcePackage" value="com.github.K0zka.kerub"/>
-        <property name="version" value="#{ version.versionInfo.version }"/>
-        <property name="basePath" value="http://localhost:8080/s/r"/>
-        <property name="title" value="#{ version.versionInfo.title }"/>
-        <property name="description" value="Lightweight experimental IaaS app"/>
-        <property name="license" value="Apache 2.0 License"/>
-        <property name="licenseUrl" value="http://www.apache.org/licenses/LICENSE-2.0.html"/>
-        <property name="scan" value="true"/>
-    </bean>
 
 </beans>
