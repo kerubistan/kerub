@@ -5,8 +5,8 @@ import org.junit.Assert
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.services.VersionService
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import org.slf4j.LoggerFactory
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 
 public class VersionServiceIT {
 

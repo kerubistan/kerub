@@ -6,10 +6,10 @@ import javax.ws.rs.core.MediaType
 import javax.ws.rs.client.Entity
 import com.github.K0zka.kerub.model.Host
 import java.util.UUID
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider
-import org.codehaus.jackson.map.ObjectMapper
 import java.io.InputStream
 import org.junit.Assert
+import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
+import com.fasterxml.jackson.databind.ObjectMapper
 
 public class HostServiceIT {
 
