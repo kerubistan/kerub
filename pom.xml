@@ -71,6 +71,11 @@
             <artifactId>infinispan-spring</artifactId>
             <version>${infinispan.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-query</artifactId>
+            <version>${infinispan.version}</version>
+        </dependency>
         <!-- osgi needed by infinispan -->
         <dependency>
             <groupId>org.osgi</groupId>
@@ -138,6 +143,7 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.9.5</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

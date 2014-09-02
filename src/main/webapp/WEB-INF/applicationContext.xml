@@ -34,15 +34,19 @@
     DAO
     -->
 
-    <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl">
+    <bean id="daoBase" abstract="true">
+        <property name="maxResults" value="100"/>
+    </bean>
+
+    <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
         <constructor-arg ref="vmCache"/>
     </bean>
 
-    <bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl">
+    <bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl" parent="daoBase">
         <constructor-arg ref="hostCache"/>
     </bean>
 
-    <bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl">
+    <bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
         <constructor-arg ref="projectCache"/>
     </bean>
 
