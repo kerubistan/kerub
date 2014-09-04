@@ -60,16 +60,17 @@
     MQ
     -->
 
-    <bean id="hornetqConfig"
-          class="org.hornetq.core.config.impl.ConfigurationImpl"/>
+    <bean id="hornetQ"
+          class="org.hornetq.jms.server.embedded.EmbeddedJMS"
+          init-method="start"
+          destroy-method="stop">
 
-    <bean id="hornetqServer"
-          class="org.hornetq.core.server.impl.HornetQServerImpl">
-        <constructor-arg ref="hornetqConfig"/>
     </bean>
 
-    <bean id="hornetqConnectionFactory"
-          class="org.hornetq.jms.client.HornetQConnectionFactory">
+    <bean id="hornetQCF"
+          factory-bean="hornetQ"
+          factory-method="lookup">
+        <constructor-arg value="ConnectionFactory"/>
     </bean>
 
     <!--
@@ -81,12 +82,12 @@
     </bean>
 
     <bean id="asyncInvocationsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <constructor-arg ref="hornetqConnectionFactory"/>
+        <constructor-arg ref="hornetQCF"/>
         <property name="defaultDestination" ref="asyncInvocationsQueue"/>
     </bean>
 
     <bean id="asyncInvocationsListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="hornetqConnectionFactory"/>
+        <property name="connectionFactory" ref="hornetQCF"/>
         <property name="concurrency" value="1-8"/>
         <property name="destination" ref="asyncInvocationsQueue"/>
         <property name="messageListener" ref="asyncInvocationsMessageListener"/>
