@@ -2,6 +2,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.host = {
+        "@type" : 'host',
         address : '',
         publicKey : '',
         dedicated : true

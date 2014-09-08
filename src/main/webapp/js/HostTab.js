@@ -1,5 +1,13 @@
-angular.module('kerub', ['ui.bootstrap']);
-kerubApp.controller('HostTab', function($scope, $http, $modal, $log) {
+
+kerubApp.controller('HostTab', function($scope, $http, $modal, $log, $socket) {
+
+    $log.info('initializing host tab');
+
+    $socket.subscribe('/host', function(msg) {
+        $log.info("hey, a message!",msg);
+    });
+
+
     $scope.newHostForm = function() {
         $log.info('opening new host wizard');
         var modalInstance = $modal.open({
@@ -16,4 +24,3 @@ kerubApp.controller('HostTab', function($scope, $http, $modal, $log) {
         $scope.hosts = hosts;
     });
 });
-
