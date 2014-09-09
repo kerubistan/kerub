@@ -14,7 +14,7 @@ public abstract open class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I
 	var maxResults = 40
 	override fun listAll(): List<T> {
 		return Search.getQueryFactory(cache)!!
-				.from(javaClass<Host>())!!
+				.from(getEntityClass())!!
 				.maxResults(maxResults)!!
 				.build()!!
 				.list<T>()!!
