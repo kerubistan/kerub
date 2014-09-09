@@ -13,14 +13,19 @@ class IspnDaoBaseTest {
 		override var id: String? = null
 	}
 
-	var cache : Cache<String, TestEntity> = DefaultCacheManager().getCache("test")!!
-	var dao = IspnDaoBase<TestEntity, String>(cache)
+	var cache : Cache<String, TestEntity>? = null
+	var dao  : IspnDaoBase<TestEntity, String>? = null
+
+	Before fun setup() {
+		cache = DefaultCacheManager().getCache("test")
+		dao = IspnDaoBase<TestEntity, String>(cache!!)
+	}
 
 	Test
 	fun get() {
 		val orig = TestEntity()
-		cache.put("A", orig)
-		val entity = dao.get("A")
+		cache!!.put("A", orig)
+		val entity = dao!!.get("A")
 		Assert.assertEquals(orig, entity)
 	}
 }
