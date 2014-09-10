@@ -26,5 +26,10 @@
                 <file-store path="store/projects"/>
             </persistence>
         </distributed-cache>
+        <distributed-cache name="auditCache">
+            <persistence>
+                <file-store path="store/audit"/>
+            </persistence>
+        </distributed-cache>
     </cache-container>
 </infinispan>
