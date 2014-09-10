@@ -26,7 +26,7 @@
                 <file-store path="store/projects"/>
             </persistence>
         </distributed-cache>
-        <distributed-cache name="auditCache">
+        <distributed-cache name="auditCache" mode="ASYNC">
             <persistence>
                 <file-store path="store/audit"/>
             </persistence>
