@@ -24,4 +24,8 @@
         <entry name="/queue/asyncInvocations"/>
     </queue>
 
+    <topic name="globalEvents">
+        <entry name="/queue/globalEvents"/>
+    </topic>
+
 </configuration>

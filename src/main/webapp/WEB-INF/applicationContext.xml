@@ -81,6 +81,10 @@
         <constructor-arg value="ConnectionFactory"/>
     </bean>
 
+    <bean id="globalEvents" class="org.hornetq.jms.client.HornetQTopic">
+        <constructor-arg value="globalEvents"/>
+    </bean>
+
     <!--
     Asynchronous invocations
     -->
