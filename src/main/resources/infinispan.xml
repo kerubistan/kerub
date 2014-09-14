@@ -31,5 +31,10 @@
                 <file-store path="store/audit"/>
             </persistence>
         </distributed-cache>
+        <distributed-cache name="eventCache">
+            <persistence>
+                <file-store path="store/event"/>
+            </persistence>
+        </distributed-cache>
     </cache-container>
 </infinispan>

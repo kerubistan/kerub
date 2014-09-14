@@ -34,6 +34,10 @@
         <constructor-arg value="auditCache"/>
     </bean>
 
+    <bean id="eventCache" parent="cache">
+        <constructor-arg value="eventCache"/>
+    </bean>
+
     <!--
     DAO
     -->
@@ -56,6 +60,10 @@
 
     <bean id="auditDao" class="com.github.K0zka.kerub.data.ispn.AuditEntryDaoImpl">
         <constructor-arg ref="projectCache"/>
+    </bean>
+
+    <bean id="eventDao" class="com.github.K0zka.kerub.data.ispn.EventDaoImpl">
+        <constructor-arg ref="eventCache"/>
     </bean>
 
     <!--
@@ -131,6 +139,9 @@
             </bean>
             <bean id="audit" class="com.github.K0zka.kerub.services.impl.AuditServiceImpl">
                 <constructor-arg ref="auditDao"/>
+            </bean>
+            <bean id="event" class="com.github.K0zka.kerub.services.impl.EventServiceImpl">
+                <constructor-arg ref="eventDao"/>
             </bean>
             <ref bean="version"/>
         </jaxrs:serviceBeans>
