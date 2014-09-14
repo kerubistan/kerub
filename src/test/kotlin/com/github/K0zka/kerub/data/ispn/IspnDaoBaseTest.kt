@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.Entity
 import org.infinispan.manager.DefaultCacheManager
 import org.infinispan.Cache
 import org.junit.Assert
+import org.junit.After
 
 class IspnDaoBaseTest {
 
@@ -13,12 +14,20 @@ class IspnDaoBaseTest {
 		override var id: String? = null
 	}
 
+	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<String, TestEntity>? = null
 	var dao  : IspnDaoBase<TestEntity, String>? = null
 
 	Before fun setup() {
-		cache = DefaultCacheManager().getCache("test")
+		cacheManager = DefaultCacheManager()
+		cacheManager!!.start()
+		cache = cacheManager!!.getCache("test")
 		dao = IspnDaoBase<TestEntity, String>(cache!!)
+	}
+
+	After
+	fun cleanup() {
+		cacheManager?.stop()
 	}
 
 	Test

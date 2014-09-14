@@ -13,6 +13,7 @@ import org.mockito.Mock
 import com.github.K0zka.kerub.model.Entity
 import org.mockito.Mockito
 import org.junit.Assert
+import org.junit.After
 
 RunWith(javaClass<MockitoJUnitRunner>())
 public class AuditEntryDaoImplTest {
@@ -22,13 +23,21 @@ public class AuditEntryDaoImplTest {
 	Mock
 	var newEntity : Entity<UUID>? = null
 
+	var cacheManager : DefaultCacheManager? = null
 	var cache: AdvancedCache<UUID, AuditEntry>? = null
 	var dao: AuditEntryDao? = null
 
 	Before
 	fun setup() {
-		cache = (DefaultCacheManager().getCache<UUID, AuditEntry>("test") as AdvancedCache<UUID, AuditEntry>)!!
+		cacheManager = DefaultCacheManager()
+		cacheManager!!.start()
+		cache = (cacheManager!!.getCache<UUID, AuditEntry>("test") as AdvancedCache<UUID, AuditEntry>)!!
 		dao = AuditEntryDaoImpl(cache!!)
+	}
+
+	After
+	fun cleanup() {
+		cacheManager?.stop()
 	}
 
 	Test
