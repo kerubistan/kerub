@@ -15,26 +15,31 @@
             <persistence>
                 <file-store path="store/hosts"/>
             </persistence>
+            <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="vmCache">
             <persistence>
                 <file-store path="store/vms"/>
             </persistence>
+            <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="projectCache">
             <persistence>
                 <file-store path="store/projects"/>
             </persistence>
+            <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="auditCache" mode="ASYNC">
             <persistence>
                 <file-store path="store/audit"/>
             </persistence>
+            <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="eventCache">
+        <distributed-cache name="eventCache" mode="ASYNC">
             <persistence>
                 <file-store path="store/event"/>
             </persistence>
+            <indexing auto-config="true"/>
         </distributed-cache>
     </cache-container>
 </infinispan>
