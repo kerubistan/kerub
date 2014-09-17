@@ -26,7 +26,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
             $log.info("not connected, send delayed", msg);
             sock.queue.push(msg);
         }
-    }
+    };
     sock.subscribe = function(channel, callback) {
         var msg = {
             "@type" : 'subscribe',
