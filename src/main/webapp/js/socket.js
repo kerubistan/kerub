@@ -12,7 +12,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
     sock.queue = [];
     sock.listeners = {};
     socket.onmessage = function(message) {
-        $log.info("message from server", message);
+        $log.info("message from server", message.data);
     };
     socket.onopen = function() {
         $log.info('connection established');

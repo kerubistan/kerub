@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.services.socket.messages
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
-JsonTypeName("unsubscribe")
+JsonTypeName("pong")
 JsonCreator
-public class UnsubscribeMessage (JsonProperty("channel") val channel : String) : Message {
+public class PongMessage (JsonProperty("sent")val sent : Long = System.currentTimeMillis()) : Message {
 }

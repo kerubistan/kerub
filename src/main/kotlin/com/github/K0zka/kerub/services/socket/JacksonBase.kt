@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.services.socket.messages.SubscribeMessage
 import com.github.K0zka.kerub.services.socket.messages.UnsubscribeMessage
 import com.github.K0zka.kerub.services.socket.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.services.socket.messages.PingMessage
+import com.github.K0zka.kerub.services.socket.messages.PongMessage
 
 fun init() : ObjectMapper {
 	val mapper = ObjectMapper()
@@ -16,7 +17,8 @@ fun init() : ObjectMapper {
 			javaClass<SubscribeMessage>(),
 			javaClass<UnsubscribeMessage>(),
 			javaClass<EntityUpdateMessage>(),
-			javaClass<PingMessage>())
+			javaClass<PingMessage>(),
+			javaClass<PongMessage>())
 	return mapper
 }
 
