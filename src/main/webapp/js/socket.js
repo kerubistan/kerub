@@ -10,6 +10,10 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
     var socket = new WebSocket(socketAddr, 'kerub');
     sock.socket = socket;
     sock.queue = [];
+    sock.listeners = {};
+    socket.onmessage = function(message) {
+        $log.info("message from server", message);
+    };
     socket.onopen = function() {
         $log.info('connection established');
         for(i = 0; i < sock.queue.length; i++) {
@@ -49,7 +53,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
     };
     $interval(function() {
         $log.debug('ping server');
-        sock.send({ type : 'ping' , msg : {} });
+        sock.send({ '@type' : 'ping' });
     }, 60000);
     return sock;
 }]);
