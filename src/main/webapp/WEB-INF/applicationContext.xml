@@ -143,6 +143,9 @@
             <bean id="event" class="com.github.K0zka.kerub.services.impl.EventServiceImpl">
                 <constructor-arg ref="eventDao"/>
             </bean>
+            <bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
+                <constructor-arg ref="cacheManager"/>
+            </bean>
             <ref bean="version"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>

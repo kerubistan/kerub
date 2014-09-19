@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<infinispan xmlns="urn:infinispan:config:7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="urn:infinispan:config:7.0 http://infinispan.org/schemas/infinispan-config-7.0.xsd">
+<infinispan
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:infinispan:config:7.0 http://www.infinispan.org/schemas/infinispan-config-7.0.xsd"
+        xmlns="urn:infinispan:config:7.0">
 
     <jgroups>
         <stack-file name="udp" path="default-configs/default-jgroups-udp.xml"/>
     </jgroups>
 
-    <cache-container default-cache="default">
+    <cache-container default-cache="default" statistics="true" >
         <transport stack="udp"/>
-        <serialization>
-        </serialization>
-        <jmx></jmx>
-        <distributed-cache name="hostCache" mode="SYNC">
+        <jmx
+                domain="org.infinispan"
+                duplicate-domains="true"
+                mbean-server-lookup="org.infinispan.jmx.PlatformMBeanServerLookup"/>
+        <distributed-cache name="default" statistics="true">
+            <indexing auto-config="true"/>
+        </distributed-cache>
+        <distributed-cache name="hostCache" statistics="true">
             <persistence>
                 <file-store path="store/hosts"/>
             </persistence>
