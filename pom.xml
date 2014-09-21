@@ -39,12 +39,17 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angularjs</artifactId>
-            <version>1.2.21</version>
+            <version>1.2.25</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angular-ui-bootstrap</artifactId>
-            <version>0.11.0-2</version>
+            <version>0.11.0-3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>angularjs-nvd3-directives</artifactId>
+            <version>0.0.7-1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -233,11 +238,11 @@
                     <jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/js</jsTestSrcDir>
                     <preloadSources>
-                        <source>webjars/angularjs/1.2.21/angular.min.js</source>
-                        <source>webjars/angularjs/1.2.21/angular-mocks.js</source>
-                        <source>webjars/angularjs/1.2.21/angular-route.js</source>
-                        <source>webjars/angularjs/1.2.21/angular-loader.js</source>
-                        <source>webjars/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js</source>
+                        <source>webjars/angularjs/1.2.25/angular.min.js</source>
+                        <source>webjars/angularjs/1.2.25/angular-mocks.js</source>
+                        <source>webjars/angularjs/1.2.25/angular-route.js</source>
+                        <source>webjars/angularjs/1.2.25/angular-loader.js</source>
+                        <source>webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap-tpls.min.js</source>
                         <source>${project.basedir}/src/main/webapp/js/app.js</source>
                     </preloadSources>
                 </configuration>
