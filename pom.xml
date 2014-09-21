@@ -18,6 +18,8 @@
         <spring.version>3.2.0.RELEASE</spring.version>
         <cxf.version>3.0.1</cxf.version>
         <infinispan.version>7.0.0.Beta2</infinispan.version>
+        <angularjs.version>1.2.25</angularjs.version>
+        <angular-bootstrap.version>0.11.0-3</angular-bootstrap.version>
     </properties>
     <dependencies>
         <dependency>
@@ -39,12 +41,12 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angularjs</artifactId>
-            <version>1.2.25</version>
+            <version>${angularjs.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>angular-ui-bootstrap</artifactId>
-            <version>0.11.0-3</version>
+            <version>${angular-bootstrap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -238,11 +240,11 @@
                     <jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/js</jsTestSrcDir>
                     <preloadSources>
-                        <source>webjars/angularjs/1.2.25/angular.min.js</source>
-                        <source>webjars/angularjs/1.2.25/angular-mocks.js</source>
-                        <source>webjars/angularjs/1.2.25/angular-route.js</source>
-                        <source>webjars/angularjs/1.2.25/angular-loader.js</source>
-                        <source>webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap-tpls.min.js</source>
+                        <source>webjars/angularjs/${angularjs.version}/angular.min.js</source>
+                        <source>webjars/angularjs/${angularjs.version}/angular-mocks.js</source>
+                        <source>webjars/angularjs/${angularjs.version}/angular-route.js</source>
+                        <source>webjars/angularjs/${angularjs.version}/angular-loader.js</source>
+                        <source>webjars/angular-ui-bootstrap/${angular-bootstrap.version}/ui-bootstrap-tpls.min.js</source>
                         <source>${project.basedir}/src/main/webapp/js/app.js</source>
                     </preloadSources>
                 </configuration>
