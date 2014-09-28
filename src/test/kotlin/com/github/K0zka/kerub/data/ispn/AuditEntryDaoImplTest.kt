@@ -31,7 +31,7 @@ public class AuditEntryDaoImplTest {
 	fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
-		cache = (cacheManager!!.getCache<UUID, AuditEntry>("test") as AdvancedCache<UUID, AuditEntry>)!!
+		cache = (cacheManager!!.getCache<UUID, AuditEntry>("test")!! as AdvancedCache<UUID, AuditEntry>)
 		dao = AuditEntryDaoImpl(cache!!)
 	}
 
