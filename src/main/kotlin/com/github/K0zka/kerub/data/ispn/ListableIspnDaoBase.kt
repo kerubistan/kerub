@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.data.ListableDao
 import org.infinispan.query.Search
 import com.github.K0zka.kerub.model.Host
 
-public abstract open class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>)
+public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>)
 : IspnDaoBase<T, I>(cache), ListableDao<T, I> {
 
 	abstract fun getEntityClass() : Class<T>
