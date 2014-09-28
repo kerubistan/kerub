@@ -4,9 +4,8 @@ kerubApp.controller('HostTab', function($scope, $http, $modal, $log, $socket) {
     $log.info('initializing host tab');
 
     $socket.subscribe('/host', function(msg) {
-        $log.info("hey, a message!",msg);
-    });
-
+        $log.info("hey, a message for HostTab!",msg);
+    }, 'HostTab');
 
     $scope.newHostForm = function() {
         $log.info('opening new host wizard');
