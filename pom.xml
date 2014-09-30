@@ -20,6 +20,7 @@
         <infinispan.version>7.0.0.Beta2</infinispan.version>
         <angularjs.version>1.2.25</angularjs.version>
         <angular-bootstrap.version>0.11.0-3</angular-bootstrap.version>
+        <slf4j.version>1.7.7</slf4j.version>
     </properties>
     <dependencies>
         <dependency>
@@ -113,7 +114,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
