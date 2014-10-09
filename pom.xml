@@ -18,8 +18,8 @@
         <spring.version>4.1.0.RELEASE</spring.version>
         <cxf.version>3.0.1</cxf.version>
         <infinispan.version>7.0.0.CR1</infinispan.version>
-        <angularjs.version>1.2.25</angularjs.version>
-        <angular-bootstrap.version>0.11.0-3</angular-bootstrap.version>
+        <angularjs.version>1.2.26</angularjs.version>
+        <angular-bootstrap.version>0.11.2</angular-bootstrap.version>
         <slf4j.version>1.7.7</slf4j.version>
     </properties>
     <dependencies>
