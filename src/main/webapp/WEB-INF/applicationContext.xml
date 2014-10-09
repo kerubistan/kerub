@@ -92,29 +92,6 @@
         <constructor-arg value="globalEvents"/>
     </bean>
     
-    <bean id="hornetqConnectionFactory"
-          class="org.hornetq.jms.client.HornetQConnectionFactory">
-        <!-- non HA -->
-        <constructor-arg value="false"/>
-        <constructor-arg>
-            <bean class="org.hornetq.api.core.DiscoveryGroupConfiguration">
-                <!-- discovery gruop name -->
-                <constructor-arg value="kerub-hornetq"/>
-                <!-- refresh timeout -->
-                <constructor-arg value="5000"/>
-                <!-- Initial wait timeout -->
-                <constructor-arg value="10000"/>
-                <constructor-arg>
-                    <bean class="org.hornetq.api.core.JGroupsBroadcastGroupConfiguration">
-                        <!-- jgroups file, using the one from ispn -->
-                        <constructor-arg value="default-configs/default-jgroups-udp.xml"/>
-                        <constructor-arg value="hornetq"/>
-                    </bean>
-                </constructor-arg>
-            </bean>
-        </constructor-arg>
-    </bean>
-
     <!--
     Asynchronous invocations
     -->

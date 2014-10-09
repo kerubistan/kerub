@@ -4,30 +4,27 @@
 
     <security-enabled>false</security-enabled>
 
-    <paging-directory>${data.dir:../data}/paging</paging-directory>
+    <paging-directory>${data.dir:../store/hornetq}/paging</paging-directory>
 
-    <bindings-directory>${data.dir:../data}/bindings</bindings-directory>
+    <bindings-directory>${data.dir:../store/hornetq}/bindings</bindings-directory>
 
     <journal-type>NIO</journal-type>
 
-    <journal-directory>${data.dir:../data}/journal</journal-directory>
+    <journal-directory>${data.dir:../store/hornetq}/journal</journal-directory>
 
     <journal-min-files>10</journal-min-files>
 
-    <large-messages-directory>${data.dir:../data}/large-messages</large-messages-directory>
+    <large-messages-directory>${data.dir:../store/hornetq}/large-messages</large-messages-directory>
 
     <connectors>
+        <connector name="invm">
+            <factory-class>org.hornetq.core.remoting.impl.invm.InVMConnectorFactory</factory-class>
+        </connector>
+
         <connector name="netty">
             <factory-class>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</factory-class>
             <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
-            <param key="port"  value="${hornetq.remoting.netty.port:5445}"/>
-        </connector>
-
-        <connector name="netty-throughput">
-            <factory-class>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</factory-class>
-            <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
             <param key="port"  value="${hornetq.remoting.netty.batch.port:5455}"/>
-            <param key="batch-delay" value="50"/>
         </connector>
     </connectors>
 
@@ -37,29 +34,15 @@
             <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
             <param key="port"  value="${hornetq.remoting.netty.port:5445}"/>
         </acceptor>
-
-        <acceptor name="netty-throughput">
-            <factory-class>org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory</factory-class>
-            <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
-            <param key="port"  value="${hornetq.remoting.netty.batch.port:5455}"/>
-            <param key="batch-delay" value="50"/>
-            <param key="direct-deliver" value="false"/>
+        <acceptor name="invm">
+            <factory-class>org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory</factory-class>
         </acceptor>
     </acceptors>
 
-    <broadcast-groups>
-        <broadcast-group name="bg-group1">
-            <group-address>231.7.7.7</group-address>
-            <group-port>9876</group-port>
-            <broadcast-period>5000</broadcast-period>
-            <connector-ref>netty</connector-ref>
-        </broadcast-group>
-    </broadcast-groups>
-
     <discovery-groups>
         <discovery-group name="dg-group1">
-            <group-address>231.7.7.7</group-address>
-            <group-port>9876</group-port>
+            <jgroups-file>default-configs/default-jgroups-udp.xml</jgroups-file>
+            <jgroups-channel>kerub-hornetq</jgroups-channel>
             <refresh-timeout>10000</refresh-timeout>
         </discovery-group>
     </discovery-groups>

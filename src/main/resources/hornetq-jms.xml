@@ -5,7 +5,7 @@
     <connection-factory name="NettyConnectionFactory">
         <xa>false</xa>
         <connectors>
-            <connector-ref connector-name="netty"/>
+            <connector-ref connector-name="invm"/>
         </connectors>
         <entries>
             <entry name="ConnectionFactory"/>
