@@ -14,7 +14,7 @@
         <url>https://github.com/K0zka/</url>
     </organization>
     <properties>
-        <kotlin.version>0.8.11</kotlin.version>
+        <kotlin.version>0.8.1527</kotlin.version>
         <spring.version>4.1.0.RELEASE</spring.version>
         <cxf.version>3.0.1</cxf.version>
         <infinispan.version>7.0.0.CR1</infinispan.version>
