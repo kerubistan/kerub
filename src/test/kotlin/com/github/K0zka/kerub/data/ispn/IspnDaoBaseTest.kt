@@ -7,7 +7,12 @@ import org.infinispan.manager.DefaultCacheManager
 import org.infinispan.Cache
 import org.junit.Assert
 import org.junit.After
+import org.junit.runner.RunWith
+import org.mockito.runners.MockitoJUnitRunner
+import com.github.K0zka.kerub.data.EventListener
+import org.mockito.Mock
 
+RunWith(javaClass<MockitoJUnitRunner>())
 class IspnDaoBaseTest {
 
 	class TestEntity : Entity<String>{
@@ -17,12 +22,13 @@ class IspnDaoBaseTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<String, TestEntity>? = null
 	var dao  : IspnDaoBase<TestEntity, String>? = null
+	Mock var eventListener : EventListener? = null
 
 	Before fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
-		dao = IspnDaoBase<TestEntity, String>(cache!!)
+		dao = IspnDaoBase<TestEntity, String>(cache!!, eventListener!!)
 	}
 
 	After

@@ -24,7 +24,7 @@ public class InterceptorTest {
 	}
 	Test
 	fun invoke() {
-		Mockito.`when`(invocation!!.getMethod())!!.thenReturn(javaClass<Any?>().getMethod("toString"))
+		Mockito.`when`(invocation!!.getMethod())!!.thenReturn(javaClass<Any>().getMethod("toString"))
 		Mockito.`when`(invocation!!.getArguments())!!.thenReturn(Array<Any>(0, { "" }))
 		interceptor!!.invoke(invocation)
 		//this is a workaround on a disagreement between kotlin and mockito

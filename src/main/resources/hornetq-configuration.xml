@@ -23,15 +23,13 @@
 
         <connector name="netty">
             <factory-class>org.hornetq.core.remoting.impl.netty.NettyConnectorFactory</factory-class>
-            <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
-            <param key="port"  value="${hornetq.remoting.netty.batch.port:5455}"/>
+            <param key="port"  value="${hornetq.remoting.netty.port:5445}"/>
         </connector>
     </connectors>
 
     <acceptors>
         <acceptor name="netty">
             <factory-class>org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory</factory-class>
-            <param key="host"  value="${hornetq.remoting.netty.host:localhost}"/>
             <param key="port"  value="${hornetq.remoting.netty.port:5445}"/>
         </acceptor>
         <acceptor name="invm">
@@ -51,6 +49,10 @@
         <cluster-connection name="my-cluster">
             <address>jms</address>
             <connector-ref>netty</connector-ref>
+            <retry-interval>500</retry-interval>
+            <use-duplicate-detection>true</use-duplicate-detection>
+            <forward-when-no-consumers>true</forward-when-no-consumers>
+            <max-hops>1</max-hops>
             <discovery-group-ref discovery-group-name="dg-group1"/>
         </cluster-connection>
     </cluster-connections>

@@ -1,67 +1,79 @@
 package com.github.K0zka.kerub.services.socket
 
-import javax.websocket.OnOpen
 import javax.websocket.Session
-import javax.websocket.OnClose
-import javax.websocket.server.ServerEndpoint
-import javax.websocket.OnMessage
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import javax.websocket.Decoder
-import com.github.K0zka.kerub.model.Entity
-import com.github.K0zka.kerub.services.socket.messages.EntityUpdateMessage
-import com.github.K0zka.kerub.services.socket.messages.PingMessage
-import com.github.K0zka.kerub.services.socket.messages.PongMessage
-import com.github.K0zka.kerub.services.socket.messages.SubscribeMessage
-import com.github.K0zka.kerub.services.socket.messages.UnsubscribeMessage
-import java.util.LinkedList
+import com.github.K0zka.kerub.model.messages.PingMessage
+import com.github.K0zka.kerub.model.messages.PongMessage
+import com.github.K0zka.kerub.model.messages.SubscribeMessage
+import com.github.K0zka.kerub.model.messages.UnsubscribeMessage
 import java.util.HashSet
+import com.github.K0zka.kerub.model.messages.Message
+import org.springframework.web.socket.handler.TextWebSocketHandler
+import org.springframework.web.socket.WebSocketSession
+import org.springframework.web.socket.TextMessage
+import org.springframework.web.socket.CloseStatus
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import java.io.StringWriter
 
-ServerEndpoint("/ws",
-               subprotocols = array("kerub"),
-               decoders = array(javaClass<JacksonDecoder>()),
-               encoders = array(javaClass<JacksonEncoder>()))
-public class WebSocketNotifier {
-
-	private final class object val logger : Logger = LoggerFactory.getLogger(javaClass<WebSocketNotifier>())!!
-	private var session : Session? = null
-	private val subscriptions : MutableSet<String> = HashSet()
-
-	OnOpen
-	fun open(session : Session) {
-		this.session = session
-		logger.debug("connection opened")
+public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
+	protected class object {
+		private fun init() : ObjectMapper {
+			val mapper = ObjectMapper()
+			mapper.enableDefaultTyping()
+			mapper.registerSubtypes(
+					javaClass<Message>(),
+					javaClass<SubscribeMessage>(),
+					javaClass<UnsubscribeMessage>(),
+					javaClass<EntityUpdateMessage>(),
+					javaClass<PingMessage>(),
+					javaClass<PongMessage>())
+			return mapper
+		}
+		val objectMapper = init()
+		val logger : Logger = LoggerFactory.getLogger(javaClass<WebSocketNotifier>())!!
 	}
 
-	OnClose
-	fun close() {
-		logger.debug("connection closed")
-	}
-
-	OnMessage()
-	fun message(message : Any?) {
-		logger.debug("message from user: $message")
-		//handle message
-		when(message) {
-			is PingMessage ->
-				session
-						?.getAsyncRemote()
-						?.sendObject( PongMessage() )
-			is SubscribeMessage -> {
-				logger.info("subscribe to {}", (message as SubscribeMessage).channel)
-				this.subscriptions.add((message as SubscribeMessage).channel)
-			}
-			is UnsubscribeMessage -> {
-				logger.info("unsubscribe from {}", (message as UnsubscribeMessage).channel)
-				this.subscriptions.remove((message as UnsubscribeMessage).channel)
-			}
+	fun send(session : WebSocketSession, message : Message) {
+		StringWriter().use {
+			objectMapper.writer()?.writeValue(it, message)
+			session.sendMessage( TextMessage( it.toString() ) )
 		}
 	}
 
-	fun onUpdate(obj : Entity<Any>, sent : Long) {
-		session
-				?.getAsyncRemote()
-				?.sendObject( EntityUpdateMessage(date = sent, obj = obj) )
+	override fun handleTextMessage(session: WebSocketSession?, message: TextMessage?) {
+		logger.info("text message {}",message)
+
+		val msg = objectMapper.reader(javaClass<Message>())?.readValue<Message>(message?.getPayload())
+
+		when(msg) {
+			is PingMessage -> {
+				send(session!!, PongMessage())
+			}
+			is SubscribeMessage -> {
+				logger.info("subscribe to {}", (msg as SubscribeMessage).channel)
+
+			}
+			is UnsubscribeMessage -> {
+				logger.info("unsubscribe from {}", (msg as UnsubscribeMessage).channel)
+			}
+		}
 	}
+	override fun handleTransportError(session: WebSocketSession, exception: Throwable?) {
+		logger.info("connection error", exception)
+	}
+	override fun afterConnectionEstablished(session: WebSocketSession) {
+		logger.info("connection opened")
+		internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
+		super.afterConnectionEstablished(session)
+	}
+	override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus?) {
+		internalListener.removeSocketListener(session.getId())
+		logger.info("connection closed, {}", status)
+	}
+
+	private var session : Session? = null
+	private val clients : MutableSet<ClientConnection> = HashSet()
 
 }

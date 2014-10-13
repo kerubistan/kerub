@@ -20,9 +20,20 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>websocket</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>CXFServlet</servlet-name>
         <url-pattern>/s/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>websocket</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
     </servlet-mapping>
 
     <listener>

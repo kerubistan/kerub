@@ -18,10 +18,12 @@
  */
 kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
     $log.info("init socket");
-    var socketAddr = (location.protocol == 'http:' ? 'ws:' : 'wss:')
+    //TODO: it would be great to get rid of this sophisticated calculation of the websocket URL
+    var socketAddr = (location.protocol == "http:" ? "ws:" : "wss:")
         + '//' + location.hostname
         + ':' + location.port
-        + "/ws";
+        + (location.pathname == "/" ? "/" : location.pathname)
+        + "ws";
     $log.info("socket addr:"+socketAddr);
     var sock = {};
     var socket = new WebSocket(socketAddr, 'kerub');
@@ -40,6 +42,9 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
         }
         $log.debug('all msg sent');
         sock.queue = [];
+    };
+    socket.onclose = function() {
+        $log.debug('socket closed');
     };
     sock.send = function(msg) {
         if(sock.socket.readyState == WebSocket.OPEN) {

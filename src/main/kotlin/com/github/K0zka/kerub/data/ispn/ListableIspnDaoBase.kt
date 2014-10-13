@@ -5,9 +5,10 @@ import org.infinispan.Cache
 import com.github.K0zka.kerub.data.ListableDao
 import org.infinispan.query.Search
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.data.EventListener
 
-public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>)
-: IspnDaoBase<T, I>(cache), ListableDao<T, I> {
+public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>, eventListener : EventListener)
+: IspnDaoBase<T, I>(cache, eventListener), ListableDao<T, I> {
 
 	abstract fun getEntityClass() : Class<T>
 
