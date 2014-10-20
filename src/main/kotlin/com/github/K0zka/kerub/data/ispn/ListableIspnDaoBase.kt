@@ -6,19 +6,24 @@ import com.github.K0zka.kerub.data.ListableDao
 import org.infinispan.query.Search
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.EventListener
+import com.github.K0zka.kerub.model.Event
+import org.infinispan.query.dsl.SortOrder
 
 public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>, eventListener : EventListener)
 : IspnDaoBase<T, I>(cache, eventListener), ListableDao<T, I> {
+	override fun count() : Int {
+		return cache.count()
+	}
 
 	abstract fun getEntityClass() : Class<T>
 
-	var maxResults = 40
-	override fun listAll(): List<T> {
+	override fun listAll(start: Long, limit: Long, sort: String): List<T> {
 		return Search.getQueryFactory(cache)!!
 				.from(getEntityClass())!!
-				.maxResults(maxResults)!!
+				.orderBy(sort, SortOrder.DESC)
+				.maxResults(limit.toInt())
+				.startOffset(start)
 				.build()!!
-				.list<T>()!!
-				.toList()
+				.list()!!
 	}
 }

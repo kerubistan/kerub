@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.messages.EntityAddMessage
 import com.github.K0zka.kerub.model.messages.EntityRemoveMessage
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 
-open class IspnDaoBase<T : Entity<I>, I> (protected val cache : Cache<I, T>,
+abstract class IspnDaoBase<T : Entity<I>, I> (protected val cache : Cache<I, T>,
 										  protected val eventListener : EventListener) : CrudDao<T, I> {
 	override fun add(entity: T): I {
 		cache.put(entity.id!!, entity)

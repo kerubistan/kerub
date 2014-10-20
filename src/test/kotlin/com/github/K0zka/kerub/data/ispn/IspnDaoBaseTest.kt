@@ -19,6 +19,15 @@ class IspnDaoBaseTest {
 		override var id: String? = null
 	}
 
+	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener)
+		: ListableIspnDaoBase<TestEntity, String>(cache, eventListener) {
+		override fun getEntityClass(): Class<TestEntity> {
+			return javaClass<TestEntity>()
+		}
+
+
+	}
+
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<String, TestEntity>? = null
 	var dao  : IspnDaoBase<TestEntity, String>? = null
@@ -28,7 +37,7 @@ class IspnDaoBaseTest {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
-		dao = IspnDaoBase<TestEntity, String>(cache!!, eventListener!!)
+		dao = TestDao(cache!!, eventListener!!)
 	}
 
 	After

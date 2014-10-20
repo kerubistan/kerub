@@ -8,7 +8,4 @@ import com.github.K0zka.kerub.data.ListableDao
 
 public class VirtualMachineServiceImpl(dao: VirtualMachineDao) : BaseServiceImpl<VirtualMachine>(dao, "vm"),
 		VirtualMachineService {
-	override fun listAll(): List<VirtualMachine> {
-		return (dao as ListableDao<VirtualMachine, UUID>).listAll()
-	}
 }

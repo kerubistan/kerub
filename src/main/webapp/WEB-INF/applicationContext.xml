@@ -45,7 +45,6 @@
     -->
 
     <bean id="daoBase" abstract="true">
-        <property name="maxResults" value="100"/>
     </bean>
 
     <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">

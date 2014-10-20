@@ -13,7 +13,4 @@ public class HostServiceImpl(dao: HostDao, val manager: HostManager) : BaseServi
 		val publicKey = manager.getHostPublicKey(address)
 		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), publicKey.getEncoded()!!)
 	}
-	override fun listAll(): List<Host> {
-		return (dao as ListableDao<Host, UUID>).listAll()
-	}
 }
