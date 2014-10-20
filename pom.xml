@@ -284,6 +284,31 @@
                     <archiveClasses>true</archiveClasses>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <locations>com.github.K0zka.kerub</locations>
+                            <apiVersion>${project.version}</apiVersion>
+                            <basePath>/</basePath>
+                            <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
+                            <mustacheFileRoot>${basedir}/src/main/resources/</mustacheFileRoot>
+                            <outputPath>${basedir}/generated/document.html</outputPath>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
