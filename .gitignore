@@ -15,3 +15,7 @@ hs_err_pid*
 
 #the store directory created by infinispan when running jetty:run
 store
+
+#various scripts
+*.sh
+
