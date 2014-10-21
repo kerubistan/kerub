@@ -294,9 +294,10 @@
                             <locations>com.github.K0zka.kerub</locations>
                             <apiVersion>${project.version}</apiVersion>
                             <basePath>/</basePath>
-                            <swaggerDirectory>generated/swagger-ui</swaggerDirectory>
-                            <mustacheFileRoot>${basedir}/src/main/resources/</mustacheFileRoot>
-                            <outputPath>${basedir}/generated/document.html</outputPath>
+			                <outputTemplate>${basedir}/src/build/templates/strapdown.html.mustache</outputTemplate>
+                            <swaggerDirectory>${project.build.directory}/${project.build.finalName}/apidoc</swaggerDirectory>
+                            <mustacheFileRoot>${basedir}/src/build//templates/</mustacheFileRoot>
+                            <outputPath>${project.build.directory}/${project.build.finalName}/apidoc/index.html</outputPath>
                         </apiSource>
                     </apiSources>
                 </configuration>
