@@ -6,7 +6,7 @@ describe('HostTab', function() {
     beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
         $httpBackend = _$httpBackend_;
         $httpBackend.expectGET('s/r/host')
-            .respond([{address: '127.0.0.1'}]);
+            .respond({start : 0, count : 1, total : 5 ,result:[{address: '127.0.0.1'}]});
         scope = $rootScope.$new();
         ctrl = $controller('HostTab', {$scope : scope});
     }));
