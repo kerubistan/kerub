@@ -19,7 +19,7 @@ kerubApp.controller('HostTab', function($scope, $http, $modal, $log, $socket) {
         $log.debug(modalInstance);
         $log.info('opened new host wizard');
     };
-    $http.get('s/r/host').success(function(hosts) {
-        $scope.hosts = hosts;
+    $http.get('s/r/host').success(function(hostsResult) {
+        $scope.hosts = hostsResult.result;
     });
 });

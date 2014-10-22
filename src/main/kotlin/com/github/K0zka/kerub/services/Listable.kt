@@ -22,5 +22,5 @@ public trait Listable<T> {
 	            ApiParam("Property name to sort by", defaultValue = "id", required = false)
 	            QueryParam("sort")
 	            DefaultValue("id") sort : String
-	            ) : List<T>
+	            ) : ResultPage<T>
 }
