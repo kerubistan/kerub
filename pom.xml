@@ -76,6 +76,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
             <version>${spring.version}</version>
         </dependency>
@@ -156,6 +161,12 @@
             <groupId>org.hornetq</groupId>
             <artifactId>hornetq-spring-integration</artifactId>
             <version>2.4.4.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jms</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.websocket</groupId>
@@ -200,9 +211,8 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.2.3.v20140905</version>
+                <version>9.2.2.v20140723</version>
                 <configuration>
-                    <jvmArgs>-Xmx2024m -Xms2024m</jvmArgs>
                     <stopPort>8081</stopPort>
                     <stopKey>stop</stopKey>
                     <useTestClasspath>true</useTestClasspath>
