@@ -12,6 +12,7 @@ import com.wordnik.swagger.annotations.ApiModel
 import com.wordnik.swagger.annotations.ApiModelProperty
 import com.github.K0zka.kerub.services.VersionInfo
 import com.github.K0zka.kerub.services.VersionService
+import com.github.K0zka.kerub.utils.getLogger
 
 
 class VersionServiceImpl : VersionService {
@@ -22,10 +23,22 @@ class VersionServiceImpl : VersionService {
 		return version
 	}
 
-	class object fun buildVersionInfo(): VersionInfo {
-		val pack = javaClass<VersionServiceImpl>().getPackage()
-		return VersionInfo(pack?.getImplementationVersion() ?: "dev",
-		                   pack?.getImplementationVendor() ?: "",
-		                   pack?.getImplementationTitle() ?: "")
+	class object {
+		private val logger = getLogger(javaClass<VersionServiceImpl>())
+		fun buildVersionInfo(): VersionInfo {
+			val pack = javaClass<VersionServiceImpl>().getPackage()
+			return VersionInfo(pack?.getImplementationVersion() ?: "dev",
+			                   pack?.getImplementationVendor() ?: "",
+			                   pack?.getImplementationTitle() ?: "kerub")
+		}
 	}
+
+	fun logStart() {
+		logger.info("Starting {} version {} ", version.title, version.version)
+	}
+
+	fun logStop() {
+		logger.info("Stopping {} version {} ", version.title, version.version)
+	}
+
 }

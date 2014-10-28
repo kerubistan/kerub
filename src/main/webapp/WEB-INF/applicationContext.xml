@@ -177,6 +177,10 @@
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
-    <bean id="version" class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"/>
+    <bean
+            id="version"
+            class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
+            init-method="logStart"
+            destroy-method="logStop"/>
 
 </beans>

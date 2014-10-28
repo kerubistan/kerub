@@ -8,4 +8,12 @@ public class VersionServiceTest {
 	fun getVersionInfo() {
 		Assert.assertNotNull(VersionServiceImpl().getVersionInfo())
 	}
+	Test
+	fun logStart() {
+		VersionServiceImpl().logStart()
+	}
+	Test
+	fun logStop() {
+		VersionServiceImpl().logStop()
+	}
 }
