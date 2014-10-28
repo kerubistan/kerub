@@ -2,19 +2,23 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="urn:hornetq /schema/hornetq-configuration.xsd">
 
+    <persistence-enabled>true</persistence-enabled>
+    <shared-store>false</shared-store>
+    <backup>false</backup>
+
     <security-enabled>false</security-enabled>
 
-    <paging-directory>${data.dir:../store/hornetq}/paging</paging-directory>
+    <paging-directory>${data.dir:store/hornetq}/paging</paging-directory>
 
-    <bindings-directory>${data.dir:../store/hornetq}/bindings</bindings-directory>
+    <bindings-directory>${data.dir:store/hornetq}/bindings</bindings-directory>
 
     <journal-type>NIO</journal-type>
+    <journal-directory>${data.dir:store/hornetq}/journal</journal-directory>
+    <journal-min-files>2</journal-min-files>
+    <journal-file-size>4194304</journal-file-size>
+    <journal-buffer-size>8192</journal-buffer-size>
 
-    <journal-directory>${data.dir:../store/hornetq}/journal</journal-directory>
-
-    <journal-min-files>10</journal-min-files>
-
-    <large-messages-directory>${data.dir:../store/hornetq}/large-messages</large-messages-directory>
+    <large-messages-directory>${data.dir:store/hornetq}/large-messages</large-messages-directory>
 
     <connectors>
         <connector name="invm">
