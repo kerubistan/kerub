@@ -7,6 +7,10 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, $socket, $appsessi
         $log.info("hey, a message for HostTab!",msg);
     }, 'HostTab');
 
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 1;
+    $scope.pages = [];
+
     $scope.newHostForm = function() {
         $log.info('opening new host wizard');
         var modalInstance = $modal.open({
@@ -22,5 +26,8 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, $socket, $appsessi
     $appsession.get('s/r/host').success(function(hostsResult) {
         $log.info("hosts", hostsResult);
         $scope.hosts = hostsResult.result;
+        $scope.currentPage = currentPage(hostsResult, $scope.itemsPerPage);
+        $log.debug($scope.currentPage);
+        $scope.pages = pages(hostsResult, $scope.itemsPerPage);
     });
 });
