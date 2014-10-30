@@ -19,10 +19,10 @@
 kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
     $log.info("init socket");
     //TODO: it would be great to get rid of this sophisticated calculation of the websocket URL
-    var socketAddr = (location.protocol == "http:" ? "ws:" : "wss:")
+    var socketAddr = (location.protocol === "http:" ? "ws:" : "wss:")
         + '//' + location.hostname
         + ':' + location.port
-        + (location.pathname == "/" ? "/" : location.pathname)
+        + (location.pathname === "/" ? "/" : location.pathname)
         + "ws";
     $log.info("socket addr:"+socketAddr);
     var sock = {};
@@ -47,7 +47,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
         $log.debug('socket closed');
     };
     sock.send = function(msg) {
-        if(sock.socket.readyState == WebSocket.OPEN) {
+        if(sock.socket.readyState === WebSocket.OPEN) {
             sock.socket.send(angular.toJson(msg));
         } else {
             $log.info("not connected, send delayed", msg);
@@ -79,7 +79,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
             //remove callback
             delete sock.listeners[channel][clientId];
             //if it was the last callback, remove the channel as well
-            if(sock.listeners[channel].length == 0) {
+            if(sock.listeners[channel].length === 0) {
                 var msg = {
                     "@type" : 'unsubscribe',
                     channel : 'channel'
