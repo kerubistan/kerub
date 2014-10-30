@@ -1,4 +1,4 @@
-kerubApp.controller('MainTabs', function($scope) {
+kerubApp.controller('MainTabs', function() {
 
 });
 
