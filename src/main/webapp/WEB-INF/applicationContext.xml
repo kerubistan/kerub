@@ -4,7 +4,7 @@
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xmlns:websocket="http://www.springframework.org/schema/websocket"
        xmlns:cxf="http://cxf.apache.org/core"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
             http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
             http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
             http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd">
@@ -209,13 +209,11 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
                 <constructor-arg ref="objectMapper"/>
             </bean>
+            <bean class="com.github.K0zka.kerub.security.mappers.UnauthenticatedExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.security.mappers.AuthenticationExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.security.mappers.AuthorizationExceptionMapper"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
-            <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
-                <constructor-arg ref="hostDao"/>
-                <constructor-arg ref="hostManager"/>
-                <constructor-arg ref="sshClientService"/>
-            </bean>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>
             </bean>
@@ -238,14 +236,69 @@
                 <constructor-arg ref="assignmentDao"/>
             </bean>
             <ref bean="version"/>
+            <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
+                <constructor-arg ref="hostDao"/>
+                <constructor-arg ref="hostManager"/>
+                <constructor-arg ref="sshClientService"/>
+            </bean>
+            <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginService">
+            </bean>
+            <ref bean="motd"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
+
+    <bean id="motd" class="com.github.K0zka.kerub.services.impl.MotdServiceImpl">
+        <constructor-arg>
+            <value><![CDATA[
+#### Developer mode
+
+This instance seems to be running in dev/eval mode.
+You can log in with the following users (see shiro.ini):
+
+ * admin/password
+ * poweruser/password
+ * enduser/password
+
+You can edit the 'motd' of kerub in the configuration.
+Remember, that the motd is readable by anyone!]]></value>
+        </constructor-arg>
+    </bean>
+
 
     <bean
             id="version"
             class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
             init-method="logStart"
             destroy-method="logStop"/>
+
+    <!--
+    Security
+    -->
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean
+            id="securityManager"
+            class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="kerubRealm"/>
+    </bean>
+
+    <bean
+            id="lifecycleBeanPostProcessor"
+            class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean
+            class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+            depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean id="kerubRealm" class="org.apache.shiro.realm.text.IniRealm">
+        <property name="resourcePath" value="classpath:shiro.ini"/>
+    </bean>
 
     <!--
     Configuration, utilities

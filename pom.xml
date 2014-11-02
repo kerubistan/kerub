@@ -18,12 +18,13 @@
         <spring.version>4.1.1.RELEASE</spring.version>
         <cxf.version>3.0.3</cxf.version>
         <infinispan.version>7.0.2.Final</infinispan.version>
-        <angularjs.version>1.2.26</angularjs.version>
-        <angular-bootstrap.version>0.11.2</angular-bootstrap.version>
+        <angularjs.version>1.2.28</angularjs.version>
+        <angular-bootstrap.version>0.12.0</angular-bootstrap.version>
         <slf4j.version>1.7.7</slf4j.version>
         <cucumber.version>1.2.0</cucumber.version>
         <jackson.version>2.4.5</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
+        <shiro.version>1.2.3</shiro.version>
     </properties>
     <dependencies>
         <dependency>
@@ -61,6 +62,11 @@
             <groupId>org.webjars</groupId>
             <artifactId>sockjs-client</artifactId>
             <version>0.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>markdown-js</artifactId>
+            <version>0.5.0-1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -193,6 +199,27 @@
             <artifactId>finder4j-backtrack</artifactId>
             <version>0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.com.inftel.oss</groupId>
+            <artifactId>shiro-oauth2</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
@@ -248,6 +275,12 @@
                     <stopPort>${jetty.port.stop}</stopPort>
                     <stopKey>stop</stopKey>
                     <contextXml>src/build/env/jetty.xml</contextXml>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>spring.profiles.active</name>
+                            <value>dev-auth</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
                 <executions>
                     <execution>

@@ -1,5 +1,5 @@
 
-kerubApp.controller('HostTab', function($scope, $http, $modal, $log, $socket) {
+kerubApp.controller('HostTab', function($scope, $modal, $log, $socket, $appsession) {
 
     $log.info('initializing host tab');
 
@@ -19,7 +19,8 @@ kerubApp.controller('HostTab', function($scope, $http, $modal, $log, $socket) {
         $log.debug(modalInstance);
         $log.info('opened new host wizard');
     };
-    $http.get('s/r/host').success(function(hostsResult) {
+    $appsession.get('s/r/host').success(function(hostsResult) {
+        $log.info("hosts", hostsResult);
         $scope.hosts = hostsResult.result;
     });
 });

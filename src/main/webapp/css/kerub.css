@@ -10,3 +10,7 @@
     width : 200px;
     height : 240px;
 }
+
+.login-screen .media-body {
+    padding-left: 20px;
+}

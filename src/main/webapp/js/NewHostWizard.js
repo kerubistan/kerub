@@ -1,4 +1,4 @@
-var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, uuid4) {
+var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.host = {
@@ -24,7 +24,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, uuid
             $scope.pubkeyUptoDate = false;
         }
         $scope.updateTimeout = $timeout(function() {
-            $http.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
+            $appsession.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
                 .success(function(pubkey) {
                     $log.debug(pubkey);
                     $scope.pubkeyUptoDate = true;

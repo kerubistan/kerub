@@ -7,11 +7,12 @@ import javax.ws.rs.PathParam
 import com.github.K0zka.kerub.model.AuditEntry
 import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
-import javax.ws.rs.core.MediaType
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 
 Path("/audit")
-Produces(MediaType.APPLICATION_JSON)
-Consumes(MediaType.APPLICATION_JSON)
+Produces("application/json")
+Consumes("application/json")
+RequiresAuthentication
 public trait AuditService {
 	Path("/{id}")
 	GET

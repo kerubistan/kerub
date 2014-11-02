@@ -5,6 +5,7 @@ import javax.ws.rs.GET
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.Consumes
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 
 public class StatisticsInfo(
 		val upTime: Long,
@@ -20,6 +21,7 @@ public class StatisticsInfo(
 Produces("application/json")
 Consumes("application/json")
 Path("/stats/controller/db")
+RequiresAuthentication
 public trait StatisticsService {
 	GET
 	Path("/{name}")

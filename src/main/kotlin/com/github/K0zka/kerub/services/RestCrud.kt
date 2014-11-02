@@ -15,9 +15,11 @@ import com.wordnik.swagger.annotations.ApiParam
 import com.wordnik.swagger.annotations.ApiResponses
 import java.util.UUID
 import javax.ws.rs.core.MediaType
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 
-Produces(MediaType.APPLICATION_JSON)
-Consumes(MediaType.APPLICATION_JSON)
+Produces("application/json")
+Consumes("application/json")
+RequiresAuthentication
 public trait RestCrud<T> : RestOperations.Read<T>, RestOperations.Add<T>, RestOperations.Update<T>, RestOperations.Delete {
 
 }

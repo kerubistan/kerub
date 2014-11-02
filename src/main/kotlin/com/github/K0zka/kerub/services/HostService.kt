@@ -16,12 +16,26 @@ import com.wordnik.swagger.annotations.ApiParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.Consumes
+import org.apache.shiro.authz.annotation.RequiresRoles
+import com.github.K0zka.kerub.security.Roles
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 
 Api("s/r/host", description = "Host service")
 Path("/host")
 Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
+RequiresRoles(array(Roles.admin))
+RequiresAuthentication
 public trait HostService : RestCrud<Host> {
+
+	RequiresAuthentication
+	override fun getById(id: UUID): Host;
+
+	RequiresAuthentication
+	override fun delete(id: UUID);
+
+	RequiresAuthentication
+	override fun update(id: UUID, entity: Host): Host
 
 	ApiOperation("Add new object")
 	ApiResponses(
@@ -30,10 +44,14 @@ public trait HostService : RestCrud<Host> {
 	            )
 	PUT
 	Path("/join")
+	RequiresRoles(array(Roles.admin))
+	RequiresAuthentication
 	fun join(ApiParam(value = "New host with password", required = true) hostPwd : HostAndPassword): Host
 
 	ApiOperation("Get the public key of the server", httpMethod = "GET")
 	GET
 	Path("/helpers/pubkey")
+	RequiresRoles(array(Roles.admin))
+	RequiresAuthentication
 	fun getHostPubkey(QueryParam("address") address : String) : HostPubKey
 }

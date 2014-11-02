@@ -13,6 +13,7 @@ import javax.ws.rs.DELETE
 import javax.ws.rs.POST
 import javax.ws.rs.QueryParam
 import javax.ws.rs.DefaultValue
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 
 /**
  * Collection of typical operations.
@@ -71,6 +72,7 @@ trait RestOperations {
 		ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
 		GET
 		Path("/")
+		RequiresAuthentication
 		fun listAll(ApiParam("First returned entity", defaultValue = "0", required = false)
 		            QueryParam("start")
 		            DefaultValue("0") start : Long,
