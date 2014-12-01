@@ -19,4 +19,6 @@ Such solutions and technologies are:
  * Simplicity in deployment and development
  * Minimal hardware requirements
 
-
+Despite all of the above objectives:
+ * it is not for architecture astronauts
+ * must be simple and readable
