@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.services.HostService
 import java.util.UUID
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.HostDao
-import com.github.K0zka.kerub.data.ListableDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.services.HostPubKey
 

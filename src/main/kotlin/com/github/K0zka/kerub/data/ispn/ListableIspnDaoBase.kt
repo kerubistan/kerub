@@ -2,15 +2,15 @@ package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.model.Entity
 import org.infinispan.Cache
-import com.github.K0zka.kerub.data.ListableDao
 import org.infinispan.query.Search
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.Event
 import org.infinispan.query.dsl.SortOrder
+import com.github.K0zka.kerub.data.DaoOperations
 
 public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>, eventListener : EventListener)
-: IspnDaoBase<T, I>(cache, eventListener), ListableDao<T, I> {
+: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.List<T, I> {
 	override fun count() : Int {
 		return cache.count()
 	}

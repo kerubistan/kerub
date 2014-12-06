@@ -4,10 +4,10 @@ import com.github.K0zka.kerub.services.ResultPage
 import java.util.UUID
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.data.ListableCrudDao
-import com.github.K0zka.kerub.services.Listable
+import com.github.K0zka.kerub.services.RestOperations
 
 abstract public class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao<T, UUID>, entityType: String)
-: BaseServiceImpl<T>(dao, entityType), Listable<T> {
+: BaseServiceImpl<T>(dao, entityType), RestOperations.List<T> {
 	override fun listAll(start: Long, limit: Long, sort: String): ResultPage<T> {
 		return ResultPage(
 				start = start,

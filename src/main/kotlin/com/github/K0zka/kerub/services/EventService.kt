@@ -7,10 +7,11 @@ import com.github.K0zka.kerub.model.Event
 import javax.ws.rs.GET
 import java.util.UUID
 import javax.ws.rs.PathParam
+import javax.ws.rs.core.MediaType
 
 Path("/event")
-Produces("application/json")
-Consumes("application/json")
+Produces(MediaType.APPLICATION_JSON)
+Consumes(MediaType.APPLICATION_JSON)
 public trait EventService {
 	GET
 	Path("/{id}")

@@ -40,6 +40,10 @@
         <constructor-arg value="eventCache"/>
     </bean>
 
+    <bean id="assignmentCache" parent="cache">
+        <constructor-arg value="assignmentCache"/>
+    </bean>
+
     <!--
     DAO
     -->
@@ -73,6 +77,15 @@
 
     <bean id="eventDao" class="com.github.K0zka.kerub.data.ispn.EventDaoImpl">
         <constructor-arg ref="eventCache"/>
+    </bean>
+
+    <bean id="controllerDao" class="com.github.K0zka.kerub.data.ispn.ControllerDaoImpl">
+        <constructor-arg ref="cacheManager"/>
+    </bean>
+
+    <bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl">
+        <constructor-arg ref="assignmentCache"/>
+        <constructor-arg ref="eventListener"/>
     </bean>
 
     <!--
@@ -196,6 +209,12 @@
             </bean>
             <bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
                 <constructor-arg ref="cacheManager"/>
+            </bean>
+            <bean id="controllers" class="com.github.K0zka.kerub.services.impl.ControllerServiceImpl">
+                <constructor-arg ref="controllerDao"/>
+            </bean>
+            <bean id="assignments" class="com.github.K0zka.kerub.services.impl.AssignmentServiceImpl">
+                <constructor-arg ref="assignmentDao"/>
             </bean>
             <ref bean="version"/>
         </jaxrs:serviceBeans>

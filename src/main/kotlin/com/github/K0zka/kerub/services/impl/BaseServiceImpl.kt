@@ -4,11 +4,11 @@ import com.github.K0zka.kerub.services.RestCrud
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.data.CrudDao
 import java.util.UUID
-import com.github.K0zka.kerub.services.Listable
 import com.github.K0zka.kerub.services.ResultPage
+import com.github.K0zka.kerub.services.RestOperations
 
 abstract class BaseServiceImpl<T : Entity<UUID>> (protected val dao : CrudDao<T, UUID>, val entityType : String)
-	: RestCrud<T>, Listable<T> {
+	: RestCrud<T> {
 	override fun getById(id: UUID): T {
 		return assertExist(entityType, dao[id], id)
 	}
