@@ -19,7 +19,10 @@ import java.util.Collections
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 
-public class HostManagerImpl (val keyPair : KeyPair, val hostDao : HostDao, val hostDynamicDao : HostDynamicDao) : HostManager {
+public class HostManagerImpl (
+		val keyPair : KeyPair,
+		val hostDao : HostDao,
+		val hostDynamicDao : HostDynamicDao) : HostManager {
 
 	class object {
 		val logger = getLogger(javaClass<HostManagerImpl>())

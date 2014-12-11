@@ -14,7 +14,7 @@ abstract public class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao
 				count = limit,
 				sortBy = sort,
 				total = (dao as ListableCrudDao<T, UUID>).count().toLong(),
-				result = (dao as ListableCrudDao<T, UUID>).listAll(start, limit, sort))
+				result = (dao as ListableCrudDao<T, UUID>).list(start, limit, sort))
 	}
 
 }

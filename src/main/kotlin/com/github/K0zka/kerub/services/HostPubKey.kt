@@ -10,6 +10,6 @@ public class HostPubKey(XmlAttribute(name = "algorithm")
                         XmlAttribute(name = "format")
                         val format: String?,
                         XmlValue
-                        var key: ByteArray = ByteArray(0)) {
+                        var fingerprint: String) {
 
 }

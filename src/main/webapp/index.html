@@ -127,16 +127,12 @@
             <h3 class="modal-title">New Host {{host.address}}</h3>
         </div>
         <input ng-model="host.address" class="form-control" placeholder="address" ng-change="updatePubkey()">
+        <input ng-model="host.publicKey" readonly disabled class="form-control" placeholder="fingerprint">
+        <input ng-model="password" class="form-control" type="password" placeholder="password">
 
-        <span ng-show="{{pubkeyUptoDate}}">
-            <label>format</label><input ng-bind="pubkey.format">
-            <label>algorithm</label><input ng-bind="pubkey.algorithm">
-            <label>key</label><input ng-bind="pubkey.key">
+        <span ng-show="pubkeyUpdating">
+            updating
         </span>
-        <span ng-show="{{pubkeyUpdating}}">
-
-        </span>
-        <input ng-bind="password" class="form-control" type="password" placeholder="password">
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addHost()">
                 Add

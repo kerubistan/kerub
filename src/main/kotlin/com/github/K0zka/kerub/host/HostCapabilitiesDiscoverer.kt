@@ -13,12 +13,13 @@ import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.host.distros.Gentoo
 import com.github.K0zka.kerub.host.distros.Fedora
 
-public class HostCapabilitiesDiscoverer(val manager: HostManager, val hostDao: HostDao) {
+/**
+ * Helper class to detect host capabilities through an established SSH session.
+ */
+public object HostCapabilitiesDiscoverer {
 
-	class object {
-		private val logger = getLogger(javaClass<HostCapabilitiesDiscoverer>())
-		val distributions = listOf<Distribution>( Ubuntu(), Fedora(), Gentoo() )
-	}
+	private val logger = getLogger(javaClass<HostCapabilitiesDiscoverer>())
+	val distributions = listOf<Distribution>( Ubuntu(), Fedora(), Gentoo() )
 
 	fun discoverHost(session: ClientSession) : HostCapabilities {
 

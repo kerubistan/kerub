@@ -12,25 +12,35 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 		return distroName
 	}
 
+	inline fun enforce<T>( value : T?, msg : String ) : T {
+		if(value == null) {
+			throw IllegalArgumentException("${msg} - value is null")
+		} else {
+			return value
+		}
+	}
+
 	override fun getVersion(session: ClientSession): Version {
 		val versionString = readLsbReleaseProperties(session)
 				.getProperty("VERSION_ID")
 				?.replaceAll("\"", "")
 		return Version.fromVersionString(
-					versionString ?: "unknown")
+				enforce(readLsbReleaseProperties(session)
+						.getProperty("VERSION_ID")
+						?.replaceAll("\"", ""), "VERSION_ID is not found in the properties file"))
 	}
 
 	override fun detect(session: ClientSession): Boolean {
 		return distroName.equalsIgnoreCase(
-				readLsbReleaseProperties(session)
+				enforce(readLsbReleaseProperties(session)
 						.getProperty("NAME")
-						?.replaceAll("\"", "") ?: "unknown")
+						?.replaceAll("\"", ""), "NAME is not found in the properties file"))
 	}
-
 
 	protected fun readLsbReleaseProperties(session: ClientSession): Properties {
 		val props = Properties()
-		StringReader(session.getFileContents("/etc/os-release")).use {
+		val propFileContents = session.getFileContents("/etc/os-release")
+		StringReader(propFileContents).use {
 			props.load(it)
 		}
 		return props

@@ -1,5 +1,4 @@
 package com.github.K0zka.kerub.host
 
-public trait HostAssigner {
-
+public trait ControllerManager {
 }

@@ -113,6 +113,19 @@
         <constructor-arg ref="hostDynamicDao"/>
     </bean>
 
+    <bean id="sshClient"
+          class="org.apache.sshd.SshClient"
+          factory-method="setUpDefaultClient"
+          init-method="start"
+          destroy-method="stop"/>
+
+    <bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl">
+        <constructor-arg ref="sshClient"/>
+        <constructor-arg ref="keyPair"/>
+        <constructor-arg value="1000"/>
+        <constructor-arg value="MILLISECONDS"/>
+    </bean>
+
     <!--
     MQ
     -->
@@ -191,7 +204,7 @@
           factory-method="createObjectMapper">
     </bean>
 
-    <jaxrs:server id="customerService" address="/r" serviceName="r" >
+    <jaxrs:server address="/r" serviceName="r" >
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
                 <constructor-arg ref="objectMapper"/>
@@ -201,6 +214,7 @@
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
                 <constructor-arg ref="hostDao"/>
                 <constructor-arg ref="hostManager"/>
+                <constructor-arg ref="sshClientService"/>
             </bean>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>

@@ -90,14 +90,21 @@ apt-transport-https	1.0.1ubuntu2.1""")
 						""".trim())))
 		                                                      )
 
-		fun mockFile(contents: String): SshFile {
+		fun mockFile(path : String, contents: String): SshFile {
 			val ret = Mockito.mock(javaClass<SshFile>())
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
+			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
+			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
+			Mockito.`when`(ret.getSize()).thenReturn(contents?.length()?.toLong() ?: 0)
+			Mockito.`when`(ret.isReadable()).thenReturn(true)
+			Mockito.`when`(ret.isFile()).thenReturn(true)
+			Mockito.`when`(ret.isWritable()).thenReturn(false)
+			Mockito.`when`(ret.isDirectory()).thenReturn(false)
 			val binaryContents = contents.toByteArray("ASCII")
 			Mockito.`when`(ret.createInputStream(Matchers.anyLong())).then {
 				ByteArrayInputStream(binaryContents)
 			}
-			Mockito.`when`(ret.getSize()).thenReturn(binaryContents.size.toLong())
+			Mockito.`when`(ret.getSize()).thenReturn(binaryContents.size().toLong())
 			return ret
 		}
 	}
@@ -110,15 +117,11 @@ apt-transport-https	1.0.1ubuntu2.1""")
 	var hostDao: HostDao? = null
 	var commandFactory: CommandFactory? = null
 
-	var discoverer: HostCapabilitiesDiscoverer? = null
-
 	var sshClient: SshClient? = null
 	var session: ClientSession? = null
 	var sshServer: SshServer? = null
 
 	Before fun setup() {
-		hostManager = Mockito.mock(javaClass<HostManager>())
-		hostDao = Mockito.mock(javaClass<HostDao>())
 		commandFactory = Mockito.mock(javaClass<CommandFactory>())
 
 		Mockito.`when`(commandFactory!!.createCommand(Matchers.anyString())).then {
@@ -150,7 +153,9 @@ apt-transport-https	1.0.1ubuntu2.1""")
 		sshServer!!.setPublickeyAuthenticator {(s, publicKey, serverSession) -> true }
 		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(getTestKey()))
 		sshServer!!.setSubsystemFactories(listOf<NamedFactory<Command>>(SftpSubsystem.Factory()))
-		sshServer!!.setFileSystemFactory { HostFileSystem( files.mapValues { mockFile(it.component2()) } ) }
+		sshServer!!.setFileSystemFactory {
+			HostFileSystem( files.mapValues { mockFile(it.component1(), it.component2()) } )
+		}
 		sshServer!!.setCommandFactory(commandFactory)
 		sshServer!!.start()
 
@@ -159,7 +164,6 @@ apt-transport-https	1.0.1ubuntu2.1""")
 		session = sshClient!!.connect("root", "127.0.0.1", 2222).await().getSession()
 		session!!.addPublicKeyIdentity(getTestKey())
 		session!!.auth().await()
-		discoverer = HostCapabilitiesDiscoverer(hostManager!!, hostDao!!)
 	}
 
 	After fun cleanup() {
@@ -174,7 +178,7 @@ apt-transport-https	1.0.1ubuntu2.1""")
 		        publicKey = "",
 		        dedicated = true
 		               )
-		val capabilities = discoverer!!.discoverHost(session!!)
+		val capabilities = HostCapabilitiesDiscoverer!!.discoverHost(session!!)
 		assertNotNull(capabilities)
 		assertEquals(distroName, capabilities?.distribution?.name)
 		assertEquals(cpuArchitecture, capabilities?.cpuArchitecture)

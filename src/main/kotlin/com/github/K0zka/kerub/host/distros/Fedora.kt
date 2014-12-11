@@ -9,11 +9,11 @@ import com.github.K0zka.kerub.utils.SoftwarePackage
 public class Fedora : LsbDistribution("Fedora") {
 
 	override fun listPackages(session: ClientSession): List<SoftwarePackage> {
-		return session.execute("rpm -qa")
+		return session.execute("rpm -qa --queryformat \"%{NAME}\\t%{VERSION}\\n\"")
 				.trim()
 				.split("\n")
 				.map {
-					SoftwarePackage(it.substringBefore("-"), Version.fromVersionString(""))
+					SoftwarePackage(it.substringBefore("\t"), Version.fromVersionString(it.substringAfter("\t")))
 				}
 	}
 

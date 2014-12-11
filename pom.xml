@@ -187,6 +187,11 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.K0zka</groupId>
+            <artifactId>finder4j-backtrack</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>

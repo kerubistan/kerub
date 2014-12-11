@@ -22,7 +22,7 @@ public class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
 		return cache.get(id)
 	}
 
-	override fun listAll(start: Long, limit: Long, sort: String): List<Event> {
+	override fun list(start: Long, limit: Long, sort: String): List<Event> {
 		return Search.getQueryFactory(cache)!!
 				.from(javaClass<Event>())!!
 				.orderBy(sort, SortOrder.DESC)

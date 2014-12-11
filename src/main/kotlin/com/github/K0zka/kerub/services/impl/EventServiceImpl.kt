@@ -10,6 +10,6 @@ public class EventServiceImpl(val eventDao : EventDao) : EventService {
 		return assertExist("Event", eventDao[id], id)
 	}
 	override fun list(): List<Event> {
-		return eventDao.listAll()
+		return eventDao.list()
 	}
 }
