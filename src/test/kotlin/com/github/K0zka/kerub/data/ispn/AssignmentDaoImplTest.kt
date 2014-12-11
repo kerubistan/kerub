@@ -14,6 +14,7 @@ import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.data.AssignmentDao
 import java.util.UUID
 import kotlin.test.assertEquals
+import org.junit.After
 
 RunWith(javaClass<MockitoJUnitRunner>())
 public class AssignmentDaoImplTest {
@@ -28,6 +29,10 @@ public class AssignmentDaoImplTest {
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()
 		dao = AssignmentDaoImpl(cache!!, eventListener!!)
+	}
+
+	After fun cleanup() {
+		cacheManager?.stop()
 	}
 
 	Test
