@@ -20,17 +20,16 @@ public class HostCapabilitiesDiscoverer(val manager: HostManager, val hostDao: H
 		val distributions = listOf<Distribution>( Ubuntu(), Fedora(), Gentoo() )
 	}
 
-	fun discoverHost(host: Host, session: ClientSession) {
+	fun discoverHost(session: ClientSession) : HostCapabilities {
 
 		val distro = detectDistro(session)
-		val capabilities = HostCapabilities(
+		return HostCapabilities(
 				os = getHostOs(session),
 				cpuArchitecture = getHostCpuType(session),
 				distribution = getDistribution(session, distro) ,
 				installedSoftware = distro?.listPackages(session) ?: listOf(),
 		        totalMemory = getTotalMemory(session)
-		                                   )
-		host.capabilities = capabilities
+		                       )
 	}
 
 	fun getTotalMemory(session: ClientSession): Long {

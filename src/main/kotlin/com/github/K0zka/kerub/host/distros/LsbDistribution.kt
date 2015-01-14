@@ -13,17 +13,18 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 	}
 
 	override fun getVersion(session: ClientSession): Version {
+		val versionString = readLsbReleaseProperties(session)
+				.getProperty("VERSION_ID")
+				?.replaceAll("\"", "")
 		return Version.fromVersionString(
-				readLsbReleaseProperties(session)
-						.getProperty("VERSION_ID")
-						?.replaceAll("\"", ""))
+					versionString ?: "unknown")
 	}
 
 	override fun detect(session: ClientSession): Boolean {
 		return distroName.equalsIgnoreCase(
 				readLsbReleaseProperties(session)
 						.getProperty("NAME")
-						?.replaceAll("\"", ""))
+						?.replaceAll("\"", "") ?: "unknown")
 	}
 
 

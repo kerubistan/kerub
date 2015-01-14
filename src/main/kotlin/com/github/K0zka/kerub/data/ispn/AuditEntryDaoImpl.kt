@@ -9,9 +9,8 @@ import org.infinispan.query.Search
 
 public class AuditEntryDaoImpl(protected val cache : AdvancedCache<UUID, AuditEntry>) : AuditEntryDao{
 	override fun add(entry: AuditEntry): UUID {
-		entry.id = UUID.randomUUID()
 		cache.putAsync(entry.id, entry)
-		return entry.id!!
+		return entry.id
 	}
 	override fun listById(id: UUID): List<AuditEntry> {
 		return Search.getQueryFactory(cache)!!

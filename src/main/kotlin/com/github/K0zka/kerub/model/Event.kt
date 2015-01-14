@@ -4,10 +4,11 @@ import java.util.UUID
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 JsonTypeName("event")
-public data class Event() : Entity<UUID> {
-	override var id: UUID? = null
-	var userId : UUID? = null
-	var message: String? = null
-	var date : Long? = null
-	var messageType : EventType? = null
+public data class Event(
+		override val id: UUID = UUID.randomUUID(),
+		var userId: UUID,
+		var message: String,
+		var date: Long,
+		var messageType: EventType
+                       ) : Entity<UUID> {
 }

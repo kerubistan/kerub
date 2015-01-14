@@ -30,7 +30,7 @@ public class HostManagerImpl (val keyPair : KeyPair, val hostDao : HostDao, val 
 	public var sshServerPort : Int = defaultSshServerPort
 	public var sshUserName : String = defaultSshUserName
 	protected val sshClient : SshClient = SshClient.setUpDefaultClient()
-	private val connections = Collections.synchronizedMap(mapOf<String, ClientSession>())
+	private val connections = Collections.synchronizedMap(hashMapOf<String, ClientSession>())
 
 	fun start() {
 		sshClient.start()

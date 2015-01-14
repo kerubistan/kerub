@@ -27,6 +27,7 @@ import org.junit.runners.Parameterized.Parameters
 import org.junit.runners.Parameterized
 import kotlin.test.assertNotNull
 import kotlin.test.assertEquals
+import java.util.UUID
 
 RunWith(javaClass<Parameterized>())
 public class HostCapabilitiesDiscovererTest(
@@ -167,11 +168,16 @@ apt-transport-https	1.0.1ubuntu2.1""")
 	}
 
 	Test fun discoverHost() {
-		val host = Host()
-		discoverer!!.discoverHost(host, session!!)
-		assertNotNull(host.capabilities)
-		assertEquals(distroName, host.capabilities?.distribution?.name)
-		assertEquals(cpuArchitecture, host.capabilities?.cpuArchitecture)
+		val host = Host(
+				id = UUID.randomUUID(),
+		        address = "127.0.0.1",
+		        publicKey = "",
+		        dedicated = true
+		               )
+		val capabilities = discoverer!!.discoverHost(session!!)
+		assertNotNull(capabilities)
+		assertEquals(distroName, capabilities?.distribution?.name)
+		assertEquals(cpuArchitecture, capabilities?.cpuArchitecture)
 	}
 
 }

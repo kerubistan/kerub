@@ -16,7 +16,7 @@ RunWith(javaClass<MockitoJUnitRunner>())
 class IspnDaoBaseTest {
 
 	class TestEntity : Entity<String>{
-		override var id: String? = null
+		override var id: String = "TEST"
 	}
 
 	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener)

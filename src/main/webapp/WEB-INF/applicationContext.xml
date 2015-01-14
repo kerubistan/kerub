@@ -186,9 +186,16 @@
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
+    <bean id="objectMapper"
+          class="com.github.K0zka.kerub.utils.UtilsPackage"
+          factory-method="createObjectMapper">
+    </bean>
+
     <jaxrs:server id="customerService" address="/r" serviceName="r" >
         <jaxrs:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+                <constructor-arg ref="objectMapper"/>
+            </bean>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">

@@ -1,8 +1,9 @@
-var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout) {
+var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.host = {
         "@type" : 'host',
+        id : uuid4.generate(),
         address : '',
         publicKey : '',
         dedicated : true

@@ -4,7 +4,7 @@ import org.hibernate.search.annotations.Field
 import com.github.K0zka.kerub.os.OperatingSystem
 import com.github.K0zka.kerub.utils.SoftwarePackage
 
-class HostCapabilities(
+public class HostCapabilities(
 		Field
 		val os: OperatingSystem?,
 		Field

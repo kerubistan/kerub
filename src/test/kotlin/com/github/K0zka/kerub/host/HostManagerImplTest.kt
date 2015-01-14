@@ -21,6 +21,7 @@ import java.io.OutputStream
 import org.apache.sshd.server.ExitCallback
 import org.apache.sshd.server.Environment
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import java.util.UUID
 
 RunWith(javaClass<MockitoJUnitRunner>())
 public class HostManagerImplTest {
@@ -104,8 +105,11 @@ public class HostManagerImplTest {
 
 	Test
 	fun connectHost() {
-		val host = Host()
-		host.address = "127.0.0.1"
+		val host = Host(id = UUID.randomUUID(),
+		                address = "127.0.0.1",
+		                capabilities = null,
+		                dedicated = false,
+		                publicKey = "")
 		hostManager!!.connectHost(host)
 		Thread.sleep(1000)
 	}

@@ -14,7 +14,7 @@
         <url>https://github.com/K0zka/</url>
     </organization>
     <properties>
-        <kotlin.version>0.9.66</kotlin.version>
+        <kotlin.version>0.10.4</kotlin.version>
         <spring.version>4.1.1.RELEASE</spring.version>
         <cxf.version>3.0.3</cxf.version>
         <infinispan.version>7.0.2.Final</infinispan.version>
@@ -22,6 +22,7 @@
         <angular-bootstrap.version>0.11.2</angular-bootstrap.version>
         <slf4j.version>1.7.7</slf4j.version>
         <cucumber.version>1.2.0</cucumber.version>
+        <jackson.version>2.4.5</jackson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -64,6 +65,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>angular-uuid4</artifactId>
+            <version>0.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -151,7 +157,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.4.2</version>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hornetq</groupId>
@@ -271,7 +282,8 @@
                         <source>webjars/angularjs/${angularjs.version}/angular-mocks.js</source>
                         <source>webjars/angularjs/${angularjs.version}/angular-route.js</source>
                         <source>webjars/angularjs/${angularjs.version}/angular-loader.js</source>
-                        <source>webjars/angular-ui-bootstrap/${angular-bootstrap.version}/ui-bootstrap-tpls.min.js</source>
+                        <source>webjars/angular-ui-bootstrap/${angular-bootstrap.version}/ui-bootstrap-tpls.min.js
+                        </source>
                         <source>${project.basedir}/src/main/webapp/js/app.js</source>
                     </preloadSources>
                 </configuration>
@@ -300,10 +312,12 @@
                             <locations>com.github.K0zka.kerub</locations>
                             <apiVersion>${project.version}</apiVersion>
                             <basePath>/</basePath>
-			                <outputTemplate>${basedir}/src/build/templates/strapdown.html.mustache</outputTemplate>
-                            <swaggerDirectory>${project.build.directory}/${project.build.finalName}/apidoc</swaggerDirectory>
+                            <outputTemplate>${basedir}/src/build/templates/strapdown.html.mustache</outputTemplate>
+                            <swaggerDirectory>${project.build.directory}/${project.build.finalName}/apidoc
+                            </swaggerDirectory>
                             <mustacheFileRoot>${basedir}/src/build//templates/</mustacheFileRoot>
-                            <outputPath>${project.build.directory}/${project.build.finalName}/apidoc/index.html</outputPath>
+                            <outputPath>${project.build.directory}/${project.build.finalName}/apidoc/index.html
+                            </outputPath>
                         </apiSource>
                     </apiSources>
                 </configuration>

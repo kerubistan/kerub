@@ -37,10 +37,10 @@ public class AssignmentDaoImplTest {
 
 	Test
 	fun listByController() {
-		val assignment = Assignment()
-		assignment.controller = "TEST"
-		assignment.hostId = UUID.randomUUID()
-		assignment.id = UUID.randomUUID()
+		val assignment = Assignment(id = UUID.randomUUID(),
+		                            hostId = UUID.randomUUID(),
+		                            controller = "TEST"
+		                            )
 		dao!!.add(assignment)
 		val list = dao!!.listByController("TEST")
 

@@ -7,6 +7,8 @@ import org.hibernate.search.annotations.Field
 
 Indexed
 class AuditEntry(
+		DocumentId
+		override val id: UUID = UUID.randomUUID(),
 		Field
 		val old : Entity<UUID>? = null,
 		Field
@@ -17,6 +19,4 @@ class AuditEntry(
 		val user : UUID? = null,
 		Field
 		val event : AuditEventType = AuditEventType.Update) : Entity<UUID> {
-	DocumentId
-	override var id: UUID? = null
 }
