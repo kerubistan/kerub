@@ -17,7 +17,7 @@ public class HostServiceImpl(
 : ListableBaseService<Host>(dao, "host"), HostService {
 	override fun join(hostPwd: HostAndPassword): Host {
 		val session = sshClientService.loginWithPassword(
-				address = hostPwd.host.address!!,
+				address = hostPwd.host.address,
 				userName = "root",
 				password = hostPwd.password)
 		sshClientService.installPublicKey(session)
@@ -32,6 +32,6 @@ public class HostServiceImpl(
 
 	override fun getHostPubkey(address: String): HostPubKey {
 		val publicKey = manager.getHostPublicKey(address)
-		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), KeyUtils.getFingerPrint(publicKey)!!)
+		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), KeyUtils.getFingerPrint(publicKey))
 	}
 }
