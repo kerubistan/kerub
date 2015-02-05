@@ -5,6 +5,6 @@ import java.util.UUID
 data class Disk(
 		override val id: UUID,
 		var size : Long,
-		var expectations : List<Expectation> = listOf()
+		var expectations : List<Expectation> = serializableListOf()
                ) : Entity<UUID> {
 }
