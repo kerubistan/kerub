@@ -23,6 +23,7 @@
         <slf4j.version>1.7.7</slf4j.version>
         <cucumber.version>1.2.0</cucumber.version>
         <jackson.version>2.4.5</jackson.version>
+        <jetty.version>9.2.2.v20140723</jetty.version>
     </properties>
     <dependencies>
         <dependency>
@@ -223,7 +224,7 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.2.2.v20140723</version>
+                <version>${jetty.version}</version>
                 <configuration>
                     <stopPort>8081</stopPort>
                     <stopKey>stop</stopKey>
@@ -251,6 +252,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-util</artifactId>
+                        <version>${jetty.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
