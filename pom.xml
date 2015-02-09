@@ -26,7 +26,7 @@
         <infinispan.version>7.2.2.Final</infinispan.version>
         <angularjs.version>1.4.1</angularjs.version>
         <angular-bootstrap.version>0.13.0</angular-bootstrap.version>
-        <slf4j.version>1.7.7</slf4j.version>
+        <slf4j.version>1.7.10</slf4j.version>
         <cucumber.version>1.2.2</cucumber.version>
         <jackson.version>2.5.3</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
