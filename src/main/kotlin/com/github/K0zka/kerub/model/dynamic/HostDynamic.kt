@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.Entity
  */
 public class HostDynamic(
 		override val id: UUID,
-		var status : HostStatus,
-		var controlNode : UUID
-                        ) : Entity<UUID> {
-}
+		var status: HostStatus,
+		var controlNode: UUID
+                        )
+: Entity<UUID>

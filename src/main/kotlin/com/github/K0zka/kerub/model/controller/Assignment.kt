@@ -16,5 +16,5 @@ public data class Assignment(
 		JsonProperty("hostId")
 		Field
 		var hostId: UUID
-                            ) : Entity<UUID> {
-}
+                            )
+: Entity<UUID>

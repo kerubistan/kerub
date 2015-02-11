@@ -6,5 +6,4 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 JsonTypeName("unsubscribe")
 JsonCreator
-public class UnsubscribeMessage (JsonProperty("channel") val channel : String) : Message {
-}
+public class UnsubscribeMessage (JsonProperty("channel") val channel: String) : Message

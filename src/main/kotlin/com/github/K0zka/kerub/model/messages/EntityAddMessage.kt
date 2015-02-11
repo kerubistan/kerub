@@ -6,5 +6,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
 
 JsonTypeName("entity-add")
 JsonCreator
-public class EntityAddMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date) {
-}
+public class EntityAddMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)

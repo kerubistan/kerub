@@ -28,5 +28,5 @@ public class Project(
 		Field
 		JsonProperty("expectations")
 		val expectations: List<Expectation> = serializableListOf()
-                    ) : Entity<UUID> {
-}
+                    )
+: Entity<UUID>

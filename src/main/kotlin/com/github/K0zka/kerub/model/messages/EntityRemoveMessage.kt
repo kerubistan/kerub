@@ -6,5 +6,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
 
 JsonTypeName("entity-remove")
 JsonCreator
-public class EntityRemoveMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date) {
-}
+public class EntityRemoveMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)

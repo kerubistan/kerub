@@ -6,6 +6,5 @@ import javax.xml.bind.annotation.XmlRootElement
 XmlRootElement(name = "network")
 data class Network(
 		override val id: UUID
-                  ) : Entity<UUID> {
-
-}
+                  )
+: Entity<UUID>

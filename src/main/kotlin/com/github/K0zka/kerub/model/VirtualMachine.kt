@@ -10,7 +10,7 @@ data class VirtualMachine(
 		DocumentId
 		override val id: UUID,
 		/**
-		 * Name of the VM, which is not necesarily a unique identifier, but helps to find the VM.
+		 * Name of the VM, which is not necessarily a unique identifier, but helps to find the VM.
 		 */
 		Field
 		var name: String,
@@ -32,5 +32,6 @@ data class VirtualMachine(
 		 * Disks of the VM
 		 */
 		var disks: List<Disk> = serializableListOf()
-                         ) : Entity<UUID> {
-}
+                         )
+: Entity<UUID>
+

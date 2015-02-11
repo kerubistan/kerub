@@ -4,5 +4,4 @@ import java.util.UUID
 
 public data class VirtualMachineDynamic(
 		val id : UUID
-                                       ) {
-}
+                                       )

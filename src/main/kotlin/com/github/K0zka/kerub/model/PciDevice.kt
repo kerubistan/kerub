@@ -5,11 +5,10 @@ import org.hibernate.search.annotations.Field
 
 public class PciDevice(
 		Field
-		val device : String,
+		val device: String,
 		Field
-        val devClass : String,
+		val devClass: String,
 		Field
-        val vendor : String
-                      ) : Serializable {
-
-}
+		val vendor: String
+                      )
+: Serializable

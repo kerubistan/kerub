@@ -6,5 +6,5 @@ public data class ControllerDynamic(val controllerId : String,
                                     val maxHosts : Int,
                                     val totalHosts : Int,
                                     val addresses : List<String>) : Entity<String> {
-	override var id: String = controllerId
+	override val id: String = controllerId
 }

@@ -6,5 +6,4 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 JsonTypeName("pong")
 JsonCreator
-public class PongMessage (JsonProperty("sent")val sent : Long = System.currentTimeMillis()) : Message {
-}
+public class PongMessage (JsonProperty("sent") val sent: Long = System.currentTimeMillis()) : Message

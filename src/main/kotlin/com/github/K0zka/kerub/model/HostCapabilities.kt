@@ -13,9 +13,10 @@ public data class HostCapabilities (
 		Field
 		val installedSoftware: List<SoftwarePackage> = serializableListOf(),
 		Field
-		val devices : List<PciDevice> = serializableListOf(),
-        Field
-        val cpuArchitecture : String,
-        Field
-		val totalMemory : Long
-		) : Serializable
+		val devices: List<PciDevice> = serializableListOf(),
+		Field
+		val cpuArchitecture: String,
+		Field
+		val totalMemory: Long
+                                   )
+: Serializable

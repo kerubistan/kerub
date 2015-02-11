@@ -6,6 +6,4 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 JsonTypeName("subscribe")
 JsonCreator
-public class SubscribeMessage(JsonProperty("channel") val channel: String) : Message {
-
-}
+public class SubscribeMessage(JsonProperty("channel") val channel: String) : Message

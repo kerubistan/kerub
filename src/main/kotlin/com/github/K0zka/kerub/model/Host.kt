@@ -32,5 +32,5 @@ data class Host [JsonCreator] (
 		Field
 		JsonProperty("capabilities")
 		val capabilities: HostCapabilities? = null
-               ) : Entity<UUID> {
-}
+                              )
+: Entity<UUID>

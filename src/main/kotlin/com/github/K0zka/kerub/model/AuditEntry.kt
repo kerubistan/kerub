@@ -10,13 +10,13 @@ class AuditEntry(
 		DocumentId
 		override val id: UUID = UUID.randomUUID(),
 		Field
-		val old : Entity<UUID>? = null,
+		val old: Entity<UUID>? = null,
 		Field
-		val new : Entity<UUID>? = null,
+		val new: Entity<UUID>? = null,
 		Field
-		val date : Long = System.currentTimeMillis(),
+		val date: Long = System.currentTimeMillis(),
 		Field
-		val user : UUID? = null,
+		val user: UUID? = null,
 		Field
-		val event : AuditEventType = AuditEventType.Update) : Entity<UUID> {
-}
+		val event: AuditEventType = AuditEventType.Update)
+: Entity<UUID>
