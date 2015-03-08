@@ -13,7 +13,7 @@ public class Ubuntu() : LsbDistribution("Ubuntu") {
 				.trim()
 				.split('\n').map {
 			val split = it.split('\t')
-			if (split.size != 2) {
+			if (split.size() != 2) {
 				throw IllegalArgumentException("Does not match expected input from dpkg-query: ${it}")
 			}
 			SoftwarePackage(split[0], Version.fromVersionString(split[1]))

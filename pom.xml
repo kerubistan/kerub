@@ -21,7 +21,7 @@
         <angularjs.version>1.2.28</angularjs.version>
         <angular-bootstrap.version>0.12.0</angular-bootstrap.version>
         <slf4j.version>1.7.7</slf4j.version>
-        <cucumber.version>1.2.0</cucumber.version>
+        <cucumber.version>1.2.2</cucumber.version>
         <jackson.version>2.4.5</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
         <shiro.version>1.2.3</shiro.version>
@@ -219,6 +219,24 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
