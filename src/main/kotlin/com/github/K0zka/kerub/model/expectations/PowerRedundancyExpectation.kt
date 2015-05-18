@@ -1,14 +1,14 @@
 package com.github.K0zka.kerub.model.expectations
 
 import com.github.K0zka.kerub.model.Expectation
-import java.util.UUID
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
+import java.util.UUID
 import com.github.K0zka.kerub.model.ExpectationLevel
 
-JsonTypeName("cpu-architecture")
-data class VirtualMachineAvailabilityExpectation [JsonCreator] (
+JsonTypeName("power-redundancy")
+data class PowerRedundancyExpectation [JsonCreator] (
 		override val id: UUID,
 		override val level : ExpectationLevel = ExpectationLevel.Want,
-		val up: Boolean = true
-                                                               ) : Expectation
+		val minPowerCords: Int
+                                                      ) : Expectation

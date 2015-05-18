@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.ExpectationLevel
 
-JsonTypeName("cpu-architecture")
-data class VirtualMachineAvailabilityExpectation [JsonCreator] (
+JsonTypeName("storage-redundancy")
+data class StorageRedundancyExpectation [JsonCreator] (
 		override val id: UUID,
-		override val level : ExpectationLevel = ExpectationLevel.Want,
-		val up: Boolean = true
-                                                               ) : Expectation
+		override val level : ExpectationLevel = ExpectationLevel.DealBreaker,
+		val nrOfCopies: Int
+                                          ) : Expectation

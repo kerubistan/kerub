@@ -5,4 +5,5 @@ import java.io.Serializable
 
 data trait Expectation : Serializable {
 	val id : UUID
+	val level : ExpectationLevel
 }
