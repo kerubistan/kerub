@@ -18,7 +18,7 @@ import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import java.io.StringWriter
 
 public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
-	protected class object {
+	protected companion object {
 		private fun init() : ObjectMapper {
 			val mapper = ObjectMapper()
 			mapper.enableDefaultTyping()
@@ -37,7 +37,7 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 
 	fun send(session : WebSocketSession, message : Message) {
 		StringWriter().use {
-			objectMapper.writer()?.writeValue(it, message)
+			objectMapper.writeValue(it, message)
 			session.sendMessage( TextMessage( it.toString() ) )
 		}
 	}
@@ -45,18 +45,18 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 	override fun handleTextMessage(session: WebSocketSession?, message: TextMessage?) {
 		logger.info("text message {}",message)
 
-		val msg = objectMapper.reader(javaClass<Message>())?.readValue<Message>(message?.getPayload())
+		val msg = objectMapper.readValue<Message>(message?.getPayload(), javaClass<Message>())
 
 		when(msg) {
 			is PingMessage -> {
 				send(session!!, PongMessage())
 			}
 			is SubscribeMessage -> {
-				logger.info("subscribe to {}", (msg as SubscribeMessage).channel)
+				logger.info("subscribe to {}", (msg : SubscribeMessage).channel)
 
 			}
 			is UnsubscribeMessage -> {
-				logger.info("unsubscribe from {}", (msg as UnsubscribeMessage).channel)
+				logger.info("unsubscribe from {}", (msg : UnsubscribeMessage).channel)
 			}
 		}
 	}

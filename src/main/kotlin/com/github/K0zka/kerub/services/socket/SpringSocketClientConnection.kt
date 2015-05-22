@@ -9,13 +9,13 @@ import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.TextMessage
 
 public class SpringSocketClientConnection(val session : WebSocketSession, val mapper : ObjectMapper) : ClientConnection{
-	private class object val logger = getLogger(javaClass<SpringSocketClientConnection>())
+	private companion object val logger = getLogger(javaClass<SpringSocketClientConnection>())
 	val subscriptions : MutableSet<String> = HashSet()
 	fun removeSubscription(channel : String) {
 
 	}
 	override fun filterAndSend(msg: Message) {
 		//TODO: filter first
-		session.sendMessage(TextMessage(mapper.writer().writeValueAsString(msg)))
+		session.sendMessage(TextMessage(mapper.writeValueAsString(msg)))
 	}
 }

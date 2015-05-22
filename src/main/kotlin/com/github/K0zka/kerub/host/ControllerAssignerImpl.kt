@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.data.ControllerDao
 import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
-import com.github.K0zka.kerub.utils.plus
 
 /*
  * This is considered a placeholder for the logic that assigns hosts to controllers.
@@ -71,7 +70,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 		}
 	}
 
-	class object {
+	companion object {
 		fun hostScore(host : Host) : Int {
 			return 1 //TODO
 		}

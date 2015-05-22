@@ -5,7 +5,7 @@ package com.github.K0zka.kerub.security
  * See permissions assigned to roles in roles.ini
  */
 public enum class Roles(val name: String) {
-	public class object {
+	public companion object {
 		val admin = "admin"
 		val powerUser = "poweruser"
 		val user = "user"

@@ -10,10 +10,9 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import java.util.UUID
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
 
-
 public class DmiDecoder {
 
-	class object {
+	companion object {
 		platformStatic fun split(input: String): List<String> =
 				input.split("\n\n") //empty line
 						.filter { it.startsWith("Handle 0x") }

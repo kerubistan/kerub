@@ -7,8 +7,8 @@ import com.github.K0zka.kerub.utils.getLogger
 import javax.ws.rs.core.Response.Status
 
 public class UnauthenticatedExceptionMapper : ExceptionMapper<UnauthenticatedException> {
-	class object {
-		val logger = getLogger(javaClass<UnauthenticatedExceptionMapper>())
+	companion object {
+		private val logger = getLogger(javaClass<UnauthenticatedExceptionMapper>())
 	}
 	override fun toResponse(exception: UnauthenticatedException?): Response? {
 		logger.debug("Not authenticated", exception)

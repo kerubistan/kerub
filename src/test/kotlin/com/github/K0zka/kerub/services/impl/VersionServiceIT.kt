@@ -11,7 +11,7 @@ import com.github.K0zka.kerub.utils.getLogger
 
 public class VersionServiceIT {
 
-	class object val logger = getLogger(javaClass<VersionServiceIT>())
+	private companion object val logger = getLogger(javaClass<VersionServiceIT>())
 
 	Test
 	fun getVersionInfo() {

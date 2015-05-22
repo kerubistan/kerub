@@ -23,7 +23,7 @@ class VersionServiceImpl : VersionService {
 		return version
 	}
 
-	class object {
+	companion object {
 		private val logger = getLogger(javaClass<VersionServiceImpl>())
 		fun buildVersionInfo(): VersionInfo {
 			val pack = javaClass<VersionServiceImpl>().getPackage()

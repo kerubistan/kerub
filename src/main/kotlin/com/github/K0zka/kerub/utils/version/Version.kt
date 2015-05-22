@@ -12,7 +12,7 @@ public data class Version (Field val major : String,
 	override fun compareTo(other: Version): Int {
 		return -1
 	}
-	class object {
+	companion object {
 		private val logger = getLogger(javaClass<Version>())
 
 		private val empty = ""

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 public open class Executor : ApplicationContextAware {
 	private var appCtx : ApplicationContext? = null
 
-	private class object val logger = LoggerFactory.getLogger(javaClass())!!
+	private companion object val logger = LoggerFactory.getLogger(javaClass<Executor>())!!
 
 	override fun setApplicationContext(applicationContext: ApplicationContext?) {
 		appCtx = applicationContext

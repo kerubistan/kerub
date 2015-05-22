@@ -38,7 +38,7 @@ public class HostCapabilitiesDiscovererTest(
 		val commands: Map<String, String>,
 		val files: Map<String, String>) {
 
-	class object {
+	companion object {
 		platformStatic Parameters fun parameters(): List<Array<Any>> = listOf(
 				array<Any>(
 						"Fedora",

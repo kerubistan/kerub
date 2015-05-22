@@ -8,8 +8,8 @@ import com.github.K0zka.kerub.utils.getLogger
 
 public class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationException> {
 
-	class object {
-		val logger = getLogger(javaClass<AuthorizationExceptionMapper>())
+	companion object {
+		private val logger = getLogger(javaClass<AuthorizationExceptionMapper>())
 	}
 
 	override fun toResponse(exception: AuthorizationException?): Response {

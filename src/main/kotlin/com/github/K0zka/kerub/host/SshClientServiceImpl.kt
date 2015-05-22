@@ -15,7 +15,7 @@ public class SshClientServiceImpl(
 		val maxWait : Long = 500,
 		val maxWaitUnit : TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
 
-	class object {
+	companion object {
 		val logger = getLogger(javaClass<SshClientServiceImpl>())
 	}
 
