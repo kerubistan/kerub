@@ -51,7 +51,7 @@ public class SshClientUtilsTest {
 		val virtualFileSystemFactory = VirtualFileSystemFactory()
 		virtualFileSystemFactory.setUserHomeDir(testUserName, rootDir!!.getAbsolutePath())
 		server?.setFileSystemFactory(virtualFileSystemFactory)
-		server?.setPasswordAuthenticator {(userName: String, password: String, serverSession: ServerSession) ->
+		server?.setPasswordAuthenticator {userName: String, password: String, serverSession: ServerSession ->
 			userName == testUserName && password == testUserPassword
 		}
 		server?.setUserAuthFactories(listOf<NamedFactory<UserAuth>>(UserAuthPassword.Factory(), UserAuthNone.Factory()))
@@ -61,7 +61,7 @@ public class SshClientUtilsTest {
 
 		//start ssh client
 		client = SshClient.setUpDefaultClient()
-		client?.setServerKeyVerifier {(clientSession: ClientSession, socketAddress: SocketAddress, publicKey: PublicKey) -> true }
+		client?.setServerKeyVerifier {clientSession: ClientSession, socketAddress: SocketAddress, publicKey: PublicKey -> true }
 		client?.setUserAuthFactories(listOf<NamedFactory<org.apache.sshd.client.UserAuth>>(org.apache.sshd.client.auth.UserAuthPassword.Factory()))
 		client?.start()
 		session = client?.connect(testUserName, "localhost", sshPort)?.addListener { it.getSession().addPasswordIdentity(testUserPassword) }?.await()?.getSession()
