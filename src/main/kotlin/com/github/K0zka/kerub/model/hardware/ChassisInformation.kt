@@ -4,5 +4,5 @@ data class ChassisInformation (
 		val manufacturer : String,
         val type : String,
         val height : Int?,
-        val nrOfPowerCords : Int
+        val nrOfPowerCords : Int?
                               )

@@ -7,10 +7,10 @@ data class ProcessorInformation(
 		val flags: List<String>,
 		val socket: String,
 		val version: String,
-		val maxSpeedMhz: Int,
+		val maxSpeedMhz: Int?,
 		val coreCount: Int,
 		val threadCount: Int,
-		val voltage: BigDecimal,
+		val voltage: BigDecimal?,
 		val l1cache: CacheInformation? = null,
 		val l2cache: CacheInformation? = null,
 		val l3cache: CacheInformation? = null
