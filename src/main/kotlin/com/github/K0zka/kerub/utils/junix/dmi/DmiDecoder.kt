@@ -36,7 +36,7 @@ public class DmiDecoder {
 					ChassisInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							height = input.optionalIntBetween("Height: ", "\n"),
-							nrOfPowerCords = input.intBetween("Number Of Power Cords: ", "\n"),
+							nrOfPowerCords = input.optionalIntBetween("Number Of Power Cords: ", "\n"),
 							type = input.substringBetween("Type: ", "\n")
 					                  )
 				},
@@ -45,10 +45,10 @@ public class DmiDecoder {
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							coreCount = input.intBetween("Core Count: ", "\n"),
 							threadCount = input.intBetween("Thread Count: ", "\n"),
-							maxSpeedMhz = input.intBetween("Max Speed: ", " MHz"),
+							maxSpeedMhz = input.optionalIntBetween("Max Speed: ", " MHz\n"),
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							version = input.substringBetween("Version: ", "\n"),
-							voltage = BigDecimal(input.substringBetween("Voltage: ", " V")),
+							voltage = input.bigDecimalBetween("Voltage: ", " V\n"),
 							l1cache = dependencies[input.substringBetween("L1 Cache Handle: ", "\n")] as CacheInformation?,
 							l2cache = dependencies[input.substringBetween("L2 Cache Handle: ", "\n")] as CacheInformation?,
 							l3cache = dependencies[input.substringBetween("L3 Cache Handle: ", "\n")] as CacheInformation?,
@@ -70,12 +70,12 @@ public class DmiDecoder {
 			                manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 			                type = input.substringBetween("Type: ", "\n"),
 			                bankLocator = input.substringBetween("Bank Locator: ", "\n"),
-			                configuredSpeedMhz = input.intBetween("Configured Clock Speed: "," MHz"),
+			                configuredSpeedMhz = input.optionalIntBetween("Configured Clock Speed: "," MHz"),
 			                formFactor = input.substringBetween("Form Factor: ","\n"),
 			                locator = input.substringBetween("Locator: ","\n"),
 			                partNumber = input.substringBetween("Part Number: ", "\n"),
 			                serialNumber = input.substringBetween("Serial Number: ","\n"),
-			                speedMhz = input.intBetween("Speed: ", " MHz")
+			                speedMhz = input.optionalIntBetween("Speed: ", " MHz")
 			                         )
 
 		        }

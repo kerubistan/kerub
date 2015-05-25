@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
+import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import org.junit.Test
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
@@ -90,6 +92,33 @@ Built-in Pointing Device
 		assert(l3Cache.sizeKb == 3072)
 		assert(l3Cache.speedNs == null)
 		assert(l3Cache.errorCorrection == "Single-bit ECC")
+	}
+
+	Test
+	fun parseWithQemu() {
+		val devices = DmiDecoder.parse(qemuKvm)
+		val systemInfo = devices["0x0100"] as SystemInformation
+		assert(systemInfo.manufacturer == "QEMU")
+		assert(systemInfo.version == "pc-i440fx-2.1")
+		assert(systemInfo.uuid == UUID.fromString("99163626-EDCF-FB4C-A81C-A7FD9EAA058E"))
+
+		val chassisInfo = devices["0x0300"] as ChassisInformation
+		assert(chassisInfo.manufacturer == "QEMU")
+		assert(chassisInfo.nrOfPowerCords == null)
+		assert(chassisInfo.type == "Other")
+
+		val procInfo = devices["0x0400"] as ProcessorInformation
+		assert(procInfo.manufacturer == "QEMU")
+		assert(procInfo.version == "pc-i440fx-2.1")
+		assert(procInfo.coreCount == 1)
+		assert(procInfo.l1cache == null)
+		assert(procInfo.l2cache == null)
+		assert(procInfo.l3cache == null)
+
+		val memInfo = devices["0x1100"] as MemoryInformation
+		assert(memInfo.manufacturer == "QEMU")
+		assert(memInfo.speedMhz == null)
+		assert(memInfo.formFactor == "DIMM")
 	}
 
 }
