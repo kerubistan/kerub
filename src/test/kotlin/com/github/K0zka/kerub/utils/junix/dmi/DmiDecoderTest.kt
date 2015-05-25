@@ -121,4 +121,9 @@ Built-in Pointing Device
 		assert(memInfo.formFactor == "DIMM")
 	}
 
+	Test
+	fun parseWithNonGnu() {
+		//a totally scrapped output
+		val devices = DmiDecoder.parse(nongnu)
+	}
 }

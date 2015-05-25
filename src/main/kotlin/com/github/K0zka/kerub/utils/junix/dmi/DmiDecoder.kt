@@ -9,10 +9,12 @@ import java.util.HashMap
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import java.util.UUID
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
+import com.github.K0zka.kerub.utils.getLogger
 
 public class DmiDecoder {
 
 	companion object {
+		val logger = getLogger(javaClass<DmiDecoder>())
 		platformStatic fun split(input: String): List<String> =
 				input.split("\n\n") //empty line
 						.filter { it.startsWith("Handle 0x") }
@@ -91,7 +93,11 @@ public class DmiDecoder {
 				val recordsOfType = recordsByType[type]
 				for (record in recordsOfType ?: listOf()) {
 					val resolver = mappers[type]!!
-					recordsByHandle.put(handle(record), resolver(record.concat("\n") , recordsByHandle))
+					try {
+						recordsByHandle.put(handle(record), resolver(record.concat("\n") , recordsByHandle))
+					} catch (iae: IllegalArgumentException) {
+						logger.warn("Structure could not be parsed: {}", record, iae)
+					}
 				}
 			}
 			return recordsByHandle

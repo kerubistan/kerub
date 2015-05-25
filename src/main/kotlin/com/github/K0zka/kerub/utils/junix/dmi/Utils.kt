@@ -19,7 +19,7 @@ fun String.intBetween(prefix: String, postfix : String) : Int =
 
 fun String.optionalIntBetween(prefix: String, postfix : String) : Int? {
 	try {
-		return this.substringAfter(prefix).substringBefore(postfix).toInt()
+		return this.substringBetween(prefix, postfix).toInt()
 	} catch (nfe : NumberFormatException) {
 		return null
 	}
