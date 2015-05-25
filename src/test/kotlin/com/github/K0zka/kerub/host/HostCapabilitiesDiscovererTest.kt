@@ -40,7 +40,7 @@ public class HostCapabilitiesDiscovererTest(
 
 	companion object {
 		platformStatic Parameters fun parameters(): List<Array<Any>> = listOf(
-				array<Any>(
+				array(
 						"Fedora",
 						"x86_64",
 						Version("3","16","6"),
@@ -95,7 +95,7 @@ apt-transport-https	1.0.1ubuntu2.1""")
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
 			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
 			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
-			Mockito.`when`(ret.getSize()).thenReturn(contents?.length()?.toLong() ?: 0)
+			Mockito.`when`(ret.getSize()).thenReturn(contents.length().toLong())
 			Mockito.`when`(ret.isReadable()).thenReturn(true)
 			Mockito.`when`(ret.isFile()).thenReturn(true)
 			Mockito.`when`(ret.isWritable()).thenReturn(false)
@@ -150,7 +150,7 @@ apt-transport-https	1.0.1ubuntu2.1""")
 
 		sshServer = SshServer.setUpDefaultServer()
 		sshServer!!.setPort(2222)
-		sshServer!!.setPublickeyAuthenticator {(s, publicKey, serverSession) -> true }
+		sshServer!!.setPublickeyAuthenticator {s, publicKey, serverSession -> true }
 		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(getTestKey()))
 		sshServer!!.setSubsystemFactories(listOf<NamedFactory<Command>>(SftpSubsystem.Factory()))
 		sshServer!!.setFileSystemFactory {
@@ -172,16 +172,11 @@ apt-transport-https	1.0.1ubuntu2.1""")
 	}
 
 	Test fun discoverHost() {
-		val host = Host(
-				id = UUID.randomUUID(),
-		        address = "127.0.0.1",
-		        publicKey = "",
-		        dedicated = true
-		               )
 		val capabilities = HostCapabilitiesDiscoverer!!.discoverHost(session!!)
 		assertNotNull(capabilities)
 		assertEquals(distroName, capabilities?.distribution?.name)
 		assertEquals(cpuArchitecture, capabilities?.cpuArchitecture)
+		assertEquals(distroVersion, capabilities?.distribution?.version)
 	}
 
 }
