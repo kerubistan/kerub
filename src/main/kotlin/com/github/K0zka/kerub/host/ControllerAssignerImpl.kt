@@ -63,7 +63,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 				}
 						.map { ControllerAssignmentStep(host, it) }
 				.sortBy( {
-					         (step : ControllerAssignmentStep) ->
+					         step : ControllerAssignmentStep ->
 					            controllerScore( state.controllerStates.get(step.controller) )
 				         } )
 			}
