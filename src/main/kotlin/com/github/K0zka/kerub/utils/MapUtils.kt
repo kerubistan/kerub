@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.utils
 
 import java.util.HashMap
 
-public inline fun <K, V> Map<K, V>.toMutable() : MutableMap<K, V> {
+public fun <K, V> Map<K, V>.toMutable() : MutableMap<K, V> {
 	return HashMap(this)
 }
 

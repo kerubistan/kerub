@@ -11,7 +11,7 @@ public final class HistoryKey<out T> (val key: T, val time: Long = System.curren
 	}
 
 	override fun equals(other: Any?): Boolean {
-		return other is HistoryKey<*> && (other as HistoryKey<*>).key == key && (other as HistoryKey<*>).time == time
+		return other is HistoryKey<*> && (other : HistoryKey<*>).key == key && (other : HistoryKey<*>).time == time
 	}
 
 	override fun toString(): String {
