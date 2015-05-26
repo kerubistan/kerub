@@ -124,6 +124,6 @@ Built-in Pointing Device
 	Test
 	fun parseWithNonGnu() {
 		//a totally scrapped output
-		val devices = DmiDecoder.parse(nongnu)
+		DmiDecoder.parse(nongnu)
 	}
 }

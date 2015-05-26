@@ -24,7 +24,7 @@ public data class Version (Field val major : String,
 			return Version(split[0], split.elemOrNull(1), split.elemOrNull(2))
 		}
 	}
-	private inline fun dot(component : String?) : String? {
+	private fun dot(component : String?) : String? {
 		if(component == null) {
 			return ".${component}"
 		} else {

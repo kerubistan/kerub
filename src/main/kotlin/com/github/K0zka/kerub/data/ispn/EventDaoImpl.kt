@@ -12,9 +12,9 @@ public class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
 		return cache.count()
 	}
 
-	override fun add(event: Event): UUID {
+	override fun add(entity: Event): UUID {
 		val id = UUID.randomUUID()
-		cache.putAsync(id, event.copy(id = id))
+		cache.putAsync(id, entity.copy(id = id))
 		return id
 	}
 

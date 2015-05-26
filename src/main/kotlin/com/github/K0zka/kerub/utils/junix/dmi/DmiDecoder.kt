@@ -26,7 +26,7 @@ public class DmiDecoder {
 				input.substringBetween("Handle ", ",")
 
 		platformStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
-				1 to {(input: String, dependencies: Map<String, Any>): Any ->
+				1 to {input, dependencies ->
 					SystemInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 					        family = input.substringBetween("Family: ", "\n"),
@@ -34,7 +34,7 @@ public class DmiDecoder {
 					        uuid = UUID.fromString (input.substringBetween("UUID: ", "\n"))
 					                 )
 				},
-				3 to {(input: String, dependencies: Map<String, Any>): Any ->
+				3 to {input, dependencies ->
 					ChassisInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							height = input.optionalIntBetween("Height: ", "\n"),
@@ -42,7 +42,7 @@ public class DmiDecoder {
 							type = input.substringBetween("Type: ", "\n")
 					                  )
 				},
-				4 to {(input: String, dependencies: Map<String, Any>): Any ->
+				4 to {input, dependencies ->
 					ProcessorInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							coreCount = input.intBetween("Core Count: ", "\n"),
@@ -57,7 +57,7 @@ public class DmiDecoder {
 							flags = listOf()
 					                    )
 				},
-				7 to {(input: String, dependencies: Map<String, Any>): Any ->
+				7 to {input, dependencies ->
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
@@ -66,7 +66,7 @@ public class DmiDecoder {
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					                )
 				},
-		        17 to {(input: String, dependencies: Map<String, Any>): Any ->
+		        17 to {input, dependencies ->
 			        MemoryInformation(
 					        sizeMb = input.intBetween("Size: "," MB"),
 			                manufacturer = input.substringBetween("Manufacturer: ", "\n"),
