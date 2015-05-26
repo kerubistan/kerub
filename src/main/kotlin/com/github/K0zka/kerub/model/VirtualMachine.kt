@@ -23,7 +23,7 @@ data class VirtualMachine(
 		 * Memory allocation, a range (minimum-maximum)
 		 */
 		Field
-		var memory: Range<Int> = Range(1024, 2048),
+		var memoryMb: Range<Int> = Range(1024, 2048),
 		/**
 		 * List of expectations against the VM.
 		 */
