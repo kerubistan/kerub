@@ -25,7 +25,7 @@ public class HostManagerImpl (
 		val hostDynamicDao : HostDynamicDao) : HostManager {
 
 	companion object {
-		val logger = getLogger(javaClass<HostManagerImpl>())
+		val logger = getLogger(HostManagerImpl::class)
 		val defaultSshServerPort = 22
 		val defaultSshUserName = "root"
 	}
@@ -61,7 +61,7 @@ public class HostManagerImpl (
 			this.serverKey = serverKey
 			return true
 		}
-		companion object val logger = getLogger(javaClass<ServerKeyReader>())
+		companion object val logger = getLogger(ServerKeyReader::class)
 
 		var serverKey : PublicKey? = null
 	}

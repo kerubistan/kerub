@@ -18,7 +18,7 @@ import com.github.K0zka.kerub.host.distros.Fedora
  */
 public object HostCapabilitiesDiscoverer {
 
-	private val logger = getLogger(javaClass<HostCapabilitiesDiscoverer>())
+	private val logger = getLogger(HostCapabilitiesDiscoverer::class)
 	val distributions = listOf<Distribution>( Ubuntu(), Fedora(), Gentoo() )
 
 	fun discoverHost(session: ClientSession) : HostCapabilities {

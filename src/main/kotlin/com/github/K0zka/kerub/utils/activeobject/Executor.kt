@@ -1,13 +1,13 @@
 package com.github.K0zka.kerub.utils.activeobject
 
-import org.springframework.context.ApplicationContextAware
+import com.github.K0zka.kerub.utils.getLogger
 import org.springframework.context.ApplicationContext
-import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationContextAware
 
 public open class Executor : ApplicationContextAware {
 	private var appCtx : ApplicationContext? = null
 
-	private companion object val logger = LoggerFactory.getLogger(javaClass<Executor>())!!
+	private companion object val logger = getLogger(Executor::class)
 
 	override fun setApplicationContext(applicationContext: ApplicationContext?) {
 		appCtx = applicationContext

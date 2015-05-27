@@ -16,7 +16,7 @@ public class SshClientServiceImpl(
 		val maxWaitUnit : TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
 
 	companion object {
-		val logger = getLogger(javaClass<SshClientServiceImpl>())
+		val logger = getLogger(SshClientServiceImpl::class)
 	}
 
 	override fun installPublicKey(session: ClientSession) {

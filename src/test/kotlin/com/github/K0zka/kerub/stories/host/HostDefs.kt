@@ -8,7 +8,7 @@ import cucumber.api.java.After
 public class HostDefs {
 
 	companion object {
-		private val logger = getLogger(javaClass<HostDefs>())
+		private val logger = getLogger(HostDefs::class)
 	}
 
 	Given("^a host$")

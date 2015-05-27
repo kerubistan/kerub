@@ -14,7 +14,7 @@ import com.github.K0zka.kerub.utils.getLogger
 public class DmiDecoder {
 
 	companion object {
-		val logger = getLogger(javaClass<DmiDecoder>())
+		val logger = getLogger(DmiDecoder::class)
 		platformStatic fun split(input: String): List<String> =
 				input.split("\n\n") //empty line
 						.filter { it.startsWith("Handle 0x") }

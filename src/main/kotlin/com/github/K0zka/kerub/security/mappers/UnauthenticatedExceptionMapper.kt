@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response.Status
 
 public class UnauthenticatedExceptionMapper : ExceptionMapper<UnauthenticatedException> {
 	companion object {
-		private val logger = getLogger(javaClass<UnauthenticatedExceptionMapper>())
+		private val logger = getLogger(UnauthenticatedExceptionMapper::class)
 	}
 	override fun toResponse(exception: UnauthenticatedException?): Response? {
 		logger.debug("Not authenticated", exception)

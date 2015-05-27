@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.utils.getLogger
 
 public class VmDefs {
 	companion object {
-		private val logger = getLogger(javaClass<VmDefs>())
+		private val logger = getLogger(VmDefs::class)
 	}
 
 }

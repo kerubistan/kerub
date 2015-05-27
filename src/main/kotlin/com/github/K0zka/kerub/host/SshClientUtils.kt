@@ -9,7 +9,7 @@ import org.apache.sshd.client.SftpClient
 import java.util.EnumSet
 import org.apache.sshd.client.SftpClient.OpenMode
 
-private val logger = getLogger(javaClass<ClientSession>())
+private val logger = getLogger(ClientSession::class)
 
 private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 	this.info("${msg} ${x}")

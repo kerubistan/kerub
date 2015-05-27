@@ -1,10 +1,9 @@
 package com.github.K0zka.kerub.utils.version
 
-import com.github.K0zka.kerub.utils.getLogger
-import java.util.regex.Pattern
 import com.github.K0zka.kerub.utils.elemOrNull
-import java.io.Serializable
 import org.hibernate.search.annotations.Field
+import java.io.Serializable
+import java.util.regex.Pattern
 
 public data class Version (Field val major : String,
                            Field val minor: String?,
@@ -13,7 +12,6 @@ public data class Version (Field val major : String,
 		return -1
 	}
 	companion object {
-		private val logger = getLogger(javaClass<Version>())
 
 		private val empty = ""
 

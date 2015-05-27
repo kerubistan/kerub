@@ -15,6 +15,7 @@ import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.CloseStatus
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import com.github.K0zka.kerub.utils.getLogger
 import java.io.StringWriter
 
 public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
@@ -32,7 +33,7 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 			return mapper
 		}
 		val objectMapper = init()
-		val logger : Logger = LoggerFactory.getLogger(javaClass<WebSocketNotifier>())!!
+		private val logger : Logger = getLogger(WebSocketNotifier::class)
 	}
 
 	fun send(session : WebSocketSession, message : Message) {

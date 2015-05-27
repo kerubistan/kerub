@@ -14,7 +14,7 @@ import com.github.K0zka.kerub.model.Range as serializableRange
 
 public class UtilsTest {
 
-	companion object val logger = getLogger(javaClass<UtilsTest>())
+	companion object val logger = getLogger(UtilsTest::class)
 
 	Test
 	public fun vmDefinitiontoXml() {
