@@ -12,7 +12,7 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 		return distroName
 	}
 
-	inline fun enforce<T>( value : T?, msg : String ) : T {
+	fun enforce<T>( value : T?, msg : String ) : T {
 		if(value == null) {
 			throw IllegalArgumentException("${msg} - value is null")
 		} else {
