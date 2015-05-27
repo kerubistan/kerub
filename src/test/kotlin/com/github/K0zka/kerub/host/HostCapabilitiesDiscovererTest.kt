@@ -172,11 +172,11 @@ apt-transport-https	1.0.1ubuntu2.1""")
 	}
 
 	Test fun discoverHost() {
-		val capabilities = HostCapabilitiesDiscoverer!!.discoverHost(session!!)
+		val capabilities = HostCapabilitiesDiscoverer.discoverHost(session!!)
 		assertNotNull(capabilities)
-		assertEquals(distroName, capabilities?.distribution?.name)
-		assertEquals(cpuArchitecture, capabilities?.cpuArchitecture)
-		assertEquals(distroVersion, capabilities?.distribution?.version)
+		assertEquals(distroName, capabilities.distribution?.name)
+		assertEquals(cpuArchitecture, capabilities.cpuArchitecture)
+		assertEquals(distroVersion, capabilities.distribution?.version)
 	}
 
 }
