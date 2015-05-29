@@ -49,10 +49,10 @@ public object HostCapabilitiesDiscoverer {
 		                       )
 	}
 
-	protected fun runDmiDecode(session: ClientSession): String =
+	internal fun runDmiDecode(session: ClientSession): String =
 			session.execute("dmidecode")
 
-	protected fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
+	internal fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
 		return packages.any { "dmidecode" == it.name }
 	}
 

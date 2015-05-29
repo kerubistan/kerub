@@ -11,6 +11,7 @@ import org.apache.sshd.SshServer
 import com.github.K0zka.kerub.getTestKey
 import org.mockito.Mockito
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.utils.SoftwarePackage
 import org.apache.sshd.common.NamedFactory
 import org.apache.sshd.server.sftp.SftpSubsystem
 import org.apache.sshd.server.Command
@@ -22,6 +23,8 @@ import java.io.OutputStream
 import org.apache.sshd.server.Environment
 import org.apache.sshd.server.ExitCallback
 import com.github.K0zka.kerub.utils.version.Version
+import org.hamcrest.CoreMatchers
+import org.junit.Assert
 import kotlin.platform.platformStatic
 import org.junit.runners.Parameterized.Parameters
 import org.junit.runners.Parameterized
@@ -177,6 +180,18 @@ apt-transport-https	1.0.1ubuntu2.1""")
 		assertEquals(distroName, capabilities.distribution?.name)
 		assertEquals(cpuArchitecture, capabilities.cpuArchitecture)
 		assertEquals(distroVersion, capabilities.distribution?.version)
+	}
+
+	Test
+	fun isDmiDecodeInstalled() {
+		Assert.assertThat(
+				HostCapabilitiesDiscoverer.isDmiDecodeInstalled(listOf(SoftwarePackage("foo",Version("1","0","0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
+				CoreMatchers.`is`(true)
+		                 )
+		Assert.assertThat(
+				HostCapabilitiesDiscoverer.isDmiDecodeInstalled(listOf()),
+				CoreMatchers.`is`(false)
+		                 )
 	}
 
 }
