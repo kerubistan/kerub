@@ -1,21 +1,21 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.data.HostDao
-import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.os.OperatingSystem
-import org.apache.sshd.ClientSession
-import com.github.K0zka.kerub.utils.version.Version
-import com.github.K0zka.kerub.utils.SoftwarePackage
-import com.github.K0zka.kerub.utils.getLogger
-import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.host.distros.Distribution
-import com.github.K0zka.kerub.host.distros.Ubuntu
-import com.github.K0zka.kerub.host.distros.Gentoo
 import com.github.K0zka.kerub.host.distros.Fedora
+import com.github.K0zka.kerub.host.distros.Gentoo
+import com.github.K0zka.kerub.host.distros.Ubuntu
+import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.os.OperatingSystem
+import com.github.K0zka.kerub.utils.SoftwarePackage
+import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
+import com.github.K0zka.kerub.utils.version.Version
+import org.apache.sshd.ClientSession
+import kotlin.reflect.KClass
+import kotlin.reflect.jvm.kotlin
 
 /**
  * Helper class to detect host capabilities through an established SSH session.
@@ -23,31 +23,36 @@ import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 public object HostCapabilitiesDiscoverer {
 
 	private val logger = getLogger(HostCapabilitiesDiscoverer::class)
-	val distributions = listOf<Distribution>( Ubuntu(), Fedora(), Gentoo() )
+	val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Gentoo())
 
-	fun discoverHost(session: ClientSession) : HostCapabilities {
+	fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
+		return list.filter { it?.javaClass?.kotlin == clazz }.map { it as T }
+	}
+
+	fun discoverHost(session: ClientSession): HostCapabilities {
 
 		val distro = detectDistro(session)
 		val packages = distro?.listPackages(session) ?: listOf()
-		val systemInfo = DmiDecoder.parse(runDmiDecode(session))
 		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
+		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
+		val hardwareInfo = systemInfo.values()
 		return HostCapabilities(
 				os = getHostOs(session),
 				cpuArchitecture = getHostCpuType(session),
-				distribution = getDistribution(session, distro) ,
+				distribution = getDistribution(session, distro),
 				installedSoftware = packages,
 				totalMemory = getTotalMemory(session),
-		        system = systemInfo.values().filter { it is SystemInformation } .map {it as SystemInformation} .firstOrNull(),
-		        cpus = systemInfo.values().filter { it is ProcessorInformation } .map {it as ProcessorInformation},
-		        chassis = systemInfo.values().filter { it is ChassisInformation } .map {it as ChassisInformation}.firstOrNull()
+				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
+				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
+				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull()
 		                       )
 	}
 
-	protected fun runDmiDecode(session : ClientSession) : String =
-		session.execute("dmidecode")
+	protected fun runDmiDecode(session: ClientSession): String =
+			session.execute("dmidecode")
 
-	protected fun isDmiDecodeInstalled(packages : List<SoftwarePackage>) : Boolean {
+	protected fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
 		return packages.any { "dmidecode" == it.name }
 	}
 
@@ -72,7 +77,7 @@ public object HostCapabilitiesDiscoverer {
 		return session.execute("uname -p").trim()
 	}
 
-	protected fun detectDistro(session: ClientSession) : Distribution? {
+	protected fun detectDistro(session: ClientSession): Distribution? {
 		for (distro in distributions) {
 			logger.debug("Checking host with ${distro.name()} distro helper")
 			if (distro.detect(session)) {
@@ -82,8 +87,8 @@ public object HostCapabilitiesDiscoverer {
 		return null
 	}
 
-	protected fun getDistribution(session: ClientSession, distro : Distribution?): SoftwarePackage? {
-		if(distro == null) {
+	protected fun getDistribution(session: ClientSession, distro: Distribution?): SoftwarePackage? {
+		if (distro == null) {
 			return null
 		} else {
 			return SoftwarePackage(distro.name(), distro.getVersion(session))
