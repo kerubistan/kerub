@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.model.hardware
 
+import java.io.Serializable
+
 data class MemoryInformation (
 		val sizeMb: Int,
 		val type: String,
@@ -10,4 +12,4 @@ data class MemoryInformation (
 		val manufacturer: String,
 		val serialNumber: String,
 		val partNumber: String,
-		val configuredSpeedMhz: Int?)
+		val configuredSpeedMhz: Int?) : Serializable

@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.model.hardware
 
+import java.io.Serializable
 import java.math.BigDecimal
 
 data class ProcessorInformation(
@@ -14,4 +15,4 @@ data class ProcessorInformation(
 		val l1cache: CacheInformation? = null,
 		val l2cache: CacheInformation? = null,
 		val l3cache: CacheInformation? = null
-                               )
+                               ) : Serializable

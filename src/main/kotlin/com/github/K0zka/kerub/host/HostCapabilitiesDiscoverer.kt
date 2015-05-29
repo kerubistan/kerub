@@ -12,6 +12,10 @@ import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.host.distros.Gentoo
 import com.github.K0zka.kerub.host.distros.Fedora
+import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.ProcessorInformation
+import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 
 /**
  * Helper class to detect host capabilities through an established SSH session.
@@ -24,13 +28,27 @@ public object HostCapabilitiesDiscoverer {
 	fun discoverHost(session: ClientSession) : HostCapabilities {
 
 		val distro = detectDistro(session)
+		val packages = distro?.listPackages(session) ?: listOf()
+		val systemInfo = DmiDecoder.parse(runDmiDecode(session))
+		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
+
 		return HostCapabilities(
 				os = getHostOs(session),
 				cpuArchitecture = getHostCpuType(session),
 				distribution = getDistribution(session, distro) ,
-				installedSoftware = distro?.listPackages(session) ?: listOf(),
-		        totalMemory = getTotalMemory(session)
+				installedSoftware = packages,
+				totalMemory = getTotalMemory(session),
+		        system = systemInfo.values().filter { it is SystemInformation } .map {it as SystemInformation} .firstOrNull(),
+		        cpus = systemInfo.values().filter { it is ProcessorInformation } .map {it as ProcessorInformation},
+		        chassis = systemInfo.values().filter { it is ChassisInformation } .map {it as ChassisInformation}.firstOrNull()
 		                       )
+	}
+
+	protected fun runDmiDecode(session : ClientSession) : String =
+		session.execute("dmidecode")
+
+	protected fun isDmiDecodeInstalled(packages : List<SoftwarePackage>) : Boolean {
+		return packages.any { "dmidecode" == it.name }
 	}
 
 	fun getTotalMemory(session: ClientSession): Long {
