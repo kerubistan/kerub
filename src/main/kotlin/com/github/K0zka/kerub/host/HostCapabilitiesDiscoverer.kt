@@ -15,6 +15,7 @@ import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.version.Version
 import org.apache.sshd.ClientSession
 import kotlin.reflect.KClass
+import kotlin.reflect.jvm.java
 import kotlin.reflect.jvm.kotlin
 
 /**
@@ -26,7 +27,7 @@ public object HostCapabilitiesDiscoverer {
 	internal val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Gentoo())
 
 	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
-		return list.filter { it?.javaClass?.kotlin == clazz }.map { it as T }
+		return list.filter { it?.javaClass?.kotlin == clazz }.map { clazz.java.cast(it) }
 	}
 
 	fun discoverHost(session: ClientSession, dedicated : Boolean = false): HostCapabilities {
