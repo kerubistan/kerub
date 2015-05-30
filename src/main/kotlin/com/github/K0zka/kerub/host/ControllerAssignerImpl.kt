@@ -71,10 +71,6 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 	}
 
 	companion object {
-		fun hostScore(host : Host) : Int {
-			return 1 //TODO
-		}
-
 		fun controllerScore(state : ControllerDynamic?) : Int {
 			if(state == null) {
 				return -1;
