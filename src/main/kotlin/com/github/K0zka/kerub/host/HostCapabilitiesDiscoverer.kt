@@ -23,9 +23,9 @@ import kotlin.reflect.jvm.kotlin
 public object HostCapabilitiesDiscoverer {
 
 	private val logger = getLogger(HostCapabilitiesDiscoverer::class)
-	val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Gentoo())
+	internal val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Gentoo())
 
-	fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
+	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { it as T }
 	}
 
@@ -65,19 +65,19 @@ public object HostCapabilitiesDiscoverer {
 				.toLong()
 	}
 
-	protected fun getHostOs(session: ClientSession): OperatingSystem {
+	internal fun getHostOs(session: ClientSession): OperatingSystem {
 		return OperatingSystem.valueOf(session.execute("uname -s").trim())
 	}
 
-	protected fun getHostKernelVersion(session: ClientSession): Version {
+	internal fun getHostKernelVersion(session: ClientSession): Version {
 		return Version.fromVersionString(session.execute("uname -r").trim())
 	}
 
-	protected fun getHostCpuType(session: ClientSession): String {
+	internal fun getHostCpuType(session: ClientSession): String {
 		return session.execute("uname -p").trim()
 	}
 
-	protected fun detectDistro(session: ClientSession): Distribution? {
+	internal fun detectDistro(session: ClientSession): Distribution? {
 		for (distro in distributions) {
 			logger.debug("Checking host with ${distro.name()} distro helper")
 			if (distro.detect(session)) {
@@ -87,7 +87,7 @@ public object HostCapabilitiesDiscoverer {
 		return null
 	}
 
-	protected fun getDistribution(session: ClientSession, distro: Distribution?): SoftwarePackage? {
+	internal fun getDistribution(session: ClientSession, distro: Distribution?): SoftwarePackage? {
 		if (distro == null) {
 			return null
 		} else {

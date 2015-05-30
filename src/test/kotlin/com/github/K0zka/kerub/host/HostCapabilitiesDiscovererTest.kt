@@ -194,4 +194,9 @@ apt-transport-https	1.0.1ubuntu2.1""")
 		                 )
 	}
 
+	Test
+	fun valuesOfType() {
+		assertEquals(listOf("TEST"), HostCapabilitiesDiscoverer.valuesOfType(listOf(1, "TEST", true, 3.14), String::class))
+		assertEquals(listOf<Any>(), HostCapabilitiesDiscoverer.valuesOfType(listOf(1, "TEST", true, 3.14), Any::class))
+	}
 }
