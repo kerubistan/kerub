@@ -29,11 +29,14 @@ public object HostCapabilitiesDiscoverer {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { it as T }
 	}
 
-	fun discoverHost(session: ClientSession): HostCapabilities {
+	fun discoverHost(session: ClientSession, dedicated : Boolean = false): HostCapabilities {
 
 		val distro = detectDistro(session)
 		val packages = distro?.listPackages(session) ?: listOf()
 		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
+		if(!dmiDecodeInstalled && dedicated && distro != null) {
+			distro.installPackage("dmidecode", session)
+		}
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
 		val hardwareInfo = systemInfo.values()
