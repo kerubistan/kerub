@@ -35,10 +35,7 @@ public object HostCapabilitiesDiscoverer {
 
 		val distro = detectDistro(session)
 		val packages = distro?.listPackages(session) ?: listOf()
-		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
-		if(!dmiDecodeInstalled && dedicated && distro != null) {
-			distro.installPackage("dmidecode", session)
-		}
+		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
 		val hardwareInfo = systemInfo.values()
@@ -53,6 +50,15 @@ public object HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session)
 		                       )
+	}
+
+	internal fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {
+		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
+		if (!dmiDecodeInstalled && dedicated && distro != null) {
+			distro.installPackage("dmidecode", session)
+			return true
+		}
+		return dmiDecodeInstalled
 	}
 
 	internal fun runDmiDecode(session: ClientSession): String =
