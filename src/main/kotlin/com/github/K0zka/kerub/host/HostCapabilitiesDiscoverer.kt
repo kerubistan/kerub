@@ -1,9 +1,6 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.host.distros.Distribution
-import com.github.K0zka.kerub.host.distros.Fedora
-import com.github.K0zka.kerub.host.distros.Gentoo
-import com.github.K0zka.kerub.host.distros.Ubuntu
+import com.github.K0zka.kerub.host.distros.*
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
@@ -25,7 +22,7 @@ import kotlin.reflect.jvm.kotlin
 public object HostCapabilitiesDiscoverer {
 
 	private val logger = getLogger(HostCapabilitiesDiscoverer::class)
-	internal val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Gentoo())
+	internal val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Centos6())
 
 	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { clazz.java.cast(it) }

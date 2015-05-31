@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.getFileContents
 import org.apache.sshd.ClientSession
 import com.github.K0zka.kerub.utils.version.Version
@@ -28,7 +29,8 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 	}
 
 	override fun detect(session: ClientSession): Boolean {
-		return distroName.equalsIgnoreCase(
+		return session.checkFileExists("/etc/os-release")
+				&& distroName.equalsIgnoreCase(
 				enforce(readLsbReleaseProperties(session)
 						.getProperty("NAME")
 						?.replaceAll("\"", ""), "NAME is not found in the properties file"))
