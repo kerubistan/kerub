@@ -62,7 +62,9 @@ public class HostCapabilitiesDiscovererTest(
 									java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
 									libvirt-gconfig-0.1.7-2.fc20.x86_64
 									cheese-libs-3.10.2-2.fc20.x86_64
-									""".trim())
+									""".trim()),
+						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
 								),
 						mapOf(Pair("/etc/os-release", """
 				            NAME=Fedora
@@ -85,7 +87,9 @@ apparmor	2.7.102-0ubuntu3.10
 apport	2.0.1-0ubuntu17.6
 aptdaemon	1.1.1-1ubuntu5
 aptitude	0.6.6-1ubuntu1.2
-apt-transport-https	1.0.1ubuntu2.1""")
+apt-transport-https	1.0.1ubuntu2.1"""),
+						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
 						     ),
 						mapOf(Pair("/etc/os-release", """
                             NAME="Ubuntu"

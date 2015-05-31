@@ -12,6 +12,7 @@ import com.github.K0zka.kerub.os.OperatingSystem
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
+import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.version.Version
 import org.apache.sshd.ClientSession
 import kotlin.reflect.KClass
@@ -49,7 +50,8 @@ public object HostCapabilitiesDiscoverer {
 				totalMemory = getTotalMemory(session),
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
-				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull()
+				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
+				devices = LsPci.execute(session)
 		                       )
 	}
 
