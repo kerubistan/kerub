@@ -21,9 +21,6 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 	}
 
 	override fun getVersion(session: ClientSession): Version {
-		val versionString = readLsbReleaseProperties(session)
-				.getProperty("VERSION_ID")
-				?.replaceAll("\"", "")
 		return Version.fromVersionString(
 				enforce(readLsbReleaseProperties(session)
 						.getProperty("VERSION_ID")
