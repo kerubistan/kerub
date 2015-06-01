@@ -18,6 +18,7 @@
     <script src="js/HostTab.js"></script>
     <script src="js/VersionInfo.js"></script>
     <script src="js/NewHostWizard.js"></script>
+    <script src="js/HostDetails.js"></script>
     <script src="js/MainTabs.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
@@ -86,7 +87,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="host in hosts">
+                        <tr ng-repeat="host in hosts" class="clickable" ng-click="showHostDetails(host.id)">
                             <td>{{host.address}}</td>
                             <td>N/A</td>
                             <td>{{host.dedicated}}</td>
@@ -183,6 +184,43 @@
                 Cancel
             </button>
         </div>
+    </script>
+
+    <script type="text/ng-template" id="HostDetails.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Host Details - {{host.address}}</h3>
+        </div>
+        <form>
+            <div class="form-group">
+                <label>ID</label>
+                <input class="form-control" ng-model="host.id" disabled>
+            </div>
+            <div class="form-group">
+                <label>dedicated</label>
+                <input type="checkbox" class="form-control" ng-model="host.dedicated" disabled>
+            </div>
+            <div class="form-group">
+                <label>public ssh key</label>
+                <input class="form-control" ng-model="host.publicKey" disabled>
+            </div>
+            <div ng-if="host.capabilities">
+                <div class="form-group" ng-if="host.capabilities.os">
+                    <label>Operating system</label>
+                    <input class="form-control" ng-model="host.capabilities.os" disabled>
+                </div>
+                <div class="form-group" ng-if="host.capabilities.distribution">
+                    <label>OS distribution and version</label>
+                    <input
+                           class="form-control"
+                           value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.version.major}} {{host.capabilities.distribution.version.minor}}"
+                           disabled>
+                </div>
+                <div class="form-group" ng-if="host.capabilities.cpuArchitecture">
+                    <label>CPU architecture</label>
+                    <input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
+                </div>
+            </div>
+        </form>
     </script>
 
 </body>

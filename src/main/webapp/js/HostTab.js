@@ -23,6 +23,19 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, $socket, $appsessi
         $log.debug(modalInstance);
         $log.info('opened new host wizard');
     };
+
+    $scope.showHostDetails = function(hostId) {
+        var modalInstance = $modal.open({
+            templateUrl : 'HostDetails.html',
+            controller : HostDetails,
+            resolve : {
+                hostId : function() {
+                    return hostId;
+                }
+            }
+            });
+    }
+
     $appsession.get('s/r/host').success(function(hostsResult) {
         $log.info("hosts", hostsResult);
         $scope.hosts = hostsResult.result;

@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.clickable {
+    cursor: pointer;
+    -moz-user-select: none;
+}
+
 .versioninfobox {
     margin-left: auto;
     margin-right: auto;
