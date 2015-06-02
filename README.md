@@ -1,7 +1,7 @@
 kerub
 =====
 
-A lightweight IaaS application
+A lightweight prototype IaaS application
 
 
 Purpose
