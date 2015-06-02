@@ -22,7 +22,11 @@ import kotlin.reflect.jvm.kotlin
 public object HostCapabilitiesDiscoverer {
 
 	private val logger = getLogger(HostCapabilitiesDiscoverer::class)
-	internal val distributions = listOf<Distribution>(Ubuntu(), Fedora(), Centos6())
+	internal val distributions = listOf<Distribution>(
+			Ubuntu(),
+			Fedora(),
+			Centos6(),
+			OpenSuse())
 
 	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { clazz.java.cast(it) }
