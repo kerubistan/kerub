@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
-import com.github.K0zka.kerub.os.OperatingSystem
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder

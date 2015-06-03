@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.os
+package com.github.K0zka.kerub.model
 
 public enum class OperatingSystem {
 	Windows
