@@ -241,7 +241,7 @@
                 <constructor-arg ref="hostManager"/>
                 <constructor-arg ref="sshClientService"/>
             </bean>
-            <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginService">
+            <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
             </bean>
             <ref bean="motd"/>
         </jaxrs:serviceBeans>
