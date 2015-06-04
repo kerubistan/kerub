@@ -29,12 +29,15 @@ RequiresAuthentication
 public trait HostService : RestCrud<Host> {
 
 	RequiresAuthentication
+	RequiresRoles(array(Roles.admin))
 	override fun getById(id: UUID): Host;
 
 	RequiresAuthentication
+	RequiresRoles(array(Roles.admin))
 	override fun delete(id: UUID);
 
 	RequiresAuthentication
+	RequiresRoles(array(Roles.admin))
 	override fun update(id: UUID, entity: Host): Host
 
 	ApiOperation("Add new object")

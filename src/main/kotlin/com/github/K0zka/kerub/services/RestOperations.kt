@@ -28,6 +28,7 @@ trait RestOperations {
 		            )
 		GET
 		Path("/{id}")
+		RequiresAuthentication
 		fun getById(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID): T
 	}
 
@@ -39,6 +40,7 @@ trait RestOperations {
 		            )
 		PUT
 		Path("/")
+		RequiresAuthentication
 		fun add(ApiParam(value = "New object", required = true) entity: T): T
 
 	}
@@ -52,6 +54,7 @@ trait RestOperations {
 		            )
 		DELETE
 		Path("/{id}")
+		RequiresAuthentication
 		fun delete(ApiParam(value = "Object ID", name = "id", required = true) PathParam("id") id: UUID)
 
 	}
@@ -65,6 +68,7 @@ trait RestOperations {
 		            )
 		POST
 		Path("/{id}")
+		RequiresAuthentication
 		fun update(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID, entity: T): T
 	}
 

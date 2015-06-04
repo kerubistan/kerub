@@ -3,25 +3,24 @@ Feature: Host Management Security
 
     Scenario Outline: Security
         Given A controller
-        And <user> user in role User
+        And <user> user
         When user tries to <action> hosts
         Then <answer> should be received
 
+
     Examples: Illegal actions
         | action | user       | answer |
-        | join   | User1      | 403    |
-        | list   | User1      | 403    |
-        | remove | User1      | 403    |
-        | update | User1      | 403    |
-        | join   | PowerUser1 | 403    |
-        | list   | PowerUser1 | 403    |
-        | remove | PowerUser1 | 403    |
-        | update | PowerUser1 | 403    |
+        | join   | enduser    | 403    |
+        | list   | enduser    | 403    |
+        | remove | enduser    | 403    |
+        | update | enduser    | 403    |
+        | join   | poweruser  | 403    |
+        | list   | poweruser  | 403    |
+        | remove | poweruser  | 403    |
+        | update | poweruser  | 403    |
 
+    #well, some were removed and checked in actual integration tests
     Examples: Legal actions
         | action | user       | answer |
-        | join   | Admin1     | 200    |
-        | list   | Admin1     | 200    |
-        | remove | Admin1     | 200    |
-        | update | Admin1     | 200    |
+        | list   | admin      | 200    |
 
