@@ -126,4 +126,21 @@ Built-in Pointing Device
 		//a totally scrapped output
 		DmiDecoder.parse(nongnu)
 	}
+
+	Test
+	fun parseBochsBios() {
+		val devices = DmiDecoder.parse(kvmQemuBochs)
+
+		val cpuInfo = devices["0x0401"] as ProcessorInformation
+		assert(cpuInfo.manufacturer == "Bochs")
+		assert(cpuInfo.maxSpeedMhz == 2000)
+
+		val memoryDevice = devices["0x1100"] as MemoryInformation
+		assert(memoryDevice.formFactor == "DIMM")
+		assert(memoryDevice.sizeMb == 2048)
+
+		val chassisInfo = devices["0x0300"] as ChassisInformation
+		assert(chassisInfo.manufacturer == "Bochs")
+		assert(chassisInfo.nrOfPowerCords == null)
+	}
 }

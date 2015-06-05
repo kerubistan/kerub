@@ -46,8 +46,8 @@ public class DmiDecoder {
 				4 to {input, dependencies ->
 					ProcessorInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
-							coreCount = input.intBetween("Core Count: ", "\n"),
-							threadCount = input.intBetween("Thread Count: ", "\n"),
+							coreCount = input.optionalIntBetween("Core Count: ", "\n"),
+							threadCount = input.optionalIntBetween("Thread Count: ", "\n"),
 							maxSpeedMhz = input.optionalIntBetween("Max Speed: ", " MHz\n"),
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							version = input.substringBetween("Version: ", "\n"),
