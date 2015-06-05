@@ -1,6 +1,8 @@
 kerub
 =====
 
+![Logo](https://raw.githubusercontent.com/K0zka/kerub/master/src/main/webapp/img/kerub.png)
+
 A lightweight prototype IaaS application
 
 
