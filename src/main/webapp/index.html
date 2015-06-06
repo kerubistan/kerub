@@ -190,14 +190,20 @@
         <div class="modal-header">
             <h3 class="modal-title">Host Details - {{host.address}}</h3>
         </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">Overview</a></li>
+            <li role="presentation"><a href="#">Software</a></li>
+            <li role="presentation"><a href="#">CPU</a></li>
+            <li role="presentation"><a href="#">RAM</a></li>
+            <li role="presentation"><a href="#">I/O</a></li>
+        </ul>
         <form>
             <div class="form-group">
                 <label>ID</label>
                 <input class="form-control" ng-model="host.id" disabled>
             </div>
             <div class="form-group">
-                <label>dedicated</label>
-                <input type="checkbox" class="form-control" ng-model="host.dedicated" disabled>
+                <label>dedicated: {{host.dedicated}}</label>
             </div>
             <div class="form-group">
                 <label>public ssh key</label>
