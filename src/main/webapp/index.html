@@ -228,10 +228,10 @@
             </div>
         </form>
         <form ng-show="isVisible('software')">
-            <table class="table" ng-repeat="software in host.capabilities.installedSoftware">
-                <tr>
+            <table class="table table-condensed">
+                <tr ng-repeat="software in host.capabilities.installedSoftware">
                     <td>{{software.name}}</td>
-                    <td>{{software.version.major}} {{software.version.minor}}</td>
+                    <td>{{software.version.major}}<span ng-if="software.version.minor">.{{software.version.minor}}</span><span ng-if="software.version.build">.{{software.version.build}}</span></td>
                 </tr>
             </table>
         </form>
