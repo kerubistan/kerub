@@ -191,13 +191,13 @@
             <h3 class="modal-title">Host Details - {{host.address}}</h3>
         </div>
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#">Overview</a></li>
-            <li role="presentation"><a href="#">Software</a></li>
-            <li role="presentation"><a href="#">CPU</a></li>
-            <li role="presentation"><a href="#">RAM</a></li>
-            <li role="presentation"><a href="#">I/O</a></li>
+            <li role="presentation" ng-class="isActive('overview')" ng-click="selectView('overview')"><a href="#">Overview</a></li>
+            <li role="presentation" ng-class="isActive('software')" ng-click="selectView('software')"><a href="#">Software</a></li>
+            <li role="presentation" ng-class="isActive('CPU')" ng-class="" ng-click="selectView('CPU')"><a href="#">CPU</a></li>
+            <li role="presentation" ng-class="isActive('RAM')" ng-class="" ng-click="selectView('RAM')"><a href="#">RAM</a></li>
+            <li role="presentation" ng-class="isActive('IO')" ng-click="selectView('IO')"><a href="#">I/O</a></li>
         </ul>
-        <form>
+        <form ng-show="isVisible('overview')">
             <div class="form-group">
                 <label>ID</label>
                 <input class="form-control" ng-model="host.id" disabled>
@@ -226,6 +226,23 @@
                     <input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
                 </div>
             </div>
+        </form>
+        <form ng-show="isVisible('software')">
+            <table class="table" ng-repeat="software in host.capabilities.installedSoftware">
+                <tr>
+                    <td>{{software.name}}</td>
+                    <td>{{software.version.major}} {{software.version.minor}}</td>
+                </tr>
+            </table>
+        </form>
+        <form ng-show="isVisible('CPU')">
+
+        </form>
+        <form ng-show="isVisible('RAM')">
+
+        </form>
+        <form ng-show="isVisible('IO')">
+
         </form>
     </script>
 
