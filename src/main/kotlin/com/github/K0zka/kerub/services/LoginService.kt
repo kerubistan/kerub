@@ -5,7 +5,7 @@ import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 
-public trait LoginService {
+public interface LoginService {
 	data class UserData(
 			val name : String,
 			val roles : List<Roles>

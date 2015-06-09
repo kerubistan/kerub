@@ -8,5 +8,5 @@ import org.apache.shiro.authz.annotation.RequiresRoles
 
 Api("s/r/project", description="Project service")
 Path("/project")
-public trait ProjectService : RestCrud<Project> {
+public interface ProjectService : RestCrud<Project> {
 }

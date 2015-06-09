@@ -12,7 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import com.github.K0zka.kerub.data.EventListener
 import org.mockito.Mock
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 class IspnDaoBaseTest {
 
 	class TestEntity : Entity<String>{

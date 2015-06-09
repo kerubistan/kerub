@@ -24,16 +24,16 @@ public abstract class LsbDistribution(val distroName : String) : Distribution {
 	override fun getVersion(session: ClientSession): Version {
 		return Version.fromVersionString(
 				enforce(readLsbReleaseProperties(session)
-						.getProperty("VERSION_ID")
-						?.replaceAll("\"", ""), "VERSION_ID is not found in the properties file"))
+						        .getProperty("VERSION_ID")
+						        ?.replace("\"".toRegex(), ""), "VERSION_ID is not found in the properties file"))
 	}
 
 	override fun detect(session: ClientSession): Boolean {
 		return session.checkFileExists("/etc/os-release")
-				&& distroName.equalsIgnoreCase(
+				&& distroName.equals(
 				enforce(readLsbReleaseProperties(session)
-						.getProperty("NAME")
-						?.replaceAll("\"", ""), "NAME is not found in the properties file"))
+						        .getProperty("NAME")
+						        ?.replace("\"".toRegex(), ""), "NAME is not found in the properties file"), ignoreCase = true)
 	}
 
 	protected fun readLsbReleaseProperties(session: ClientSession): Properties {

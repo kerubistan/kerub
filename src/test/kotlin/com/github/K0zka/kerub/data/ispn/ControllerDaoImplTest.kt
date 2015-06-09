@@ -17,7 +17,7 @@ import org.mockito.Mockito
 import org.infinispan.remoting.transport.Address
 import kotlin.test.assertEquals
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class ControllerDaoImplTest {
 	var dao : ControllerDao? = null
 	Mock
@@ -41,6 +41,6 @@ public class ControllerDaoImplTest {
 	}
 
 	Test fun list() {
-		assertEquals(2, dao!!.list().size  )
+		assertEquals(2, dao!!.list().size())
 	}
 }

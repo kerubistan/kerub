@@ -14,7 +14,7 @@ public class KeyPairFactoryTest {
 		assertNotNull(factory.createKeyPair())
 	}
 
-	Test(expected=javaClass<IllegalArgumentException>())
+	Test(expected= IllegalArgumentException::class)
 	fun createKeyPairFail() {
 		val factory = KeyPairFactory()
 		factory.keyStorePath = "notexisting.jks"

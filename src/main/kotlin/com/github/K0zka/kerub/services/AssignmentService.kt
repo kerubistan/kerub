@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam
 Path("/controllers/")
 Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
-trait AssignmentService {
+interface AssignmentService {
 	Path("{controller}/assignments")
 	fun listByController(
 			PathParam("controller")

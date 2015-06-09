@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType
 Path("/event")
 Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
-public trait EventService {
+public interface EventService {
 	GET
 	Path("/{id}")
 	fun getById(PathParam("id") id : UUID) : Event

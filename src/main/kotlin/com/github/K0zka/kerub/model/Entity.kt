@@ -9,7 +9,7 @@ import org.hibernate.search.annotations.DocumentId
  * The only sure thing about an entity is that it has got an ID
  */
 JsonTypeInfo(use=JsonTypeInfo.Id.NAME , include=JsonTypeInfo.As.PROPERTY, property="@type")
-data trait Entity<T> : Serializable {
+data interface Entity<T> : Serializable {
 	DocumentId
 	val id : T
 }

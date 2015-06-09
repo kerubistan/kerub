@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.github.K0zka.kerub.model.ExpectationLevel
 
 JsonTypeName("cpu-clock-freq")
-public class ClockFrequencyExpectation [JsonCreator](
+public class ClockFrequencyExpectation @JsonCreator constructorconstructor(
 		override val id: UUID,
 		override val level : ExpectationLevel,
 		val minimalClockFrequency: Int

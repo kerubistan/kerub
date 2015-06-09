@@ -7,19 +7,19 @@ public enum class HostStatus {
 	/**
 	 * The host is being connected to the kerub controller.
 	 */
-	Connecting
+	Connecting,
 	/**
 	 * The host is connected, it's capabilities are up to date.
 	 */
-	Up
+	Up,
 	/**
 	 * The host is disconnected.
 	 */
-	Down
+	Down,
 	/**
 	 * The host is booting up.
 	 */
-	Booting
-	ShuttingDown
+	Booting,
+	ShuttingDown,
 	Unavailable
 }

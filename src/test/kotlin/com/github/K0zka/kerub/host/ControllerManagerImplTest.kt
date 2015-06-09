@@ -13,7 +13,7 @@ import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import org.junit.Assert
 import com.github.K0zka.kerub.matchAny
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class ControllerManagerImplTest {
 
 	Mock

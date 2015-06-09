@@ -1,4 +1,4 @@
 package com.github.K0zka.kerub.host
 
-public trait ControllerManager {
+public interface ControllerManager {
 }

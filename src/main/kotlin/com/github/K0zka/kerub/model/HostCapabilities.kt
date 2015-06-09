@@ -13,31 +13,31 @@ import com.github.K0zka.kerub.model.views.Full
 import com.github.K0zka.kerub.model.views.Simple
 
 public data class HostCapabilities (
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		Field
 		val os: OperatingSystem?,
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		Field
 		val distribution: SoftwarePackage?,
-		JsonView(javaClass<Full>())
+		JsonView(Full::class)
 		Field
 		val installedSoftware: List<SoftwarePackage> = serializableListOf(),
-		JsonView(javaClass<Detailed>())
+		JsonView(Detailed::class)
 		Field
 		val devices: List<PciDevice> = serializableListOf(),
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		Field
 		val cpuArchitecture: String,
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		Field
 		val totalMemory: Long,
-		JsonView(javaClass<Detailed>())
+		JsonView(Detailed::class)
 		Field
 		val system: SystemInformation? = null,
         Field
-        JsonView(javaClass<Detailed>())
+        JsonView(Detailed::class)
         val cpus: List<ProcessorInformation> = listOf(),
-        JsonView(javaClass<Detailed>())
+        JsonView(Detailed::class)
         Field
         val chassis : ChassisInformation? = null
 

@@ -23,7 +23,7 @@ import org.apache.sshd.server.Environment
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import java.util.UUID
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class HostManagerImplTest {
 
 	Mock

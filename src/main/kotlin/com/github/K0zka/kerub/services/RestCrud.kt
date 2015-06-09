@@ -20,6 +20,6 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication
 Produces("application/json")
 Consumes("application/json")
 RequiresAuthentication
-public trait RestCrud<T> : RestOperations.Read<T>, RestOperations.Add<T>, RestOperations.Update<T>, RestOperations.Delete {
+public interface RestCrud<T> : RestOperations.Read<T>, RestOperations.Add<T>, RestOperations.Update<T>, RestOperations.Delete {
 
 }

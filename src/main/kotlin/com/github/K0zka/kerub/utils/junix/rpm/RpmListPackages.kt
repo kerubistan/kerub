@@ -13,7 +13,7 @@ public object RpmListPackages {
 	fun execute(session: ClientSession): List<SoftwarePackage> =
 			session.execute("rpm -qa --queryformat \"%{NAME}\\t%{VERSION}\\n\"")
 					.trim()
-					.split("\n")
+					.split("\n".toRegex()).toTypedArray()
 					.map {
 						SoftwarePackage(it.substringBefore("\t"), Version.fromVersionString(it.substringAfter("\t")))
 					}

@@ -17,7 +17,7 @@ public class DmiDecoder {
 	companion object {
 		val logger = getLogger(DmiDecoder::class)
 		platformStatic fun split(input: String): List<String> =
-				input.split("\n\n") //empty line
+				input.split("\n\n".toRegex()).toTypedArray() //empty line
 						.filter { it.startsWith("Handle 0x") }
 
 		platformStatic fun type(input: String): Int =
@@ -84,7 +84,7 @@ public class DmiDecoder {
 		        }
 		                                                                               )
 
-		platformStatic val resolutionOrder = array(17, 7, 3, 4, 1)
+		platformStatic val resolutionOrder = arrayOf(17, 7, 3, 4, 1)
 
 		platformStatic fun parse(input: String) : Map<String, Any>{
 			val records = split(input)

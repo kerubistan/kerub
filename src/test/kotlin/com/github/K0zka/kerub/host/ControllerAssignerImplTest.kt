@@ -13,7 +13,7 @@ import com.github.K0zka.kerub.model.Host
 import kotlin.test.assertTrue
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class ControllerAssignerImplTest {
 	var backtrack : BacktrackService? = null
 

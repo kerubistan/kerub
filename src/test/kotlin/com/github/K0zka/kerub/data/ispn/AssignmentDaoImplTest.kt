@@ -16,7 +16,7 @@ import java.util.UUID
 import kotlin.test.assertEquals
 import org.junit.After
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class AssignmentDaoImplTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<UUID, Assignment>? = null
@@ -44,7 +44,7 @@ public class AssignmentDaoImplTest {
 		dao!!.add(assignment)
 		val list = dao!!.listByController("TEST")
 
-		assertEquals(1, list.size)
+		assertEquals(1, list.size())
 		assertEquals(assignment, list[0])
 	}
 

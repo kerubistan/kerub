@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 JsonTypeName("host-chassis-manufacturer")
-public class ChassisManufacturerExpectation [JsonCreator] (
+public class ChassisManufacturerExpectation @JsonCreator constructorconstructor(
 		override val id : UUID,
         override val level : ExpectationLevel = ExpectationLevel.Want,
         val manufacturer : String

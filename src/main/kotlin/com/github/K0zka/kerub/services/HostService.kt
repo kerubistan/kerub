@@ -26,7 +26,7 @@ Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
 RequiresRoles(Roles.admin)
 RequiresAuthentication
-public trait HostService : RestCrud<Host> {
+public interface HostService : RestCrud<Host> {
 
 	RequiresAuthentication
 	RequiresRoles(Roles.admin)

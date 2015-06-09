@@ -15,7 +15,7 @@ fun storageToXml(disks : List<StorageDevice>) : String {
 }
 
 fun escapeXmlText(str : String) : String {
-	return str.replaceAll("<","&lt;").replaceAll(">","&gt;")
+	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
 }
 
 fun vmDefinitiontoXml(vm : VirtualMachine) : String {

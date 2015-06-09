@@ -22,7 +22,7 @@ Produces("application/json")
 Consumes("application/json")
 Path("/stats/controller/db")
 RequiresAuthentication
-public trait StatisticsService {
+public interface StatisticsService {
 	GET
 	Path("/{name}")
 	fun getStatisticsInfo(PathParam("name") cacheName : String): StatisticsInfo

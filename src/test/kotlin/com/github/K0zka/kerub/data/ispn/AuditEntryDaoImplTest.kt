@@ -15,7 +15,7 @@ import org.mockito.Mockito
 import org.junit.Assert
 import org.junit.After
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class AuditEntryDaoImplTest {
 
 	Mock
@@ -52,7 +52,7 @@ public class AuditEntryDaoImplTest {
 				user = UUID.randomUUID()))
 
 		val list = dao!!.listById(UUID.fromString("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc"))
-		Assert.assertEquals(1, list.size)
+		Assert.assertEquals(1, list.size())
 
 	}
 }

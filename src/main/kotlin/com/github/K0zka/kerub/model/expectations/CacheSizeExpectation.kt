@@ -7,7 +7,7 @@ import java.util.UUID
 import com.github.K0zka.kerub.model.ExpectationLevel
 
 JsonTypeName("cache-size")
-data class CacheSizeExpectation [JsonCreator] (
+data class CacheSizeExpectation @JsonCreator constructorconstructor(
 		override val id : UUID,
 		override val level : ExpectationLevel,
         val minKbytes : Long

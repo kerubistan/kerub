@@ -15,7 +15,7 @@ public object LsPci {
 	}
 
 	internal fun parse(output: String): List<PciDevice> =
-			output.split("\n").toList().map { parseLine(it) }
+			output.split("\n".toRegex()).toTypedArray().toList().map { parseLine(it) }
 
 	internal fun parseLine(line: String): PciDevice {
 		return PciDevice(

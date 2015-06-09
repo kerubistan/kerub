@@ -18,8 +18,8 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication
 /**
  * Collection of typical operations.
  */
-trait RestOperations {
-	trait Read<T> {
+interface RestOperations {
+	interface Read<T> {
 		ApiOperation("Get the object by it's ID.")
 		ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
@@ -32,7 +32,7 @@ trait RestOperations {
 		fun getById(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID): T
 	}
 
-	trait Add<T> {
+	interface Add<T> {
 		ApiOperation("Add new object")
 		ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
@@ -45,7 +45,7 @@ trait RestOperations {
 
 	}
 
-	trait Delete {
+	interface Delete {
 		ApiOperation("Delete the object")
 		ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
@@ -59,7 +59,7 @@ trait RestOperations {
 
 	}
 
-	trait Update<T> {
+	interface Update<T> {
 		ApiOperation("Update the object")
 		ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
@@ -72,7 +72,7 @@ trait RestOperations {
 		fun update(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID, entity: T): T
 	}
 
-	trait List<T> {
+	interface List<T> {
 		ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
 		GET
 		Path("/")

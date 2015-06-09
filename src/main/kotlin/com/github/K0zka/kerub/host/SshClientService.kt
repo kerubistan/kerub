@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.host.getFileContents
 /**
  * Service to help creating ssh client sessions on hosts
  */
-public trait SshClientService {
+public interface SshClientService {
 	/**
 	 * Create an unauthenticated session
 	 */

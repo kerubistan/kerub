@@ -7,7 +7,7 @@ import java.util.UUID
 import com.github.K0zka.kerub.model.ExpectationLevel
 
 JsonTypeName("ram-clock-freq")
-data class MemoryClockFrequencyExpectation [JsonCreator] (
+data class MemoryClockFrequencyExpectation @JsonCreator constructorconstructor(
 		override val id: UUID,
 		override val level : ExpectationLevel,
 		val min: Int

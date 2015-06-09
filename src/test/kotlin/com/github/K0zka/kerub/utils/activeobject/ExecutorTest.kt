@@ -8,7 +8,7 @@ import org.mockito.Mockito
 import org.junit.runner.RunWith
 import org.mockito.runners.MockitoJUnitRunner
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class ExecutorTest {
 	Mock
 	var appCtx: ApplicationContext? = null
@@ -25,7 +25,7 @@ public class ExecutorTest {
 		Mockito.`when`(appCtx!!.getBean("helloService"))!!.thenReturn(service)
 	}
 
-	trait HelloService {
+	interface HelloService {
 		fun hello(name : String)
 	}
 

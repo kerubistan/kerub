@@ -18,26 +18,26 @@ import org.codehaus.jackson.annotate.JsonProperty
 Indexed
 XmlRootElement(name = "host")
 JsonTypeName("host")
-data class Host [JsonCreator] (
+data class Host [JsonCreator] constructor(
 		override
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		DocumentId
 		JsonProperty("id")
 		val id: UUID = UUID.randomUUID(),
 		Field
 		JsonProperty("address")
 		val address: String,
-		JsonView(javaClass<Detailed>())
+		JsonView(Detailed::class)
 		Field
 		JsonProperty("publickey")
 		val publicKey: String,
-		JsonView(javaClass<Simple>())
+		JsonView(Simple::class)
 		Field
 		JsonProperty("dedicated")
 		val dedicated: Boolean,
 		Field
 		JsonProperty("capabilities")
-		JsonView(javaClass<Detailed>())
+		JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null
                               )
 : Entity<UUID>

@@ -31,10 +31,10 @@ Api(description = "Version information", value = "s/r/meta/version")
 Produces("application/json")
 Consumes("application/json")
 Path("/meta/version")
-public trait VersionService {
+public interface VersionService {
 
 	ApiOperation(value = "Get version", notes = "Get the Kerub version")
-	ApiResponses(ApiResponse(code = 200, message = "OK", response = javaClass<VersionInfo>()))
+	ApiResponses(ApiResponse(code = 200, message = "OK", response = VersionInfo::class))
 	Path("/")
 	GET
 	fun getVersionInfo(): VersionInfo

@@ -10,7 +10,7 @@ import org.mockito.Matchers
 import org.springframework.jms.core.MessageCreator
 import javax.jms.Session
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class MqInvocationQueueTest {
 	Mock
 	var template : JmsTemplate? = null

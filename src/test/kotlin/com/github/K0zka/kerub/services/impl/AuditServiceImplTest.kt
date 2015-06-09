@@ -11,7 +11,7 @@ import org.mockito.Matchers
 import com.github.K0zka.kerub.model.AuditEntry
 import org.junit.Assert
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class AuditServiceImplTest {
 	Mock
 	var dao : AuditEntryDao? = null
@@ -22,6 +22,6 @@ public class AuditServiceImplTest {
 			.thenReturn(listOf(AuditEntry(user = null)))
 		val service = AuditServiceImpl(dao!!)
 		val list = service.listById(UUID.randomUUID())
-		Assert.assertEquals(1, list.size)
+		Assert.assertEquals(1, list.size())
 	}
 }

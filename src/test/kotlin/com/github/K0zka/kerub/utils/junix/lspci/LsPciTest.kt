@@ -15,7 +15,7 @@ import java.io.InputStream
 import kotlin.reflect.jvm.java
 import java.io.ByteArrayInputStream
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class LsPciTest {
 
 	Mock

@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.utils.SoftwarePackage
 /**
  * Interface to hide the details of some distribution-specific operations.
  */
-public trait Distribution {
+public interface Distribution {
 
 	/**
 	 * Get the version of the host OS distribution.

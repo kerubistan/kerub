@@ -7,7 +7,7 @@ import com.wordnik.swagger.annotations.Api
 
 Api("s/r/vm", description = "Virtual machine operations")
 Path("/vm")
-public trait VirtualMachineService : RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine> {
+public interface VirtualMachineService : RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine> {
 	//specific VM operations
 
 }

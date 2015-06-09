@@ -32,7 +32,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertEquals
 import java.util.UUID
 
-RunWith(javaClass<Parameterized>())
+RunWith(Parameterized::class)
 public class HostCapabilitiesDiscovererTest(
 		val distroName: String,
 		val cpuArchitecture: String,
@@ -43,58 +43,56 @@ public class HostCapabilitiesDiscovererTest(
 
 	companion object {
 		platformStatic Parameters fun parameters(): List<Array<Any>> = listOf(
-				array(
-						"Fedora",
-						"x86_64",
-						Version("3","16","6"),
-						Version("20",null,null),
-						mapOf(
-								Pair("uname -s", "Linux"),
-								Pair("uname -r", "3.16.6-203.fc20.x86_64"),
-								Pair("uname -p", "x86_64"),
+				arrayOf("Fedora",
+				        "x86_64",
+				        Version("3","16","6"),
+				        Version("20",null,null),
+				        mapOf(
+						        Pair("uname -s", "Linux"),
+						        Pair("uname -r", "3.16.6-203.fc20.x86_64"),
+						        Pair("uname -p", "x86_64"),
 						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        7767288 kB"),
 						        Pair("rpm -qa","""texlive-auto-pst-pdf-svn23723.0.6-5.fc20.noarch
-									ceph-libs-compat-0.80.5-10.fc20.x86_64
-									opensp-1.5.2-18.fc20.x86_64
-									ustr-1.0.4-15.fc20.x86_64
-									lohit-assamese-fonts-2.5.3-2.fc20.noarch
-									perl-Package-Stash-XS-0.28-3.fc20.x86_64
-									java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
-									libvirt-gconfig-0.1.7-2.fc20.x86_64
-									cheese-libs-3.10.2-2.fc20.x86_64
-									""".trim()),
+									        ceph-libs-compat-0.80.5-10.fc20.x86_64
+									        opensp-1.5.2-18.fc20.x86_64
+									        ustr-1.0.4-15.fc20.x86_64
+									        lohit-assamese-fonts-2.5.3-2.fc20.noarch
+									        perl-Package-Stash-XS-0.28-3.fc20.x86_64
+									        java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
+									        libvirt-gconfig-0.1.7-2.fc20.x86_64
+									        cheese-libs-3.10.2-2.fc20.x86_64
+									        """.trim()),
 						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
-								),
-						mapOf(Pair("/etc/os-release", """
-				            NAME=Fedora
-				            VERSION_ID=20
-                            HOME_URL="https://fedoraproject.org/"
-				        """.trim()))
-				          ),
-				array<Any>(
-						"Ubuntu",
-						"x86_64",
-						Version("3","16","6"),
-						Version("14","04",null),
-						mapOf(
-								Pair("uname -s", "Linux"),
-								Pair("uname -r", "TODO"),
-								Pair("uname -p", "x86_64"),
-								Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        7767288 kB"),
+        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
+				             ),
+				        mapOf(Pair("/etc/os-release", """
+						NAME=Fedora
+						VERSION_ID=20
+		HOME_URL="https://fedoraproject.org/"
+						""".trim()))
+				       ),
+				arrayOf("Ubuntu",
+				        "x86_64",
+				        Version("3","16","6"),
+				        Version("14","04",null),
+				        mapOf(
+						        Pair("uname -s", "Linux"),
+						        Pair("uname -r", "TODO"),
+						        Pair("uname -p", "x86_64"),
+						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        7767288 kB"),
 						        Pair("dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"", """acpid	1:2.0.10-1ubuntu3
-apparmor	2.7.102-0ubuntu3.10
-apport	2.0.1-0ubuntu17.6
-aptdaemon	1.1.1-1ubuntu5
-aptitude	0.6.6-1ubuntu1.2
-apt-transport-https	1.0.1ubuntu2.1"""),
+        apparmor	2.7.102-0ubuntu3.10
+        apport	2.0.1-0ubuntu17.6
+        aptdaemon	1.1.1-1ubuntu5
+        aptitude	0.6.6-1ubuntu1.2
+        apt-transport-https	1.0.1ubuntu2.1"""),
 						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
-						     ),
-						mapOf(Pair("/etc/os-release", """
-                            NAME="Ubuntu"
-                            VERSION_ID="14.04"
-						""".trim())))
+        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
+				             ),
+				        mapOf(Pair("/etc/os-release", """
+		NAME="Ubuntu"
+		VERSION_ID="14.04"
+								""".trim())))
 		                                                      )
 
 		fun mockFile(path : String, contents: String): SshFile {
@@ -116,7 +114,7 @@ apt-transport-https	1.0.1ubuntu2.1"""),
 		}
 	}
 
-	trait RunnableCommand : Command, Runnable {
+	interface RunnableCommand : Command, Runnable {
 
 	}
 

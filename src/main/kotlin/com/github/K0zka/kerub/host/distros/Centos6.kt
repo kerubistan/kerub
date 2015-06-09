@@ -11,7 +11,7 @@ import org.apache.sshd.ClientSession
 public class Centos6 : Distribution {
 	override fun getVersion(session: ClientSession): Version =
 		Version.fromVersionString(
-				session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replaceAll("(Final)","")
+				session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replace("(Final)".toRegex(), "")
 		                         )
 
 	override fun name(): String {

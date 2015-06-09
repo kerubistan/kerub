@@ -10,7 +10,7 @@ import javax.ws.rs.Path
 Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
 Path("/controllers/")
-public trait ControllerService {
+public interface ControllerService {
 	GET
 	Path("/")
 	fun list() : List<String>

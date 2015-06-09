@@ -1,5 +1,5 @@
 package com.github.K0zka.kerub.utils.activeobject
 
-public trait InvocationQueue {
+public interface InvocationQueue {
 	fun send(invocation : AsyncInvocation) : Unit
 }

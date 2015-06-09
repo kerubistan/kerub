@@ -9,7 +9,7 @@ import org.aopalliance.intercept.MethodInvocation
 import org.mockito.Mockito
 import org.mockito.Matchers
 
-RunWith(javaClass<MockitoJUnitRunner>())
+RunWith(MockitoJUnitRunner::class)
 public class InterceptorTest {
 	Mock
 	var queue: InvocationQueue? = null
