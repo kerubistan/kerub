@@ -1,14 +1,14 @@
 package com.github.K0zka.kerub.model.expectations
 
-import com.github.K0zka.kerub.model.Expectation
-import java.util.UUID
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
+import java.util.UUID
 
 JsonTypeName("cpu-architecture")
-data class CpuArchitectureExpectation @JsonCreator constructorconstructor(
+data class CpuArchitectureExpectation @JsonCreator constructor(
 		override val id: UUID,
-		override val level : ExpectationLevel,
+		override val level: ExpectationLevel,
 		val cpuArchitecture: String
-                                                   ) : Expectation
+                                                              ) : Expectation

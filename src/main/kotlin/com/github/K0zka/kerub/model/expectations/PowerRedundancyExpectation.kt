@@ -1,14 +1,14 @@
 package com.github.K0zka.kerub.model.expectations
 
-import com.github.K0zka.kerub.model.Expectation
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
-import java.util.UUID
+import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
+import java.util.UUID
 
 JsonTypeName("power-redundancy")
-data class PowerRedundancyExpectation @JsonCreator constructorconstructor(
+data class PowerRedundancyExpectation @JsonCreator constructor(
 		override val id: UUID,
-		override val level : ExpectationLevel = ExpectationLevel.Want,
+		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val minPowerCords: Int
-                                                      ) : Expectation
+                                                              ) : Expectation
