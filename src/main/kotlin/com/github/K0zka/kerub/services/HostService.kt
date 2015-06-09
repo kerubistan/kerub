@@ -24,20 +24,20 @@ Api("s/r/host", description = "Host service")
 Path("/host")
 Produces(MediaType.APPLICATION_JSON)
 Consumes(MediaType.APPLICATION_JSON)
-RequiresRoles(array(Roles.admin))
+RequiresRoles(Roles.admin)
 RequiresAuthentication
 public trait HostService : RestCrud<Host> {
 
 	RequiresAuthentication
-	RequiresRoles(array(Roles.admin))
+	RequiresRoles(Roles.admin)
 	override fun getById(id: UUID): Host;
 
 	RequiresAuthentication
-	RequiresRoles(array(Roles.admin))
+	RequiresRoles(Roles.admin)
 	override fun delete(id: UUID);
 
 	RequiresAuthentication
-	RequiresRoles(array(Roles.admin))
+	RequiresRoles(Roles.admin)
 	override fun update(id: UUID, entity: Host): Host
 
 	ApiOperation("Add new object")
@@ -47,14 +47,14 @@ public trait HostService : RestCrud<Host> {
 	            )
 	PUT
 	Path("/join")
-	RequiresRoles(array(Roles.admin))
+	RequiresRoles(Roles.admin)
 	RequiresAuthentication
 	fun join(ApiParam(value = "New host with password", required = true) hostPwd : HostAndPassword): Host
 
 	ApiOperation("Get the public key of the server", httpMethod = "GET")
 	GET
 	Path("/helpers/pubkey")
-	RequiresRoles(array(Roles.admin))
+	RequiresRoles(Roles.admin)
 	RequiresAuthentication
 	fun getHostPubkey(QueryParam("address") address : String) : HostPubKey
 }
