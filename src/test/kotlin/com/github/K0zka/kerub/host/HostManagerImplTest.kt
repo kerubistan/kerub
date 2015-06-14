@@ -30,13 +30,10 @@ public class HostManagerImplTest {
 	var hostDao: HostDao? = null
 
 	Mock
-	var pubKey: PublicKey? = null
-
-	Mock
-	var privKey: PrivateKey? = null
-
-	Mock
 	var hostDynamicDao : HostDynamicDao? = null
+
+	Mock
+	var sshClientService : SshClientService? = null
 
 	var hostManager : HostManagerImpl? = null
 
@@ -79,9 +76,8 @@ public class HostManagerImplTest {
 	Before
 	fun setup() {
 		val key = getTestKey()
-		hostManager = HostManagerImpl(getTestKey(), hostDao!!, hostDynamicDao!!)
+		hostManager = HostManagerImpl(getTestKey(), hostDao!!, hostDynamicDao!!, sshClientService!!)
 		hostManager!!.sshServerPort = 2022
-		hostManager!!.start()
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()
 		sshServer!!.setPort(2022)
@@ -93,7 +89,6 @@ public class HostManagerImplTest {
 
 	After
 	fun cleanup() {
-		hostManager!!.stop()
 		sshServer!!.stop()
 	}
 

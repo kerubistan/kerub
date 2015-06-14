@@ -15,14 +15,15 @@ import org.apache.sshd.common.SessionListener
 import org.apache.sshd.common.Session
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.utils.getLogger
-import java.util.Collections
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import java.util.*
 
 public class HostManagerImpl (
 		val keyPair : KeyPair,
 		val hostDao : HostDao,
-		val hostDynamicDao : HostDynamicDao) : HostManager {
+		val hostDynamicDao : HostDynamicDao,
+		val sshClientService : SshClientService) : HostManager {
 
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
@@ -32,27 +33,20 @@ public class HostManagerImpl (
 
 	public var sshServerPort : Int = defaultSshServerPort
 	public var sshUserName : String = defaultSshUserName
-	protected val sshClient : SshClient = SshClient.setUpDefaultClient()
-	private val connections = Collections.synchronizedMap(hashMapOf<String, ClientSession>())
+	private val connections = Collections.synchronizedMap(hashMapOf<UUID, ClientSession>())
+
+	override fun connectHost(host: Host) {
+		connections.put(host.id, sshClientService.loginWithPublicKey(host.address))
+	}
 
 	fun start() {
-		sshClient.start()
+		logger.info("starting host manager")
+		//TODO: connect each assigned hosts
 	}
 
 	fun stop() {
-		sshClient.stop()
-	}
-
-	override fun connectHost(host: Host) {
-		sshClient.connect(sshUserName, host.address, sshServerPort).addListener {
-			logger.info("host connected")
-			connections.put(host.address, it.getSession())
-
-		}
-	}
-
-	fun executeCommand() {
-
+		logger.info("stopping host manager")
+		//TODO: disconnect hosts quick but nice
 	}
 
 	class ServerKeyReader : ServerKeyVerifier {

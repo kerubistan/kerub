@@ -17,7 +17,7 @@ public interface SshClientService {
 	/**
 	 * Create an authenticated session with public key authentication
 	 */
-	fun loginWithPublicKey(address: String, userName : String) : ClientSession
+	fun loginWithPublicKey(address: String, userName : String = "root") : ClientSession
 
 	/**
 	 * Create an authenticated session with

@@ -47,5 +47,11 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="controllerDynamicCache" mode="ASYNC">
+            <persistence>
+                <file-store path="store/controller-dynamic"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
     </cache-container>
 </infinispan>

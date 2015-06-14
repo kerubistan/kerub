@@ -8,7 +8,7 @@ import java.security.PublicKey
 import javax.ws.rs.QueryParam
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
-import com.github.K0zka.kerub.host.HostCapabilitiesDiscoverer
+import com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl
 import com.wordnik.swagger.annotations.ApiResponses
 import com.wordnik.swagger.annotations.ApiResponse
 import javax.ws.rs.PUT

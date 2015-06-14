@@ -177,7 +177,7 @@ public class HostCapabilitiesDiscovererTest(
 	}
 
 	Test fun discoverHost() {
-		val capabilities = HostCapabilitiesDiscoverer.discoverHost(session!!)
+		val capabilities = HostCapabilitiesDiscovererImpl().discoverHost(session!!)
 		assertNotNull(capabilities)
 		assertEquals(distroName, capabilities.distribution?.name)
 		assertEquals(cpuArchitecture, capabilities.cpuArchitecture)
@@ -187,18 +187,18 @@ public class HostCapabilitiesDiscovererTest(
 	Test
 	fun isDmiDecodeInstalled() {
 		Assert.assertThat(
-				HostCapabilitiesDiscoverer.isDmiDecodeInstalled(listOf(SoftwarePackage("foo",Version("1","0","0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
+				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo",Version("1","0","0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
 				CoreMatchers.`is`(true)
 		                 )
 		Assert.assertThat(
-				HostCapabilitiesDiscoverer.isDmiDecodeInstalled(listOf()),
+				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf()),
 				CoreMatchers.`is`(false)
 		                 )
 	}
 
 	Test
 	fun valuesOfType() {
-		assertEquals(listOf("TEST"), HostCapabilitiesDiscoverer.valuesOfType(listOf(1, "TEST", true, 3.14), String::class))
-		assertEquals(listOf<Any>(), HostCapabilitiesDiscoverer.valuesOfType(listOf(1, "TEST", true, 3.14), Any::class))
+		assertEquals(listOf("TEST"), HostCapabilitiesDiscovererImpl().valuesOfType(listOf(1, "TEST", true, 3.14), String::class))
+		assertEquals(listOf<Any>(), HostCapabilitiesDiscovererImpl().valuesOfType(listOf(1, "TEST", true, 3.14), Any::class))
 	}
 }
