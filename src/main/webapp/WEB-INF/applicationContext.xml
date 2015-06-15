@@ -280,7 +280,7 @@
 #### Developer mode
 
 This instance seems to be running in dev/eval mode.
-You can log in with the following users (see shiro.ini):
+You can log in with the following users (see **shiro.ini**):
 
  * admin/password
  * poweruser/password
