@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.utils.version
+package com.github.K0zka.kerub.model
 
 import com.github.K0zka.kerub.utils.elemOrNull
 import org.hibernate.search.annotations.Field

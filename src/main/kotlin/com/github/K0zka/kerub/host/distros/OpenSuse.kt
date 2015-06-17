@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.host.execute
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
-import com.github.K0zka.kerub.utils.version.Version
 import org.apache.sshd.ClientSession
 
 public class OpenSuse : LsbDistribution("openSUSE") {

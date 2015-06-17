@@ -1,11 +1,10 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.host.execute
-import com.github.K0zka.kerub.host
-import org.apache.sshd.ClientSession
-import com.github.K0zka.kerub.utils.version.Version
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
+import org.apache.sshd.ClientSession
 
 public class Fedora : LsbDistribution("Fedora") {
 

@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.utils
 
-import com.github.K0zka.kerub.utils.version.Version
+import com.github.K0zka.kerub.model.Version
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
 

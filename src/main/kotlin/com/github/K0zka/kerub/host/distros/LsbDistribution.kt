@@ -2,10 +2,10 @@ package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.getFileContents
+import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.ClientSession
-import com.github.K0zka.kerub.utils.version.Version
-import java.util.Properties
 import java.io.StringReader
+import java.util.Properties
 
 public abstract class LsbDistribution(val distroName : String) : Distribution {
 

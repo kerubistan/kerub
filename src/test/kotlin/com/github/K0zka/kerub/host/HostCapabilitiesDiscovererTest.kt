@@ -1,36 +1,34 @@
 package com.github.K0zka.kerub.host
 
-import org.junit.Test
-import org.junit.Before
-import org.junit.After
-import org.apache.sshd.SshClient
-import org.apache.sshd.ClientSession
-import org.junit.runner.RunWith
 import com.github.K0zka.kerub.data.HostDao
-import org.apache.sshd.SshServer
 import com.github.K0zka.kerub.getTestKey
-import org.mockito.Mockito
-import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.SoftwarePackage
+import org.apache.sshd.ClientSession
+import org.apache.sshd.SshClient
+import org.apache.sshd.SshServer
 import org.apache.sshd.common.NamedFactory
-import org.apache.sshd.server.sftp.SftpSubsystem
-import org.apache.sshd.server.Command
 import org.apache.sshd.common.file.SshFile
-import org.mockito.Matchers
-import java.io.ByteArrayInputStream
+import org.apache.sshd.server.Command
 import org.apache.sshd.server.CommandFactory
-import java.io.OutputStream
 import org.apache.sshd.server.Environment
 import org.apache.sshd.server.ExitCallback
-import com.github.K0zka.kerub.utils.version.Version
+import org.apache.sshd.server.sftp.SftpSubsystem
 import org.hamcrest.CoreMatchers
+import org.junit.After
 import org.junit.Assert
-import kotlin.platform.platformStatic
-import org.junit.runners.Parameterized.Parameters
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import kotlin.test.assertNotNull
+import org.junit.runners.Parameterized.Parameters
+import org.mockito.Matchers
+import org.mockito.Mockito
+import java.io.ByteArrayInputStream
+import java.io.OutputStream
+import kotlin.platform.platformStatic
 import kotlin.test.assertEquals
-import java.util.UUID
+import kotlin.test.assertNotNull
 
 RunWith(Parameterized::class)
 public class HostCapabilitiesDiscovererTest(
