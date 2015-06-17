@@ -9,7 +9,6 @@ import java.util.HashMap
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import java.util.UUID
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
-import com.github.K0zka.kerub.model.serializableListOf
 import com.github.K0zka.kerub.utils.getLogger
 
 public class DmiDecoder {
@@ -55,7 +54,7 @@ public class DmiDecoder {
 							l1cache = dependencies[input.substringBetween("L1 Cache Handle: ", "\n")] as CacheInformation?,
 							l2cache = dependencies[input.substringBetween("L2 Cache Handle: ", "\n")] as CacheInformation?,
 							l3cache = dependencies[input.substringBetween("L3 Cache Handle: ", "\n")] as CacheInformation?,
-							flags = serializableListOf()
+							flags = listOf()
 					                    )
 				},
 				7 to {input, dependencies ->

@@ -21,10 +21,10 @@ public data class HostCapabilities (
 		val distribution: SoftwarePackage?,
 		JsonView(Full::class)
 		Field
-		val installedSoftware: List<SoftwarePackage> = serializableListOf(),
+		val installedSoftware: List<SoftwarePackage> = listOf(),
 		JsonView(Detailed::class)
 		Field
-		val devices: List<PciDevice> = serializableListOf(),
+		val devices: List<PciDevice> = listOf(),
 		JsonView(Simple::class)
 		Field
 		val cpuArchitecture: String,

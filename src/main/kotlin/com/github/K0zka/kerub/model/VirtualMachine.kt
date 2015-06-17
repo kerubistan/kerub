@@ -27,11 +27,11 @@ data class VirtualMachine(
 		/**
 		 * List of expectations against the VM.
 		 */
-		var expectations: List<Expectation> = serializableListOf(),
+		var expectations: List<Expectation> = listOf(),
 		/**
 		 * Storage devices of the VM
 		 */
-		var storageDevices: List<StorageDevice> = serializableListOf()
+		var storageDevices: List<StorageDevice> = listOf()
                          )
 : Entity<UUID>
 

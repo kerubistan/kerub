@@ -8,6 +8,6 @@ data class StorageDevice(
 		val size: Long,
 		val bus : BusType,
 		val readOnly :Boolean = false,
-		val expectations: List<Expectation> = serializableListOf()
+		val expectations: List<Expectation> = listOf()
                )
 : Entity<UUID>
