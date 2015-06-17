@@ -19,6 +19,9 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication
  * Collection of typical operations.
  */
 interface RestOperations {
+	/**
+	 * Interface for rest services that allow clients to retrieve an entity by its ID.
+	 */
 	interface Read<T> {
 		ApiOperation("Get the object by it's ID.")
 		ApiResponses(
@@ -32,6 +35,9 @@ interface RestOperations {
 		fun getById(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID): T
 	}
 
+	/**
+	 * Interface for rest services that allow clients to add an entity.
+	 */
 	interface Add<T> {
 		ApiOperation("Add new object")
 		ApiResponses(
@@ -45,6 +51,9 @@ interface RestOperations {
 
 	}
 
+	/**
+	 * Interface for rest services that allow clients to delete an entity.
+	 */
 	interface Delete {
 		ApiOperation("Delete the object")
 		ApiResponses(
@@ -59,6 +68,9 @@ interface RestOperations {
 
 	}
 
+	/**
+	 * Interface for rest services that allow clients to update an entity.
+	 */
 	interface Update<T> {
 		ApiOperation("Update the object")
 		ApiResponses(
@@ -72,6 +84,9 @@ interface RestOperations {
 		fun update(ApiParam(value = "ID of the object", name = "id", required = true) PathParam("id") id: UUID, entity: T): T
 	}
 
+	/**
+	 * Interface for rest services that allow clients to list entities broken down to pages.
+	 */
 	interface List<T> {
 		ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
 		GET
