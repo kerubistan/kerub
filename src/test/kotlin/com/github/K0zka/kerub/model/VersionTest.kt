@@ -1,5 +1,6 @@
-package com.github.K0zka.kerub.utils.version
+package com.github.K0zka.kerub.model
 
+import com.github.K0zka.kerub.model.Version
 import kotlin.test.assertEquals
 import org.junit.Test
 import kotlin.test.assertNotNull
