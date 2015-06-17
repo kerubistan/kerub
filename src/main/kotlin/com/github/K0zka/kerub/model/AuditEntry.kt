@@ -5,6 +5,9 @@ import org.hibernate.search.annotations.Indexed
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 
+/**
+ * Represents a change in an entity. Audit entries should be created for each change on an entity, but never updated.
+ */
 Indexed
 class AuditEntry(
 		DocumentId
