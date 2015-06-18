@@ -1,15 +1,8 @@
 package com.github.K0zka.kerub.model
 
-import javax.xml.bind.annotation.XmlRootElement
-import javax.xml.bind.annotation.XmlAttribute
-import javax.xml.bind.annotation.XmlValue
-
-XmlRootElement(name = "HostPubKey")
-public class HostPubKey(XmlAttribute(name = "algorithm")
+public class HostPubKey(
                         val algorithm: String?,
-                        XmlAttribute(name = "format")
                         val format: String?,
-                        XmlValue
                         var fingerprint: String) {
 
 }

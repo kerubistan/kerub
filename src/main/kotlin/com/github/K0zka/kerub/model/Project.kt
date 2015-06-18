@@ -1,15 +1,13 @@
 package com.github.K0zka.kerub.model
 
-import java.util.UUID
-import java.util.Date
-import javax.xml.bind.annotation.XmlRootElement
-import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonTypeName
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
+import java.util.Date
+import java.util.UUID
 
-XmlRootElement(name = "project")
 JsonTypeName("project")
 JsonCreator
 public class Project(

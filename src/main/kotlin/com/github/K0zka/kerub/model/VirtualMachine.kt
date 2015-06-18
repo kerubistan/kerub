@@ -1,11 +1,9 @@
 package com.github.K0zka.kerub.model
 
-import java.util.UUID
-import javax.xml.bind.annotation.XmlRootElement
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
+import java.util.UUID
 
-XmlRootElement(name = "vm")
 data class VirtualMachine(
 		DocumentId
 		override val id: UUID,
