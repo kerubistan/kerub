@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.lspci
 
 import com.github.K0zka.kerub.host.execute
-import com.github.K0zka.kerub.model.PciDevice
+import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import kotlin.platform.platformStatic

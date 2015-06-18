@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.model
+package com.github.K0zka.kerub.model.hardware
 
 import java.io.Serializable
 import org.hibernate.search.annotations.Field
