@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.services
+package com.github.K0zka.kerub.model
 
 import javax.xml.bind.annotation.XmlRootElement
 import javax.xml.bind.annotation.XmlAttribute

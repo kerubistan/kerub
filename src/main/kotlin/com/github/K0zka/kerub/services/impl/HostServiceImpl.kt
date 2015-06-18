@@ -1,11 +1,14 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.github.K0zka.kerub.services.HostService
-import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.data.HostDao
-import com.github.K0zka.kerub.host.*
-import com.github.K0zka.kerub.services.HostPubKey
+import com.github.K0zka.kerub.host.ControllerAssigner
+import com.github.K0zka.kerub.host.HostCapabilitiesDiscoverer
+import com.github.K0zka.kerub.host.HostManager
+import com.github.K0zka.kerub.host.SshClientService
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.HostPubKey
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.github.K0zka.kerub.services.HostService
 import org.apache.sshd.common.util.KeyUtils
 
 public class HostServiceImpl(
