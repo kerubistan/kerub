@@ -11,7 +11,7 @@ data class VirtualMachine(
 		 * Name of the VM, which is not necessarily a unique identifier, but helps to find the VM.
 		 */
 		Field
-		var name: String,
+		override var name: String,
 		/**
 		 * The number of vCPUs of the VM.
 		 */
@@ -31,5 +31,5 @@ data class VirtualMachine(
 		 */
 		var storageDevices: List<StorageDevice> = listOf()
                          )
-: Entity<UUID>
+: Entity<UUID>, Named
 

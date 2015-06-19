@@ -16,7 +16,7 @@ public class Project(
 		override var id: UUID = UUID.randomUUID(),
 		Field
 		JsonProperty("name")
-		val name: String,
+		override val name: String,
 		Field
 		JsonProperty("description")
 		val description: String,
@@ -27,4 +27,4 @@ public class Project(
 		JsonProperty("expectations")
 		val expectations: List<Expectation> = listOf()
                     )
-: Entity<UUID>
+: Entity<UUID>, Named
