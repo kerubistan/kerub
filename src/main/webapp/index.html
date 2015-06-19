@@ -48,8 +48,8 @@
                     </div>
                 </div>
                 <form ng-submit="login()">
-                    <input ng-model="username" class="form-control" placeholder="username">
-                    <input ng-model="password" class="form-control" type="password" placeholder="password">
+                    <input ng-model="username" class="form-control" placeholder="username" autofocus>
+                    <input ng-model="password" class="form-control" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
                 </form>
             </div>
             <div class="modal-footer">

@@ -1,0 +1,2 @@
+kerubApp.directive('focus', function() {
+});
