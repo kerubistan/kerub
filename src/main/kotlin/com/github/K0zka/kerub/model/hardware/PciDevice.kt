@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.model.hardware
 
-import java.io.Serializable
 import org.hibernate.search.annotations.Field
+import java.io.Serializable
 
 /**
  * Represents a PCI device of the host.

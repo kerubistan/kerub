@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.model
 
-import java.util.UUID
 import java.io.Serializable
+import java.util.UUID
 
 /**
  * Base expectation interface.

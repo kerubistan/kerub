@@ -1,15 +1,15 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.data.ControllerDao
+import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.State
-import com.github.k0zka.finder4j.backtrack.StepFactory
 import com.github.k0zka.finder4j.backtrack.Step
-import java.util.HashMap
-import com.github.K0zka.kerub.data.ControllerDao
+import com.github.k0zka.finder4j.backtrack.StepFactory
 import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
-import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
-import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
+import java.util.HashMap
 
 /*
  * This is considered a placeholder for the logic that assigns hosts to controllers.

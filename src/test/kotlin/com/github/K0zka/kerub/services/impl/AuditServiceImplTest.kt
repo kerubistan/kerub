@@ -1,15 +1,15 @@
 package com.github.K0zka.kerub.services.impl
 
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.junit.Test
-import org.mockito.Mock
 import com.github.K0zka.kerub.data.AuditEntryDao
-import org.mockito.Mockito
-import java.util.UUID
-import org.mockito.Matchers
 import com.github.K0zka.kerub.model.AuditEntry
 import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Matchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
+import java.util.UUID
 
 RunWith(MockitoJUnitRunner::class)
 public class AuditServiceImplTest {

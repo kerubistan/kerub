@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.utils.activeobject
 
-import org.mockito.Mock
-import org.springframework.context.ApplicationContext
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
+import org.springframework.context.ApplicationContext
 
 RunWith(MockitoJUnitRunner::class)
 public class ExecutorTest {

@@ -1,9 +1,6 @@
 package com.github.K0zka.kerub.host
 
 import org.apache.sshd.ClientSession
-import com.github.K0zka.kerub.host.use
-import com.github.K0zka.kerub.host.checkFileExists
-import com.github.K0zka.kerub.host.getFileContents
 
 /**
  * Service to help creating ssh client sessions on hosts

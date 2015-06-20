@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.services.impl
 
-import org.junit.Test
 import org.junit.Assert
+import org.junit.Test
 
 public class VersionServiceTest {
 	Test

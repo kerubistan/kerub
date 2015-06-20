@@ -1,20 +1,18 @@
 package com.github.K0zka.kerub.data.ispn
 
-import org.infinispan.manager.DefaultCacheManager
-import org.infinispan.Cache
-import com.github.K0zka.kerub.data.ispn.IspnDaoBaseTest.TestEntity
-import org.mockito.Mock
-import com.github.K0zka.kerub.data.EventListener
-import org.junit.Before
-import com.github.K0zka.kerub.data.ispn.IspnDaoBaseTest.TestDao
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.junit.Test
-import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.data.AssignmentDao
+import com.github.K0zka.kerub.data.EventListener
+import com.github.K0zka.kerub.model.controller.Assignment
+import org.infinispan.Cache
+import org.infinispan.manager.DefaultCacheManager
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
-import org.junit.After
 
 RunWith(MockitoJUnitRunner::class)
 public class AssignmentDaoImplTest {

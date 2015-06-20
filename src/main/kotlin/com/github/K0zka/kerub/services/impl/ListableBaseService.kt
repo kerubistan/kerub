@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.services.impl
 
 import com.fasterxml.jackson.annotation.JsonView
-import com.github.K0zka.kerub.services.ResultPage
-import java.util.UUID
-import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.data.ListableCrudDao
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.services.RestOperations
+import com.github.K0zka.kerub.services.ResultPage
+import java.util.UUID
 
 abstract public class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao<T, UUID>, entityType: String)
 : BaseServiceImpl<T>(dao, entityType), RestOperations.List<T> {

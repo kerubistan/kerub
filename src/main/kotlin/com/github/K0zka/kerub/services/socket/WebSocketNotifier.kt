@@ -1,22 +1,16 @@
 package com.github.K0zka.kerub.services.socket
 
-import javax.websocket.Session
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import com.github.K0zka.kerub.model.messages.PingMessage
-import com.github.K0zka.kerub.model.messages.PongMessage
-import com.github.K0zka.kerub.model.messages.SubscribeMessage
-import com.github.K0zka.kerub.model.messages.UnsubscribeMessage
-import java.util.HashSet
-import com.github.K0zka.kerub.model.messages.Message
-import org.springframework.web.socket.handler.TextWebSocketHandler
-import org.springframework.web.socket.WebSocketSession
-import org.springframework.web.socket.TextMessage
-import org.springframework.web.socket.CloseStatus
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import com.github.K0zka.kerub.model.messages.*
 import com.github.K0zka.kerub.utils.getLogger
+import org.slf4j.Logger
+import org.springframework.web.socket.CloseStatus
+import org.springframework.web.socket.TextMessage
+import org.springframework.web.socket.WebSocketSession
+import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.io.StringWriter
+import java.util.HashSet
+import javax.websocket.Session
 
 public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
 	protected companion object {

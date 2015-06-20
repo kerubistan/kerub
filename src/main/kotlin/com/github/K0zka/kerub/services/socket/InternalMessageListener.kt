@@ -1,12 +1,8 @@
 package com.github.K0zka.kerub.services.socket
 
-import javax.jms.MessageListener
 import javax.jms.Message
-import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import javax.jms.MessageListener
 import javax.jms.ObjectMessage
-import java.util.ArrayList
-import java.util.LinkedList
-import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.messages.Message as KerubMessage
 
 public class InternalMessageListener : MessageListener {

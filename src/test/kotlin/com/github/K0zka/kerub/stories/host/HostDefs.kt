@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.stories.host
 
-import cucumber.api.java.en.Given
 import com.github.K0zka.kerub.utils.getLogger
-import cucumber.api.java.en.When
 import cucumber.api.java.After
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.When
 
 public class HostDefs {
 

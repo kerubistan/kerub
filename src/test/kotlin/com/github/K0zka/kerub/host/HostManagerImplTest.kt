@@ -1,27 +1,24 @@
 package com.github.K0zka.kerub.host
 
-import org.junit.Test
-import java.security.KeyPair
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.mockito.Mock
 import com.github.K0zka.kerub.data.HostDao
-import java.security.PublicKey
-import java.security.PrivateKey
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
-import org.junit.Before
-import org.junit.After
 import org.apache.sshd.SshServer
-import org.apache.sshd.server.auth.UserAuthPublicKey
-import kotlin.test.assertEquals
 import org.apache.sshd.server.Command
+import org.apache.sshd.server.Environment
+import org.apache.sshd.server.ExitCallback
+import org.apache.sshd.server.auth.UserAuthPublicKey
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.runners.MockitoJUnitRunner
 import java.io.InputStream
 import java.io.OutputStream
-import org.apache.sshd.server.ExitCallback
-import org.apache.sshd.server.Environment
-import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import java.util.UUID
+import kotlin.test.assertEquals
 
 RunWith(MockitoJUnitRunner::class)
 public class HostManagerImplTest {

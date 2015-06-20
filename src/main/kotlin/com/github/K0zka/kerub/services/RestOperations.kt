@@ -1,19 +1,12 @@
 package com.github.K0zka.kerub.services
 
 import com.wordnik.swagger.annotations.ApiOperation
-import com.wordnik.swagger.annotations.ApiResponses
-import com.wordnik.swagger.annotations.ApiResponse
-import javax.ws.rs.GET
-import javax.ws.rs.Path
 import com.wordnik.swagger.annotations.ApiParam
-import javax.ws.rs.PathParam
-import java.util.UUID
-import javax.ws.rs.PUT
-import javax.ws.rs.DELETE
-import javax.ws.rs.POST
-import javax.ws.rs.QueryParam
-import javax.ws.rs.DefaultValue
+import com.wordnik.swagger.annotations.ApiResponse
+import com.wordnik.swagger.annotations.ApiResponses
 import org.apache.shiro.authz.annotation.RequiresAuthentication
+import java.util.UUID
+import javax.ws.rs.*
 
 /**
  * Collection of typical operations.

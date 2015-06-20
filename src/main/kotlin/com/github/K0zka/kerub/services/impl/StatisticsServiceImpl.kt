@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.github.K0zka.kerub.services.StatisticsService
 import com.github.K0zka.kerub.services.StatisticsInfo
-import org.infinispan.manager.EmbeddedCacheManager
+import com.github.K0zka.kerub.services.StatisticsService
 import org.infinispan.AdvancedCache
+import org.infinispan.manager.EmbeddedCacheManager
 
 public class StatisticsServiceImpl(val cacheManager : EmbeddedCacheManager) : StatisticsService {
 	override fun getStatisticsInfo(cacheName: String): StatisticsInfo {

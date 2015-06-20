@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.model.dynamic
 
-import java.util.UUID
 import com.github.K0zka.kerub.model.Entity
+import java.util.UUID
 
 /**
  * Dynamic general information about the status of a host.

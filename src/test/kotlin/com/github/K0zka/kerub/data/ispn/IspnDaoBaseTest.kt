@@ -1,16 +1,16 @@
 package com.github.K0zka.kerub.data.ispn
 
-import org.junit.Test
-import org.junit.Before
-import com.github.K0zka.kerub.model.Entity
-import org.infinispan.manager.DefaultCacheManager
-import org.infinispan.Cache
-import org.junit.Assert
-import org.junit.After
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 import com.github.K0zka.kerub.data.EventListener
+import com.github.K0zka.kerub.model.Entity
+import org.infinispan.Cache
+import org.infinispan.manager.DefaultCacheManager
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.runners.MockitoJUnitRunner
 
 RunWith(MockitoJUnitRunner::class)
 class IspnDaoBaseTest {

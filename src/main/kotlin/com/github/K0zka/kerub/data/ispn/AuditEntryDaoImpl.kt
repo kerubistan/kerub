@@ -2,10 +2,9 @@ package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.data.AuditEntryDao
 import com.github.K0zka.kerub.model.AuditEntry
-import java.util.UUID
-import org.infinispan.Cache
 import org.infinispan.AdvancedCache
 import org.infinispan.query.Search
+import java.util.UUID
 
 public class AuditEntryDaoImpl(protected val cache : AdvancedCache<UUID, AuditEntry>) : AuditEntryDao{
 	override fun add(entry: AuditEntry): UUID {

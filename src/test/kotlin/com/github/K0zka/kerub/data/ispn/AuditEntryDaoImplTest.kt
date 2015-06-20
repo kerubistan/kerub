@@ -1,19 +1,19 @@
 package com.github.K0zka.kerub.data.ispn
 
-import org.junit.Test
-import org.junit.Before
-import org.infinispan.AdvancedCache
-import java.util.UUID
-import com.github.K0zka.kerub.model.AuditEntry
 import com.github.K0zka.kerub.data.AuditEntryDao
-import org.infinispan.manager.DefaultCacheManager
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.mockito.Mock
+import com.github.K0zka.kerub.model.AuditEntry
 import com.github.K0zka.kerub.model.Entity
-import org.mockito.Mockito
-import org.junit.Assert
+import org.infinispan.AdvancedCache
+import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
+import java.util.UUID
 
 RunWith(MockitoJUnitRunner::class)
 public class AuditEntryDaoImplTest {

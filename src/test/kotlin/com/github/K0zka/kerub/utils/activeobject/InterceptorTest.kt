@@ -1,13 +1,13 @@
 package com.github.K0zka.kerub.utils.activeobject
 
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.junit.Test
-import org.mockito.Mock
-import org.junit.Before
 import org.aopalliance.intercept.MethodInvocation
-import org.mockito.Mockito
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Matchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
 
 RunWith(MockitoJUnitRunner::class)
 public class InterceptorTest {

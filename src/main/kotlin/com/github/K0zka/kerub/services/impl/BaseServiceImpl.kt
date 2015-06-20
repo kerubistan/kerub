@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.services.impl
 
 import com.fasterxml.jackson.annotation.JsonView
-import com.github.K0zka.kerub.services.RestCrud
-import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.data.CrudDao
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.views.Full
+import com.github.K0zka.kerub.services.RestCrud
 import java.util.UUID
 
 abstract class BaseServiceImpl<T : Entity<UUID>> (protected val dao: CrudDao<T, UUID>, val entityType: String)

@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.model
 
-import java.util.UUID
 import com.fasterxml.jackson.annotation.JsonTypeName
+import java.util.UUID
 
 JsonTypeName("event")
 public data class Event(

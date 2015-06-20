@@ -12,7 +12,6 @@ import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.HttpClientBuilder
 import org.junit.Assert
-import javax.ws.rs.core.MediaType
 
 public class HostSecurityDefs {
 	var user: String = "admin"

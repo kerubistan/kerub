@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.model.controller
 
-import java.util.UUID
-import com.github.K0zka.kerub.model.Entity
-import org.hibernate.search.annotations.Field
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.github.K0zka.kerub.model.Entity
+import org.hibernate.search.annotations.Field
+import java.util.UUID
 
 JsonCreator
 public data class Assignment(

@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.model.Version
-import org.apache.sshd.ClientSession
 import com.github.K0zka.kerub.utils.SoftwarePackage
+import org.apache.sshd.ClientSession
 
 /**
  * Interface to hide the details of some distribution-specific operations.

@@ -1,17 +1,12 @@
 package com.github.K0zka.kerub.services
 
-import com.wordnik.swagger.annotations.ApiModel
-import com.wordnik.swagger.annotations.ApiModelProperty
-import com.wordnik.swagger.annotations.ApiOperation
-import com.wordnik.swagger.annotations.ApiResponses
-import com.wordnik.swagger.annotations.ApiResponse
-import javax.ws.rs.Path
-import javax.ws.rs.GET
-import com.wordnik.swagger.annotations.Api
-import javax.ws.rs.Produces
-import javax.ws.rs.Consumes
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.wordnik.swagger.annotations.*
+import javax.ws.rs.Consumes
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
 
 ApiModel("VersionInfo", description = "Version information")
 JsonCreator

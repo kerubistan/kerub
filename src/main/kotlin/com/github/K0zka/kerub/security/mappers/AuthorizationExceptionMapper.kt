@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.security.mappers
 
-import javax.ws.rs.ext.ExceptionMapper
+import com.github.K0zka.kerub.utils.getLogger
 import org.apache.shiro.authz.AuthorizationException
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.Response.Status
-import com.github.K0zka.kerub.utils.getLogger
+import javax.ws.rs.ext.ExceptionMapper
 
 public class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationException> {
 

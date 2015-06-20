@@ -1,15 +1,10 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
-import kotlin.platform.platformStatic
-import com.github.K0zka.kerub.model.hardware.ProcessorInformation
-import java.math.BigDecimal
-import com.github.K0zka.kerub.model.hardware.CacheInformation
-import com.github.K0zka.kerub.model.hardware.ChassisInformation
-import java.util.HashMap
-import com.github.K0zka.kerub.model.hardware.SystemInformation
-import java.util.UUID
-import com.github.K0zka.kerub.model.hardware.MemoryInformation
+import com.github.K0zka.kerub.model.hardware.*
 import com.github.K0zka.kerub.utils.getLogger
+import java.util.HashMap
+import java.util.UUID
+import kotlin.platform.platformStatic
 
 public class DmiDecoder {
 

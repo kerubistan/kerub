@@ -2,9 +2,9 @@ package com.github.K0zka.kerub.utils.junix.dmi
 
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
-import org.junit.Test
-import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
+import com.github.K0zka.kerub.model.hardware.SystemInformation
+import org.junit.Test
 import java.util.UUID
 
 public class DmiDecoderTest {

@@ -2,8 +2,6 @@ package com.github.K0zka.kerub
 
 import java.security.KeyPair
 import java.security.KeyStore
-import java.security.Key
-import java.security.KeyPairGenerator
 import java.security.PrivateKey
 
 fun getTestKey() : KeyPair {

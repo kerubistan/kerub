@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.utils.activeobject
 
 import org.junit.Test
-import org.mockito.Mock
-import org.springframework.jms.core.JmsTemplate
 import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.mockito.Mockito
 import org.mockito.Matchers
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
+import org.springframework.jms.core.JmsTemplate
 import org.springframework.jms.core.MessageCreator
 import javax.jms.Session
 

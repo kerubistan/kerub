@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.data.CrudDao
-import com.github.K0zka.kerub.model.Entity
-import org.infinispan.Cache
 import com.github.K0zka.kerub.data.EventListener
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.messages.EntityAddMessage
 import com.github.K0zka.kerub.model.messages.EntityRemoveMessage
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import org.infinispan.Cache
 
 abstract class IspnDaoBase<T : Entity<I>, I> (protected val cache : Cache<I, T>,
 										  protected val eventListener : EventListener) : CrudDao<T, I> {

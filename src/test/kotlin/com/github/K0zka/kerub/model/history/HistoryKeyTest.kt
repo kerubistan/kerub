@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.model.history
 
-import org.junit.Test
 import org.junit.Assert
+import org.junit.Test
 
 public class HistoryKeyTest {
 	Test

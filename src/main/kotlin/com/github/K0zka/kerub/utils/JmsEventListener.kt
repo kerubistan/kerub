@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.utils
 
-import org.springframework.jms.core.JmsTemplate
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.messages.Message
+import org.springframework.jms.core.JmsTemplate
 
 /**
  * Created by kocka on 10/10/14.

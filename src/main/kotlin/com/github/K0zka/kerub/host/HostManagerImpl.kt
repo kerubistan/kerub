@@ -1,23 +1,17 @@
 package com.github.K0zka.kerub.host
 
-import org.apache.sshd.SshClient
-import org.slf4j.LoggerFactory
-import org.apache.sshd.common.NamedFactory
-import org.apache.sshd.common.KeyExchange
-import org.apache.sshd.ClientSession
-import java.net.SocketAddress
-import java.security.PublicKey
-import org.apache.sshd.client.ServerKeyVerifier
-import org.apache.sshd.server.PublickeyAuthenticator
-import org.apache.sshd.server.session.ServerSession
-import java.security.KeyPair
-import org.apache.sshd.common.SessionListener
-import org.apache.sshd.common.Session
-import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
-import java.util.*
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.utils.getLogger
+import org.apache.sshd.ClientSession
+import org.apache.sshd.SshClient
+import org.apache.sshd.client.ServerKeyVerifier
+import java.net.SocketAddress
+import java.security.KeyPair
+import java.security.PublicKey
+import java.util.Collections
+import java.util.UUID
 
 public class HostManagerImpl (
 		val keyPair : KeyPair,

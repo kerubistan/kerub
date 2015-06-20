@@ -1,13 +1,12 @@
 package com.github.K0zka.kerub.services.impl
 
-import org.junit.Test
-import org.junit.Assert
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory
-import com.github.K0zka.kerub.services.getServiceBaseUrl
-import com.github.K0zka.kerub.services.VersionService
-import org.slf4j.LoggerFactory
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
+import com.github.K0zka.kerub.services.VersionService
+import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.getLogger
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory
+import org.junit.Assert
+import org.junit.Test
 
 public class VersionServiceIT {
 

@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.model
 
-import java.io.Serializable
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import org.hibernate.search.annotations.DocumentId
+import java.io.Serializable
 
 /**
  * Generic entity type.

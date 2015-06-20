@@ -1,13 +1,12 @@
 package com.github.K0zka.kerub.host
 
-import org.apache.sshd.SshClient
-import org.apache.sshd.ClientSession
-import java.security.KeyPair
-import org.apache.sshd.client.SftpClient.Attributes
-import java.util.concurrent.TimeUnit
 import com.github.K0zka.kerub.utils.getLogger
+import org.apache.sshd.ClientSession
+import org.apache.sshd.SshClient
 import org.apache.sshd.client.SftpClient
+import java.security.KeyPair
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 public class SshClientServiceImpl(
 		val client: SshClient,
