@@ -3,8 +3,10 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.matchAny
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
+import org.hamcrest.CoreMatchers
 import org.infinispan.manager.EmbeddedCacheManager
 import org.infinispan.remoting.transport.Address
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -22,6 +24,13 @@ public class ControllerManagerImplTest {
 
 	Mock
 	var address : Address? = null
+
+	Test
+	fun getControllerId() {
+		Mockito.`when`(cacheManager?.getAddress()).thenReturn(address)
+		Mockito.`when`(address?.toString()).thenReturn("PASS")
+		Assert.assertThat(ControllerManagerImpl(dao!!, cacheManager!!).getControllerId(), CoreMatchers.`is`("PASS"))
+	}
 
 	Test
 	fun start() {

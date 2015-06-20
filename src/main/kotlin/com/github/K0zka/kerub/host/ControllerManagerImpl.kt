@@ -9,13 +9,14 @@ import java.net.InetAddress
 public class ControllerManagerImpl(val dao: ControllerDynamicDao,
                                    val cacheManager: EmbeddedCacheManager)
 : ControllerManager {
+	override fun getControllerId(): String = cacheManager.getAddress().toString()
 
 	companion object {
 		val logger = getLogger(ControllerManagerImpl::class)
 	}
 
 	fun start() {
-		val address = cacheManager.getAddress().toString()
+		val address = getControllerId()
 		logger.info("Cache address: {}", address)
 		dao.add(ControllerDynamic(address, 64, 0, InetAddress.getAllByName("localhost").map { it.toString() }))
 	}
