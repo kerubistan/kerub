@@ -65,6 +65,11 @@
         <constructor-arg ref="eventListener"/>
     </bean>
 
+    <bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
+        <constructor-arg ref="assignmentCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
     <bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
         <constructor-arg ref="hostCache"/>
         <constructor-arg ref="eventListener"/>
@@ -91,11 +96,6 @@
         <constructor-arg ref="controllerDynamicCache"/>
     </bean>
 
-    <bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl">
-        <constructor-arg ref="assignmentCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
     <!--
     Managers
     -->
@@ -120,6 +120,8 @@
         <constructor-arg ref="hostDao"/>
         <constructor-arg ref="hostDynamicDao"/>
         <constructor-arg ref="sshClientService"/>
+        <constructor-arg ref="controllerManager"/>
+        <constructor-arg ref="assignmentDao"/>
     </bean>
 
     <bean id="hostDiscoverer" class="com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl"/>

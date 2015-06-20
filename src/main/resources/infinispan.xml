@@ -47,6 +47,12 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="assignmentCache">
+            <persistence>
+                <file-store path="store/assignments"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
         <distributed-cache name="controllerDynamicCache" mode="ASYNC">
             <persistence>
                 <file-store path="store/controller-dynamic"/>

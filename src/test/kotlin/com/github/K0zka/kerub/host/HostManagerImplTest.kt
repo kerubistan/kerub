@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.getTestKey
@@ -31,6 +32,12 @@ public class HostManagerImplTest {
 
 	Mock
 	var sshClientService : SshClientService? = null
+
+	Mock
+	var controllerManager : ControllerManager? = null
+
+	Mock
+	var hostAssignmentDao : AssignmentDao? = null
 
 	var hostManager : HostManagerImpl? = null
 
@@ -73,7 +80,7 @@ public class HostManagerImplTest {
 	Before
 	fun setup() {
 		val key = getTestKey()
-		hostManager = HostManagerImpl(getTestKey(), hostDao!!, hostDynamicDao!!, sshClientService!!)
+		hostManager = HostManagerImpl(getTestKey(), hostDao!!, hostDynamicDao!!, sshClientService!!, controllerManager!!, hostAssignmentDao!!)
 		hostManager!!.sshServerPort = 2022
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()

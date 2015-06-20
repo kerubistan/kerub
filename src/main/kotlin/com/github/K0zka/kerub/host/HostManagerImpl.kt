@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Host
@@ -17,7 +18,9 @@ public class HostManagerImpl (
 		val keyPair : KeyPair,
 		val hostDao : HostDao,
 		val hostDynamicDao : HostDynamicDao,
-		val sshClientService : SshClientService) : HostManager {
+		val sshClientService : SshClientService,
+		val controllerManager : ControllerManager,
+		val hostAssignmentDao : AssignmentDao) : HostManager {
 
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
@@ -35,7 +38,16 @@ public class HostManagerImpl (
 
 	fun start() {
 		logger.info("starting host manager")
-		//TODO: connect each assigned hosts
+		hostAssignmentDao.listByController(controllerManager.getControllerId()).forEach {
+			logger.info("connecting assigned host {}", it.hostId)
+			val host = hostDao.get(it.hostId)
+			if (host != null) {
+				connectHost(host)
+			} else {
+				logger.warn("Host {} assigned to {} but not found in host records, removing assignment", it.hostId, it.controller)
+				hostAssignmentDao.remove(it)
+			}
+		}
 	}
 
 	fun stop() {
