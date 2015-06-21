@@ -255,6 +255,21 @@
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
+                <groupId>com.github.K0zka</groupId>
+                <artifactId>maven-contentgzip-plugin</artifactId>
+                <version>0.0.7</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals><goal>process</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <webappDirectory>${project.basedir}/src/main/webapp</webappDirectory>
+                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.6</version>
