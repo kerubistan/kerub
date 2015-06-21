@@ -1,10 +1,12 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.*
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
-import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.controller.Assignment
+import org.apache.sshd.ClientSession
 import org.apache.sshd.SshServer
 import org.apache.sshd.server.Command
 import org.apache.sshd.server.Environment
@@ -14,7 +16,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Matchers
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.InputStream
 import java.io.OutputStream
@@ -28,29 +32,38 @@ public class HostManagerImplTest {
 	var hostDao: HostDao? = null
 
 	Mock
-	var hostDynamicDao : HostDynamicDao? = null
+	var hostDynamicDao: HostDynamicDao? = null
 
 	Mock
-	var sshClientService : SshClientService? = null
+	var sshClientService: SshClientService? = null
 
 	Mock
-	var controllerManager : ControllerManager? = null
+	var controllerManager: ControllerManager? = null
 
 	Mock
-	var hostAssignmentDao : AssignmentDao? = null
+	var hostAssignmentDao: AssignmentDao? = null
 
-	var hostManager : HostManagerImpl? = null
+	Mock
+	var hostAssigner: ControllerAssigner? = null
+
+	Mock
+	var discoverer: HostCapabilitiesDiscoverer? = null
+
+	Mock
+	val clientSession : ClientSession? = null
+
+	var hostManager: HostManagerImpl? = null
 
 	var sshServer: SshServer? = null
-	var shell : TestShellCommand? = null
+	var shell: TestShellCommand? = null
 
 	class TestShellCommand : Command {
 
-		var input : InputStream? = null
-		var output : OutputStream? = null
-		var error : OutputStream? = null
-		var env : Environment? = null
-		var destroyed : Boolean = false
+		var input: InputStream? = null
+		var output: OutputStream? = null
+		var error: OutputStream? = null
+		var env: Environment? = null
+		var destroyed: Boolean = false
 
 		override fun setInputStream(`in`: InputStream?) {
 			input = `in`
@@ -80,13 +93,13 @@ public class HostManagerImplTest {
 	Before
 	fun setup() {
 		val key = getTestKey()
-		hostManager = HostManagerImpl(getTestKey(), hostDao!!, hostDynamicDao!!, sshClientService!!, controllerManager!!, hostAssignmentDao!!)
+		hostManager = HostManagerImpl(hostDao!!, hostDynamicDao!!, sshClientService!!, controllerManager!!, hostAssignmentDao!!, discoverer!!, hostAssigner!!)
 		hostManager!!.sshServerPort = 2022
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()
 		sshServer!!.setPort(2022)
 		sshServer!!.setUserAuthFactories(listOf(UserAuthPublicKey.Factory()))
-		sshServer!!.setKeyPairProvider( SingleKeyPairProvider(key) )
+		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(key))
 		sshServer!!.setShellFactory { shell }
 		sshServer!!.start()
 	}
@@ -99,7 +112,7 @@ public class HostManagerImplTest {
 	Test
 	fun getHostPubkey() {
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
-		assertEquals( getTestKey().getPublic(), publicKey )
+		assertEquals(getTestKey().getPublic(), publicKey)
 	}
 
 	Test
@@ -111,5 +124,28 @@ public class HostManagerImplTest {
 		                publicKey = "")
 		hostManager!!.connectHost(host)
 		Thread.sleep(1000)
+	}
+
+	Test
+	fun start() {
+		val controllerId = "test controller id"
+		val hostId = UUID.randomUUID()
+		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
+		on(controllerManager!!.getControllerId()).thenReturn(controllerId)
+		on(hostAssignmentDao!!.listByController(eq(controllerId))).thenReturn(
+				listOf(Assignment(controller = controllerId, hostId = hostId))
+		                                                                     )
+		on(hostDao!!.get(hostId)) thenReturn host
+		on(sshClientService!!.createSession(anyString(), anyString())) thenReturn clientSession
+
+		hostManager!!.start()
+
+		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString())
+
+	}
+
+	Test
+	fun stop() {
+
 	}
 }

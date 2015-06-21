@@ -4,6 +4,8 @@ import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
@@ -15,12 +17,13 @@ import java.util.Collections
 import java.util.UUID
 
 public class HostManagerImpl (
-		val keyPair : KeyPair,
 		val hostDao : HostDao,
 		val hostDynamicDao : HostDynamicDao,
 		val sshClientService : SshClientService,
 		val controllerManager : ControllerManager,
-		val hostAssignmentDao : AssignmentDao) : HostManager {
+		val hostAssignmentDao : AssignmentDao,
+		val discoverer: HostCapabilitiesDiscoverer,
+		val hostAssigner: ControllerAssigner) : HostManager {
 
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
@@ -35,6 +38,24 @@ public class HostManagerImpl (
 	override fun connectHost(host: Host) {
 		connections.put(host.id, sshClientService.loginWithPublicKey(host.address))
 	}
+
+	override fun join(host: Host, password : String): Host {
+		val session = sshClientService.loginWithPassword(
+				address = host.address,
+				userName = "root",
+				password =password)
+		sshClientService.installPublicKey(session)
+		val capabilities = discoverer.discoverHost(session)
+
+		val host = host.copy(capabilities = capabilities)
+
+		hostDao.add(host)
+		val controllerId = hostAssigner.assignController(host)
+		hostAssignmentDao.add(Assignment(controller = controllerId, hostId = host.id))
+
+		return host
+	}
+
 
 	fun start() {
 		logger.info("starting host manager")

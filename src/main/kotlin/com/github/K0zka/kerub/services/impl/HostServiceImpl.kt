@@ -13,25 +13,10 @@ import org.apache.sshd.common.util.KeyUtils
 
 public class HostServiceImpl(
 		dao: HostDao,
-		val manager: HostManager,
-		val hostAssigner: ControllerAssigner,
-		val sshClientService: SshClientService,
-		val discoverer: HostCapabilitiesDiscoverer)
+		private val manager: HostManager)
 : ListableBaseService<Host>(dao, "host"), HostService {
 	override fun join(hostPwd: HostAndPassword): Host {
-		val session = sshClientService.loginWithPassword(
-				address = hostPwd.host.address,
-				userName = "root",
-				password = hostPwd.password)
-		sshClientService.installPublicKey(session)
-		val capabilities = discoverer.discoverHost(session)
-
-		val host = hostPwd.host.copy(capabilities = capabilities)
-
-		dao.add(host)
-		hostAssigner.assignController(host)
-
-		return host
+		return manager.join(hostPwd.host, hostPwd.password)
 	}
 
 	override fun getHostPubkey(address: String): HostPubKey {

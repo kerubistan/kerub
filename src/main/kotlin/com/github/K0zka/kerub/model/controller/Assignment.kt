@@ -9,7 +9,7 @@ import java.util.UUID
 JsonCreator
 public data class Assignment(
 		JsonProperty("id")
-		override val id: UUID,
+		override val id: UUID = UUID.randomUUID(),
 		JsonProperty("controllerId")
 		Field
 		var controller: String,

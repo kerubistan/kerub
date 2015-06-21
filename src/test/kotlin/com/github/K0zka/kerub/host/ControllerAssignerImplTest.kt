@@ -12,6 +12,7 @@ import org.mockito.Mockito
 import com.github.K0zka.kerub.model.Host
 import kotlin.test.assertTrue
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
+import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 
 RunWith(MockitoJUnitRunner::class)
 public class ControllerAssignerImplTest {
@@ -26,7 +27,21 @@ public class ControllerAssignerImplTest {
 	Before
 	fun setup() {
 		backtrack = BacktrackService()
-		Mockito.`when`(controllerDao?.list()).thenReturn(listOf("ctrl-1", "ctrl-2"))
+		Mockito.`when`(controllerDynamicDao?.listAll()).thenReturn(listOf(
+				ControllerDynamic(
+						controllerId = "ctrl-1",
+				        addresses = listOf(),
+				        maxHosts = 64,
+				        totalHosts = 0
+				                 ),
+				ControllerDynamic(
+						controllerId = "ctrl-2",
+						addresses = listOf(),
+						maxHosts = 64,
+						totalHosts = 10
+				                 )
+
+		                                                                 ))
 	}
 
 	After

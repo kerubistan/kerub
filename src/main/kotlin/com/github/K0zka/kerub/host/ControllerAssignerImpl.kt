@@ -81,11 +81,13 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 	}
 
 	override fun assignControllers(hosts: List<Host>): Map<Host, String> {
+		logger.info("Searching host-controller assignment for host {}", hosts)
 		val strategy = FirstSolutionTerminationStrategy<ControllerAssignmentState, ControllerAssignmentStep>()
+		val controllerList = controllerDynamicDao.listAll()
 		backtrack.backtrack(
 				ControllerAssignmentState(hosts,
-				                          controllerDao.list(),
-				                          controllerDynamicDao.listAll().toMap { it.controllerId },
+				                          controllerList.map { it.controllerId },
+				                          controllerList.toMap { it.controllerId },
 				                          mapOf()),
 				ControllerAssignmentStepFactory,
 				//this is not quite

@@ -116,12 +116,13 @@
             class="com.github.K0zka.kerub.host.HostManagerImpl"
             init-method="start"
             destroy-method="stop">
-        <constructor-arg ref="keyPair"/>
         <constructor-arg ref="hostDao"/>
         <constructor-arg ref="hostDynamicDao"/>
         <constructor-arg ref="sshClientService"/>
         <constructor-arg ref="controllerManager"/>
         <constructor-arg ref="assignmentDao"/>
+        <constructor-arg ref="hostDiscoverer"/>
+        <constructor-arg ref="hostAssigner"/>
     </bean>
 
     <bean id="hostDiscoverer" class="com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl"/>
@@ -147,7 +148,10 @@
         <constructor-arg value="MILLISECONDS"/>
     </bean>
 
-    <bean id="controllerManager" class="com.github.K0zka.kerub.host.ControllerManagerImpl">
+    <bean
+            id="controllerManager"
+            class="com.github.K0zka.kerub.host.ControllerManagerImpl"
+            init-method="start">
         <constructor-arg ref="controllerDynamicDao"/>
         <constructor-arg ref="cacheManager"/>
     </bean>
@@ -266,9 +270,6 @@
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
                 <constructor-arg ref="hostDao"/>
                 <constructor-arg ref="hostManager"/>
-                <constructor-arg ref="hostAssigner"/>
-                <constructor-arg ref="sshClientService"/>
-                <constructor-arg ref="hostDiscoverer"/>
             </bean>
             <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
             </bean>
