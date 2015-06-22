@@ -16,7 +16,7 @@
     <properties>
         <kotlin.version>0.12.213</kotlin.version>
         <spring.version>4.1.1.RELEASE</spring.version>
-        <cxf.version>3.0.3</cxf.version>
+        <cxf.version>3.1.1</cxf.version>
         <infinispan.version>7.2.2.Final</infinispan.version>
         <angularjs.version>1.4.1</angularjs.version>
         <angular-bootstrap.version>0.13.0</angular-bootstrap.version>
