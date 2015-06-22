@@ -27,7 +27,8 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				Ubuntu(),
 				Fedora(),
 				Centos6(),
-				OpenSuse())
+				OpenSuse(),
+				Raspbian())
 	}
 
 	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
@@ -90,7 +91,12 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	}
 
 	internal fun getHostCpuType(session: ClientSession): String {
-		return session.execute("uname -p").trim()
+		val processorType = session.execute("uname -p").trim()
+		if(processorType == "unknown") {
+			return session.execute("uname -m").trim()
+		} else {
+			return processorType
+		}
 	}
 
 	internal fun detectDistro(session: ClientSession): Distribution? {

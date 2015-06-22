@@ -90,6 +90,41 @@ public class HostCapabilitiesDiscovererTest(
 				        mapOf(Pair("/etc/os-release", """
 		NAME="Ubuntu"
 		VERSION_ID="14.04"
+								""".trim()))),
+				arrayOf("Raspbian GNU/Linux",
+				        "armv6l",
+				        Version("3","12","28"),
+				        Version("7",null,null),
+				        mapOf(
+						        Pair("uname -s", "Linux"),
+						        Pair("uname -r", "3.18.11+"),
+						        Pair("uname -p", "unknown"),
+						        Pair("uname -m", "armv6l"),
+						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        496632 kB"),
+						        Pair("dpkg-query -W", """adduser	3.113+nmu3
+alsa-base	1.0.25+3~deb7u1
+alsa-utils	1.0.25-4
+apt	0.9.7.9+rpi1+deb7u7
+apt-utils	0.9.7.9+rpi1+deb7u7
+aptitude	0.6.8.2-1
+aptitude-common	0.6.8.2-1
+aspell	0.60.7~20110707-1
+aspell-en	7.1-0-1
+base-files	7.1wheezy8+rpi1
+"""),
+						        Pair("lspci -mm", """""")
+				             ),
+				        mapOf(Pair("/etc/os-release", """
+PRETTY_NAME="Raspbian GNU/Linux 7 (wheezy)"
+NAME="Raspbian GNU/Linux"
+VERSION_ID="7"
+VERSION="7 (wheezy)"
+ID=raspbian
+ID_LIKE=debian
+ANSI_COLOR="1;31"
+HOME_URL="http://www.raspbian.org/"
+SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
+BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 								""".trim())))
 		                                                      )
 
