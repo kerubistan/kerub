@@ -27,7 +27,7 @@ public class SshClientServiceImpl(
 			}
 			logger.debug("{}: installing public key", session)
 			it.appendToFile(".ssh/authorized_keys",
-""""
+"""
 #added by kerub - ${Date()}
 ssh-rsa ${keyPair.getPublic().getEncoded().toBase64()}
 """)
@@ -48,8 +48,8 @@ ssh-rsa ${keyPair.getPublic().getEncoded().toBase64()}
 		logger.debug("sending key to {}", address)
 		session.addPublicKeyIdentity(keyPair)
 		logger.debug("waiting for authentication from {}", address)
-		session.auth().await( maxWait, maxWaitUnit )
-		logger.debug("{}: Authentication finished", address)
+		val finished = session.auth().await( maxWait, maxWaitUnit )
+		logger.debug("{}: Authentication finished: {}", address, finished)
 		return session
 	}
 
