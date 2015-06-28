@@ -99,7 +99,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		}
 	}
 
-	internal fun detectDistro(session: ClientSession): Distribution? {
+	override fun detectDistro(session: ClientSession): Distribution? {
 		for (distro in distributions) {
 			logger.debug("Checking host with ${distro.name()} distro helper")
 			if (distro.detect(session)) {

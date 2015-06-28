@@ -3,10 +3,12 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.ServerKeyVerifier
@@ -36,7 +38,10 @@ public class HostManagerImpl (
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, ClientSession>())
 
 	override fun connectHost(host: Host) {
-		connections.put(host.id, sshClientService.loginWithPublicKey(host.address))
+		logger.info("Connecting to host {} {}", host.id, host.address)
+		val session = sshClientService.loginWithPublicKey(host.address)
+		connections.put(host.id, session)
+		//TODO: start monitoring processes
 	}
 
 	override fun join(host: Host, password : String): Host {

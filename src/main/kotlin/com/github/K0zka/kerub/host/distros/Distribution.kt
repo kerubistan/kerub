@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import org.apache.sshd.ClientSession
@@ -44,4 +45,9 @@ public interface Distribution {
 	 * List installed packages
 	 */
 	fun listPackages(session: ClientSession): List<SoftwarePackage>
+
+	/**
+	 * Start monitoring processes
+	 */
+	fun startMonitorProcesses(session: ClientSession, hostDynDao : HostDynamicDao)
 }

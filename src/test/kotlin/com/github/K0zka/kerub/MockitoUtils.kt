@@ -2,6 +2,8 @@ package com.github.K0zka.kerub
 
 import org.mockito.Matchers
 import org.mockito.Mockito
+import kotlin.reflect.KClass
+import kotlin.reflect.jvm.java
 
 fun verify<T>(param : T) = Mockito.verify(param)
 

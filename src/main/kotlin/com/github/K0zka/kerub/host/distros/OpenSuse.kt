@@ -7,7 +7,6 @@ import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
 import org.apache.sshd.ClientSession
 
 public class OpenSuse : LsbDistribution("openSUSE") {
-
 	override fun handlesVersion(version: Version): Boolean
 			= version.major == "13"
 

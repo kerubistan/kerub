@@ -4,7 +4,9 @@ import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.SftpClient
+import java.io.ByteArrayOutputStream
 import java.security.KeyPair
+import java.security.interfaces.RSAPublicKey
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -29,13 +31,43 @@ public class SshClientServiceImpl(
 			it.appendToFile(".ssh/authorized_keys",
 """
 #added by kerub - ${Date()}
-ssh-rsa ${keyPair.getPublic().getEncoded().toBase64()}
+ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
 """)
 			val stat = it.stat(".ssh/authorized_keys")
 			logger.debug("{}: setting permissions", session)
 			it.setStat(".ssh/authorized_keys", stat.perms(SftpClient.S_IRUSR or SftpClient.S_IWUSR))
 		}
 		logger.debug("{}: public key installation finished", session)
+	}
+
+	fun encodePublicKey(key : RSAPublicKey) : String {
+		val out = ByteArrayOutputStream()
+
+		out.write(encodeString("ssh-rsa"))
+		out.write(encodeByteArray(key.getPublicExponent().toByteArray()))
+		out.write(encodeByteArray(key.getModulus().toByteArray()))
+
+		return out.toByteArray().toBase64()
+	}
+
+	fun encodeString(str : String) : ByteArray {
+		val bytes = str.toByteArray("ASCII")
+		return encodeByteArray(bytes)
+	}
+
+	private fun encodeByteArray(bytes: ByteArray): ByteArray {
+		val out = encodeUInt32(bytes.size()).copyOf(bytes.size() + 4)
+		bytes.forEachIndexed { idx, byte -> out[idx + 4] = byte }
+		return out
+	}
+
+	fun encodeUInt32(value : Int) : ByteArray {
+		val bytes = ByteArray(4)
+		bytes[0] = value.shr(24).and(0xff).toByte()
+		bytes[1] = value.shr(16).and(0xff).toByte()
+		bytes[2] = value.shr(8).and(0xff).toByte()
+		bytes[3] = value.and(0xff).toByte()
+		return bytes
 	}
 
 	override fun createSession(address: String, userName: String): ClientSession {
@@ -48,8 +80,9 @@ ssh-rsa ${keyPair.getPublic().getEncoded().toBase64()}
 		logger.debug("sending key to {}", address)
 		session.addPublicKeyIdentity(keyPair)
 		logger.debug("waiting for authentication from {}", address)
-		val finished = session.auth().await( maxWait, maxWaitUnit )
-		logger.debug("{}: Authentication finished: {}", address, finished)
+		val authFuture = session.auth()
+		val finished = authFuture.await( maxWait, maxWaitUnit )
+		logger.debug("{}: Authentication finished: {} success: {}", address, finished, authFuture.isSuccess())
 		return session
 	}
 

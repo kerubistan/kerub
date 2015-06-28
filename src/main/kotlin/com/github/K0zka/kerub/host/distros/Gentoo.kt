@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.SoftwarePackage
 import org.apache.sshd.ClientSession
 
-public class Gentoo : Distribution {
+public class Gentoo : AbstractLinux() {
 	override fun getVersion(session: ClientSession): Version {
 		throw UnsupportedOperationException()
 	}

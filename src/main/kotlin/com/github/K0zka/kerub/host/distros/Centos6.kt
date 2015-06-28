@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
 import org.apache.sshd.ClientSession
 
-public class Centos6 : Distribution {
+public class Centos6 : AbstractLinux() {
 	override fun getVersion(session: ClientSession): Version =
 		Version.fromVersionString(
 				session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replace("(Final)".toRegex(), "")
