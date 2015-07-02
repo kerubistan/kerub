@@ -28,7 +28,8 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				Fedora(),
 				Centos6(),
 				OpenSuse(),
-				Raspbian())
+				Raspbian(),
+				FreeBSD())
 	}
 
 	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
