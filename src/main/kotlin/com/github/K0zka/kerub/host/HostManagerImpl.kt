@@ -41,7 +41,9 @@ public class HostManagerImpl (
 		logger.info("Connecting to host {} {}", host.id, host.address)
 		val session = sshClientService.loginWithPublicKey(host.address)
 		connections.put(host.id, session)
-		//TODO: start monitoring processes
+
+		val distro = discoverer.detectDistro(session)
+		distro?.startMonitorProcesses(session, host, hostDynamicDao)
 	}
 
 	override fun join(host: Host, password : String): Host {

@@ -12,17 +12,17 @@ import kotlin.text.Regex
 public object VmStat {
 
 	public data class IoStatistic (
-			read : Int,
-	        write : Int
+			val read : Int,
+			val write : Int
 	                       ) : Serializable
 
 	public data class VmStatEvent (
-		userCpu : Byte,
-	    systemCpu : Byte,
-	    idleCpu : Byte,
-	    iowaitCpu : Byte,
-	    swap : IoStatistic,
-	    block : IoStatistic
+		val userCpu : Byte,
+		val systemCpu : Byte,
+		val idleCpu : Byte,
+		val iowaitCpu : Byte,
+		val swap : IoStatistic,
+		val block : IoStatistic
 	                       ) : Serializable
 
 	val someSpaces = Pattern.compile("\\s+")

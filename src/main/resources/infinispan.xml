@@ -23,6 +23,12 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="hostDynamicCache" statistics="true">
+            <persistence>
+                <file-store path="store/hostsdyn"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
         <distributed-cache name="vmCache">
             <persistence>
                 <file-store path="store/vms"/>

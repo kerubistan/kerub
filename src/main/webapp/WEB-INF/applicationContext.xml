@@ -28,6 +28,10 @@
         <constructor-arg value="hostCache"/>
     </bean>
 
+    <bean id="hostDynamicCache" parent="cache">
+        <constructor-arg value="hostDynamicCache"/>
+    </bean>
+
     <bean id="projectCache" parent="cache">
         <constructor-arg value="projectCache"/>
     </bean>
@@ -71,7 +75,7 @@
     </bean>
 
     <bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
-        <constructor-arg ref="hostCache"/>
+        <constructor-arg ref="hostDynamicCache"/>
         <constructor-arg ref="eventListener"/>
     </bean>
 
