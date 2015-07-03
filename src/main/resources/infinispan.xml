@@ -19,49 +19,49 @@
         </distributed-cache>
         <distributed-cache name="hostCache" statistics="true">
             <persistence>
-                <file-store path="store/hosts"/>
+                <file-store path="store/base/hosts"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="hostDynamicCache" statistics="true">
             <persistence>
-                <file-store path="store/hostsdyn"/>
+                <file-store path="store/dyn/hosts"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="vmCache">
             <persistence>
-                <file-store path="store/vms"/>
+                <file-store path="store/base/vms"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="projectCache">
             <persistence>
-                <file-store path="store/projects"/>
+                <file-store path="store/base/projects"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="auditCache" mode="ASYNC">
             <persistence>
-                <file-store path="store/audit"/>
+                <file-store path="store/dyn/audit"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="eventCache" mode="ASYNC">
             <persistence>
-                <file-store path="store/event"/>
+                <file-store path="store/dyn/event"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="assignmentCache">
             <persistence>
-                <file-store path="store/assignments"/>
+                <file-store path="store/base/assignments"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
         <distributed-cache name="controllerDynamicCache" mode="ASYNC">
             <persistence>
-                <file-store path="store/controller-dynamic"/>
+                <file-store path="store/dyn/controller"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
