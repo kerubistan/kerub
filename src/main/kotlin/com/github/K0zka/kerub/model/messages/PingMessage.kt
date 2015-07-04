@@ -5,4 +5,4 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 
 JsonTypeName("ping")
 JsonCreator
-public class PingMessage : Message
+public data class PingMessage : Message

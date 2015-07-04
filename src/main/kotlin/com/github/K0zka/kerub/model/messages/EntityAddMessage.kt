@@ -6,4 +6,4 @@ import com.github.K0zka.kerub.model.Entity
 
 JsonTypeName("entity-add")
 JsonCreator
-public class EntityAddMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)
+public data class EntityAddMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)

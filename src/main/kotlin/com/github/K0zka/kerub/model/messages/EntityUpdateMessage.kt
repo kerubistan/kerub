@@ -6,4 +6,4 @@ import com.github.K0zka.kerub.model.Entity
 
 JsonTypeName("entity-update")
 JsonCreator
-public class EntityUpdateMessage (obj : Entity<*>, date : Long) : EntityMessage(obj, date)
+public data class EntityUpdateMessage (obj : Entity<*>, date : Long) : EntityMessage(obj, date)

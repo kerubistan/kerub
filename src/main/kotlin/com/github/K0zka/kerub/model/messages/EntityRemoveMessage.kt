@@ -6,4 +6,4 @@ import com.github.K0zka.kerub.model.Entity
 
 JsonTypeName("entity-remove")
 JsonCreator
-public class EntityRemoveMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)
+public data class EntityRemoveMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)
