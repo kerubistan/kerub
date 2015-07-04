@@ -10,11 +10,11 @@ public interface ControllerAssigner {
 	 * Convenience method to use when there is a single ost only.
 	 * Delete if it never happens.
 	 */
-	fun assignController(host : Host) : String {
-		return assignControllers(listOf(host))[host]!!
+	fun assignController(host : Host) {
+		return assignControllers(listOf(host))
 	}
 	/**
 	 * Return a map os host to controller assignments
 	 */
-	fun assignControllers(hosts : List<Host>) : Map<Host, String>
+	fun assignControllers(hosts : List<Host>)
 }

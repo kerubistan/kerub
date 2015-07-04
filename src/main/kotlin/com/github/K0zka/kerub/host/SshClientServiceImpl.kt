@@ -82,6 +82,7 @@ ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
 		logger.debug("waiting for authentication from {}", address)
 		val authFuture = session.auth()
 		val finished = authFuture.await( maxWait, maxWaitUnit )
+		authFuture.verify()
 		logger.debug("{}: Authentication finished: {} success: {}", address, finished, authFuture.isSuccess())
 		return session
 	}
@@ -92,7 +93,9 @@ ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
 		logger.debug("sending password {}", address)
 		session.addPasswordIdentity(password)
 		logger.debug("authenticating {}", address)
-		session.auth().await(maxWait, maxWaitUnit)
+		val authFuture = session.auth()
+		authFuture.await(maxWait, maxWaitUnit)
+		authFuture.verify()
 		logger.debug("authentication finished {}", address)
 		return session
 	}

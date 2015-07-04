@@ -183,15 +183,21 @@
             <version>2.5.3.1</version>
         </dependency>
         <dependency>
-            <groupId>org.hornetq</groupId>
-            <artifactId>hornetq-spring-integration</artifactId>
-            <version>2.4.7.Final</version>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>artemis-spring-integration</artifactId>
+            <version>1.0.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-jms</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!--needed by artemis-->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.1</version>
         </dependency>
         <dependency>
             <groupId>javax.websocket</groupId>
@@ -272,7 +278,9 @@
                 <executions>
                     <execution>
                         <phase>prepare-package</phase>
-                        <goals><goal>process</goal></goals>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
                     </execution>
                 </executions>
                 <configuration>

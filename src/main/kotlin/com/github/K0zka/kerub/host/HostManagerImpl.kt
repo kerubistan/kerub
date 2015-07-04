@@ -57,8 +57,7 @@ public class HostManagerImpl (
 		val host = host.copy(capabilities = capabilities)
 
 		hostDao.add(host)
-		val controllerId = hostAssigner.assignController(host)
-		hostAssignmentDao.add(Assignment(controller = controllerId, hostId = host.id))
+		hostAssigner.assignController(host)
 
 		return host
 	}

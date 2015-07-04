@@ -144,9 +144,15 @@
         <constructor-arg ref="backtrack"/>
         <constructor-arg ref="controllerDao"/>
         <constructor-arg ref="controllerDynamicDao"/>
+        <constructor-arg ref="assignmentDao"/>
+        <constructor-arg ref="interController"/>
     </bean>
 
     <bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService">
+    </bean>
+
+    <bean id="interController" class="com.github.K0zka.kerub.controller.impl.InterControllerImpl">
+        <constructor-arg ref="jmsTemplate"/>
     </bean>
 
     <bean id="sshClient"
@@ -174,20 +180,33 @@
     MQ
     -->
 
-    <bean id="hornetQ"
-          class="org.hornetq.jms.server.embedded.EmbeddedJMS"
+    <bean id="artemis"
+          class="org.apache.activemq.artemis.jms.server.embedded.EmbeddedJMS"
           init-method="start"
           destroy-method="stop">
     </bean>
 
-    <bean id="hornetQCF"
-          factory-bean="hornetQ"
-          factory-method="lookup">
-        <constructor-arg value="ConnectionFactory"/>
+    <bean id="globalEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQTopic">
+        <constructor-arg value="jms.topic.globalEvents"/>
     </bean>
 
-    <bean id="globalEvents" class="org.hornetq.jms.client.HornetQTopic">
-        <constructor-arg value="globalEvents"/>
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="artemisCF"/>
+    </bean>
+
+    <bean id="artemisCF" class="org.apache.activemq.artemis.jms.client.ActiveMQJMSConnectionFactory">
+        <constructor-arg value="false"/>
+        <constructor-arg>
+            <bean class="org.apache.activemq.artemis.api.core.TransportConfiguration">
+                <constructor-arg value="org.apache.activemq.artemis.core.remoting.impl.invm.InVMConnectorFactory"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean class="com.github.K0zka.kerub.utils.artemis.MqInit" factory-method="init">
+        <constructor-arg ref="controllerManager"/>
+        <constructor-arg ref="artemis"/>
+        <constructor-arg ref="artemisCF"/>
     </bean>
 
     <!--
@@ -197,14 +216,14 @@
     <bean id="eventListener" class="com.github.K0zka.kerub.utils.JmsEventListener">
         <constructor-arg>
             <bean class="org.springframework.jms.core.JmsTemplate">
-                <property name="connectionFactory" ref="hornetQCF"/>
+                <property name="connectionFactory" ref="artemisCF"/>
                 <property name="defaultDestination" ref="globalEvents"/>
             </bean>
         </constructor-arg>
     </bean>
 
     <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="hornetQCF"/>
+        <property name="connectionFactory" ref="artemisCF"/>
         <property name="concurrency" value="1-4"/>
         <property name="destination" ref="globalEvents"/>
         <property name="messageListener" ref="messageListener"/>
@@ -218,17 +237,17 @@
     Asynchronous invocations
     -->
 
-    <bean id="asyncInvocationsQueue" class="org.hornetq.jms.client.HornetQQueue">
-        <constructor-arg value="asyncInvocations"/>
+    <bean id="asyncInvocationsQueue" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+        <constructor-arg value="jms.queue.asyncInvocations"/>
     </bean>
 
     <bean id="asyncInvocationsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <constructor-arg ref="hornetQCF"/>
+        <constructor-arg ref="artemisCF"/>
         <property name="defaultDestination" ref="asyncInvocationsQueue"/>
     </bean>
 
     <bean id="asyncInvocationsListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="hornetQCF"/>
+        <property name="connectionFactory" ref="artemisCF"/>
         <property name="concurrency" value="1-8"/>
         <property name="destination" ref="asyncInvocationsQueue"/>
         <property name="messageListener" ref="asyncInvocationsMessageListener"/>

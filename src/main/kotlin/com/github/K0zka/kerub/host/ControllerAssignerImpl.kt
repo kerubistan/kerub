@@ -1,8 +1,12 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.controller.HostAssignedMessage
+import com.github.K0zka.kerub.controller.InterController
+import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.ControllerDao
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.State
@@ -18,12 +22,14 @@ import java.util.HashMap
  */
 public class ControllerAssignerImpl(val backtrack: BacktrackService,
                                     val controllerDao: ControllerDao,
-                                    val controllerDynamicDao: ControllerDynamicDao) : ControllerAssigner {
+                                    val controllerDynamicDao: ControllerDynamicDao,
+                                    val hostAssignmentDao: AssignmentDao,
+                                    val interController: InterController) : ControllerAssigner {
 
 	data class ControllerAssignmentState(
 			val hostsToAssign: List<Host>,
 			val controllers: List<String>,
-			val controllerStates : Map<String, ControllerDynamic>,
+			val controllerStates: Map<String, ControllerDynamic>,
 			val assignments: Map<Host, String>) : State {
 		override fun isComplete(): Boolean {
 			return hostsToAssign.isEmpty()
@@ -62,17 +68,17 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 					true
 				}
 						.map { ControllerAssignmentStep(host, it) }
-				.sortBy( {
-					         step : ControllerAssignmentStep ->
-					            controllerScore( state.controllerStates.get(step.controller) )
-				         } )
+						.sortBy({
+							        step: ControllerAssignmentStep ->
+							        controllerScore(state.controllerStates.get(step.controller))
+						        })
 			}
 		}
 	}
 
 	companion object {
-		fun controllerScore(state : ControllerDynamic?) : Int {
-			if(state == null) {
+		fun controllerScore(state: ControllerDynamic?): Int {
+			if (state == null) {
 				return -1;
 			} else {
 				return state.maxHosts - state.totalHosts
@@ -80,7 +86,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 		}
 	}
 
-	override fun assignControllers(hosts: List<Host>): Map<Host, String> {
+	override fun assignControllers(hosts: List<Host>) {
 		logger.info("Searching host-controller assignment for host {}", hosts)
 		val strategy = FirstSolutionTerminationStrategy<ControllerAssignmentState, ControllerAssignmentStep>()
 		val controllerList = controllerDynamicDao.listAll()
@@ -94,6 +100,15 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 				strategy,
 				strategy
 		                   )
-		return strategy.getSolution().assignments
+		for (assignment in strategy.getSolution().assignments) {
+			hostAssignmentDao.add(Assignment(
+					hostId = assignment.getKey().id,
+					controller = assignment.getValue()))
+			interController.sendToController(assignment.getValue(),
+			                                 HostAssignedMessage(
+					                                 hostId = assignment.getKey().id,
+					                                 conrollerId = assignment.getValue()
+			                                                    ))
+		}
 	}
 }
