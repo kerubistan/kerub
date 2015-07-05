@@ -67,7 +67,7 @@
         <div class="modal-header">
             <h3 class="modal-title">New Host {{host.address}}</h3>
         </div>
-        <input ng-model="host.address" class="form-control" placeholder="address" ng-change="updatePubkey()">
+        <input ng-model="host.address" class="form-control" placeholder="address" ng-keypress="clearPublicKey()" ng-blur="updatePubkey()">
         <input ng-model="host.publicKey" readonly disabled class="form-control" placeholder="fingerprint">
         <input ng-model="password" class="form-control" type="password" placeholder="password">
 
