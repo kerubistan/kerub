@@ -14,8 +14,19 @@
     infinispan config
     -->
 
+    <bean id="cacheConfigBuilder" class="com.github.K0zka.kerub.data.ispn.IspnConfiguration">
+        <property name="baseDir" value="target/kerub-store"/>
+        <property name="dynamicOwners" value="1"/>
+        <property name="staticOwners" value="1"/>
+    </bean>
+
+    <bean name="cacheConfig" factory-bean="cacheConfigBuilder" factory-method="build"/>
+
+    <bean name="globalConfig" factory-bean="cacheConfigBuilder" factory-method="buildGlobal"/>
+
     <bean id="cacheManager" class="org.infinispan.manager.DefaultCacheManager">
-        <constructor-arg value="infinispan.xml"/>
+        <constructor-arg ref="cacheConfig"/>
+        <constructor-arg ref="globalConfig"/>
     </bean>
 
     <bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
