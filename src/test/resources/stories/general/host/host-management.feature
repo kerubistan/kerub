@@ -13,4 +13,10 @@ Feature: Host Management
         And host capabilities will be filled
         And the host will connected
 
-    Scenario:
+    Scenario: Unavailable hosts must be tolerated at startup
+    	Given a host
+    	And a controller
+    	When the controller starts
+    	And the host is not available
+    	Then the controller should start up successfuly
+    	And the host should be marked unavailable

@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.data.ispn
 
-import com.github.K0zka.kerub.utils.createObjectMapper
+import com.github.K0zka.kerub.utils.getLogger
 import org.infinispan.configuration.cache.Configuration
-import org.infinispan.configuration.cache.ConfigurationBuilder
+import org.infinispan.configuration.cache.SingleFileStoreConfigurationBuilder
 import org.infinispan.configuration.global.GlobalConfiguration
 import org.infinispan.configuration.parsing.ParserRegistry
 
@@ -11,15 +11,44 @@ class IspnConfiguration {
 	var baseDir = ""
 	var dynamicOwners = 1
 	var staticOwners = 2
+	var clusterName = "kerub"
+	var rackId = "default-rack"
+	var siteId = "default-site"
+
+	companion object {
+		val logger = getLogger(IspnConfiguration::class)
+	}
+
+	var globalConfig : GlobalConfiguration? = null
+	var config : Configuration? = null
+
+	fun init() {
+		val template = loadTemplate()
+		var globalConfigBuilder = template.getGlobalConfigurationBuilder()
+		logger.info("ispn global configuration")
+		logger.info("site id: {}", siteId)
+		logger.info("cluster name: {}", clusterName)
+		logger.info("rack id: {}", rackId)
+		globalConfigBuilder.transport().clusterName(clusterName).rackId(rackId).siteId(siteId)
+
+		var configBuilder = template.getCurrentConfigurationBuilder()
+		configBuilder.eviction().persistence().stores().forEach {
+			when(it) {
+				is SingleFileStoreConfigurationBuilder -> {
+					logger.info("file store")
+				}
+			}
+		}
+		globalConfig = globalConfigBuilder.build()
+		config = configBuilder.build(globalConfig)
+	}
+
 	fun build() : Configuration {
-		var configBuilder = loadTemplate().getCurrentConfigurationBuilder()
-		return configBuilder.build()
+		return config!!
 	}
 
 	fun buildGlobal() : GlobalConfiguration {
-		var configBuilder = loadTemplate().getGlobalConfigurationBuilder()
-		//configBuilder.serialization().marshaller(JsonMarshaller(createObjectMapper()))
-		return configBuilder.build()
+		return globalConfig!!
 	}
 
 	fun loadTemplate() =

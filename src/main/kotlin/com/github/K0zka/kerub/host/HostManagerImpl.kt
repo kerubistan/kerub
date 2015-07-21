@@ -70,7 +70,14 @@ public class HostManagerImpl (
 			logger.info("connecting assigned host {}", it.hostId)
 			val host = hostDao.get(it.hostId)
 			if (host != null) {
-				connectHost(host)
+				//TODO: this try-catch should be temporary, refactor to a threadpool
+				//anyway it would be a bad idea to wait for 100+ hosts to be connected
+				//over a slow, unreliable network
+				try {
+					connectHost(host)
+				} catch (e : Exception) {
+					logger.error("Could not connect host {} at {}",host.id, host.address, e)
+				}
 			} else {
 				logger.warn("Host {} assigned to {} but not found in host records, removing assignment", it.hostId, it.controller)
 				hostAssignmentDao.remove(it)
