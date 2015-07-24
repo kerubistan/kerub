@@ -8,7 +8,7 @@ import org.infinispan.configuration.parsing.ParserRegistry
 
 class IspnConfiguration {
 	var template = "infinispan.xml"
-	var baseDir = ""
+	var baseDir = "."
 	var dynamicOwners = 1
 	var staticOwners = 2
 	var clusterName = "kerub"
@@ -23,22 +23,28 @@ class IspnConfiguration {
 	var config : Configuration? = null
 
 	fun init() {
-		val template = loadTemplate()
-		var globalConfigBuilder = template.getGlobalConfigurationBuilder()
 		logger.info("ispn global configuration")
 		logger.info("site id: {}", siteId)
 		logger.info("cluster name: {}", clusterName)
 		logger.info("rack id: {}", rackId)
+		logger.info("storage directory: {}", baseDir)
+		logger.info("static owners: {}", staticOwners)
+		logger.info("dynamic owners: {}", dynamicOwners)
+
+
+
+		//TODO: setting system property to configure ISPN is highly unfriendly
+		// alternative needs to be investigated
+		System.setProperty("store.dir", baseDir)
+		System.setProperty("dyn.owners", dynamicOwners.toString())
+		System.setProperty("stat.owners", staticOwners.toString())
+
+		val template = loadTemplate()
+		var globalConfigBuilder = template.getGlobalConfigurationBuilder()
+
 		globalConfigBuilder.transport().clusterName(clusterName).rackId(rackId).siteId(siteId)
 
 		var configBuilder = template.getCurrentConfigurationBuilder()
-		configBuilder.eviction().persistence().stores().forEach {
-			when(it) {
-				is SingleFileStoreConfigurationBuilder -> {
-					logger.info("file store")
-				}
-			}
-		}
 		globalConfig = globalConfigBuilder.build()
 		config = configBuilder.build(globalConfig)
 	}

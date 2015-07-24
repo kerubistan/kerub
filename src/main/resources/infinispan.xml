@@ -17,51 +17,51 @@
         <distributed-cache name="default" statistics="true">
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="hostCache" statistics="true">
+        <distributed-cache name="hostCache" statistics="true" owners="${stat.owners}">
             <persistence>
-                <file-store path="store/base/hosts"/>
+                <file-store path="${store.dir}/store/base/hosts"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="hostDynamicCache" statistics="true">
+        <distributed-cache name="hostDynamicCache" statistics="true" owners="${dyn.owners}">
             <persistence>
-                <file-store path="store/dyn/hosts"/>
+                <file-store path="${store.dir}/store/dyn/hosts"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="vmCache">
+        <distributed-cache name="vmCache" owners="${stat.owners}">
             <persistence>
-                <file-store path="store/base/vms"/>
+                <file-store path="${store.dir}/store/base/vms"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="projectCache">
+        <distributed-cache name="projectCache" owners="${stat.owners}">
             <persistence>
-                <file-store path="store/base/projects"/>
+                <file-store path="${store.dir}/store/base/projects"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="auditCache" mode="ASYNC">
+        <distributed-cache name="auditCache" mode="ASYNC" owners="${stat.owners}">
             <persistence>
-                <file-store path="store/dyn/audit"/>
+                <file-store path="${store.dir}/store/dyn/audit"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="eventCache" mode="ASYNC">
+        <distributed-cache name="eventCache" mode="ASYNC" owners="${dyn.owners}">
             <persistence>
-                <file-store path="store/dyn/event"/>
+                <file-store path="${store.dir}/store/dyn/event"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="assignmentCache">
+        <distributed-cache name="assignmentCache" owners="${stat.owners}">
             <persistence>
-                <file-store path="store/base/assignments"/>
+                <file-store path="${store.dir}/store/base/assignments"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
-        <distributed-cache name="controllerDynamicCache" mode="ASYNC">
+        <distributed-cache name="controllerDynamicCache" mode="ASYNC" owners="${dyn.owners}">
             <persistence>
-                <file-store path="store/dyn/controller"/>
+                <file-store path="${store.dir}/store/dyn/controller"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
