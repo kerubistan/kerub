@@ -19,8 +19,8 @@ class IspnConfiguration {
 		val logger = getLogger(IspnConfiguration::class)
 	}
 
-	var globalConfig : GlobalConfiguration? = null
-	var config : Configuration? = null
+	private var globalConfig : GlobalConfiguration? = null
+	private var config : Configuration? = null
 
 	fun init() {
 		logger.info("ispn global configuration")
