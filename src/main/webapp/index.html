@@ -68,6 +68,45 @@
         <div class="modal-header">
             <h3 class="modal-title">New VM</h3>
         </div>
+        <tabset>
+            <tab>
+                <tab-heading>General</tab-heading>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
+                    </div>
+                    <input ng-model="vm.id" class="form-control" readonly autofocus>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-tag"/> Name</h3>
+                    </div>
+                    <input ng-model="vm.name" class="form-control" placeholder="vm name" autofocus>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-cog"/> CPU</h3>
+                    </div>
+                    <input ng-model="vm.nrOfCpus" class="form-control" type="number">
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-signal"/> Memory</h3>
+                    </div>
+                    <input ng-model="vm.memoryMb.min" class="form-control" type="number">
+                    <input ng-model="vm.memoryMb.max" class="form-control" type="number">
+                </div>
+            </tab>
+            <tab>
+                <tab-heading>Disk</tab-heading>
+            </tab>
+            <tab>
+                <tab-heading>Network</tab-heading>
+            </tab>
+            <tab>
+                <tab-heading>Expectations</tab-heading>
+            </tab>
+        </tabset>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()">
                 Add

@@ -82,28 +82,14 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
          */
         get : function(url) {
             var res = $http.get(url);
-//            res.error(function(error) {
-//                $log.info(error);
-//                $log.info(error.code);
-//                if(error.code === "AUTH1") {
-//                    //add the request to the lis of blocked requests
-//                    session._blockedRequests.push({
-//                        method : 'GET',
-//                        url : url,
-//                        future : res
-//                    });
-//
-//                    $log.info("opening login window");
-//                    console.log(session);
-//                    session.loginWindow = $modal.open({
-//                        templateUrl : 'Login.html',
-//                        controller : Login,
-//                        keyboard : false,
-//                        backdrop : false
-//                        });
-//                    $log.info("user can login now");
-//                }
-//            });
+            var wrap = new SessionReqWrapper(res, this);
+            return wrap;
+        },
+        /**
+         * session put
+         */
+        put : function(url, data) {
+            var res = $http.put(url, data);
             var wrap = new SessionReqWrapper(res, this);
             return wrap;
         },
