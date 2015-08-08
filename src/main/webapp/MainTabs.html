@@ -1,10 +1,10 @@
 <div ng-controller="MainTabs">
     <tabset>
-        <tab>
+        <tab ng-controller="VmTab">
             <tab-heading>
                 <i class="glyphicon glyphicon-cog"></i>Virtual machines
             </tab-heading>
-            <button type="button" class="btn btn-default glyphicon glyphicon-plus">New VM</button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVmForm()">New VM</button>
             <table class="table">
                 <thead>
                 <tr>

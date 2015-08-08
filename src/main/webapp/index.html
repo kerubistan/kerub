@@ -16,8 +16,10 @@
     <script src="js/Session.js"></script>
     <script src="js/Login.js"></script>
     <script src="js/HostTab.js"></script>
+    <script src="js/VmTab.js"></script>
     <script src="js/VersionInfo.js"></script>
     <script src="js/NewHostWizard.js"></script>
+    <script src="js/NewVmWizard.js"></script>
     <script src="js/HostDetails.js"></script>
     <script src="js/MainTabs.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
@@ -61,6 +63,21 @@
     </div>
 
     <span ng-include="'MainTabs.html'"/>
+
+    <script type="text/ng-template" id="NewVmWizard.html">
+        <div class="modal-header">
+            <h3 class="modal-title">New VM</h3>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()">
+                Add
+            </button>
+            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()">
+                Cancel
+            </button>
+        </div>
+
+    </script>
 
     <script type="text/ng-template" id="NewHostWizard.html" >
 
