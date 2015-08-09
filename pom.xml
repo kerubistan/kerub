@@ -20,7 +20,7 @@
         <url>https://github.com/K0zka/</url>
     </organization>
     <properties>
-        <kotlin.version>0.12.213</kotlin.version>
+        <kotlin.version>0.12.1230</kotlin.version>
         <spring.version>4.1.1.RELEASE</spring.version>
         <cxf.version>3.1.1</cxf.version>
         <infinispan.version>7.2.2.Final</infinispan.version>
@@ -28,7 +28,7 @@
         <angular-bootstrap.version>0.13.0</angular-bootstrap.version>
         <slf4j.version>1.7.10</slf4j.version>
         <cucumber.version>1.2.2</cucumber.version>
-        <jackson.version>2.5.3</jackson.version>
+        <jackson.version>2.5.4</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
         <shiro.version>1.2.3</shiro.version>
     </properties>

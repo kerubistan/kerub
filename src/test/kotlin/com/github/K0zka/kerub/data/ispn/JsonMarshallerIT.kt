@@ -26,7 +26,6 @@ public class JsonMarshallerIT {
 	}
 
 	Test
-	Ignore("TODO: fix this")
 	fun vmFromByteBuffer() {
 		val vm = JsonMarshaller(mapper).objectFromByteBuffer(
 				("""
