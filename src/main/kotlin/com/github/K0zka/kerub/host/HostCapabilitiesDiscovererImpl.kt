@@ -3,11 +3,11 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.host.distros.*
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
-import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
@@ -40,7 +40,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	fun discoverHost(session: ClientSession, dedicated : Boolean): HostCapabilities {
 
 		val distro = detectDistro(session)
-		val packages = distro?.listPackages(session) ?: listOf()
+		val packages = distro?.listPackages(session) ?: listOf<SoftwarePackage>()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 

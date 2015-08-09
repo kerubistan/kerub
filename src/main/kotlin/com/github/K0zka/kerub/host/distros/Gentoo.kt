@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.utils.SoftwarePackage
 import org.apache.sshd.ClientSession
 
 public class Gentoo : AbstractLinux() {

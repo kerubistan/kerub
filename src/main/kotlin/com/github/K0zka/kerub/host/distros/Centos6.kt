@@ -3,8 +3,8 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.getFileContents
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.utils.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
 import org.apache.sshd.ClientSession
 

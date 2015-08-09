@@ -2,8 +2,9 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.getTestKey
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.utils.SoftwarePackage
+
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.SshServer
@@ -220,7 +221,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 	Test
 	fun isDmiDecodeInstalled() {
 		Assert.assertThat(
-				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo",Version("1","0","0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
+				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo", Version("1", "0", "0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
 				CoreMatchers.`is`(true)
 		                 )
 		Assert.assertThat(

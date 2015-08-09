@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
-import com.github.K0zka.kerub.utils.SoftwarePackage
+import com.github.K0zka.kerub.model.SoftwarePackage
 import java.util.UUID
 
 JsonTypeName("host-os")

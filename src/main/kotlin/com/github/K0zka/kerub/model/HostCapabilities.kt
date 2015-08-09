@@ -8,7 +8,6 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.model.views.Full
 import com.github.K0zka.kerub.model.views.Simple
-import com.github.K0zka.kerub.utils.SoftwarePackage
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
 
