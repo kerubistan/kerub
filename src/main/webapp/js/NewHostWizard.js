@@ -35,12 +35,14 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
     };
     $scope.addHost = function () {
         $log.debug('add host');
-        $http.put('s/r/host/join',
+        $appsession.put('s/r/host/join',
             {
                 host : $scope.host,
                 password : $scope.password
             }
-            );
-        $modalInstance.close();
+            ).success(function() {
+		        $log.debug('host add finished');
+		        $modalInstance.close();
+            });
     };
 };
