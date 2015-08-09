@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.utils.junix.vmstat
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.ClientSession
-import org.jetbrains.kotlin.utils.sure
 import java.io.OutputStream
 import java.io.Serializable
 import java.util.regex.Pattern
