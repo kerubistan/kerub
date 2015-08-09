@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.model
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
@@ -11,6 +10,9 @@ import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
 import java.util.UUID
 
+/**
+ * A virtual machine.
+ */
 Indexed
 JsonTypeName("vm")
 data class VirtualMachine constructor(
