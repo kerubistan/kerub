@@ -6,7 +6,9 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, $appse
     	memoryMb : {
     		min : 512,
     		max : 1024
-    	}
+    	},
+    	expectations : [],
+    	storagedevices : []
 	};
 	$scope.addVm = function() {
 		$appsession.put('s/r/vm', $scope.vm).success(function() {
