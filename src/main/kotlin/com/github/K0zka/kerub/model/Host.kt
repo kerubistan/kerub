@@ -11,7 +11,7 @@ import org.hibernate.search.annotations.Indexed
 import java.util.UUID
 
 /**
- *
+ * A host represents a server, a physical computation resource, that can be used by virtual resources.
  */
 Indexed
 JsonTypeName("host")
