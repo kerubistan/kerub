@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.services.impl
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.host.HostManager
+import com.github.K0zka.kerub.host.SshClientService
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.services.HostAndPassword
 import org.hamcrest.CoreMatchers
@@ -24,6 +25,8 @@ public class HostServiceImplTest {
 	var dao: HostDao? = null
 	Mock
 	var manager: HostManager? = null
+	Mock
+	var sshClientService: SshClientService? = null
 
 	var pubKey: PublicKey = getTestKey().getPublic()
 
@@ -31,7 +34,7 @@ public class HostServiceImplTest {
 
 	Before
 	fun setup() {
-		service = HostServiceImpl(dao!!, manager!!)
+		service = HostServiceImpl(dao!!, manager!!, sshClientService!!)
 	}
 
 	Test
@@ -51,6 +54,19 @@ public class HostServiceImplTest {
 	}
 
 	Test
+	fun joinWithoutPassword() {
+		val host = Host(
+				id = UUID.randomUUID(),
+				address = "127.0.0.1",
+				publicKey = "TEST",
+				dedicated = true,
+				capabilities = null
+		               )
+		service!!.joinWithoutPassword(host)
+		Mockito.verify(manager)!!.join(eq(host) ?: host)
+	}
+
+	Test
 	fun getHostPubkey() {
 		Mockito.`when`(manager!!.getHostPublicKey(anyString())).thenReturn(pubKey)
 
@@ -59,5 +75,14 @@ public class HostServiceImplTest {
 		Assert.assertThat(hostPubKey.format, CoreMatchers.`is`(pubKey!!.getFormat()))
 
 
+	}
+
+	Test
+	fun getPubKey() {
+		Mockito.`when`(sshClientService!!.getPublicKey()).thenReturn("TEST-KEY")
+
+		Assert.assertThat(service!!.getPubkey(), CoreMatchers.`is`("TEST-KEY"))
+
+		Mockito.verify(sshClientService)!!.getPublicKey()
 	}
 }

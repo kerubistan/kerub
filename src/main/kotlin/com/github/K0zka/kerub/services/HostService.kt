@@ -41,10 +41,24 @@ public interface HostService : RestCrud<Host> {
 	RequiresAuthentication
 	fun join(ApiParam(value = "New host with password", required = true) hostPwd : HostAndPassword): Host
 
+	PUT
+	Path("/join-pubkey")
+	RequiresRoles(Roles.admin)
+	RequiresAuthentication
+	fun joinWithoutPassword(ApiParam(value = "New host", required = true) host : Host): Host
+
 	ApiOperation("Get the public key of the server", httpMethod = "GET")
 	GET
 	Path("/helpers/pubkey")
 	RequiresRoles(Roles.admin)
 	RequiresAuthentication
 	fun getHostPubkey(QueryParam("address") address : String) : HostPubKey
+
+	ApiOperation("Get the public key of kerub", httpMethod = "GET", produces = MediaType.TEXT_PLAIN)
+	GET
+	Produces(MediaType.TEXT_PLAIN)
+	Path("/helpers/controller-pubkey")
+	RequiresRoles(Roles.admin)
+	RequiresAuthentication
+	fun getPubkey() : String
 }

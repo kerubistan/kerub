@@ -6,6 +6,8 @@ import com.github.K0zka.kerub.matchAny
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.SftpClient
+import org.hamcrest.CoreMatchers
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -46,7 +48,10 @@ public class SshClientServiceImplTest {
 		Mockito.`when`(sftClient!!.stat(eq(".ssh/authorized_keys"))) .thenReturn(SftpClient.Attributes())
 		Mockito.`when`(sftClient!!.stat(eq(authorizedKeysHandle))).thenReturn(SftpClient.Attributes())
 		service!!.installPublicKey(session!!)
+	}
 
-
+	Test
+	fun getPublicKey() {
+		Assert.assertThat(service!!.getPublicKey(), CoreMatchers.notNullValue())
 	}
 }

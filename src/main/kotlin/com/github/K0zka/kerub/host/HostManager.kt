@@ -12,4 +12,5 @@ public interface HostManager {
 	fun getHostPublicKey(address : String) : PublicKey
 	fun connectHost(host : Host)
 	fun join(host: Host, password : String): Host
+	fun join(host: Host): Host
 }

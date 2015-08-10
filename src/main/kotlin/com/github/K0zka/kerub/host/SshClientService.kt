@@ -21,5 +21,13 @@ public interface SshClientService {
 	 */
 	fun loginWithPassword(address: String, userName : String, password : String) : ClientSession
 
+	/**
+	 * Install public key on a host.
+	 */
 	fun installPublicKey(session: ClientSession)
+
+	/**
+	 * Get the OpenSSH format of public key.
+	 */
+	fun getPublicKey() : String
 }

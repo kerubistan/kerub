@@ -303,6 +303,7 @@
             <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
                 <constructor-arg ref="hostDao"/>
                 <constructor-arg ref="hostManager"/>
+                <constructor-arg ref="sshClientService"/>
             </bean>
             <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
             </bean>

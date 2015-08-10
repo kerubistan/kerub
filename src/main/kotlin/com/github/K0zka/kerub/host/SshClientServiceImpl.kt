@@ -28,11 +28,7 @@ public class SshClientServiceImpl(
 				it.mkdir(".ssh")
 			}
 			logger.debug("{}: installing public key", session)
-			it.appendToFile(".ssh/authorized_keys",
-"""
-#added by kerub - ${Date()}
-ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
-""")
+			it.appendToFile(".ssh/authorized_keys", getPublicKey())
 			val stat = it.stat(".ssh/authorized_keys")
 			logger.debug("{}: setting permissions", session)
 			it.setStat(".ssh/authorized_keys", stat.perms(SftpClient.S_IRUSR or SftpClient.S_IWUSR))
@@ -99,4 +95,10 @@ ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
 		logger.debug("authentication finished {}", address)
 		return session
 	}
+
+	override fun getPublicKey(): String = """
+#added by kerub - ${Date()}
+ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
+"""
+
 }

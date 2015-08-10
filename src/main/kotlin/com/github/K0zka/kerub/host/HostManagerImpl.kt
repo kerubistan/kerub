@@ -3,17 +3,12 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
-import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.model.controller.Assignment
-import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.utils.getLogger
-import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.ServerKeyVerifier
 import java.net.SocketAddress
-import java.security.KeyPair
 import java.security.PublicKey
 import java.util.Collections
 import java.util.UUID
@@ -46,12 +41,25 @@ public class HostManagerImpl (
 		distro?.startMonitorProcesses(session, host, hostDynamicDao)
 	}
 
-	override fun join(host: Host, password : String): Host {
+	override fun join(host: Host, password: String): Host {
 		val session = sshClientService.loginWithPassword(
 				address = host.address,
 				userName = "root",
-				password =password)
+				password = password)
 		sshClientService.installPublicKey(session)
+
+		return joinConnectedHost(host, session)
+	}
+
+	override fun join(host: Host): Host {
+		val session = sshClientService.loginWithPublicKey(
+				address = host.address,
+				userName = "root"
+		                                                 )
+		return joinConnectedHost(host, session)
+	}
+
+	internal fun joinConnectedHost(host: Host, session: ClientSession): Host {
 		val capabilities = discoverer.discoverHost(session)
 
 		val host = host.copy(capabilities = capabilities)
@@ -61,7 +69,6 @@ public class HostManagerImpl (
 
 		return host
 	}
-
 
 	fun start() {
 		logger.info("starting host manager")
