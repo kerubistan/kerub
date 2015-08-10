@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.services.VersionService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.getLogger
@@ -17,7 +17,7 @@ public class VersionServiceIT {
 		val service = JAXRSClientFactory.create(
 				getServiceBaseUrl(),
 				javaClass<VersionService>(),
-				listOf(JacksonJaxbJsonProvider()))!!
+				listOf(JacksonJsonProvider()))!!
 		val versionInfo = service.getVersionInfo()
 		Assert.assertNotNull(versionInfo)
 		logger.info("version: ${versionInfo.version}")
