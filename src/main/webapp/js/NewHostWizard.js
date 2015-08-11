@@ -36,16 +36,24 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
         $modalInstance.dismiss('cancel');
     };
     $scope.addHost = function () {
-        $log.debug('add host');
-        $appsession.put('s/r/host/join',
-            {
-                host : $scope.host,
-                password : $scope.password
-            }
-            ).success(function() {
-		        $log.debug('host add finished');
-		        $modalInstance.close();
-            });
+    	var onHostAdded = function() {
+			$log.debug('host add finished');
+			$modalInstance.close();
+		};
+    	if($scope.password === '') {
+    	    $log.debug('add host with public key');
+			$appsession.put('s/r/host/join-pubkey',
+				$scope.host
+				).success(onHostAdded);
+    	} else {
+			$log.debug('add host with password');
+			$appsession.put('s/r/host/join',
+				{
+					host : $scope.host,
+					password : $scope.password
+				}
+				).success(onHostAdded);
+    	}
     };
 
     $appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
