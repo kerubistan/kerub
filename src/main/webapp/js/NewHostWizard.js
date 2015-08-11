@@ -14,6 +14,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 
     $scope.updateTimeout = null;
     $scope.clearPublicKey = function () {
+		if(event.keyCode == 13) {
+			$scope.addHost();
+		}
         $scope.host.publicKey = '';
     }
     $scope.updatePubkey = function () {
@@ -35,6 +38,11 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
         $log.info('close window');
         $modalInstance.dismiss('cancel');
     };
+	$scope.onKeyPress = function(event) {
+		if(event.keyCode == 13) {
+			$scope.addHost();
+		}
+	};
     $scope.addHost = function () {
     	var onHostAdded = function() {
 			$log.debug('host add finished');
