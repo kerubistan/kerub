@@ -125,7 +125,20 @@
         </div>
         <input ng-model="host.address" class="form-control" placeholder="address" ng-keypress="clearPublicKey()" ng-blur="updatePubkey()">
         <input ng-model="host.publicKey" readonly disabled class="form-control" placeholder="fingerprint">
-        <input ng-model="password" class="form-control" type="password" placeholder="password">
+        <tabset>
+            <tab>
+                <tab-heading>Public Key</tab-heading>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
+                    <div class="panel-body" ng-bind="controllerKey">
+                    </div>
+                </div>
+            </tab>
+            <tab>
+                <tab-heading>Password</tab-heading>
+                <input ng-model="password" class="form-control" type="password" placeholder="password">
+            </tab>
+        </tabset>
 
         <span ng-show="pubkeyUpdating">
                 updating

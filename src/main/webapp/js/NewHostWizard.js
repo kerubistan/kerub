@@ -10,6 +10,8 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
     };
     $scope.password = '';
 
+	$scope.controllerKey = '';
+
     $scope.updateTimeout = null;
     $scope.clearPublicKey = function () {
         $scope.host.publicKey = '';
@@ -45,4 +47,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 		        $modalInstance.close();
             });
     };
+
+    $appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
+    	$log.debug('retrieved ssh public key of the controller:'+result);
+    	$scope.controllerKey = result;
+    });
 };

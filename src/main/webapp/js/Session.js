@@ -80,8 +80,8 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
         /**
          * session get
          */
-        get : function(url) {
-            var res = $http.get(url);
+        get : function(url, options) {
+            var res = $http.get(url, options);
             var wrap = new SessionReqWrapper(res, this);
             return wrap;
         },
