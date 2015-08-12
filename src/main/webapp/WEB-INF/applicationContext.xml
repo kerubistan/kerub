@@ -161,7 +161,7 @@
           init-method="start"
           destroy-method="stop"/>
 
-    <bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl">
+    <bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl" depends-on="artemis">
         <constructor-arg ref="sshClient"/>
         <constructor-arg ref="keyPair"/>
         <constructor-arg value="1000"/>
@@ -369,7 +369,12 @@ Remember, that the motd is readable by anyone!]]></value>
     -->
 
     <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-        <property name="location" value="kerub.properties"/>
+        <property name="location" value="local/kerub.properties"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+        <property name="location" value="cluster/kerub.properties"/>
         <property name="ignoreResourceNotFound" value="true"/>
     </bean>
 
