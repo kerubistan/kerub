@@ -43,6 +43,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 			$scope.addHost();
 		}
 	};
+	$scope.toggleDedicated = function() {
+		$scope.host.dedicated = !$scope.host.dedicated;
+	};
     $scope.addHost = function () {
     	var onHostAdded = function() {
 			$log.debug('host add finished');

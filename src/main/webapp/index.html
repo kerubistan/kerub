@@ -123,21 +123,41 @@
         <div class="modal-header">
             <h3 class="modal-title">New Host {{host.address}}</h3>
         </div>
-        <input
-                ng-model="host.address"
-                class="form-control"
-                placeholder="address"
-                ng-keypress="clearPublicKey()"
-                ng-blur="updatePubkey()">
-        <input
-                ng-model="host.publicKey"
-                readonly
-                disabled
-                class="form-control"
-                placeholder="fingerprint">
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Address</div>
+            <div class="panel-body">
+                <input
+                        ng-model="host.address"
+                        class="form-control"
+                        placeholder="address"
+                        ng-keypress="clearPublicKey()"
+                        ng-blur="updatePubkey()">
+                <input
+                        ng-model="host.publicKey"
+                        readonly
+                        disabled
+                        class="form-control"
+                        placeholder="fingerprint">
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading"><span class="glyphicon glyphicon-heart"></span> Dedicated</div>
+            <div class="panel-body">
+                <span ng-if="host.dedicated">
+                    <span class="glyphicon glyphicon-star"></span> Host is dedicated, all resources can be used by Kerub
+                    and the host can be turned off when not needed.
+                    <button type="button" class="btn btn-default" ng-click="toggleDedicated()">Do not dedicate</button>
+                </span>
+                <span ng-if="!host.dedicated">
+                    <span class="glyphicon glyphicon-star-empty"></span> Host is shared with other services,
+                    resource usage is limited, Kerub is not allowed to turn of the server.
+                    <button type="button" class="btn btn-success" ng-click="toggleDedicated()">Dedicate</button>
+                </span>
+            </div>
+        </div>
         <tabset>
             <tab>
-                <tab-heading>Public Key</tab-heading>
+                <tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</tab-heading>
                 <div class="panel panel-info">
                     <div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
                     <div class="panel-body" ng-bind="controllerKey">
@@ -145,7 +165,7 @@
                 </div>
             </tab>
             <tab>
-                <tab-heading>Password</tab-heading>
+                <tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</tab-heading>
                 <input
                         ng-model="password"
                         class="form-control"
