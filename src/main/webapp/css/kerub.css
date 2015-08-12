@@ -19,3 +19,8 @@
 .login-screen .media-body {
     padding-left: 20px;
 }
+
+.publickey {
+      overflow-y: hidden;
+      overflow-x: scroll;
+}
