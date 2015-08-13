@@ -5,7 +5,7 @@
                 <i class="glyphicon glyphicon-cog"></i>Virtual machines
             </tab-heading>
             <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVmForm()">New VM</button>
-            <table class="table">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <td>name</td>
@@ -17,14 +17,21 @@
                     <td>actions</td>
                 </tr>
                 </thead>
-                <tbody ng-repeat="vm in vms">
-                    <td>{{vm.name}}</td>
-                    <td>{{vm.nrOfCpus}}</td>
-                    <td>{{vm.memoryMb.min}} - {{vm.memoryMb.max}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <tbody>
+                    <tr ng-repeat="_vm in vms" ng-controller="VmRow" ng-init="init(_vm)">
+                        <td>{{vm.name}}</td>
+                        <td>{{vm.nrOfCpus}}</td>
+                        <td>{{vm.memoryMb.min}} - {{vm.memoryMb.max}}</td>
+                        <td></td>
+                        <td>{{vmdyn.status}}</td>
+                        <td>{{vmdyn.load()}}</td>
+                        <td>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> </button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span> </button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> </button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-camera"></span> </button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </tab>
