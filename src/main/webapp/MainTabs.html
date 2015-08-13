@@ -17,7 +17,14 @@
                     <td>actions</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody ng-repeat="vm in vms">
+                    <td>{{vm.name}}</td>
+                    <td>{{vm.nrOfCpus}}</td>
+                    <td>{{vm.memoryMb.min}} - {{vm.memoryMb.max}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tbody>
             </table>
         </tab>
