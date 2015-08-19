@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.services.impl
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
+import com.github.K0zka.kerub.createClient
 import com.github.K0zka.kerub.services.HostService
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
@@ -16,11 +17,7 @@ public class HostServiceIT {
 	//TODO: make a cucumber story out of this
 	Test
 	fun getPubkey() {
-		val jsonProvider = JacksonJsonProvider(createObjectMapper())
-		val client = WebClient.create(getServiceBaseUrl(), listOf(jsonProvider), true)
-		WebClient.getConfig(client).getRequestContext().put(
-				org.apache.cxf.message.Message.MAINTAIN_SESSION, true)
-
+		val client = createClient()
 		val login = JAXRSClientFactory.fromClient(client, javaClass<LoginService>(), true)
 		login.login(LoginService.UsernamePassword(username = "admin", password = "password"))
 		val service = JAXRSClientFactory.fromClient(client,
