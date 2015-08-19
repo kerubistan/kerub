@@ -275,6 +275,9 @@
             <bean class="com.github.K0zka.kerub.security.mappers.UnauthenticatedExceptionMapper"/>
             <bean class="com.github.K0zka.kerub.security.mappers.AuthenticationExceptionMapper"/>
             <bean class="com.github.K0zka.kerub.security.mappers.AuthorizationExceptionMapper"/>
+
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">

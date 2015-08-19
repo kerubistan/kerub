@@ -51,6 +51,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 			$log.debug('host add finished');
 			$modalInstance.close();
 		};
+		var hostAddError = function(error) {
+			$log.error('Host add failed', error);
+		};
     	if($scope.password === '') {
     	    $log.debug('add host with public key');
 			$appsession.put('s/r/host/join-pubkey',
