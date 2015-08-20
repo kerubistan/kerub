@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.stories.rest
 
+import com.github.K0zka.kerub.RestException
 import com.github.K0zka.kerub.createClient
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.services.HostAndPassword
@@ -23,7 +24,7 @@ public class RestDefinitions {
 	var publicKeyFingerPrint = ""
 	var client : WebClient? = null
 	var hostService : HostService? = null
-	var exception : WebApplicationException? = null
+	var exception : RestException? = null
 
 	Before()
 	fun setup() {
@@ -60,7 +61,7 @@ public class RestDefinitions {
 					           ),
 			        password = hostPassword
 			                                  ) )
-		} catch (webExc : WebApplicationException) {
+		} catch (webExc : RestException) {
 			this.exception = webExc
 		}
 	}
@@ -73,23 +74,24 @@ public class RestDefinitions {
 					publicKey = publicKeyFingerPrint,
 					dedicated = false
 			                                      ))
-		} catch (webExc : WebApplicationException) {
+		} catch (webExc : RestException) {
 			this.exception = webExc
 		}
 	}
 
 	Then("^the response code must be (\\d+)$")
 	fun the_response_code_must_be(expectedResponseCode : Int) {
-		Assert.assertThat(exception?.getResponse()?.getStatus(), CoreMatchers.equalTo(expectedResponseCode))
+		Assert.assertThat(exception?.status, CoreMatchers.equalTo(expectedResponseCode))
 	}
 
 	Then("^the content type must be (\\S+)$")
 	fun the_content_type_must_be_application_json(expectedContentType : String) {
-		Assert.assertThat(exception?.getResponse()?.getHeaderString("Content-Type"), CoreMatchers.equalTo(expectedContentType))
+		Assert.assertThat(exception?.response?.getHeaderString("Content-Type"), CoreMatchers.equalTo(expectedContentType))
 	}
 
 	Then("^the error code must be (\\S+)$")
 	fun the_error_code_must_be(expectedErrorCode : String) {
+		Assert.assertThat(exception?.code, CoreMatchers.equalTo(expectedErrorCode))
 	}
 
 	When("^the client tries to retrieve public key$")
@@ -100,9 +102,8 @@ public class RestDefinitions {
 					publicKey = publicKeyFingerPrint,
 					dedicated = false
 			                                      ))
-		} catch (webExc : WebApplicationException) {
+		} catch (webExc : RestException) {
 			this.exception = webExc
 		}
-
 	}
 }
