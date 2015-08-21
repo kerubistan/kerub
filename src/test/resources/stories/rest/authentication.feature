@@ -34,3 +34,15 @@ Feature: Authentication and authorization on the rest api
       | what    |
       | motd    |
       | version |
+
+  Scenario Outline: Authentication pass with known users
+    Given user <user> with password <password>
+    When user tries to log in
+    Then request must pass
+    And session should be created
+
+    Examples:
+      | user      | password   |
+      | admin     | password   |
+      | poweruser | password   |
+      | enduser   | password   |

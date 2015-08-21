@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.services.*
+import cucumber.api.PendingException
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -70,8 +71,7 @@ public class AuthenticationDefinitions {
 					CoreMatchers.equalTo(false)
 			                 )
 		} else {
-			//TODO
-			client.getHeaders()
+			throw PendingException("TODO: How to verify no session")
 		}
 	}
 
@@ -140,6 +140,11 @@ public class AuthenticationDefinitions {
 			        publicKey = ""
 					))
 		})
+	}
+
+	Then("^session should be created$")
+	fun verifySessionCreated() {
+		throw PendingException("TODO: how to verify session creation")
 	}
 
 }
