@@ -8,7 +8,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
         publicKey : '',
         dedicated : true
     };
-    $scope.password = '';
+    $scope.password = {
+    	password: ''
+    };
 
 	$scope.controllerKey = '';
 
@@ -54,7 +56,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 		var hostAddError = function(error) {
 			$log.error('Host add failed', error);
 		};
-    	if($scope.password === '') {
+		$log.info('password',$scope.password);
+		$log.info('host',$scope.host);
+    	if($scope.password.password === '') {
     	    $log.debug('add host with public key');
 			$appsession.put('s/r/host/join-pubkey',
 				$scope.host
@@ -64,7 +68,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 			$appsession.put('s/r/host/join',
 				{
 					host : $scope.host,
-					password : $scope.password
+					password : $scope.password.password
 				}
 				).success(onHostAdded);
     	}
