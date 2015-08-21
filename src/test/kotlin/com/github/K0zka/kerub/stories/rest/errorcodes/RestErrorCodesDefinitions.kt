@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.stories.rest
+package com.github.K0zka.kerub.stories.rest.errorcodes
 
 import com.github.K0zka.kerub.RestException
 import com.github.K0zka.kerub.createClient
@@ -18,7 +18,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import javax.ws.rs.WebApplicationException
 
-public class RestDefinitions {
+public class RestErrorCodesDefinitions {
 
 	var hostAddress : String? = null
 	var publicKeyFingerPrint = ""
