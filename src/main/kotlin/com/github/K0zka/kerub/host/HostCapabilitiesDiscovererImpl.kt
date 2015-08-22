@@ -27,6 +27,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				Ubuntu(),
 				Fedora(),
 				Centos6(),
+				Centos7(),
 				OpenSuse(),
 				Raspbian(),
 				FreeBSD())
