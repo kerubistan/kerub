@@ -59,6 +59,12 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="virtualStorageDeviceCache" owners="${stat.owners}">
+            <persistence>
+                <file-store path="${store.dir}/store/base/virtualstorage"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
         <distributed-cache name="controllerDynamicCache" mode="ASYNC" owners="${dyn.owners}">
             <persistence>
                 <file-store path="${store.dir}/store/dyn/controller"/>

@@ -6,9 +6,9 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import org.infinispan.Cache
 import java.util.UUID
 
-public class VirtualMachineDaoImpl(cache: Cache<UUID, VirtualMachine>, eventListener : EventListener)
+public class VirtualMachineDaoImpl(cache: Cache<UUID, VirtualMachine>, eventListener: EventListener)
 : VirtualMachineDao, ListableIspnDaoBase<VirtualMachine, UUID>(cache, eventListener) {
-	override fun getEntityClass(): Class<VirtualMachine> {
-		return javaClass<VirtualMachine>()
-	}
+	override fun getEntityClass(): Class<VirtualMachine> =
+			VirtualMachine::class
+
 }

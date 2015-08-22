@@ -62,6 +62,10 @@
         <constructor-arg value="assignmentCache"/>
     </bean>
 
+    <bean id="virtualStorageDeviceCache" parent="cache">
+        <constructor-arg value="virtualStorageDeviceCache"/>
+    </bean>
+
     <!--
     DAO
     -->
@@ -71,6 +75,11 @@
 
     <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
         <constructor-arg ref="vmCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
+    <bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl" parent="daoBase">
+        <constructor-arg ref="virtualStorageDeviceCache"/>
         <constructor-arg ref="eventListener"/>
     </bean>
 
@@ -282,6 +291,9 @@
         <jaxrs:serviceBeans>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>
+            </bean>
+            <bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
+                <constructor-arg ref="virtualStorageDeviceDao"/>
             </bean>
             <bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
                 <constructor-arg ref="projectDao"/>

@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
-import com.github.K0zka.kerub.model.StorageDevice
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualStorageLink
 
-fun storageToXml(disks : List<StorageDevice>) : String {
+fun storageToXml(disks : List<VirtualStorageLink>) : String {
 	val ret = StringBuilder()
 	for(disk in disks) {
 		ret.append("""
@@ -24,7 +24,7 @@ return """
     <name>${escapeXmlText(vm.name)}</name>
     <uuid>${vm.id}</uuid>
     <memory unit='KiB'>${vm.memoryMb.min * 1024}</memory>
-    <vcpu>1</vcpu>
+    <vcpu>${vm.nrOfCpus}</vcpu>
     <os>
         <smbios mode='sysinfo'/>
         <boot dev='hd'/>
@@ -37,7 +37,7 @@ return """
     </features>
     <devices>
 		<emulator>/usr/bin/qemu-kvm</emulator>
-        ${storageToXml(vm.storageDevices)}
+        ${storageToXml(vm.virtualStorageLinks)}
     </devices>
 </domain>
 """

@@ -24,7 +24,7 @@ public class UtilsTest {
 				expectations = listOf(),
 				memoryMb = serializableRange(1024, 2048),
 				name = "test-vm</",
-				storageDevices = listOf()
+				virtualStorageLinks = listOf()
 		                       )
 
 		val libvirtXml = vmDefinitiontoXml(vm)

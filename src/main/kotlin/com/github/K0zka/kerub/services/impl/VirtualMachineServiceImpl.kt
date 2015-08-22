@@ -5,5 +5,4 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.services.VirtualMachineService
 
 public class VirtualMachineServiceImpl(dao: VirtualMachineDao) : ListableBaseService<VirtualMachine>(dao, "vm"),
-		VirtualMachineService {
-}
+		VirtualMachineService
