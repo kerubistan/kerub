@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.io.IoTune
 import java.util.UUID
 
 JsonTypeName("storage-write-perf")
-data class StorageWritePerformanceExpectation @JsonCreator constructor(
+data class StorageWritePerformanceExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel,
 		override val speed: IoTune

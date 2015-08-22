@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("cpu-architecture")
-data class CpuArchitectureExpectation @JsonCreator constructor(
+data class CpuArchitectureExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel,
 		val cpuArchitecture: String

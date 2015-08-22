@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.io.IoTune
 import java.util.UUID
 
 JsonTypeName("storage-read-perf")
-public class StorageReadPerformanceExpectation @JsonCreator constructor(
+data class StorageReadPerformanceExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		override val speed: IoTune

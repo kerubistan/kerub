@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 import java.util.UUID
 
 JsonTypeName("host-os")
-public class HostOperatingSystemExpectation @JsonCreator constructor(
+data class HostOperatingSystemExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel,
 		val os: SoftwarePackage

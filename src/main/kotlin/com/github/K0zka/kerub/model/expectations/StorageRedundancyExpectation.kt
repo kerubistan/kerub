@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("storage-redundancy")
-data class StorageRedundancyExpectation @JsonCreator constructor(
+data class StorageRedundancyExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val nrOfCopies: Int

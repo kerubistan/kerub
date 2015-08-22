@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("host-chassis-manufacturer")
-public class ChassisManufacturerExpectation @JsonCreator constructor(
+data class ChassisManufacturerExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val manufacturer: String

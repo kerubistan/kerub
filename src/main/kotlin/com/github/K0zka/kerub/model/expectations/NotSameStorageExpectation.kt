@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("not-same-storage")
-public class NotSameStorageExpectation @JsonCreator constructor(
+data class NotSameStorageExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val otherDiskIds: List<UUID>

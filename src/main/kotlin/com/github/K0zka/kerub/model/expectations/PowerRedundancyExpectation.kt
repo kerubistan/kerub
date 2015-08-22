@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("power-redundancy")
-data class PowerRedundancyExpectation @JsonCreator constructor(
+data class PowerRedundancyExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val minPowerCords: Int

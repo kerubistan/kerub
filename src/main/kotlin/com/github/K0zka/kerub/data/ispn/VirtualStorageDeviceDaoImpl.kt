@@ -7,9 +7,10 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import org.infinispan.Cache
 import java.util.*
+import kotlin.reflect.jvm.java
 
 public class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, eventListener : EventListener)
 : VirtualStorageDeviceDao, ListableIspnDaoBase<VirtualStorageDevice, UUID>(cache, eventListener) {
 	override fun getEntityClass(): Class<VirtualStorageDevice> =
-		VirtualStorageDevice::class
+		VirtualStorageDevice::class.java
 }

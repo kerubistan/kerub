@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("ecc-memory")
-public class EccMemoryExpectation @JsonCreator constructor(
+data class EccMemoryExpectation constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker
                                                           ) : Expectation

@@ -13,7 +13,6 @@ public class StatisticsInfo(
 		val avgRemoveTime : Long) {
 }
 
-
 Produces("application/json")
 Consumes("application/json")
 Path("/stats/controller/db")

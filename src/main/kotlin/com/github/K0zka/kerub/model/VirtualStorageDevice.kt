@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class VirtualStorageDevice(
 		DocumentId
-		override val id: UUID,
+		override val id: UUID = UUID.randomUUID(),
 		Field
 		val size: Long,
 		Field

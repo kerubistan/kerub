@@ -5,10 +5,13 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.security.mappers.RestError
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper
 import org.apache.cxf.jaxrs.client.WebClient
 import java.io.InputStream
 import javax.ws.rs.core.Response
+import kotlin.reflect.KClass
+import kotlin.reflect.jvm.java
 
 class RestException(val msg : String, val code : String, val status : Int, val response : Response) : RuntimeException()
 
@@ -26,3 +29,6 @@ fun createClient() : WebClient {
 			org.apache.cxf.message.Message.MAINTAIN_SESSION, true)
 	return client;
 }
+
+fun <T> createServiceClient(serviceClass : KClass<T>, client : WebClient = createClient()) : T =
+		JAXRSClientFactory.fromClient(client, serviceClass.java)
