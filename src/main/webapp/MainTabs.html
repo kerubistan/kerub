@@ -41,7 +41,7 @@
             </tab-heading>
 
         </tab>
-        <tab>
+        <tab ng-controller="VirtualDisksTab">
             <tab-heading>
                 <i class="glyphicon glyphicon-hdd"></i>Virtual disks
             </tab-heading>
@@ -49,12 +49,28 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <td>name</td>
                     <td>size</td>
-                    <td>comments</td>
+                    <td>readonly</td>
+                    <td>expectations</td>
                 </tr>
                 </thead>
                 <tbody>
+                    <tr ng-repeat="virtDisk in virtualDisks.result">
+                        <td>
+                            {{humanFriendlySize(virtDisk.size)}}
+                        </td>
+                        <td>
+                            {{virtDisk.readOnly}}
+                        </td>
+                        <td>
+                            <span ng-repeat="expectation in virtDisk.expectations">
+                                <span class="label label-{{expectationLevel(expectation.level)}}">
+                                    <span class="glyphicon glyphicon-{{expectationIcon(expectation)}}"></span>
+                                    {{shortExpectation(expectation)}}
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </tab>
