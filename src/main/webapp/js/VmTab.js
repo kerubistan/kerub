@@ -1,5 +1,6 @@
 
-kerubApp.controller('VmTab', function($scope, $modal, $log, $socket, $appsession) {
+kerubApp.controller('VmTab', function($scope, $modal, $log, $socket, $appsession, $size) {
+	$scope.humanFriendlySize = $size.humanFriendlySize;
 	$scope.vms = [];
 	$scope.refreshVms = function() {
 		$appsession.get('s/r/vm').success(function(result) {

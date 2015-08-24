@@ -9,11 +9,10 @@
                 <thead>
                 <tr>
                     <td>name</td>
-                    <td>vCPUs</td>
-                    <td>RAM</td>
-                    <td>OS</td>
+                    <td style="width:30px">vCPUs</td>
+                    <td style="width:90px">RAM</td>
                     <td>status</td>
-                    <td>load</td>
+                    <td>expectations</td>
                     <td>actions</td>
                 </tr>
                 </thead>
@@ -21,10 +20,18 @@
                     <tr ng-repeat="_vm in vms" ng-controller="VmRow" ng-init="init(_vm)">
                         <td>{{vm.name}}</td>
                         <td>{{vm.nrOfCpus}}</td>
-                        <td>{{vm.memoryMb.min}} - {{vm.memoryMb.max}}</td>
-                        <td></td>
-                        <td>{{vmdyn.status}}</td>
+                        <td>{{humanFriendlySize(vm.memoryMb.min * 1024 * 1024)}} - {{humanFriendlySize(vm.memoryMb.max * 1024 * 1024)}}</td>
                         <td>{{vmdyn.load()}}</td>
+                        <td>
+                            <span ng-repeat="expectation in _vm.expectations"
+                                  ng-controller="ExpectationMini"
+                                  ng-init="init(expectation)">
+                                <span class="label label-{{style}}">
+                                    <span class="glyphicon glyphicon-{{icon}}"></span>
+                                    {{description}}
+                                </span>
+                            </span>
+                        </td>
                         <td>
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> </button>
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span> </button>
@@ -63,10 +70,12 @@
                             {{virtDisk.readOnly}}
                         </td>
                         <td>
-                            <span ng-repeat="expectation in virtDisk.expectations">
-                                <span class="label label-{{expectationLevel(expectation.level)}}">
-                                    <span class="glyphicon glyphicon-{{expectationIcon(expectation)}}"></span>
-                                    {{shortExpectation(expectation)}}
+                            <span ng-repeat="expectation in virtDisk.expectations"
+                                  ng-controller="ExpectationMini"
+                                  ng-init="init(expectation)">
+                                <span class="label label-{{style}}">
+                                    <span class="glyphicon glyphicon-{{icon}}"></span>
+                                    {{description}}
                                 </span>
                             </span>
                         </td>
