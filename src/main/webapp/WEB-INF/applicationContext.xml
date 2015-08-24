@@ -327,9 +327,8 @@
     </jaxrs:server>
 
     <bean id="motd" class="com.github.K0zka.kerub.services.impl.MotdServiceImpl">
-        <constructor-arg>
-            <value><![CDATA[
-#### Developer mode
+        <constructor-arg index="0" name="motd">
+            <value>#### Developer mode
 
 This instance seems to be running in dev/eval mode.
 You can log in with the following users (see **shiro.ini**):
@@ -339,7 +338,7 @@ You can log in with the following users (see **shiro.ini**):
  * enduser/password
 
 You can edit the 'motd' of kerub in the configuration.
-Remember, that the motd is readable by anyone!]]></value>
+Remember, that the motd is readable by anyone!</value>
         </constructor-arg>
     </bean>
 
