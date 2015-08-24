@@ -24,9 +24,13 @@ JsonSubTypes(
 		JsonSubTypes.Type(ChassisManufacturerExpectation::class),
 		JsonSubTypes.Type(NotSameHostExpectation::class),
 		JsonSubTypes.Type(PowerRedundancyExpectation::class),
-		JsonSubTypes.Type(NotSameHostExpectation::class),
+		JsonSubTypes.Type(NotSameStorageExpectation::class),
 		JsonSubTypes.Type(CpuArchitectureExpectation::class),
-		JsonSubTypes.Type(StorageRedundancyExpectation::class)
+		JsonSubTypes.Type(StorageRedundancyExpectation::class),
+		JsonSubTypes.Type(ClockFrequencyExpectation::class),
+		JsonSubTypes.Type(MemoryClockFrequencyExpectation::class),
+		JsonSubTypes.Type(CacheSizeExpectation::class),
+		JsonSubTypes.Type(SystemManufacturerExpectation::class)
             )
 data interface Expectation : Serializable {
 	val id: UUID

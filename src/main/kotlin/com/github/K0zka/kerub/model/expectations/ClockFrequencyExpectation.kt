@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
 JsonTypeName("cpu-clock-freq")
-public class ClockFrequencyExpectation @JsonCreator constructor(
+data class ClockFrequencyExpectation @JsonCreator constructor(
 		override val id: UUID,
 		override val level: ExpectationLevel,
 		val minimalClockFrequency: Int
