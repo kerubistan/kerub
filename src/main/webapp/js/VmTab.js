@@ -13,7 +13,6 @@ kerubApp.controller('VmTab', function($scope, $modal, $log, $socket, $appsession
 		   controller : NewVmWizard
         });
 		modalInstance.result.then(function() {
-			$log.info('kakukk');
 		});
 
 	}

@@ -8,7 +8,6 @@ kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, $socket, $
 	};
 
 	$scope.humanFriendlySize = function(size) {
-		$log.info('size', size)
 		var mul = 1024;
 		var kb = mul;
 		var mb = mul * kb;
