@@ -9,6 +9,6 @@ import java.util.UUID
 JsonTypeName("no-migration")
 data class NoMigrationExpectation constructor(
 		override val id: UUID,
-		override val level: ExpectationLevel = ExpectationLevel.Hint,
+		override val level: ExpectationLevel = ExpectationLevel.Wish,
 		val userTimeoutMinutes: Int
                                                             ) : Expectation

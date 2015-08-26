@@ -48,7 +48,7 @@ public class VirtualMachineServiceIT {
 						                               ),
 						CacheSizeExpectation(
 								id = UUID.randomUUID(),
-								level = ExpectationLevel.Hint,
+								level = ExpectationLevel.Wish,
 								minKbytes = 1024
 						                    )
 				                     )

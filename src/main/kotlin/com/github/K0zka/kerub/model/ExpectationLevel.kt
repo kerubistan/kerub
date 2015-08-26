@@ -5,9 +5,9 @@ package com.github.K0zka.kerub.model
  */
 public enum class ExpectationLevel {
 	/**
-	 * Hints can be ignored if no other way to get around
+	 * Wish can be ignored if no other way to get around.
 	 */
-	Hint,
+	Wish,
 	/**
 	 * As long as the expectation is not satisfied, the contract is not met - therefore user should not be charged.
 	 */
