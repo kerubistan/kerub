@@ -8,7 +8,7 @@ import java.util.UUID
 
 JsonTypeName("cpu-architecture")
 data class CpuArchitectureExpectation constructor(
-		override val id: UUID,
-		override val level: ExpectationLevel,
+		override val id: UUID = UUID.randomUUID(),
+		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val cpuArchitecture: String
                                                               ) : Expectation

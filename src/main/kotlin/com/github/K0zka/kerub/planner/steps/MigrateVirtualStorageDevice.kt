@@ -8,7 +8,7 @@ public class MigrateVirtualStorageDevice(
 		val device: VirtualStorageDevice,
 		val target: Host
                                         ) : AbstractOperationalStep() {
-	override fun take(state: OperationalState?): OperationalState? {
+	override fun take(state: OperationalState): OperationalState {
 		throw UnsupportedOperationException()
 	}
 }

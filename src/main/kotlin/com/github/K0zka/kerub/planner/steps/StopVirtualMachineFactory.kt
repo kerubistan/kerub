@@ -5,6 +5,6 @@ import com.github.k0zka.finder4j.backtrack.StepFactory
 
 public object StopVirtualMachineFactory : AbstractOperationalStepFactory<StopVirtualMachine>() {
 	override fun produce(state: OperationalState): List<StopVirtualMachine> {
-		throw UnsupportedOperationException()
+		return listOf()
 	}
 }

@@ -4,6 +4,6 @@ import com.github.K0zka.kerub.planner.OperationalState
 
 public object MigrateVirtualStorageDeviceFactory : AbstractOperationalStepFactory<MigrateVirtualStorageDevice>() {
 	override fun produce(state: OperationalState): List<MigrateVirtualStorageDevice> {
-		throw UnsupportedOperationException()
+		return listOf()
 	}
 }
