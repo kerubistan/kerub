@@ -13,6 +13,7 @@ data class VirtualStorageDevice(
 		Field
 		val readOnly :Boolean = false,
 		Field
+		override
 		val expectations: List<Expectation> = listOf()
                )
-: Entity<UUID>
+: Entity<UUID>, Constrained<Expectation>

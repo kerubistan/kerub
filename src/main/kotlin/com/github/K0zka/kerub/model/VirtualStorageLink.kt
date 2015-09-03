@@ -12,7 +12,8 @@ data class VirtualStorageLink(
 		Field
 		val virtualStorageId: UUID,
 		Field
-		val bus : BusType,
+		val bus: BusType,
 		Field
+		override
 		val expectations: List<Expectation> = listOf()
-                             ) : Serializable
+                             ) : Serializable, Constrained<Expectation>

@@ -48,6 +48,7 @@ data class VirtualMachine constructor(
 		Field
 		JsonView(Detailed::class)
 		JsonProperty("expectations")
+		override
 		val expectations: List<Expectation> = listOf(),
 		/**
 		 * Storage devices of the VM
@@ -57,5 +58,5 @@ data class VirtualMachine constructor(
 		JsonProperty("storagedevices")
 		val virtualStorageLinks: List<VirtualStorageLink> = listOf()
                          )
-: Entity<UUID>
+: Entity<UUID>, Constrained<Expectation>
 
