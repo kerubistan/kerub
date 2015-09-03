@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.planner.steps
 
+import com.github.K0zka.kerub.model.Constrained
+import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.OperationalStateTransformation
 import com.github.K0zka.kerub.planner.costs.Cost
@@ -16,14 +18,22 @@ abstract class AbstractOperationalStep : Step<OperationalStateTransformation> {
 	 *
 	 */
 	final override fun take(state: OperationalStateTransformation): OperationalStateTransformation =
-		OperationalStateTransformation(
-				state = take(state.state),
-		        steps = state.steps + this
-		                              )
+			OperationalStateTransformation(
+					state = take(state.state),
+					steps = state.steps + this
+			                              )
 
 	/**
 	 * Get the list of costs expected at executing this step.
+	 * Default implementation returns an empty list, meaning negligible
+	 * costs.
 	 */
-	fun getCost() : List<Cost> = listOf();
+	open fun getCost(state: OperationalState): List<Cost> = listOf();
 
+	/**
+	 * Returns a map of violated resources.
+	 */
+	open fun violations(state: OperationalState)
+			: Map<Constrained<Expectation>, List<Expectation>>
+			= mapOf()
 }

@@ -10,8 +10,11 @@ public data class HostDynamic(
 		override val id: UUID,
 		override val lastUpdated: Long = System.currentTimeMillis(),
 		val status: HostStatus = HostStatus.Up,
-		val userCpu: Byte?,
-		val systemCpu: Byte?,
-		val idleCpu: Byte?
+		val userCpu: Byte? = null,
+		val systemCpu: Byte? = null,
+		val idleCpu: Byte? = null,
+        val memFreeMb: Int? = null,
+        val memUsedMb: Int? = null,
+        val memSwappedMb: Int? = null
                              )
 : DynamicEntity

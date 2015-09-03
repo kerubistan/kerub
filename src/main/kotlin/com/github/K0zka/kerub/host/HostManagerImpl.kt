@@ -20,7 +20,14 @@ public class HostManagerImpl (
 		val controllerManager : ControllerManager,
 		val hostAssignmentDao : AssignmentDao,
 		val discoverer: HostCapabilitiesDiscoverer,
-		val hostAssigner: ControllerAssigner) : HostManager {
+		val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
+
+	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
+		val session = connections[host.id]
+		if(session != null) {
+			closure(session)
+		}
+	}
 
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
