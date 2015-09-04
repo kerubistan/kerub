@@ -1,3 +1,5 @@
 package com.github.K0zka.kerub.planner.costs
 
-public interface Cost
+import java.io.Serializable
+
+public interface Cost : Serializable
