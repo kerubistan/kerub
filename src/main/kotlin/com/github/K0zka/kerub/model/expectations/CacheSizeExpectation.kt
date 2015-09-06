@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("cache-size")
 data class CacheSizeExpectation @JsonCreator constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		val minKbytes: Long
                                                         ) : Expectation

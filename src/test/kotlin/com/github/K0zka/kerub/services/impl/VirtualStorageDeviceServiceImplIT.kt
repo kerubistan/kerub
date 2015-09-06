@@ -8,7 +8,6 @@ import com.github.K0zka.kerub.model.expectations.StorageRedundancyExpectation
 import com.github.K0zka.kerub.model.io.IoTune
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
-import jdk.nashorn.internal.runtime.regexp.joni.Regex
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
@@ -56,11 +55,9 @@ public class VirtualStorageDeviceServiceImplIT {
 				readOnly = false,
 				expectations = listOf(
 						StorageRedundancyExpectation(
-								id = UUID.randomUUID(),
 								nrOfCopies = 2
 						                            ),
 						StorageReadPerformanceExpectation(
-								id = UUID.randomUUID(),
 								speed = IoTune(
 										kbPerSec = 1024,
 										iopsPerSec = 1024

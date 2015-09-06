@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("storage-redundancy")
 data class StorageRedundancyExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val nrOfCopies: Int
                                                                 ) : Expectation

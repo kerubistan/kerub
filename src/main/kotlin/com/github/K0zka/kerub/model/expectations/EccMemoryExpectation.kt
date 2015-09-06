@@ -8,6 +8,5 @@ import java.util.UUID
 
 JsonTypeName("ecc-memory")
 data class EccMemoryExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker
                                                           ) : Expectation

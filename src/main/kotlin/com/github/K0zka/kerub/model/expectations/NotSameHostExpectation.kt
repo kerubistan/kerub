@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("not-same-host")
 data class NotSameHostExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val otherVmIds: List<UUID>
                                                           ) : Expectation

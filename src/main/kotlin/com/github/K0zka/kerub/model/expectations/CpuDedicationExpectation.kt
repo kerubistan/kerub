@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("cpu-dedication")
 data class CpuDedicationExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		val dedicatedVCpus: List<Int>
                                                               ) : Expectation

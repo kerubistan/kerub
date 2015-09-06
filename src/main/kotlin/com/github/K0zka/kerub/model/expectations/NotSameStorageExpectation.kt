@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("not-same-storage")
 data class NotSameStorageExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val otherDiskIds: List<UUID>
                                                                ) : Expectation

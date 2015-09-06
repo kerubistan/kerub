@@ -33,6 +33,5 @@ JsonSubTypes(
 		JsonSubTypes.Type(SystemManufacturerExpectation::class)
             )
 data interface Expectation : Serializable {
-	val id: UUID
 	val level: ExpectationLevel
 }

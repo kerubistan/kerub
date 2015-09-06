@@ -111,7 +111,6 @@ public class PlannerDefs {
 				it.copy(expectations = (
 						it.expectations
 								+ VirtualMachineAvailabilityExpectation(
-								id = UUID.randomUUID(),
 								level = ExpectationLevel.Want,
 								up = true
 								                                       )

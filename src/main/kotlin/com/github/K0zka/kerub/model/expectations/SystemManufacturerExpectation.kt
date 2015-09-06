@@ -8,6 +8,5 @@ import java.util.UUID
 
 JsonTypeName("host-system-manufacturer")
 data class SystemManufacturerExpectation @JsonCreator constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want
                                                                  ) : Expectation

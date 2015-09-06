@@ -8,12 +8,11 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
-import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.VirtualMachineService
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
+import java.util.UUID
 
 public class VirtualMachineServiceIT {
 	Test
@@ -37,17 +36,15 @@ public class VirtualMachineServiceIT {
 				nrOfCpus = 1,
 				expectations = listOf(
 						ClockFrequencyExpectation(
-								id = UUID.randomUUID(),
 								level = ExpectationLevel.DealBreaker,
 								minimalClockFrequency = 1700
 						                         ),
 						MemoryClockFrequencyExpectation(
-								id = UUID.randomUUID(),
+
 								level = ExpectationLevel.Want,
 								min = 1700
 						                               ),
 						CacheSizeExpectation(
-								id = UUID.randomUUID(),
 								level = ExpectationLevel.Wish,
 								minKbytes = 1024
 						                    )

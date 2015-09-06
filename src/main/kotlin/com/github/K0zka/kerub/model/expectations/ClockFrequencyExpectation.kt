@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("cpu-clock-freq")
 data class ClockFrequencyExpectation @JsonCreator constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		val minimalClockFrequency: Int
                                                                ) : Expectation

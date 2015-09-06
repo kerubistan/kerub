@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("storage-performance")
 interface StoragePerformanceExpectation : Expectation {
-	override val id: UUID
 	override val level: ExpectationLevel
 	val speed: IoTune
 }

@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("ram-clock-freq")
 data class MemoryClockFrequencyExpectation @JsonCreator constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		val min: Int
                                                                    ) : Expectation

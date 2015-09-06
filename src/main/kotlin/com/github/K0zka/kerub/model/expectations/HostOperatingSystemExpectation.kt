@@ -9,7 +9,6 @@ import java.util.UUID
 
 JsonTypeName("host-os")
 data class HostOperatingSystemExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		val os: SoftwarePackage
                                                                     ) : Expectation

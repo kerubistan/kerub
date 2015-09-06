@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("storage-write-perf")
 data class StorageWritePerformanceExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel,
 		override val speed: IoTune
                                                                       ) : StoragePerformanceExpectation

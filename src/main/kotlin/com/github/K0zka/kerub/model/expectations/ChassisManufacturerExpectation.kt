@@ -8,7 +8,6 @@ import java.util.UUID
 
 JsonTypeName("host-chassis-manufacturer")
 data class ChassisManufacturerExpectation constructor(
-		override val id: UUID,
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val manufacturer: String
                                                                     ) : Expectation
