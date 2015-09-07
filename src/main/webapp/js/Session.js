@@ -61,7 +61,6 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
         },
         restartRequests : function() {
             $log.info("restarting requests - close window");
-            session.loginWindow.close();
             $log.info("restarting requests", session);
             for(var i = 0; i < session._blockedRequests.length; i++) {
                 var bReq = session._blockedRequests[i];
@@ -94,6 +93,10 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
             return wrap;
         },
         _openLogin : function() {
+        	if(session.loginWindow != null) {
+        		$log.debug("login window already open");
+        		return;
+        	}
             $log.info("opening login window");
             session.loginWindow = $modal.open({
                 templateUrl : 'Login.html',
