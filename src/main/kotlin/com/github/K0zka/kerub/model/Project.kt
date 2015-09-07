@@ -23,6 +23,7 @@ public class Project(
 		Field
 		JsonProperty("created")
 		val created: Date,
+		override
 		Field
 		JsonProperty("expectations")
 		val expectations: List<Expectation> = listOf()
