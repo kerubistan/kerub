@@ -28,4 +28,4 @@ public class Project(
 		JsonProperty("expectations")
 		val expectations: List<Expectation> = listOf()
                     )
-: Entity<UUID>, Named
+: Entity<UUID>, Named, Constrained<Expectation>
