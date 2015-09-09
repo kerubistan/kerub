@@ -9,10 +9,19 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
      * The wrapper class to wrap requests.
      * When authentication is finished
      */
-    var SessionReqWrapper = function(req, session) {
+    var SessionReqWrapper = function(method, req, session, url, options) {
         this.onSuccess = [];
         this._session = session;
         this.onError = [];
+        this.getMethod = function() {
+			return method;
+        };
+        this.getUrl = function() {
+        	return url;
+        };
+        this.getOptions = function() {
+        	return options;
+        };
         this.success = function(callback) {
             $log.debug('onsuccess:', callback);
             this.onSuccess.push(callback);
@@ -34,6 +43,7 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
             $log.info('error', req, error, responseCode);
             if(responseCode === 401 && error.code === "AUTH1") {
                 this._session._openLogin();
+                this._session._blockedRequests.push(this);
             }
         }.bind(this));
     };
@@ -47,15 +57,17 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
         _blockedRequests : [],
 
         _sendNewRequest : function(bReq) {
-            switch(bReq.method) {
+        	var method = bReq.getMethod();
+        	$log.debug('Sending ' + method)
+            switch(method) {
                 case "GET":
-                    return $http.get(bReq.url);
+                    return $http.get(bReq.getUrl());
                 case "POST":
-                    return $http.post(bReq.url, bReq.data);
+                    return $http.post(bReq.getUrl(), bReq.getData());
                 case "PUT":
-                    return $http.put(bReq.url, bReq.data);
+                    return $http.put(bReq.getUrl(), bReq.getData());
                 case "DELETE":
-                    return $http.delete(bReq.url);
+                    return $http.delete(bReq.getUrl());
             }
             throw "Unhandled method: " + bReq.method;
         },
@@ -81,7 +93,7 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
          */
         get : function(url, options) {
             var res = $http.get(url, options);
-            var wrap = new SessionReqWrapper(res, this);
+            var wrap = new SessionReqWrapper('GET', res, this, url, options);
             return wrap;
         },
         /**
@@ -89,7 +101,7 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
          */
         put : function(url, data) {
             var res = $http.put(url, data);
-            var wrap = new SessionReqWrapper(res, this);
+            var wrap = new SessionReqWrapper('PUT', res, this);
             return wrap;
         },
         _openLogin : function() {
