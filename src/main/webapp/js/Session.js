@@ -5,6 +5,8 @@
 kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http, $modal) {
     $log.info('creating instance of $appsession');
 
+	var nr = 0;
+
     /**
      * The wrapper class to wrap requests.
      * When authentication is finished
@@ -13,6 +15,7 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
         this.onSuccess = [];
         this._session = session;
         this.onError = [];
+        this.nr = nr++;
         this.getMethod = function() {
 			return method;
         };
@@ -23,23 +26,20 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
         	return options;
         };
         this.success = function(callback) {
-            $log.debug('onsuccess:', callback);
             this.onSuccess.push(callback);
             return this;
         };
         this.error = function(callback) {
-            $log.debug('onerror:', callback)
             this.onError.push(callback);
             return this;
         };
         this.runSuccessCallbacks = function(response) {
             for(var idx = 0; idx < this.onSuccess.length; idx++) {
-                $log.debug('calling onsuccess method');
-                this.onSuccess[idx](response)
+                $log.debug('calling onsuccess method', idx);
+                this.onSuccess[idx](response);
             }
         }
         req.success(function(response) {
-            $log.info('success', req, response, this.onSuccess);
             this.runSuccessCallbacks(response);
         }.bind(this));
         req.error(function(error, responseCode) {
@@ -61,33 +61,35 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
 
         _sendNewRequest : function(bReq) {
         	var method = bReq.getMethod();
-        	$log.debug('Sending ' + method)
+        	var url = bReq.getUrl();
+        	$log.debug('Sending ' + method + ' url: ' + url)
             switch(method) {
                 case "GET":
-                    return $http.get(bReq.getUrl());
+                    return $http.get(url);
                 case "POST":
-                    return $http.post(bReq.getUrl(), bReq.getData());
+                    return $http.post(url, bReq.getData());
                 case "PUT":
-                    return $http.put(bReq.getUrl(), bReq.getData());
+                    return $http.put(url, bReq.getData());
                 case "DELETE":
                     return $http.delete(bReq.getUrl());
             }
             throw "Unhandled method: " + bReq.method;
         },
-        restartRequests : function() {
-            $log.info("restarting requests - close window");
-            $log.info("restarting requests", session);
-            for(var i = 0; i < session._blockedRequests.length; i++) {
-                var bReq = session._blockedRequests[i];
-                $log.info('restart request',bReq);
+        restartRequest : function(bReq) {
+                $log.info('restart request',bReq.getUrl());
                 var resp = session._sendNewRequest(bReq);
                 resp.success(function(result) {
-                    $log.info('result', bReq, result);
+                    $log.info('result', bReq.nr, bReq.getUrl());
                     bReq.runSuccessCallbacks(result);
                 });
                 resp.error(function() {
                     //hold!
                 });
+        },
+        restartRequests : function() {
+            $log.info("restarting requests", session);
+            for(var i = 0; i < session._blockedRequests.length; i++) {
+            	this.restartRequest(this._blockedRequests[i]);
             }
 
             session._blockedRequests = [];
