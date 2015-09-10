@@ -32,12 +32,15 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
             this.onError.push(callback);
             return this;
         };
-        req.success(function(response) {
-            $log.info('success', req, response, this.onSuccess);
-            for(idx in this.onSuccess) {
+        this.runSuccessCallbacks = function(response) {
+            for(var idx = 0; idx < this.onSuccess.length; idx++) {
                 $log.debug('calling onsuccess method');
                 this.onSuccess[idx](response)
             }
+        }
+        req.success(function(response) {
+            $log.info('success', req, response, this.onSuccess);
+            this.runSuccessCallbacks(response);
         }.bind(this));
         req.error(function(error, responseCode) {
             $log.info('error', req, error, responseCode);
@@ -79,7 +82,8 @@ kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http
                 $log.info('restart request',bReq);
                 var resp = session._sendNewRequest(bReq);
                 resp.success(function(result) {
-                    $log.info('result', bReq,result);
+                    $log.info('result', bReq, result);
+                    bReq.runSuccessCallbacks(result);
                 });
                 resp.error(function() {
                     //hold!
