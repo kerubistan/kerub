@@ -26,7 +26,7 @@ kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
         + "ws";
     $log.info("socket addr:"+socketAddr);
     var sock = {};
-    var socket = new WebSocket(socketAddr, 'kerub');
+    var socket = new WebSocket(socketAddr);
     sock.socket = socket;
     sock.queue = [];
     sock.listeners = {};
