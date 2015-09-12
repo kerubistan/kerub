@@ -7,6 +7,7 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Matchers
@@ -26,10 +27,14 @@ public class QemuImgTest {
 	Mock
 	var channelOpenFuture : OpenFuture? = null
 
-	Test
-	fun create() {
+	Before
+	fun setup() {
 		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
 		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
+	}
+
+	Test
+	fun create() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
 		QemuImg.create(session!!, VirtualDiskFormat.raw, 100.MB(), "/tmp/test.raw")
@@ -64,8 +69,6 @@ public class QemuImgTest {
 
 	Test
 	fun resize() {
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
-		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
 		QemuImg.resize(session!!, "/tmp/test.raw", 100.MB())
@@ -75,8 +78,6 @@ public class QemuImgTest {
 
 	Test
 	fun convert() {
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
-		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
 		QemuImg.convert(session!!, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
