@@ -29,4 +29,8 @@ public object QemuImg {
 	fun resize(session: ClientSession, path: String, size: Long) {
 		session.execute("qemu-img resize ${path} ${size}")
 	}
+
+	fun convert(session: ClientSession, path: String, targetPath : String, targetFormat: VirtualDiskFormat) {
+		session.execute("qemu-img convert -O ${targetFormat} ${path} ${targetPath}")
+	}
 }

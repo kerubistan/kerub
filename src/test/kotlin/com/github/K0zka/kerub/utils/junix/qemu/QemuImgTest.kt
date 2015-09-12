@@ -73,4 +73,15 @@ public class QemuImgTest {
 		Mockito.verify(session!!).createExecChannel("qemu-img resize /tmp/test.raw ${100.MB()}")
 	}
 
+	Test
+	fun convert() {
+		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
+		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
+		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
+
+		QemuImg.convert(session!!, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
+
+		Mockito.verify(session!!).createExecChannel("qemu-img convert -O qcow2 /tmp/test.raw /tmp/test.qcow2")
+	}
+
 }
