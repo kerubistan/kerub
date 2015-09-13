@@ -22,6 +22,7 @@
     <script src="js/VmRow.js"></script>
     <script src="js/VersionInfo.js"></script>
     <script src="js/NewHostWizard.js"></script>
+    <script src="js/NewVirtualDiskWizard.js"></script>
     <script src="js/NewVmWizard.js"></script>
     <script src="js/HostDetails.js"></script>
     <script src="js/MainTabs.js"></script>
@@ -67,6 +68,40 @@
     </div>
 
     <span ng-include="'MainTabs.html'"/>
+
+    <script type="text/ng-template" id="NewVirtualDiskWizard.html">
+        <div class="modal-header">
+            <h3 class="modal-title">New Virtual Disk</h3>
+        </div>
+        <tabset>
+            <tab>
+                <tab-heading>General</tab-heading>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
+                    </div>
+                    <input ng-model="disk.id" class="form-control" readonly>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-scale"/> Size</h3>
+                    </div>
+                    <input ng-model="disk.size" class="form-control" autofocus>
+                </div>
+            </tab>
+            <tab>
+                <tab-heading>Expectations</tab-heading>
+            </tab>
+        </tabset>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addStorage()">
+                Add
+            </button>
+            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()">
+                Cancel
+            </button>
+        </div>
+    </script>
 
     <script type="text/ng-template" id="NewVmWizard.html">
         <div class="modal-header">

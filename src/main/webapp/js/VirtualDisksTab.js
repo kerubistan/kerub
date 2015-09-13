@@ -8,5 +8,13 @@ kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, $socket, $
 		});
 	};
 
+	$scope.newVirtualDisk = function() {
+               var modalInstance = $modal.open({
+                    templateUrl : 'NewVirtualDiskWizard.html',
+                    controller : NewVirtualDiskWizard
+                });
+
+	};
+
 	$scope.refresh();
 });
