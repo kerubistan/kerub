@@ -15,7 +15,6 @@ JsonSubTypes(
 		JsonSubTypes.Type(Host::class),
 		JsonSubTypes.Type(VirtualMachine::class),
 		JsonSubTypes.Type(VirtualStorageDevice::class),
-		JsonSubTypes.Type(VirtualStorageLink::class),
 		JsonSubTypes.Type(Project::class),
 		JsonSubTypes.Type(Network::class),
 		JsonSubTypes.Type(AuditEntry::class),

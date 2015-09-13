@@ -9,7 +9,6 @@ import java.util.UUID
 /**
  * Describes the attachment of a virtual disk to a VM
  */
-JsonTypeName("vstorage-link")
 data class VirtualStorageLink(
 		Field
 		val virtualStorageId: UUID,
