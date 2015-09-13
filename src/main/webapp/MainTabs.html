@@ -56,6 +56,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
+                    <td>name</td>
                     <td>size</td>
                     <td>readonly</td>
                     <td>expectations</td>
@@ -63,6 +64,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="virtDisk in virtualDisks.result">
+                        <td>
+                            {{virtDisk.name}}
+                        </td>
                         <td>
                             {{humanFriendlySize(virtDisk.size)}}
                         </td>

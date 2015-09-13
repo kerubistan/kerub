@@ -49,8 +49,10 @@ public class VirtualStorageDeviceServiceImplIT {
 		val vsd = createServiceClient(VirtualStorageDeviceService::class, client)
 		val loginClient = createServiceClient(LoginService::class, client)
 		loginClient.login(LoginService.UsernamePassword(username = "admin", password = "password"))
+		val randomUUID = UUID.randomUUID()
 		val deviceToSave = VirtualStorageDevice(
-				id = UUID.randomUUID(),
+				id = randomUUID,
+				name = "virtual disk ${randomUUID}",
 				size = 100.GB(),
 				readOnly = false,
 				expectations = listOf(
