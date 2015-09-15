@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.exceptions.mappers
 
-import com.github.K0zka.kerub.security.mappers.RestError
 import org.apache.sshd.common.RuntimeSshException
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper

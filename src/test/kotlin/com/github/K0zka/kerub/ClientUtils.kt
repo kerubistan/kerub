@@ -2,7 +2,7 @@ package com.github.K0zka.kerub
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
-import com.github.K0zka.kerub.security.mappers.RestError
+import com.github.K0zka.kerub.exceptions.mappers.RestError
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory

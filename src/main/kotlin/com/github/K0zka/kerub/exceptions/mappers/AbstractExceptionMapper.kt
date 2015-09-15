@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.exceptions.mappers
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.K0zka.kerub.security.mappers.RestError
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper

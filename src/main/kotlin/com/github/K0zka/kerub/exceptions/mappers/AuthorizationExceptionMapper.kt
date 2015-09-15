@@ -1,9 +1,8 @@
-package com.github.K0zka.kerub.security.mappers
+package com.github.K0zka.kerub.exceptions.mappers
 
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.shiro.authz.AuthorizationException
 import javax.ws.rs.core.Response
-import javax.ws.rs.core.Response.Status
 import javax.ws.rs.ext.ExceptionMapper
 
 public class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationException> {
@@ -12,8 +11,8 @@ public class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationExcepti
 		private val logger = getLogger(AuthorizationExceptionMapper::class)
 	}
 
-	override fun toResponse(exception: AuthorizationException?): Response {
+	override fun toResponse(exception: AuthorizationException): Response {
 		logger.debug("Authorization denied", exception)
-		return Response.status(Status.FORBIDDEN).entity(RestError("SEC1", "Access denied")).build()
+		return Response.status(Response.Status.FORBIDDEN).entity(RestError("SEC1", "Access denied")).build()
 	}
 }

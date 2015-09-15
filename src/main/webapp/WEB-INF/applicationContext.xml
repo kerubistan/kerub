@@ -281,9 +281,9 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
                 <constructor-arg ref="objectMapper"/>
             </bean>
-            <bean class="com.github.K0zka.kerub.security.mappers.UnauthenticatedExceptionMapper"/>
-            <bean class="com.github.K0zka.kerub.security.mappers.AuthenticationExceptionMapper"/>
-            <bean class="com.github.K0zka.kerub.security.mappers.AuthorizationExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
 
             <bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
             <bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
