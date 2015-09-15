@@ -13,6 +13,9 @@ import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
 
+val testBaseUrl = "http://localhost:${System.getProperty("kerub.it.port") ?: "8080"}/"
+val testRestBaseUrl = "${testBaseUrl}s/r"
+
 class RestException(val msg : String, val code : String, val status : Int, val response : Response) : RuntimeException()
 
 class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
