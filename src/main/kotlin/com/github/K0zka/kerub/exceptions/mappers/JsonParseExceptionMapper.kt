@@ -1,0 +1,14 @@
+package com.github.K0zka.kerub.exceptions.mappers
+
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.K0zka.kerub.security.mappers.RestError
+
+public class JsonParseExceptionMapper(mapper: ObjectMapper) : AbstractExceptionMapper<JsonParseException>(mapper) {
+
+	companion object {
+		val error = RestError("MAP2", "Json parsing error")
+	}
+
+	override fun getRestError(exception: JsonParseException) = error
+}

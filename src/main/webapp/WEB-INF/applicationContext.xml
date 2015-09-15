@@ -287,6 +287,15 @@
 
             <bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
             <bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
+
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.JsonMappingExceptionMapper">
+                <constructor-arg ref="objectMapper"/>
+            </bean>
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.JsonParseExceptionMapper">
+                <constructor-arg ref="objectMapper"/>
+            </bean>
+
+            <bean class="com.github.K0zka.kerub.exceptions.mappers.DefaultExceptionMapper"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
