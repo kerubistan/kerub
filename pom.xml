@@ -270,6 +270,7 @@
             <groupId>org.eclipse.jetty.websocket</groupId>
             <artifactId>websocket-client</artifactId>
             <version>${jetty.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
