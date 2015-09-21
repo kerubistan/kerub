@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import java.security.PublicKey
 
@@ -13,4 +14,5 @@ public interface HostManager {
 	fun connectHost(host : Host)
 	fun join(host: Host, password : String): Host
 	fun join(host: Host): Host
+	fun getHypervisor(host: Host) : Hypervisor?
 }

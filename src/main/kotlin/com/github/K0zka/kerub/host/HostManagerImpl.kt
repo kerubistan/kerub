@@ -3,6 +3,8 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.hypervisor.Hypervisor
+import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
@@ -21,6 +23,15 @@ public class HostManagerImpl (
 		val hostAssignmentDao : AssignmentDao,
 		val discoverer: HostCapabilitiesDiscoverer,
 		val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
+
+	override fun getHypervisor(host: Host): Hypervisor? {
+		val session = connections[host.id]
+		if(session != null) {
+			return KvmHypervisor(session)
+		} else {
+			return null;
+		}
+	}
 
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
 		val session = connections[host.id]

@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.getTestKey
+import com.github.K0zka.kerub.services.getFreePort
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.SshServer
@@ -75,11 +76,6 @@ public class SshClientUtilsTest {
 		server?.stop()
 		rootDir?.delete()
 	}
-
-	fun getFreePort(): Int =
-			ServerSocket(0).use {
-				return it.getLocalPort()
-			}
 
 	Test
 	fun readFile() {
