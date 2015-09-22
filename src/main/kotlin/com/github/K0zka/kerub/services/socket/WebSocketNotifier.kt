@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.services.socket
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.K0zka.kerub.model.messages.*
 import com.github.K0zka.kerub.utils.getLogger
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.slf4j.Logger
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -12,6 +13,7 @@ import java.io.StringWriter
 import java.util.HashSet
 import javax.websocket.Session
 
+@RequiresAuthentication
 public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
 	protected companion object {
 		private fun init() : ObjectMapper {
@@ -58,13 +60,8 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 	override fun handleTransportError(session: WebSocketSession, exception: Throwable?) {
 		logger.info("connection error", exception)
 	}
+	@RequiresAuthentication
 	override fun afterConnectionEstablished(session: WebSocketSession) {
-		//TODO: let's call this a workaround
-		if(session.getPrincipal() == null) {
-			session.close();
-			logger.info("unauthenticated user, session closed")
-			return
-		}
 		logger.info("connection opened")
 		internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
 		super.afterConnectionEstablished(session)
