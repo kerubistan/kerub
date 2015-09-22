@@ -59,6 +59,12 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 		logger.info("connection error", exception)
 	}
 	override fun afterConnectionEstablished(session: WebSocketSession) {
+		//TODO: let's call this a workaround
+		if(session.getPrincipal() == null) {
+			session.close();
+			logger.info("unauthenticated user, session closed")
+			return
+		}
 		logger.info("connection opened")
 		internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
 		super.afterConnectionEstablished(session)
