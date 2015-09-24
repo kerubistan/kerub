@@ -3,6 +3,7 @@ package com.github.K0zka.kerub
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.exceptions.mappers.RestError
+import com.github.K0zka.kerub.security.Roles
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
@@ -16,6 +17,12 @@ import kotlin.reflect.jvm.java
 val testBaseUrl = "http://localhost:${System.getProperty("kerub.it.port") ?: "8080"}/"
 val testRestBaseUrl = "${testBaseUrl}s/r"
 val testWsUrl = "ws://localhost:${System.getProperty("kerub.it.port") ?: "8080"}/ws"
+
+val testUsers = mapOf(
+		"admin" to ("admin" to "password"),
+		"poweruser" to ("poweruser" to "password"),
+		"user" to ("enduser" to "password")
+		)
 
 class RestException(val msg : String, val code : String, val status : Int, val response : Response) : RuntimeException()
 
