@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.*
+import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.services.impl.GB
 import com.github.K0zka.kerub.services.impl.toStorageSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -16,8 +17,9 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import org.junit.Assert
+import org.mockito.Matchers
 import org.mockito.Mockito
-import java.util.UUID
 import kotlin.reflect.jvm.java
 
 public class PlannerDefs {
@@ -25,7 +27,7 @@ public class PlannerDefs {
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
 
-	val backtrack: BacktrackService = BacktrackService()
+	val backtrack: BacktrackService = BacktrackService(1)
 	val executor: PlanExecutor = Mockito.mock(PlanExecutor::class.java)
 	val builder: OperationalStateBuilder = Mockito.mock(OperationalStateBuilder::class.java)
 
@@ -35,16 +37,22 @@ public class PlannerDefs {
 			builder
 	                                  )
 
+	var executedPlans = listOf<Plan>()
+
 	Before
 	fun setup() {
 		Mockito.`when`(builder.buildState()).then {
-			OperationalState(
+			OperationalState.fromLists(
 					hosts = hosts,
 					hostDyns = listOf(),
 					vms = vms,
 					vmDyns = listOf()
 			                )
 		}
+		Mockito.doAnswer({
+			                 executedPlans += (it.getArguments()[0] as Plan)
+			                 Unit
+		                 }).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()))
 	}
 
 	Given("^VMs:$")
@@ -127,8 +135,14 @@ public class PlannerDefs {
 	}
 
 	Then("^VM (\\S+) gets scheduled on host (\\S+)$")
-	fun verifyVmScheduledOnHost(vm: String, host: String) {
-		throw PendingException();
+	fun verifyVmScheduledOnHost(vmName: String, hostAddress: String) {
+		Assert.assertTrue(executedPlans.any {
+			it.steps.any {
+				it is StartVirtualMachine
+						&& it.host.address == hostAddress
+						&& it.vm.name == vmName
+			}
+		})
 	}
 
 	Given("^registered host:$")

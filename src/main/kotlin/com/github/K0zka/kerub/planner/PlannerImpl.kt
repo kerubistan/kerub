@@ -17,17 +17,25 @@ public class PlannerImpl(
 	}
 
 	override fun onEvent(msg: EntityMessage) {
-		val strategy = FirstSolutionTerminationStrategy<OperationalStateTransformation, AbstractOperationalStep>()
+		val strategy = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
+
+		logger.debug("starting planing")
 
 		backtrack.backtrack(
-				OperationalStateTransformation(
+				Plan(
 						state = builder.buildState()
 				                              ),
 				CompositeStepFactory,
 				strategy,
 				strategy
 		                   )
-		val solution = strategy.getSolution();
+		val solution = strategy.getSolution()
+		if(solution == null) {
+			//TODO: handle no solution case: notify admin, reballance cluster
+			logger.warn("No plan generated.", msg)
+		} else {
+			executor.execute(solution)
+		}
 
 	}
 }

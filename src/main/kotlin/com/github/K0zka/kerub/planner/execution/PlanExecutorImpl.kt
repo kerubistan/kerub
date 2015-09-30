@@ -36,7 +36,7 @@ public class PlanExecutorImpl(val hostCommandExecutor : HostCommandExecutor) : P
 
 	override fun execute(plan: Plan) {
 		logger.debug("Executing plan {}", plan)
-		for(step in plan.getSteps()) {
+		for(step in plan.steps) {
 			execute(step)
 		}
 		logger.debug("Plan execution finished: {}", plan)

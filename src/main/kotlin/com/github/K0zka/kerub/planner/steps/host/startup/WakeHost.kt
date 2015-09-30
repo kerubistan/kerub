@@ -10,17 +10,16 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 public class WakeHost(val host: Host) : AbstractOperationalStep() {
 	override fun take(state: OperationalState): OperationalState {
-		val otherHosts = state.hostDyns.filter { it.id != host.id }
+		val otherHosts = state.hostDyns.filter { it.getValue().id != host.id }
 
-		val dyn = state.hostDyns.filter { it.id == host.id }
-				.firstOrNull()
+		val dyn = state.hostDyns[host.id]
 				?: HostDynamic(
 				id = host.id,
 				status = HostStatus.Up
 				              )
 
 		return state.copy(
-				hostDyns = otherHosts + dyn
+				hostDyns = otherHosts + (host.id to dyn)
 		                 )
 	}
 

@@ -3,11 +3,11 @@ package com.github.K0zka.kerub.planner.steps
 import com.github.K0zka.kerub.model.Constrained
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.OperationalStateTransformation
+import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.k0zka.finder4j.backtrack.Step
 
-abstract class AbstractOperationalStep : Step<OperationalStateTransformation> {
+abstract class AbstractOperationalStep : Step<Plan> {
 
 	/**
 	 * Take an operational state transformation step
@@ -17,8 +17,8 @@ abstract class AbstractOperationalStep : Step<OperationalStateTransformation> {
 	/**
 	 *
 	 */
-	final override fun take(state: OperationalStateTransformation): OperationalStateTransformation =
-			OperationalStateTransformation(
+	final override fun take(state: Plan): Plan =
+			Plan(
 					state = take(state.state),
 					steps = state.steps + this
 			                              )

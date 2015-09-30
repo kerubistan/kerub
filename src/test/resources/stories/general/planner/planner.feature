@@ -6,7 +6,7 @@ Feature: Scheduler and optimizer
       | vm1  | 1GB    | 4GB     | 2    | x86_64       |
     And hosts:
       | address   | ram | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 2GB | 2     | 4       | X86_64       |  |
+      | 127.0.0.5 | 2GB | 2     | 4       | x86_64       |  |
     When VM vm1 is started
     Then VM vm1 gets scheduled on host 127.0.0.5
 
@@ -16,7 +16,7 @@ Feature: Scheduler and optimizer
       | vm1  | 1GB     | 2GB    | 2    | x86_64       |
     And hosts:
       | address   | ram | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 2GB | 2     | 4       | X86_64       |  |
+      | 127.0.0.5 | 2GB | 2     | 4       | x86_64       |  |
       | 127.0.0.6 | 2GB | 2     | 2       | ARM          |  |
     When VM vm1 is started
     Then VM vm1 gets scheduled on host 127.0.0.5
@@ -27,8 +27,8 @@ Feature: Scheduler and optimizer
       | vm1  | 1 GB   | 2 GB   | 2    | x86_64       |
     And hosts:
       | address   | ram  | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 2 GB | 2     | 4       | X86_64       |  |
-      | 127.0.0.6 | 2 GB | 1     | 2       | X86_64       |  |
+      | 127.0.0.5 | 2 GB | 2     | 4       | x86_64       |  |
+      | 127.0.0.6 | 2 GB | 1     | 2       | x86_64       |  |
     When VM vm1 is started
     Then VM vm1 gets scheduled on host 127.0.0.5
 
@@ -38,8 +38,8 @@ Feature: Scheduler and optimizer
       | vm1  | 1 GB   | 2 GB   | 2    | x86_64       |
     And hosts:
       | address   | ram  | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 2 GB | 2     | 4       | X86_64       |  |
-      | 127.0.0.6 | 1 GB | 2     | 4       | X86_64       |  |
+      | 127.0.0.5 | 2 GB | 2     | 4       | x86_64       |  |
+      | 127.0.0.6 | 1 GB | 2     | 4       | x86_64       |  |
     When VM vm1 is started
     Then VM vm1 gets scheduled on host 127.0.0.5
 

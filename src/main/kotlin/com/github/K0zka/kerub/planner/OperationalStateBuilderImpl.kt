@@ -15,7 +15,7 @@ public class OperationalStateBuilderImpl(
                                         ) : OperationalStateBuilder {
 	override fun buildState(): OperationalState {
 		val assignments = assignments.listByController(controllerManager.getControllerId())
-		return OperationalState(
+		return OperationalState.fromLists(
 				hosts = assignments
 						.map { hostDao.get(it.hostId) }
 						.filter { it != null } as List<Host>,

@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 data class EnableKsm(val host: Host) : AbstractOperationalStep() {
 
 	private fun totalMemoryUsedByVms(state: OperationalState): Long =
-			state.vmDyns.filter { it.hostId == host.id }.map { it.memoryUsed }.sum()
+			state.vmDyns.values().map { if (it.hostId == host.id) it.memoryUsed else 0 }.sum()
 
 	override fun take(state: OperationalState): OperationalState {
 		throw UnsupportedOperationException()

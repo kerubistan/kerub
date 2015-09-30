@@ -30,13 +30,13 @@ public class PlanExecutorImplTest {
 		        publicKey = ""
 		               )
 		val plan = Plan(
-				state = OperationalState(
+				state = OperationalState.fromLists(
 						vms = listOf(),
 						hosts = listOf(host),
 						hostDyns = listOf(),
 						vmDyns = listOf()
 				                        ),
-				opSteps = listOf(CreateImage(
+				steps = listOf(CreateImage(
 						host = host,
 						device = VirtualStorageDevice(
 								size = 100.MB(),
