@@ -6,7 +6,9 @@ import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.costs.Risk
 import com.github.K0zka.kerub.services.impl.GB
 import org.junit.Assert
 import org.junit.Test
@@ -45,5 +47,35 @@ public class StopVirtualMachineTest {
 
 		Assert.assertTrue(transformed.vms.containsKey(vm.id))
 		Assert.assertFalse(transformed.vmDyns.containsKey(vm.id))
+	}
+
+	@Test
+	fun getCostsWithoutAvailablityExpectation() {
+		val host = Host(
+				address = "host-1.example.com",
+				dedicated = true,
+				publicKey = "test"
+		               )
+		val vm = VirtualMachine(
+				name = "text-vm"
+		                       )
+		val costs = StopVirtualMachine(vm = vm, host = host).getCost(OperationalState.fromLists())
+		Assert.assertTrue(costs.isEmpty())
+	}
+
+	@Test
+	fun getCostsWithAvailablityExpectation() {
+		val host = Host(
+				address = "host-1.example.com",
+				dedicated = true,
+				publicKey = "test"
+		               )
+		val vm = VirtualMachine(
+				name = "text-vm",
+		        expectations = listOf(VirtualMachineAvailabilityExpectation())
+		                       )
+		val costs = StopVirtualMachine(vm = vm, host = host).getCost(OperationalState.fromLists())
+		Assert.assertTrue(costs.isNotEmpty())
+		Assert.assertTrue(costs.any {it is Risk} )
 	}
 }
