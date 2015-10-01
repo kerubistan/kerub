@@ -2,6 +2,9 @@ package com.github.K0zka.kerub.stories.planner
 
 import com.github.K0zka.kerub.model.*
 import com.github.K0zka.kerub.model.Range
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
@@ -27,6 +30,9 @@ public class PlannerDefs {
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
 
+	var vmDyns = listOf<VirtualMachineDynamic>()
+	var hostDyns = listOf<HostDynamic>()
+
 	val backtrack: BacktrackService = BacktrackService(1)
 	val executor: PlanExecutor = Mockito.mock(PlanExecutor::class.java)
 	val builder: OperationalStateBuilder = Mockito.mock(OperationalStateBuilder::class.java)
@@ -44,9 +50,9 @@ public class PlannerDefs {
 		Mockito.`when`(builder.buildState()).then {
 			OperationalState.fromLists(
 					hosts = hosts,
-					hostDyns = listOf(),
+					hostDyns = hostDyns,
 					vms = vms,
-					vmDyns = listOf()
+					vmDyns = vmDyns
 			                )
 		}
 		Mockito.doAnswer({
@@ -170,4 +176,13 @@ public class PlannerDefs {
 		throw PendingException();
 	}
 
+	Given("^host (\\S+) is Up$")
+	fun setHostDyn(address : String) {
+		var host = hosts.firstOrNull {it.address == address}!!
+		hostDyns = hostDyns + HostDynamic(
+				id = host.id,
+		        status = HostStatus.Up
+		                                 )
+
+	}
 }
