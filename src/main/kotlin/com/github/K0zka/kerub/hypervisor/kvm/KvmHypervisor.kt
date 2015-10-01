@@ -20,7 +20,7 @@ class KvmHypervisor(val client: ClientSession) : Hypervisor {
 		client.execute("virsh destroy ${vm.id} --graceful")
 	}
 
-	override fun migrate(vm: VirtualMachine, target: Host) {
+	override fun migrate(vm: VirtualMachine, source: Host, target: Host) {
 		throw UnsupportedOperationException()
 	}
 

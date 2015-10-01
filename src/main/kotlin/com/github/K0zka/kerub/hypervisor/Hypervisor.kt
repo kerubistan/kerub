@@ -11,5 +11,5 @@ import com.github.K0zka.kerub.model.VirtualMachine
 public interface Hypervisor {
 	fun startVm(vm : VirtualMachine)
 	fun stopVm(vm : VirtualMachine)
-	fun migrate(vm : VirtualMachine, target : Host)
+	fun migrate(vm: VirtualMachine, source: Host, target: Host)
 }
