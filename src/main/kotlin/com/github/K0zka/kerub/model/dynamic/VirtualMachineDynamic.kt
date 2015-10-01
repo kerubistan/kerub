@@ -6,7 +6,7 @@ import java.util.UUID
 public data class VirtualMachineDynamic(
 		override
 		val id: UUID,
-		override val lastUpdated: Long,
+		override val lastUpdated: Long = System.currentTimeMillis(),
         val hostId : UUID,
         val status : VirtualMachineStatus = VirtualMachineStatus.Down,
         val memoryUsed : Long

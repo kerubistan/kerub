@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
@@ -35,7 +36,7 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 			state.hosts.values().forEach {
 				host ->
 				var dyn = state.hostDyns[host.id]
-				if(match(host, dyn, vm)) {
+				if (match(host, dyn, vm)) {
 					steps += StartVirtualMachine(vm, host)
 				}
 			}
@@ -46,14 +47,15 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 		return steps
 	}
 
-	private fun match(host: Host, dyn: HostDynamic?, vm: VirtualMachine): Boolean {
+	fun match(host: Host, dyn: HostDynamic?, vm: VirtualMachine): Boolean {
 		val cpuArchitectureExpectation = vm.expectations
 				.firstOrNull { it is CpuArchitectureExpectation } as CpuArchitectureExpectation?
 
 		logger.debug("match host {} for vm {}", host, vm)
 
-		return cpuArchitectureExpectation?.cpuArchitecture == null
-				|| host.capabilities?.cpuArchitecture == cpuArchitectureExpectation?.cpuArchitecture
+		return dyn?.status == HostStatus.Up &&
+				(cpuArchitectureExpectation?.cpuArchitecture == null
+						|| host.capabilities?.cpuArchitecture == cpuArchitectureExpectation?.cpuArchitecture)
 
 	}
 }
