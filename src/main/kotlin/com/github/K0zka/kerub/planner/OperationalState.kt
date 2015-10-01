@@ -23,7 +23,8 @@ data class OperationalState(
 			return OperationalState(
 					hosts = hosts.toMap { it.id },
 					hostDyns = hostDyns.toMap { it.id },
-					vms = vms.toMap { it.id }
+					vms = vms.toMap { it.id },
+			        vmDyns = vmDyns.toMap { it.id }
 			                       )
 		}
 	}
