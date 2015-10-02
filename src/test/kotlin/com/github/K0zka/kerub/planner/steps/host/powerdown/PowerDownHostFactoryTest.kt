@@ -55,4 +55,18 @@ public class PowerDownHostFactoryTest {
 		Assert.assertTrue(steps.isEmpty())
 	}
 
+	@Test
+	fun produceWithHostNotDedicated() {
+		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
+				hosts = listOf(host.copy(
+							dedicated = false
+				                        )),
+				hostDyns = listOf(HostDynamic(
+						id = host.id,
+						status = HostStatus.Up
+				                             ))
+		                                                                   ))
+		Assert.assertTrue(steps.isEmpty())
+	}
+
 }
