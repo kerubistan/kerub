@@ -47,11 +47,11 @@ public class HostCapabilitiesDiscovererTest(
 				        Version("3","16","6"),
 				        Version("20",null,null),
 				        mapOf(
-						        Pair("uname -s", "Linux"),
-						        Pair("uname -r", "3.16.6-203.fc20.x86_64"),
-						        Pair("uname -p", "x86_64"),
-						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        7767288 kB"),
-						        Pair("rpm -qa","""texlive-auto-pst-pdf-svn23723.0.6-5.fc20.noarch
+						        "uname -s" to "Linux",
+						        "uname -r" to "3.16.6-203.fc20.x86_64",
+						        "uname -p" to "x86_64",
+						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
+						        "rpm -qa" to """texlive-auto-pst-pdf-svn23723.0.6-5.fc20.noarch
 									        ceph-libs-compat-0.80.5-10.fc20.x86_64
 									        opensp-1.5.2-18.fc20.x86_64
 									        ustr-1.0.4-15.fc20.x86_64
@@ -60,49 +60,49 @@ public class HostCapabilitiesDiscovererTest(
 									        java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
 									        libvirt-gconfig-0.1.7-2.fc20.x86_64
 									        cheese-libs-3.10.2-2.fc20.x86_64
-									        """.trim()),
-						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
+									        """.trim(),
+						        "lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]"""
 				             ),
-				        mapOf(Pair("/etc/os-release", """
+				        mapOf("/etc/os-release" to """
 						NAME=Fedora
 						VERSION_ID=20
 		HOME_URL="https://fedoraproject.org/"
-						""".trim()))
+						""".trim())
 				       ),
 				arrayOf("Ubuntu",
 				        "x86_64",
 				        Version("3","16","6"),
 				        Version("14","04",null),
 				        mapOf(
-						        Pair("uname -s", "Linux"),
-						        Pair("uname -r", "TODO"),
-						        Pair("uname -p", "x86_64"),
-						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        7767288 kB"),
-						        Pair("dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"", """acpid	1:2.0.10-1ubuntu3
+						        "uname -s" to "Linux",
+						        "uname -r" to "TODO",
+						        "uname -p" to "x86_64",
+						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
+						        "dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"" to """acpid	1:2.0.10-1ubuntu3
         apparmor	2.7.102-0ubuntu3.10
         apport	2.0.1-0ubuntu17.6
         aptdaemon	1.1.1-1ubuntu5
         aptitude	0.6.6-1ubuntu1.2
-        apt-transport-https	1.0.1ubuntu2.1"""),
-						        Pair("lspci -mm", """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""")
+        apt-transport-https	1.0.1ubuntu2.1""",
+						        "lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]"""
 				             ),
-				        mapOf(Pair("/etc/os-release", """
+				        mapOf("/etc/os-release" to """
 		NAME="Ubuntu"
 		VERSION_ID="14.04"
-								""".trim()))),
+								""".trim())),
 				arrayOf("Raspbian GNU/Linux",
 				        "armv6l",
 				        Version("3","12","28"),
 				        Version("7",null,null),
 				        mapOf(
-						        Pair("uname -s", "Linux"),
-						        Pair("uname -r", "3.18.11+"),
-						        Pair("uname -p", "unknown"),
-						        Pair("uname -m", "armv6l"),
-						        Pair("cat /proc/meminfo | grep  MemTotal", "MemTotal:        496632 kB"),
-						        Pair("dpkg-query -W", """adduser	3.113+nmu3
+						        "uname -s" to "Linux",
+						        "uname -r" to "3.18.11+",
+						        "uname -p" to "unknown",
+						        "uname -m" to "armv6l",
+						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        496632 kB",
+						        "dpkg-query -W" to """adduser	3.113+nmu3
 alsa-base	1.0.25+3~deb7u1
 alsa-utils	1.0.25-4
 apt	0.9.7.9+rpi1+deb7u7
@@ -112,10 +112,10 @@ aptitude-common	0.6.8.2-1
 aspell	0.60.7~20110707-1
 aspell-en	7.1-0-1
 base-files	7.1wheezy8+rpi1
-"""),
-						        Pair("lspci -mm", """""")
+""",
+						        "lspci -mm" to """"""
 				             ),
-				        mapOf(Pair("/etc/os-release", """
+				        mapOf("/etc/os-release" to """
 PRETTY_NAME="Raspbian GNU/Linux 7 (wheezy)"
 NAME="Raspbian GNU/Linux"
 VERSION_ID="7"
@@ -126,7 +126,7 @@ ANSI_COLOR="1;31"
 HOME_URL="http://www.raspbian.org/"
 SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
 BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
-								""".trim())))
+								""".trim()))
 		                                                      )
 
 		fun mockFile(path : String, contents: String): SshFile {
