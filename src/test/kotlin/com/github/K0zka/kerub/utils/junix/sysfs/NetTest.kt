@@ -42,4 +42,31 @@ public class NetTest {
 		Assert.assertEquals(response.size(), 6)
 		Assert.assertEquals(response[2], 0.toByte())
 	}
+
+	@Test
+	fun stringToMac() {
+		val mac = Net.stringToMac("52:54:00:b5:75:bb")
+		Assert.assertEquals(mac.size(), Net.macAddressSize)
+	}
+
+	@Test(expected = IllegalArgumentException::class)
+	fun stringToMacWithWrongLength() {
+		val mac = Net.stringToMac("52:54:00:b5:75:bb:ff")
+	}
+
+	@Test(expected = IllegalArgumentException::class)
+	fun stringToMacWithWrongByteLength() {
+		val mac = Net.stringToMac("52:54:00:b5:75:bbbb:ff")
+	}
+
+	@Test
+	fun macToString() {
+		Assert.assertEquals(Net.macToString(ByteArray(6)), "00:00:00:00:00:00")
+	}
+
+	@Test(expected = IllegalArgumentException::class)
+	fun macToStringWithWrongLength() {
+		Net.macToString(ByteArray(7))
+	}
+
 }
