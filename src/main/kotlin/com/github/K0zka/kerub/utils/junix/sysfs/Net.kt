@@ -52,6 +52,6 @@ public object Net {
 	 */
 	fun getMacAddress(session: ClientSession, device: String): ByteArray =
 			session.createSftpClient().use {
-				stringToMac(it.getFileContents("/sys/class/net/${device}"))
+				stringToMac(it.getFileContents("/sys/class/net/${device}/address"))
 			}
 }
