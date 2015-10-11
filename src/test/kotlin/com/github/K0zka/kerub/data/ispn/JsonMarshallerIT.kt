@@ -34,7 +34,7 @@ public class JsonMarshallerIT {
 					"id":"49c4364b-75c5-4c16-9d6d-984d20a7356e",
 					"name":"foo",
 					"nrOfCpus":1,
-					"memoryMb":{
+					"memory":{
 						"min":1024,
 						"max":2048
 						},

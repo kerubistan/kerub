@@ -13,6 +13,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import kotlin.reflect.jvm.java
 import java.util.UUID
+import java.math.BigInteger
 
 @RunWith(MockitoJUnitRunner::class)
 public class StopVirtualMachineExecutorTest {
@@ -33,7 +34,7 @@ public class StopVirtualMachineExecutorTest {
 				name = "",
 		        id = UUID.randomUUID(),
 		        nrOfCpus = 1,
-		        memoryMb = Range<Int>(128, 256)
+		        memory = Range(BigInteger("128"), BigInteger("256"))
 		                       )
 
 		val step = StopVirtualMachine(

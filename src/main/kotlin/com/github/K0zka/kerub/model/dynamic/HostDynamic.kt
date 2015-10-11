@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.model.dynamic
 
 import com.github.K0zka.kerub.model.Entity
+import java.math.BigInteger
 import java.util.UUID
 
 /**
@@ -13,8 +14,8 @@ public data class HostDynamic(
 		val userCpu: Byte? = null,
 		val systemCpu: Byte? = null,
 		val idleCpu: Byte? = null,
-        val memFreeMb: Int? = null,
-        val memUsedMb: Int? = null,
-        val memSwappedMb: Int? = null
+        val memFree: BigInteger? = null,
+        val memUsed: BigInteger? = null,
+        val memSwapped: BigInteger? = null
                              )
 : DynamicEntity

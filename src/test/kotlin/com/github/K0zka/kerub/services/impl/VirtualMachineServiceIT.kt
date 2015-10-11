@@ -12,6 +12,8 @@ import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.VirtualMachineService
 import org.junit.Assert
 import org.junit.Test
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.util.UUID
 
 public class VirtualMachineServiceIT {
@@ -29,9 +31,9 @@ public class VirtualMachineServiceIT {
 		val vmToSave = VirtualMachine(
 				id = UUID.randomUUID(),
 				name = "test",
-				memoryMb = Range(
-						min = 1024,
-						max = 2048
+				memory = Range<BigInteger>(
+						min = BigInteger("1024"),
+						max = BigInteger("2048")
 				                     ),
 				nrOfCpus = 1,
 				expectations = listOf(

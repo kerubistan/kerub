@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
-import com.github.K0zka.kerub.services.impl.MB
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,7 +39,7 @@ public class PlanExecutorImplTest {
 				steps = listOf(CreateImage(
 						host = host,
 						device = VirtualStorageDevice(
-								size = 100.MB(),
+								size = "100 MB".toSize(),
 								name = "foo"
 						                             )
 				                            )

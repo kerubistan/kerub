@@ -11,6 +11,7 @@ import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
+import java.math.BigInteger
 import java.util.UUID
 import kotlin.reflect.jvm.java
 
@@ -33,7 +34,7 @@ class StartVirtualMachineExecutorTest {
 				name = "",
 				id = UUID.randomUUID(),
 				nrOfCpus = 1,
-				memoryMb = Range<Int>(128, 256)
+				memory = Range(BigInteger("128"), BigInteger("256"))
 		                       )
 
 		val step = StartVirtualMachine(

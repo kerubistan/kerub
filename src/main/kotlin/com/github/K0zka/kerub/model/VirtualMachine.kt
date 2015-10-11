@@ -8,6 +8,8 @@ import com.github.K0zka.kerub.model.views.Simple
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.util.UUID
 
 /**
@@ -40,8 +42,8 @@ data class VirtualMachine constructor(
 		 */
 		Field
 		JsonView(Simple::class)
-		JsonProperty("memoryMb")
-		val memoryMb: Range<Int> = Range(1024, 2048),
+		JsonProperty("memory")
+		val memory: Range<BigInteger> = Range(BigInteger("1024"), BigInteger("2048")),
 		/**
 		 * List of expectations against the VM.
 		 */

@@ -5,7 +5,7 @@ import java.math.BigDecimal
 
 data class ProcessorInformation(
 		val manufacturer: String,
-		val flags: List<String>,
+		val flags: List<String> = listOf(),
 		val socket: String,
 		val version: String,
 		val maxSpeedMhz: Int?,

@@ -11,7 +11,10 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
+import com.github.K0zka.kerub.utils.junix.sysfs.Net
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
+import java.math.BigInteger
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
 import kotlin.reflect.jvm.kotlin
@@ -55,7 +58,8 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
-				devices = LsPci.execute(session)
+				devices = LsPci.execute(session),
+		        macAddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
 		                       )
 	}
 
@@ -75,13 +79,10 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return packages.any { "dmidecode" == it.name }
 	}
 
-	internal fun getTotalMemory(session: ClientSession): Long {
+	internal fun getTotalMemory(session: ClientSession): BigInteger {
 		return session
 				.execute("cat /proc/meminfo | grep  MemTotal")
-				.substringAfter("MemTotal:")
-				.substringBefore("kB")
-				.trim()
-				.toLong()
+				.substringAfter("MemTotal:").toSize()
 	}
 
 	internal fun getHostOs(session: ClientSession): OperatingSystem {

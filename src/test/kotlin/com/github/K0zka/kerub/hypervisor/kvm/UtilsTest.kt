@@ -7,6 +7,7 @@ import org.junit.Assert
 import org.junit.Test
 import org.xml.sax.InputSource
 import java.io.StringReader
+import java.math.BigInteger
 import java.util.UUID
 import javax.xml.xpath.XPathFactory
 import kotlin.dom.parseXml
@@ -22,7 +23,7 @@ public class UtilsTest {
 				id = UUID.randomUUID(),
 				nrOfCpus = 2,
 				expectations = listOf(),
-				memoryMb = serializableRange(1024, 2048),
+				memory = serializableRange( BigInteger("1024"), BigInteger("2048")),
 				name = "test-vm</",
 				virtualStorageLinks = listOf()
 		                       )
@@ -35,7 +36,7 @@ public class UtilsTest {
 		logger.info("generated libvirt xml:\n{}", libvirtXml)
 		Assert.assertThat(UUID.fromString(xPath.evaluate("domain/uuid/text()", dom)), CoreMatchers.`is`(vm.id))
 		Assert.assertThat(xPath.evaluate("domain/name/text()", dom), CoreMatchers.`is`(vm.name))
-		Assert.assertThat(xPath.evaluate("domain/memory/text()", dom), CoreMatchers.`is`(vm.memoryMb.min.times(1024).toString()))
+		Assert.assertThat(xPath.evaluate("domain/memory/text()", dom), CoreMatchers.`is`(vm.memory.min.toString()))
 
 	}
 }

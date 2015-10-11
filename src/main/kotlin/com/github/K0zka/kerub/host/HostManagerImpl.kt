@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
@@ -24,6 +25,11 @@ public class HostManagerImpl (
 		val discoverer: HostCapabilitiesDiscoverer,
 		val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
 
+	override fun disconnectHost(host: Host) {
+		val session = connections.remove(host.id)
+		session?.close(true)
+	}
+
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val session = connections[host.id]
 		if(session != null) {
@@ -31,6 +37,12 @@ public class HostManagerImpl (
 		} else {
 			return null;
 		}
+	}
+
+	override fun getPowerManager(host: Host): PowerManager {
+		require(host.dedicated, "If host is not dedicated, it can not be power-managed")
+		//TODO
+		return WakeOnLan(host, this, this)
 	}
 
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {

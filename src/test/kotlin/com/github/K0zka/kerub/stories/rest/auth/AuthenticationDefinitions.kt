@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.services.*
+import com.github.K0zka.kerub.utils.toSize
 import cucumber.api.PendingException
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -13,6 +14,7 @@ import cucumber.api.java.en.When
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
+import java.math.BigInteger
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
@@ -89,7 +91,7 @@ public class AuthenticationDefinitions {
 				name = "test",
 			    expectations = listOf(),
 			    nrOfCpus = 2,
-			    memoryMb = Range<Int>(min = 1024, max = 2048)
+			    memory = Range<BigInteger>(min = "1 GB".toSize(), max = "2 GB".toSize())
 			                     ))
 		})
 	}

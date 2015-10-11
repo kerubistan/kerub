@@ -5,8 +5,8 @@ import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
-import com.github.K0zka.kerub.services.impl.MB
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
+import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
@@ -29,7 +29,7 @@ public class WakeOnLanTest {
 			        macAddresses = listOf(Net.stringToMac("00:00:CA:FE:BA:BE")),
 	                cpuArchitecture = "x86_64",
 	                devices = listOf(),
-	                totalMemory = 1234.MB(),
+	                totalMemory = "1234 MB".toSize(),
 	                cpus = listOf(),
 	                installedSoftware = listOf(),
 	                chassis = null,

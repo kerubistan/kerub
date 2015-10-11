@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.views.Full
 import com.github.K0zka.kerub.model.views.Simple
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
+import java.math.BigInteger
 
 public data class HostCapabilities (
 		JsonView(Simple::class)
@@ -29,7 +30,7 @@ public data class HostCapabilities (
 		val cpuArchitecture: String,
 		JsonView(Simple::class)
 		Field
-		val totalMemory: Long,
+		val totalMemory: BigInteger,
 		JsonView(Detailed::class)
 		Field
 		val system: SystemInformation? = null,
@@ -38,7 +39,13 @@ public data class HostCapabilities (
         val cpus: List<ProcessorInformation> = listOf(),
         JsonView(Detailed::class)
         Field
-        val chassis : ChassisInformation? = null
-
+        val chassis : ChassisInformation? = null,
+		/**
+		 * Used by wake on lan - however a more precise and detailed
+		 * network discovery should move it to it's correct place
+		 */
+        Field
+		JsonView(Detailed::class)
+        val macAddresses : List<ByteArray> = listOf()
         )
 : Serializable

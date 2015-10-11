@@ -11,8 +11,7 @@ import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.*
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
-import com.github.K0zka.kerub.services.impl.GB
-import com.github.K0zka.kerub.services.impl.toStorageSize
+import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import cucumber.api.DataTable
 import cucumber.api.PendingException
@@ -23,6 +22,7 @@ import cucumber.api.java.en.When
 import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
+import java.math.BigInteger
 import kotlin.reflect.jvm.java
 
 public class PlannerDefs {
@@ -63,13 +63,16 @@ public class PlannerDefs {
 
 	Given("^VMs:$")
 	fun setVms(vmsTable: DataTable) {
+
+		val mb = 1024 * 1024
+
 		val raw = vmsTable.raw()
 		for (row in raw.filter { it != raw.first() }) {
 			val vm = VirtualMachine(
 					name = row[0],
-					memoryMb = Range<Int>(
-							min = row[1].toStorageSize().toInt(),
-							max = row[2].toStorageSize().toInt()
+					memory = Range<BigInteger>(
+							min = (row[1].toSize()),
+							max = (row[2].toSize())
 					                     ),
 					nrOfCpus = row[3].toInt(),
 					expectations = listOf(
@@ -111,7 +114,7 @@ public class PlannerDefs {
 							devices = listOf(),
 							installedSoftware = listOf(),
 							system = null,
-							totalMemory = 16.GB()
+							totalMemory = row[1].toSize()
 					                               )
 			               )
 			hosts += host

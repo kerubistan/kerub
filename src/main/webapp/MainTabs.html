@@ -20,7 +20,7 @@
                     <tr ng-repeat="_vm in vms" ng-controller="VmRow" ng-init="init(_vm)">
                         <td>{{vm.name}}</td>
                         <td>{{vm.nrOfCpus}}</td>
-                        <td>{{humanFriendlySize(vm.memoryMb.min * 1024 * 1024)}} - {{humanFriendlySize(vm.memoryMb.max * 1024 * 1024)}}</td>
+                        <td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}</td>
                         <td>{{vmdyn.load()}}</td>
                         <td>
                             <span ng-repeat="expectation in _vm.expectations"

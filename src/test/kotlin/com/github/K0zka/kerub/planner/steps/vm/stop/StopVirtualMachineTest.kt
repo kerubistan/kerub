@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Risk
-import com.github.K0zka.kerub.services.impl.GB
+import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
 
@@ -33,7 +33,7 @@ public class StopVirtualMachineTest {
 				id = vm.id,
 				hostId = host.id,
 				status = VirtualMachineStatus.Up,
-				memoryUsed = 1.GB(),
+				memoryUsed = "1 GB".toSize(),
 				lastUpdated = System.currentTimeMillis()
 		                                 )
 		val originalState = OperationalState.fromLists(

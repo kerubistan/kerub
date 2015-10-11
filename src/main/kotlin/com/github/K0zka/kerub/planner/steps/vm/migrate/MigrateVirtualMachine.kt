@@ -51,15 +51,15 @@ public class MigrateVirtualMachine(
 			 */
 			NetworkCost(
 					hosts = listOf(source, target),
-					bytes = vm.memoryMb.max * (1024 * 1024)
+					bytes = vm.memory.max.toLong()
 			           ),
 			ComputationCost(
 					host = target,
-					cycles = vm.memoryMb.max.toLong()
+					cycles = vm.memory.max.toLong()
 			               ),
 			ComputationCost(
 					host = source,
-					cycles = vm.memoryMb.max.toLong()
+					cycles = vm.memory.max.toLong()
 			               )
 
 	                                           )

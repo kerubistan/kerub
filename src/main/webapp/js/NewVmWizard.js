@@ -3,7 +3,7 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, $appse
 		"@type" : 'vm',
 		id : uuid4.generate(),
 		nrOfCpus : 1,
-    	memoryMb : {
+    	memory : {
     		min : 512,
     		max : 1024
     	},

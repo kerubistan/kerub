@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.qemu
 
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
-import com.github.K0zka.kerub.services.impl.MB
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -37,9 +37,9 @@ public class QemuImgTest {
 	fun create() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
-		QemuImg.create(session!!, VirtualDiskFormat.raw, 100.MB(), "/tmp/test.raw")
+		QemuImg.create(session!!, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
 
-		Mockito.verify(session!!).createExecChannel("qemu-img create -f raw /tmp/test.raw ${100.MB()}")
+		Mockito.verify(session!!).createExecChannel("qemu-img create -f raw /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
 	Test
@@ -71,9 +71,9 @@ public class QemuImgTest {
 	fun resize() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
-		QemuImg.resize(session!!, "/tmp/test.raw", 100.MB())
+		QemuImg.resize(session!!, "/tmp/test.raw", "100 MB".toSize())
 
-		Mockito.verify(session!!).createExecChannel("qemu-img resize /tmp/test.raw ${100.MB()}")
+		Mockito.verify(session!!).createExecChannel("qemu-img resize /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
 	Test

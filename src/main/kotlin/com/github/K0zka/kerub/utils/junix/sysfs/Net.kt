@@ -13,7 +13,7 @@ public object Net {
 	val hexaDecimal = 16
 
 	fun stringToMac(strMac: String): ByteArray {
-		val bytes = strMac.split(':')
+		val bytes = strMac.trim().split(':')
 		require(bytes.size() == macAddressSize, "The MAC address must be 6 bytes")
 		return bytes
 				.map {
@@ -45,7 +45,9 @@ public object Net {
 	 * List ethernet devices.
 	 */
 	fun listDevices(session: ClientSession): List<String> =
-			session.createSftpClient().readDir("/sys/class/net/").toList().map { it.filename }
+			session.createSftpClient().readDir("/sys/class/net/").toList()
+					.filter { it.filename != "." && it.filename != ".." }
+					.map { it.filename }
 
 	/**
 	 * Get MAC address of a device.

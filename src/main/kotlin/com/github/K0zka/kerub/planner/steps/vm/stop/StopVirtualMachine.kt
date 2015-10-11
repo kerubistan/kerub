@@ -8,6 +8,8 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.Risk
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import java.math.BigInteger
+import kotlin.math.minus
 
 /**
  * Stop virtual machine.
@@ -29,7 +31,7 @@ public class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : Abstra
 				vmDyns = state.vmDyns - (vm.id),
 				hostDyns = state.hostDyns + (host.id to
 						hostDyn.copy(
-								memFreeMb = hostDyn.memFreeMb ?: 0 - vm.memoryMb.max
+								memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max
 						            ))
 		                 )
 

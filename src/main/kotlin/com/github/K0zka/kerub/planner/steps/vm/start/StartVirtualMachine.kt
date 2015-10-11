@@ -17,13 +17,13 @@ public class StartVirtualMachine(val vm: VirtualMachine, val host: Host) : Abstr
 						lastUpdated = System.currentTimeMillis(),
 						id = vm.id,
 						hostId = host.id,
-						memoryUsed = vm.memoryMb.min.toLong() * 1024 * 1024
+						memoryUsed = vm.memory.min
 				                                                       )),
 				hostDyns = (state.hostDyns - host.id) + (host.id to
 						hostDyn.copy(
 								idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage
-								memFreeMb = hostDyn.memFreeMb, //TODO - estimate on memory usage of the VM
-								memUsedMb = hostDyn.memUsedMb // TODO + estimate on memory usage of the VM
+								memFree = hostDyn.memFree, //TODO - estimate on memory usage of the VM
+								memUsed = hostDyn.memUsed // TODO + estimate on memory usage of the VM
 						            ))
 		                 )
 	}

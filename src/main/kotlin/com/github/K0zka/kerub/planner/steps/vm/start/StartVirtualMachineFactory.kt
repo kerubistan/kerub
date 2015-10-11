@@ -10,6 +10,8 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.utils.getLogger
+import java.math.BigInteger
+import kotlin.math.div
 
 public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
 
@@ -35,7 +37,7 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 			vm ->
 			state.hosts.values().forEach {
 				host ->
-				var dyn = state.hostDyns[host.id]
+				val dyn = state.hostDyns[host.id]
 				if (match(host, dyn, vm)) {
 					steps += StartVirtualMachine(vm, host)
 				}
@@ -47,7 +49,18 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 		return steps
 	}
 
+	val mb = 1024 * 1024
+
 	fun match(host: Host, dyn: HostDynamic?, vm: VirtualMachine): Boolean {
+
+		if(host.capabilities?.cpus?.map { it.coreCount ?: 1 } ?.sum() ?: 1 < vm.nrOfCpus) {
+			return false
+		}
+
+		if((host.capabilities?.totalMemory?: BigInteger.ZERO) < vm.memory.min) {
+			return false
+		}
+
 		val cpuArchitectureExpectation = vm.expectations
 				.firstOrNull { it is CpuArchitectureExpectation } as CpuArchitectureExpectation?
 

@@ -40,10 +40,10 @@ Feature: planner and optimizer
   Scenario: Start a VM with two hosts, one of them is does not match required amount of RAM
     Given VMs:
       | name | MinRam | MaxRam | CPUs | Architecture |
-      | vm1  | 1 GB   | 2 GB   | 2    | x86_64       |
+      | vm1  | 2 GB   | 2 GB   | 2    | x86_64       |
     And hosts:
       | address   | ram  | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 2 GB | 2     | 4       | x86_64       |  |
+      | 127.0.0.5 | 4 GB | 2     | 4       | x86_64       |  |
       | 127.0.0.6 | 1 GB | 2     | 4       | x86_64       |  |
     And host 127.0.0.5 is Up
     And host 127.0.0.6 is Up

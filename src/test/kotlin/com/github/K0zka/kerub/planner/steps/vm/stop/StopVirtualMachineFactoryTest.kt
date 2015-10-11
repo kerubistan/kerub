@@ -5,10 +5,10 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.services.impl.GB
+import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
+import java.util.UUID
 
 public class StopVirtualMachineFactoryTest {
 	@Test
@@ -35,7 +35,7 @@ public class StopVirtualMachineFactoryTest {
 				id = vm.id,
 		        hostId = host.id,
 		        status = VirtualMachineStatus.Up,
-		        memoryUsed = 1.GB(),
+		        memoryUsed = "1 GB".toSize(),
 		        lastUpdated = System.currentTimeMillis()
 		                                 )
 		val state = OperationalState.fromLists(vms = listOf(vm), hosts = listOf(host), vmDyns = listOf(vmDyn))

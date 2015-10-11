@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.SshServer
@@ -27,6 +26,7 @@ import org.mockito.Matchers
 import org.mockito.Mockito
 import java.io.ByteArrayInputStream
 import java.io.OutputStream
+import java.util.EnumSet
 import kotlin.platform.platformStatic
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -35,17 +35,18 @@ RunWith(Parameterized::class)
 public class HostCapabilitiesDiscovererTest(
 		val distroName: String,
 		val cpuArchitecture: String,
-		val kernelVersion : Version,
+		val kernelVersion: Version,
 		val distroVersion: Version,
 		val commands: Map<String, String>,
-		val files: Map<String, String>) {
+		val files: Map<String, String>,
+		val directories: Map<String, List<String>>) {
 
 	companion object {
 		platformStatic Parameters fun parameters(): List<Array<Any>> = listOf(
 				arrayOf("Fedora",
 				        "x86_64",
-				        Version("3","16","6"),
-				        Version("20",null,null),
+				        Version("3", "16", "6"),
+				        Version("20", null, null),
 				        mapOf(
 						        "uname -s" to "Linux",
 						        "uname -r" to "3.16.6-203.fc20.x86_64",
@@ -68,12 +69,17 @@ public class HostCapabilitiesDiscovererTest(
 						NAME=Fedora
 						VERSION_ID=20
 		HOME_URL="https://fedoraproject.org/"
-						""".trim())
+						""".trim(),
+				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				        mapOf(
+						        "/sys/class/net/" to listOf("eth0"),
+						        "/sys/class/net/eth0" to listOf("address")
+				             )
 				       ),
 				arrayOf("Ubuntu",
 				        "x86_64",
-				        Version("3","16","6"),
-				        Version("14","04",null),
+				        Version("3", "16", "6"),
+				        Version("14", "04", null),
 				        mapOf(
 						        "uname -s" to "Linux",
 						        "uname -r" to "TODO",
@@ -91,11 +97,17 @@ public class HostCapabilitiesDiscovererTest(
 				        mapOf("/etc/os-release" to """
 		NAME="Ubuntu"
 		VERSION_ID="14.04"
-								""".trim())),
+								""".trim(),
+				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				        mapOf(
+						        "/sys/class/net/" to listOf("eth0"),
+						        "/sys/class/net/eth0" to listOf("address")
+				             )
+				       ),
 				arrayOf("Raspbian GNU/Linux",
 				        "armv6l",
-				        Version("3","12","28"),
-				        Version("7",null,null),
+				        Version("3", "12", "28"),
+				        Version("7", null, null),
 				        mapOf(
 						        "uname -s" to "Linux",
 						        "uname -r" to "3.18.11+",
@@ -126,10 +138,41 @@ ANSI_COLOR="1;31"
 HOME_URL="http://www.raspbian.org/"
 SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
 BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
-								""".trim()))
-		                                                      )
+								""".trim(),
+				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				        mapOf(
+						        "/sys/class/net/" to listOf("eth0"),
+						        "/sys/class/net/eth0" to listOf("address")
+				             )
+				       )
+		                                                                     )
 
-		fun mockFile(path : String, contents: String): SshFile {
+		private fun mockDirectory(path: String, entries: List<String>): SshFile {
+			val ret = Mockito.mock(javaClass<SshFile>())
+			Mockito.`when`(ret.doesExist()).thenReturn(true)
+			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
+			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
+			Mockito.`when`(ret.getSize()).thenReturn(0)
+			Mockito.`when`(ret.isReadable()).thenReturn(true)
+			Mockito.`when`(ret.isFile()).thenReturn(false)
+			Mockito.`when`(ret.isWritable()).thenReturn(false)
+			Mockito.`when`(ret.isDirectory()).thenReturn(true)
+			val subdirs = entries.map { mockDirectory(it, listOf()) }
+			Mockito.`when`(ret.listSshFiles()).thenReturn(subdirs)
+			Mockito.`when`(ret.getAttributes(Matchers.anyBoolean())).thenReturn(mapOf(
+					SshFile.Attribute.Owner to "owner",
+					SshFile.Attribute.Group to "group",
+					SshFile.Attribute.Size to 0.toLong(),
+					SshFile.Attribute.IsDirectory to false,
+					SshFile.Attribute.IsSymbolicLink to false,
+					SshFile.Attribute.IsRegularFile to false,
+					SshFile.Attribute.Permissions to EnumSet.noneOf(javaClass<SshFile.Permission>()),
+					SshFile.Attribute.LastModifiedTime to 0.toLong()
+			                                                                         ))
+			return ret
+		}
+
+		fun mockFile(path: String, contents: String): SshFile {
 			val ret = Mockito.mock(javaClass<SshFile>())
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
 			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
@@ -189,11 +232,14 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 
 		sshServer = SshServer.setUpDefaultServer()
 		sshServer!!.setPort(2222)
-		sshServer!!.setPublickeyAuthenticator {s, publicKey, serverSession -> true }
+		sshServer!!.setPublickeyAuthenticator { s, publicKey, serverSession -> true }
 		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(getTestKey()))
 		sshServer!!.setSubsystemFactories(listOf<NamedFactory<Command>>(SftpSubsystem.Factory()))
 		sshServer!!.setFileSystemFactory {
-			HostFileSystem( files.mapValues { mockFile(it.component1(), it.component2()) } )
+			HostFileSystem(
+					files.mapValues { mockFile(it.key, it.value) } +
+							directories.mapValues { mockDirectory(it.key, it.value) }
+			              )
 		}
 		sshServer!!.setCommandFactory(commandFactory)
 		sshServer!!.start()
@@ -221,7 +267,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 	Test
 	fun isDmiDecodeInstalled() {
 		Assert.assertThat(
-				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo", Version("1", "0", "0")), SoftwarePackage("dmidecode",Version("2","12","4")))),
+				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo", Version("1", "0", "0")), SoftwarePackage("dmidecode", Version("2", "12", "4")))),
 				CoreMatchers.`is`(true)
 		                 )
 		Assert.assertThat(

@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.sshd.ClientSession
+import java.math.BigInteger
 import kotlin.reflect.jvm.java
 
 /**
@@ -15,7 +16,7 @@ public object QemuImg {
 	fun create(
 			session: ClientSession,
 			format: VirtualDiskFormat = VirtualDiskFormat.raw,
-			size: Long,
+			size: BigInteger,
 			path: String
 	          ) {
 		session.execute("qemu-img create -f ${format} ${path} ${size}")
@@ -26,7 +27,7 @@ public object QemuImg {
 		return objectMapper.readValue(ret, ImageInfo::class.java)
 	}
 
-	fun resize(session: ClientSession, path: String, size: Long) {
+	fun resize(session: ClientSession, path: String, size: BigInteger) {
 		session.execute("qemu-img resize ${path} ${size}")
 	}
 
