@@ -16,6 +16,7 @@ public data class HostDynamic(
 		val idleCpu: Byte? = null,
         val memFree: BigInteger? = null,
         val memUsed: BigInteger? = null,
-        val memSwapped: BigInteger? = null
+        val memSwapped: BigInteger? = null,
+        val ksmEnabled: Boolean = false
                              )
 : DynamicEntity

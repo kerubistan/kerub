@@ -28,7 +28,7 @@ abstract class AbstractOperationalStep : Step<Plan> {
 	 * Default implementation returns an empty list, meaning negligible
 	 * costs.
 	 */
-	open fun getCost(state: OperationalState): List<Cost> = listOf();
+	open fun getCost(): List<Cost> = listOf();
 
 	/**
 	 * Returns a map of violated resources.

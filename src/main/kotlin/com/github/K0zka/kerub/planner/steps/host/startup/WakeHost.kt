@@ -31,7 +31,7 @@ public class WakeHost(val host: Host) : AbstractOperationalStep() {
 	 * (e.g. WoL could be counted as a risk)
 	 * - Estimation based on previous such operations
 	 */
-	override fun getCost(state: OperationalState): List<Cost> {
+	override fun getCost(): List<Cost> {
 		return listOf(
 				TimeCost(
 						minMs = 10000,

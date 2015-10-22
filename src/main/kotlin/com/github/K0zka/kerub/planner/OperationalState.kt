@@ -57,14 +57,44 @@ data class OperationalState(
 		}
 	}
 
+	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel) : Int {
+		return vms.values().sumBy {
+			vm ->
+			vm.expectations.count {
+				expectation ->
+				expectation.level == level
+					&& !checkExpectation(expectation, vm)
+			}
+		}
+	}
+
+	fun getUnsatisfiedExpectations() : List<Expectation> {
+		var expectations = listOf<Expectation>()
+		vms.values().forEach {
+			vm ->
+			expectations +=
+			vm.expectations.filter {
+				expectation ->
+						!checkExpectation(expectation, vm)
+			}
+		}
+		return expectations
+	}
+
 	private fun checkExpectation(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
 			is VirtualMachineAvailabilityExpectation ->
-				return isVmRunning(vm)
-			is CpuArchitectureExpectation ->
-					return expectation.cpuArchitecture == vmHost(vm)?.capabilities?.cpuArchitecture
+				return isVmRunning(vm) == expectation.up
+			is CpuArchitectureExpectation -> {
+				var host = vmHost(vm)
+				return if(host == null) {
+					true
+				} else {
+					expectation.cpuArchitecture == host.capabilities?.cpuArchitecture
+				}
+			}
 			else ->
-				return false
+				throw IllegalArgumentException("Expectation ${expectation} can not be checked")
 		}
 	}
 }

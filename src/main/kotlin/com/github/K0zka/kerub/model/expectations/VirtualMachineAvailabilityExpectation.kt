@@ -6,8 +6,8 @@ import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
-JsonTypeName("cpu-architecture")
+JsonTypeName("availability")
 data class VirtualMachineAvailabilityExpectation constructor(
-		override val level: ExpectationLevel = ExpectationLevel.Want,
+		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val up: Boolean = true
                                                                          ) : Expectation

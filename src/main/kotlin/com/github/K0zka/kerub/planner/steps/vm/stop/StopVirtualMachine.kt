@@ -15,7 +15,7 @@ import kotlin.math.minus
  * Stop virtual machine.
  * Operation cost is considered negligible.
  */
-public class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep() {
+public data class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep() {
 
 	companion object {
 		val scores = mapOf<ExpectationLevel, Int>(
@@ -37,7 +37,7 @@ public class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : Abstra
 
 	}
 
-	override fun getCost(state: OperationalState): List<Cost> {
+	override fun getCost(): List<Cost> {
 		val availablityExpectation = vm.expectations.firstOrNull { it is VirtualMachineAvailabilityExpectation && it.up }
 				as VirtualMachineAvailabilityExpectation?
 		if(availablityExpectation == null ) {

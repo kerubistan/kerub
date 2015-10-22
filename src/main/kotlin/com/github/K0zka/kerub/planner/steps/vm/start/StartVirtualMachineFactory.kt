@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.K0zka.kerub.planner.steps.vm.match
 import com.github.K0zka.kerub.utils.getLogger
 import java.math.BigInteger
 import kotlin.math.div
@@ -40,6 +41,8 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 				val dyn = state.hostDyns[host.id]
 				if (match(host, dyn, vm)) {
 					steps += StartVirtualMachine(vm, host)
+				} else {
+					logger.debug("vm not matching")
 				}
 			}
 		}
@@ -51,24 +54,4 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 
 	val mb = 1024 * 1024
 
-	fun match(host: Host, dyn: HostDynamic?, vm: VirtualMachine): Boolean {
-
-		if(host.capabilities?.cpus?.map { it.coreCount ?: 1 } ?.sum() ?: 1 < vm.nrOfCpus) {
-			return false
-		}
-
-		if((host.capabilities?.totalMemory?: BigInteger.ZERO) < vm.memory.min) {
-			return false
-		}
-
-		val cpuArchitectureExpectation = vm.expectations
-				.firstOrNull { it is CpuArchitectureExpectation } as CpuArchitectureExpectation?
-
-		logger.debug("match host {} for vm {}", host, vm)
-
-		return dyn?.status == HostStatus.Up &&
-				(cpuArchitectureExpectation?.cpuArchitecture == null
-						|| host.capabilities?.cpuArchitecture == cpuArchitectureExpectation?.cpuArchitecture)
-
-	}
 }

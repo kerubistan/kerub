@@ -59,7 +59,7 @@ public class StopVirtualMachineTest {
 		val vm = VirtualMachine(
 				name = "text-vm"
 		                       )
-		val costs = StopVirtualMachine(vm = vm, host = host).getCost(OperationalState.fromLists())
+		val costs = StopVirtualMachine(vm = vm, host = host).getCost()
 		Assert.assertTrue(costs.isEmpty())
 	}
 
@@ -74,7 +74,7 @@ public class StopVirtualMachineTest {
 				name = "text-vm",
 		        expectations = listOf(VirtualMachineAvailabilityExpectation())
 		                       )
-		val costs = StopVirtualMachine(vm = vm, host = host).getCost(OperationalState.fromLists())
+		val costs = StopVirtualMachine(vm = vm, host = host).getCost()
 		Assert.assertTrue(costs.isNotEmpty())
 		Assert.assertTrue(costs.any {it is Risk} )
 	}

@@ -3,7 +3,7 @@ Feature: planner and optimizer
   Scenario: Start a VM with single host
     Given VMs:
       | name | MinRam | MaxRam | CPUs | Architecture |
-      | vm1  | 1GB    | 4GB     | 2    | x86_64       |
+      | vm1  | 1GB    | 4GB    | 2    | x86_64       |
     And hosts:
       | address   | ram | Cores | Threads | Architecture |  |
       | 127.0.0.5 | 2GB | 2     | 4       | x86_64       |  |
@@ -14,7 +14,7 @@ Feature: planner and optimizer
   Scenario: Start a VM with two hosts, one of them is does not match required architecture
     Given VMs:
       | name | MinRam | MaxRam | CPUs | Architecture |
-      | vm1  | 1GB     | 2GB    | 2    | x86_64       |
+      | vm1  | 1GB    | 2GB    | 2    | x86_64       |
     And hosts:
       | address   | ram | Cores | Threads | Architecture |  |
       | 127.0.0.5 | 2GB | 2     | 4       | x86_64       |  |
@@ -71,8 +71,8 @@ Feature: planner and optimizer
       | name | MinRam | MaxRam | CPUs | Architecture |
       | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
     And hosts:
-      | address   | ram   | Cores | Threads | Architecture |  |
-      | 127.0.0.5 | 6 GB  | 2     | 4       | x86_64       |  |
+      | address   | ram  | Cores | Threads | Architecture |  |
+      | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
     And host 127.0.0.5 is Down
     When VM vm1 is started
     Then 127.0.0.5 will be started as step 1

@@ -10,6 +10,8 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.*
+import com.github.K0zka.kerub.planner.steps.replace
+import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -23,6 +25,8 @@ import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
 import java.math.BigInteger
+import kotlin.math.minus
+import kotlin.math.plus
 import kotlin.reflect.jvm.java
 
 public class PlannerDefs {
@@ -53,7 +57,7 @@ public class PlannerDefs {
 					hostDyns = hostDyns,
 					vms = vms,
 					vmDyns = vmDyns
-			                )
+			                          )
 		}
 		Mockito.doAnswer({
 			                 executedPlans += (it.getArguments()[0] as Plan)
@@ -73,7 +77,7 @@ public class PlannerDefs {
 					memory = Range<BigInteger>(
 							min = (row[1].toSize()),
 							max = (row[2].toSize())
-					                     ),
+					                          ),
 					nrOfCpus = row[3].toInt(),
 					expectations = listOf(
 							CpuArchitectureExpectation(
@@ -121,6 +125,33 @@ public class PlannerDefs {
 		}
 	}
 
+	@Given("(\\S+) is running on (\\S+)")
+	fun setVmRunningOnHost(vmName: String, hostAddr: String) {
+		val vm = vms.first { it.name == vmName }!!
+		vms = vms.replace({ it.id == vm.id }, {
+			it.copy(
+					expectations = vm.expectations + listOf(
+							VirtualMachineAvailabilityExpectation(up = true))
+			       )
+		})
+		val host = hosts.first { it.address == hostAddr }!!
+
+		vmDyns = vmDyns + VirtualMachineDynamic(
+				id = vm.id,
+				hostId = host.id,
+				status = VirtualMachineStatus.Up,
+				lastUpdated = System.currentTimeMillis(),
+				memoryUsed = vm.memory.min
+		                                       )
+
+		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, "host must be up, otherwise no vm!")
+
+		hostDyns = hostDyns.replace( {it.id == host.id}, { it.copy(
+				memFree = requireNotNull(it.memFree ?: host.capabilities?.totalMemory) - vm.memory.min,
+		        memUsed = (it.memUsed ?: BigInteger.ZERO) + vm.memory.min
+		                                               ) } )
+	}
+
 	When("^VM (\\S+) is started$")
 	fun startVm(vm: String) {
 		vms = vms.map {
@@ -128,7 +159,7 @@ public class PlannerDefs {
 				it.copy(expectations = (
 						it.expectations
 								+ VirtualMachineAvailabilityExpectation(
-								level = ExpectationLevel.Want,
+								level = ExpectationLevel.DealBreaker,
 								up = true
 								                                       )
 						)
@@ -152,6 +183,22 @@ public class PlannerDefs {
 						&& it.vm.name == vmName
 			}
 		})
+	}
+
+	@Then("^(\\S+) will be migrated to (\\S+) as step (\\d+)")
+	fun verifyVmMigration(vmName: String, targetHostAddr: String, stepNo: Int) {
+		val migrationStep = executedPlans.first().steps.get(stepNo - 1)
+		Assert.assertTrue(migrationStep is MigrateVirtualMachine)
+		Assert.assertEquals((migrationStep as MigrateVirtualMachine).target.address, targetHostAddr)
+		Assert.assertEquals((migrationStep as MigrateVirtualMachine).vm.name, vmName)
+	}
+
+	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
+	fun verifyVmGetsScheduled(vmName : String, targetHostAddr: String, stepNo : Int) {
+		val startStep = executedPlans.first().steps.get(stepNo - 1)
+		Assert.assertTrue(startStep is StartVirtualMachine)
+		Assert.assertEquals((startStep as StartVirtualMachine).host.address, targetHostAddr)
+		Assert.assertEquals((startStep as StartVirtualMachine).vm.name, vmName)
 	}
 
 	Given("^registered host:$")
@@ -180,11 +227,12 @@ public class PlannerDefs {
 	}
 
 	Given("^host (\\S+) is Up$")
-	fun setHostDyn(address : String) {
-		var host = hosts.firstOrNull {it.address == address}!!
+	fun setHostDyn(address: String) {
+		var host = hosts.firstOrNull { it.address == address }!!
 		hostDyns = hostDyns + HostDynamic(
 				id = host.id,
-		        status = HostStatus.Up
+				status = HostStatus.Up,
+				memFree = host.capabilities?.totalMemory
 		                                 )
 
 	}

@@ -46,7 +46,8 @@ public class StartVirtualMachineFactoryTest {
 
 	val hostDyn = HostDynamic(
 			id = host.id,
-			status = HostStatus.Up
+			status = HostStatus.Up,
+	        memFree = "8 GB".toSize()
 	                         )
 
 
