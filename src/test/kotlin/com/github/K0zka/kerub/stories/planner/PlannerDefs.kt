@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.*
+import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
@@ -236,4 +237,23 @@ public class PlannerDefs {
 		                                 )
 
 	}
+
+	@Given("^host (\\S+) is Down$")
+	fun setHostDown(hostAddress : String) {
+		val host = hosts.first { host ->
+			host.address == hostAddress
+		}
+		hostDyns = hostDyns.filter {
+			dyn ->
+			dyn.id != host.id
+		}
+	}
+
+	@Then("^(\\S+) will be started as step (\\d+)$")
+	fun verifyHostStartedUp(hostAddr : String, stepNo : Int) {
+		val startStep = executedPlans.first().steps.get(stepNo - 1)
+		Assert.assertTrue(startStep is WakeHost)
+		Assert.assertEquals((startStep as WakeHost).host.address, hostAddr)
+	}
+
 }

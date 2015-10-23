@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.TimeCost
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import java.math.BigInteger
 
 public class WakeHost(val host: Host) : AbstractOperationalStep() {
 	override fun take(state: OperationalState): OperationalState {
@@ -15,7 +16,11 @@ public class WakeHost(val host: Host) : AbstractOperationalStep() {
 		val dyn = state.hostDyns[host.id]
 				?: HostDynamic(
 				id = host.id,
-				status = HostStatus.Up
+				status = HostStatus.Up,
+				memFree = host.capabilities?.totalMemory,
+				memUsed = BigInteger.ZERO,
+				userCpu = 0,
+				systemCpu = 0
 				              )
 
 		return state.copy(

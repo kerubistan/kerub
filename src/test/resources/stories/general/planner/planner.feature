@@ -76,5 +76,5 @@ Feature: planner and optimizer
     And host 127.0.0.5 is Down
     When VM vm1 is started
     Then 127.0.0.5 will be started as step 1
-    And VM vm1 gets scheduled on host 127.0.0.6 as step 2
+    And VM vm1 gets scheduled on host 127.0.0.5 as step 2
 
