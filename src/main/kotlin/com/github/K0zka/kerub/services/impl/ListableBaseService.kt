@@ -10,7 +10,7 @@ import java.util.UUID
 
 abstract public class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao<T, UUID>, entityType: String)
 : BaseServiceImpl<T>(dao, entityType), RestOperations.List<T> {
-	JsonView(Detailed::class)
+	@JsonView(Detailed::class)
 	override fun listAll(start: Long, limit: Long, sort: String): ResultPage<T> {
 		return ResultPage(
 				start = start,

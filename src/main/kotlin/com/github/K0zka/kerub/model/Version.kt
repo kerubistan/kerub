@@ -5,9 +5,9 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.util.regex.Pattern
 
-public data class Version (Field val major : String,
-                           Field val minor: String?,
-                           Field val build : String?) : Serializable, Comparable<Version> {
+public data class Version (@Field val major : String,
+                           @Field val minor: String?,
+                           @Field val build : String?) : Serializable, Comparable<Version> {
 	override fun compareTo(other: Version): Int {
 		return -1
 	}
@@ -24,12 +24,12 @@ public data class Version (Field val major : String,
 	}
 	private fun dot(component : String?) : String? {
 		if(component == null) {
-			return ".${component}"
+			return empty
 		} else {
-			return null
+			return ".${component}"
 		}
 	}
 	override fun toString() : String {
-		return "$major${dot(minor) ?: empty}${dot(build) ?: empty}"
+		return "$major${dot(minor)}${dot(build)}"
 	}
 }

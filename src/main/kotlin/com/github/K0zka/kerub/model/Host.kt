@@ -13,28 +13,28 @@ import java.util.UUID
 /**
  * A host represents a server, a physical computation resource, that can be used by virtual resources.
  */
-Indexed
-JsonTypeName("host")
+@Indexed
+@JsonTypeName("host")
 data class Host constructor(
-		override
-		JsonView(Simple::class)
-		DocumentId
-		JsonProperty("id")
+        @JsonView(Simple::class)
+        @DocumentId
+        @JsonProperty("id")
+        override
 		val id: UUID = UUID.randomUUID(),
-		Field
-		JsonProperty("address")
+		@Field
+        @JsonProperty("address")
 		val address: String,
-		JsonView(Detailed::class)
-		Field
-		JsonProperty("publickey")
+        @JsonView(Detailed::class)
+        @Field
+        @JsonProperty("publickey")
 		val publicKey: String,
-		JsonView(Simple::class)
-		Field
-		JsonProperty("dedicated")
+        @JsonView(Simple::class)
+        @Field
+        @JsonProperty("dedicated")
 		val dedicated: Boolean,
-		Field
-		JsonProperty("capabilities")
-		JsonView(Detailed::class)
+        @Field
+        @JsonProperty("capabilities")
+        @JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null
                               )
 : Entity<UUID>

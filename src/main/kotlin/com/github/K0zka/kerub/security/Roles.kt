@@ -1,15 +1,14 @@
 package com.github.K0zka.kerub.security
 
+const val admin = "admin"
+const val powerUser = "poweruser"
+const val user = "user"
+
 /**
  * The list of application roles.
  * See permissions assigned to roles in roles.ini
  */
-public enum class Roles(val name: String) {
-	public companion object {
-		val admin = "admin"
-		val powerUser = "poweruser"
-		val user = "user"
-	}
+public enum class Roles(val roleName: String) {
 	/**
 	 * The administrators are able to manage the infrastructure, manage hosts, storage, networks.
 	 */

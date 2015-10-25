@@ -19,18 +19,18 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class SshClientServiceImplTest {
-	Mock
+	@Mock
 	var client : SshClient? = null
-	Mock
+	@Mock
 	var session : ClientSession? = null
-	Mock
+	@Mock
 	var sftClient : SftpClient? = null
 
 	var service : SshClientServiceImpl? = null
 
-	Before
+	@Before
 	fun setup() {
 		service = SshClientServiceImpl(client = client!!,
 		                               keyPair = getTestKey(),
@@ -39,7 +39,7 @@ public class SshClientServiceImplTest {
 		                              )
 	}
 
-	Test
+	@Test
 	fun installPublicKey() {
 		Mockito.`when`(session!!.createSftpClient()).thenReturn(sftClient)
 		Mockito.`when`(sftClient!!.stat(eq(".ssh"))).thenReturn(SftpClient.Attributes())
@@ -50,7 +50,7 @@ public class SshClientServiceImplTest {
 		service!!.installPublicKey(session!!)
 	}
 
-	Test
+	@Test
 	fun getPublicKey() {
 		Assert.assertThat(service!!.getPublicKey(), CoreMatchers.notNullValue())
 	}

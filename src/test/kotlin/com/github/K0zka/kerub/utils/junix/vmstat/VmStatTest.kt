@@ -17,13 +17,13 @@ import java.io.OutputStream
 import java.util.*
 import kotlin.reflect.jvm.java
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class VmStatTest {
-	Mock
+	@Mock
 	var clientSession : ClientSession? = null
-	Mock
+	@Mock
 	var execChannel : ChannelExec? = null
-	Mock
+	@Mock
 	var openFuture : OpenFuture? = null
 
 	val sample = """procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
@@ -35,7 +35,7 @@ public class VmStatTest {
  0  0 162500 400712 1730456 1251508    0    0     0   308 1547 2593 14  6 75  5
  1  0 162500 400624 1730460 1251508    0    0     0     4 1497 2357 13  5 80  2
 """
-	Test
+	@Test
 	fun vmstat() {
 		on(clientSession!!.createExecChannel(anyString())).thenReturn( execChannel )
 		Mockito.doAnswer {

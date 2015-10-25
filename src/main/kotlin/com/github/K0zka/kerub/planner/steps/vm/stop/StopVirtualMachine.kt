@@ -15,7 +15,7 @@ import kotlin.math.minus
  * Stop virtual machine.
  * Operation cost is considered negligible.
  */
-public data class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep() {
+public data class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep {
 
 	companion object {
 		val scores = mapOf<ExpectationLevel, Int>(

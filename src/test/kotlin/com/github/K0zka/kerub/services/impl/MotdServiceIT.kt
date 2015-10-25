@@ -17,11 +17,11 @@ public class MotdServiceIT {
 		val logger = getLogger(MotdServiceIT::class)
 	}
 
-	Test
+	@Test
 	fun get() {
 		val service = JAXRSClientFactory.create(
 				getServiceBaseUrl(),
-				javaClass<MotdService>(),
+				MotdService::class.java,
 				listOf(JacksonJsonProvider()))!!
 		val motd = service.get()
 		Assert.assertThat(motd, CoreMatchers.notNullValue())

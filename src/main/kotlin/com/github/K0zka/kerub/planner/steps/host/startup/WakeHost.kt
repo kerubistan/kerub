@@ -9,9 +9,9 @@ import com.github.K0zka.kerub.planner.costs.TimeCost
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
 
-public class WakeHost(val host: Host) : AbstractOperationalStep() {
+public class WakeHost(val host: Host) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState {
-		val otherHosts = state.hostDyns.filter { it.getValue().id != host.id }
+		val otherHosts = state.hostDyns.filter { it.value.id != host.id }
 
 		val dyn = state.hostDyns[host.id]
 				?: HostDynamic(

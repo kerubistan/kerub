@@ -4,13 +4,13 @@ import org.junit.Assert
 import org.junit.Test
 
 public class HistoryKeyTest {
-	Test
+	@Test
 	fun testToString() {
 		Assert.assertTrue(HistoryKey<String>("foo").toString().startsWith("foo - "))
 		Assert.assertTrue(HistoryKey<String>("foo", 0).toString().startsWith("foo - 19"))
 	}
 
-	Test
+	@Test
 	fun testEquals() {
 		Assert.assertEquals( HistoryKey<String>("foo", 0), HistoryKey<String>("foo", 0) )
 		Assert.assertNotEquals( HistoryKey<String>("foo", 0), HistoryKey<String>("Bar", 0) )
@@ -19,7 +19,7 @@ public class HistoryKeyTest {
 		Assert.assertNotEquals( HistoryKey<String>("foo", 0), HistoryKey<Int>(4, 0) )
 	}
 
-	Test
+	@Test
 	fun testHashCode() {
 		Assert.assertEquals(HistoryKey<String>("foo", 0).hashCode(), HistoryKey<String>("foo", 0).hashCode());
 	}

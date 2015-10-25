@@ -15,7 +15,7 @@ import java.util.UUID
 import kotlin.math.plus
 
 public class VirtualStorageDeviceServiceImplIT {
-	Test
+	@Test
 	fun crud() {
 		val client = createClient()
 		val vsd = createServiceClient(VirtualStorageDeviceService::class, client)

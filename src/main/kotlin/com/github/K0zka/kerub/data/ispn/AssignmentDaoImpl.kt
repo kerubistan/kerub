@@ -12,15 +12,15 @@ public class AssignmentDaoImpl(cache : Cache<UUID, Assignment>, eventListener : 
 : AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener) {
 	override fun listByController(controller: String) : List<Assignment> {
 		return Search.getQueryFactory(cache)
-				.from(javaClass<Assignment>())
+				.from(Assignment::class.java)
 				.having("controller")
 				.eq(controller)
 				.toBuilder<Query>()
 				.build()
-				.list<Assignment>()
+				.list<Assignment>() as List<Assignment>
 	}
 
 	override fun getEntityClass(): Class<Assignment> {
-		return javaClass<Assignment>()
+		return Assignment::class.java
 	}
 }

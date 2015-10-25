@@ -21,16 +21,16 @@ public class HostSecurityDefs {
 
 	companion object private val logger = getLogger(HostSecurityDefs::class)
 
-	Given("A controller")
+	@Given("A controller")
 	fun givenAController() {
 	}
 
-	Given("(\\S+) user")
+	@Given("(\\S+) user")
 	fun givenAUser(user: String) {
 		this.user = user
 	}
 
-	When("user tries to (\\S+) hosts")
+	@When("user tries to (\\S+) hosts")
 	fun userAction(action: String) {
 		val client = HttpClientBuilder.create().build()
 
@@ -78,7 +78,7 @@ public class HostSecurityDefs {
 		}
 	}
 
-	Then("(\\S+) should be received")
+	@Then("(\\S+) should be received")
 	fun assertResponseCode(responseCode: Int) {
 		Assert.assertEquals(responseCode, this.responseCode)
 	}

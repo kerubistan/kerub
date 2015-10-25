@@ -16,24 +16,24 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class QemuImgTest {
-	Mock
+	@Mock
 	var session : ClientSession? = null
 
-	Mock
+	@Mock
 	var execChannel : ChannelExec? = null
 
-	Mock
+	@Mock
 	var channelOpenFuture : OpenFuture? = null
 
-	Before
+	@Before
 	fun setup() {
 		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
 		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
 	}
 
-	Test
+	@Test
 	fun create() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
@@ -42,7 +42,7 @@ public class QemuImgTest {
 		Mockito.verify(session!!).createExecChannel("qemu-img create -f raw /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
-	Test
+	@Test
 	fun info() {
 		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
 		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
@@ -67,7 +67,7 @@ public class QemuImgTest {
 
 	}
 
-	Test
+	@Test
 	fun resize() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 
@@ -76,7 +76,7 @@ public class QemuImgTest {
 		Mockito.verify(session!!).createExecChannel("qemu-img resize /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
-	Test
+	@Test
 	fun convert() {
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
 

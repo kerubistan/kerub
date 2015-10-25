@@ -13,26 +13,26 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class ControllerManagerImplTest {
 
-	Mock
+	@Mock
 	var dao : ControllerDynamicDao? = null
 
-	Mock
+	@Mock
 	var cacheManager : EmbeddedCacheManager? = null
 
-	Mock
+	@Mock
 	var address : Address? = null
 
-	Test
+	@Test
 	fun getControllerId() {
 		Mockito.`when`(cacheManager?.getAddress()).thenReturn(address)
 		Mockito.`when`(address?.toString()).thenReturn("PASS")
 		Assert.assertThat(ControllerManagerImpl(dao!!, cacheManager!!).getControllerId(), CoreMatchers.`is`("PASS"))
 	}
 
-	Test
+	@Test
 	fun start() {
 		Mockito.`when`(cacheManager?.getAddress()).thenReturn(address)
 		val notNullInstance = ControllerDynamic("", 1, 0, listOf())

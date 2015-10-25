@@ -272,7 +272,7 @@
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
     <bean id="objectMapper"
-          class="com.github.K0zka.kerub.utils.UtilsPackage"
+          class="com.github.K0zka.kerub.utils.ObjectMapperUtilsKt"
           factory-method="createObjectMapper">
     </bean>
 

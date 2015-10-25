@@ -12,11 +12,11 @@ public class VersionServiceIT {
 
 	private companion object val logger = getLogger(VersionServiceIT::class)
 
-	Test
+	@Test
 	fun getVersionInfo() {
 		val service = JAXRSClientFactory.create(
 				getServiceBaseUrl(),
-				javaClass<VersionService>(),
+				VersionService::class.java,
 				listOf(JacksonJsonProvider()))!!
 		val versionInfo = service.getVersionInfo()
 		Assert.assertNotNull(versionInfo)

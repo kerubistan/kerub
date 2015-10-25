@@ -18,18 +18,18 @@ import java.util.UUID
 import javax.jms.ObjectMessage
 import kotlin.reflect.jvm.java
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class InterControllerImplTest {
-	Mock
+	@Mock
 	var jmsTemplate: JmsTemplate? = null
 	var interControllerImpl: InterControllerImpl? = null
 
-	Before
+	@Before
 	fun setup() {
 		interControllerImpl = InterControllerImpl(jmsTemplate!!)
 	}
 
-	Test
+	@Test
 	fun sendToControllerEntityEvent() {
 		val controllerId = "test-controller"
 		val message = EntityAddMessage(
@@ -48,7 +48,7 @@ public class InterControllerImplTest {
 
 	}
 
-	Test
+	@Test
 	fun broadcast() {
 
 		interControllerImpl!!.broadcast(EntityAddMessage(

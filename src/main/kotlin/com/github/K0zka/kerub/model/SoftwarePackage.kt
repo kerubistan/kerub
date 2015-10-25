@@ -6,10 +6,10 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 
 public data class SoftwarePackage(
-		JsonProperty("name")
-		Field val name: String,
-		JsonProperty("ver")
-		Field val version: Version) : Serializable {
+        @JsonProperty("name")
+        @Field val name: String,
+        @JsonProperty("ver")
+        @Field val version: Version) : Serializable {
 	override
 	fun toString(): String {
 		return "${name}-${version}"

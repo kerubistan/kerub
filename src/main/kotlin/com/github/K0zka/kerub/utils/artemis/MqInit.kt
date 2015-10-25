@@ -15,7 +15,7 @@ import kotlin.platform.platformStatic
 public object MqInit {
 	val logger = getLogger(MqInit::class)
 
-	platformStatic
+	@JvmStatic
 	fun init(controllerManager: ControllerManager, artemis: EmbeddedJMS, factory : ConnectionFactory) : ConnectionFactory {
 		val controllerId = controllerManager.getControllerId()
 		val server = artemis.getActiveMQServer()

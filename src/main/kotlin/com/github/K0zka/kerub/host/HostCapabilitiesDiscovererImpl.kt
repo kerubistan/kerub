@@ -36,7 +36,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				FreeBSD())
 	}
 
-	internal fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
+	fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { clazz.java.cast(it) }
 	}
 
@@ -72,28 +72,28 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return dmiDecodeInstalled
 	}
 
-	internal fun runDmiDecode(session: ClientSession): String =
+	fun runDmiDecode(session: ClientSession): String =
 			session.execute("dmidecode")
 
-	internal fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
+	fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
 		return packages.any { "dmidecode" == it.name }
 	}
 
-	internal fun getTotalMemory(session: ClientSession): BigInteger {
+	fun getTotalMemory(session: ClientSession): BigInteger {
 		return session
 				.execute("cat /proc/meminfo | grep  MemTotal")
 				.substringAfter("MemTotal:").toSize()
 	}
 
-	internal fun getHostOs(session: ClientSession): OperatingSystem {
+	fun getHostOs(session: ClientSession): OperatingSystem {
 		return OperatingSystem.valueOf(session.execute("uname -s").trim())
 	}
 
-	internal fun getHostKernelVersion(session: ClientSession): Version {
+	fun getHostKernelVersion(session: ClientSession): Version {
 		return Version.fromVersionString(session.execute("uname -r").trim())
 	}
 
-	internal fun getHostCpuType(session: ClientSession): String {
+	fun getHostCpuType(session: ClientSession): String {
 		val processorType = session.execute("uname -p").trim()
 		if(processorType == "unknown") {
 			return session.execute("uname -m").trim()

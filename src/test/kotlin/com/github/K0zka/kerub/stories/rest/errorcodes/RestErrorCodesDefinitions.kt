@@ -26,13 +26,13 @@ public class RestErrorCodesDefinitions {
 	var hostService : HostService? = null
 	var exception : RestException? = null
 
-	Before()
+	@Before()
 	fun setup() {
 		client = createClient()
 		hostService = JAXRSClientFactory.fromClient(client, javaClass<HostService>() )
 	}
 
-	Given("^user (\\S+) with password (\\S+)$")
+	@Given("^user (\\S+) with password (\\S+)$")
 	fun login(userName : String, password: String) {
 		JAXRSClientFactory.fromClient(client, javaClass<LoginService>() ).login(LoginService.UsernamePassword(
 				username = userName,
@@ -40,17 +40,17 @@ public class RestErrorCodesDefinitions {
 		                                                                                                     ))
 	}
 
-	Given("^a host address (\\S+)$")
+	@Given("^a host address (\\S+)$")
 	fun setHostAddr(hostAddress:String) {
 		this.hostAddress = hostAddress
 	}
 
-	Given("^public key fingerprint (\\S+)$")
+	@Given("^public key fingerprint (\\S+)$")
 	fun setPublicKey(pubKeyFingerPrint:String) {
 		this.publicKeyFingerPrint = pubKeyFingerPrint
 	}
 
-	When("^the client tries to join the server with password (\\S+)$")
+	@When("^the client tries to join the server with password (\\S+)$")
 	fun tryJoinServerWithPassword(hostPassword : String) {
 		try {
 			hostService!!.join(HostAndPassword(
@@ -66,7 +66,7 @@ public class RestErrorCodesDefinitions {
 		}
 	}
 
-	When("^the client tries to join the server$")
+	@When("^the client tries to join the server$")
 	fun tryJoinServer() {
 		try {
 			hostService!!.joinWithoutPassword(Host(
@@ -79,22 +79,22 @@ public class RestErrorCodesDefinitions {
 		}
 	}
 
-	Then("^the response code must be (\\d+)$")
+	@Then("^the response code must be (\\d+)$")
 	fun the_response_code_must_be(expectedResponseCode : Int) {
 		Assert.assertThat(exception?.status, CoreMatchers.equalTo(expectedResponseCode))
 	}
 
-	Then("^the content type must be (\\S+)$")
+	@Then("^the content type must be (\\S+)$")
 	fun the_content_type_must_be_application_json(expectedContentType : String) {
 		Assert.assertThat(exception?.response?.getHeaderString("Content-Type"), CoreMatchers.equalTo(expectedContentType))
 	}
 
-	Then("^the error code must be (\\S+)$")
+	@Then("^the error code must be (\\S+)$")
 	fun the_error_code_must_be(expectedErrorCode : String) {
 		Assert.assertThat(exception?.code, CoreMatchers.equalTo(expectedErrorCode))
 	}
 
-	When("^the client tries to retrieve public key$")
+	@When("^the client tries to retrieve public key$")
 	fun retrievePublicKey() {
 		try {
 			hostService!!.joinWithoutPassword(Host(

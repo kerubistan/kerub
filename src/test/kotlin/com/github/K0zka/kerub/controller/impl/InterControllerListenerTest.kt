@@ -15,26 +15,26 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.*
 import javax.jms.ObjectMessage
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class InterControllerListenerTest {
 
-	Mock
+	@Mock
 	var hostManager: HostManager? = null
 
-	Mock
+	@Mock
 	var hostDao: HostDao? = null
 
-	Mock
+	@Mock
 	var message : ObjectMessage? = null
 
 	var impl : InterControllerListener? = null
 
-	Before
+	@Before
 	fun setup() {
 		impl = InterControllerListener(hostManager!!, hostDao!!)
 	}
 
-	Test
+	@Test
 	fun onMessageWithHostAssigned() {
 		val controllerId = "test-controller"
 		val hostId = UUID.randomUUID()

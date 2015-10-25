@@ -17,7 +17,7 @@ import java.math.BigInteger
 import java.util.UUID
 
 public class VirtualMachineServiceIT {
-	Test
+	@Test
 	fun crud() {
 		val client = createClient()
 		val loginService = createServiceClient(LoginService::class, client)

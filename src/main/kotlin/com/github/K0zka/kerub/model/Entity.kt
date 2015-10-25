@@ -10,8 +10,8 @@ import java.io.Serializable
  * Generic entity type.
  * The only sure thing about an entity is that it has got an ID
  */
-JsonTypeInfo(use=JsonTypeInfo.Id.NAME , include=JsonTypeInfo.As.PROPERTY, property="@type")
-JsonSubTypes(
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME , include=JsonTypeInfo.As.PROPERTY, property="@type")
+@JsonSubTypes(
 		JsonSubTypes.Type(Host::class),
 		JsonSubTypes.Type(VirtualMachine::class),
 		JsonSubTypes.Type(VirtualStorageDevice::class),
@@ -20,8 +20,8 @@ JsonSubTypes(
 		JsonSubTypes.Type(AuditEntry::class),
 		JsonSubTypes.Type(Event::class)
             )
-data interface Entity<T> : Serializable {
-	DocumentId
-	JsonProperty("id")
+interface Entity<T> : Serializable {
+    @DocumentId
+    @JsonProperty("id")
 	val id : T
 }

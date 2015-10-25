@@ -15,7 +15,7 @@ import org.junit.Test
 public class HostServiceIT {
 
 	//TODO: make a cucumber story out of this
-	Test
+	@Test
 	fun getPubkey() {
 		val client = createClient()
 		val login = JAXRSClientFactory.fromClient(client, javaClass<LoginService>(), true)

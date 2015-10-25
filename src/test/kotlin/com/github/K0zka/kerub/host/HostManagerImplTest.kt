@@ -1,11 +1,15 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.*
+import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.eq
+import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.on
+import com.github.K0zka.kerub.verify
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshServer
 import org.apache.sshd.server.Command
@@ -16,40 +20,38 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.UUID
 import kotlin.test.assertEquals
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class HostManagerImplTest {
 
-	Mock
+	@Mock
 	var hostDao: HostDao? = null
 
-	Mock
+	@Mock
 	var hostDynamicDao: HostDynamicDao? = null
 
-	Mock
+	@Mock
 	var sshClientService: SshClientService? = null
 
-	Mock
+	@Mock
 	var controllerManager: ControllerManager? = null
 
-	Mock
+	@Mock
 	var hostAssignmentDao: AssignmentDao? = null
 
-	Mock
+	@Mock
 	var hostAssigner: ControllerAssigner? = null
 
-	Mock
+	@Mock
 	var discoverer: HostCapabilitiesDiscoverer? = null
 
-	Mock
+	@Mock
 	val clientSession : ClientSession? = null
 
 	var hostManager: HostManagerImpl? = null
@@ -90,7 +92,7 @@ public class HostManagerImplTest {
 
 	}
 
-	Before
+	@Before
 	fun setup() {
 		val key = getTestKey()
 		hostManager = HostManagerImpl(hostDao!!, hostDynamicDao!!, sshClientService!!, controllerManager!!, hostAssignmentDao!!, discoverer!!, hostAssigner!!)
@@ -104,18 +106,18 @@ public class HostManagerImplTest {
 		sshServer!!.start()
 	}
 
-	After
+	@After
 	fun cleanup() {
 		sshServer!!.stop()
 	}
 
-	Test
+	@Test
 	fun getHostPubkey() {
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
 		assertEquals(getTestKey().getPublic(), publicKey)
 	}
 
-	Test
+	@Test
 	fun connectHost() {
 		val host = Host(id = UUID.randomUUID(),
 		                address = "127.0.0.1",
@@ -126,7 +128,7 @@ public class HostManagerImplTest {
 		Thread.sleep(1000)
 	}
 
-	Test
+	@Test
 	fun start() {
 		val controllerId = "test controller id"
 		val hostId = UUID.randomUUID()
@@ -144,7 +146,7 @@ public class HostManagerImplTest {
 
 	}
 
-	Test
+	@Test
 	fun stop() {
 
 	}

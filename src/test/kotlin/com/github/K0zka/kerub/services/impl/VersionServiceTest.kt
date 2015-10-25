@@ -4,15 +4,15 @@ import org.junit.Assert
 import org.junit.Test
 
 public class VersionServiceTest {
-	Test
+	@Test
 	fun getVersionInfo() {
 		Assert.assertNotNull(VersionServiceImpl().getVersionInfo())
 	}
-	Test
+	@Test
 	fun logStart() {
 		VersionServiceImpl().logStart()
 	}
-	Test
+	@Test
 	fun logStop() {
 		VersionServiceImpl().logStop()
 	}

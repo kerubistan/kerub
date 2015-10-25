@@ -17,7 +17,7 @@ public open class Executor : ApplicationContextAware {
 		val bean = appCtx?.getBean(invocation.beanName)!!
 		val types = Array<Class<out Any?>>(invocation.paramTypes.size(), { invocation.paramTypes[it] })
 		val method = bean.javaClass.getMethod(invocation.methodName,
-		                         parameterTypes = *types)
+		                         *types)
 		val args = Array<Any?>(invocation.args.size(), { invocation.args[it] })
 		method.invoke(bean, *args)
 	}

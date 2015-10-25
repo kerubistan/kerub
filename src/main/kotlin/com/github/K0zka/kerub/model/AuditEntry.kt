@@ -8,18 +8,18 @@ import java.util.UUID
 /**
  * Represents a change in an entity. Audit entries should be created for each change on an entity, but never updated.
  */
-Indexed
+@Indexed
 class AuditEntry(
-		DocumentId
+        @DocumentId
 		override val id: UUID = UUID.randomUUID(),
-		Field
+        @Field
 		val old: Entity<UUID>? = null,
-		Field
+        @Field
 		val new: Entity<UUID>? = null,
-		Field
+        @Field
 		val date: Long = System.currentTimeMillis(),
-		Field
+        @Field
 		val user: UUID? = null,
-		Field
+        @Field
 		val event: AuditEventType = AuditEventType.Update)
 : Entity<UUID>

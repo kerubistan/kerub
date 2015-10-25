@@ -4,7 +4,7 @@ import org.junit.Test
 import kotlin.test.assertNotNull
 
 public class KeyPairFactoryTest {
-	Test
+	@Test
 	fun createKeyPair() {
 		val factory = KeyPairFactory()
 		factory.keyStorePath = "testkeystore.jks"
@@ -14,7 +14,7 @@ public class KeyPairFactoryTest {
 		assertNotNull(factory.createKeyPair())
 	}
 
-	Test(expected= IllegalArgumentException::class)
+	@Test(expected= IllegalArgumentException::class)
 	fun createKeyPairFail() {
 		val factory = KeyPairFactory()
 		factory.keyStorePath = "notexisting.jks"

@@ -7,11 +7,13 @@ import java.util.Date
 public final class HistoryKey<out T> (val key: T, val time: Long = System.currentTimeMillis()) : Serializable {
 
 	override fun hashCode(): Int {
-		return key.hashCode() + time.hashCode()
+		return key?.hashCode() ?: 0 + time.hashCode()
 	}
 
 	override fun equals(other: Any?): Boolean {
-		return other is HistoryKey<*> && (other : HistoryKey<*>).key == key && (other : HistoryKey<*>).time == time
+		return other is HistoryKey<*>
+				&& (other.key == key)
+				&& (other.time == time)
 	}
 
 	override fun toString(): String {

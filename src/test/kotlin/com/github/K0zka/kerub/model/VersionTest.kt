@@ -16,7 +16,7 @@ public class VersionTest {
 		             )
 	}
 
-	Test
+	@Test
 	fun compare() {
 		for (pair in params()) {
 			val parsed = Version.fromVersionString(pair.second)
@@ -26,6 +26,7 @@ public class VersionTest {
 		}
 	}
 
+	@Test
 	fun testToString() {
 		for(pair in params()) {
 			assertNotNull(pair.first.toString())

@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.utils.sum
 import java.math.BigInteger
 
-data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalStep() {
+data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalStep {
 
 	companion object {
 		//TODO: this depends on the operational state

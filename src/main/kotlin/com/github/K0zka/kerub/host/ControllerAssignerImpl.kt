@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
+import com.github.K0zka.kerub.utils.getLogger
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.State
 import com.github.k0zka.finder4j.backtrack.Step
@@ -68,7 +69,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 					true
 				}
 						.map { ControllerAssignmentStep(host, it) }
-						.sortBy({
+						.sortedBy({
 							        step: ControllerAssignmentStep ->
 							        controllerScore(state.controllerStates.get(step.controller))
 						        })
@@ -77,6 +78,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 	}
 
 	companion object {
+		val logger = getLogger(ControllerAssignerImpl::class)
 		fun controllerScore(state: ControllerDynamic?): Int {
 			if (state == null) {
 				return -1;

@@ -13,9 +13,8 @@ public class AuditEntryDaoImpl(protected val cache : AdvancedCache<UUID, AuditEn
 	}
 	override fun listById(id: UUID): List<AuditEntry> {
 		return Search.getQueryFactory(cache)!!
-				.from(javaClass<AuditEntry>())!!
+				.from(AuditEntry::class.java)!!
 				.build()!!
-				.list<AuditEntry>()!!
-				.toList()
+				.list<AuditEntry>() as List<AuditEntry>
 	}
 }

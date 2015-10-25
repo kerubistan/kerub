@@ -6,7 +6,7 @@ import java.nio.channels.UnresolvedAddressException
 import javax.ws.rs.core.Response
 
 public class UnresolvedAddressExceptionMapperTest {
-	Test
+	@Test
 	fun toResponse() {
 		val response = UnresolvedAddressExceptionMapper().toResponse(UnresolvedAddressException())
 		Assert.assertEquals(response.getStatus(), Response.Status.NOT_ACCEPTABLE.getStatusCode())

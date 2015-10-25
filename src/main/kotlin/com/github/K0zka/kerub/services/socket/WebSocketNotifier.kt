@@ -20,12 +20,12 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 			val mapper = ObjectMapper()
 			mapper.enableDefaultTyping()
 			mapper.registerSubtypes(
-					javaClass<Message>(),
-					javaClass<SubscribeMessage>(),
-					javaClass<UnsubscribeMessage>(),
-					javaClass<EntityUpdateMessage>(),
-					javaClass<PingMessage>(),
-					javaClass<PongMessage>())
+					Message::class.java,
+					SubscribeMessage::class.java,
+					UnsubscribeMessage::class.java,
+					EntityUpdateMessage::class.java,
+					PingMessage::class.java,
+					PongMessage::class.java)
 			return mapper
 		}
 		val objectMapper = init()
@@ -49,11 +49,10 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 				send(session!!, PongMessage())
 			}
 			is SubscribeMessage -> {
-				logger.info("subscribe to {}", (msg : SubscribeMessage).channel)
-
+				logger.info("subscribe to {}", msg.channel)
 			}
 			is UnsubscribeMessage -> {
-				logger.info("unsubscribe from {}", (msg : UnsubscribeMessage).channel)
+				logger.info("unsubscribe from {}", msg.channel)
 			}
 		}
 	}

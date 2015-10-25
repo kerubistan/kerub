@@ -13,16 +13,16 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class LsPciTest {
 
-	Mock
+	@Mock
 	var session : ClientSession? = null
 
-	Mock
+	@Mock
 	var execChannel : ChannelExec? = null
 
-	Mock
+	@Mock
 	var channelOpenFuture : OpenFuture? = null
 
 	object samples {
@@ -85,25 +85,25 @@ public class LsPciTest {
 """
 	}
 
-	Test
+	@Test
 	fun parseWithKvm() {
 		val devices = LsPci.parse(samples.kvm)
-		Assert.assertThat(devices.size(), CoreMatchers.`is`(14))
+		Assert.assertThat(devices.size, CoreMatchers.`is`(14))
 	}
 
-	Test
+	@Test
 	fun parseWithMylaptop() {
 		val devices = LsPci.parse(samples.mylaptop)
-		Assert.assertThat(devices.size(), CoreMatchers.`is`(27))
+		Assert.assertThat(devices.size, CoreMatchers.`is`(27))
 	}
 
-	Test
+	@Test
 	fun parseWithNuc() {
 		val devices = LsPci.parse(samples.nuc)
-		Assert.assertThat(devices.size(), CoreMatchers.`is`(10))
+		Assert.assertThat(devices.size, CoreMatchers.`is`(10))
 	}
 
-	Test
+	@Test
 	fun parseLine() {
 		val device = LsPci.parseLine("""00:03.0 "Ethernet controller" "Red Hat, Inc" "Virtio network device" "Red Hat, Inc" "Device 0001"""")
 		Assert.assertThat(device.address, CoreMatchers.`is`("00:03.0"))
@@ -112,7 +112,7 @@ public class LsPciTest {
 		Assert.assertThat(device.device, CoreMatchers.`is`("Virtio network device"))
 	}
 
-	Test
+	@Test
 	fun executeWithNuc() {
 		val input = ByteArrayInputStream(samples.nuc.toByteArray("ASCII"))
 		Mockito.`when`(session?.createExecChannel(Matchers.eq("lspci -mm")))
@@ -121,6 +121,6 @@ public class LsPciTest {
 		Mockito.`when`(execChannel?.open()).thenReturn(channelOpenFuture)
 
 		val devices = LsPci.execute(session!!)
-		Assert.assertThat(devices.size(), CoreMatchers.`is`(10))
+		Assert.assertThat(devices.size, CoreMatchers.`is`(10))
 	}
 }

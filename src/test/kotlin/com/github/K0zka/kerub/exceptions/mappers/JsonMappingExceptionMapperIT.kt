@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType
 
 public class JsonMappingExceptionMapperIT {
 
-	Test
+	@Test
 	fun brokenJsonFormat() {
 		val client = HttpClientBuilder.create().build()
 		val post = HttpPost("${testRestBaseUrl}/auth/login")
@@ -23,7 +23,7 @@ public class JsonMappingExceptionMapperIT {
 		Assert.assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
 	}
 
-	Test
+	@Test
 	fun brokenJsonMapping() {
 		val client = HttpClientBuilder.create().build()
 		val post = HttpPost("${testRestBaseUrl}/auth/login")

@@ -22,12 +22,12 @@ public class MigrateVirtualMachineExecutorTest {
 	@Test
 	fun execute() {
 		val source = Host(
-				address = "host-1.example.com",
+				address = "source-host.example.com",
 				dedicated = true,
 				publicKey = ""
 		                 )
 		val target = Host(
-				address = "host-2.example.com",
+				address = "target-host.example.com",
 				dedicated = true,
 				publicKey = ""
 		                 )
@@ -43,8 +43,8 @@ public class MigrateVirtualMachineExecutorTest {
 
 		Mockito.verify(hypervisor!!).migrate(
 				vm = Matchers.eq(vm) ?: vm,
-		        target = Matchers.eq(target) ?: target,
-		        source = Matchers.eq(source) ?: source
+				source = Matchers.eq(source) ?: source,
+		        target = Matchers.eq(target) ?: target
 		                                   )
 	}
 }

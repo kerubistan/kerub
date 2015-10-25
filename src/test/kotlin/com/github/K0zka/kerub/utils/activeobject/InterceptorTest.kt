@@ -9,20 +9,20 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class InterceptorTest {
-	Mock
+	@Mock
 	var queue: InvocationQueue? = null
-	Mock
+	@Mock
 	var invocation: MethodInvocation? = null
 
 	var interceptor: Interceptor? = null
 
-	Before
+	@Before
 	fun setup() {
 		interceptor = Interceptor("TEST", queue!!)
 	}
-	Test
+	@Test
 	fun invoke() {
 		Mockito.`when`(invocation!!.getMethod())!!.thenReturn(javaClass<Any>().getMethod("toString"))
 		Mockito.`when`(invocation!!.getArguments())!!.thenReturn(Array<Any>(0, { "" }))

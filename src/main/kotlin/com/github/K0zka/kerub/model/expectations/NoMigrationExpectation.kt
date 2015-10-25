@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
-JsonTypeName("no-migration")
+@JsonTypeName("no-migration")
 data class NoMigrationExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Wish,
 		val userTimeoutMinutes: Int

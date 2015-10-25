@@ -15,19 +15,19 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class AuditEntryDaoImplTest {
 
-	Mock
+	@Mock
 	var oldEntity : Entity<UUID>? = null
-	Mock
+	@Mock
 	var newEntity : Entity<UUID>? = null
 
 	var cacheManager : DefaultCacheManager? = null
 	var cache: AdvancedCache<UUID, AuditEntry>? = null
 	var dao: AuditEntryDao? = null
 
-	Before
+	@Before
 	fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
@@ -35,12 +35,12 @@ public class AuditEntryDaoImplTest {
 		dao = AuditEntryDaoImpl(cache!!)
 	}
 
-	After
+	@After
 	fun cleanup() {
 		cacheManager?.stop()
 	}
 
-	Test
+	@Test
 	fun add() {
 		Mockito.`when`(oldEntity!!.id)!!
 				.thenReturn(UUID.fromString("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc"))

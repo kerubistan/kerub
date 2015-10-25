@@ -36,7 +36,7 @@ public class SshClientUtilsTest {
 
 	var rootDir: File? = null
 
-	Before
+	@Before
 	fun setup() {
 		//allocate a free port for the ssh server
 		val sshPort = getFreePort()
@@ -69,7 +69,7 @@ public class SshClientUtilsTest {
 		session?.auth()
 	}
 
-	After
+	@After
 	fun cleanup() {
 		session?.close(true)
 		client?.close(true)
@@ -77,7 +77,7 @@ public class SshClientUtilsTest {
 		rootDir?.delete()
 	}
 
-	Test
+	@Test
 	fun readFile() {
 		session?.createSftpClient()?.use {
 			it.write("test.txt").writer("ASCII").use {
@@ -89,7 +89,7 @@ public class SshClientUtilsTest {
 		assertEquals("PASS", session?.getFileContents("test.txt"))
 	}
 
-	Test
+	@Test
 	fun checkFileExists() {
 		session?.createSftpClient()?.use {
 			it.write("shouldexist").writer("ASCII").use {
@@ -101,7 +101,7 @@ public class SshClientUtilsTest {
 		assertFalse(session!!.checkFileExists("should-not-exist"))
 	}
 
-	Test
+	@Test
 	fun appendToFile() {
 		session?.createSftpClient()?.use {
 			it.write("test.txt").writer("ASCII").use {
@@ -112,7 +112,7 @@ public class SshClientUtilsTest {
 		assertEquals("PASS", session?.getFileContents("test.txt"))
 	}
 
-	Test
+	@Test
 	fun appendToNotExistingFile() {
 		session?.appendToFile("test-new.txt", "PASS")
 		assertEquals("PASS", session?.getFileContents("test-new.txt"))

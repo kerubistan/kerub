@@ -6,18 +6,18 @@ import org.hibernate.search.annotations.Field
 import java.math.BigInteger
 import java.util.UUID
 
-JsonTypeName("vstorage")
+@JsonTypeName("vstorage")
 data class VirtualStorageDevice(
-		DocumentId
+		@DocumentId
 		override val id: UUID = UUID.randomUUID(),
-		Field
+		@Field
 		val size: BigInteger,
-		Field
+		@Field
 		val readOnly: Boolean = false,
-		Field
+		@Field
 		override
 		val expectations: List<Expectation> = listOf(),
-        Field
+        @Field
 		override
 		val name : String
                                )

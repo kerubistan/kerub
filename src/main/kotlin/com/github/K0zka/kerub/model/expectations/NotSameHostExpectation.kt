@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
-JsonTypeName("not-same-host")
+@JsonTypeName("not-same-host")
 data class NotSameHostExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val otherVmIds: List<UUID>

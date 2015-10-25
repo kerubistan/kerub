@@ -7,7 +7,7 @@ import org.junit.Test
 import javax.ws.rs.core.Response
 
 public class RuntimeSshExceptionMapperTest {
-	Test
+	@Test
 	fun toResponse() {
 		val response = RuntimeSshExceptionMapper().toResponse(RuntimeSshException("foo"))
 		Assert.assertThat(response, CoreMatchers.notNullValue())

@@ -13,12 +13,12 @@ public class StatisticsInfo(
 		val avgRemoveTime : Long) {
 }
 
-Produces("application/json")
-Consumes("application/json")
-Path("/stats/controller/db")
-RequiresAuthentication
+@Produces("application/json")
+@Consumes("application/json")
+@Path("/stats/controller/db")
+@RequiresAuthentication
 public interface StatisticsService {
-	GET
-	Path("/{name}")
-	fun getStatisticsInfo(PathParam("name") cacheName : String): StatisticsInfo
+    @GET
+    @Path("/{name}")
+	fun getStatisticsInfo(@PathParam("name") cacheName : String): StatisticsInfo
 }

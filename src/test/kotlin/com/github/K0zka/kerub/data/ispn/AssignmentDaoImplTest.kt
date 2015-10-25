@@ -14,14 +14,14 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class AssignmentDaoImplTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<UUID, Assignment>? = null
 	var dao  : AssignmentDao? = null
-	Mock var eventListener : EventListener? = null
+	@Mock var eventListener : EventListener? = null
 
-	Before fun setup() {
+	@Before fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
@@ -29,11 +29,11 @@ public class AssignmentDaoImplTest {
 		dao = AssignmentDaoImpl(cache!!, eventListener!!)
 	}
 
-	After fun cleanup() {
+	@After fun cleanup() {
 		cacheManager?.stop()
 	}
 
-	Test
+	@Test
 	fun listByController() {
 		val assignment = Assignment(id = UUID.randomUUID(),
 		                            hostId = UUID.randomUUID(),
@@ -42,7 +42,7 @@ public class AssignmentDaoImplTest {
 		dao!!.add(assignment)
 		val list = dao!!.listByController("TEST")
 
-		assertEquals(1, list.size())
+		assertEquals(1, list.size)
 		assertEquals(assignment, list[0])
 	}
 

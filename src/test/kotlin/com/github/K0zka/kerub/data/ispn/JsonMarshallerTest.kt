@@ -15,10 +15,10 @@ import java.io.OutputStream
 import kotlin.reflect.jvm.java
 import java.util.UUID
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class JsonMarshallerTest {
 
-	Mock
+	@Mock
 	var mapper: ObjectMapper? = null
 
 	var marshaller: JsonMarshaller? = null
@@ -28,19 +28,19 @@ public class JsonMarshallerTest {
 			name = "foo"
 	                               )
 
-	Before
+	@Before
 	fun setup() {
 		marshaller = JsonMarshaller(mapper!!)
 	}
 
-	Test
+	@Test
 	fun objectToByteBuffer() {
 		marshaller!!.objectToByteBuffer(testObject)
 
 		Mockito.verify(mapper)!!.writeValue(Matchers.any(OutputStream::class.java), Matchers.eq(testObject))
 	}
 
-	Test
+	@Test
 	fun objectFromByteBuffer() {
 		Mockito.`when`(mapper!!.readValue(
 				Matchers.any(ByteArray::class.java),
@@ -57,7 +57,7 @@ public class JsonMarshallerTest {
 				Matchers.eq(Entity::class.java))
 	}
 
-	Test
+	@Test
 	fun objectFromByteBufferWithLimits() {
 		Mockito.`when`(mapper!!.readValue(
 				Matchers.any(ByteArray::class.java),
@@ -74,7 +74,7 @@ public class JsonMarshallerTest {
 				Matchers.eq(Entity::class.java))
 	}
 
-	Test
+	@Test
 	fun isMarshallable() {
 		Assert.assertTrue(marshaller!!.isMarshallable(testObject))
 		Assert.assertFalse(marshaller!!.isMarshallable("obviously not"))

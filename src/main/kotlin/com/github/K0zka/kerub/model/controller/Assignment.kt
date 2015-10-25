@@ -6,15 +6,14 @@ import com.github.K0zka.kerub.model.Entity
 import org.hibernate.search.annotations.Field
 import java.util.UUID
 
-JsonCreator
-public data class Assignment(
-		JsonProperty("id")
+public data class Assignment @JsonCreator constructor (
+        @JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),
-		JsonProperty("controllerId")
-		Field
+        @JsonProperty("controllerId")
+        @Field
 		var controller: String,
-		JsonProperty("hostId")
-		Field
+        @JsonProperty("hostId")
+        @Field
 		var hostId: UUID
                             )
 : Entity<UUID>

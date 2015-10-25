@@ -27,11 +27,10 @@ import org.mockito.Mockito
 import java.io.ByteArrayInputStream
 import java.io.OutputStream
 import java.util.EnumSet
-import kotlin.platform.platformStatic
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-RunWith(Parameterized::class)
+@RunWith(Parameterized::class)
 public class HostCapabilitiesDiscovererTest(
 		val distroName: String,
 		val cpuArchitecture: String,
@@ -42,7 +41,7 @@ public class HostCapabilitiesDiscovererTest(
 		val directories: Map<String, List<String>>) {
 
 	companion object {
-		platformStatic Parameters fun parameters(): List<Array<Any>> = listOf(
+		@JvmStatic @Parameters fun parameters(): List<Array<Any>> = listOf(
 				arrayOf("Fedora",
 				        "x86_64",
 				        Version("3", "16", "6"),
@@ -148,7 +147,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 		                                                                     )
 
 		private fun mockDirectory(path: String, entries: List<String>): SshFile {
-			val ret = Mockito.mock(javaClass<SshFile>())
+			val ret = Mockito.mock(SshFile::class.java)
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
 			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
 			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
@@ -166,14 +165,14 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 					SshFile.Attribute.IsDirectory to false,
 					SshFile.Attribute.IsSymbolicLink to false,
 					SshFile.Attribute.IsRegularFile to false,
-					SshFile.Attribute.Permissions to EnumSet.noneOf(javaClass<SshFile.Permission>()),
+					SshFile.Attribute.Permissions to EnumSet.noneOf(SshFile.Permission::class.java),
 					SshFile.Attribute.LastModifiedTime to 0.toLong()
 			                                                                         ))
 			return ret
 		}
 
 		fun mockFile(path: String, contents: String): SshFile {
-			val ret = Mockito.mock(javaClass<SshFile>())
+			val ret = Mockito.mock(SshFile::class.java)
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
 			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
 			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
@@ -203,15 +202,15 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 	var session: ClientSession? = null
 	var sshServer: SshServer? = null
 
-	Before fun setup() {
-		commandFactory = Mockito.mock(javaClass<CommandFactory>())
+	@Before fun setup() {
+		commandFactory = Mockito.mock(CommandFactory::class.java)
 
 		Mockito.`when`(commandFactory!!.createCommand(Matchers.anyString())).then {
 			val command = it.getArguments()[0]
-			val commandMock = Mockito.mock(javaClass<RunnableCommand>())
+			val commandMock = Mockito.mock(RunnableCommand::class.java)
 
 			var output: OutputStream? = null
-			Mockito.`when`(commandMock.setOutputStream(Matchers.any(javaClass<OutputStream>())))
+			Mockito.`when`(commandMock.setOutputStream(Matchers.any(OutputStream::class.java)))
 					.then {
 						output = it.getArguments()[0] as OutputStream
 						null
@@ -220,13 +219,13 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 			Mockito.doAnswer {
 				callback = it.getArguments()[0] as ExitCallback
 				null
-			}.`when`(commandMock).setExitCallback(Matchers.any(javaClass<ExitCallback>()))
+			}.`when`(commandMock).setExitCallback(Matchers.any(ExitCallback::class.java))
 			Mockito.doAnswer {
 				val writer = output?.writer("ASCII")
 				writer?.appendln(commands[command])
 				writer?.flush()
 				callback?.onExit(0)
-			}.`when`(commandMock).start(Matchers.any(javaClass<Environment>()))
+			}.`when`(commandMock).start(Matchers.any(Environment::class.java))
 			commandMock
 		}
 
@@ -251,12 +250,12 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 		session!!.auth().await()
 	}
 
-	After fun cleanup() {
+	@After fun cleanup() {
 		sshClient?.stop()
 		sshServer?.stop()
 	}
 
-	Test fun discoverHost() {
+	@Test fun discoverHost() {
 		val capabilities = HostCapabilitiesDiscovererImpl().discoverHost(session!!)
 		assertNotNull(capabilities)
 		assertEquals(distroName, capabilities.distribution?.name)
@@ -264,7 +263,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 		assertEquals(distroVersion, capabilities.distribution?.version)
 	}
 
-	Test
+	@Test
 	fun isDmiDecodeInstalled() {
 		Assert.assertThat(
 				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo", Version("1", "0", "0")), SoftwarePackage("dmidecode", Version("2", "12", "4")))),
@@ -276,7 +275,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 		                 )
 	}
 
-	Test
+	@Test
 	fun valuesOfType() {
 		assertEquals(listOf("TEST"), HostCapabilitiesDiscovererImpl().valuesOfType(listOf(1, "TEST", true, 3.14), String::class))
 		assertEquals(listOf<Any>(), HostCapabilitiesDiscovererImpl().valuesOfType(listOf(1, "TEST", true, 3.14), Any::class))

@@ -4,6 +4,5 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.Entity
 
-JsonTypeName("entity-add")
-JsonCreator
-public data class EntityAddMessage(obj : Entity<*>, date : Long) : EntityMessage(obj, date)
+@JsonTypeName("entity-add")
+public data class EntityAddMessage @JsonCreator constructor(override val obj: Entity<*>, override val date: Long) : EntityMessage

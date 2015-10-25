@@ -8,13 +8,13 @@ import org.junit.Test
 import java.util.UUID
 
 public class DmiDecoderTest {
-	Test
+	@Test
 	fun split() {
 		val handles = DmiDecoder.split(mylaptop);
 		assert(handles.size() == 0x33)
 	}
 
-	Test
+	@Test
 	fun type() {
 		assert(DmiDecoder.type(
 				"""
@@ -40,7 +40,7 @@ Built-in Pointing Device
 
 	}
 
-	Test
+	@Test
 	fun handle() {
 		assert(DmiDecoder.handle("""
 Handle 0x002B, DMI type 21, 7 bytes
@@ -51,7 +51,7 @@ Built-in Pointing Device
 """) == "0x002B")
 	}
 
-	Test
+	@Test
 	fun parse() {
 		val devices = DmiDecoder.parse(mylaptop)
 		val system = devices["0x0001"] as SystemInformation
@@ -64,7 +64,7 @@ Built-in Pointing Device
 		assert(processor.threadCount == 2)
 	}
 
-	Test
+	@Test
 	fun parseWithNuc() {
 		val devices = DmiDecoder.parse(nuc)
 		val system = devices["0x0001"] as SystemInformation
@@ -94,7 +94,7 @@ Built-in Pointing Device
 		assert(l3Cache.errorCorrection == "Single-bit ECC")
 	}
 
-	Test
+	@Test
 	fun parseWithQemu() {
 		val devices = DmiDecoder.parse(qemuKvm)
 		val systemInfo = devices["0x0100"] as SystemInformation
@@ -121,13 +121,13 @@ Built-in Pointing Device
 		assert(memInfo.formFactor == "DIMM")
 	}
 
-	Test
+	@Test
 	fun parseWithNonGnu() {
 		//a totally scrapped output
 		DmiDecoder.parse(nongnu)
 	}
 
-	Test
+	@Test
 	fun parseBochsBios() {
 		val devices = DmiDecoder.parse(kvmQemuBochs)
 

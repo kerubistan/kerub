@@ -41,5 +41,5 @@ fun createClient() : WebClient {
 	return client;
 }
 
-fun <T> createServiceClient(serviceClass : KClass<T>, client : WebClient = createClient()) : T =
+fun <T : Any> createServiceClient(serviceClass : KClass<T>, client : WebClient = createClient()) : T =
 		JAXRSClientFactory.fromClient(client, serviceClass.java)

@@ -43,7 +43,7 @@ public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> 
 
 		var list = listOf<AbstractOperationalStep>()
 		allStepFactories.forEach { list += (it.produce(state.state) )}
-		list = list.sortBy( StepBenefitComparator(state.state)
+		list = list.sortedWith( StepBenefitComparator(state.state)
 				                    .thenComparator { first, second -> StepCostComparator.reversed().compare(first, second) } )
 		return list
 	}

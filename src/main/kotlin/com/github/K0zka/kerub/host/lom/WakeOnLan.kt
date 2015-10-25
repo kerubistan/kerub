@@ -21,8 +21,8 @@ public class WakeOnLan(
 	companion object {
 		val wolUdpPort = 9
 		val magicCookieHeader = 0xFF.toByte()
-		internal fun buildMagicPocket(mac: ByteArray): ByteArray {
-			require(mac.size() == 6, "Mac address must be 6 bytes")
+		fun buildMagicPocket(mac: ByteArray): ByteArray {
+			require(mac.size == 6, "Mac address must be 6 bytes")
 			val bytes = ByteArray(102)
 			bytes[0] = magicCookieHeader
 			bytes[1] = magicCookieHeader

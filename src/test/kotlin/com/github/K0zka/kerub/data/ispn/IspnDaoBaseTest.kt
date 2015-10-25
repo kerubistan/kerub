@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 class IspnDaoBaseTest {
 
 	class TestEntity : Entity<String>{
@@ -31,21 +31,21 @@ class IspnDaoBaseTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<String, TestEntity>? = null
 	var dao  : IspnDaoBase<TestEntity, String>? = null
-	Mock var eventListener : EventListener? = null
+	@Mock var eventListener : EventListener? = null
 
-	Before fun setup() {
+	@Before fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		dao = TestDao(cache!!, eventListener!!)
 	}
 
-	After
+	@After
 	fun cleanup() {
 		cacheManager?.stop()
 	}
 
-	Test
+	@Test
 	fun get() {
 		val orig = TestEntity()
 		cache!!.put("A", orig)

@@ -16,12 +16,12 @@ public abstract class ListableIspnDaoBase<T : Entity<I>, I> (cache: Cache<I, T>,
 	abstract fun getEntityClass() : Class<T>
 
 	override fun list(start: Long, limit: Long, sort: String): List<T> {
-		return Search.getQueryFactory(cache)!!
-				.from(getEntityClass())!!
+		return Search.getQueryFactory(cache)
+				.from(getEntityClass())
 				.orderBy(sort, SortOrder.DESC)
 				.maxResults(limit.toInt())
 				.startOffset(start)
-				.build()!!
-				.list()!!
+				.build()
+				.list<T>() as List<T>
 	}
 }

@@ -17,7 +17,7 @@ public class UtilsTest {
 
 	companion object val logger = getLogger(UtilsTest::class)
 
-	Test
+	@Test
 	public fun vmDefinitiontoXml() {
 		val vm = VirtualMachine(
 				id = UUID.randomUUID(),

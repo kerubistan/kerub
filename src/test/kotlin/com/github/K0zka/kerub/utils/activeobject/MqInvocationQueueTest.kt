@@ -10,13 +10,13 @@ import org.springframework.jms.core.JmsTemplate
 import org.springframework.jms.core.MessageCreator
 import javax.jms.Session
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class MqInvocationQueueTest {
-	Mock
+	@Mock
 	var template : JmsTemplate? = null
-	Mock
+	@Mock
 	var session : Session? = null
-	Test
+	@Test
 	fun send() {
 		val queue = MqInvocationQueue(template!!)
 		Mockito.doAnswer({ (it!!.getArguments()!![0] as MessageCreator).createMessage(session) })!!

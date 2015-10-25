@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 public class MigrateVirtualStorageDevice(
 		val device: VirtualStorageDevice,
 		val target: Host
-                                        ) : AbstractOperationalStep() {
+                                        ) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState {
 		throw UnsupportedOperationException()
 	}

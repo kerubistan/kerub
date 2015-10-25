@@ -1,26 +1,29 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
-import com.github.K0zka.kerub.model.hardware.*
+import com.github.K0zka.kerub.model.hardware.CacheInformation
+import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
+import com.github.K0zka.kerub.model.hardware.ProcessorInformation
+import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import java.util.HashMap
 import java.util.UUID
-import kotlin.platform.platformStatic
 
 public class DmiDecoder {
 
 	companion object {
 		val logger = getLogger(DmiDecoder::class)
-		platformStatic fun split(input: String): List<String> =
+		@JvmStatic fun split(input: String): List<String> =
 				input.split("\n\n".toRegex()).toTypedArray() //empty line
 						.filter { it.startsWith("Handle 0x") }
 
-		platformStatic fun type(input: String): Int =
+		@JvmStatic fun type(input: String): Int =
 				input.substringBetween("DMI type ", ",").toInt()
 
-		platformStatic fun handle(input: String): String =
+		@JvmStatic fun handle(input: String): String =
 				input.substringBetween("Handle ", ",")
 
-		platformStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
+		@JvmStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
 				1 to {input, dependencies ->
 					SystemInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
@@ -78,9 +81,9 @@ public class DmiDecoder {
 		        }
 		                                                                               )
 
-		platformStatic val resolutionOrder = arrayOf(17, 7, 3, 4, 1)
+		@JvmStatic val resolutionOrder = arrayOf(17, 7, 3, 4, 1)
 
-		platformStatic fun parse(input: String) : Map<String, Any>{
+		@JvmStatic fun parse(input: String) : Map<String, Any>{
 			val records = split(input)
 			val recordsByType = records.groupBy { type(it) }
 			val recordsByHandle = HashMap<String, Any>()

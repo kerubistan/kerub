@@ -17,30 +17,30 @@ import org.mockito.Mockito
 import org.infinispan.remoting.transport.Address
 import kotlin.test.assertEquals
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class ControllerDaoImplTest {
 	var dao : ControllerDao? = null
-	Mock
+	@Mock
 	var cacheManager : EmbeddedCacheManager? = null
-	Mock
+	@Mock
 	var address1 : Address? = null
-	Mock
+	@Mock
 	var address2 : Address? = null
 
 
-	Before fun setup() {
+	@Before fun setup() {
 		Mockito.`when`( cacheManager!!.getMembers() ).thenReturn( listOf(address1, address1) )
 		Mockito.`when`(address1.toString()).thenReturn("TEST-1")
 		Mockito.`when`(address2.toString()).thenReturn("TEST-2")
 		dao = ControllerDaoImpl(cacheManager!!)
 	}
 
-	Test
+	@Test
 	fun get() {
 		assertEquals("TEST-1", dao!!.get("TEST-1") )
 	}
 
-	Test fun list() {
+	@Test fun list() {
 		assertEquals(2, dao!!.list().size())
 	}
 }

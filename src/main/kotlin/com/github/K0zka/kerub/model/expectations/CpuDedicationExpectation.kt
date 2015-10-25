@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import java.util.UUID
 
-JsonTypeName("cpu-dedication")
+@JsonTypeName("cpu-dedication")
 data class CpuDedicationExpectation constructor(
 		override val level: ExpectationLevel,
 		val dedicatedVCpus: List<Int>

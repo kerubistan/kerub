@@ -4,20 +4,19 @@ import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
-import kotlin.platform.platformStatic
 
 public object LsPci {
 	val logger = getLogger(LsPci::class)
-	platformStatic val doublequote = "\""
+	@JvmStatic val doublequote = "\""
 
 	fun execute(session: ClientSession): List<PciDevice> {
 		return parse (session.execute("lspci -mm"))
 	}
 
-	internal fun parse(output: String): List<PciDevice> =
-			output.split("\n").toList().map { parseLine(it) }
+	@JvmStatic fun parse(output: String): List<PciDevice> =
+			output.trim().split("\n").toList().map { parseLine(it) }
 
-	internal fun parseLine(line: String): PciDevice {
+	@JvmStatic fun parseLine(line: String): PciDevice {
 		return PciDevice(
 				address = line.substringBefore(" "),
 				vendor = line.substringAfter(doublequote)

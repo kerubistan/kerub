@@ -19,13 +19,13 @@ public class JsonMarshallerIT {
 			name = "foo"
 	                       )
 
-	Test
+	@Test
 	fun objectToBuffer() {
 		val buffer = JsonMarshaller(mapper).objectToBuffer(vm)
 		Assert.assertThat("Buffer must be non-empty", buffer!!.getLength(), CoreMatchers.not(0))
 	}
 
-	Test
+	@Test
 	fun vmFromByteBuffer() {
 		val vm = JsonMarshaller(mapper).objectFromByteBuffer(
 				("""
@@ -48,7 +48,7 @@ public class JsonMarshallerIT {
 		Assert.assertThat("First name must match", vm.name, CoreMatchers.`is`("foo"))
 	}
 
-	Test
+	@Test
 	fun hostFromByteBuffer() {
 		val host = JsonMarshaller(mapper).objectFromByteBuffer(
 				("""

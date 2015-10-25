@@ -7,13 +7,13 @@ import java.io.Serializable
  * Represents a PCI device of the host.
  */
 public class PciDevice(
-		Field
+		@Field
 		val address: String,
-		Field
+		@Field
 		val devClass: String,
-		Field
+		@Field
 		val vendor: String,
-        Field
+		@Field
 		val device: String
                       )
 : Serializable

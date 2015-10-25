@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import java.io.Serializable
 
-JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class ImageInfo (
-		JsonProperty("filename")
+		@JsonProperty("filename")
 		val fileName : String,
-		JsonProperty("format")
+		@JsonProperty("format")
         val format : VirtualDiskFormat,
-		JsonProperty("virtual-size")
+		@JsonProperty("virtual-size")
         val virtualSize : Long,
-		JsonProperty("actual-size")
+		@JsonProperty("actual-size")
         val diskSize : Long
                             ) : Serializable

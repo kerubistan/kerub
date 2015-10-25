@@ -10,8 +10,8 @@ import java.util.UUID
  * Base expectation interface.
  * Expectations describe SLA on virtual resources.
  */
-JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-JsonSubTypes(
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonSubTypes(
 		JsonSubTypes.Type(HostOperatingSystemExpectation::class),
 		JsonSubTypes.Type(NoMigrationExpectation::class),
 		JsonSubTypes.Type(StoragePerformanceExpectation::class),
@@ -32,6 +32,6 @@ JsonSubTypes(
 		JsonSubTypes.Type(CacheSizeExpectation::class),
 		JsonSubTypes.Type(SystemManufacturerExpectation::class)
             )
-data interface Expectation : Serializable {
+interface Expectation : Serializable {
 	val level: ExpectationLevel
 }

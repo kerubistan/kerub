@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.k0zka.finder4j.backtrack.Step
 
-abstract class AbstractOperationalStep : Step<Plan> {
+interface AbstractOperationalStep : Step<Plan> {
 
 	/**
 	 * Take an operational state transformation step

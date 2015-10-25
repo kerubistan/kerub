@@ -1,44 +1,44 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.*
+import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.controller.HostAssignedMessage
-import java.util.UUID
 import com.github.K0zka.kerub.controller.InterController
 import com.github.K0zka.kerub.data.AssignmentDao
-import org.junit.Test
-import com.github.k0zka.finder4j.backtrack.BacktrackService
-import org.junit.Before
-import org.junit.After
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.mockito.Mock
 import com.github.K0zka.kerub.data.ControllerDao
-import org.mockito.Mockito
-import com.github.K0zka.kerub.model.Host
-import kotlin.test.assertTrue
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
+import com.github.K0zka.kerub.matchAny
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
-import java.io.Serializable
-import kotlin.reflect.jvm.java
+import com.github.K0zka.kerub.times
+import com.github.K0zka.kerub.verify
+import com.github.k0zka.finder4j.backtrack.BacktrackService
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
+import java.util.UUID
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class ControllerAssignerImplTest {
 	var backtrack : BacktrackService? = null
 
-	Mock
+	@Mock
 	var controllerDao : ControllerDao? = null
 
-	Mock
+	@Mock
 	var controllerDynamicDao : ControllerDynamicDao? = null
 
-	Mock
+	@Mock
 	var hostAssignmentDao : AssignmentDao? = null
 
-	Mock
+	@Mock
 	var interController : InterController? = null
 
-	Before
+	@Before
 	fun setup() {
 		backtrack = BacktrackService()
 		Mockito.`when`(controllerDynamicDao?.listAll()).thenReturn(listOf(
@@ -58,12 +58,12 @@ public class ControllerAssignerImplTest {
 		                                                                 ))
 	}
 
-	After
+	@After
 	fun cleanup() {
 		backtrack?.stop()
 	}
 
-	Test
+	@Test
 	fun assignControllers() {
 		val host1 = Host(address = "127.0.0.1", dedicated = true, publicKey = "")
 		val host2 = Host(address = "127.0.0.2", dedicated = true, publicKey = "")

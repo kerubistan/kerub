@@ -9,7 +9,10 @@ public class MigrateVirtualMachineExecutor(val hostManager : HostManager) : Step
 		if(hypervisor == null) {
 			throw IllegalStateException("No hypervisor on host")
 		} else {
-			hypervisor.migrate(step.vm, step.source, step.target)
+			hypervisor.migrate(
+					vm = step.vm,
+					source = step.source,
+					target = step.target)
 		}
 	}
 }

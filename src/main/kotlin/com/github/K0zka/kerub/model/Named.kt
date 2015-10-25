@@ -6,6 +6,6 @@ import org.hibernate.search.annotations.Field
  * Interface for entities that have a name.
  */
 public interface Named {
-	Field
+    @Field
 	val name : String
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.Entity
 
-JsonTypeName("entity-update")
-JsonCreator
-public data class EntityUpdateMessage (obj : Entity<*>, date : Long) : EntityMessage(obj, date)
+@JsonTypeName("entity-update")
+public data class EntityUpdateMessage @JsonCreator constructor(
+		override val obj : Entity<*>,
+		override val date : Long
+) : EntityMessage

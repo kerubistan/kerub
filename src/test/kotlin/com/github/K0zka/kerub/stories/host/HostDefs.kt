@@ -11,17 +11,17 @@ public class HostDefs {
 		private val logger = getLogger(HostDefs::class)
 	}
 
-	Given("^a host$")
+	@Given("^a host$")
 	fun initializeFakeSshHost() {
 		logger.info("initialize emulated host")
 	}
 
-	When("^the host is joined$")
+	@When("^the host is joined$")
 	fun joinHost() {
 		logger.info("Join host")
 	}
 
-	After
+	@After
 	fun cleanupHost() {
 
 	}

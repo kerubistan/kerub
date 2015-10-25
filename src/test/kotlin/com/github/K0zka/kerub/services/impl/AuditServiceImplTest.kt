@@ -11,12 +11,12 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class AuditServiceImplTest {
-	Mock
+	@Mock
 	var dao : AuditEntryDao? = null
 
-	Test
+	@Test
 	fun listById() {
 		Mockito.`when`(dao!!.listById(Matchers.any(javaClass<UUID>())?:UUID.randomUUID()))!!
 			.thenReturn(listOf(AuditEntry(user = null)))

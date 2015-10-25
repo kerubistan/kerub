@@ -50,7 +50,7 @@ public class PlannerDefs {
 
 	var executedPlans = listOf<Plan>()
 
-	Before
+	@Before
 	fun setup() {
 		Mockito.`when`(builder.buildState()).then {
 			OperationalState.fromLists(
@@ -66,7 +66,7 @@ public class PlannerDefs {
 		                 }).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()))
 	}
 
-	Given("^VMs:$")
+	@Given("^VMs:$")
 	fun setVms(vmsTable: DataTable) {
 
 		val mb = 1024 * 1024
@@ -90,7 +90,7 @@ public class PlannerDefs {
 		}
 	}
 
-	Given("^hosts:$")
+	@Given("^hosts:$")
 	fun hosts(hostsTable: DataTable) {
 		for (row in hostsTable.raw().filter { it != hostsTable.raw().first() } ) {
 			val host = Host(
@@ -153,7 +153,7 @@ public class PlannerDefs {
 		                                               ) } )
 	}
 
-	When("^VM (\\S+) is started$")
+	@When("^VM (\\S+) is started$")
 	fun startVm(vm: String) {
 		vms = vms.map {
 			if (it.name == vm) {
@@ -175,7 +175,7 @@ public class PlannerDefs {
 		                                   ));
 	}
 
-	Then("^VM (\\S+) gets scheduled on host (\\S+)$")
+	@Then("^VM (\\S+) gets scheduled on host (\\S+)$")
 	fun verifyVmScheduledOnHost(vmName: String, hostAddress: String) {
 		Assert.assertTrue(executedPlans.any {
 			it.steps.any {
@@ -202,32 +202,32 @@ public class PlannerDefs {
 		Assert.assertEquals((startStep as StartVirtualMachine).vm.name, vmName)
 	}
 
-	Given("^registered host:$")
+	@Given("^registered host:$")
 	fun registered_host(hosts: DataTable) {
 		throw PendingException();
 	}
 
-	Given("^no virtual machines$")
+	@Given("^no virtual machines$")
 	fun no_virtual_machines() {
 		throw PendingException();
 	}
 
-	When("^optimization is triggered$")
+	@When("^optimization is triggered$")
 	fun optimization_is_triggered() {
 		throw PendingException();
 	}
 
-	Then("^host (\\S+) should be go to power-save$")
+	@Then("^host (\\S+) should be go to power-save$")
 	fun host_should_be_go_to_power_save(host: String) {
 		throw PendingException();
 	}
 
-	Given("^status:$")
+	@Given("^status:$")
 	fun status(vmstatus: DataTable) {
 		throw PendingException();
 	}
 
-	Given("^host (\\S+) is Up$")
+	@Given("^host (\\S+) is Up$")
 	fun setHostDyn(address: String) {
 		var host = hosts.firstOrNull { it.address == address }!!
 		hostDyns = hostDyns + HostDynamic(

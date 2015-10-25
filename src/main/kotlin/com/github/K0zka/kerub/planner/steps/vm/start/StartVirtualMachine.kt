@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
-public data class StartVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep() {
+public data class StartVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
 		return state.copy(

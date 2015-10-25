@@ -20,7 +20,7 @@ import kotlin.math.plus
 public data class MigrateVirtualMachine(
 		val vm: VirtualMachine,
 		val source: Host,
-		val target: Host) : AbstractOperationalStep() {
+		val target: Host) : AbstractOperationalStep {
 
 	override fun violations(state: OperationalState): Map<Constrained<Expectation>, List<Expectation>> {
 		/**

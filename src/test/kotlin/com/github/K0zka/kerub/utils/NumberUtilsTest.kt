@@ -4,15 +4,14 @@ import org.junit.Test
 import kotlin.test.assertTrue
 
 public class NumberUtilsTest {
-	Test
+	@Test
 	fun compareWithBetween() {
 		assertTrue("B".between("A", "C"))
 		assertTrue(1.between(0, 2))
 		assertTrue(0.1.between(0.09, 0.11))
 	}
-	Test
+	@Test
 	fun compareWithIn() {
-		assertTrue("B" in "A" .. "C")
 		assertTrue(1 in 0..2)
 		assertTrue(0.1 in 0.09..0.11)
 	}

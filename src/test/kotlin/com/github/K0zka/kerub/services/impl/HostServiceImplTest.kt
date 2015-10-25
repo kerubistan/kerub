@@ -19,25 +19,25 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.security.PublicKey
 import java.util.UUID
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class HostServiceImplTest {
-	Mock
+	@Mock
 	var dao: HostDao? = null
-	Mock
+	@Mock
 	var manager: HostManager? = null
-	Mock
+	@Mock
 	var sshClientService: SshClientService? = null
 
 	var pubKey: PublicKey = getTestKey().getPublic()
 
 	var service: HostServiceImpl? = null
 
-	Before
+	@Before
 	fun setup() {
 		service = HostServiceImpl(dao!!, manager!!, sshClientService!!)
 	}
 
-	Test
+	@Test
 	fun join() {
 		val hostAndPwd = HostAndPassword(
 				password = "TEST",
@@ -53,7 +53,7 @@ public class HostServiceImplTest {
 		Mockito.verify(manager)!!.join(eq(hostAndPwd.host) ?: hostAndPwd.host, eq(hostAndPwd.password) ?: hostAndPwd.password)
 	}
 
-	Test
+	@Test
 	fun joinWithoutPassword() {
 		val host = Host(
 				id = UUID.randomUUID(),
@@ -66,7 +66,7 @@ public class HostServiceImplTest {
 		Mockito.verify(manager)!!.join(eq(host) ?: host)
 	}
 
-	Test
+	@Test
 	fun getHostPubkey() {
 		Mockito.`when`(manager!!.getHostPublicKey(anyString())).thenReturn(pubKey)
 
@@ -77,7 +77,7 @@ public class HostServiceImplTest {
 
 	}
 
-	Test
+	@Test
 	fun getPubKey() {
 		Mockito.`when`(sshClientService!!.getPublicKey()).thenReturn("TEST-KEY")
 

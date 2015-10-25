@@ -8,17 +8,17 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.context.ApplicationContext
 
-RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner::class)
 public class ExecutorTest {
-	Mock
+	@Mock
 	var appCtx: ApplicationContext? = null
 
-	Mock
+	@Mock
 	var service : HelloService? = null
 
 	var executor: Executor? = null
 
-	Before
+	@Before
 	fun setup() {
 		executor = Executor()
 		executor!!.setApplicationContext(appCtx)
@@ -29,7 +29,7 @@ public class ExecutorTest {
 		fun hello(name : String)
 	}
 
-	Test
+	@Test
 	fun execute() {
 		executor!!.execute(
 				AsyncInvocation(
