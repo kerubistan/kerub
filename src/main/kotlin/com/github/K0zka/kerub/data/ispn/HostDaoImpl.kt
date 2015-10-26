@@ -8,6 +8,6 @@ import java.util.UUID
 
 public class HostDaoImpl(cache: Cache<UUID, Host>, eventListener : EventListener) : ListableIspnDaoBase<Host, UUID>(cache, eventListener), HostDao {
 	override fun getEntityClass(): Class<Host> {
-		return javaClass<Host>()
+		return Host::class.java
 	}
 }

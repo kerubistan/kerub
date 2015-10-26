@@ -22,7 +22,7 @@ class IspnDaoBaseTest {
 	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener)
 		: ListableIspnDaoBase<TestEntity, String>(cache, eventListener) {
 		override fun getEntityClass(): Class<TestEntity> {
-			return javaClass<TestEntity>()
+			return TestEntity::class.java
 		}
 
 

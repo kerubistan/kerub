@@ -8,6 +8,6 @@ import java.util.UUID
 
 public class ProjectDaoImpl(cache : Cache<UUID, Project>, eventListener : EventListener) : ListableIspnDaoBase<Project, UUID>(cache, eventListener), ProjectDao {
 	override fun getEntityClass(): Class<Project> {
-		return javaClass<Project>()
+		return Project::class.java
 	}
 }

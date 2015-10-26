@@ -28,7 +28,7 @@ class RestException(val msg : String, val code : String, val status : Int, val r
 
 class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
 	override fun fromResponse(r: Response?): Exception? {
-		val entity = objectMapper.readValue(r!!.getEntity() as InputStream, javaClass<RestError>())
+		val entity = objectMapper.readValue(r!!.getEntity() as InputStream, RestError::class.java)
 		throw RestException(entity.message!!,entity.code!!,r!!.getStatus(), r)
 	}
 }
