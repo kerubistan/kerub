@@ -21,16 +21,16 @@ data class OperationalState(
 		              vms: List<VirtualMachine> = listOf(),
 		              vmDyns: List<VirtualMachineDynamic> = listOf()): OperationalState {
 			return OperationalState(
-					hosts = hosts.toMap { it.id },
-					hostDyns = hostDyns.toMap { it.id },
-					vms = vms.toMap { it.id },
-			        vmDyns = vmDyns.toMap { it.id }
+					hosts = hosts.toMapBy { it.id },
+					hostDyns = hostDyns.toMapBy { it.id },
+					vms = vms.toMapBy { it.id },
+			        vmDyns = vmDyns.toMapBy { it.id }
 			                       )
 		}
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
-		return vmDyns.values()
+		return vmDyns.values
 				.filter { it.status == VirtualMachineStatus.Up && it.hostId == hostId }
 				.map { vms[it.id] }.filter { it != null } as List<VirtualMachine>
 	}
@@ -47,7 +47,7 @@ data class OperationalState(
 
 	override fun isComplete(): Boolean {
 		//check that all virtual resources has all DealBreaker satisfied
-		return vms.values().all {
+		return vms.values.all {
 			vm ->
 			vm.expectations.all {
 				expectation ->
@@ -58,7 +58,7 @@ data class OperationalState(
 	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel) : Int {
-		return vms.values().sumBy {
+		return vms.values.sumBy {
 			vm ->
 			vm.expectations.count {
 				expectation ->
@@ -70,7 +70,7 @@ data class OperationalState(
 
 	fun getUnsatisfiedExpectations() : List<Expectation> {
 		var expectations = listOf<Expectation>()
-		vms.values().forEach {
+		vms.values.forEach {
 			vm ->
 			expectations +=
 			vm.expectations.filter {

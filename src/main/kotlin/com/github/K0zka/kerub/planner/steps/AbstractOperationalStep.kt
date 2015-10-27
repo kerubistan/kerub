@@ -12,12 +12,12 @@ interface AbstractOperationalStep : Step<Plan> {
 	/**
 	 * Take an operational state transformation step
 	 */
-	abstract fun take(state: OperationalState): OperationalState
+	fun take(state: OperationalState): OperationalState
 
 	/**
 	 *
 	 */
-	final override fun take(state: Plan): Plan =
+	override fun take(state: Plan): Plan =
 			Plan(
 					state = take(state.state),
 					steps = state.steps + this

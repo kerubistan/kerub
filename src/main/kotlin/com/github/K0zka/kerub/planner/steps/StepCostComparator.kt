@@ -20,7 +20,7 @@ public object StepCostComparator : Comparator<AbstractOperationalStep> {
 	}
 
 	override fun compare(first: AbstractOperationalStep, second: AbstractOperationalStep): Int {
-		for(costClass in comparators.keySet()) {
+		for(costClass in comparators.keys) {
 			val firstCost = findCost(first, costClass)
 			val secondCost = findCost(second, costClass)
 

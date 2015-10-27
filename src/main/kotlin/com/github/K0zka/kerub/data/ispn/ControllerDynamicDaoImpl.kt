@@ -6,7 +6,7 @@ import org.infinispan.Cache
 
 public class ControllerDynamicDaoImpl(val cache : Cache<String, ControllerDynamic>) : ControllerDynamicDao {
 	override fun listAll(): List<ControllerDynamic> {
-		return cache.map { it.getValue() }
+		return cache.map { it.value }
 	}
 
 	override fun add(entity: ControllerDynamic): String {

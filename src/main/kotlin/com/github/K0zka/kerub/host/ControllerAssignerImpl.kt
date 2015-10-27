@@ -95,7 +95,7 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 		backtrack.backtrack(
 				ControllerAssignmentState(hosts,
 				                          controllerList.map { it.controllerId },
-				                          controllerList.toMap { it.controllerId },
+				                          controllerList.toMapBy { it.controllerId },
 				                          mapOf()),
 				ControllerAssignmentStepFactory,
 				//this is not quite
@@ -104,12 +104,12 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 		                   )
 		for (assignment in strategy.getSolution().assignments) {
 			hostAssignmentDao.add(Assignment(
-					hostId = assignment.getKey().id,
-					controller = assignment.getValue()))
-			interController.sendToController(assignment.getValue(),
+					hostId = assignment.key.id,
+					controller = assignment.value))
+			interController.sendToController(assignment.value,
 			                                 HostAssignedMessage(
-					                                 hostId = assignment.getKey().id,
-					                                 conrollerId = assignment.getValue()
+					                                 hostId = assignment.key.id,
+					                                 conrollerId = assignment.value
 			                                                    ))
 		}
 	}

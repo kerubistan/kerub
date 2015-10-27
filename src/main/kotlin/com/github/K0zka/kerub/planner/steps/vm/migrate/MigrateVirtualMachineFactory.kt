@@ -13,10 +13,10 @@ import com.github.K0zka.kerub.planner.steps.vm.match
  */
 public object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<MigrateVirtualMachine>() {
 	override fun produce(state: OperationalState): List<MigrateVirtualMachine> {
-		val runningVms = state.vms.values().filter {
+		val runningVms = state.vms.values.filter {
 			state.vmDyns[it.id]?.status == VirtualMachineStatus.Up
 		}
-		val runningHosts = state.hosts.values().filter {
+		val runningHosts = state.hosts.values.filter {
 			state.hostDyns[it.id]?.status == HostStatus.Up
 		}
 
@@ -28,7 +28,7 @@ public object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<Migr
 				vm ->
 				if(match(host, state.hostDyns[host.id], vm)) {
 					val sourceId = state.vmDyns[vm.id]?.hostId
-					val sourceHost = state.hosts[sourceId]!!
+					val sourceHost = state.hosts.getRaw(sourceId)!!
 					if(sourceId != host.id) {
 						steps += MigrateVirtualMachine(vm = vm, source = sourceHost, target = host)
 					}

@@ -12,6 +12,6 @@ public object WakeHostFactory : AbstractOperationalStepFactory<WakeHost>() {
 		return state.hosts.filter {
 			val dyn = state.hostDyns[it.key]
 			dyn == null || dyn.status == HostStatus.Down
-		} .map { WakeHost(it.getValue()) }
+		} .map { WakeHost(it.value) }
 	}
 }

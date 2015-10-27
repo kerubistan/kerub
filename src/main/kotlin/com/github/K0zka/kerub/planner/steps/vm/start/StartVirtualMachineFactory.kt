@@ -19,14 +19,14 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 	val logger = getLogger(StartVirtualMachineFactory::class)
 
 	override fun produce(state: OperationalState): List<StartVirtualMachine> {
-		val vmsToRun = state.vms.values().filter {
+		val vmsToRun = state.vms.values.filter {
 			it.expectations.any {
 				it is VirtualMachineAvailabilityExpectation
 						&& it.up
 			}
 		}
 		logger.debug("vms to run: {}", vmsToRun)
-		val vmsActuallyRunning = state.vmDyns.values().filter { it.status == VirtualMachineStatus.Up }.map { it.id }
+		val vmsActuallyRunning = state.vmDyns.values.filter { it.status == VirtualMachineStatus.Up }.map { it.id }
 		logger.debug("vms running: {}", vmsActuallyRunning)
 		val vmsToStart = vmsToRun.filter { !vmsActuallyRunning.contains(it.id) }
 

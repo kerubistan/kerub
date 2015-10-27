@@ -17,14 +17,14 @@ public object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHos
 		// and other computational resources should also be included
 		val vmsOnHost: List<UUID> = state.vmDyns.filter {
 			it.value.status != VirtualMachineStatus.Down
-		}.map { it.getValue().hostId }
+		}.map { it.value.hostId }
 
 		val idleDedicatedHosts = state.hosts.filter { !vmsOnHost.contains(it.key) && it.value.dedicated }
 
 		return idleDedicatedHosts.filter {
 			val dyn = state.hostDyns[it.key]
 			dyn?.status == HostStatus.Up
-		}.map { PowerDownHost(it.getValue()) }
+		}.map { PowerDownHost(it.value) }
 
 	}
 }
