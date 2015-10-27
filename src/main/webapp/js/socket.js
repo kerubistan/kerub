@@ -16,7 +16,7 @@
  * subscribe message sent to the server.
  *
  */
-kerubApp.factory('$socket', ['$interval', '$log', function($interval, $log) {
+kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
     $log.info("init socket");
     //TODO: it would be great to get rid of this sophisticated calculation of the websocket URL
     var socketAddr = (location.protocol === "http:" ? "ws:" : "wss:")

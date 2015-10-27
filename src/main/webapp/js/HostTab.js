@@ -1,9 +1,9 @@
 
-kerubApp.controller('HostTab', function($scope, $modal, $log, $socket, $appsession) {
+kerubApp.controller('HostTab', function($scope, $modal, $log, socket, $appsession) {
 
     $log.info('initializing host tab');
 
-    $socket.subscribe('/host', function(msg) {
+    socket.subscribe('/host', function(msg) {
         $log.info("hey, a message for HostTab!",msg);
     }, 'HostTab');
 

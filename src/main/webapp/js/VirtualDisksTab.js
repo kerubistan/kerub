@@ -1,5 +1,5 @@
 
-kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, $socket, $appsession, $size) {
+kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, socket, $appsession, $size) {
 	$scope.humanFriendlySize = $size.humanFriendlySize;
 	$scope.virtualDisks = {};
 	$scope.refresh = function () {

@@ -1,5 +1,5 @@
 
-kerubApp.controller('VmTab', function($scope, $modal, $log, $socket, $appsession, $size) {
+kerubApp.controller('VmTab', function($scope, $modal, $log, socket, $appsession, $size) {
 	$scope.humanFriendlySize = $size.humanFriendlySize;
 	$scope.vms = [];
 	$scope.refreshVms = function() {
