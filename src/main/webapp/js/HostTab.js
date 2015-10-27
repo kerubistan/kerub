@@ -1,5 +1,5 @@
 
-kerubApp.controller('HostTab', function($scope, $modal, $log, socket, $appsession) {
+kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession) {
 
     $log.info('initializing host tab');
 
@@ -36,7 +36,7 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, socket, $appsessio
             });
     }
 
-    $appsession.get('s/r/host').success(function(hostsResult) {
+    appsession.get('s/r/host').success(function(hostsResult) {
         $log.info("hosts", hostsResult);
         $scope.hosts = hostsResult.result;
         $scope.currentPage = currentPage(hostsResult, $scope.itemsPerPage);

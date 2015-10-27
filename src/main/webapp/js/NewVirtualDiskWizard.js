@@ -1,4 +1,4 @@
-var NewVirtualDiskWizard = function($scope, $modalInstance, $log, $appsession, uuid4) {
+var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uuid4) {
 	var id = uuid4.generate();
 	$scope.disk = {
 		'@type' : 'vstorage',
@@ -9,7 +9,7 @@ var NewVirtualDiskWizard = function($scope, $modalInstance, $log, $appsession, u
 	};
 
 	$scope.addStorage = function() {
-		$appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
+		appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
         	$modalInstance.dismiss();
 		});
 	};

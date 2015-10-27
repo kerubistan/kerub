@@ -2,8 +2,8 @@
  * This service makes sure that the rest interactions are executed in a
  * session, enforces user authentication, etc.
  */
-kerubApp.factory('$appsession', ['$log', '$http', '$modal', function($log, $http, $modal) {
-    $log.info('creating instance of $appsession');
+kerubApp.factory('appsession', ['$log', '$http', '$modal', function($log, $http, $modal) {
+    $log.info('creating instance of appsession');
 
 	var nr = 0;
 

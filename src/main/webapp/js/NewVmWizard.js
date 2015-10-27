@@ -1,4 +1,4 @@
-var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, $appsession, uuid4) {
+var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4) {
 	$scope.vm = {
 		"@type" : 'vm',
 		id : uuid4.generate(),
@@ -11,7 +11,7 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, $appse
     	storagedevices : []
 	};
 	$scope.addVm = function() {
-		$appsession.put('s/r/vm', $scope.vm).success(function() {
+		appsession.put('s/r/vm', $scope.vm).success(function() {
         	$modalInstance.close();
 		});
 	};

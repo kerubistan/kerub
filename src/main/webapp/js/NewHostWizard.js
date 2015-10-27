@@ -1,4 +1,4 @@
-var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $appsession, uuid4) {
+var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.host = {
@@ -28,7 +28,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
             $timeout.cancel($scope.updateTimeout);
             $scope.pubkeyUptoDate = false;
         }
-        $appsession.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
+        appsession.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
             .success(function(pubkey) {
                 $log.debug(pubkey);
                 $scope.pubkeyUptoDate = true;
@@ -60,12 +60,12 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
 		$log.info('host',$scope.host);
     	if($scope.password.password === '') {
     	    $log.debug('add host with public key');
-			$appsession.put('s/r/host/join-pubkey',
+			appsession.put('s/r/host/join-pubkey',
 				$scope.host
 				).success(onHostAdded);
     	} else {
 			$log.debug('add host with password');
-			$appsession.put('s/r/host/join',
+			appsession.put('s/r/host/join',
 				{
 					host : $scope.host,
 					password : $scope.password.password
@@ -74,7 +74,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, $app
     	}
     };
 
-    $appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
+    appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
     	$log.debug('retrieved ssh public key of the controller:'+result);
     	$scope.controllerKey = result;
     });

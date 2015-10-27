@@ -1,4 +1,4 @@
-kerubApp.controller('VmRow', function($scope, $log, socket, $appsession) {
+kerubApp.controller('VmRow', function($scope, $log, socket, appsession) {
     $scope.vm = {};
     $scope.vmdyn = {};
     $scope.init = function(vm) {
