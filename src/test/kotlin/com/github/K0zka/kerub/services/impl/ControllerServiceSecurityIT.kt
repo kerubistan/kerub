@@ -14,9 +14,9 @@ public class ControllerServiceSecurityIT {
 	fun check(role: String, access: Boolean) {
 		val user = testUsers[role]!!
 		val client = createClient()
-		val login = JAXRSClientFactory.fromClient(client, javaClass<LoginService>(), true)
+		val login = JAXRSClientFactory.fromClient(client, LoginService::class.java, true)
 		login.login(LoginService.UsernamePassword(user.first, user.second))
-		val controller = JAXRSClientFactory.fromClient(client, javaClass<ControllerService>(), true)
+		val controller = JAXRSClientFactory.fromClient(client, ControllerService::class.java, true)
 		try {
 			controller.list()
 			if (!access) {
