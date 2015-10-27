@@ -1,4 +1,4 @@
-kerubApp.controller('ExpectationMini', function($scope, $log, $size) {
+kerubApp.controller('ExpectationMini', function($scope, $log, size) {
 	$scope.icon = 'cog';
 	$scope.description = '';
 	$scope.style = 'info';
@@ -42,9 +42,9 @@ kerubApp.controller('ExpectationMini', function($scope, $log, $size) {
 			case 'storage-redundancy':
 				return expectation.nrOfCopies;
 			case 'storage-read-perf':
-				return $size.humanFriendlySize(expectation.speed.kbPerSec * 1024) + '/s';
+				return size.humanFriendlySize(expectation.speed.kbPerSec * 1024) + '/s';
 			case 'cache-size':
-				return $size.humanFriendlySize(expectation.minKbytes * 1024) + '+'
+				return size.humanFriendlySize(expectation.minKbytes * 1024) + '+'
 			case 'ram-clock-freq':
 				return expectation.min + ' Mhz +'
 			case 'cpu-clock-freq':

@@ -1,4 +1,4 @@
-kerubApp.factory('$size', ['$log', function($log) {
+kerubApp.factory('size', ['$log', function($log) {
 	return {
         humanFriendlySize : function(size) {
         	var mul = 1024;
