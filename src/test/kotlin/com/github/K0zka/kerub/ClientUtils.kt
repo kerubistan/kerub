@@ -3,7 +3,6 @@ package com.github.K0zka.kerub
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.exceptions.mappers.RestError
-import com.github.K0zka.kerub.security.Roles
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
@@ -12,7 +11,6 @@ import org.apache.cxf.jaxrs.client.WebClient
 import java.io.InputStream
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
-import kotlin.reflect.jvm.java
 
 val testBaseUrl = "http://localhost:${System.getProperty("kerub.it.port") ?: "8080"}/"
 val testRestBaseUrl = "${testBaseUrl}s/r"

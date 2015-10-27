@@ -25,12 +25,12 @@ public class OperationalStateBuilderImplTest {
 
 	@Test
 	fun buildState() {
-		Mockito.`when`(controllerManager!!.getControllerId() ?: 0).thenReturn("TEST-CONTROLLER")
-		Mockito.`when`(assignments!!.listByController(Matchers.eq("TEST-CONTROLLER") ?: "")).thenReturn(listOf())
+		Mockito.`when`(controllerManager?.getControllerId() ?: 0).thenReturn("TEST-CONTROLLER")
+		Mockito.`when`(assignments?.listByController(Matchers.eq("TEST-CONTROLLER") ?: "")).thenReturn(listOf())
 
 		val state = OperationalStateBuilderImpl(controllerManager!!, assignments!!, hostDyn!!, hostDao!!).buildState()
 
 		Mockito.verify(controllerManager!!).getControllerId()
-		Mockito.verify(assignments!!).listByController(Matchers.eq("TEST-CONTROLLER") ?: "")
+		Mockito.verify(assignments).listByController(Matchers.eq("TEST-CONTROLLER") ?: "")
 	}
 }

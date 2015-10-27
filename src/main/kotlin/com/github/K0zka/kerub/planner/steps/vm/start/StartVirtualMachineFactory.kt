@@ -1,18 +1,11 @@
 package com.github.K0zka.kerub.planner.steps.vm.start
 
-import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
-import com.github.K0zka.kerub.model.dynamic.HostStatus
-import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
 import com.github.K0zka.kerub.utils.getLogger
-import java.math.BigInteger
-import kotlin.math.div
 
 public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
 
@@ -36,7 +29,7 @@ public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartV
 
 		vmsToStart.forEach {
 			vm ->
-			state.hosts.values().forEach {
+			state.hosts.values.forEach {
 				host ->
 				val dyn = state.hostDyns[host.id]
 				if (match(host, dyn, vm)) {

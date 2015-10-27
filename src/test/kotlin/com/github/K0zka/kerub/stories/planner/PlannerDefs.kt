@@ -135,7 +135,7 @@ public class PlannerDefs {
 							VirtualMachineAvailabilityExpectation(up = true))
 			       )
 		})
-		val host = hosts.first { it.address == hostAddr }!!
+		val host = hosts.first { it.address == hostAddr }
 
 		vmDyns = vmDyns + VirtualMachineDynamic(
 				id = vm.id,
@@ -145,7 +145,7 @@ public class PlannerDefs {
 				memoryUsed = vm.memory.min
 		                                       )
 
-		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, "host must be up, otherwise no vm!")
+		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, {"host must be up, otherwise no vm!"})
 
 		hostDyns = hostDyns.replace( {it.id == host.id}, { it.copy(
 				memFree = requireNotNull(it.memFree ?: host.capabilities?.totalMemory) - vm.memory.min,

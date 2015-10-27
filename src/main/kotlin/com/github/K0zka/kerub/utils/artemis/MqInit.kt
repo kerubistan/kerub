@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.utils.use
 import org.apache.activemq.artemis.api.core.SimpleString
 import org.apache.activemq.artemis.jms.server.embedded.EmbeddedJMS
 import javax.jms.ConnectionFactory
-import kotlin.platform.platformStatic
 
 /**
  * This class (and package) is only needed because HornetQ/Artemis does not support auto-creation of destinations.

@@ -15,7 +15,7 @@ public open class Executor : ApplicationContextAware {
 	public fun execute(invocation : AsyncInvocation) {
 		logger.debug("executing async invocation on bean")
 		val bean = appCtx?.getBean(invocation.beanName)!!
-		val types = Array<Class<out Any?>>(invocation.paramTypes.size(), { invocation.paramTypes[it] })
+		val types = Array<Class<out Any?>>(invocation.paramTypes.size, { invocation.paramTypes[it] })
 		val method = bean.javaClass.getMethod(invocation.methodName,
 		                         *types)
 		val args = Array<Any?>(invocation.args.size, { invocation.args[it] })

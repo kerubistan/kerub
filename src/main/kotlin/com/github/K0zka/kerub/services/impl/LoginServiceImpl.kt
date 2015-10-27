@@ -25,7 +25,7 @@ public class LoginServiceImpl : LoginService {
 		val subject = SecurityUtils.getSubject()
 		return LoginService.UserData(
 				subject.getPrincipal().toString(),
-				Roles.values().filter { subject.hasRole(it.name) }.toList()
+				Roles.values.filter { subject.hasRole(it.name) }.toList()
 		                            )
 	}
 

@@ -36,13 +36,13 @@ public class ControllerManagerImplTest {
 	fun start() {
 		Mockito.`when`(cacheManager?.getAddress()).thenReturn(address)
 		val notNullInstance = ControllerDynamic("", 1, 0, listOf())
-		Mockito.`when`(dao?.add(matchAny(javaClass<ControllerDynamic>(), notNullInstance)))
+		Mockito.`when`(dao?.add(matchAny(ControllerDynamic::class.java, notNullInstance)))
 			.then {
 				val controllerDynamic = it.getArguments()[0]!! as ControllerDynamic
 				//checks
 				""
 			}
 		ControllerManagerImpl(dao!!, cacheManager!!).start()
-		Mockito.verify(dao)?.add(matchAny(javaClass<ControllerDynamic>(), notNullInstance))
+		Mockito.verify(dao)?.add(matchAny(ControllerDynamic::class.java, notNullInstance))
 	}
 }

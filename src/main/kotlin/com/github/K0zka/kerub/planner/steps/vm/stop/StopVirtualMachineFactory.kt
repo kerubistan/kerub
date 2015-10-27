@@ -7,7 +7,7 @@ import com.github.k0zka.finder4j.backtrack.StepFactory
 
 public object StopVirtualMachineFactory : AbstractOperationalStepFactory<StopVirtualMachine>() {
 	override fun produce(state: OperationalState): List<StopVirtualMachine> {
-		return state.vmDyns.values().filter { it.status == VirtualMachineStatus.Up }
+		return state.vmDyns.values.filter { it.status == VirtualMachineStatus.Up }
 				.map { StopVirtualMachine(state.vms[it.id]!!, state.hosts[it.hostId]!!) }
 	}
 }

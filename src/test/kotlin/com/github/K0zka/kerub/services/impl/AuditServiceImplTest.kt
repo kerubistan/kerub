@@ -18,7 +18,7 @@ public class AuditServiceImplTest {
 
 	@Test
 	fun listById() {
-		Mockito.`when`(dao!!.listById(Matchers.any(javaClass<UUID>())?:UUID.randomUUID()))!!
+		Mockito.`when`(dao!!.listById(Matchers.any(UUID::class.java)?:UUID.randomUUID()))!!
 			.thenReturn(listOf(AuditEntry(user = null)))
 		val service = AuditServiceImpl(dao!!)
 		val list = service.listById(UUID.randomUUID())

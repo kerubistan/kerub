@@ -20,9 +20,9 @@ public class MqInvocationQueueTest {
 	fun send() {
 		val queue = MqInvocationQueue(template!!)
 		Mockito.doAnswer({ (it!!.getArguments()!![0] as MessageCreator).createMessage(session) })!!
-				.`when`(template)!!.send(Matchers.any(javaClass<MessageCreator>()))
+				.`when`(template)!!.send(Matchers.any(MessageCreator::class.java))
 		queue.send(AsyncInvocation("", "", listOf(), listOf()))
-		Mockito.verify(template)!!.send(Matchers.any(javaClass<MessageCreator>()));
-		Mockito.verify(session)!!.createObjectMessage(Matchers.any(javaClass<AsyncInvocation>()))
+		Mockito.verify(template)!!.send(Matchers.any(MessageCreator::class.java));
+		Mockito.verify(session)!!.createObjectMessage(Matchers.any(AsyncInvocation::class.java))
 	}
 }

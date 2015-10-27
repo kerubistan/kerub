@@ -72,7 +72,7 @@ public class AuthenticationDefinitions {
 		if(exception != null) {
 			Assert.assertThat(
 					"no session should be created",
-					exception?.response?.getCookies()?.keySet()?.contains("JSESSIONID"),
+					exception?.response?.getCookies()?.keys?.contains("JSESSIONID"),
 					CoreMatchers.equalTo(false)
 			                 )
 		} else {

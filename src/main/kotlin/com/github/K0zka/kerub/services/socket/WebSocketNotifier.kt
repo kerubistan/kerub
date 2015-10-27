@@ -42,7 +42,7 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 	override fun handleTextMessage(session: WebSocketSession?, message: TextMessage?) {
 		logger.info("text message {}",message)
 
-		val msg = objectMapper.readValue<Message>(message?.getPayload(), javaClass<Message>())
+		val msg = objectMapper.readValue<Message>(message?.getPayload(), Message::class.java)
 
 		when(msg) {
 			is PingMessage -> {

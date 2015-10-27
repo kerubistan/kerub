@@ -222,7 +222,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 			}.`when`(commandMock).setExitCallback(Matchers.any(ExitCallback::class.java))
 			Mockito.doAnswer {
 				val writer = output?.writer("ASCII")
-				writer?.appendln(commands[command])
+				writer?.appendln(commands.getRaw(command))
 				writer?.flush()
 				callback?.onExit(0)
 			}.`when`(commandMock).start(Matchers.any(Environment::class.java))

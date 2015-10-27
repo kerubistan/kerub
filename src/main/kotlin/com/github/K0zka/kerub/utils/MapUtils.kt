@@ -7,5 +7,5 @@ public fun <K, V> Map<K, V>.toMutable() : MutableMap<K, V> {
 }
 
 public fun <K, V> Map<K, V>.toPairList() : List<Pair<K, V>> {
-	return this.entrySet().toList().map { it.toPair() }.toList()
+	return this.entries.toList().map { it.toPair() }.toList()
 }
