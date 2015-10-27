@@ -35,7 +35,7 @@ public class KsmFactoryTest {
 						ksmEnabled = true
 				                             ))
 		                                                        ))
-		Assert.assertEquals(list.size(), 1)
+		Assert.assertEquals(list.size, 1)
 		Assert.assertTrue( list[0] is DisableKsm )
 	}
 
@@ -48,7 +48,7 @@ public class KsmFactoryTest {
 						ksmEnabled = false
 				                             ))
 		                                                        ))
-		Assert.assertEquals(list.size(), 1)
+		Assert.assertEquals(list.size, 1)
 		Assert.assertTrue( list[0] is EnableKsm )
 	}
 

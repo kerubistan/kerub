@@ -36,7 +36,7 @@ public class ExecutorTest {
 						beanName = "helloService",
 						args = listOf("world"),
 						methodName = "hello",
-						paramTypes = listOf(javaClass<String>())))
+						paramTypes = listOf(String::class.java)))
 		Mockito.verify(service)!!.hello("world")
 	}
 }

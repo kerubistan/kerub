@@ -50,7 +50,7 @@ public class VmStatTest {
 		val results = Collections.synchronizedList(ArrayList<VmStat.VmStatEvent>())
 		VmStat.vmstat(clientSession!!, { results.add(it) })
 
-		Assert.assertThat(results.size(), CoreMatchers.`is`(6))
+		Assert.assertThat(results.size, CoreMatchers.`is`(6))
 
 	}
 }

@@ -27,7 +27,7 @@ public class NetTest {
 
 		val device = Net.listDevices(clientSession!!)
 
-		Assert.assertEquals(device.size(), 1)
+		Assert.assertEquals(device.size, 1)
 		Assert.assertEquals(device[0], "eth0")
 	}
 
@@ -39,14 +39,14 @@ public class NetTest {
 
 		val response = Net.getMacAddress(clientSession!!, "eth0")
 
-		Assert.assertEquals(response.size(), 6)
+		Assert.assertEquals(response.size, 6)
 		Assert.assertEquals(response[2], 0.toByte())
 	}
 
 	@Test
 	fun stringToMac() {
 		val mac = Net.stringToMac("52:54:00:b5:75:bb")
-		Assert.assertEquals(mac.size(), Net.macAddressSize)
+		Assert.assertEquals(mac.size, Net.macAddressSize)
 	}
 
 	@Test(expected = IllegalArgumentException::class)

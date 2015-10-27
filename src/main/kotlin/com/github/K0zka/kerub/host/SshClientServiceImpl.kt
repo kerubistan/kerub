@@ -52,7 +52,7 @@ public class SshClientServiceImpl(
 	}
 
 	private fun encodeByteArray(bytes: ByteArray): ByteArray {
-		val out = encodeUInt32(bytes.size()).copyOf(bytes.size() + 4)
+		val out = encodeUInt32(bytes.size).copyOf(bytes.size + 4)
 		bytes.forEachIndexed { idx, byte -> out[idx + 4] = byte }
 		return out
 	}

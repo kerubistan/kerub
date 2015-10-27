@@ -11,7 +11,6 @@ import org.infinispan.commons.io.ByteBufferImpl
 import org.infinispan.commons.marshall.BufferSizePredictor
 import org.infinispan.commons.marshall.Marshaller
 import java.io.ByteArrayOutputStream
-import kotlin.reflect.jvm.java
 
 /**
  * Integrates the jackson objectmapper to the infinispan infrastructure and allows

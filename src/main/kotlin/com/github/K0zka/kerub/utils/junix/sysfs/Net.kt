@@ -14,25 +14,25 @@ public object Net {
 
 	fun stringToMac(strMac: String): ByteArray {
 		val bytes = strMac.trim().split(':')
-		require(bytes.size() == macAddressSize, "The MAC address must be 6 bytes")
+		require(bytes.size == macAddressSize, "The MAC address must be 6 bytes")
 		return bytes
 				.map {
-					require(it.length() <= 2, "Maximum two hexadecimal digits needed")
+					require(it.length <= 2, "Maximum two hexadecimal digits needed")
 					Integer.parseInt(it, hexaDecimal).toByte()
 				}
 				.toByteArray()
 	}
 
 	fun macToString(mac : ByteArray): String {
-		require(mac.size() == macAddressSize, "The MAC address must be 6 bytes")
+		require(mac.size == macAddressSize, "The MAC address must be 6 bytes")
 		val bldr = StringBuilder(17)
 
 		for(b in mac) {
-			if(bldr.length() != 0) {
+			if(bldr.length != 0) {
 				bldr.append(':')
 			}
 			val hexString = Integer.toHexString(b.toInt())
-			if(hexString.length() == 1) {
+			if(hexString.length == 1) {
 				bldr.append('0')
 			}
 			bldr.append(hexString)

@@ -70,7 +70,7 @@ public fun SftpClient.appendToFile(file : String, content:String) {
 	try {
 		val contentBytes = content.toByteArray("ASCII")
 		val stat = this.stat(handle)
-		this.write(handle, stat.size, contentBytes, 0, contentBytes.size())
+		this.write(handle, stat.size, contentBytes, 0, contentBytes.size)
 	} finally {
 		this.close(handle)
 	}

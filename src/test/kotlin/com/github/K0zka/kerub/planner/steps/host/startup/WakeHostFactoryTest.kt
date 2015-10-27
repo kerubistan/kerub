@@ -24,7 +24,7 @@ public class WakeHostFactoryTest {
 	@Test
 	fun produceSingleHostNorecord() {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(hosts = listOf(host1)))
-		Assert.assertEquals(steps.size(), 1)
+		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
 	}
 
@@ -34,7 +34,7 @@ public class WakeHostFactoryTest {
 				hosts = listOf(host1),
 		        hostDyns = listOf(HostDynamic(id = host1.id, status = HostStatus.Down))
 				))
-		Assert.assertEquals(steps.size(), 1)
+		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
 	}
 
@@ -44,7 +44,7 @@ public class WakeHostFactoryTest {
 				hosts = listOf(host1, host2),
 				hostDyns = listOf(HostDynamic(id = host2.id, status = HostStatus.Up))
 		                                                              ))
-		Assert.assertEquals(steps.size(), 1)
+		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
 	}
 

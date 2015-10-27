@@ -30,7 +30,7 @@ public class PowerDownHostFactoryTest {
 						status = HostStatus.Up
 				                             ))
 		                                                                   ))
-		Assert.assertEquals(1, steps.size())
+		Assert.assertEquals(1, steps.size)
 		Assert.assertTrue(steps.all { it.host == host })
 	}
 

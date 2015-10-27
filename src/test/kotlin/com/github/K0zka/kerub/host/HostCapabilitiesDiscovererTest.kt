@@ -176,7 +176,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
 			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
 			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
-			Mockito.`when`(ret.getSize()).thenReturn(contents.length().toLong())
+			Mockito.`when`(ret.getSize()).thenReturn(contents.length.toLong())
 			Mockito.`when`(ret.isReadable()).thenReturn(true)
 			Mockito.`when`(ret.isFile()).thenReturn(true)
 			Mockito.`when`(ret.isWritable()).thenReturn(false)
@@ -185,7 +185,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 			Mockito.`when`(ret.createInputStream(Matchers.anyLong())).then {
 				ByteArrayInputStream(binaryContents)
 			}
-			Mockito.`when`(ret.getSize()).thenReturn(binaryContents.size().toLong())
+			Mockito.`when`(ret.getSize()).thenReturn(binaryContents.size.toLong())
 			return ret
 		}
 	}

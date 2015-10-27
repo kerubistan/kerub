@@ -22,6 +22,6 @@ public class AuditServiceImplTest {
 			.thenReturn(listOf(AuditEntry(user = null)))
 		val service = AuditServiceImpl(dao!!)
 		val list = service.listById(UUID.randomUUID())
-		Assert.assertEquals(1, list.size())
+		Assert.assertEquals(1, list.size)
 	}
 }

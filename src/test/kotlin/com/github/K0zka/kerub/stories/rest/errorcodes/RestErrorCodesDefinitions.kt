@@ -12,11 +12,8 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.WebClient
-import org.apache.http.client.HttpClient
-import org.apache.http.impl.client.HttpClientBuilder
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
-import javax.ws.rs.WebApplicationException
 
 public class RestErrorCodesDefinitions {
 
@@ -29,12 +26,12 @@ public class RestErrorCodesDefinitions {
 	@Before()
 	fun setup() {
 		client = createClient()
-		hostService = JAXRSClientFactory.fromClient(client, javaClass<HostService>() )
+		hostService = JAXRSClientFactory.fromClient(client, HostService::class.java )
 	}
 
 	@Given("^user (\\S+) with password (\\S+)$")
 	fun login(userName : String, password: String) {
-		JAXRSClientFactory.fromClient(client, javaClass<LoginService>() ).login(LoginService.UsernamePassword(
+		JAXRSClientFactory.fromClient(client, LoginService::class.java ).login(LoginService.UsernamePassword(
 				username = userName,
 		        password = password
 		                                                                                                     ))
@@ -79,18 +76,19 @@ public class RestErrorCodesDefinitions {
 		}
 	}
 
+	//TODO: duplicate with verifyErrorCode?
 	@Then("^the response code must be (\\d+)$")
-	fun the_response_code_must_be(expectedResponseCode : Int) {
+	fun verifyResponseCode(expectedResponseCode : Int) {
 		Assert.assertThat(exception?.status, CoreMatchers.equalTo(expectedResponseCode))
 	}
 
 	@Then("^the content type must be (\\S+)$")
-	fun the_content_type_must_be_application_json(expectedContentType : String) {
+	fun verifyContentType(expectedContentType : String) {
 		Assert.assertThat(exception?.response?.getHeaderString("Content-Type"), CoreMatchers.equalTo(expectedContentType))
 	}
 
 	@Then("^the error code must be (\\S+)$")
-	fun the_error_code_must_be(expectedErrorCode : String) {
+	fun verifyErrorCode(expectedErrorCode : String) {
 		Assert.assertThat(exception?.code, CoreMatchers.equalTo(expectedErrorCode))
 	}
 

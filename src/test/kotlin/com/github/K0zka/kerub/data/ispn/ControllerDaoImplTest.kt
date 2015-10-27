@@ -41,6 +41,6 @@ public class ControllerDaoImplTest {
 	}
 
 	@Test fun list() {
-		assertEquals(2, dao!!.list().size())
+		assertEquals(2, dao!!.list().size)
 	}
 }

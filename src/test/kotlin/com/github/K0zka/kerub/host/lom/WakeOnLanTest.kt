@@ -61,7 +61,7 @@ public class WakeOnLanTest {
 
 		val magicPocket = WakeOnLan.buildMagicPocket(mac)
 
-		Assert.assertEquals(magicPocket.size(), 102)
+		Assert.assertEquals(magicPocket.size, 102)
 	}
 
 	@Test

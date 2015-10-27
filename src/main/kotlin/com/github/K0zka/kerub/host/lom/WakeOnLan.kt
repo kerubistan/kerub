@@ -52,7 +52,7 @@ public class WakeOnLan(
 			val bytes = buildMagicPocket(mac)
 
 			DatagramSocket(null).use {
-				it.send(DatagramPacket(bytes, bytes.size(), InetAddress.getByName("255.255.255.255"), wolUdpPort))
+				it.send(DatagramPacket(bytes, bytes.size, InetAddress.getByName("255.255.255.255"), wolUdpPort))
 			}
 		}
 	}

@@ -18,10 +18,10 @@ public class HostServiceIT {
 	@Test
 	fun getPubkey() {
 		val client = createClient()
-		val login = JAXRSClientFactory.fromClient(client, javaClass<LoginService>(), true)
+		val login = JAXRSClientFactory.fromClient(client, LoginService::class.java, true)
 		login.login(LoginService.UsernamePassword(username = "admin", password = "password"))
 		val service = JAXRSClientFactory.fromClient(client,
-				javaClass<HostService>(), true)
+				HostService::class.java, true)
 		Assert.assertThat(service.getPubkey(), CoreMatchers.notNullValue())
 	}
 

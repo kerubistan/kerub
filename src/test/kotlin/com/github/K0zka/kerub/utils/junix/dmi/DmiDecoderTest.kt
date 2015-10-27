@@ -11,7 +11,7 @@ public class DmiDecoderTest {
 	@Test
 	fun split() {
 		val handles = DmiDecoder.split(mylaptop);
-		assert(handles.size() == 0x33)
+		assert(handles.size == 0x33)
 	}
 
 	@Test
