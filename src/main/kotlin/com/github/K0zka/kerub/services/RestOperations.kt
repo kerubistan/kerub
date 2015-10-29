@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.services
 
+import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.wordnik.swagger.annotations.ApiOperation
 import com.wordnik.swagger.annotations.ApiParam
 import com.wordnik.swagger.annotations.ApiResponse
@@ -94,6 +96,31 @@ interface RestOperations {
                     @ApiParam("Property name to sort by", defaultValue = "id", required = false)
                     @QueryParam("sort")
                     @DefaultValue("id") sort : String
-		           ) : ResultPage<T>
+		           ) : SortResultPage<T>
+	}
+
+	interface SimpleSearch<T> {
+		@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
+		@GET
+		@Path("/search")
+		@RequiresAuthentication
+		fun search(
+				@ApiParam("Name of the field to search by", defaultValue = "0", required = false)
+				@QueryParam("field")
+				field: String,
+
+
+				@ApiParam("Value of the field to search for", defaultValue = "0", required = false)
+				@QueryParam("value")
+				value: String,
+
+				@ApiParam("First returned entity", defaultValue = "0", required = false)
+				@QueryParam("start")
+				@DefaultValue("0") start : Long = 0,
+
+				@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
+				@QueryParam("limit")
+				@DefaultValue("20") limit : Long = 20
+		) : SearchResultPage<T>
 	}
 }

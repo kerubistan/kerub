@@ -6,4 +6,7 @@ import javax.ws.rs.Path
 
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
 @Path("/virtual-storage")
-public interface VirtualStorageDeviceService : RestCrud<VirtualStorageDevice>, RestOperations.List<VirtualStorageDevice>
+public interface VirtualStorageDeviceService :
+		RestCrud<VirtualStorageDevice>,
+		RestOperations.List<VirtualStorageDevice>,
+		RestOperations.SimpleSearch<VirtualStorageDevice>

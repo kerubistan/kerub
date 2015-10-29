@@ -49,6 +49,9 @@ public class VirtualStorageDeviceServiceImplIT {
 		val updated = vsd.getById(deviceToSave.id)
 		Assert.assertEquals(update, updated)
 
+		val search = vsd.search("name", savedDevice.name)
+		Assert.assertFalse(search.result.isEmpty())
+
 		vsd.delete(deviceToSave.id)
 
 	}
