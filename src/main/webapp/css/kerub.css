@@ -24,3 +24,11 @@
       overflow-y: hidden;
       overflow-x: scroll;
 }
+
+/**
+ * fixes for bootstrap
+ */
+
+.has-feedback .form-control-feedback {
+    top: 8px;
+}

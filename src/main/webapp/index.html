@@ -7,7 +7,7 @@
     <script src="webjars/angularjs/1.3.17/angular-sanitize.min.js"></script>
     <script src="webjars/angularjs/1.3.17/angular-route.min.js"></script>
     <script src="webjars/angular-uuid4/0.2.1/angular-uuid4.min.js"></script>
-    <script src="webjars/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
+    <script src="webjars/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
     <script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script src="webjars/markdown-js/0.5.0/markdown.js"></script>
     <script src="js/utils.js"></script>
@@ -18,6 +18,8 @@
     <script src="js/Login.js"></script>
     <script src="js/HostTab.js"></script>
     <script src="js/VmTab.js"></script>
+    <script src="js/BusType.js"></script>
+    <script src="js/VirtualStorageLink.js"></script>
     <script src="js/VirtualDisksTab.js"></script>
     <script src="js/VmRow.js"></script>
     <script src="js/VersionInfo.js"></script>
@@ -28,6 +30,7 @@
     <script src="js/MainTabs.js"></script>
     <script src="js/ExpectationMini.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
     <link rel="icon" href="img/kerub.ico" type="image/png"/>
 </head>
@@ -38,32 +41,38 @@
             <div class="modal-header">
                 <h3 class="modal-title">Login</h3>
             </div>
+            <form ng-submit="login()">
             <div class="modal-body">
-                <div class="media login-screen">
-                    <div class="media-right thumbnail col-sm-3 col-md-3">
-                        <a href="#">
-                            <img src="img/kerub.png" class="media-object" alt="logo"/>
-                        </a>
-                        <div class="caption">
-                            <span class="" ng-bind="version.title"></span>
-                            <span ng-bind="version.version"></span>
+                    <div class="media login-screen form-group">
+                        <div class="media-right thumbnail col-sm-3 col-md-3">
+                            <a href="#">
+                                <img src="img/kerub.png" class="media-object" alt="logo"/>
+                            </a>
+                            <div class="caption">
+                                <span class="" ng-bind="version.title"></span>
+                                <span ng-bind="version.version"></span>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <span ng-bind-html="motd">
+                            </span>
                         </div>
                     </div>
-                    <div class="media-body">
-                        <span ng-bind-html="motd">
-                        </span>
+                    <div class="form-group has-feedback has-feedback-left">
+                        <input ng-model="username" class="form-control input-lg" placeholder="username" autofocus>
+                        <i class="form-control-feedback fa fa-user"></i>
                     </div>
-                </div>
-                <form ng-submit="login()">
-                    <input ng-model="username" class="form-control" placeholder="username" autofocus>
-                    <input ng-model="password" class="form-control" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
-                </form>
+                    <div class="form-group has-feedback has-feedback-left">
+                        <input ng-model="password" class="form-control input-lg" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
+                        <i class="form-control-feedback fa fa-key"></i>
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login()">
                     Login
                 </button>
             </div>
+            </form>
         </script>
     </div>
 
@@ -90,7 +99,7 @@
                 </div>
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-scale"/> Size</h3>
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-resize-full"/> Size</h3>
                     </div>
                     <input ng-model="disk.size" class="form-control" autofocus>
                 </div>
@@ -107,6 +116,12 @@
                 Cancel
             </button>
         </div>
+    </script>
+
+    <script type="text/ng-template" id="DiskSelection.html">
+        <a>
+            . TODO .
+        </a>
     </script>
 
     <script type="text/ng-template" id="NewVmWizard.html">
@@ -143,7 +158,84 @@
                 </div>
             </tab>
             <tab>
-                <tab-heading>Disk</tab-heading>
+                <tab-heading>Disks</tab-heading>
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <td>name</td>
+                            <td>bus</td>
+                            <td>size</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="link in vm.storagedevices">
+                            <td>placeholder</td>
+                            <td>{{link.bus}}</td>
+                            <td>placeholder</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <tabset>
+                    <tab>
+                        <tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</tab-heading>
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label class="control-label sr-only">Name</label>
+                            <input type="text" class="form-control" placeholder="Name" />
+                            <i class="form-control-feedback fa fa-tag"></i>
+                        </div>
+                        <div class="form-group has-feedback has-feedback-left">
+                            <label class="control-label sr-only">Size</label>
+                            <input type="text" class="form-control" placeholder="Size (e.g 20 GB)" />
+                            <i class="form-control-feedback fa fa-hdd-o"></i>
+                        </div>
+                    </tab>
+                    <tab>
+                        <tab-heading><span class="glyphicon glyphicon-link"></span> Existing</tab-heading>
+                        <div class="panel panel-info" ng-controller="VirtualStorageLink">
+                            <div class="form-group has-feedback has-feedback-left">
+                                <input type="text"
+                                       ng-model="existingStorageLink"
+                                       typeahead-loading="loadingDisks"
+                                       class="form-control"
+                                       data-provide="typeahead"
+                                       typeahead="name for result in listDisksByName($viewValue)"
+                                       placeholder="Type disk name"
+                                       autocomplete="off"
+                                       typeahead-template-url="DiskSelection.html"
+                                       typeahead-append-to-body="true"
+                                       typeahead-wait-ms="200"
+                                        />
+                                <i ng-show="loadingDisks" class="glyphicon glyphicon-refresh form-control-feedback"></i>
+                                <i ng-show="!loadingDisks" class="glyphicon glyphicon-hdd form-control-feedback"></i>
+                            </div>
+                            <div class="panel-heading">
+
+                                <h3 class="panel-title"><span class="glyphicon glyphicon-signal"/> Bus type</h3>
+                            </div>
+                            <div class="btn-group" role="group" ng-controller="BusType" ng-init="init(link)">
+                                <button type="button" class="btn btn-default" ng-click="setBus('ide')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('ide')"></span> ide
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="setBus('scsi')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('scsi')"></span> scsi
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="setBus('usb')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('usb')"></span> usb
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="setBus('sata')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('sata')"></span> sata
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="setBus('virtio')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('virtio')"></span> virtio
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="setBus('xen')">
+                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('xen')"></span> xen
+                                </button>
+                            </div>
+                        </div>
+
+                    </tab>
+                </tabset>
             </tab>
             <tab>
                 <tab-heading>Network</tab-heading>
