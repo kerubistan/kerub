@@ -52,7 +52,6 @@ class MPStatTest {
 
 		MPStat.monitor(session!!, { stat += it } , interval = 1)
 
-		Assert.assertEquals(4, stat.size)
 		Assert.assertEquals(0, stat[0].cpuNr)
 		Assert.assertEquals(13.27.toDouble(), stat[0].user.toDouble(), 0.1)
 		Assert.assertEquals(11.22.toDouble(), stat[0].system.toDouble(), 0.1)

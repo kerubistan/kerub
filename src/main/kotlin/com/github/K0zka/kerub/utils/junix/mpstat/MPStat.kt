@@ -8,37 +8,43 @@ import java.io.OutputStream
 object MPStat {
 
 	private val regex = "\\s+".toRegex()
-	private val timeregex = "\\d\\d:\\d\\d:\\d\\d"
 
-	class MPStatOutput(private val handler: (CpuStat) -> Unit) : OutputStream() {
+	class MPStatOutput(private val handler: (List<CpuStat>) -> Unit) : OutputStream() {
 		private val buff: StringBuilder = StringBuilder(128)
+		var cpuStats = listOf<CpuStat>()
 		override fun write(data: Int) {
 			if (data == 10) {
-				val line = buff.toString()
-				buff.setLength(0)
-
-				val fields = line.split(regex)
-
-				if (fields.size == 13 && fields[2] != "all" && fields[2] != "CPU") {
-					handler(
-							CpuStat(
-									cpuNr = fields[2].toInt(),
-									idle = fields[12].toFloat(),
-									ioWait = fields[6].toFloat(),
-									system = fields[5].toFloat(),
-									user = fields[3].toFloat()
-							)
-					)
-				}
-
+				parseOutput()
 			} else {
 				buff.append(data.toChar())
 			}
 		}
 
+		private fun parseOutput() {
+			val line = buff.toString()
+			buff.setLength(0)
+
+			if (line.isBlank()) {
+				handler(
+						cpuStats
+				)
+			} else {
+				val fields = line.split(regex)
+				if (fields.size == 13 && fields[2] != "all" && fields[2] != "CPU") {
+					cpuStats += CpuStat(
+							cpuNr = fields[2].toInt(),
+							idle = fields[12].toFloat(),
+							ioWait = fields[6].toFloat(),
+							system = fields[5].toFloat(),
+							user = fields[3].toFloat()
+					)
+				}
+			}
+		}
+
 	}
 
-	fun monitor(session: ClientSession, handler: (CpuStat) -> Unit, interval: Short = 1) {
+	fun monitor(session: ClientSession, handler: (List<CpuStat>) -> Unit, interval: Short = 1) {
 		val channel = session.createExecChannel("mpstat ${interval} -P ALL")
 		channel.`in` = NullInputStream(0)
 		channel.err = NullOutputStream()
