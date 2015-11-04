@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.mpstat
 
 import com.github.K0zka.kerub.anyString
+import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.on
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec

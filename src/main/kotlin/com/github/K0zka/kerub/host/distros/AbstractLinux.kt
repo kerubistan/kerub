@@ -32,8 +32,14 @@ public abstract class AbstractLinux : Distribution {
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
 		val id = host.id
 		MPStat.monitor(session, {
-			doWithDyn(id, hostDynDao, { it /*TODO*/ })
+			stats ->
+			doWithDyn(id, hostDynDao, {
+				it.copy(
+						cpuStats = stats
+				)
+			})
 		})
+		//TODO: if mpstat is available, vmstat should only update the memory information
 		VmStat.vmstat(session, { event ->
 			doWithDyn(id, hostDynDao, {
 				it.copy(

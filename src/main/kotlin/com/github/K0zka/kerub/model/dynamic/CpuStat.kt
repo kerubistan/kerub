@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.utils.junix.mpstat
+package com.github.K0zka.kerub.model.dynamic
 
 data class CpuStat (
 		val cpuNr : Int,
