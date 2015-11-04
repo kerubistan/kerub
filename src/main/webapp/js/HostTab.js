@@ -1,5 +1,7 @@
 
-kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession) {
+kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession, size) {
+
+	$scope.humanFriendlySize = size.humanFriendlySize;
 
     $log.info('initializing host tab');
 

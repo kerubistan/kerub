@@ -16,7 +16,6 @@ private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 }
 
 
-
 public fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 	try {
 		this.open().await()
@@ -58,14 +57,17 @@ public fun SftpClient.checkFileExists(file: String): Boolean {
 	}
 }
 
-public fun ClientSession.appendToFile(file : String, content:String) {
+public fun ClientSession.appendToFile(file: String, content: String) {
 	this.createSftpClient().use {
 		it.appendToFile(file, content)
 	}
 }
 
-public fun SftpClient.appendToFile(file : String, content:String) {
-	val handle = this.open(file, EnumSet.of<OpenMode>(OpenMode.Append, OpenMode.Create, OpenMode.Write))
+public fun SftpClient.appendToFile(file: String, content: String) {
+	val handle = this.open(file, EnumSet.of<SftpClient.OpenMode>(
+			SftpClient.OpenMode.Append,
+			SftpClient.OpenMode.Create,
+			SftpClient.OpenMode.Write))
 	try {
 		val contentBytes = content.toByteArray("ASCII")
 		val stat = this.stat(handle)

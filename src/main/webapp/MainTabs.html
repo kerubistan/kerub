@@ -122,7 +122,7 @@
                                 </span>
                                 <span ng-if="host.capabilities.cpuArchitecture" class="label label-success">
                                 <i class="fa fa-reorder"></i>
-                                {{host.capabilities.totalMemory / (1024 * 1024 * 1024) | number : 2}} GB
+                                {{humanFriendlySize(host.capabilities.totalMemory)}}
                                 </span>
                     </td>
                 </tr>

@@ -1,5 +1,10 @@
 kerubApp.factory('size', ['$log', function($log) {
 	return {
+
+        toSize: function (sizeStr) {
+
+        },
+
         humanFriendlySize : function(size) {
         	var mul = 1024;
         	var kb = mul;
