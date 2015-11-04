@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
-import java.util.*
+import java.util.Date
+import java.util.UUID
 
 @JsonTypeName("project")
 public class Project @JsonCreator constructor (

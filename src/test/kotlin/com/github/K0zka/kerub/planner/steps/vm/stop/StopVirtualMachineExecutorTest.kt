@@ -11,9 +11,8 @@ import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
-import kotlin.reflect.jvm.java
-import java.util.UUID
 import java.math.BigInteger
+import java.util.UUID
 
 @RunWith(MockitoJUnitRunner::class)
 public class StopVirtualMachineExecutorTest {

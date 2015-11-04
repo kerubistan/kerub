@@ -1,20 +1,14 @@
 package com.github.K0zka.kerub.data.ispn
 
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
-import org.mockito.Mock
-import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.data.ControllerDao
-import org.junit.Before
-import org.infinispan.manager.DefaultCacheManager
-import org.springframework.cache.CacheManager
 import org.infinispan.manager.EmbeddedCacheManager
-import org.junit.Test
-import kotlin.test.assertTrue
-import kotlin.test.assertNotNull
-import org.junit.After
-import org.mockito.Mockito
 import org.infinispan.remoting.transport.Address
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.runners.MockitoJUnitRunner
 import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)

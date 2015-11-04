@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.planner.costs
 
 import com.github.K0zka.kerub.model.Host
-import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
 

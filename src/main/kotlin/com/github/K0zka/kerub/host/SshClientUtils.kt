@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.SftpClient
-import org.apache.sshd.client.SftpClient.OpenMode
 import org.apache.sshd.client.channel.AbstractClientChannel
 import org.slf4j.Logger
 import java.io.IOException

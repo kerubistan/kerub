@@ -4,10 +4,6 @@ import com.github.K0zka.kerub.security.Roles
 import com.github.K0zka.kerub.services.LoginService
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.UsernamePasswordToken
-import javax.ws.rs.Consumes
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
-import javax.ws.rs.core.MediaType
 
 public class LoginServiceImpl : LoginService {
 

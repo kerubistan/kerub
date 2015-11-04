@@ -9,7 +9,7 @@ import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
 import java.math.BigInteger
-import java.util.*
+import java.util.UUID
 
 /**
  * A virtual machine.

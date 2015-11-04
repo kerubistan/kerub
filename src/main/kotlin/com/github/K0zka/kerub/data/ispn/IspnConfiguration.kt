@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.utils.getLogger
 import org.infinispan.configuration.cache.Configuration
-import org.infinispan.configuration.cache.SingleFileStoreConfigurationBuilder
 import org.infinispan.configuration.global.GlobalConfiguration
 import org.infinispan.configuration.parsing.ParserRegistry
 

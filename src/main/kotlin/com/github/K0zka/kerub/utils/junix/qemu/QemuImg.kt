@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
-import kotlin.reflect.jvm.java
 
 /**
  * Utility wrapper around qemu-img

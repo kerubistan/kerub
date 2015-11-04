@@ -2,9 +2,26 @@ package com.github.K0zka.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
-import com.github.K0zka.kerub.model.expectations.*
+import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
+import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
+import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
+import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
+import com.github.K0zka.kerub.model.expectations.EccMemoryExpectation
+import com.github.K0zka.kerub.model.expectations.HostOperatingSystemExpectation
+import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
+import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
+import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
+import com.github.K0zka.kerub.model.expectations.PowerRedundancyExpectation
+import com.github.K0zka.kerub.model.expectations.StoragePerformanceExpectation
+import com.github.K0zka.kerub.model.expectations.StorageReadPerformanceExpectation
+import com.github.K0zka.kerub.model.expectations.StorageReadWritePerformance
+import com.github.K0zka.kerub.model.expectations.StorageRedundancyExpectation
+import com.github.K0zka.kerub.model.expectations.StorageWritePerformanceExpectation
+import com.github.K0zka.kerub.model.expectations.SystemManufacturerExpectation
+import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import java.io.Serializable
-import java.util.UUID
 
 /**
  * Base expectation interface.

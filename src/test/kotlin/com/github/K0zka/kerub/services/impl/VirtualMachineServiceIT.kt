@@ -12,7 +12,6 @@ import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.VirtualMachineService
 import org.junit.Assert
 import org.junit.Test
-import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.UUID
 

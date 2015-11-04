@@ -12,7 +12,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
-import kotlin.reflect.jvm.java
 import java.util.UUID
 
 @RunWith(MockitoJUnitRunner::class)

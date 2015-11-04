@@ -2,13 +2,21 @@ package com.github.K0zka.kerub.services
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostPubKey
-import com.github.K0zka.kerub.security.Roles
 import com.github.K0zka.kerub.security.admin
-import com.wordnik.swagger.annotations.*
+import com.wordnik.swagger.annotations.Api
+import com.wordnik.swagger.annotations.ApiOperation
+import com.wordnik.swagger.annotations.ApiParam
+import com.wordnik.swagger.annotations.ApiResponse
+import com.wordnik.swagger.annotations.ApiResponses
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles
-import java.util.*
-import javax.ws.rs.*
+import java.util.UUID
+import javax.ws.rs.Consumes
+import javax.ws.rs.GET
+import javax.ws.rs.PUT
+import javax.ws.rs.Path
+import javax.ws.rs.Produces
+import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
 
 @Api("s/r/host", description = "Host service")

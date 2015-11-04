@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.hypervisor.kvm
 
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageLink
-import kotlin.math.times
 
 fun storageToXml(disks : List<VirtualStorageLink>) : String {
 	val ret = StringBuilder()

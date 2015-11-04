@@ -13,7 +13,6 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.math.BigInteger
 import java.util.UUID
-import kotlin.reflect.jvm.java
 
 @RunWith(MockitoJUnitRunner::class)
 class StartVirtualMachineExecutorTest {

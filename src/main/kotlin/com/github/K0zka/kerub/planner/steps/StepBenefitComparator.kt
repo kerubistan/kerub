@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.planner.steps
 
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.planner.OperationalState
-import java.util.*
+import java.util.Comparator
 
 public class StepBenefitComparator(val state : OperationalState) : Comparator<AbstractOperationalStep> {
 	override fun compare(first: AbstractOperationalStep, second: AbstractOperationalStep): Int {

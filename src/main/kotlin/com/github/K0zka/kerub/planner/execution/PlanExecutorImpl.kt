@@ -1,17 +1,17 @@
 package com.github.K0zka.kerub.planner.execution
 
 import com.github.K0zka.kerub.host.HostCommandExecutor
-import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.StepExecutor
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
-import com.github.K0zka.kerub.planner.steps.host.ksm.*
+import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsm
+import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsmExecutor
+import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
+import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
 import com.github.K0zka.kerub.utils.getLogger
-import com.github.k0zka.finder4j.backtrack.Step
-import kotlin.reflect.jvm.kotlin
 
 public class PlanExecutorImpl(val hostCommandExecutor : HostCommandExecutor) : PlanExecutor {
 

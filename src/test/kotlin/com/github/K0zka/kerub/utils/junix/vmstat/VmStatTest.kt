@@ -14,8 +14,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
-import java.util.*
-import kotlin.reflect.jvm.java
+import java.util.ArrayList
+import java.util.Collections
 
 @RunWith(MockitoJUnitRunner::class)
 public class VmStatTest {

@@ -1,6 +1,10 @@
 package com.github.K0zka.kerub.planner
 
-import com.github.K0zka.kerub.model.*
+import com.github.K0zka.kerub.model.Expectation
+import com.github.K0zka.kerub.model.ExpectationLevel
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation

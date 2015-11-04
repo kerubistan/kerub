@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.create
 
 import com.github.K0zka.kerub.host.HostCommandExecutor
-import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.StepExecutor
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg

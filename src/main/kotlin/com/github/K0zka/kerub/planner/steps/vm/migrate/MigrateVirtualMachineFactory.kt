@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.planner.steps.vm.migrate
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
 

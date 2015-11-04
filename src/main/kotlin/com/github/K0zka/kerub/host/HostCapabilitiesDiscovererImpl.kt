@@ -1,6 +1,13 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.host.distros.*
+import com.github.K0zka.kerub.host.distros.Centos6
+import com.github.K0zka.kerub.host.distros.Centos7
+import com.github.K0zka.kerub.host.distros.Distribution
+import com.github.K0zka.kerub.host.distros.Fedora
+import com.github.K0zka.kerub.host.distros.FreeBSD
+import com.github.K0zka.kerub.host.distros.OpenSuse
+import com.github.K0zka.kerub.host.distros.Raspbian
+import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
@@ -16,8 +23,6 @@ import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
 import kotlin.reflect.KClass
-import kotlin.reflect.jvm.java
-import kotlin.reflect.jvm.kotlin
 
 /**
  * Helper class to detect host capabilities through an established SSH session.

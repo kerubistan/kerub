@@ -8,7 +8,14 @@ import com.wordnik.swagger.annotations.ApiResponse
 import com.wordnik.swagger.annotations.ApiResponses
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
-import javax.ws.rs.*
+import javax.ws.rs.DELETE
+import javax.ws.rs.DefaultValue
+import javax.ws.rs.GET
+import javax.ws.rs.POST
+import javax.ws.rs.PUT
+import javax.ws.rs.Path
+import javax.ws.rs.PathParam
+import javax.ws.rs.QueryParam
 
 /**
  * Collection of typical operations.

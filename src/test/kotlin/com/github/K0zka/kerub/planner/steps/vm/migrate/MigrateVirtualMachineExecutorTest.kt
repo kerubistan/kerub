@@ -10,7 +10,6 @@ import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
-import kotlin.reflect.jvm.java
 
 @RunWith(MockitoJUnitRunner::class)
 public class MigrateVirtualMachineExecutorTest {

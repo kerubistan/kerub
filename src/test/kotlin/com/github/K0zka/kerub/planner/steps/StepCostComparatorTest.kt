@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.planner.steps
 
 import com.github.K0zka.kerub.planner.costs.Risk
 import org.junit.Assert
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock

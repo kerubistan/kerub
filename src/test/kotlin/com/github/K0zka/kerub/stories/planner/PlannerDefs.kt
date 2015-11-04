@@ -1,7 +1,12 @@
 package com.github.K0zka.kerub.stories.planner
 
-import com.github.K0zka.kerub.model.*
+import com.github.K0zka.kerub.model.ExpectationLevel
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.HostCapabilities
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
+import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
@@ -9,7 +14,12 @@ import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
-import com.github.K0zka.kerub.planner.*
+import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.OperationalStateBuilder
+import com.github.K0zka.kerub.planner.Plan
+import com.github.K0zka.kerub.planner.PlanExecutor
+import com.github.K0zka.kerub.planner.Planner
+import com.github.K0zka.kerub.planner.PlannerImpl
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
@@ -28,7 +38,6 @@ import org.mockito.Mockito
 import java.math.BigInteger
 import kotlin.math.minus
 import kotlin.math.plus
-import kotlin.reflect.jvm.java
 
 public class PlannerDefs {
 

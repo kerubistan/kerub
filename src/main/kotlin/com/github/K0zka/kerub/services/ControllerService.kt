@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.services
 
-import com.github.K0zka.kerub.security.Roles
 import com.github.K0zka.kerub.security.admin
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles

@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.exceptions.mappers
 
-import com.github.K0zka.kerub.testBaseUrl
 import com.github.K0zka.kerub.testRestBaseUrl
 import org.apache.http.HttpStatus
 import org.apache.http.client.methods.HttpPost

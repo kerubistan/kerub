@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.model.Constrained
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.model.expectations.EccMemoryExpectation
 import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.planner.OperationalState
@@ -13,7 +12,8 @@ import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.NetworkCost
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
-import java.util.*
+import java.util.ArrayList
+import java.util.HashMap
 import kotlin.math.minus
 import kotlin.math.plus
 

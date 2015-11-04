@@ -1,13 +1,9 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.createClient
 import com.github.K0zka.kerub.services.HostService
 import com.github.K0zka.kerub.services.LoginService
-import com.github.K0zka.kerub.services.getServiceBaseUrl
-import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
-import org.apache.cxf.jaxrs.client.WebClient
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test

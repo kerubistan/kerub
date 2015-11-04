@@ -1,15 +1,12 @@
 package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.data.EventListener
-import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
-import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import org.infinispan.Cache
 import org.infinispan.query.Search
 import org.infinispan.query.dsl.Query
-import java.util.*
-import kotlin.reflect.jvm.java
+import java.util.UUID
 
 public class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, eventListener : EventListener)
 : VirtualStorageDeviceDao, ListableIspnDaoBase<VirtualStorageDevice, UUID>(cache, eventListener) {

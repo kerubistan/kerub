@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
-import com.github.K0zka.kerub.matchAny
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.SftpClient
@@ -15,7 +14,6 @@ import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 

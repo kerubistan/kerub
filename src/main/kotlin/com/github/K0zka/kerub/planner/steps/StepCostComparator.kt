@@ -1,9 +1,18 @@
 package com.github.K0zka.kerub.planner.steps
 
-import com.github.K0zka.kerub.planner.costs.*
-import java.util.*
+import com.github.K0zka.kerub.planner.costs.ComputationCost
+import com.github.K0zka.kerub.planner.costs.ComputationCostComparator
+import com.github.K0zka.kerub.planner.costs.Cost
+import com.github.K0zka.kerub.planner.costs.IOCost
+import com.github.K0zka.kerub.planner.costs.IOCostComparator
+import com.github.K0zka.kerub.planner.costs.NetworkCost
+import com.github.K0zka.kerub.planner.costs.NetworkCostComparator
+import com.github.K0zka.kerub.planner.costs.Risk
+import com.github.K0zka.kerub.planner.costs.RiskComparator
+import com.github.K0zka.kerub.planner.costs.TimeCost
+import com.github.K0zka.kerub.planner.costs.TimeCostComparator
+import java.util.Comparator
 import kotlin.reflect.KClass
-import kotlin.reflect.jvm.kotlin
 
 public object StepCostComparator : Comparator<AbstractOperationalStep> {
 

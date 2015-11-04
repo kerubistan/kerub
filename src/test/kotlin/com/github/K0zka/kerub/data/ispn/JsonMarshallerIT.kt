@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
-import org.junit.Ignore
 import org.junit.Test
 import java.util.UUID
 

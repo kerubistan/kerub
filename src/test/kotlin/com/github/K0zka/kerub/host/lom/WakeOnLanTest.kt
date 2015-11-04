@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.lom
 
-import com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host

@@ -7,14 +7,11 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.utils.toSize
-import org.apache.sshd.ClientSession
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
-import java.util.*
+import java.util.UUID
 
 @RunWith(MockitoJUnitRunner::class)
 public class PlanExecutorImplTest {

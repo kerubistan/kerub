@@ -1,9 +1,7 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.services.MotdService
-import com.github.K0zka.kerub.services.VersionService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory

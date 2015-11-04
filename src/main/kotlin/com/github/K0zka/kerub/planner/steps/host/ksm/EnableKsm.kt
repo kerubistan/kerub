@@ -1,13 +1,10 @@
 package com.github.K0zka.kerub.planner.steps.host.ksm
 
 import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.ComputationCost
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
-import com.github.K0zka.kerub.utils.sum
-import java.math.BigInteger
 
 data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalStep {
 

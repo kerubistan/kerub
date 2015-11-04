@@ -3,8 +3,6 @@ package com.github.K0zka.kerub
 import org.mockito.Matchers
 import org.mockito.Mockito
 import org.mockito.verification.VerificationMode
-import kotlin.reflect.KClass
-import kotlin.reflect.jvm.java
 
 fun <T> verify(param : T) = Mockito.verify(param)
 

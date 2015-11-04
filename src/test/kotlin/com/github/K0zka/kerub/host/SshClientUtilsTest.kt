@@ -16,7 +16,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.File
-import java.net.ServerSocket
 import java.net.SocketAddress
 import java.nio.file.Files
 import java.security.PublicKey
