@@ -13,10 +13,10 @@ public data class HostDynamic(
 		val userCpu: Byte? = null,
 		val systemCpu: Byte? = null,
 		val idleCpu: Byte? = null,
-        val memFree: BigInteger? = null,
-        val memUsed: BigInteger? = null,
-        val memSwapped: BigInteger? = null,
-        val ksmEnabled: Boolean = false,
-		val cpuStats : List<CpuStat> = listOf()
-                             )
+		val memFree: BigInteger? = null,
+		val memUsed: BigInteger? = null,
+		val memSwapped: BigInteger? = null,
+		val ksmEnabled: Boolean = false,
+		val cpuStats: List<CpuStat> = listOf()
+)
 : DynamicEntity

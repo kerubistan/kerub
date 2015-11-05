@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class PowerRedundancyExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val minPowerCords: Int
-                                                              ) : Expectation
+) : Expectation

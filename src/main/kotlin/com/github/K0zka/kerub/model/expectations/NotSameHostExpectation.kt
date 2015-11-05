@@ -9,4 +9,4 @@ import java.util.UUID
 data class NotSameHostExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val otherVmIds: List<UUID>
-                                                          ) : Expectation
+) : Expectation

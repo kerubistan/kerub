@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class StorageRedundancyExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val nrOfCopies: Int
-                                                                ) : Expectation
+) : Expectation

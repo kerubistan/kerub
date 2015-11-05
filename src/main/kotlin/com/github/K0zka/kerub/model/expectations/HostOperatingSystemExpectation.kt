@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 data class HostOperatingSystemExpectation constructor(
 		override val level: ExpectationLevel,
 		val os: SoftwarePackage
-                                                     ) : VirtualMachineExpectation
+) : VirtualMachineExpectation

@@ -17,8 +17,8 @@ data class VirtualStorageDevice(
 		@Field
 		override
 		val expectations: List<Expectation> = listOf(),
-        @Field
+		@Field
 		override
-		val name : String
-                               )
+		val name: String
+)
 : Entity<UUID>, Constrained<Expectation>, Named

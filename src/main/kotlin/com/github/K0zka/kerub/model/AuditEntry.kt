@@ -10,16 +10,16 @@ import java.util.UUID
  */
 @Indexed
 class AuditEntry(
-        @DocumentId
+		@DocumentId
 		override val id: UUID = UUID.randomUUID(),
-        @Field
+		@Field
 		val old: Entity<UUID>? = null,
-        @Field
+		@Field
 		val new: Entity<UUID>? = null,
-        @Field
+		@Field
 		val date: Long = System.currentTimeMillis(),
-        @Field
+		@Field
 		val user: UUID? = null,
-        @Field
+		@Field
 		val event: AuditEventType = AuditEventType.Update)
 : Entity<UUID>

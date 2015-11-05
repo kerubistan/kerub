@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class VirtualMachineAvailabilityExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val up: Boolean = true
-                                                                         ) : Expectation
+) : Expectation

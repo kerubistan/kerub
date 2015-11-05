@@ -4,5 +4,5 @@ import java.util.UUID
 
 data class Network(
 		override val id: UUID
-                  )
+)
 : Entity<UUID>

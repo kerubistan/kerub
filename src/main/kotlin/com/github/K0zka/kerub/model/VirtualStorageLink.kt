@@ -9,11 +9,11 @@ import java.util.UUID
  * Describes the attachment of a virtual disk to a VM
  */
 data class VirtualStorageLink(
-        @Field
+		@Field
 		val virtualStorageId: UUID,
-        @Field
+		@Field
 		val bus: BusType,
-        @Field
+		@Field
 		override
 		val expectations: List<Expectation> = listOf()
-                             ) : Serializable, Constrained<Expectation>
+) : Serializable, Constrained<Expectation>

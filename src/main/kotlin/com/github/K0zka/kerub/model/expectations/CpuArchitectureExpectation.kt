@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class CpuArchitectureExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val cpuArchitecture: String
-                                                              ) : Expectation
+) : Expectation

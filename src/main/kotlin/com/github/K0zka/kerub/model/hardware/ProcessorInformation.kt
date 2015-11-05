@@ -15,4 +15,4 @@ data class ProcessorInformation(
 		val l1cache: CacheInformation? = null,
 		val l2cache: CacheInformation? = null,
 		val l3cache: CacheInformation? = null
-                               ) : Serializable
+) : Serializable

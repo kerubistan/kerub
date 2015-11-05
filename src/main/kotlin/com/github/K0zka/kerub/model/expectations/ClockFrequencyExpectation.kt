@@ -9,4 +9,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class ClockFrequencyExpectation @JsonCreator constructor(
 		override val level: ExpectationLevel,
 		val minimalClockFrequency: Int
-                                                               ) : Expectation
+) : Expectation

@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.model.hardware
 
 import java.io.Serializable
 
-data class MemoryInformation (
+data class MemoryInformation(
 		val sizeMb: Int,
 		val type: String,
 		val formFactor: String,

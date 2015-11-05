@@ -48,7 +48,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(MemoryClockFrequencyExpectation::class),
 		JsonSubTypes.Type(CacheSizeExpectation::class),
 		JsonSubTypes.Type(SystemManufacturerExpectation::class)
-            )
+)
 interface Expectation : Serializable {
 	val level: ExpectationLevel
 }

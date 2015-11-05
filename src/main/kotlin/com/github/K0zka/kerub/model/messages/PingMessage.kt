@@ -4,4 +4,4 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 @JsonTypeName("ping")
-public data class PingMessage @JsonCreator constructor(val sent : Long?) : Message
+public data class PingMessage @JsonCreator constructor(val sent: Long?) : Message

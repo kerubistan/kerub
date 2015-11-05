@@ -16,25 +16,25 @@ import java.util.UUID
 @Indexed
 @JsonTypeName("host")
 data class Host constructor(
-        @JsonView(Simple::class)
-        @DocumentId
-        @JsonProperty("id")
-        override
+		@JsonView(Simple::class)
+		@DocumentId
+		@JsonProperty("id")
+		override
 		val id: UUID = UUID.randomUUID(),
 		@Field
-        @JsonProperty("address")
+		@JsonProperty("address")
 		val address: String,
-        @JsonView(Detailed::class)
-        @Field
-        @JsonProperty("publickey")
+		@JsonView(Detailed::class)
+		@Field
+		@JsonProperty("publickey")
 		val publicKey: String,
-        @JsonView(Simple::class)
-        @Field
-        @JsonProperty("dedicated")
+		@JsonView(Simple::class)
+		@Field
+		@JsonProperty("dedicated")
 		val dedicated: Boolean,
-        @Field
-        @JsonProperty("capabilities")
-        @JsonView(Detailed::class)
+		@Field
+		@JsonProperty("capabilities")
+		@JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null
-                              )
+)
 : Entity<UUID>

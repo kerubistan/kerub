@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class NoMigrationExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Wish,
 		val userTimeoutMinutes: Int
-                                                            ) : Expectation
+) : Expectation

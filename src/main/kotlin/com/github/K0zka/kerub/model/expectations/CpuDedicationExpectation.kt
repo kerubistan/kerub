@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class CpuDedicationExpectation constructor(
 		override val level: ExpectationLevel,
 		val dedicatedVCpus: List<Int>
-                                                              ) : Expectation
+) : Expectation

@@ -9,22 +9,22 @@ import java.util.Date
 import java.util.UUID
 
 @JsonTypeName("project")
-public class Project @JsonCreator constructor (
+public class Project @JsonCreator constructor(
 		@DocumentId
-        @JsonProperty("id")
+		@JsonProperty("id")
 		override var id: UUID = UUID.randomUUID(),
-        @Field
-        @JsonProperty("name")
+		@Field
+		@JsonProperty("name")
 		override val name: String,
-        @Field
-        @JsonProperty("description")
+		@Field
+		@JsonProperty("description")
 		val description: String,
-        @Field
-        @JsonProperty("created")
+		@Field
+		@JsonProperty("created")
 		val created: Date,
 		override
-        @Field
-        @JsonProperty("expectations")
+		@Field
+		@JsonProperty("expectations")
 		val expectations: List<Expectation> = listOf()
-                    )
+)
 : Entity<UUID>, Named, Constrained<Expectation>

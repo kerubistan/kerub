@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.io.IoTune
 data class StorageWritePerformanceExpectation constructor(
 		override val level: ExpectationLevel,
 		override val speed: IoTune
-                                                                      ) : StoragePerformanceExpectation
+) : StoragePerformanceExpectation

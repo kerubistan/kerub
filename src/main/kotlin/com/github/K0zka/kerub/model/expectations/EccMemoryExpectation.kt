@@ -7,4 +7,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 @JsonTypeName("ecc-memory")
 data class EccMemoryExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker
-                                                          ) : Expectation
+) : Expectation
