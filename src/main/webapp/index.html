@@ -101,7 +101,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="glyphicon glyphicon-resize-full"/> Size</h3>
                     </div>
-                    <input ng-model="disk.size" class="form-control" autofocus>
+                    <input ng-model="disk.userFriendlySize" ng-model-options="{ getterSetter: true }" class="form-control" autofocus>
                 </div>
             </tab>
             <tab>
