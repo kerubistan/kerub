@@ -5,6 +5,10 @@ kerubApp.factory('size', ['$log', function($log) {
 	var gb = mul * mb;
 	var tb = mul * gb;
 	var pb = mul * tb;
+	var round = function(nr, decimals) {
+		return Math.round(nr * Math.pow(10,decimals)) / Math.pow(10,decimals)
+	};
+
 	return {
 
         toSize: function (sizeStr) {
@@ -29,15 +33,15 @@ kerubApp.factory('size', ['$log', function($log) {
         	if(size < kb) {
         		return size + ' B';
         	} else if(size < mb) {
-        		return Math.round(size / kb) + ' KB';
+        		return round(size / kb, 1) + ' KB';
         	} else if(size < gb) {
-        		return Math.round(size / mb) + ' MB';
+        		return round(size / mb, 1) + ' MB';
         	} else if(size < tb) {
-        		return Math.round(size / gb) + ' GB';
+        		return round(size / gb, 1) + ' GB';
         	} else if(size < pb) {
-        		return Math.round(size / tb) + ' TB';
+        		return round(size / tb, 1) + ' TB';
         	} else {
-        		return Math.round(size / pb) + ' PB';
+        		return round(size / pb, 1) + ' PB';
         	}
         }
 	};
