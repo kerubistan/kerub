@@ -8,9 +8,9 @@ import org.infinispan.query.Search
 import org.infinispan.query.dsl.Query
 import java.util.UUID
 
-public class AssignmentDaoImpl(cache : Cache<UUID, Assignment>, eventListener : EventListener)
+public class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener)
 : AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener) {
-	override fun listByController(controller: String) : List<Assignment> {
+	override fun listByController(controller: String): List<Assignment> {
 		return Search.getQueryFactory(cache)
 				.from(Assignment::class.java)
 				.having("controller")

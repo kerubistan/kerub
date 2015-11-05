@@ -4,5 +4,5 @@ import com.github.K0zka.kerub.model.controller.Assignment
 import java.util.UUID
 
 public interface AssignmentDao : ListableCrudDao<Assignment, UUID> {
-	fun listByController(controller: String) : List<Assignment>
+	fun listByController(controller: String): List<Assignment>
 }

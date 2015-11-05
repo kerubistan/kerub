@@ -22,9 +22,9 @@ public class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller
 		override fun nextSize(obj: Any?): Int =
 				when (obj) {
 					is VirtualMachine -> 8 * KB
-					is Assignment -> 1 * KB
-					is Host -> 128 * KB
-					else -> 1024
+					is Assignment     -> 1 * KB
+					is Host           -> 128 * KB
+					else              -> 1024
 				}
 
 		override fun recordSize(previousSize: Int) {

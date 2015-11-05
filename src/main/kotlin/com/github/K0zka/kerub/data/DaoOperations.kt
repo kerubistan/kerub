@@ -68,7 +68,7 @@ public interface DaoOperations {
 				value: String,
 				start: Long = 0,
 				limit: Long = java.lang.Long.MAX_VALUE
-		               ): kotlin.List<T>
+		): kotlin.List<T>
 	}
 
 }

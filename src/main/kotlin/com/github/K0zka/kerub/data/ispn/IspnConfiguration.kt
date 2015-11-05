@@ -18,8 +18,8 @@ class IspnConfiguration {
 		val logger = getLogger(IspnConfiguration::class)
 	}
 
-	private var globalConfig : GlobalConfiguration? = null
-	private var config : Configuration? = null
+	private var globalConfig: GlobalConfiguration? = null
+	private var config: Configuration? = null
 
 	fun init() {
 		logger.info("ispn global configuration")
@@ -48,17 +48,17 @@ class IspnConfiguration {
 		config = configBuilder.build(globalConfig)
 	}
 
-	fun build() : Configuration {
+	fun build(): Configuration {
 		return config!!
 	}
 
-	fun buildGlobal() : GlobalConfiguration {
+	fun buildGlobal(): GlobalConfiguration {
 		return globalConfig!!
 	}
 
 	fun loadTemplate() =
-		Thread.currentThread().getContextClassLoader().getResourceAsStream(template).use {
-			ParserRegistry().parse(it)
-		}
+			Thread.currentThread().getContextClassLoader().getResourceAsStream(template).use {
+				ParserRegistry().parse(it)
+			}
 
 }
