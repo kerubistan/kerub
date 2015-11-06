@@ -30,6 +30,9 @@ kerubApp.factory('size', ['$log', function($log) {
         },
 
         humanFriendlySize : function(size) {
+        	if(!size) {
+        		return;
+        	}
         	if(size < kb) {
         		return size + ' B';
         	} else if(size < mb) {
@@ -43,6 +46,11 @@ kerubApp.factory('size', ['$log', function($log) {
         	} else {
         		return round(size / pb, 1) + ' PB';
         	}
+        },
+
+        humanFriendlyAccurateSize : function(size) {
+        	//TODO
         }
+
 	};
 }]);

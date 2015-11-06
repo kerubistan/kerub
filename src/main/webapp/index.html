@@ -153,8 +153,8 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="glyphicon glyphicon-signal"/> Memory</h3>
                     </div>
-                    <input ng-model="vm.memory.min" class="form-control" type="number">
-                    <input ng-model="vm.memory.max" class="form-control" type="number">
+                    <input ng-model="vm.memory.humanFriendlyMin" ng-model-options="{ getterSetter: true }" class="form-control">
+                    <input ng-model="vm.memory.humanFriendlyMax" ng-model-options="{ getterSetter: true }" class="form-control">
                 </div>
             </tab>
             <tab>
