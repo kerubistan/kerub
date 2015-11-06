@@ -17,4 +17,12 @@
         <constructor-arg ref="messageListener"/>
     </bean>
 
+    <!--
+    Security - spring does not create an AOP proxy around websocket if this is not here
+    -->
+    <bean
+            class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+            depends-on="lifecycleBeanPostProcessor"/>
+
+
 </beans>
