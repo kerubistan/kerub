@@ -4,10 +4,10 @@ import java.math.BigInteger
 import java.util.UUID
 
 data class LogicalVolume(
-		val id: UUID,
+		val id: String,
 		val name: String,
 		val path: String,
 		val size: BigInteger,
-		val minRecovery: Int,
-		val maxRecovery: Int
+		val minRecovery: Int?,
+		val maxRecovery: Int?
 )
