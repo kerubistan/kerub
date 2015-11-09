@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.lvm
 
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
@@ -12,7 +13,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.math.BigInteger
 
@@ -24,6 +24,9 @@ class LvmLvTest {
 
 	@Mock
 	var execChannel: ChannelExec? = null
+
+	@Mock
+	var createExecChannel: ChannelExec? = null
 
 	@Mock
 	var openFuture: OpenFuture? = null
@@ -71,6 +74,23 @@ class LvmLvTest {
 """.toByteArray("ASCII")))
 
 		LvmLv.delete(session!!, "test")
+
+	}
+
+	@Test
+	fun create() {
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(createExecChannel?.invertedOut)
+				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray("ASCII")))
+		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
 
 	}
 

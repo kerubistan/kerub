@@ -34,6 +34,20 @@ public fun ClientSession.execute(command: String): String {
 	}
 }
 
+public fun ClientSession.executeOrDie(command: String): String {
+	val execChannel = this.createExecChannel(command)
+	return execChannel.use {
+		val error = it.invertedErr.reader("ASCII").readText()
+		if(!error.isBlank()) {
+			throw IOException(error)
+		}
+		it.getInvertedOut().reader("ASCII").use {
+			logger.debugAndReturn("result of command ${command}: ", it.readText())
+		}
+	}
+}
+
+
 /**
  * Check if a file exists.
  * Sftp channel is created, only use this if there is no sftp channel open yet.

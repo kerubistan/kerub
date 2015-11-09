@@ -43,7 +43,7 @@ object LvmLv {
 			   maxRecovery: Int? = null
 	): LogicalVolume {
 		fun minRecovery(minRecovery: Int?) = if(minRecovery == null) {""} else {"--minrecoveryrate $minRecovery"}
-		fun maxRecovery(maxRecovery: Int?) = if(maxRecovery == null) {""} else {"--maxrecoveryrate $minRecovery"}
+		fun maxRecovery(maxRecovery: Int?) = if(maxRecovery == null) {""} else {"--maxrecoveryrate $maxRecovery"}
 		session.executeOrDie(
 				"""lvcreate -n $name -L $size B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""")
 		return list(session).first { it.name == name }
