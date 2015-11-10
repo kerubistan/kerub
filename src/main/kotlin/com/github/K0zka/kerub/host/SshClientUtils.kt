@@ -11,7 +11,7 @@ import java.util.EnumSet
 private val logger = getLogger(ClientSession::class)
 
 private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
-	this.info("${msg} ${x}")
+	this.debug("${msg} ${x}")
 	return x
 }
 
