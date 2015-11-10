@@ -1,11 +1,9 @@
 package com.github.K0zka.kerub.utils.junix.lvm
 
-import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
-import java.util.UUID
 
 object LvmLv {
 
