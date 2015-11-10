@@ -90,8 +90,8 @@ class LvmLvTest {
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray("ASCII")))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
-		LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
-
+		val volume = LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
+		Assert.assertEquals("testlv2", volume.name)
 	}
 
 }
