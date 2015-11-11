@@ -3,6 +3,7 @@ package com.github.K0zka.kerub
 import org.mockito.Matchers
 import org.mockito.Mockito
 import org.mockito.verification.VerificationMode
+import kotlin.reflect.KClass
 
 fun <T> verify(param : T) = Mockito.verify(param)
 
@@ -25,5 +26,6 @@ fun anyInt() = Matchers.anyInt() ?: 1
 fun anyLong() = Matchers.anyLong() ?: 1L
 
 fun <T> matchAny(clazz : Class<T>) : T = Matchers.any(clazz) ?: Mockito.mock(clazz)
+fun <T : Any> matchAny(clazz : KClass<T>) : T = matchAny(clazz.java)
 
 fun <T> matchAny(clazz : Class<T>, instance : T) : T = Matchers.any(clazz) ?: instance
