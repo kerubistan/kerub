@@ -6,7 +6,7 @@ import javax.jms.MessageListener
 import javax.jms.ObjectMessage
 import com.github.K0zka.kerub.model.messages.Message as KerubMessage
 
-public class InternalMessageListener : MessageListener {
+open public class InternalMessageListener : MessageListener {
 
 	companion object {
 		val logger = getLogger(InternalMessageListener::class)
