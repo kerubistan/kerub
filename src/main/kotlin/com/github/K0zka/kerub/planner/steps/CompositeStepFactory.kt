@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostFactory
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
 import com.github.k0zka.finder4j.backtrack.StepFactory
 import kotlin.reflect.KClass
@@ -21,6 +22,7 @@ public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> 
 			VirtualMachineAvailabilityExpectation::class
 					to setOf<AbstractOperationalStepFactory<*>>(
 						StartVirtualMachineFactory,
+						CreateImageFactory,
 						StopVirtualMachineFactory,
 					    MigrateVirtualMachineFactory,
 					    WakeHostFactory

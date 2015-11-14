@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.ClientSession
@@ -10,6 +11,8 @@ import org.apache.sshd.ClientSession
  * Interface to hide the details of some distribution-specific operations.
  */
 public interface Distribution {
+
+	val operatingSystem : OperatingSystem
 
 	/**
 	 * Get the version of the host OS distribution.

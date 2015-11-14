@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.matchAny
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import com.github.K0zka.kerub.times
 import com.github.K0zka.kerub.verify
@@ -78,7 +79,8 @@ public class ControllerAssignerImplTest {
 		val assignment = Assignment(
 				id = UUID.randomUUID(),
 				controller = "",
-				hostId = UUID.randomUUID()
+				entityId = UUID.randomUUID(),
+				type = AssignmentType.host
 		                           )
 		verify(hostAssignmentDao!!, times(2)).add( matchAny(Assignment::class.java,
 		                                                    assignment

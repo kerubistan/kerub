@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.verify
 import org.apache.sshd.ClientSession
@@ -135,7 +136,7 @@ public class HostManagerImplTest {
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
 		on(controllerManager!!.getControllerId()).thenReturn(controllerId)
 		on(hostAssignmentDao!!.listByController(eq(controllerId))).thenReturn(
-				listOf(Assignment(controller = controllerId, hostId = hostId))
+				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
 		                                                                     )
 		on(hostDao!!.get(hostId)) thenReturn host
 		on(sshClientService!!.createSession(anyString(), anyString())) thenReturn clientSession

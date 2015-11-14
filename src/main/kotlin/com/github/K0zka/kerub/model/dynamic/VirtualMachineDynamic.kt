@@ -11,5 +11,4 @@ public data class VirtualMachineDynamic(
 		val hostId: UUID,
 		val status: VirtualMachineStatus = VirtualMachineStatus.Down,
 		val memoryUsed: BigInteger
-) : DynamicEntity {
-}
+) : DynamicEntity

@@ -11,7 +11,7 @@ public class CreateImageExecutor(val exec : HostCommandExecutor) : StepExecutor<
 			QemuImg.create(
 					session = it,
 					format = VirtualDiskFormat.raw, //TODO
-			        path = "/var/", //TODO
+			        path = "/var/${step.device.id}", //TODO
 			        size = step.device.size
 			              )
 		})

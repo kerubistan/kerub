@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.data.ControllerDao
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -104,8 +105,9 @@ public class ControllerAssignerImpl(val backtrack: BacktrackService,
 		                   )
 		for (assignment in strategy.getSolution().assignments) {
 			hostAssignmentDao.add(Assignment(
-					hostId = assignment.key.id,
-					controller = assignment.value))
+					entityId = assignment.key.id,
+					controller = assignment.value,
+					type = AssignmentType.host))
 			interController.sendToController(assignment.value,
 			                                 HostAssignedMessage(
 					                                 hostId = assignment.key.id,

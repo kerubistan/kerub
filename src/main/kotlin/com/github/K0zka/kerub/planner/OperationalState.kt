@@ -1,12 +1,15 @@
 package com.github.K0zka.kerub.planner
 
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.k0zka.finder4j.backtrack.State
@@ -16,21 +19,31 @@ data class OperationalState(
 		val hosts: Map<UUID, Host> = mapOf(),
 		val hostDyns: Map<UUID, HostDynamic> = mapOf(),
 		val vms: Map<UUID, VirtualMachine> = mapOf(),
-		val vmDyns: Map<UUID, VirtualMachineDynamic> = mapOf()
-                           ) : State {
+		val vmDyns: Map<UUID, VirtualMachineDynamic> = mapOf(),
+		val vStorage: Map<UUID, VirtualStorageDevice> = mapOf(),
+		val vStorageDyns: Map<UUID, VirtualStorageDeviceDynamic> = mapOf()
+) : State {
 
 	companion object {
+
+		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T>
+				= entities.toMapBy { it.id }
+
 		fun fromLists(hosts: List<Host> = listOf(),
-		              hostDyns: List<HostDynamic> = listOf(),
-		              vms: List<VirtualMachine> = listOf(),
-		              vmDyns: List<VirtualMachineDynamic> = listOf()): OperationalState {
-			return OperationalState(
-					hosts = hosts.toMapBy { it.id },
-					hostDyns = hostDyns.toMapBy { it.id },
-					vms = vms.toMapBy { it.id },
-			        vmDyns = vmDyns.toMapBy { it.id }
-			                       )
-		}
+					  hostDyns: List<HostDynamic> = listOf(),
+					  vms: List<VirtualMachine> = listOf(),
+					  vmDyns: List<VirtualMachineDynamic> = listOf(),
+					  vStorage: List<VirtualStorageDevice> = listOf(),
+					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf()
+		) =
+				OperationalState(
+						hosts = mapById(hosts),
+						hostDyns = mapById(hostDyns),
+						vms = mapById(vms),
+						vmDyns = mapById(vmDyns),
+						vStorage = mapById(vStorage),
+						vStorageDyns = mapById(vStorageDyns)
+				)
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
@@ -61,26 +74,26 @@ data class OperationalState(
 		}
 	}
 
-	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel) : Int {
+	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
 		return vms.values.sumBy {
 			vm ->
 			vm.expectations.count {
 				expectation ->
 				expectation.level == level
-					&& !checkExpectation(expectation, vm)
+						&& !checkExpectation(expectation, vm)
 			}
 		}
 	}
 
-	fun getUnsatisfiedExpectations() : List<Expectation> {
+	fun getUnsatisfiedExpectations(): List<Expectation> {
 		var expectations = listOf<Expectation>()
 		vms.values.forEach {
 			vm ->
 			expectations +=
-			vm.expectations.filter {
-				expectation ->
+					vm.expectations.filter {
+						expectation ->
 						!checkExpectation(expectation, vm)
-			}
+					}
 		}
 		return expectations
 	}
@@ -89,15 +102,15 @@ data class OperationalState(
 		when (expectation) {
 			is VirtualMachineAvailabilityExpectation ->
 				return isVmRunning(vm) == expectation.up
-			is CpuArchitectureExpectation -> {
+			is CpuArchitectureExpectation            -> {
 				var host = vmHost(vm)
-				return if(host == null) {
+				return if (host == null) {
 					true
 				} else {
 					expectation.cpuArchitecture == host.capabilities?.cpuArchitecture
 				}
 			}
-			else ->
+			else                                     ->
 				throw IllegalArgumentException("Expectation ${expectation} can not be checked")
 		}
 	}

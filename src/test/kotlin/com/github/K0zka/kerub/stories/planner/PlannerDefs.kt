@@ -7,12 +7,16 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
+import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.OperationalStateBuilder
@@ -24,6 +28,7 @@ import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import cucumber.api.DataTable
@@ -43,9 +48,11 @@ public class PlannerDefs {
 
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
+	var vdisks = listOf<VirtualStorageDevice>()
 
 	var vmDyns = listOf<VirtualMachineDynamic>()
 	var hostDyns = listOf<HostDynamic>()
+	var vstorageDyns = listOf<VirtualStorageDeviceDynamic>()
 
 	val backtrack: BacktrackService = BacktrackService(1)
 	val executor: PlanExecutor = Mockito.mock(PlanExecutor::class.java)
@@ -55,7 +62,7 @@ public class PlannerDefs {
 			backtrack,
 			executor,
 			builder
-	                                  )
+	)
 
 	var executedPlans = listOf<Plan>()
 
@@ -66,13 +73,15 @@ public class PlannerDefs {
 					hosts = hosts,
 					hostDyns = hostDyns,
 					vms = vms,
-					vmDyns = vmDyns
-			                          )
+					vmDyns = vmDyns,
+					vStorage = vdisks,
+					vStorageDyns = vstorageDyns
+			)
 		}
 		Mockito.doAnswer({
-			                 executedPlans += (it.getArguments()[0] as Plan)
-			                 Unit
-		                 }).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()))
+			executedPlans += (it.getArguments()[0] as Plan)
+			Unit
+		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()))
 	}
 
 	@Given("^VMs:$")
@@ -87,21 +96,21 @@ public class PlannerDefs {
 					memory = Range<BigInteger>(
 							min = (row[1].toSize()),
 							max = (row[2].toSize())
-					                          ),
+					),
 					nrOfCpus = row[3].toInt(),
 					expectations = listOf(
 							CpuArchitectureExpectation(
 									cpuArchitecture = row[4]
-							                          )
-					                     )
-			                       )
+							)
+					)
+			)
 			this.vms = this.vms + vm
 		}
 	}
 
 	@Given("^hosts:$")
 	fun hosts(hostsTable: DataTable) {
-		for (row in hostsTable.raw().filter { it != hostsTable.raw().first() } ) {
+		for (row in hostsTable.raw().filter { it != hostsTable.raw().first() }) {
 			val host = Host(
 					address = row[0],
 					dedicated = true,
@@ -121,16 +130,16 @@ public class PlannerDefs {
 									socket = "",
 									version = "",
 									voltage = null
-							                                  )
-							             ),
+							)
+							),
 							chassis = null,
 							distribution = null,
 							devices = listOf(),
 							installedSoftware = listOf(),
 							system = null,
 							totalMemory = row[1].toSize()
-					                               )
-			               )
+					)
+			)
 			hosts += host
 		}
 	}
@@ -142,7 +151,7 @@ public class PlannerDefs {
 			it.copy(
 					expectations = vm.expectations + listOf(
 							VirtualMachineAvailabilityExpectation(up = true))
-			       )
+			)
 		})
 		val host = hosts.first { it.address == hostAddr }
 
@@ -152,14 +161,16 @@ public class PlannerDefs {
 				status = VirtualMachineStatus.Up,
 				lastUpdated = System.currentTimeMillis(),
 				memoryUsed = vm.memory.min
-		                                       )
+		)
 
-		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, {"host must be up, otherwise no vm!"})
+		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, { "host must be up, otherwise no vm!" })
 
-		hostDyns = hostDyns.replace( {it.id == host.id}, { it.copy(
-				memFree = requireNotNull(it.memFree ?: host.capabilities?.totalMemory) - vm.memory.min,
-		        memUsed = (it.memUsed ?: BigInteger.ZERO) + vm.memory.min
-		                                               ) } )
+		hostDyns = hostDyns.replace({ it.id == host.id }, {
+			it.copy(
+					memFree = requireNotNull(it.memFree ?: host.capabilities?.totalMemory) - vm.memory.min,
+					memUsed = (it.memUsed ?: BigInteger.ZERO) + vm.memory.min
+			)
+		})
 	}
 
 	@When("^VM (\\S+) is started$")
@@ -171,9 +182,9 @@ public class PlannerDefs {
 								+ VirtualMachineAvailabilityExpectation(
 								level = ExpectationLevel.DealBreaker,
 								up = true
-								                                       )
 						)
-				       )
+						)
+				)
 			} else {
 				it
 			}
@@ -181,7 +192,7 @@ public class PlannerDefs {
 		planner.onEvent(EntityUpdateMessage(
 				obj = vms.filter { it.name == vm }.first(),
 				date = System.currentTimeMillis()
-		                                   ));
+		));
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+)$")
@@ -200,15 +211,15 @@ public class PlannerDefs {
 		val migrationStep = executedPlans.first().steps.get(stepNo - 1)
 		Assert.assertTrue(migrationStep is MigrateVirtualMachine)
 		Assert.assertEquals((migrationStep as MigrateVirtualMachine).target.address, targetHostAddr)
-		Assert.assertEquals((migrationStep as MigrateVirtualMachine).vm.name, vmName)
+		Assert.assertEquals(migrationStep.vm.name, vmName)
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
-	fun verifyVmGetsScheduled(vmName : String, targetHostAddr: String, stepNo : Int) {
+	fun verifyVmGetsScheduled(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val startStep = executedPlans.first().steps.get(stepNo - 1)
 		Assert.assertTrue(startStep is StartVirtualMachine)
 		Assert.assertEquals((startStep as StartVirtualMachine).host.address, targetHostAddr)
-		Assert.assertEquals((startStep as StartVirtualMachine).vm.name, vmName)
+		Assert.assertEquals(startStep.vm.name, vmName)
 	}
 
 	@Given("^registered host:$")
@@ -243,12 +254,12 @@ public class PlannerDefs {
 				id = host.id,
 				status = HostStatus.Up,
 				memFree = host.capabilities?.totalMemory
-		                                 )
+		)
 
 	}
 
 	@Given("^host (\\S+) is Down$")
-	fun setHostDown(hostAddress : String) {
+	fun setHostDown(hostAddress: String) {
 		val host = hosts.first { host ->
 			host.address == hostAddress
 		}
@@ -259,10 +270,48 @@ public class PlannerDefs {
 	}
 
 	@Then("^(\\S+) will be started as step (\\d+)$")
-	fun verifyHostStartedUp(hostAddr : String, stepNo : Int) {
+	fun verifyHostStartedUp(hostAddr: String, stepNo: Int) {
 		val startStep = executedPlans.first().steps.get(stepNo - 1)
 		Assert.assertTrue(startStep is WakeHost)
 		Assert.assertEquals((startStep as WakeHost).host.address, hostAddr)
+	}
+
+	@Given("^virtual storage devices:$")
+	fun setVirtualStorageDevices(vstorage: DataTable) {
+		vdisks = vstorage.raw().filterNot { it[0] == "name" }.map {
+			VirtualStorageDevice(
+					name = it[0],
+					size = it[1].toSize(),
+					readOnly = it[2].toBoolean()
+			)
+		}
+	}
+
+	@Given("^(\\S+) is attached to (\\S+)$")
+	fun attachDiskToVm(storageName: String, vmName: String) {
+		val storage = vdisks.first { it.name == storageName }
+		vms = vms.replace({ it.name == vmName }, {
+			it.copy(
+					virtualStorageLinks = it.virtualStorageLinks
+							+ VirtualStorageLink(
+							virtualStorageId = storage.id,
+							bus = BusType.sata
+					)
+			)
+		})
+	}
+
+	@Given("^(\\S+) is not yet created$")
+	fun removeVStorageDyn(storageName: String) {
+		val storage = vdisks.first { it.name == storageName }
+		vstorageDyns = vstorageDyns.filterNot { it.id == storage.id }
+	}
+
+	@Then("^the virtual disk (\\S+) must be allocated on (\\S+)$")
+	fun verifyVirtualStorageCreated(storageName: String, hostAddr: String) {
+		val storage = vdisks.first { it.name == storageName }
+		val host = hosts.first { it.address == hostAddr }
+		Assert.assertTrue(executedPlans.first().steps.any { it is CreateImage && it.device == storage && it.host == host })
 	}
 
 }

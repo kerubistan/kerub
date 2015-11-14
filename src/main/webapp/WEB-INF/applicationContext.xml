@@ -38,6 +38,10 @@
         <constructor-arg value="hostDynamicCache"/>
     </bean>
 
+    <bean id="virtualStorageDeviceDynamicCache" parent="cache">
+        <constructor-arg value="virtualStorageDeviceDynamicCache"/>
+    </bean>
+
     <bean id="projectCache" parent="cache">
         <constructor-arg value="projectCache"/>
     </bean>
@@ -91,6 +95,11 @@
 
     <bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
         <constructor-arg ref="hostDynamicCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
+    <bean id="virtualStorageDeviceDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl" parent="daoBase">
+        <constructor-arg ref="virtualStorageDeviceDynamicCache"/>
         <constructor-arg ref="eventListener"/>
     </bean>
 

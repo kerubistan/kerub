@@ -11,9 +11,12 @@ public data class Assignment @JsonCreator constructor(
 		override val id: UUID = UUID.randomUUID(),
 		@JsonProperty("controllerId")
 		@Field
-		var controller: String,
-		@JsonProperty("hostId")
+		val controller: String,
+		@JsonProperty("type")
 		@Field
-		var hostId: UUID
+		val type: AssignmentType,
+		@JsonProperty("entityId")
+		@Field
+		val entityId: UUID
 )
 : Entity<UUID>

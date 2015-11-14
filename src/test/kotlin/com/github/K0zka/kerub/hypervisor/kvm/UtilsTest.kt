@@ -9,8 +9,8 @@ import org.xml.sax.InputSource
 import java.io.StringReader
 import java.math.BigInteger
 import java.util.UUID
+import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathFactory
-import kotlin.dom.parseXml
 import com.github.K0zka.kerub.model.Range as serializableRange
 
 public class UtilsTest {
@@ -30,7 +30,7 @@ public class UtilsTest {
 
 		val libvirtXml = vmDefinitiontoXml(vm)
 
-		val dom = parseXml(InputSource(StringReader(libvirtXml)))
+		val dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(libvirtXml)))
 		val xPath = XPathFactory.newInstance().newXPath()
 
 		logger.info("generated libvirt xml:\n{}", libvirtXml)

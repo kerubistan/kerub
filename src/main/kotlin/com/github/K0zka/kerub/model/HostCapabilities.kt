@@ -46,6 +46,9 @@ public data class HostCapabilities(
 		 */
 		@Field
 		@JsonView(Detailed::class)
-		val macAddresses: List<ByteArray> = listOf()
+		val macAddresses: List<ByteArray> = listOf(),
+		@Field
+		@JsonView(Detailed::class)
+		val storageCapabilities: List<StorageCapability> = listOf()
 )
 : Serializable

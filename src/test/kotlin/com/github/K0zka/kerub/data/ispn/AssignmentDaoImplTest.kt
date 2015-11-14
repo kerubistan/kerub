@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.data.ispn
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.controller.Assignment
+import com.github.K0zka.kerub.model.controller.AssignmentType
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -36,8 +37,9 @@ public class AssignmentDaoImplTest {
 	@Test
 	fun listByController() {
 		val assignment = Assignment(id = UUID.randomUUID(),
-		                            hostId = UUID.randomUUID(),
-		                            controller = "TEST"
+		                            entityId = UUID.randomUUID(),
+		                            controller = "TEST",
+									type = AssignmentType.host
 		                            )
 		dao!!.add(assignment)
 		val list = dao!!.listByController("TEST")

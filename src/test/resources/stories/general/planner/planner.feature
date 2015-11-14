@@ -88,6 +88,7 @@ Feature: planner and optimizer
     And virtual storage devices:
       | name          | size | ro    |
       | system-disk-1 | 2 GB | false |
+    And host 127.0.0.5 is Up
     And system-disk-1 is attached to vm1
     And system-disk-1 is not yet created
     When VM vm1 is started

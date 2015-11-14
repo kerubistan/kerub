@@ -9,8 +9,10 @@ import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.model.HostCapabilities
+import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
@@ -18,6 +20,7 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
+import com.github.K0zka.kerub.utils.junix.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
@@ -46,14 +49,14 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	}
 
 	override
-	fun discoverHost(session: ClientSession, dedicated : Boolean): HostCapabilities {
+	fun discoverHost(session: ClientSession, dedicated: Boolean): HostCapabilities {
 
 		val distro = detectDistro(session)
 		val packages = distro?.listPackages(session) ?: listOf<SoftwarePackage>()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
-		val hardwareInfo = systemInfo.values()
+		val hardwareInfo = systemInfo.values
 		return HostCapabilities(
 				os = getHostOs(session),
 				cpuArchitecture = getHostCpuType(session),
@@ -64,8 +67,9 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
-		        macAddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
-		                       )
+				macAddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) },
+				storageCapabilities = discoverStorage(session, distro?.operatingSystem)
+		)
 	}
 
 	internal fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {
@@ -100,7 +104,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 	fun getHostCpuType(session: ClientSession): String {
 		val processorType = session.execute("uname -p").trim()
-		if(processorType == "unknown") {
+		if (processorType == "unknown") {
 			return session.execute("uname -m").trim()
 		} else {
 			return processorType
@@ -125,5 +129,14 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		}
 	}
 
+	internal fun discoverStorage(session: ClientSession, os: OperatingSystem?): List<StorageCapability> =
+			when (os) {
+				OperatingSystem.Linux -> {
+					LvmVg.list(session).map { LvmStorageCapability(volumeGroupName = it.name, size = it.size) }
+				}
+				else                  -> {
+					listOf()
+				}
+			}
 
 }

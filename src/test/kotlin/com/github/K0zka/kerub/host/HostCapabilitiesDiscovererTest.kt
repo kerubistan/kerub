@@ -38,82 +38,89 @@ public class HostCapabilitiesDiscovererTest(
 		val distroVersion: Version,
 		val commands: Map<String, String>,
 		val files: Map<String, String>,
-		val directories: Map<String, List<String>>) {
+		val directories: Map<String, List<String>>
+) {
 
 	companion object {
-		@JvmStatic @Parameters fun parameters(): List<Array<Any>> = listOf(
-				arrayOf("Fedora",
-				        "x86_64",
-				        Version("3", "16", "6"),
-				        Version("20", null, null),
-				        mapOf(
-						        "uname -s" to "Linux",
-						        "uname -r" to "3.16.6-203.fc20.x86_64",
-						        "uname -p" to "x86_64",
-						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
-						        "rpm -qa" to """texlive-auto-pst-pdf-svn23723.0.6-5.fc20.noarch
-									        ceph-libs-compat-0.80.5-10.fc20.x86_64
-									        opensp-1.5.2-18.fc20.x86_64
-									        ustr-1.0.4-15.fc20.x86_64
-									        lohit-assamese-fonts-2.5.3-2.fc20.noarch
-									        perl-Package-Stash-XS-0.28-3.fc20.x86_64
-									        java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
-									        libvirt-gconfig-0.1.7-2.fc20.x86_64
-									        cheese-libs-3.10.2-2.fc20.x86_64
-									        """.trim(),
-						        "lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]"""
-				             ),
-				        mapOf("/etc/os-release" to """
-						NAME=Fedora
-						VERSION_ID=20
-		HOME_URL="https://fedoraproject.org/"
-						""".trim(),
-				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
-				        mapOf(
-						        "/sys/class/net/" to listOf("eth0"),
-						        "/sys/class/net/eth0" to listOf("address")
-				             )
-				       ),
-				arrayOf("Ubuntu",
-				        "x86_64",
-				        Version("3", "16", "6"),
-				        Version("14", "04", null),
-				        mapOf(
-						        "uname -s" to "Linux",
-						        "uname -r" to "TODO",
-						        "uname -p" to "x86_64",
-						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
-						        "dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"" to """acpid	1:2.0.10-1ubuntu3
-        apparmor	2.7.102-0ubuntu3.10
-        apport	2.0.1-0ubuntu17.6
-        aptdaemon	1.1.1-1ubuntu5
-        aptitude	0.6.6-1ubuntu1.2
-        apt-transport-https	1.0.1ubuntu2.1""",
-						        "lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
-        00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]"""
-				             ),
-				        mapOf("/etc/os-release" to """
-		NAME="Ubuntu"
-		VERSION_ID="14.04"
+
+		val fedora20 = arrayOf("Fedora",
+				"x86_64",
+				Version("3", "16", "6"),
+				Version("20", null, null),
+				mapOf(
+						"uname -s" to "Linux",
+						"uname -r" to "3.16.6-203.fc20.x86_64",
+						"uname -p" to "x86_64",
+						"cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
+						"rpm -qa" to """texlive-auto-pst-pdf-svn23723.0.6-5.fc20.noarch
+													ceph-libs-compat-0.80.5-10.fc20.x86_64
+													opensp-1.5.2-18.fc20.x86_64
+													ustr-1.0.4-15.fc20.x86_64
+													lohit-assamese-fonts-2.5.3-2.fc20.noarch
+													perl-Package-Stash-XS-0.28-3.fc20.x86_64
+													java-1.7.0-openjdk-devel-1.7.0.71-2.5.3.0.fc20.x86_64
+													libvirt-gconfig-0.1.7-2.fc20.x86_64
+													cheese-libs-3.10.2-2.fc20.x86_64
+													""".trim(),
+						"lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+				00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""",
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+
+				),
+				mapOf("/etc/os-release" to """
+								NAME=Fedora
+								VERSION_ID=20
+				HOME_URL="https://fedoraproject.org/"
 								""".trim(),
-				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
-				        mapOf(
-						        "/sys/class/net/" to listOf("eth0"),
-						        "/sys/class/net/eth0" to listOf("address")
-				             )
-				       ),
-				arrayOf("Raspbian GNU/Linux",
-				        "armv6l",
-				        Version("3", "12", "28"),
-				        Version("7", null, null),
-				        mapOf(
-						        "uname -s" to "Linux",
-						        "uname -r" to "3.18.11+",
-						        "uname -p" to "unknown",
-						        "uname -m" to "armv6l",
-						        "cat /proc/meminfo | grep  MemTotal" to "MemTotal:        496632 kB",
-						        "dpkg-query -W" to """adduser	3.113+nmu3
+						"/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				mapOf(
+						"/sys/class/net/" to listOf("eth0"),
+						"/sys/class/net/eth0" to listOf("address")
+				)
+		)
+		val ubuntu14_04 = arrayOf("Ubuntu",
+				"x86_64",
+				Version("3", "16", "6"),
+				Version("14", "04", null),
+				mapOf(
+						"uname -s" to "Linux",
+						"uname -r" to "TODO",
+						"uname -p" to "x86_64",
+						"cat /proc/meminfo | grep  MemTotal" to "MemTotal:        7767288 kB",
+						"dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"" to """acpid	1:2.0.10-1ubuntu3
+apparmor	2.7.102-0ubuntu3.10
+apport	2.0.1-0ubuntu17.6
+aptdaemon	1.1.1-1ubuntu5
+aptitude	0.6.6-1ubuntu1.2
+apt-transport-https	1.0.1ubuntu2.1""",
+						"lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
+				00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""",
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+
+				),
+				mapOf("/etc/os-release" to """
+				NAME="Ubuntu"
+				VERSION_ID="14.04"
+										""".trim(),
+						"/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				mapOf(
+						"/sys/class/net/" to listOf("eth0"),
+						"/sys/class/net/eth0" to listOf("address")
+				)
+		)
+		val raspbian7 = arrayOf("Raspbian GNU/Linux",
+				"armv6l",
+				Version("3", "12", "28"),
+				Version("7", null, null),
+				mapOf(
+						"uname -s" to "Linux",
+						"uname -r" to "3.18.11+",
+						"uname -p" to "unknown",
+						"uname -m" to "armv6l",
+						"cat /proc/meminfo | grep  MemTotal" to "MemTotal:        496632 kB",
+						"dpkg-query -W" to """adduser	3.113+nmu3
 alsa-base	1.0.25+3~deb7u1
 alsa-utils	1.0.25-4
 apt	0.9.7.9+rpi1+deb7u7
@@ -123,28 +130,38 @@ aptitude-common	0.6.8.2-1
 aspell	0.60.7~20110707-1
 aspell-en	7.1-0-1
 base-files	7.1wheezy8+rpi1
-""",
-						        "lspci -mm" to """"""
-				             ),
-				        mapOf("/etc/os-release" to """
-PRETTY_NAME="Raspbian GNU/Linux 7 (wheezy)"
-NAME="Raspbian GNU/Linux"
-VERSION_ID="7"
-VERSION="7 (wheezy)"
-ID=raspbian
-ID_LIKE=debian
-ANSI_COLOR="1;31"
-HOME_URL="http://www.raspbian.org/"
-SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
-BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
-								""".trim(),
-				              "/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
-				        mapOf(
-						        "/sys/class/net/" to listOf("eth0"),
-						        "/sys/class/net/eth0" to listOf("address")
-				             )
-				       )
-		                                                                     )
+		""",
+						"lspci -mm" to """""",
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+				),
+				mapOf("/etc/os-release" to """
+		PRETTY_NAME="Raspbian GNU/Linux 7 (wheezy)"
+		NAME="Raspbian GNU/Linux"
+		VERSION_ID="7"
+		VERSION="7 (wheezy)"
+		ID=raspbian
+		ID_LIKE=debian
+		ANSI_COLOR="1;31"
+		HOME_URL="http://www.raspbian.org/"
+		SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
+		BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
+										""".trim(),
+						"/sys/class/net/eth0/address" to "b8:88:e3:98:c2:0c"),
+				mapOf(
+						"/sys/class/net/" to listOf("eth0"),
+						"/sys/class/net/eth0" to listOf("address")
+				)
+		)
+
+
+		@JvmStatic @Parameters fun parameters(): List<Array<Any>> {
+			return listOf(
+					fedora20,
+					ubuntu14_04,
+					raspbian7
+			)
+		}
 
 		private fun mockDirectory(path: String, entries: List<String>): SshFile {
 			val ret = Mockito.mock(SshFile::class.java)
@@ -167,7 +184,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 					SshFile.Attribute.IsRegularFile to false,
 					SshFile.Attribute.Permissions to EnumSet.noneOf(SshFile.Permission::class.java),
 					SshFile.Attribute.LastModifiedTime to 0.toLong()
-			                                                                         ))
+			))
 			return ret
 		}
 
@@ -238,7 +255,7 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 			HostFileSystem(
 					files.mapValues { mockFile(it.key, it.value) } +
 							directories.mapValues { mockDirectory(it.key, it.value) }
-			              )
+			)
 		}
 		sshServer!!.setCommandFactory(commandFactory)
 		sshServer!!.start()
@@ -268,11 +285,11 @@ BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 		Assert.assertThat(
 				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf(SoftwarePackage("foo", Version("1", "0", "0")), SoftwarePackage("dmidecode", Version("2", "12", "4")))),
 				CoreMatchers.`is`(true)
-		                 )
+		)
 		Assert.assertThat(
 				HostCapabilitiesDiscovererImpl().isDmiDecodeInstalled(listOf()),
 				CoreMatchers.`is`(false)
-		                 )
+		)
 	}
 
 	@Test

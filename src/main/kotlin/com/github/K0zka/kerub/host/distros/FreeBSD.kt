@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.ClientSession
@@ -13,6 +14,9 @@ import org.apache.sshd.ClientSession
  * PermitRootLogin yes
  */
 public class FreeBSD : Distribution {
+
+	override val operatingSystem = OperatingSystem.BSD
+
 	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(session.execute("uname -s"))
 
 	override fun name(): String = "FreeBSD"

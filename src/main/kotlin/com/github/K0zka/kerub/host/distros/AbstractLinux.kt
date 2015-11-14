@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.utils.getLogger
@@ -11,6 +12,8 @@ import org.apache.sshd.ClientSession
 import java.util.UUID
 
 public abstract class AbstractLinux : Distribution {
+
+	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
 		val logger = getLogger(AbstractLinux::class)
