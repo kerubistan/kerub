@@ -24,6 +24,7 @@ import com.github.K0zka.kerub.utils.junix.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
+import java.io.IOException
 import java.math.BigInteger
 import kotlin.reflect.KClass
 
@@ -129,14 +130,21 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		}
 	}
 
-	internal fun discoverStorage(session: ClientSession, os: OperatingSystem?): List<StorageCapability> =
+	internal fun discoverStorage(session: ClientSession, os: OperatingSystem?): List<StorageCapability> {
+		try {
 			when (os) {
 				OperatingSystem.Linux -> {
-					LvmVg.list(session).map { LvmStorageCapability(volumeGroupName = it.name, size = it.size) }
+					return LvmVg.list(session).map { LvmStorageCapability(volumeGroupName = it.name, size = it.size) }
 				}
 				else                  -> {
-					listOf()
+					return listOf()
 				}
 			}
+
+		} catch (e: IOException) {
+			return listOf();
+		}
+
+	}
 
 }
