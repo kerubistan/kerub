@@ -357,7 +357,7 @@
                     <label>OS distribution and version</label>
                     <input
                             class="form-control"
-                            value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.version.major}} {{host.capabilities.distribution.version.minor}}"
+                            value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
                             disabled>
                 </div>
                 <div class="form-group" ng-if="host.capabilities.cpuArchitecture">
@@ -367,12 +367,11 @@
             </div>
         </form>
         <form ng-show="isVisible('software')">
-            <table class="table table-condensed">
-                <tr ng-repeat="software in host.capabilities.installedSoftware">
-                    <td>{{software.name}}</td>
-                    <td>{{software.ver.major}}<span ng-if="software.ver.minor">.{{software.ver.minor}}</span><span ng-if="software.ver.build">.{{software.ver.build}}</span></td>
-                </tr>
-            </table>
+            <span ng-repeat="software in host.capabilities.installedSoftware">
+                <span class="label label-default">
+                    {{software.name}} {{software.ver.major}}<span ng-if="software.ver.minor">.{{software.ver.minor}}</span><span ng-if="software.ver.build">.{{software.ver.build}}</span>
+                </span>&nbsp;
+            </span>
         </form>
         <form ng-show="isVisible('CPU')">
             <div class="form-group">
