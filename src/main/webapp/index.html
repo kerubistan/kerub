@@ -408,7 +408,24 @@
 
         </form>
         <form ng-show="isVisible('IO')">
-
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Capacity</td>
+                        <td>Details</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="cap in host.capabilities.storageCapabilities">
+                        <td>{{humanFriendlySize(cap.size)}}</td>
+                        <td>
+                            <span ng-if="cap['@type'] === 'lvm'">
+                                <span class="label label-default"><span class="fa fa-linux"></span> lvm</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
     </script>
 

@@ -1,8 +1,10 @@
-var HostDetails = function($scope, $log, $modalInstance, appsession, hostId) {
+var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, size) {
     $scope.host = null;
 
     $scope.tab = "overview";
     $scope.nrOfCpus = null;
+
+	$scope.humanFriendlySize = size.humanFriendlySize;
 
     appsession
         .get('s/r/host/'+hostId)
