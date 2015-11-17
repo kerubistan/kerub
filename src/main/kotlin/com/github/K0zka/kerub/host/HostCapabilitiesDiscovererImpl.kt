@@ -20,6 +20,7 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
+import com.github.K0zka.kerub.utils.junix.lvm.LvmPv
 import com.github.K0zka.kerub.utils.junix.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.toSize
@@ -134,7 +135,17 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		try {
 			when (os) {
 				OperatingSystem.Linux -> {
-					return LvmVg.list(session).map { LvmStorageCapability(volumeGroupName = it.name, size = it.size) }
+					val pvs = LvmPv.list(session)
+					return LvmVg.list(session).map {
+						vg ->
+						LvmStorageCapability(
+								volumeGroupName = vg.name,
+								size = vg.size,
+								physicalVolumes = pvs.filter {
+									pv ->
+									pv.volumeGroupId == vg.id
+								}.map { it.size })
+					}
 				}
 				else                  -> {
 					return listOf()

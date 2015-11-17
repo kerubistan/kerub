@@ -17,10 +17,8 @@ object LvmLv {
 	fun list(session: ClientSession): List<LogicalVolume> =
 			session.executeOrDie(
 					"lvs " +
-							"-o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate " +
-							"--noheadings " +
-							"--units b " +
-							"--separator=,").split("\n").map {
+							"-o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate ${listOptions}")
+					.split("\n").map {
 				row ->
 				val fields = row.trim().split(",")
 				LogicalVolume(

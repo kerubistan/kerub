@@ -8,7 +8,7 @@ object LvmVg {
 
 	fun list(session: ClientSession): List<VolumeGroup> =
 			session.executeOrDie(
-					"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings")
+					"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count ${listOptions}")
 					.trim().split("\n").map {
 				row ->
 				val fields = row.trim().split(",")

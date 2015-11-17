@@ -64,8 +64,11 @@ public class HostCapabilitiesDiscovererTest(
 													""".trim(),
 						"lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
 				00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""",
-						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
-								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --noheadings --units b --separator=," to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768""",
+						"pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid --noheadings --units b --separator=," to
+								"""  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1,/dev/sda2,166673252352B,0B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
+  02YYyV-qaA1-hSo7-M5Ua-5zx4-IzQm-f6eLRq,/dev/sda3,832997163008B,299804655616B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g"""
 
 				),
 				mapOf("/etc/os-release" to """
@@ -96,8 +99,11 @@ aptitude	0.6.6-1ubuntu1.2
 apt-transport-https	1.0.1ubuntu2.1""",
 						"lspci -mm" to """00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 14h Processor Root Complex
 				00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Wrestler [Radeon HD 7340]""",
-						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
-								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --noheadings --units b --separator=," to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768""",
+						"pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid --noheadings --units b --separator=," to
+								"""  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1,/dev/sda2,166673252352B,0B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
+  02YYyV-qaA1-hSo7-M5Ua-5zx4-IzQm-f6eLRq,/dev/sda3,832997163008B,299804655616B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g"""
 
 				),
 				mapOf("/etc/os-release" to """
@@ -132,8 +138,11 @@ aspell-en	7.1-0-1
 base-files	7.1wheezy8+rpi1
 		""",
 						"lspci -mm" to """""",
-						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --separator=, --units B --noheadings" to
-								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768"""
+						"vgs -o vg_uuid,vg_name,vg_size,vg_free,vg_extent_count,vg_free_count --noheadings --units b --separator=," to
+								"""  gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g,fedora_dhcp130-218,999670415360B,502343401472B,238340,119768""",
+						"pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid --noheadings --units b --separator=," to
+								"""  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1,/dev/sda2,166673252352B,0B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
+  02YYyV-qaA1-hSo7-M5Ua-5zx4-IzQm-f6eLRq,/dev/sda3,832997163008B,299804655616B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g"""
 				),
 				mapOf("/etc/os-release" to """
 		PRETTY_NAME="Raspbian GNU/Linux 7 (wheezy)"

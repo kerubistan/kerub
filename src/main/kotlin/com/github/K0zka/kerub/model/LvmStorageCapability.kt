@@ -6,5 +6,6 @@ import java.math.BigInteger
 @JsonTypeName("lvm")
 class LvmStorageCapability(
 		val volumeGroupName: String,
-		override val size : BigInteger
+		override val size: BigInteger,
+		val physicalVolumes: List<BigInteger>
 ) : StorageCapability()
