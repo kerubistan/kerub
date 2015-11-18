@@ -420,7 +420,12 @@
                         <td>{{humanFriendlySize(cap.size)}}</td>
                         <td>
                             <span ng-if="cap['@type'] === 'lvm'">
+                                {{cap.physicalVolumes.length}}
                                 <span class="label label-default"><span class="fa fa-linux"></span> lvm</span>
+                                <span ng-repeat="pv in cap.physicalVolumes track by $index" class="label label-info">
+                                    <span class="fa fa-hdd-o"></span> {{humanFriendlySize(pv)}}
+                                </span>
+
                             </span>
                         </td>
                     </tr>
