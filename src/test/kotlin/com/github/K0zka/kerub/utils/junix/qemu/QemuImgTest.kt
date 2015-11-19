@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.qemu
 
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.toSize
+import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -35,7 +36,8 @@ public class QemuImgTest {
 
 	@Test
 	fun create() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
+		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
 
 		QemuImg.create(session!!, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
 
@@ -56,6 +58,7 @@ public class QemuImgTest {
 }
 """
 		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream(testOutput.toByteArray("UTF-8")))
+		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
 
 		val info = QemuImg.info(session!!, "/tmp/test.raw")
 
@@ -69,7 +72,8 @@ public class QemuImgTest {
 
 	@Test
 	fun resize() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
+		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
 
 		QemuImg.resize(session!!, "/tmp/test.raw", "100 MB".toSize())
 
@@ -78,7 +82,8 @@ public class QemuImgTest {
 
 	@Test
 	fun convert() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream("".toByteArray("UTF-8")))
+		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
 
 		QemuImg.convert(session!!, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
 
