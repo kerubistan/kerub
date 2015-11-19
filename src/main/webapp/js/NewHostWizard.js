@@ -1,6 +1,9 @@
 var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
+
+    $scope.errors = [];
+
     $scope.host = {
         "@type" : 'host',
         id : uuid4.generate(),
@@ -21,6 +24,9 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, apps
 		}
         $scope.host.publicKey = '';
     }
+    $scope.errorHandler = function(error, responseCode) {
+		$scope.errors = [error];
+    };
     $scope.updatePubkey = function () {
         $scope.host.publicKey = '';
         $log.debug('change in hostname: '+$scope.host.address);
@@ -34,7 +40,8 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, apps
                 $scope.pubkeyUptoDate = true;
                 $scope.pubkey = pubkey;
                 $scope.host.publicKey = pubkey.fingerprint;
-            });
+            })
+            .error($scope.errorHandler);
     };
     $scope.close = function() {
         $log.info('close window');
@@ -70,7 +77,8 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, apps
 					host : $scope.host,
 					password : $scope.password.password
 				}
-				).success(onHostAdded);
+				).success(onHostAdded)
+				.error($scope.errorHandler)
     	}
     };
 

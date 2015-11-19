@@ -47,6 +47,10 @@ kerubApp.factory('appsession', ['$log', '$http', '$modal', function($log, $http,
             if(responseCode === 401 && error.code === "AUTH1") {
                 this._session._openLogin();
                 this._session._blockedRequests.push(this);
+            } else {
+            	for(var idx = 0; idx < this.onError.length; idx++) {
+            		this.onError[idx](error, responseCode);
+            	}
             }
         }.bind(this));
     };

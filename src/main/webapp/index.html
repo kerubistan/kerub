@@ -258,7 +258,12 @@
     <script type="text/ng-template" id="NewHostWizard.html" >
 
         <div class="modal-header">
-            <h3 class="modal-title">New Host {{host.address}}</h3>
+            <h3 class="modal-title">Join Host {{host.address}}</h3>
+        </div>
+        <div ng-if="errors.length > 0" ng-repeat="error in errors">
+            <div class="alert alert-danger" role="alert">
+                <span class="glyphicon glyphicon-ban-circle"></span> {{error.message}} [{{error.code}}]
+            </div>
         </div>
         <div class="panel panel-info">
             <div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Address</div>
