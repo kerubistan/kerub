@@ -64,7 +64,9 @@ public class HostManagerImpl (
 
 	override fun connectHost(host: Host) {
 		logger.info("Connecting to host {} {}", host.id, host.address)
-		val session = sshClientService.loginWithPublicKey(host.address)
+		val session = sshClientService.loginWithPublicKey(
+				address = host.address,
+				hostPublicKey = host.publicKey)
 		connections.put(host.id, session)
 
 		val distro = discoverer.detectDistro(session)
@@ -75,7 +77,8 @@ public class HostManagerImpl (
 		val session = sshClientService.loginWithPassword(
 				address = host.address,
 				userName = "root",
-				password = password)
+				password = password,
+				hostPublicKey = host.publicKey)
 		sshClientService.installPublicKey(session)
 
 		return joinConnectedHost(host, session)
@@ -84,7 +87,8 @@ public class HostManagerImpl (
 	override fun join(host: Host): Host {
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
-				userName = "root"
+				userName = "root",
+				hostPublicKey = host.publicKey
 		                                                 )
 		return joinConnectedHost(host, session)
 	}

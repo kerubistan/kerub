@@ -14,12 +14,12 @@ public interface SshClientService {
 	/**
 	 * Create an authenticated session with public key authentication
 	 */
-	fun loginWithPublicKey(address: String, userName : String = "root") : ClientSession
+	fun loginWithPublicKey(address: String, userName : String = "root", hostPublicKey: String) : ClientSession
 
 	/**
 	 * Create an authenticated session with
 	 */
-	fun loginWithPassword(address: String, userName : String, password : String) : ClientSession
+	fun loginWithPassword(address: String, userName : String, password : String, hostPublicKey: String) : ClientSession
 
 	/**
 	 * Install public key on a host.

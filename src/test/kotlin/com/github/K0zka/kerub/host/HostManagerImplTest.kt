@@ -143,7 +143,7 @@ public class HostManagerImplTest {
 
 		hostManager!!.start()
 
-		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString())
+		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey) )
 
 	}
 
