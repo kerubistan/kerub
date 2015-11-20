@@ -1,10 +1,15 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.eq
+import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.getTestKey
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.SftpClient
+import org.apache.sshd.common.KeyExchange
+import org.apache.sshd.common.SessionListener
+import org.apache.sshd.common.SshException
+import org.apache.sshd.common.session.AbstractSession
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
@@ -14,6 +19,7 @@ import org.mockito.Matchers
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
+import java.security.PublicKey
 import java.util.concurrent.TimeUnit
 
 
@@ -25,6 +31,9 @@ public class SshClientServiceImplTest {
 	var session : ClientSession? = null
 	@Mock
 	var sftClient : SftpClient? = null
+
+	@Mock
+	var serverPublicKey: PublicKey? = null
 
 	var service : SshClientServiceImpl? = null
 
@@ -52,4 +61,27 @@ public class SshClientServiceImplTest {
 	fun getPublicKey() {
 		Assert.assertThat(service!!.getPublicKey(), CoreMatchers.notNullValue())
 	}
+
+	@Test
+	fun sessionEvent() {
+		val abstractSession = Mockito.mock(AbstractSession::class.java)!!
+		val kex = Mockito.mock(KeyExchange::class.java)
+		Mockito.`when`(abstractSession.kex).thenReturn(kex)
+		Mockito.`when`(kex.serverKey).thenReturn(getTestKey().public)
+		SshClientServiceImpl.ServerFingerprintChecker("f6:aa:fa:c7:1d:98:cd:8b:0c:5b:c6:63:bb:3a:73:f6")
+				.sessionEvent(abstractSession, SessionListener.Event.KeyEstablished)
+	}
+
+	@Test
+	fun sessionEventWithWrongKey() {
+		val abstractSession = Mockito.mock(AbstractSession::class.java)!!
+		val kex = Mockito.mock(KeyExchange::class.java)
+		Mockito.`when`(abstractSession.kex).thenReturn(kex)
+		Mockito.`when`(kex.serverKey).thenReturn(getTestKey().public)
+		expect(SshException::class, {
+			SshClientServiceImpl.ServerFingerprintChecker("WRONG")
+					.sessionEvent(abstractSession, SessionListener.Event.KeyEstablished)
+		})
+	}
+
 }
