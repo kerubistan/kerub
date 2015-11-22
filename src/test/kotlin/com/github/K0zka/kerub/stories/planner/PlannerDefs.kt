@@ -307,6 +307,17 @@ public class PlannerDefs {
 		vstorageDyns = vstorageDyns.filterNot { it.id == storage.id }
 	}
 
+	@Given("^the virtual disk (\\S+) created created on (\\S+)$")
+	fun createVStorageDyn(storageName : String, hostAddr : String) {
+		val storage = vdisks.first { it.name == storageName }
+		val host = hosts.first { it.address == hostAddr }
+		vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
+				id = storage.id,
+				actualSize = storage.size,
+				hostId = host.id
+		)
+	}
+
 	@Then("^the virtual disk (\\S+) must be allocated on (\\S+)$")
 	fun verifyVirtualStorageCreated(storageName: String, hostAddr: String) {
 		val storage = vdisks.first { it.name == storageName }
@@ -314,4 +325,10 @@ public class PlannerDefs {
 		Assert.assertTrue(executedPlans.first().steps.any { it is CreateImage && it.device == storage && it.host == host })
 	}
 
+	@Then("^the virtual disk (\\S+) must not be allocated$")
+	fun verifyNoStorageCreate(storageName : String) {
+		val storage = vdisks.first { it.name == storageName }
+		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.device == storage})
+
+	}
 }

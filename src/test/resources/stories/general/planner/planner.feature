@@ -95,3 +95,20 @@ Feature: planner and optimizer
     Then the virtual disk system-disk-1 must be allocated on 127.0.0.5
     And VM vm1 gets scheduled on host 127.0.0.5
 
+  Scenario: The virtual disk for the VM already exists
+    And hosts:
+      | address   | ram  | Cores | Threads | Architecture |  |
+      | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+    Given VMs:
+      | name | MinRam | MaxRam | CPUs | Architecture |
+      | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
+    And virtual storage devices:
+      | name          | size | ro    |
+      | system-disk-1 | 2 GB | false |
+    And host 127.0.0.5 is Up
+    And system-disk-1 is attached to vm1
+    And the virtual disk system-disk-1 created created on 127.0.0.5
+    When VM vm1 is started
+    Then the virtual disk system-disk-1 must not be allocated
+    And VM vm1 gets scheduled on host 127.0.0.5
+
