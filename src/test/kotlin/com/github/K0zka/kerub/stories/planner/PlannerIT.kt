@@ -8,7 +8,8 @@ import org.junit.runner.RunWith
 @CucumberOptions(
 		plugin = arrayOf("pretty"),
 		features = arrayOf("classpath:stories/general/planner/planner.feature",
-		                   "classpath:stories/general/planner/power-save.feature"
+		                   "classpath:stories/general/planner/power-save.feature",
+							"classpath:stories/general/planner/host-failure.feature"
 		                  ),
 		glue = arrayOf("com.github.K0zka.kerub.stories.planner")
                )

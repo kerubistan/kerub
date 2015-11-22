@@ -222,16 +222,6 @@ public class PlannerDefs {
 		Assert.assertEquals(startStep.vm.name, vmName)
 	}
 
-	@Given("^registered host:$")
-	fun registered_host(hosts: DataTable) {
-		throw PendingException();
-	}
-
-	@Given("^no virtual machines$")
-	fun no_virtual_machines() {
-		throw PendingException();
-	}
-
 	@When("^optimization is triggered$")
 	fun optimization_is_triggered() {
 		throw PendingException();
@@ -330,5 +320,11 @@ public class PlannerDefs {
 		val storage = vdisks.first { it.name == storageName }
 		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.device == storage})
 
+	}
+
+	@Given("^no virtual machines$")
+	fun clearVirtualMachines() {
+		vms = listOf()
+		vmDyns = listOf()
 	}
 }
