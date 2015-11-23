@@ -410,7 +410,38 @@
 
         </form>
         <form ng-show="isVisible('RAM')">
-
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                <tr>
+                    <td>Device</td>
+                    <td>Details</td>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="device in host.capabilities.memoryDevices">
+                        <td>
+                            {{device.serialNumber}}
+                        </td>
+                        <td>
+                            <span ng-if="device.type">
+                                <span class="label label-default">{{device.type}}</span>
+                            </span>
+                            <span ng-if="device.size">
+                                <span class="label label-default">{{humanFriendlySize(device.size)}}</span>
+                            </span>
+                            <span ng-if="device.formFactor">
+                                <span class="label label-default">{{device.formFactor}}</span>
+                            </span>
+                            <span ng-if="device.speedMhz">
+                                <span class="label label-default">{{device.formFactor}}</span>
+                            </span>
+                            <span ng-if="device.manufacturer">
+                                <span class="label label-default"><span class="fa fa-industry"></span> {{device.manufacturer}}</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
         </form>
         <form ng-show="isVisible('IO')">
             <table class="table table-condensed table-striped table-hover">

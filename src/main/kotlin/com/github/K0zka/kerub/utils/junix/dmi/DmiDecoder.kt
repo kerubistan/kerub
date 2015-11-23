@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.toSize
 import java.util.HashMap
 import java.util.UUID
 
@@ -66,7 +67,7 @@ public class DmiDecoder {
 				},
 		        17 to {input, dependencies ->
 			        MemoryInformation(
-					        sizeMb = input.intBetween("Size: "," MB"),
+					        size = input.substringBetween("Size: ","\n").toSize(),
 			                manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 			                type = input.substringBetween("Type: ", "\n"),
 			                bankLocator = input.substringBetween("Bank Locator: ", "\n"),

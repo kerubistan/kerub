@@ -1,9 +1,10 @@
 package com.github.K0zka.kerub.model.hardware
 
 import java.io.Serializable
+import java.math.BigInteger
 
 data class MemoryInformation(
-		val sizeMb: Int,
+		val size: BigInteger,
 		val type: String,
 		val formFactor: String,
 		val locator: String,

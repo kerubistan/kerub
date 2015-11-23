@@ -15,6 +15,7 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
@@ -65,6 +66,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				distribution = getDistribution(session, distro),
 				installedSoftware = packages,
 				totalMemory = getTotalMemory(session),
+				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),

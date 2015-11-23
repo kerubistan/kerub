@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
@@ -31,6 +32,9 @@ public data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
 		val totalMemory: BigInteger,
+		@JsonView(Simple::class)
+		@Field
+		val memoryDevices: List<MemoryInformation> = listOf(),
 		@JsonView(Detailed::class)
 		@Field
 		val system: SystemInformation? = null,

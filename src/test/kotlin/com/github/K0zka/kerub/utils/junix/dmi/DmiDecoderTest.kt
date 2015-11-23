@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.utils.toSize
 import org.junit.Test
 import java.util.UUID
 
@@ -137,7 +138,7 @@ Built-in Pointing Device
 
 		val memoryDevice = devices["0x1100"] as MemoryInformation
 		assert(memoryDevice.formFactor == "DIMM")
-		assert(memoryDevice.sizeMb == 2048)
+		assert(memoryDevice.size == "2048 MB".toSize())
 
 		val chassisInfo = devices["0x0300"] as ChassisInformation
 		assert(chassisInfo.manufacturer == "Bochs")
