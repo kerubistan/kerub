@@ -107,7 +107,7 @@ Feature: planner and optimizer
       | system-disk-1 | 2 GB | false |
     And host 127.0.0.5 is Up
     And system-disk-1 is attached to vm1
-    And the virtual disk system-disk-1 created created on 127.0.0.5
+    And the virtual disk system-disk-1 is created on 127.0.0.5
     When VM vm1 is started
     Then the virtual disk system-disk-1 must not be allocated
     And VM vm1 gets scheduled on host 127.0.0.5

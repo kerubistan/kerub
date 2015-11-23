@@ -31,3 +31,4 @@ Feature: support for ecc memory expectation
     When vm1 is started
     Then vm2 must be migrated to 127.0.0.3 as step 1
     Then vm1 must be scheduled on 127.0.0.2 as step 2
+
