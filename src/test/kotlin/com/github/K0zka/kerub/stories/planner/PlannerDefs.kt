@@ -297,7 +297,7 @@ public class PlannerDefs {
 		vstorageDyns = vstorageDyns.filterNot { it.id == storage.id }
 	}
 
-	@Given("^the virtual disk (\\S+) created created on (\\S+)$")
+	@Given("^the virtual disk (\\S+) is created on (\\S+)$")
 	fun createVStorageDyn(storageName : String, hostAddr : String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
@@ -326,5 +326,15 @@ public class PlannerDefs {
 	fun clearVirtualMachines() {
 		vms = listOf()
 		vmDyns = listOf()
+	}
+
+	@Given("^(\\S+) has ECC memory$")
+	fun setHostEccMemory(hostAddr : String) {
+		throw PendingException()
+	}
+
+	@Given("^(\\S+) does not have ECC memory$")
+	fun setHostNonEccMemory(hostAddr : String) {
+		throw PendingException()
 	}
 }
