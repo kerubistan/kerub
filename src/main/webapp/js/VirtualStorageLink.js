@@ -4,7 +4,6 @@ kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http) 
         expectations : [],
         virtualStorageId : null
 	};
-	$scope.existingStorageLink = '';
 	$scope.storageDeviceName = function(deviceId) {
 		return 'placeholder';
 	};
@@ -17,9 +16,9 @@ kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http) 
 	$scope.listDisksByName = function(deviceName) {
 		$log.info('search', deviceName);
 		return $http.get('s/r/virtual-storage/search?field=name&value='+deviceName)
-			.success(function(result) {
-				$log.debug(result);
-				return result.result;
+			.then(function(result) {
+				$log.debug(result.data.result);
+				return result.data.result;
 			});
 	};
 });
