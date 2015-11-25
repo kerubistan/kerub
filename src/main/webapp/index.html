@@ -120,7 +120,7 @@
 
     <script type="text/ng-template" id="DiskSelection.html">
         <a>
-            . TODO .
+            {{match.model.name}}
         </a>
     </script>
 
@@ -202,7 +202,6 @@
                                        placeholder="Type disk name"
                                        autocomplete="off"
                                        typeahead-template-url="DiskSelection.html"
-                                       typeahead-append-to-body="true"
                                        typeahead-wait-ms="200"
                                         />
                                 <i ng-show="loadingDisks" class="glyphicon glyphicon-refresh form-control-feedback"></i>

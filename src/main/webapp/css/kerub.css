@@ -32,3 +32,11 @@
 .has-feedback .form-control-feedback {
     top: 8px;
 }
+
+
+/**
+ * Fix for the typeahead, it does not work with modals without this.
+ */
+.dropdown-menu {
+    z-index: 9999 !important;
+}
