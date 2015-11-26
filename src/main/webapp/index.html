@@ -29,6 +29,7 @@
     <script src="js/HostDetails.js"></script>
     <script src="js/MainTabs.js"></script>
     <script src="js/ExpectationMini.js"></script>
+    <script src="js/DiskSelectionElem.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
@@ -119,8 +120,8 @@
     </script>
 
     <script type="text/ng-template" id="DiskSelection.html">
-        <a>
-            {{match.model.name}}
+        <a ng-controller="DiskSelectionElem">
+            {{match.model.name}} - {{humanFriendlySize(match.model.size)}}
         </a>
     </script>
 
@@ -204,6 +205,7 @@
                                        typeahead-template-url="DiskSelection.html"
                                        typeahead-min-length="3"
                                        typeahead-wait-ms="200"
+                                       typeahead-on-select="linkExistingVirtualDisk()"
                                         />
                                 <i ng-show="loadingDisks" class="glyphicon glyphicon-refresh form-control-feedback"></i>
                                 <i ng-show="!loadingDisks" class="glyphicon glyphicon-hdd form-control-feedback"></i>

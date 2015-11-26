@@ -1,9 +1,13 @@
-kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http) {
+kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http, size) {
 	$scope.link = {
 		bus : 'virtio',
         expectations : [],
         virtualStorageId : null
 	};
+	$scope.size = size;
+
+	$scope.existingStorageLink = {};
+
 	$scope.storageDeviceName = function(deviceId) {
 		return 'placeholder';
 	};
@@ -20,5 +24,8 @@ kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http) 
 				$log.debug(result.data.result);
 				return result.data.result;
 			});
+	};
+	$scope.linkExistingVirtualDisk = function() {
+		$log.info('link storage',$scope.existingStorageLink);
 	};
 });
