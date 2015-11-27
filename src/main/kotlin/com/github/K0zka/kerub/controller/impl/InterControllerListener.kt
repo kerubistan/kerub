@@ -10,23 +10,24 @@ import javax.jms.MessageListener
 import javax.jms.ObjectMessage
 
 public class InterControllerListener(
-		private val hostManager : HostManager,
-		private val hostDao : HostDao
-                                    ) : MessageListener {
+		private val hostManager: HostManager,
+		private val hostDao: HostDao
+) : MessageListener {
 	companion object {
 		val logger = getLogger(InterControllerListener::class)
 	}
+
 	override fun onMessage(message: Message?) {
 		val msg = (message as ObjectMessage).getObject()!!
-		when(msg) {
-			is EntityEventMessage -> {
+		when (msg) {
+			is EntityEventMessage  -> {
 
 			}
 			is HostAssignedMessage -> {
 				logger.info("msg: host assigned {}", msg.hostId)
 				hostManager.connectHost(
 						hostDao.get(msg.hostId)!!
-				                       )
+				)
 			}
 		}
 	}

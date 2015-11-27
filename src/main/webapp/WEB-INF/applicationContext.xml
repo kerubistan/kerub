@@ -169,6 +169,11 @@
         <constructor-arg ref="jmsTemplate"/>
     </bean>
 
+    <bean id="interControllerListener" class="com.github.K0zka.kerub.controller.impl.InterControllerListener">
+        <constructor-arg ref="hostManager"/>
+        <constructor-arg ref="hostDao"/>
+    </bean>
+
     <bean id="sshClient"
           class="org.apache.sshd.SshClient"
           factory-method="setUpDefaultClient"
@@ -202,6 +207,10 @@
 
     <bean id="globalEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQTopic">
         <constructor-arg value="jms.topic.globalEvents"/>
+    </bean>
+
+    <bean id="privateEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+        <constructor-arg value="jms.queue.kerub-mq-#{controllerManager.controllerId}"/>
     </bean>
 
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
@@ -246,6 +255,15 @@
     <bean
             id="messageListener"
             class="com.github.K0zka.kerub.services.socket.InternalMessageListener"/>
+
+
+    <bean id="privateMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="artemisCF"/>
+        <property name="concurrency" value="1-2"/>
+        <property name="destination" ref="privateEvents"/>
+        <property name="messageListener" ref="interControllerListener"/>
+    </bean>
+
 
     <!--
     Asynchronous invocations
