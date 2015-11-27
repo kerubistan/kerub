@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.packagemanager.rpm.RpmListPackages
+import com.github.K0zka.kerub.utils.junix.packagemanager.zypper.Zypper
 import org.apache.sshd.ClientSession
 
 public class OpenSuse : LsbDistribution("openSUSE") {
@@ -15,10 +16,10 @@ public class OpenSuse : LsbDistribution("openSUSE") {
 
 
 	override fun installPackage(pack: String, session: ClientSession) {
-		session.execute("zypper -n install ${pack}")
+		Zypper.installPackage(session, pack)
 	}
 
 	override fun uninstallPackage(pack: String, session: ClientSession) {
-		session.execute("zypper -n remove ${pack}")
+		Zypper.uninstallPackage(session, pack)
 	}
 }
