@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.utils.junix.packagemanager.pkg.Pkg
 import org.apache.sshd.ClientSession
 
 /**
@@ -26,18 +27,15 @@ public class FreeBSD : Distribution {
 	override fun detect(session: ClientSession): Boolean = session.execute("uname -s") == "FreeBSD"
 
 	override fun installPackage(pack: String, session: ClientSession) {
-		session.execute("""pkg install -y ${pack} """)
+		Pkg.installPackage(session, pack)
 	}
 
 	override fun uninstallPackage(pack: String, session: ClientSession) {
-		session.execute("""pkg remove -y ${pack} """)
+		Pkg.uninstallPackage(session, pack)
 	}
 
 	override fun listPackages(session: ClientSession): List<SoftwarePackage>
-			= session.execute("""pkg query "%n\t%v" """).split('\n').toList().map {
-		val split = it.split('\t')
-		SoftwarePackage(split[0], Version.fromVersionString(split[1]))
-	}
+			= Pkg.listPackages(session)
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
 		//TODO

@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.host.distros.Centos6
 import com.github.K0zka.kerub.host.distros.Centos7
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Fedora
+import com.github.K0zka.kerub.host.distros.Fedora23Plus
 import com.github.K0zka.kerub.host.distros.FreeBSD
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
@@ -21,8 +22,8 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
-import com.github.K0zka.kerub.utils.junix.lvm.LvmPv
-import com.github.K0zka.kerub.utils.junix.lvm.LvmVg
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
@@ -40,6 +41,7 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		internal val distributions = listOf<Distribution>(
 				Ubuntu(),
 				Fedora(),
+				Fedora23Plus(),
 				Centos6(),
 				Centos7(),
 				OpenSuse(),

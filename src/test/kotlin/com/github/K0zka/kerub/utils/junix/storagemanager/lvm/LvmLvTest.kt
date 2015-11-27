@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.utils.junix.lvm
+package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream

@@ -1,13 +1,13 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.between
-import com.github.K0zka.kerub.utils.junix.rpm.RpmListPackages
+import com.github.K0zka.kerub.utils.junix.packagemanager.yum.Yum
+import com.github.K0zka.kerub.utils.junix.packagemanager.rpm.RpmListPackages
 import org.apache.sshd.ClientSession
 
-public class Fedora : LsbDistribution("Fedora") {
+public open class Fedora : LsbDistribution("Fedora") {
 
 	override fun listPackages(session: ClientSession): List<SoftwarePackage> =
 		RpmListPackages.execute(session)
@@ -17,10 +17,10 @@ public class Fedora : LsbDistribution("Fedora") {
 	}
 
 	override fun installPackage(pack: String, session: ClientSession) {
-		session.execute("yum -y install ${pack}")
+		Yum.installPackage(session, pack)
 	}
 
 	override fun uninstallPackage(pack: String, session: ClientSession) {
-		session.execute("yum -y remove ${pack}")
+		Yum.uninstallPackage(session, pack)
 	}
 }

@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.utils.junix.rpm
+package com.github.K0zka.kerub.utils.junix.packagemanager.rpm
 
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.SoftwarePackage
