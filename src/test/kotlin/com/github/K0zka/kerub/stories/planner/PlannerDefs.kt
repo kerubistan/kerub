@@ -13,8 +13,10 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.hardware.CacheInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
@@ -298,7 +300,7 @@ public class PlannerDefs {
 	}
 
 	@Given("^the virtual disk (\\S+) is created on (\\S+)$")
-	fun createVStorageDyn(storageName : String, hostAddr : String) {
+	fun createVStorageDyn(storageName: String, hostAddr: String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
 		vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
@@ -316,9 +318,9 @@ public class PlannerDefs {
 	}
 
 	@Then("^the virtual disk (\\S+) must not be allocated$")
-	fun verifyNoStorageCreate(storageName : String) {
+	fun verifyNoStorageCreate(storageName: String) {
 		val storage = vdisks.first { it.name == storageName }
-		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.device == storage})
+		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.device == storage })
 
 	}
 
@@ -328,13 +330,70 @@ public class PlannerDefs {
 		vmDyns = listOf()
 	}
 
+	@Given("(\\S+) manufaturer has NO L(\\d) cache")
+	fun setNoCache(hostAddress: String, cachelevel: Int) {
+		hosts = hosts.replace({ it.address == hostAddress }, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities!!.copy(
+							cpus = host.capabilities!!.cpus.replace({ true }, {
+								cpu ->
+								cpu.copy(
+										l1cache = if (cachelevel == 1) null else cpu.l1cache,
+										l2cache = if (cachelevel == 2) null else cpu.l2cache
+								)
+							})
+					)
+			)
+		})
+	}
+
+	@Given("(\\S+) manufaturer has (\\S+\\s+\\S+) L(\\d) cache")
+	fun setCacheSize(hostAddress: String, amount: String, cachelevel: Int) {
+		val size = amount.toSize()
+		hosts = hosts.replace({ it.address == hostAddress }, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities!!.copy(
+							cpus = host.capabilities!!.cpus.replace({ true }, {
+								cpu ->
+								val cacheInformation = CacheInformation(
+										size = size.toInt(),
+										errorCorrection = "",
+										operation = "",
+										socket = "",
+										speedNs = null
+								)
+								cpu.copy(
+										l1cache = if (cachelevel == 1) cacheInformation else cpu.l1cache,
+										l2cache = if (cachelevel == 2) cacheInformation else cpu.l2cache
+								)
+							})
+					)
+			)
+		})
+	}
+
+	@Given("^VM (\\S+) requires (\\S+\\s+\\S+) L1 cache$")
+	fun setVmCacheRequirement(vmName : String, amount: String) {
+		vms = vms.replace({it.name == vmName} , {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations + CacheSizeExpectation(
+							minL1 = amount.toSize().toLong(),
+							level = ExpectationLevel.DealBreaker
+					)
+			)
+		})
+	}
+
 	@Given("^(\\S+) has ECC memory$")
-	fun setHostEccMemory(hostAddr : String) {
+	fun setHostEccMemory(hostAddr: String) {
 		throw PendingException()
 	}
 
 	@Given("^(\\S+) does not have ECC memory$")
-	fun setHostNonEccMemory(hostAddr : String) {
+	fun setHostNonEccMemory(hostAddr: String) {
 		throw PendingException()
 	}
 }

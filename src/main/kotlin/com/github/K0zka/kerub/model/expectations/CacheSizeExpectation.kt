@@ -8,5 +8,5 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 @JsonTypeName("cache-size")
 data class CacheSizeExpectation @JsonCreator constructor(
 		override val level: ExpectationLevel,
-		val minKbytes: Long
+		val minL1: Long
 ) : Expectation

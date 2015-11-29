@@ -60,7 +60,7 @@ public class DmiDecoder {
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
-							sizeKb = input.intBetween("Installed Size: ", " kB\n"),
+							size = input.substringBetween("Installed Size: ", "\n")?.trim()?.toSize()?.toInt(),
 							operation = input.substringBetween("Operational Mode: ", "\n"),
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					                )

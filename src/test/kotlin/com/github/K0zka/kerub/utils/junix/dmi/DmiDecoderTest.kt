@@ -80,17 +80,17 @@ Built-in Pointing Device
 		assert(processor.threadCount == 4)
 
 		val l1Cache = processor.l1cache!!
-		assert(l1Cache.sizeKb == 128)
+		assert(l1Cache.size == "128 KB".toSize().toInt())
 		assert(l1Cache.speedNs == null)
 		assert(l1Cache.errorCorrection == "Single-bit ECC")
 
 		val l2Cache = processor.l2cache!!
-		assert(l2Cache.sizeKb == 512)
+		assert(l2Cache.size == "512 KB".toSize().toInt())
 		assert(l2Cache.speedNs == null)
 		assert(l2Cache.errorCorrection == "Single-bit ECC")
 
 		val l3Cache = processor.l3cache!!
-		assert(l3Cache.sizeKb == 3072)
+		assert(l3Cache.size == "3072 KB".toSize().toInt())
 		assert(l3Cache.speedNs == null)
 		assert(l3Cache.errorCorrection == "Single-bit ECC")
 	}
