@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
@@ -27,13 +28,13 @@ public class HostManagerImpl (
 
 	override fun disconnectHost(host: Host) {
 		val session = connections.remove(host.id)
-		session?.close(true)
+		session?.first?.close(true)
 	}
 
 	override fun getHypervisor(host: Host): Hypervisor? {
-		val session = connections[host.id]
-		if(session != null) {
-			return KvmHypervisor(session)
+		val connection = connections[host.id]
+		if(connection != null) {
+			return KvmHypervisor(connection.first)
 		} else {
 			return null;
 		}
@@ -48,7 +49,7 @@ public class HostManagerImpl (
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
 		val session = connections[host.id]
 		if(session != null) {
-			closure(session)
+			closure(session.first)
 		}
 	}
 
@@ -60,17 +61,18 @@ public class HostManagerImpl (
 
 	public var sshServerPort : Int = defaultSshServerPort
 	public var sshUserName : String = defaultSshUserName
-	private val connections = Collections.synchronizedMap(hashMapOf<UUID, ClientSession>())
+	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
 		logger.info("Connecting to host {} {}", host.id, host.address)
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				hostPublicKey = host.publicKey)
-		connections.put(host.id, session)
-
 		val distro = discoverer.detectDistro(session)
-		distro?.startMonitorProcesses(session, host, hostDynamicDao)
+		if(distro != null) {
+			connections.put(host.id, session to distro)
+			distro.startMonitorProcesses(session, host, hostDynamicDao)
+		}
 	}
 
 	override fun join(host: Host, password: String): Host {
@@ -96,9 +98,9 @@ public class HostManagerImpl (
 	internal fun joinConnectedHost(host: Host, session: ClientSession): Host {
 		val capabilities = discoverer.discoverHost(session)
 
-		val host = host.copy(capabilities = capabilities)
+		val internalHost = host.copy(capabilities = capabilities)
 
-		hostDao.add(host)
+		hostDao.add(internalHost)
 		hostAssigner.assignController(host)
 
 		return host
@@ -136,8 +138,6 @@ public class HostManagerImpl (
 			this.serverKey = serverKey
 			return true
 		}
-		companion object val logger = getLogger(ServerKeyReader::class)
-
 		var serverKey : PublicKey? = null
 	}
 
