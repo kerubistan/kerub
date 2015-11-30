@@ -19,18 +19,20 @@ kerubApp.controller('ExpectationMini', function($scope, $log, size) {
 
 	var expToIcon = function(expectation) {
 		switch(expectation['@type']) {
+			case 'availability':
+				return 'fa fa-power-off';
 			case 'storage-redundancy':
-				return 'hdd';
+				return 'glyphicon glyphicon-hdd';
 			case 'storage-read-perf':
-				return 'arrow-up';
+				return 'glyphicon glyphicon-arrow-up';
 			case 'storage-write-perf':
-				return 'arrow-down'
+				return 'glyphicon glyphicon-arrow-down'
 			case 'cpu-clock-freq':
-				return 'flash';
+				return 'glyphicon glyphicon-flash';
 			case 'ram-clock-freq':
-				return 'dashboard';
+				return 'glyphicon glyphicon-dashboard';
 			case 'cache-size':
-				return 'plus-sign';
+				return 'glyphicon glyphicon-plus-sign';
 			default:
 				$log.warn('Unknown expectation type', expectation['@type']);
 				return 'cog';
@@ -49,6 +51,8 @@ kerubApp.controller('ExpectationMini', function($scope, $log, size) {
 				return expectation.min + ' Mhz +'
 			case 'cpu-clock-freq':
 				return expectation.minimalClockFrequency + ' Mhz +'
+			case 'availability':
+				return expectation.up ? 'on' : 'off';
 			default:
 				$log.warn('Unknown expectation type', expectation['@type']);
             	return '?';

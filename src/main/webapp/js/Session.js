@@ -33,6 +33,11 @@ kerubApp.factory('appsession', ['$log', '$http', '$modal', function($log, $http,
             this.onError.push(callback);
             return this;
         };
+        this.then = function(callback) {
+            this.onError.push(callback);
+            this.onSuccess.push(callback);
+            return this;
+        };
         this.runSuccessCallbacks = function(response) {
             for(var idx = 0; idx < this.onSuccess.length; idx++) {
                 $log.debug('calling onsuccess method', idx);
@@ -111,6 +116,14 @@ kerubApp.factory('appsession', ['$log', '$http', '$modal', function($log, $http,
          */
         put : function(url, data) {
             var res = $http.put(url, data);
+            var wrap = new SessionReqWrapper('PUT', res, this);
+            return wrap;
+        },
+        /**
+         * session ost
+         */
+        post : function(url, data) {
+            var res = $http.post(url, data);
             var wrap = new SessionReqWrapper('PUT', res, this);
             return wrap;
         },

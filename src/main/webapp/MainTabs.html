@@ -27,16 +27,24 @@
                                   ng-controller="ExpectationMini"
                                   ng-init="init(expectation)">
                                 <span class="label label-{{style}}">
-                                    <span class="glyphicon glyphicon-{{icon}}"></span>
+                                    <span class="{{icon}}"></span>
                                     {{description}}
                                 </span>
                             </span>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-play"></span> </button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-stop"></span> </button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pause"></span> </button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-camera"></span> </button>
+                            <button type="button" class="btn btn-default" ng-click="startVm()" ng-disabled="workingprg">
+                                <span class="glyphicon glyphicon-play"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="stopVm()" ng-disabled="workingprg">
+                                <span class="glyphicon glyphicon-stop"></span>
+                            </button>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pause"></span>
+                            </button>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-camera"></span>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -78,7 +86,7 @@
                                   ng-controller="ExpectationMini"
                                   ng-init="init(expectation)">
                                 <span class="label label-{{style}}">
-                                    <span class="glyphicon glyphicon-{{icon}}"></span>
+                                    <span class="{{icon}}"></span>
                                     {{description}}
                                 </span>
                             </span>
