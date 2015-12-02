@@ -30,6 +30,10 @@
         <constructor-arg value="vmCache"/>
     </bean>
 
+    <bean id="vmDynCache" parent="cache">
+        <constructor-arg value="vmDynCache"/>
+    </bean>
+
     <bean id="hostCache" parent="cache">
         <constructor-arg value="hostCache"/>
     </bean>
@@ -75,6 +79,11 @@
 
     <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
         <constructor-arg ref="vmCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
+    <bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
+        <constructor-arg ref="vmDynCache"/>
         <constructor-arg ref="eventListener"/>
     </bean>
 
@@ -162,9 +171,6 @@
         <constructor-arg ref="interController"/>
     </bean>
 
-    <bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService">
-    </bean>
-
     <bean id="interController" class="com.github.K0zka.kerub.controller.impl.InterControllerImpl">
         <constructor-arg ref="jmsTemplate"/>
     </bean>
@@ -193,6 +199,33 @@
             init-method="start">
         <constructor-arg ref="controllerDynamicDao"/>
         <constructor-arg ref="cacheManager"/>
+    </bean>
+
+    <!--
+    Planner and executor
+    -->
+
+    <bean id="stateBuilder" class="com.github.K0zka.kerub.planner.OperationalStateBuilderImpl">
+        <constructor-arg ref="controllerManager"/>
+        <constructor-arg ref="assignmentDao"/>
+        <constructor-arg ref="hostDynamicDao"/>
+        <constructor-arg ref="hostDao"/>
+        <constructor-arg ref="virtualStorageDeviceDao"/>
+        <constructor-arg ref="virtualStorageDeviceDynDao"/>
+        <constructor-arg ref="vmDao"/>
+        <constructor-arg ref="vmDynDao"/>
+    </bean>
+
+    <bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
+
+    <bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl">
+        <constructor-arg ref="backtrack"/>
+        <constructor-arg ref="planExecutor"/>
+        <constructor-arg ref="stateBuilder"/>
+    </bean>
+
+    <bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
+        <constructor-arg ref="hostManager"/>
     </bean>
 
     <!--
@@ -254,8 +287,9 @@
 
     <bean
             id="messageListener"
-            class="com.github.K0zka.kerub.services.socket.InternalMessageListener"/>
-
+            class="com.github.K0zka.kerub.services.socket.InternalMessageListener">
+        <constructor-arg ref="planner"/>
+    </bean>
 
     <bean id="privateMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="artemisCF"/>
