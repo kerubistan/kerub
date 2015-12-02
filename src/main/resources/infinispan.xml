@@ -47,6 +47,12 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="vmDynCache" mode="ASYNC" owners="${stat.owners}">
+            <persistence>
+                <file-store path="${store.dir}/store/dyn/audit"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
         <distributed-cache name="auditCache" mode="ASYNC" owners="${stat.owners}">
             <persistence>
                 <file-store path="${store.dir}/store/dyn/audit"/>
