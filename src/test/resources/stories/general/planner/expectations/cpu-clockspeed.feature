@@ -13,5 +13,5 @@ Feature: support for cpu clock speed expectation
     And host host2.example.com is Up
     And host1.example.com cpu clockspeed is 1700 Mhz
     And host2.example.com cpu clockspeed is 2400 Mhz
-    When vm1 is started
-    Then vm1 must be scheduled on host2.example.com
+    When VM vm1 is started
+    Then VM vm1 gets scheduled on host host2.example.com

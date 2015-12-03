@@ -15,6 +15,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
+import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
@@ -432,6 +433,33 @@ public class PlannerDefs {
 			)
 		})
 
+	}
+
+	@Given("^(\\S+) has cpu clock speed expectation (\\S+) Mhz$")
+	fun addCpuClockSpeedExpectation(vmName : String, freq : Int) {
+		vms = vms.replace( {it.name == vmName}, {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations + ClockFrequencyExpectation(
+							minimalClockFrequency = freq,
+							level = ExpectationLevel.Want
+					)
+			)
+		} )
+	}
+
+	@Given("^(\\S+) cpu clockspeed is (\\S+) Mhz$")
+	fun setHostCpuSpeed(hostAddr : String, freq : Int) {
+		hosts = hosts.replace({it.address == hostAddr}, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities?.copy(
+							cpus = host.capabilities?.cpus?.map { it.copy(
+									maxSpeedMhz = freq
+							) } ?: listOf()
+					)
+			)
+		})
 	}
 
 	@Given("^(\\S+) has ECC memory$")

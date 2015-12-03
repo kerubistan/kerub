@@ -12,6 +12,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
+import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
@@ -107,9 +108,17 @@ data class OperationalState(
 
 	private fun checkExpectation(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
+			is ClockFrequencyExpectation             -> {
+				val host = vmHost(vm)
+				return if (host == null) {
+					true
+				} else {
+					host.capabilities?.cpus?.firstOrNull()?.maxSpeedMhz ?: 0 >= expectation.minimalClockFrequency
+				}
+			}
 			is NotSameHostExpectation                -> {
 				val host = vmHost(vm)
-				return if(host == null) {
+				return if (host == null) {
 					true
 				} else {
 					val otherVmHosts = expectation.otherVmIds.map { vmHost(it)?.id }
