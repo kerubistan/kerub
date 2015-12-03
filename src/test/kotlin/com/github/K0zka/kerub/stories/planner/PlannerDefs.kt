@@ -16,6 +16,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
+import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.CacheInformation
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
@@ -417,6 +418,20 @@ public class PlannerDefs {
 					)
 			)
 		})
+	}
+
+	@Given("^(\\S+) has notsame host expectation against (\\S+)$")
+	fun addNotSameHostExpectation(vmName : String, otherVm: String) {
+		val otherVm = vms.first { it.name == otherVm }
+		vms = vms.replace({it.name == vmName}, {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations + NotSameHostExpectation(
+							otherVmIds = listOf(otherVm.id)
+					)
+			)
+		})
+
 	}
 
 	@Given("^(\\S+) has ECC memory$")
