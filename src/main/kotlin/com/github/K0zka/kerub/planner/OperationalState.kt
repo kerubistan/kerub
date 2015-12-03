@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
+import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.k0zka.finder4j.backtrack.State
@@ -101,9 +102,17 @@ data class OperationalState(
 
 	private fun checkExpectation(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
-			is CacheSizeExpectation -> {
+			is ChassisManufacturerExpectation        -> {
 				val host = vmHost(vm)
-				return if(host == null) {
+				return if (host == null) {
+					true
+				} else {
+					host.capabilities?.chassis?.manufacturer == expectation.manufacturer
+				}
+			}
+			is CacheSizeExpectation                  -> {
+				val host = vmHost(vm)
+				return if (host == null) {
 					true
 				} else {
 					expectation.minL1 <= host?.capabilities?.cpus?.firstOrNull()?.l1cache?.size ?: 0

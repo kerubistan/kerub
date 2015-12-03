@@ -14,9 +14,11 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
+import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.CacheInformation
+import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
@@ -375,13 +377,43 @@ public class PlannerDefs {
 	}
 
 	@Given("^VM (\\S+) requires (\\S+\\s+\\S+) L1 cache$")
-	fun setVmCacheRequirement(vmName : String, amount: String) {
-		vms = vms.replace({it.name == vmName} , {
+	fun setVmCacheRequirement(vmName: String, amount: String) {
+		vms = vms.replace({ it.name == vmName }, {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + CacheSizeExpectation(
 							minL1 = amount.toSize().toLong(),
 							level = ExpectationLevel.DealBreaker
+					)
+			)
+		})
+	}
+
+	@Given("^(\\S+) manufaturer is (\\S+)$")
+	fun setHostManufacturer(hostAddr: String, manufacturer: String) {
+		hosts = hosts.replace({ it.address == hostAddr }, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities?.copy(
+							chassis = host.capabilities?.chassis?.copy(manufacturer = manufacturer) ?:
+									ChassisInformation(
+											manufacturer = manufacturer,
+											type = "BLADE",
+											height = null,
+											nrOfPowerCords = 1
+									)
+					)
+			)
+		})
+	}
+
+	@Given("^VM (\\S+) requires manufacturer (\\S+)$")
+	fun setVmHostManufacturerInformation(vmName : String, manufacturer : String) {
+		vms = vms.replace( {it.name == vmName} , {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations + ChassisManufacturerExpectation(
+							manufacturer = manufacturer
 					)
 			)
 		})
