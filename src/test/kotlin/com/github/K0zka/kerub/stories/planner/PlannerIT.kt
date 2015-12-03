@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 				"classpath:stories/general/planner/expectations/storage-notsame.feature",
 				"classpath:stories/general/planner/expectations/memory-errorcorrection.feature",
 				"classpath:stories/general/planner/expectations/memory-clockspeed.feature",
+				"classpath:stories/general/planner/expectations/cpu-clockspeed.feature",
 				"classpath:stories/general/planner/expectations/host-notsamehost.feature",
 				"classpath:stories/general/planner/expectations/host-manufacturer.feature",
 				"classpath:stories/general/planner/expectations/cpu-cachesize.feature"
