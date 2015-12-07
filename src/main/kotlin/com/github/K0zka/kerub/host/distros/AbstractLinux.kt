@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.utils.junix.mpstat.MPStat
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
 import java.util.UUID
+import kotlin.math.plus
 
 public abstract class AbstractLinux : Distribution {
 
@@ -49,7 +50,11 @@ public abstract class AbstractLinux : Distribution {
 						status = HostStatus.Up,
 						idleCpu = event.idleCpu,
 						systemCpu = event.systemCpu,
-						userCpu = event.userCpu
+						userCpu = event.userCpu,
+						memFree = event.freeMem
+								+ event.cacheMem
+								+ event.ioBuffMem,
+						memSwapped = event.swapMem
 				)
 			})
 		})
