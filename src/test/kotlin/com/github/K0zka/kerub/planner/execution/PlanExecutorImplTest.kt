@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.execution
 
 import com.github.K0zka.kerub.host.HostCommandExecutor
+import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.planner.OperationalState
@@ -17,6 +18,9 @@ import java.util.UUID
 public class PlanExecutorImplTest {
 	@Mock
 	var executor: HostCommandExecutor? = null
+
+	@Mock
+	var hostManager: HostManager? = null
 
 	@Test
 	fun execute() {
@@ -42,7 +46,7 @@ public class PlanExecutorImplTest {
 				                            )
 				                )
 		               )
-		PlanExecutorImpl(executor!!).execute(plan)
+		PlanExecutorImpl(executor!!, hostManager!!).execute(plan)
 
 		//Mockito.verify(executor)!!.execute(Matchers.eq(host) ?: host, Matchers.any() ?: Mockito.mock() )
 	}

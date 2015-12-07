@@ -205,6 +205,7 @@
     Planner and executor
     -->
 
+    <!--
     <bean id="stateBuilder" class="com.github.K0zka.kerub.planner.OperationalStateBuilderImpl">
         <constructor-arg ref="controllerManager"/>
         <constructor-arg ref="assignmentDao"/>
@@ -215,6 +216,17 @@
         <constructor-arg ref="vmDao"/>
         <constructor-arg ref="vmDynDao"/>
     </bean>
+    -->
+
+    <bean id="stateBuilder" class="com.github.K0zka.kerub.planner.GlobalOperationalStateBuilderImpl">
+        <constructor-arg ref="hostDynamicDao"/>
+        <constructor-arg ref="hostDao"/>
+        <constructor-arg ref="virtualStorageDeviceDao"/>
+        <constructor-arg ref="virtualStorageDeviceDynDao"/>
+        <constructor-arg ref="vmDao"/>
+        <constructor-arg ref="vmDynDao"/>
+    </bean>
+
 
     <bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
 
@@ -225,6 +237,7 @@
     </bean>
 
     <bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
+        <constructor-arg ref="hostManager"/>
         <constructor-arg ref="hostManager"/>
     </bean>
 

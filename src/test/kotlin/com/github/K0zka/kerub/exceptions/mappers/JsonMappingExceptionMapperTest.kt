@@ -8,7 +8,7 @@ import org.junit.Test
 public class JsonMappingExceptionMapperTest {
 	@Test
 	fun toResponse() {
-		val response = JsonMappingExceptionMapper(createObjectMapper()) toResponse JsonMappingException("TEST")
+		val response = JsonMappingExceptionMapper(createObjectMapper()).toResponse(JsonMappingException("TEST"))
 		Assert.assertNotNull(response)
 		Assert.assertNotNull(response!!.getEntity())
 	}

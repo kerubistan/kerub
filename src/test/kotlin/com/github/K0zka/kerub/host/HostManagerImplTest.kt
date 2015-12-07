@@ -138,8 +138,8 @@ public class HostManagerImplTest {
 		on(hostAssignmentDao!!.listByController(eq(controllerId))).thenReturn(
 				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
 		                                                                     )
-		on(hostDao!!.get(hostId)) thenReturn host
-		on(sshClientService!!.createSession(anyString(), anyString())) thenReturn clientSession
+		on(hostDao!!.get(hostId)).thenReturn(host)
+		on(sshClientService!!.createSession(anyString(), anyString())).thenReturn(clientSession)
 
 		hostManager!!.start()
 

@@ -33,7 +33,7 @@ public interface DaoOperations {
 	 * Interface to allow retrieving entities from the backing store.
 	 */
 	interface Read<T : Entity<I>, I> {
-		fun get(id: I): T?
+		operator fun get(id: I): T?
 	}
 
 	/**

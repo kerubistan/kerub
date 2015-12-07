@@ -13,7 +13,7 @@ public abstract class LsbDistribution(val distroName : String) : AbstractLinux()
 		return distroName
 	}
 
-	fun enforce<T>( value : T?, msg : String ) : T {
+	fun <T> enforce( value : T?, msg : String ) : T {
 		if(value == null) {
 			throw IllegalArgumentException("${msg} - value is null")
 		} else {
