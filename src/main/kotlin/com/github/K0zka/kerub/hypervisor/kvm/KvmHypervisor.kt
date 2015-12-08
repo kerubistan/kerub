@@ -1,23 +1,18 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
-import com.github.K0zka.kerub.host.execute
-import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import org.apache.sshd.ClientSession
 
 class KvmHypervisor(val client: ClientSession) : Hypervisor {
 	override fun startVm(vm: VirtualMachine) {
-		val domainDef = "/tmp/${vm.id}.xml"
-		client.createSftpClient().use {
-			it.write(domainDef).use { it.write(vmDefinitiontoXml(vm).toByteArray("UTF-8")) }
-		}
-		client.createExecChannel("virsh create ${domainDef}")
+		Virsh.create(client, vm.id, vmDefinitiontoXml(vm))
 	}
 
 	override fun stopVm(vm: VirtualMachine) {
-		client.execute("virsh destroy ${vm.id} --graceful")
+		Virsh.destroy(client, vm.id)
 	}
 
 	override fun migrate(vm: VirtualMachine, source: Host, target: Host) {

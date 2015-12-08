@@ -10,6 +10,8 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
+import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachine
@@ -30,6 +32,7 @@ public class PlanExecutorImpl(
 	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			StartVirtualMachine::class to StartVirtualMachineExecutor(hostManager),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager),
+			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor),
 	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor),
 	        CreateImage::class to CreateImageExecutor(hostCommandExecutor)
