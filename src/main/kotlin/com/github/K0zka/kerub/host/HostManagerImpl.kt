@@ -8,10 +8,13 @@ import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.ServerKeyVerifier
+import org.apache.sshd.common.Session
+import org.apache.sshd.common.SessionListener
 import java.net.SocketAddress
 import java.security.PublicKey
 import java.util.Collections
@@ -59,6 +62,16 @@ public class HostManagerImpl (
 		val defaultSshUserName = "root"
 	}
 
+	class SessionCloseListener(
+			private val host : Host,
+			private val hostDynamicDao : HostDynamicDao
+	) : DefaultSshEventListener() {
+		override fun sessionClosed(session: Session) {
+			logger.info("Session closed for host:\n addrs: {}\n id: {}", host.address, host.id)
+			hostDynamicDao.remove(host.id)
+		}
+	}
+
 	public var sshServerPort : Int = defaultSshServerPort
 	public var sshUserName : String = defaultSshUserName
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
@@ -68,6 +81,7 @@ public class HostManagerImpl (
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				hostPublicKey = host.publicKey)
+		session.addListener(SessionCloseListener(host, hostDynamicDao))
 		val distro = discoverer.detectDistro(session)
 		if(distro != null) {
 			connections.put(host.id, session to distro)

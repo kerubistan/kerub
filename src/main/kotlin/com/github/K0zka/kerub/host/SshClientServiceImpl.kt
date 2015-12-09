@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
@@ -21,21 +22,12 @@ public class SshClientServiceImpl(
 		val maxWait : Long = 500,
 		val maxWaitUnit : TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
 
-	class ServerFingerprintChecker(val expected :String) : SessionListener {
+	class ServerFingerprintChecker(val expected :String) : DefaultSshEventListener() {
 		override fun sessionEvent(session: Session, event: SessionListener.Event) {
 			if(SessionListener.Event.KeyEstablished == event) {
 				checkServerFingerPrint(session, expected)
 			}
 		}
-
-		override fun sessionClosed(session: Session?) {
-			//nothing to do
-		}
-
-		override fun sessionCreated(session: Session?) {
-			//nothing to do
-		}
-
 	}
 
 	companion object {
