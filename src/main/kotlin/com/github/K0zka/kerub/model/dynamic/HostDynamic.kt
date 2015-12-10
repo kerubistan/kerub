@@ -1,11 +1,13 @@
 package com.github.K0zka.kerub.model.dynamic
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import java.math.BigInteger
 import java.util.UUID
 
 /**
  * Dynamic general information about the status of a host.
  */
+@JsonTypeName("host-dyn")
 public data class HostDynamic(
 		override val id: UUID,
 		override val lastUpdated: Long = System.currentTimeMillis(),
