@@ -125,6 +125,10 @@ public class HostManagerImplTest {
 		                capabilities = null,
 		                dedicated = false,
 		                publicKey = "")
+		on(sshClientService!!.loginWithPublicKey(
+				address =  anyString(),
+				hostPublicKey = anyString(),
+				userName = anyString())).thenReturn(clientSession)
 		hostManager!!.connectHost(host)
 		Thread.sleep(1000)
 	}
