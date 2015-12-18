@@ -7,8 +7,8 @@ import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.model.messages.PongMessage
 import com.github.K0zka.kerub.model.messages.SubscribeMessage
 import com.github.K0zka.kerub.model.messages.UnsubscribeMessage
+import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
-import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.slf4j.Logger
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -18,11 +18,10 @@ import java.io.StringWriter
 import java.util.HashSet
 import javax.websocket.Session
 
-@RequiresAuthentication
-public class WebSocketNotifier(val internalListener : InternalMessageListener) : TextWebSocketHandler() {
+public class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWebSocketHandler() {
 	protected companion object {
-		private fun init() : ObjectMapper {
-			val mapper = ObjectMapper()
+		private fun init(): ObjectMapper {
+			val mapper = createObjectMapper()
 			mapper.enableDefaultTyping()
 			mapper.registerSubtypes(
 					Message::class.java,
@@ -33,49 +32,59 @@ public class WebSocketNotifier(val internalListener : InternalMessageListener) :
 					PongMessage::class.java)
 			return mapper
 		}
+
 		val objectMapper = init()
-		private val logger : Logger = getLogger(WebSocketNotifier::class)
+		private val logger: Logger = getLogger(WebSocketNotifier::class)
 	}
 
-	fun send(session : WebSocketSession, message : Message) {
+	fun send(session: WebSocketSession, message: Message) {
 		StringWriter().use {
 			objectMapper.writeValue(it, message)
-			session.sendMessage( TextMessage( it.toString() ) )
+			session.sendMessage(TextMessage(it.toString()))
 		}
 	}
 
-	override fun handleTextMessage(session: WebSocketSession?, message: TextMessage?) {
-		logger.info("text message {}",message)
+	override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
+		logger.info("text message {}", message)
 
 		val msg = objectMapper.readValue<Message>(message?.getPayload(), Message::class.java)
 
-		when(msg) {
-			is PingMessage -> {
+		when (msg) {
+			is PingMessage        -> {
 				send(session!!, PongMessage())
 			}
-			is SubscribeMessage -> {
+			is SubscribeMessage   -> {
 				logger.info("subscribe to {}", msg.channel)
+				internalListener.subscribe(session.id, msg.channel)
 			}
 			is UnsubscribeMessage -> {
 				logger.info("unsubscribe from {}", msg.channel)
+				internalListener.unsubscribe(session.id, msg.channel)
 			}
 		}
 	}
+
 	override fun handleTransportError(session: WebSocketSession, exception: Throwable?) {
 		logger.info("connection error", exception)
 	}
-	@RequiresAuthentication
+
 	override fun afterConnectionEstablished(session: WebSocketSession) {
-		logger.info("connection opened")
-		internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
-		super.afterConnectionEstablished(session)
+		if (session.principal == null) {
+			logger.info("unauthenticated attempt")
+			session.close(CloseStatus.NORMAL)
+		} else {
+			logger.info("connection opened by {}", session.principal)
+			internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
+			super.afterConnectionEstablished(session)
+		}
 	}
+
 	override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus?) {
 		internalListener.removeSocketListener(session.getId())
 		logger.info("connection closed, {}", status)
 	}
 
-	private var session : Session? = null
-	private val clients : MutableSet<ClientConnection> = HashSet()
+	private var session: Session? = null
+	private val clients: MutableSet<ClientConnection> = HashSet()
 
 }

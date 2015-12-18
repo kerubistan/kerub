@@ -31,8 +31,24 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
     sock.queue = [];
     sock.listeners = {};
     socket.onmessage = function(message) {
-        $log.info("message from server", message.data);
-        //TODO: decide under which
+        $log.info("raw message", message.data);
+        var msg = angular.fromJson(message.data);
+        $log.info("message from server", msg);
+        var type = msg['@type'];
+        if(type === 'entity-update' || type === 'entity-remove' || type === 'entity-add') {
+        	var entityId = msg.obj.id;
+        	var entityType = msg.obj['@type'];
+        	$log.info("\t- entity id: "+entityId + "\n\n- "+entityType);
+			angular.forEach(sock.listeners, function(callbacks, channel) {
+				angular.forEach(callbacks, function(callback, clientId) {
+					$log.info('channel: '+channel);
+					$log.info("callback ",callbacks);
+					$log.info("\t - " + clientId);
+
+					callback(msg);
+				});
+			});
+        }
     };
     socket.onopen = function() {
         $log.info('connection established');

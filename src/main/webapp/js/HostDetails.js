@@ -1,10 +1,19 @@
-var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, size) {
+var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, size, socket) {
     $scope.host = null;
 
     $scope.tab = "overview";
     $scope.nrOfCpus = null;
 
+    $scope.dyn = {};
+
 	$scope.humanFriendlySize = size.humanFriendlySize;
+
+	$log.info('host id ',hostId);
+
+    socket.subscribe('/host-dyn/'+hostId, function(msg) {
+    	$log.info("kakukk")
+        $scope.dyn = msg.obj;
+    }, 'HostDetails');
 
     appsession
         .get('s/r/host/'+hostId)

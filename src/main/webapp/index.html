@@ -381,6 +381,12 @@
             </span>
         </form>
         <form ng-show="isVisible('CPU')">
+
+            <div class="form-group">
+                <label>load</label>
+                {{dyn}}
+            </div>
+
             <div class="form-group">
                 <label>total</label>
                 <input class="form-control" ng-value="nrOfCpus" disabled>

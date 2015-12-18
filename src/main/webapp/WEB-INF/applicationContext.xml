@@ -300,7 +300,7 @@
 
     <bean
             id="messageListener"
-            class="com.github.K0zka.kerub.services.socket.InternalMessageListener">
+            class="com.github.K0zka.kerub.services.socket.InternalMessageListenerImpl">
         <constructor-arg ref="planner"/>
     </bean>
 
