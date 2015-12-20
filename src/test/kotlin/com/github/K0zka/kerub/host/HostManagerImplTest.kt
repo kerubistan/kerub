@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.on
+import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.verify
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshServer
@@ -96,7 +97,15 @@ public class HostManagerImplTest {
 	@Before
 	fun setup() {
 		val key = getTestKey()
-		hostManager = HostManagerImpl(hostDao!!, hostDynamicDao!!, sshClientService!!, controllerManager!!, hostAssignmentDao!!, discoverer!!, hostAssigner!!)
+		hostManager = HostManagerImpl(
+				hostDao!!,
+				hostDynamicDao!!,
+				sshClientService!!,
+				controllerManager!!,
+				hostAssignmentDao!!,
+				discoverer!!,
+				hostAssigner!!
+		)
 		hostManager!!.sshServerPort = 2022
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()

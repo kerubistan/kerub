@@ -14,7 +14,6 @@ import org.apache.sshd.ClientSession
 import org.apache.sshd.SshClient
 import org.apache.sshd.client.ServerKeyVerifier
 import org.apache.sshd.common.Session
-import org.apache.sshd.common.SessionListener
 import java.net.SocketAddress
 import java.security.PublicKey
 import java.util.Collections
@@ -64,11 +63,16 @@ public class HostManagerImpl (
 
 	class SessionCloseListener(
 			private val host : Host,
-			private val hostDynamicDao : HostDynamicDao
+			private val hostDynamicDao : HostDynamicDao,
+			private val connections : MutableMap<UUID, Pair<ClientSession, Distribution>>
 	) : DefaultSshEventListener() {
 		override fun sessionClosed(session: Session) {
 			logger.info("Session closed for host:\n addrs: {}\n id: {}", host.address, host.id)
+			// things to do here, this host is dead for some reason, to register that, the dynamic record is removed
+			// this also tells the planner to act on the event
 			hostDynamicDao.remove(host.id)
+			//clean up: remove the host connection
+			connections.remove(host.id)
 		}
 	}
 
@@ -81,7 +85,7 @@ public class HostManagerImpl (
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				hostPublicKey = host.publicKey)
-		session.addListener(SessionCloseListener(host, hostDynamicDao))
+		session.addListener(SessionCloseListener(host, hostDynamicDao, connections))
 		val distro = discoverer.detectDistro(session)
 		if(distro != null) {
 			connections.put(host.id, session to distro)
