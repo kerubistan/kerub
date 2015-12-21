@@ -29,6 +29,7 @@ object MPStat {
 				handler(
 						cpuStats.sortedBy { it.cpuNr }
 				)
+				cpuStats = listOf()
 			} else {
 				val fields = line.split(regex)
 				if (fields.size == 13 && fields[2] != "all" && fields[2] != "CPU") {
