@@ -30,4 +30,12 @@ object Virsh {
 	fun suspend(session: ClientSession, id: UUID) {
 		session.executeOrDie("virsh suspend $id")
 	}
+
+	fun resume(session: ClientSession, id: UUID) {
+		session.executeOrDie("virsh resume $id")
+	}
+
+	fun domStat(session: ClientSession) {
+
+	}
 }

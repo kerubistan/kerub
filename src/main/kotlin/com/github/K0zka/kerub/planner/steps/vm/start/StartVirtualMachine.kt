@@ -3,12 +3,14 @@ package com.github.K0zka.kerub.planner.steps.vm.start
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
-public data class StartVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep {
+public data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
 		return state.copy(
@@ -17,7 +19,8 @@ public data class StartVirtualMachine(val vm: VirtualMachine, val host: Host) : 
 						lastUpdated = System.currentTimeMillis(),
 						id = vm.id,
 						hostId = host.id,
-						memoryUsed = vm.memory.min
+						memoryUsed = vm.memory.min,
+						cpuUsage = CpuStat.zero
 				                                                       )),
 				hostDyns = (state.hostDyns - host.id) + (host.id to
 						hostDyn.copy(

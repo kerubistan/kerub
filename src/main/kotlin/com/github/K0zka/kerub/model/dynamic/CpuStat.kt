@@ -6,4 +6,8 @@ data class CpuStat(
 		val system: Float,
 		val ioWait: Float,
 		val idle: Float
-)
+) {
+	companion object {
+		val zero = CpuStat(0, 0f, 0f, 0f, 0f)
+	}
+}

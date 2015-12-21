@@ -10,5 +10,6 @@ public data class VirtualMachineDynamic(
 		override val lastUpdated: Long = System.currentTimeMillis(),
 		val hostId: UUID,
 		val status: VirtualMachineStatus = VirtualMachineStatus.Down,
-		val memoryUsed: BigInteger
+		val memoryUsed: BigInteger,
+		val cpuUsage: CpuStat = CpuStat.zero
 ) : DynamicEntity

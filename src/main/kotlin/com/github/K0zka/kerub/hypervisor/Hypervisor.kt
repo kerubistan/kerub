@@ -12,4 +12,6 @@ public interface Hypervisor {
 	fun startVm(vm : VirtualMachine)
 	fun stopVm(vm : VirtualMachine)
 	fun migrate(vm: VirtualMachine, source: Host, target: Host)
+	fun suspend(vm: VirtualMachine)
+	fun resume(vm: VirtualMachine)
 }

@@ -6,7 +6,15 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import org.apache.sshd.ClientSession
 
-class KvmHypervisor(val client: ClientSession) : Hypervisor {
+class KvmHypervisor(private val client: ClientSession) : Hypervisor {
+	override fun suspend(vm: VirtualMachine) {
+		Virsh.suspend(client, vm.id)
+	}
+
+	override fun resume(vm: VirtualMachine) {
+		Virsh.resume(client, vm.id)
+	}
+
 	override fun startVm(vm: VirtualMachine) {
 		Virsh.create(client, vm.id, vmDefinitiontoXml(vm))
 	}

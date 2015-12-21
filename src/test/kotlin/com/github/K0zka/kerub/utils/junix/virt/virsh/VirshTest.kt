@@ -84,4 +84,26 @@ class VirshTest {
 				UUID.fromString("8952908a-f27d-45dc-b274-0aeb7a68660c")))
 	}
 
+	@Test
+	fun suspend() {
+		Mockito.`when`(execChannel!!.invertedOut)
+				.thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedErr)
+				.thenReturn(NullInputStream(0))
+		Virsh.suspend(session!!, UUID.randomUUID())
+
+		Mockito.verify(session)!!.createExecChannel(Matchers.startsWith("virsh suspend") ?: "")
+	}
+
+	@Test
+	fun resume() {
+		Mockito.`when`(execChannel!!.invertedOut)
+				.thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedErr)
+				.thenReturn(NullInputStream(0))
+		Virsh.resume(session!!, UUID.randomUUID())
+
+		Mockito.verify(session)!!.createExecChannel(Matchers.startsWith("virsh resume") ?: "")
+	}
+
 }
