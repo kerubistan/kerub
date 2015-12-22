@@ -10,6 +10,8 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
+import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
+import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
@@ -35,7 +37,8 @@ public class PlanExecutorImpl(
 			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor),
 	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor),
-	        CreateImage::class to CreateImageExecutor(hostCommandExecutor)
+	        CreateImage::class to CreateImageExecutor(hostCommandExecutor),
+			WakeHost::class to WakeHostExecutor(hostManager)
 	                         )
 
 	fun execute(step : AbstractOperationalStep) {
