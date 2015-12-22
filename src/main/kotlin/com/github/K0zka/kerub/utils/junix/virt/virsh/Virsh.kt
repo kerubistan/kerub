@@ -2,20 +2,29 @@ package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.use
+import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.ClientSession
 import java.util.UUID
 
 object Virsh {
+
+	val logger = getLogger(Virsh::class)
+
 	fun create(session: ClientSession, id: UUID, domainDef: String) {
 		val domainDefFile = "/tmp/${id}.xml"
+		logger.info("creating domain: \n {}", domainDef)
 		session.createSftpClient().use {
+			sftp ->
 			try {
-				it.write(domainDefFile).use { it.write(domainDef.toByteArray("UTF-8")) }
+				sftp.write(domainDefFile).use {
+					file ->
+					file.write(domainDef.toByteArray("UTF-8"))
+				}
 				session.executeOrDie("virsh create $domainDefFile")
 			} finally {
-				silent {it.remove(domainDefFile)}
+				silent {sftp.remove(domainDefFile)}
 			}
 		}
 	}
