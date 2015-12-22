@@ -7,6 +7,9 @@ import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
+import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
@@ -30,4 +33,10 @@ public data class StartVirtualMachine(val vm: VirtualMachine, override val host:
 						            ))
 		                 )
 	}
+
+	override fun reservations() : List<Reservation> = listOf<Reservation>(
+			VmReservation(vm = vm),
+			HostMemoryReservation(reservedStorage = vm.memory.max, host = host)
+	)
+
 }

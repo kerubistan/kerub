@@ -4,6 +4,8 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.ComputationCost
 import com.github.K0zka.kerub.planner.costs.Cost
+import com.github.K0zka.kerub.planner.reservations.FullHostReservation
+import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalStep {
@@ -15,6 +17,9 @@ data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalSte
 		// so basically this is just a placeholder
 		val ksmGeneratedLoad = 5.toByte()
 	}
+
+	override fun reservations(): List<Reservation>
+		= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
 		val dyn = requireNotNull(state.hostDyns[host.id])

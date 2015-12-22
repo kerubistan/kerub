@@ -6,5 +6,7 @@ import com.github.K0zka.kerub.planner.StepExecutor
 class WakeHostExecutor(private val hostManager : HostManager) : StepExecutor<WakeHost> {
 	override fun execute(step: WakeHost) {
 		hostManager.getPowerManager(step.host).on()
+		//TODO: this needs some wait, or repeat
+		hostManager.connectHost(step.host)
 	}
 }

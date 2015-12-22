@@ -31,8 +31,8 @@ public class PlannerImpl(
 		                   )
 		val solution = strategy.getSolution()
 		if(solution == null) {
-			//TODO: handle no solution case: notify admin, reballance cluster
-			logger.warn("No plan generated.", msg)
+			//TODO:
+			logger.debug("No plan generated.", msg)
 		} else {
 			executor.execute(solution)
 		}

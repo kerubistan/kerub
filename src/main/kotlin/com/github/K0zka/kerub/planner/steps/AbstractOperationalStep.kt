@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.costs.Cost
+import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.k0zka.finder4j.backtrack.Step
 
 interface AbstractOperationalStep : Step<Plan> {
@@ -36,4 +37,6 @@ interface AbstractOperationalStep : Step<Plan> {
 	open fun violations(state: OperationalState)
 			: Map<Constrained<Expectation>, List<Expectation>>
 			= mapOf()
+
+	open fun reservations() = listOf<Reservation>()
 }

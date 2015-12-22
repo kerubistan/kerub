@@ -6,10 +6,15 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.TimeCost
+import com.github.K0zka.kerub.planner.reservations.FullHostReservation
+import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
 
 public class WakeHost(val host: Host) : AbstractOperationalStep {
+	override fun reservations(): List<Reservation>
+			= listOf(FullHostReservation(host))
+
 	override fun take(state: OperationalState): OperationalState {
 		val otherHosts = state.hostDyns.filter { it.value.id != host.id }
 
