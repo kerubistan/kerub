@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.utils
 
-val logger = getLogger("com.github.K0zka.kerub.utils")
+private val logger = getLogger("com.github.K0zka.kerub.utils")
 
 fun <T> silent( body : () -> T) : T? = silent(body, "")
 
