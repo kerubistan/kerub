@@ -14,6 +14,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.math.BigInteger
+import kotlin.test.assertEquals
 
 @RunWith(MockitoJUnitRunner::class)
 class LvmPvTest {
@@ -53,5 +54,17 @@ class LvmPvTest {
 		Assert.assertEquals(BigInteger.ZERO, list[0].freeSize)
 		Assert.assertEquals("/dev/sda2", list[0].device)
 		Assert.assertEquals("gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g", list[0].volumeGroupId)
+	}
+
+	@Test
+	fun listEmpty() {
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("pvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		val list = LvmPv.list(session!!)
+
+		assertEquals(listOf<PhysicalVolume>(), list)
 	}
 }
