@@ -7,6 +7,7 @@ import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.util.Date
 import java.util.UUID
+import kotlin.collections.listOf
 
 @JsonTypeName("project")
 public class Project @JsonCreator constructor(

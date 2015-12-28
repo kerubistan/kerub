@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
@@ -11,6 +12,7 @@ import java.util.UUID
 @Indexed
 class AuditEntry(
 		@DocumentId
+		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),
 		@Field
 		val old: Entity<UUID>? = null,

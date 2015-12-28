@@ -1,10 +1,8 @@
 package com.github.K0zka.kerub.model
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
-import org.hibernate.search.annotations.DocumentId
 import java.io.Serializable
 
 /**
@@ -23,7 +21,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(Event::class)
 )
 interface Entity<T> : Serializable {
-	@DocumentId
-	@JsonProperty("id")
+//	@DocumentId
+//	@JsonProperty("id")
 	val id: T
 }
