@@ -87,7 +87,7 @@ public class PlannerDefs {
 		Mockito.doAnswer({
 			executedPlans += (it.getArguments()[0] as Plan)
 			Unit
-		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()))
+		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()), Matchers.any())
 	}
 
 	@Given("^VMs:$")

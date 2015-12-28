@@ -12,7 +12,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
 
 public class WakeHost(val host: Host) : AbstractOperationalStep {
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<Host>>
 			= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {

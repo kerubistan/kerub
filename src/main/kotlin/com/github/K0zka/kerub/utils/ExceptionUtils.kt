@@ -12,3 +12,12 @@ fun <T> silent( body : () -> T, actionName : String) : T? {
 		return null
 	}
 }
+
+fun <T> silent(actionName : String, body : () -> T) : T? {
+	try {
+		return body()
+	} catch(exc : Exception) {
+		logger.warn("Exception occured during execution: $actionName", exc)
+		return null
+	}
+}

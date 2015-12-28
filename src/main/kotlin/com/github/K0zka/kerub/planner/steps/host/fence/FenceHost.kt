@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 public class FenceHost(val host: Host) : AbstractOperationalStep {
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<*>>
 			= listOf(FullHostReservation(host = host))
 
 	override fun take(state: OperationalState): OperationalState {

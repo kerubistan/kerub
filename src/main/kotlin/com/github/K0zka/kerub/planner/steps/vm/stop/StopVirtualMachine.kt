@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.Risk
+import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
@@ -51,5 +52,8 @@ public data class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : A
 	private fun score(level: ExpectationLevel): Int =
 		scores[level] ?: 0
 
-	override fun reservations() = listOf(VmReservation(vm = vm))
+	override fun reservations() = listOf(
+			VmReservation(vm),
+			UseHostReservation(host)
+	)
 }

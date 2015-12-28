@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 class SetCpuAffinity(val vm : VirtualMachine) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<VirtualMachine>>
 			= listOf(VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState {

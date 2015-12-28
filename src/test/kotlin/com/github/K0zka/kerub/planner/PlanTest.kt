@@ -13,7 +13,7 @@ class PlanTest {
 
 	@Test
 	fun reservationsWithNoSteps() {
-		assertEquals(setOf<Reservation>(), Plan(
+		assertEquals(setOf<Reservation<*>>(), Plan(
 				OperationalState.fromLists(),
 				listOf()
 		).reservations())
@@ -33,7 +33,7 @@ class PlanTest {
 		Mockito.`when`(step1.reservations() ?: listOf()).thenReturn(listOf(FullHostReservation(host)))
 		Mockito.`when`(step2.reservations() ?: listOf()).thenReturn(listOf(FullHostReservation(host)))
 
-		assertEquals(setOf<Reservation>(FullHostReservation(host)), Plan(
+		assertEquals(setOf<Reservation<*>>(FullHostReservation(host)), Plan(
 				OperationalState.fromLists(),
 				listOf(step1, step2)
 		).reservations())

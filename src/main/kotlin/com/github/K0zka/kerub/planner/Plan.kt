@@ -11,8 +11,8 @@ data class Plan(
 
 	override fun isComplete(): Boolean = state.isComplete()
 
-	fun reservations(): Collection<Reservation> {
-		var result = setOf<Reservation>()
+	fun reservations(): Collection<Reservation<*>> {
+		var result = setOf<Reservation<*>>()
 		steps.forEach {
 			result += it.reservations()
 		}

@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
-import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
 public data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
@@ -23,7 +22,7 @@ public data class StartVirtualMachine(val vm: VirtualMachine, override val host:
 						id = vm.id,
 						hostId = host.id,
 						memoryUsed = vm.memory.min,
-						cpuUsage = CpuStat.zero
+						cpuUsage = listOf()
 				                                                       )),
 				hostDyns = (state.hostDyns - host.id) + (host.id to
 						hostDyn.copy(
@@ -34,7 +33,7 @@ public data class StartVirtualMachine(val vm: VirtualMachine, override val host:
 		                 )
 	}
 
-	override fun reservations() : List<Reservation> = listOf<Reservation>(
+	override fun reservations() = listOf<Reservation<*>>(
 			VmReservation(vm = vm),
 			HostMemoryReservation(reservedStorage = vm.memory.max, host = host)
 	)

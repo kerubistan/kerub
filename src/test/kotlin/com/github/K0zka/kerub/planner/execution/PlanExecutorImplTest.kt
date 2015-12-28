@@ -46,7 +46,7 @@ public class PlanExecutorImplTest {
 				                            )
 				                )
 		               )
-		PlanExecutorImpl(executor!!, hostManager!!).execute(plan)
+		PlanExecutorImpl(executor!!, hostManager!!).execute(plan, {})
 
 		//Mockito.verify(executor)!!.execute(Matchers.eq(host) ?: host, Matchers.any() ?: Mockito.mock() )
 	}

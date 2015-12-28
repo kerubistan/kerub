@@ -25,6 +25,7 @@ import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import java.io.IOException
@@ -57,13 +58,13 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	fun discoverHost(session: ClientSession, dedicated: Boolean): HostCapabilities {
 
 		val distro = detectDistro(session)
-		val packages = distro?.listPackages(session) ?: listOf<SoftwarePackage>()
+		val packages = silent { distro?.listPackages(session) } ?: listOf<SoftwarePackage>()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
 		val hardwareInfo = systemInfo.values
 		return HostCapabilities(
-				os = getHostOs(session),
+				os = silent { getHostOs(session) },
 				cpuArchitecture = getHostCpuType(session),
 				distribution = getDistribution(session, distro),
 				installedSoftware = packages,

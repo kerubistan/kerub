@@ -14,4 +14,8 @@ public interface Hypervisor {
 	fun migrate(vm: VirtualMachine, source: Host, target: Host)
 	fun suspend(vm: VirtualMachine)
 	fun resume(vm: VirtualMachine)
+	/**
+	 * Start monitoring process for the VM's
+	 */
+	fun startMonitoringProcess()
 }

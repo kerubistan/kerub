@@ -155,6 +155,7 @@
             destroy-method="stop">
         <constructor-arg ref="hostDao"/>
         <constructor-arg ref="hostDynamicDao"/>
+        <constructor-arg ref="vmDynDao"/>
         <constructor-arg ref="sshClientService"/>
         <constructor-arg ref="controllerManager"/>
         <constructor-arg ref="assignmentDao"/>

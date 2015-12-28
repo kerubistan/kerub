@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
@@ -23,13 +24,14 @@ import java.util.TimerTask
 import java.util.UUID
 
 public class HostManagerImpl (
-		val hostDao : HostDao,
-		val hostDynamicDao : HostDynamicDao,
-		val sshClientService : SshClientService,
-		val controllerManager : ControllerManager,
-		val hostAssignmentDao : AssignmentDao,
-		val discoverer: HostCapabilitiesDiscoverer,
-		val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
+		private val hostDao : HostDao,
+		private val hostDynamicDao : HostDynamicDao,
+		private val vmDynamicDao: VirtualMachineDynamicDao,
+		private val sshClientService : SshClientService,
+		private val controllerManager : ControllerManager,
+		private val hostAssignmentDao : AssignmentDao,
+		private val discoverer: HostCapabilitiesDiscoverer,
+		private val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
 
 	val timer = Timer("host-manager")
 
@@ -37,7 +39,6 @@ public class HostManagerImpl (
 		override fun run() {
 			hostManager.connectHosts()
 		}
-
 	}
 
 	override fun disconnectHost(host: Host) {
@@ -48,7 +49,7 @@ public class HostManagerImpl (
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
 		if(connection != null) {
-			return KvmHypervisor(connection.first)
+			return KvmHypervisor(connection.first, host, vmDynamicDao)
 		} else {
 			return null;
 		}
@@ -101,7 +102,15 @@ public class HostManagerImpl (
 		val distro = discoverer.detectDistro(session)
 		if(distro != null) {
 			connections.put(host.id, session to distro)
+			logger.debug("starting host monitoring processes on {} {}", host.address, host.id)
 			distro.startMonitorProcesses(session, host, hostDynamicDao)
+		}
+		val hypervisor = getHypervisor(host)
+		if(hypervisor != null) {
+			logger.debug("starting vm monitoring processes on {} {}", host.address, host.id)
+			hypervisor.startMonitoringProcess()
+		} else {
+			logger.info("Host {} {} does not have a hypervisor, no vm monitoring started", host.address, host.id)
 		}
 	}
 

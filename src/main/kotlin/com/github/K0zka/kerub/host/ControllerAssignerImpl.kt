@@ -22,11 +22,11 @@ import java.util.HashMap
  * The final implementation should consider network location, controller capacity,
  * host capabilities and the workload of the controller
  */
-public class ControllerAssignerImpl(val backtrack: BacktrackService,
-                                    val controllerDao: ControllerDao,
-                                    val controllerDynamicDao: ControllerDynamicDao,
-                                    val hostAssignmentDao: AssignmentDao,
-                                    val interController: InterController) : ControllerAssigner {
+public class ControllerAssignerImpl(private val backtrack: BacktrackService,
+									private val controllerDao: ControllerDao,
+									private val controllerDynamicDao: ControllerDynamicDao,
+									private val hostAssignmentDao: AssignmentDao,
+									private val interController: InterController) : ControllerAssigner {
 
 	data class ControllerAssignmentState(
 			val hostsToAssign: List<Host>,

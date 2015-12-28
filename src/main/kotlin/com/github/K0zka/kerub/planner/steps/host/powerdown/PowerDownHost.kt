@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 public data class PowerDownHost(val host: Host) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<Host>>
 			= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {

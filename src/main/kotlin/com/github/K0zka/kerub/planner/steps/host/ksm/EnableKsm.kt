@@ -18,7 +18,7 @@ data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalSte
 		val ksmGeneratedLoad = 5.toByte()
 	}
 
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<*>>
 		= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {

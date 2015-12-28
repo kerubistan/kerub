@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
@@ -36,6 +37,9 @@ public class HostManagerImplTest {
 
 	@Mock
 	var hostDynamicDao: HostDynamicDao? = null
+
+	@Mock
+	var vmDynDao : VirtualMachineDynamicDao? = null
 
 	@Mock
 	var sshClientService: SshClientService? = null
@@ -99,6 +103,7 @@ public class HostManagerImplTest {
 		hostManager = HostManagerImpl(
 				hostDao!!,
 				hostDynamicDao!!,
+				vmDynDao!!,
 				sshClientService!!,
 				controllerManager!!,
 				hostAssignmentDao!!,

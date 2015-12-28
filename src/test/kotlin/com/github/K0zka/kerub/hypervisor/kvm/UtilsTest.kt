@@ -35,7 +35,8 @@ public class UtilsTest {
 
 		logger.info("generated libvirt xml:\n{}", libvirtXml)
 		Assert.assertThat(UUID.fromString(xPath.evaluate("domain/uuid/text()", dom)), CoreMatchers.`is`(vm.id))
-		Assert.assertThat(xPath.evaluate("domain/name/text()", dom), CoreMatchers.`is`(vm.name))
+		//domain name is from id, since it needs to be cluster-wide unique
+		Assert.assertThat(UUID.fromString(xPath.evaluate("domain/name/text()", dom)), CoreMatchers.`is`(vm.id))
 		Assert.assertThat(xPath.evaluate("domain/memory/text()", dom), CoreMatchers.`is`(vm.memory.min.toString()))
 
 	}

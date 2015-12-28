@@ -21,6 +21,7 @@ import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
 import com.github.K0zka.kerub.utils.getLogger
+import nl.komponents.kovenant.async
 
 public class PlanExecutorImpl(
 		private val hostCommandExecutor : HostCommandExecutor,
@@ -50,11 +51,15 @@ public class PlanExecutorImpl(
 		}
 	}
 
-	override fun execute(plan: Plan) {
-		logger.debug("Executing plan {}", plan)
-		for(step in plan.steps) {
-			execute(step)
+	override fun execute(plan: Plan, callback: (Plan) -> Unit) {
+		async() {
+			logger.debug("Executing plan {}", plan)
+			for(step in plan.steps) {
+				execute(step)
+			}
+			logger.debug("Plan execution finished: {}", plan)
+		} always {
+			callback(plan)
 		}
-		logger.debug("Plan execution finished: {}", plan)
 	}
 }

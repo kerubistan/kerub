@@ -35,4 +35,6 @@ public class OperationalStateTest {
 		Assert.assertEquals(state.getNrOfUnsatisfiedExpectations(ExpectationLevel.Wish), 0)
 
 	}
+
+
 }

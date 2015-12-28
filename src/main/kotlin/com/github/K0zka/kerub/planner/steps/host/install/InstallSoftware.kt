@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 public class InstallSoftware(val packageName: String, val host: Host) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<*>>
 			= listOf(FullHostReservation(host))
 
 	override fun getCost(): List<Cost> {

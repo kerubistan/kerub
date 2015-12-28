@@ -16,6 +16,8 @@ import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.k0zka.finder4j.backtrack.State
 import java.util.UUID
 
@@ -25,7 +27,8 @@ data class OperationalState(
 		val vms: Map<UUID, VirtualMachine> = mapOf(),
 		val vmDyns: Map<UUID, VirtualMachineDynamic> = mapOf(),
 		val vStorage: Map<UUID, VirtualStorageDevice> = mapOf(),
-		val vStorageDyns: Map<UUID, VirtualStorageDeviceDynamic> = mapOf()
+		val vStorageDyns: Map<UUID, VirtualStorageDeviceDynamic> = mapOf(),
+		val reservations : List<Reservation<*>> = listOf()
 ) : State {
 
 	companion object {
@@ -38,7 +41,8 @@ data class OperationalState(
 					  vms: List<VirtualMachine> = listOf(),
 					  vmDyns: List<VirtualMachineDynamic> = listOf(),
 					  vStorage: List<VirtualStorageDevice> = listOf(),
-					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf()
+					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
+					  reservations : List<Reservation<*>> = listOf()
 		) =
 				OperationalState(
 						hosts = mapById(hosts),
@@ -46,14 +50,15 @@ data class OperationalState(
 						vms = mapById(vms),
 						vmDyns = mapById(vmDyns),
 						vStorage = mapById(vStorage),
-						vStorageDyns = mapById(vStorageDyns)
+						vStorageDyns = mapById(vStorageDyns),
+						reservations = reservations
 				)
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
 		return vmDyns.values
 				.filter { it.status == VirtualMachineStatus.Up && it.hostId == hostId }
-				.map { vms[it.id] }.filter { it != null } as List<VirtualMachine>
+				.map { vms[it.id] }.filterNotNull()
 	}
 
 	fun isVmRunning(vm: VirtualMachine): Boolean {
@@ -72,7 +77,7 @@ data class OperationalState(
 
 	override fun isComplete(): Boolean {
 		//check that all virtual resources has all DealBreaker satisfied
-		return vms.values.all {
+		return vmsToCheck().all {
 			vm ->
 			vm.expectations.all {
 				expectation ->
@@ -83,7 +88,7 @@ data class OperationalState(
 	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
-		return vms.values.sumBy {
+		return vmsToCheck().sumBy {
 			vm ->
 			vm.expectations.count {
 				expectation ->
@@ -95,15 +100,23 @@ data class OperationalState(
 
 	fun getUnsatisfiedExpectations(): List<Expectation> {
 		var expectations = listOf<Expectation>()
-		vms.values.forEach {
-			vm ->
-			expectations +=
-					vm.expectations.filter {
-						expectation ->
-						!checkExpectation(expectation, vm)
-					}
-		}
+		vmsToCheck()
+				.forEach {
+					vm ->
+					expectations +=
+							vm.expectations.filter {
+								expectation ->
+								!checkExpectation(expectation, vm)
+							}
+				}
 		return expectations
+	}
+
+	private fun vmsToCheck(): List<VirtualMachine> {
+		return vms.values
+				.filterNot {
+					reservations.contains(VmReservation(it))
+				}
 	}
 
 	private fun checkExpectation(expectation: Expectation, vm: VirtualMachine): Boolean {
@@ -138,7 +151,7 @@ data class OperationalState(
 				return if (host == null) {
 					true
 				} else {
-					expectation.minL1 <= host?.capabilities?.cpus?.firstOrNull()?.l1cache?.size ?: 0
+					expectation.minL1 <= host.capabilities?.cpus?.firstOrNull()?.l1cache?.size ?: 0
 				}
 			}
 			is VirtualMachineAvailabilityExpectation ->

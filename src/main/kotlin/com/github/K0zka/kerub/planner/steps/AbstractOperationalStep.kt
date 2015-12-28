@@ -38,5 +38,5 @@ interface AbstractOperationalStep : Step<Plan> {
 			: Map<Constrained<Expectation>, List<Expectation>>
 			= mapOf()
 
-	open fun reservations() = listOf<Reservation>()
+	open fun reservations() = listOf<Reservation<*>>()
 }

@@ -10,9 +10,8 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.ComputationCost
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.NetworkCost
-import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
-import com.github.K0zka.kerub.planner.reservations.HostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
@@ -26,8 +25,11 @@ public data class MigrateVirtualMachine(
 		val source: Host,
 		val target: Host) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation>
-			= listOf(VmReservation(vm))
+	override fun reservations(): List<Reservation<*>>
+			= listOf(VmReservation(vm),
+			UseHostReservation(target),
+			UseHostReservation(source)
+			)
 
 	override fun violations(state: OperationalState): Map<Constrained<Expectation>, List<Expectation>> {
 		/**

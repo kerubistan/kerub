@@ -5,14 +5,17 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
-import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 data class CreateImage(val device: VirtualStorageDevice, val host: Host) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation>
-			= listOf(VirtualStorageReservation(device))
+	override fun reservations(): List<Reservation<*>>
+			= listOf(
+			VirtualStorageReservation(device),
+			UseHostReservation(host)
+	)
 
 	override fun take(state: OperationalState): OperationalState =
 			state.copy(

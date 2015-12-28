@@ -12,7 +12,7 @@ import com.github.K0zka.kerub.utils.update
 
 class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
-	override fun reservations(): List<Reservation>
+	override fun reservations(): List<Reservation<*>>
 		= listOf(VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState {
@@ -21,7 +21,7 @@ class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : Hos
 				vmDyns = state.vmDyns.update(vm.id, {
 					it.copy(
 							status = VirtualMachineStatus.Paused,
-							cpuUsage = CpuStat.zero
+							cpuUsage = listOf()
 					)
 				})
 		)

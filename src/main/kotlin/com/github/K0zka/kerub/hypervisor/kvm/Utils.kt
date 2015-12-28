@@ -21,7 +21,7 @@ fun escapeXmlText(str : String) : String {
 fun vmDefinitiontoXml(vm : VirtualMachine) : String {
 return """
 <domain type='kvm'>
-    <name>${escapeXmlText(vm.name)}</name>
+    <name>${vm.id}</name>
     <uuid>${vm.id}</uuid>
     <memory unit='B'>${vm.memory.min}</memory>
     <vcpu>${vm.nrOfCpus}</vcpu>

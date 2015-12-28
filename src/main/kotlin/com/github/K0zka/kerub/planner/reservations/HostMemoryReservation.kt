@@ -6,4 +6,6 @@ import java.math.BigInteger
 data class HostMemoryReservation(
 		override val host: Host,
 		override val reservedStorage: BigInteger
-) : HostReservation, StorageReservation
+) : HostReservation, StorageReservation<Host> {
+	override fun isShared() = true
+}
