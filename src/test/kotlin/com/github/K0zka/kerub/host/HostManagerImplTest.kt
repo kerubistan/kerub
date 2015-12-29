@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.on
-import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.verify
 import org.apache.sshd.ClientSession
 import org.apache.sshd.SshServer
@@ -148,7 +147,7 @@ public class HostManagerImplTest {
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
 		on(controllerManager!!.getControllerId()).thenReturn(controllerId)
-		on(hostAssignmentDao!!.listByController(eq(controllerId))).thenReturn(
+		on(hostAssignmentDao!!.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
 				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
 		                                                                     )
 		on(hostDao!!.get(hostId)).thenReturn(host)

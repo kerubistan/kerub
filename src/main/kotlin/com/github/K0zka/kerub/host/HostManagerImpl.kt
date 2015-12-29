@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
@@ -17,6 +18,8 @@ import org.apache.sshd.common.Session
 import java.net.SocketAddress
 import java.security.PublicKey
 import java.util.Collections
+import java.util.Timer
+import java.util.TimerTask
 import java.util.UUID
 
 public class HostManagerImpl (
@@ -27,6 +30,15 @@ public class HostManagerImpl (
 		val hostAssignmentDao : AssignmentDao,
 		val discoverer: HostCapabilitiesDiscoverer,
 		val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
+
+	val timer = Timer("host-manager")
+
+	class ReconnectDisconnectedHosts(private val hostManager : HostManagerImpl) : TimerTask() {
+		override fun run() {
+			hostManager.connectHosts()
+		}
+
+	}
 
 	override fun disconnectHost(host: Host) {
 		val session = connections.remove(host.id)
@@ -124,9 +136,10 @@ public class HostManagerImpl (
 		return host
 	}
 
-	fun start() {
-		logger.info("starting host manager")
-		hostAssignmentDao.listByController(controllerManager.getControllerId()).forEach {
+	private fun connectHosts() {
+		hostAssignmentDao.listByControllerAndType(controllerManager.getControllerId(), AssignmentType.host).filterNot {
+			connections.containsKey(it.entityId)
+		}.forEach {
 			logger.info("connecting assigned host {}", it.entityId)
 			val host = hostDao.get(it.entityId)
 			if (host != null) {
@@ -145,8 +158,15 @@ public class HostManagerImpl (
 		}
 	}
 
+	fun start() {
+		logger.info("connecting to assigned hosts")
+		connectHosts()
+		timer.schedule(ReconnectDisconnectedHosts(this), 60000L, 60000L)
+	}
+
 	fun stop() {
 		logger.info("stopping host manager")
+		timer.cancel()
 		//TODO: disconnect hosts quick but nice
 	}
 
