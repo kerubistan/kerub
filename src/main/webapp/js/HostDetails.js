@@ -11,9 +11,20 @@ var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, siz
 	$log.info('host id ',hostId);
 
     socket.subscribe('/host-dyn/'+hostId, function(msg) {
-    	$log.info("kakukk")
         $scope.dyn = msg.obj;
+    	$log.info("host status: " + $scope.dyn.status)
     }, 'HostDetails');
+
+	$scope.iconByStatus = function() {
+        switch($scope.dyn.status) {
+        	case 'Up':
+        		return 'fa fa-sun-o';
+        	case 'Down':
+        		return 'fa fa-down-o';
+        	default:
+        		return 'fa fa-question'
+        }
+	}
 
     appsession
         .get('s/r/host/'+hostId)
