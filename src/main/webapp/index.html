@@ -423,9 +423,22 @@
                     <input class="form-control" ng-model="cpu.maxSpeedMhz" disabled>
                 </div>
             </span>
-
         </form>
         <form ng-show="isVisible('RAM')">
+            <div class="form-group">
+                <div class="form-group">
+                    <uib-progress ng-if="host.capabilities.totalMemory && dyn.memUsed">
+                        <!--
+                            dynamic maximum is not supported by angular bootstrap, so this is a workaround here
+
+                        -->
+                        <uib-bar value="hostMemUsedPercent()" max="100" type="warning">
+                            {{humanFriendlySize(dyn.memUsed)}} / {{humanFriendlySize(host.capabilities.totalMemory)}}
+                        </uib-bar>
+                    </uib-progress>
+                </div>
+            </div>
+
             <table class="table table-condensed table-striped table-hover">
                 <thead>
                 <tr>

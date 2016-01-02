@@ -32,6 +32,14 @@ var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, siz
 		}
 	};
 
+	$scope.hostMemUsedPercent = function() {
+		$log.info('hostMemUsedPercent');
+		var totalMemory = $scope.host.capabilities.totalMemory ? $scope.host.capabilities.totalMemory : 1;
+		var usedMemory = $scope.dyn.memUsed ? $scope.dyn.memUsed : 0;
+		$log.info(totalMemory, usedMemory, (usedMemory * 100) / totalMemory);
+        return (usedMemory * 100) / totalMemory;
+	}
+
     $scope.selectView = function(view) {
         $log.info('select view ', view);
         $scope.tab = view;

@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.mpstat.MPStat
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
+import java.math.BigInteger
 import java.util.UUID
 import kotlin.math.plus
 
@@ -46,14 +47,16 @@ public abstract class AbstractLinux : Distribution {
 		//TODO: if mpstat is available, vmstat should only update the memory information
 		VmStat.vmstat(session, { event ->
 			doWithDyn(id, hostDynDao, {
+				val memFree = (event.freeMem
+						+ event.cacheMem
+						+ event.ioBuffMem)
 				it.copy(
 						status = HostStatus.Up,
 						idleCpu = event.idleCpu,
 						systemCpu = event.systemCpu,
 						userCpu = event.userCpu,
-						memFree = event.freeMem
-								+ event.cacheMem
-								+ event.ioBuffMem,
+						memFree = memFree,
+						memUsed = host.capabilities?.totalMemory?.minus(memFree),
 						memSwapped = event.swapMem
 				)
 			})
