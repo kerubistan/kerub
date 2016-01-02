@@ -334,7 +334,10 @@
     </script>
     <script type="text/ng-template" id="HostDetails.html">
         <div class="modal-header">
-            <h3 class="modal-title"><span ng-if="dyn.status" ng-class="hostStatusIcon()"></span> Host Details - {{host.address}}</h3>
+            <h3 class="modal-title">
+                <span ng-if="dyn.status" ng-class="hostStatusIcon()"></span>
+                <span ng-if="!dyn.status" class="fa fa-question"></span>
+                Host Details - {{host.address}}</h3>
         </div>
         <ul class="nav nav-tabs">
             <li role="presentation" ng-class="isActive('overview')" ng-click="selectView('overview')"><a href="#">Overview</a></li>
