@@ -11,28 +11,26 @@ var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, siz
 	$log.info('host id ',hostId);
 
     socket.subscribe('/host-dyn/'+hostId, function(msg) {
-        $scope.dyn = msg.obj;
-    	$log.info("host status: " + $scope.dyn.status)
+    	$scope.$apply(function() {
+			$log.info('host dynamic update', msg.obj)
+			$scope.dyn = msg.obj;
+    	});
     }, 'HostDetails');
-
-	$scope.iconByStatus = function() {
-        switch($scope.dyn.status) {
-        	case 'Up':
-        		return 'fa fa-sun-o';
-        	case 'Down':
-        		return 'fa fa-down-o';
-        	default:
-        		return 'fa fa-question'
-        }
-	}
 
     appsession
         .get('s/r/host/'+hostId)
         .success(function(host) {
-            $log.debug('host details received');
             $scope.host = host;
             $scope.nrOfCpus = host.capabilities && host.capabilities.cpus ? host.capabilities.cpus.length : 1;
         });
+
+	$scope.hostStatusIcon = function() {
+		if($scope.dyn.status === 'Up') {
+			return 'fa fa-sun-o';
+		} else {
+		    return 'fa fa-moon-o';
+		}
+	};
 
     $scope.selectView = function(view) {
         $log.info('select view ', view);
