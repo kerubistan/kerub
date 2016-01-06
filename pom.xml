@@ -31,6 +31,7 @@
         <jackson.version>2.6.3</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
         <shiro.version>1.2.4</shiro.version>
+        <kovenant.version>2.9.0</kovenant.version>
     </properties>
     <dependencies>
         <dependency>
@@ -287,6 +288,11 @@
             <artifactId>websocket-client</artifactId>
             <version>${jetty.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.komponents.kovenant</groupId>
+            <artifactId>kovenant-core</artifactId>
+            <version>${kovenant.version}</version>
         </dependency>
     </dependencies>
     <build>
