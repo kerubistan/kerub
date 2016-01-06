@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils
 
+import java.math.BigInteger
 import java.util.UUID
 
 val emptyString = ""
@@ -11,3 +12,5 @@ fun String.rows() : List<String> =
 
 fun String.toUUID() : UUID =
 		UUID.fromString(this)
+
+fun String.toBigInteger() = BigInteger(this)
