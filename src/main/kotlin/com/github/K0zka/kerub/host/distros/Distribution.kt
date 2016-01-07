@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.ClientSession
 
 /**
@@ -54,4 +55,9 @@ public interface Distribution {
 	 * Start monitoring processes
 	 */
 	fun startMonitorProcesses(session: ClientSession, host : Host, hostDynDao : HostDynamicDao)
+
+	/**
+	 * Get the list of packages to be installed for a given utility to work.
+	 */
+	fun getRequiredPackages(osCommand : OsCommand) : List<String>
 }

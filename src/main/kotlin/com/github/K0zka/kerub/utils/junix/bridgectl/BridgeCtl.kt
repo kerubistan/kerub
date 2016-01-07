@@ -2,11 +2,12 @@ package com.github.K0zka.kerub.utils.junix.bridgectl
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.planner.steps.replace
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.skip
 import org.apache.sshd.ClientSession
 
-object BridgeCtl {
+object BridgeCtl : OsCommand {
 
 	val fieldSeparator = "\\s+".toRegex()
 

@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.packagemanager.pkg.Pkg
 import org.apache.sshd.ClientSession
 
@@ -15,6 +16,11 @@ import org.apache.sshd.ClientSession
  * PermitRootLogin yes
  */
 public class FreeBSD : Distribution {
+
+	override fun getRequiredPackages(utility: OsCommand): List<String> {
+		//TODO!!!
+		return listOf()
+	}
 
 	override val operatingSystem = OperatingSystem.BSD
 

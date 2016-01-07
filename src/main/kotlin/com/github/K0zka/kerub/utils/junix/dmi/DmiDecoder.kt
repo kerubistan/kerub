@@ -6,11 +6,12 @@ import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.toSize
 import java.util.HashMap
 import java.util.UUID
 
-public class DmiDecoder {
+public class DmiDecoder : OsCommand {
 
 	companion object {
 		val logger = getLogger(DmiDecoder::class)

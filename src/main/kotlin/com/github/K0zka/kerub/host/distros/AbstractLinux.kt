@@ -6,12 +6,21 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.junix.df.DF
+import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
+import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
+import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.junix.mpstat.MPStat
+import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
+import com.github.K0zka.kerub.utils.junix.sysfs.Net
+import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
-import java.math.BigInteger
 import java.util.UUID
-import kotlin.math.plus
 
 public abstract class AbstractLinux : Distribution {
 
@@ -19,10 +28,24 @@ public abstract class AbstractLinux : Distribution {
 
 	companion object {
 		val logger = getLogger(AbstractLinux::class)
+		private val packages = mapOf(
+				DF to listOf("coreutils"),
+				DmiDecoder to listOf("dmidecode"),
+				TgtAdmin to listOf("iscsi-target-utils"),
+				LsPci to listOf("pciutils"),
+				MPStat to listOf("sysstat"),
+				QemuImg to listOf("qemu-img"),
+				LvmLv to listOf("lvm2"),
+				LvmPv to listOf("lvm2"),
+				LvmVg to listOf("lvm2"),
+				Virsh to listOf("libvirt"),
+				VmStat to listOf("procps"),
+				Net to listOf()
+		)
 	}
 
 	fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
-		val hostDyn = hostDynDao.get(id)
+		val hostDyn = hostDynDao[id]
 		if (hostDyn == null) {
 			val newHostDyn = HostDynamic(
 					id = id,
@@ -62,4 +85,7 @@ public abstract class AbstractLinux : Distribution {
 			})
 		})
 	}
+
+	override fun getRequiredPackages(osCommand: OsCommand): List<String> =
+			packages[osCommand] ?: listOf()
 }
