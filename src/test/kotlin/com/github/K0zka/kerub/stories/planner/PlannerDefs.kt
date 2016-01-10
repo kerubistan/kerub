@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.stories.planner
 
+import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
@@ -43,6 +44,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import nl.komponents.kovenant.any
 import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
@@ -84,10 +86,11 @@ public class PlannerDefs {
 					vStorageDyns = vstorageDyns
 			)
 		}
+		val callback: (Plan) -> Unit = {}
 		Mockito.doAnswer({
 			executedPlans += (it.getArguments()[0] as Plan)
 			Unit
-		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()), Matchers.any())
+		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()), Matchers.any(callback.javaClass) ?: callback)
 	}
 
 	@Given("^VMs:$")
