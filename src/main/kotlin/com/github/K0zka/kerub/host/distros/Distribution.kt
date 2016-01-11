@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
@@ -36,20 +37,8 @@ public interface Distribution {
 	 * https://www.novell.com/coolsolutions/feature/11251.html
 	 */
 	fun detect(session: ClientSession): Boolean
-	/**
-	 * Use the distribution's package manager to install a package.
-	 */
-	fun installPackage(pack: String, session: ClientSession)
 
-	/**
-	 * Use the distribution's package manager to uninstall a package.
-	 */
-	fun uninstallPackage(pack: String, session: ClientSession)
-
-	/**
-	 * List installed packages
-	 */
-	fun listPackages(session: ClientSession): List<SoftwarePackage>
+	fun getPackageManager(session: ClientSession) : PackageManager
 
 	/**
 	 * Start monitoring processes

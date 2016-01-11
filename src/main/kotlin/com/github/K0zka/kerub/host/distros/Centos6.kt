@@ -1,14 +1,16 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.getFileContents
-import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.host.packman.YumPackageManager
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.utils.junix.packagemanager.rpm.RpmListPackages
-import com.github.K0zka.kerub.utils.junix.packagemanager.yum.Yum
 import org.apache.sshd.ClientSession
 
-public class Centos6 : AbstractLinux() {
+public class  Centos6 : AbstractLinux() {
+	override fun getPackageManager(session: ClientSession): PackageManager
+			= YumPackageManager(session)
+
 	override fun getVersion(session: ClientSession): Version =
 			Version.fromVersionString(
 					session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replace("(Final)".toRegex(), "")
@@ -26,14 +28,4 @@ public class Centos6 : AbstractLinux() {
 			session.checkFileExists("/etc/redhat-release") &&
 					session.getFileContents("/etc/redhat-release").startsWith("CentOS release 6")
 
-	override fun installPackage(pack: String, session: ClientSession) {
-		Yum.installPackage(session, pack)
-	}
-
-	override fun uninstallPackage(pack: String, session: ClientSession) {
-		Yum.uninstallPackage(session, pack)
-	}
-
-	override fun listPackages(session: ClientSession): List<SoftwarePackage> =
-			RpmListPackages.execute(session)
 }

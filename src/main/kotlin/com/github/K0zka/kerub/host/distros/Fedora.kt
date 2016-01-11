@@ -1,26 +1,17 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.host.PackageManager
+import com.github.K0zka.kerub.host.packman.YumPackageManager
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.between
-import com.github.K0zka.kerub.utils.junix.packagemanager.yum.Yum
-import com.github.K0zka.kerub.utils.junix.packagemanager.rpm.RpmListPackages
+import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.ClientSession
 
 public open class Fedora : LsbDistribution("Fedora") {
-
-	override fun listPackages(session: ClientSession): List<SoftwarePackage> =
-		RpmListPackages.execute(session)
-
-	override fun handlesVersion(version: Version): Boolean {
-		return version.major.between("19", "21")
+	override fun getPackageManager(session: ClientSession): PackageManager {
+		return YumPackageManager(session)
 	}
 
-	override fun installPackage(pack: String, session: ClientSession) {
-		Yum.installPackage(session, pack)
-	}
-
-	override fun uninstallPackage(pack: String, session: ClientSession) {
-		Yum.uninstallPackage(session, pack)
-	}
+	override fun handlesVersion(version: Version) =
+			silent { version.major.toInt().between(19, 22) } ?: false
 }
