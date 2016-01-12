@@ -8,14 +8,14 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 interface PackageManager {
 
 	/**
-	 * Use the distribution's package manager to install a package.
+	 * Use the distribution's package manager to install packages.
 	 */
-	fun install(pack: String)
+	fun install(vararg pack: String)
 
 	/**
-	 * Use the distribution's package manager to uninstall a package.
+	 * Use the distribution's package manager to uninstall packages.
 	 */
-	fun remove(pack: String)
+	fun remove(vararg pack: String)
 
 	/**
 	 * List installed packages

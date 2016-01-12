@@ -15,6 +15,9 @@ import org.apache.sshd.ClientSession
  * PermitRootLogin yes
  */
 public class FreeBSD : Distribution {
+	override fun installMonitorPackages(session: ClientSession) {
+		//TODO
+	}
 
 	override fun getRequiredPackages(utility: OsCommand): List<String> {
 		//TODO!!!

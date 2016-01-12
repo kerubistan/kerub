@@ -10,11 +10,11 @@ open class AptPackageManager(protected val session: ClientSession) : PackageMana
 	override fun list(): List<SoftwarePackage> =
 			Dpkg.listPackages(session)
 
-	override fun install(pack: String) {
-		Apt.installPackage(session, pack)
+	override fun install(vararg packs: String) {
+		Apt.installPackage(session, *packs)
 	}
 
-	override fun remove(pack: String) {
-		Apt.uninstallPackage(session, pack)
+	override fun remove(vararg packs: String) {
+		Apt.uninstallPackage(session, *packs)
 	}
 }

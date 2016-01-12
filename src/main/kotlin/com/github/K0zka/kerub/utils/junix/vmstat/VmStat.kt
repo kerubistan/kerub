@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.vmstat
 
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
@@ -9,7 +10,7 @@ import java.io.Serializable
 import java.math.BigInteger
 import java.util.regex.Pattern
 
-public object VmStat {
+public object VmStat : OsCommand {
 
 	public data class IoStatistic(
 			val read: Int,

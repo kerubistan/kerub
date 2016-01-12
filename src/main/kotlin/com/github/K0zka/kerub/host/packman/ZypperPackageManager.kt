@@ -4,11 +4,11 @@ import com.github.K0zka.kerub.utils.junix.packagemanager.zypper.Zypper
 import org.apache.sshd.ClientSession
 
 class ZypperPackageManager(session : ClientSession) : AbstractRpmBasedPackageManager(session) {
-	override fun install(pack: String) {
-		Zypper.installPackage(session, pack)
+	override fun install(vararg packs: String) {
+		Zypper.installPackage(session, *packs)
 	}
 
-	override fun remove(pack: String) {
-		Zypper.uninstallPackage(session, pack)
+	override fun remove(vararg packs: String) {
+		Zypper.uninstallPackage(session, *packs)
 	}
 }

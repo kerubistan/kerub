@@ -5,12 +5,14 @@ import org.apache.sshd.ClientSession
 
 object Zypper {
 
-	fun installPackage(session: ClientSession, pack: String) {
-		session.execute("zypper -n install ${pack}")
+	fun installPackage(session: ClientSession, vararg packs: String) {
+		require(packs.isNotEmpty())
+		session.execute("zypper -n install ${packs.joinToString(separator = " ")}")
 	}
 
-	fun uninstallPackage(session: ClientSession, pack: String) {
-		session.execute("zypper -n remove ${pack}")
+	fun uninstallPackage(session: ClientSession,vararg packs: String) {
+		require(packs.isNotEmpty())
+		session.execute("zypper -n remove ${packs.joinToString(separator = " ")}")
 	}
 
 }

@@ -40,6 +40,8 @@ public interface Distribution {
 
 	fun getPackageManager(session: ClientSession) : PackageManager
 
+	fun installMonitorPackages(session: ClientSession)
+
 	/**
 	 * Start monitoring processes
 	 */
@@ -49,4 +51,5 @@ public interface Distribution {
 	 * Get the list of packages to be installed for a given utility to work.
 	 */
 	fun getRequiredPackages(osCommand : OsCommand) : List<String>
+
 }

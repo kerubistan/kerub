@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.join
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.df.DF
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
@@ -55,6 +56,15 @@ public abstract class AbstractLinux : Distribution {
 		} else {
 			hostDynDao.update(action(hostDyn))
 		}
+	}
+
+	override fun installMonitorPackages(session: ClientSession) {
+		//TODO: filter what is already installed, do not install if the list is empty
+ 		val packsNeeded =
+				arrayOf<OsCommand>(VmStat, MPStat)
+				.map { util -> getRequiredPackages(util) }
+				.join()
+		getPackageManager(session).install(*packsNeeded.toTypedArray())
 	}
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {

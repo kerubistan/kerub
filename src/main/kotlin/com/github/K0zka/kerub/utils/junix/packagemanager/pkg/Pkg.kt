@@ -7,12 +7,14 @@ import org.apache.sshd.ClientSession
 
 object Pkg {
 
-	fun installPackage(session: ClientSession, pack: String) {
-		session.execute("""pkg install -y ${pack} """)
+	fun installPackage(session: ClientSession, vararg packs: String) {
+		require(packs.isNotEmpty())
+		session.execute("""pkg install -y ${packs.joinToString(separator = " ")}""")
 	}
 
-	fun uninstallPackage(session: ClientSession, pack: String) {
-		session.execute("""pkg remove -y ${pack} """)
+	fun uninstallPackage(session: ClientSession, vararg packs: String) {
+		require(packs.isNotEmpty())
+		session.execute("""pkg remove -y ${packs.joinToString(separator = " ")}""")
 	}
 
 	fun listPackages(session: ClientSession): List<SoftwarePackage>

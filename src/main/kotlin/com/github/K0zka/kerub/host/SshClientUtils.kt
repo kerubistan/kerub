@@ -38,7 +38,7 @@ public fun ClientSession.executeOrDie(command: String): String {
 	val execChannel = this.createExecChannel(command)
 	return execChannel.use {
 		val error = it.invertedErr.reader("ASCII").readText()
-		if(!error.isBlank()) {
+		if(error.isNotBlank()) {
 			throw IOException(error)
 		}
 		it.getInvertedOut().reader("ASCII").use {

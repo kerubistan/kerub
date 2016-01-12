@@ -103,6 +103,10 @@ public class HostManagerImpl (
 		if(distro != null) {
 			connections.put(host.id, session to distro)
 			logger.debug("starting host monitoring processes on {} {}", host.address, host.id)
+			if(host.dedicated) {
+				distro.installMonitorPackages(session)
+				hostDao.update(host)
+			}
 			distro.startMonitorProcesses(session, host, hostDynamicDao)
 		}
 		val hypervisor = getHypervisor(host)

@@ -1,12 +1,13 @@
 package com.github.K0zka.kerub.utils.junix.mpstat
 
 import com.github.K0zka.kerub.model.dynamic.CpuStat
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.ClientSession
 import java.io.OutputStream
 
-object MPStat {
+object MPStat : OsCommand {
 
 	private val regex = "\\s+".toRegex()
 
