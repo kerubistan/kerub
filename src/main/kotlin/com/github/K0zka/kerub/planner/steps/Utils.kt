@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.planner.steps
 
 /*
- * TODO: move this whole thing to utils package
+ * TODO: issue #120 - move this whole thing to utils package
  */
 
 fun <T> Collection<T>.replace(
