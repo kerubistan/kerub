@@ -8,7 +8,7 @@ public class StopVirtualMachineExecutor(val hostManager: HostManager) : StepExec
 	override fun execute(step: StopVirtualMachine) {
 		val hypervisor = requireNotNull(
 				hostManager.getHypervisor(step.host),
-				{ "Can not stop ${step.vm.id} - no ypervisor on host ${step.host.id}" })
+				{ "Can not stop ${step.vm.id} - no hypervisor on host ${step.host.id}" })
 		hypervisor.stopVm(step.vm)
 	}
 }
