@@ -16,11 +16,11 @@ import org.apache.sshd.ClientSession
  */
 public class FreeBSD : Distribution {
 	override fun installMonitorPackages(session: ClientSession) {
-		//TODO
+		//TODO issue #57
 	}
 
 	override fun getRequiredPackages(utility: OsCommand): List<String> {
-		//TODO!!!
+		//TODO issue #57
 		return listOf()
 	}
 
@@ -37,6 +37,6 @@ public class FreeBSD : Distribution {
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
-		//TODO
+		//TODO issue #57
 	}
 }
