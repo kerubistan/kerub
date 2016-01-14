@@ -13,40 +13,41 @@ import com.github.K0zka.kerub.utils.toUUID
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
 
-class KvmHypervisor(private val client: ClientSession, private val host : Host, private val vmDynDao : VirtualMachineDynamicDao) : Hypervisor {
+class KvmHypervisor(private val client: ClientSession, private val host: Host, private val vmDynDao: VirtualMachineDynamicDao) : Hypervisor {
 
 	companion object {
 		val logger = getLogger(KvmHypervisor::class)
 	}
 
 	override fun startMonitoringProcess() {
-Virsh.domStat(client, {
+		Virsh.domStat(client, {
 			stats ->
-			stats.map {
-				vmStat ->
-				val id = vmStat.name.toUUID()
-				val dyn = vmDynDao[id] ?: VirtualMachineDynamic(
-						id = id,
+			val vmDyns = vmDynDao.findByHostId(host.id)
+			val runningVms = stats.map { it.name.toUUID() }
+
+			//handle vms that no longer run on this host
+			vmDyns.filterNot { it.id in runningVms }.forEach {
+				vmDynDao.remove(it.id)
+			}
+
+			stats.forEach {
+				stat ->
+				val runningVmId = stat.name.toUUID()
+				val dyn = vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(
+						id = runningVmId,
 						status = VirtualMachineStatus.Up,
-						hostId = host.id,
-						memoryUsed = BigInteger.ZERO
-				)
-				dyn.copy(
-						status = VirtualMachineStatus.Up,
-						memoryUsed = vmStat.balloonSize ?: BigInteger.ZERO,
-						//TODO
-						cpuUsage = vmStat.cpuStats.mapIndexed { i, vcpuStat -> CpuStat.zero.copy(
-								cpuNr = i,
-								user = vcpuStat.time?.toFloat() ?: 0f
-						)
-						},
-						lastUpdated = System.currentTimeMillis(),
+						memoryUsed = BigInteger.ZERO,
 						hostId = host.id
 				)
-			}.forEach {
-				vmDyn ->
-				vmDynDao.update(vmDyn)
+				val updated = dyn.copy(
+						cpuUsage = stat.cpuStats.mapIndexed { i, vcpuStat -> CpuStat.zero.copy() },
+						lastUpdated = System.currentTimeMillis(),
+						hostId = host.id,
+						memoryUsed = stat.balloonSize ?: BigInteger.ZERO
+				)
+				vmDynDao.update(updated)
 			}
+
 		})
 	}
 
