@@ -6,14 +6,8 @@ kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http, 
 	};
 	$scope.size = size;
 
-	$scope.existingStorageLink = {};
+	$scope.existingStorageDevice = null;
 
-	$scope.storageDeviceName = function(deviceId) {
-		return 'placeholder';
-	};
-	$scope.storageDeviceSize = function(deviceId) {
-		return 'placeholder';
-	};
 	$scope.selectExisting = function() {
 		$log.info('selected');
 	};
@@ -26,6 +20,17 @@ kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http, 
 			});
 	};
 	$scope.linkExistingVirtualDisk = function() {
-		$log.info('link storage',$scope.existingStorageLink);
+		$log.info('link storage',$scope.existingStorageDevice);
+		$scope.addStorageLink($scope.existingStorageDevice);
+		$scope.existingStorageLink = null;
 	};
+
+	$scope.modelOptions = {
+        debounce: {
+          default: 500,
+          blur: 250
+        },
+        getterSetter: true
+    };
+
 });

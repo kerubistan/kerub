@@ -20,7 +20,7 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appses
     		}
     	},
     	expectations : [],
-    	storagedevices : []
+    	virtualStorageLinks : []
 	};
 	$scope.addVm = function() {
 		appsession.put('s/r/vm', $scope.vm).success(function() {
@@ -30,5 +30,15 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appses
     $scope.close = function() {
         $log.info('closed new vm dialog');
         $modalInstance.dismiss('cancel');
+    };
+    $scope.addStorageLink = function(disk) {
+    	$log.info('adding link');
+    	$scope.vm.virtualStorageLinks.push(
+    		{
+    			virtualStorageId : disk.id,
+                bus : 'sata',
+                expectations : []
+    		}
+    	);
     };
 }

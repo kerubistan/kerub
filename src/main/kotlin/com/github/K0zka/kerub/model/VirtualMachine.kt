@@ -56,7 +56,7 @@ data class VirtualMachine constructor(
 		 */
 		@Field
 		@JsonView(Detailed::class)
-		@JsonProperty("storagedevices")
+		@JsonProperty("virtualStorageLinks")
 		val virtualStorageLinks: List<VirtualStorageLink> = listOf()
 )
 : Entity<UUID>, Constrained<Expectation>

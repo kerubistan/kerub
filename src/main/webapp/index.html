@@ -30,6 +30,7 @@
     <script src="js/MainTabs.js"></script>
     <script src="js/ExpectationMini.js"></script>
     <script src="js/DiskSelectionElem.js"></script>
+    <script src="js/StorageDeviceRow.js"></script>
     <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
@@ -121,7 +122,15 @@
 
     <script type="text/ng-template" id="DiskSelection.html">
         <a ng-controller="DiskSelectionElem">
-            {{match.model.name}} - {{humanFriendlySize(match.model.size)}}
+            <span ng-if="!match.model.readonly" class="fa fa-database"></span>
+            <span ng-if="match.model.readonly" class="glyphicon glyphicon-cd"></span>
+            {{match.model.name}} - {{humanFriendlySize(match.model.size)}}<br>
+            <span class="label label-default">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
+            </span>
+            <span class="label label-info">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
+            </span>
         </a>
     </script>
 
@@ -169,10 +178,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="link in vm.storagedevices">
-                            <td>placeholder</td>
+                        <tr ng-repeat="link in vm.virtualStorageLinks" ng-controller="StorageDeviceRow" ng-init="init(link.virtualStorageId)">
+                            <td>{{storageDevice.name}}</td>
                             <td>{{link.bus}}</td>
-                            <td>placeholder</td>
+                            <td>{{friendlyDiskSize}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -195,43 +204,54 @@
                         <div class="panel panel-info" ng-controller="VirtualStorageLink">
                             <div class="form-group has-feedback has-feedback-left">
                                 <input type="text"
-                                       ng-model="existingStorageLink"
-                                       typeahead-loading="loadingDisks"
+                                       ng-model="existingStorageDevice"
                                        class="form-control"
                                        data-provide="typeahead"
-                                       typeahead="name for result in listDisksByName($viewValue)"
+                                       uib-typeahead="result as result.name for result in listDisksByName($viewValue)"
                                        placeholder="Type disk name"
                                        autocomplete="off"
                                        typeahead-template-url="DiskSelection.html"
                                        typeahead-min-length="3"
                                        typeahead-wait-ms="200"
                                        typeahead-on-select="linkExistingVirtualDisk()"
-                                        />
+                                       />
                                 <i ng-show="loadingDisks" class="glyphicon glyphicon-refresh form-control-feedback"></i>
                                 <i ng-show="!loadingDisks" class="glyphicon glyphicon-hdd form-control-feedback"></i>
                             </div>
                             <div class="panel-heading">
 
-                                <h3 class="panel-title"><span class="glyphicon glyphicon-signal"/> Bus type</h3>
+                                <h3 class="panel-title"><span class="fa fa-plug"/> Bus type</h3>
                             </div>
                             <div class="btn-group" role="group" ng-controller="BusType" ng-init="init(link)">
                                 <button type="button" class="btn btn-default" ng-click="setBus('ide')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('ide')"></span> ide
+                                    <span class="fa fa-check-square-o" ng-show="isBus('ide')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('ide')"></span>
+                                    ide
                                 </button>
                                 <button type="button" class="btn btn-default" ng-click="setBus('scsi')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('scsi')"></span> scsi
+                                    <span class="fa fa-check-square-o" ng-show="isBus('scsi')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('scsi')"></span>
+                                    scsi
                                 </button>
                                 <button type="button" class="btn btn-default" ng-click="setBus('usb')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('usb')"></span> usb
+                                    <span class="fa fa-check-square-o" ng-show="isBus('usb')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('usb')"></span>
+                                    usb
                                 </button>
                                 <button type="button" class="btn btn-default" ng-click="setBus('sata')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('sata')"></span> sata
+                                    <span class="fa fa-check-square-o" ng-show="isBus('sata')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('sata')"></span>
+                                    sata
                                 </button>
                                 <button type="button" class="btn btn-default" ng-click="setBus('virtio')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('virtio')"></span> virtio
+                                    <span class="fa fa-check-square-o" ng-show="isBus('virtio')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('virtio')"></span>
+                                    virtio
                                 </button>
                                 <button type="button" class="btn btn-default" ng-click="setBus('xen')">
-                                    <span class="glyphicon glyphicon-ok" ng-show="isBus('xen')"></span> xen
+                                    <span class="fa fa-check-square-o" ng-show="isBus('xen')"></span>
+                                    <span class="fa fa-square-o" ng-show="!isBus('xen')"></span>
+                                    xen
                                 </button>
                             </div>
                         </div>

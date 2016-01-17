@@ -1,6 +1,4 @@
 kerubApp.controller('BusType', function($scope, $modal, $log) {
-	$scope.link = {};
-	$log.info("Bus controller created");
 	$scope.init = function(link) {
 		$log.debug('init', link);
         $scope.link = link;
