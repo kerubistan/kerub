@@ -11,7 +11,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 data class EnableKsm(val host: Host, val cycles : Long) : AbstractOperationalStep {
 
 	companion object {
-		//TODO: this depends on the operational state
+		//TODO: issue #123 this depends on the operational state
 		// size and number of virtual machines,
 		// ther operating systems, etc
 		// so basically this is just a placeholder
