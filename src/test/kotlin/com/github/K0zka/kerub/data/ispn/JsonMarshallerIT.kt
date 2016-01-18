@@ -38,7 +38,7 @@ public class JsonMarshallerIT {
 						"max":2048
 						},
 					"expectations":[],
-					"storagedevices":[]
+					"virtualStorageLinks":[]
 				}
 				""").toByteArray("UTF-8")
 		                                                    )
