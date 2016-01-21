@@ -240,6 +240,9 @@
     <bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
         <constructor-arg ref="hostManager"/>
         <constructor-arg ref="hostManager"/>
+        <constructor-arg ref="hostDynamicDao"/>
+        <constructor-arg ref="vmDynDao"/>
+        <constructor-arg ref="virtualStorageDeviceDynDao"/>
     </bean>
 
     <!--

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import java.math.BigInteger
 
 @JsonTypeName("lvm")
-class LvmStorageCapability(
+data class LvmStorageCapability(
 		val volumeGroupName: String,
 		override val size: BigInteger,
 		val physicalVolumes: List<BigInteger>
-) : StorageCapability()
+) : StorageCapability

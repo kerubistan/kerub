@@ -1,7 +1,11 @@
 package com.github.K0zka.kerub.planner.execution
 
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.StepExecutor
@@ -23,9 +27,12 @@ import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
 import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.async
 
-public class PlanExecutorImpl(
+class PlanExecutorImpl(
 		private val hostCommandExecutor : HostCommandExecutor,
-		private val hostManager : HostManager
+		private val hostManager : HostManager,
+		private val hostDynamicDao: HostDynamicDao,
+		private val vmDynamicDao: VirtualMachineDynamicDao,
+		private val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 ) : PlanExecutor {
 
 	companion object {
@@ -38,7 +45,7 @@ public class PlanExecutorImpl(
 			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor),
 	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor),
-	        CreateImage::class to CreateImageExecutor(hostCommandExecutor),
+	        CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager)
 	                         )
 

@@ -1,11 +1,13 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.create
 
+import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 
-public object CreateImageFactory : AbstractOperationalStepFactory<CreateImage>() {
+object CreateImageFactory : AbstractOperationalStepFactory<CreateImage>() {
 	override fun produce(state: OperationalState): List<CreateImage> {
 		val vmsThatMustRun = state.vms.values.filter {
 			vm ->
@@ -32,12 +34,20 @@ public object CreateImageFactory : AbstractOperationalStepFactory<CreateImage>()
 
 		runningHosts.values.forEach {
 			host ->
-			steps += storageNotAllocated.map {
-				storage ->
-				CreateImage(
-						device = storage,
-						host = host
-				)
+			host.capabilities?.storageCapabilities?.filter {
+				capability
+					-> capability is FsStorageCapability && capability.mountPoint.startsWith("/var")
+			}?.forEach {
+				mount ->
+				steps += storageNotAllocated.map {
+					storage ->
+					CreateImage(
+							device = storage,
+							host = host,
+							format = VirtualDiskFormat.qcow2,
+							path = (mount as FsStorageCapability).mountPoint
+					)
+				}
 			}
 		}
 

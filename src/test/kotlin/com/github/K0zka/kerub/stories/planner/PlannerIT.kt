@@ -21,5 +21,4 @@ import org.junit.runner.RunWith
 		glue = arrayOf("com.github.K0zka.kerub.stories.planner")
 )
 
-public class PlannerIT {
-}
+public class PlannerIT

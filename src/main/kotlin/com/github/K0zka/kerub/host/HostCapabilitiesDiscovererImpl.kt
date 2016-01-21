@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.host.distros.FreeBSD
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
+import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
@@ -20,6 +21,7 @@ import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.df.DF
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
@@ -35,7 +37,7 @@ import kotlin.reflect.KClass
 /**
  * Helper class to detect host capabilities through an established SSH session.
  */
-public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
+class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 	private companion object {
 		val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
@@ -150,6 +152,12 @@ public class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 									pv ->
 									pv.volumeGroupId == vg.id
 								}.map { it.size })
+					} + DF.df(session).map {
+						mount ->
+						FsStorageCapability(
+								size = mount.free + mount.used,
+								mountPoint = mount.mountPoint
+						)
 					}
 				}
 				else                  -> {

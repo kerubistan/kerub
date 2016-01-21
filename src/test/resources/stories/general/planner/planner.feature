@@ -1,4 +1,4 @@
-Feature: planner and optimizer
+Feature: basic planner features planner
 
   Scenario: Start a VM with single host
     Given VMs:
@@ -82,6 +82,11 @@ Feature: planner and optimizer
     And hosts:
       | address   | ram  | Cores | Threads | Architecture |  |
       | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+    And host 127.0.0.5 filesystem is:
+      | mount point | size   | free   |
+      | /var        | 128 GB | 128 GB |
+      | /           | 10 GB  | 2 GB   |
+      | /tmp        | 8 GB   | 4 GB   |
     Given VMs:
       | name | MinRam | MaxRam | CPUs | Architecture |
       | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
@@ -92,7 +97,7 @@ Feature: planner and optimizer
     And system-disk-1 is attached to vm1
     And system-disk-1 is not yet created
     When VM vm1 is started
-    Then the virtual disk system-disk-1 must be allocated on 127.0.0.5
+    Then the virtual disk system-disk-1 must be allocated on 127.0.0.5 under /var
     And VM vm1 gets scheduled on host 127.0.0.5
 
   Scenario: The virtual disk for the VM already exists

@@ -1,19 +1,13 @@
 package com.github.K0zka.kerub.stories.planner
 
 import com.github.K0zka.kerub.eq
-import com.github.K0zka.kerub.model.ExpectationLevel
-import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.model.HostCapabilities
-import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.*
 import com.github.K0zka.kerub.model.Range
-import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.model.VirtualMachineStatus
-import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
@@ -24,6 +18,7 @@ import com.github.K0zka.kerub.model.hardware.CacheInformation
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.io.BusType
+import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.OperationalStateBuilder
@@ -36,6 +31,7 @@ import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
+import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import cucumber.api.DataTable
@@ -151,6 +147,25 @@ public class PlannerDefs {
 			)
 			hosts += host
 		}
+	}
+
+	@Given("host (\\S+) filesystem is:")
+	fun setHostFilesystemCapabilities(hostAddr : String, mounts : DataTable) {
+		var fsCapabilities = mounts.raw().skip().map {
+			row ->
+			FsStorageCapability(
+					size = row.get(1).toSize(),
+					mountPoint = row.get(0)
+			)
+		}
+		hosts = hosts.replace( {it.address == hostAddr}, {
+			host ->
+			host.copy(
+					capabilities = requireNotNull(host.capabilities).copy(
+							storageCapabilities = requireNotNull(host.capabilities).storageCapabilities + fsCapabilities
+					)
+			)
+		} )
 	}
 
 	@Given("(\\S+) is running on (\\S+)")
@@ -313,15 +328,24 @@ public class PlannerDefs {
 		vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
 				id = storage.id,
 				actualSize = storage.size,
-				hostId = host.id
+				allocation = VirtualStorageFsAllocation(
+						hostId = host.id,
+						mountPoint = "/var",
+						type = VirtualDiskFormat.qcow2
+				)
 		)
 	}
 
-	@Then("^the virtual disk (\\S+) must be allocated on (\\S+)$")
-	fun verifyVirtualStorageCreated(storageName: String, hostAddr: String) {
+	@Then("^the virtual disk (\\S+) must be allocated on (\\S+) under (\\S+)$")
+	fun verifyVirtualStorageCreated(storageName: String, hostAddr: String, mountPoint : String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
-		Assert.assertTrue(executedPlans.first().steps.any { it is CreateImage && it.device == storage && it.host == host })
+		Assert.assertTrue(executedPlans.first().steps.any {
+			it is CreateImage &&
+					it.device == storage &&
+					it.host == host &&
+					it.path == mountPoint
+		})
 	}
 
 	@Then("^the virtual disk (\\S+) must not be allocated$")

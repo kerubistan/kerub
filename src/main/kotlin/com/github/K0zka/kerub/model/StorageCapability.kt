@@ -9,6 +9,6 @@ import java.math.BigInteger
 @JsonSubTypes(
 		JsonSubTypes.Type(LvmStorageCapability::class)
 		)
-abstract class StorageCapability : Serializable {
-		abstract val size: BigInteger
+interface StorageCapability : Serializable {
+		val size: BigInteger
 }

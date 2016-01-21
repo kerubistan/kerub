@@ -7,7 +7,9 @@ fun storageToXml(disks : List<VirtualStorageLink>) : String {
 	val ret = StringBuilder()
 	for(disk in disks) {
 		ret.append("""
-		<disk type='file'>
+		<disk type='file' device='disk'>
+            <driver />
+            <target dev='sda' bus='sata'/>
 		</disk>
 """)
 	}
