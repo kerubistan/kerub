@@ -5,8 +5,9 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
-public data class DisableKsm(val host: Host) : AbstractOperationalStep {
+public data class DisableKsm(override val host: Host) : HostStep {
 	override fun reservations(): List<Reservation<*>>
 			= listOf(UseHostReservation(host))
 

@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.planner.costs.Risk
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 import java.math.BigInteger
 import kotlin.math.minus
 
@@ -17,7 +18,7 @@ import kotlin.math.minus
  * Stop virtual machine.
  * Operation cost is considered negligible.
  */
-public data class StopVirtualMachine(val vm: VirtualMachine, val host: Host) : AbstractOperationalStep {
+public data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) : AbstractOperationalStep, HostStep {
 
 	companion object {
 		val scores = mapOf<ExpectationLevel, Int>(

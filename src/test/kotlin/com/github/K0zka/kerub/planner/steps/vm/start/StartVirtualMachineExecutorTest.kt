@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vm.start
 
+import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
@@ -18,6 +19,10 @@ import java.util.UUID
 class StartVirtualMachineExecutorTest {
 	@Mock
 	var hostManager : HostManager? = null
+
+	@Mock
+	var vmDynDao : VirtualMachineDynamicDao? = null
+
 	@Mock
 	var hypervisor : Hypervisor? = null
 
@@ -43,7 +48,7 @@ class StartVirtualMachineExecutorTest {
 
 		Mockito.`when`(hostManager!!.getHypervisor(Matchers.any(Host::class.java) ?: host)).thenReturn(hypervisor)
 
-		StartVirtualMachineExecutor(hostManager!!).execute(step)
+		StartVirtualMachineExecutor(hostManager!!, vmDynDao!!).execute(step)
 
 		Mockito.verify(hypervisor!!).startVm(Matchers.eq(vm) ?: vm)
 	}

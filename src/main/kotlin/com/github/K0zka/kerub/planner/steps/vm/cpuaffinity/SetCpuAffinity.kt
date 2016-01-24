@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
-class SetCpuAffinity(val vm : VirtualMachine) : AbstractOperationalStep {
+class SetCpuAffinity(val vm : VirtualMachine, cpus : List<Int>) : AbstractOperationalStep {
 
 	override fun reservations(): List<Reservation<VirtualMachine>>
 			= listOf(VmReservation(vm))

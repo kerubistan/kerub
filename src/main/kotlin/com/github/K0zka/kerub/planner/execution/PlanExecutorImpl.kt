@@ -40,13 +40,13 @@ class PlanExecutorImpl(
 	}
 
 	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
-			StartVirtualMachine::class to StartVirtualMachineExecutor(hostManager),
-			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager),
+			StartVirtualMachine::class to StartVirtualMachineExecutor(hostManager, vmDynamicDao),
+			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
 			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
-			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor),
-	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor),
+			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
+	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 	        CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
-			WakeHost::class to WakeHostExecutor(hostManager)
+			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao)
 	                         )
 
 	fun execute(step : AbstractOperationalStep) {
@@ -58,7 +58,8 @@ class PlanExecutorImpl(
 		}
 	}
 
-	override fun execute(plan: Plan, callback: (Plan) -> Unit) {
+	override fun
+			execute(plan: Plan, callback: (Plan) -> Unit) {
 		async() {
 			logger.debug("Executing plan {}", plan)
 			for(step in plan.steps) {

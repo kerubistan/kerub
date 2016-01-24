@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.host.startup
 
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.PowerManager
 import com.github.K0zka.kerub.model.Host
@@ -17,6 +18,9 @@ class WakeHostExecutorTest {
 	@Mock
 	var powerManager: PowerManager? = null
 
+	@Mock
+	var hostDynDao : HostDynamicDao? = null
+
 	val host = Host(
 			address = "host-1.example.com",
 			dedicated = true,
@@ -28,7 +32,7 @@ class WakeHostExecutorTest {
 		Mockito.`when`(hostManager?.getPowerManager( Mockito.any(Host::class.java) ?: host ))
 				.thenReturn(powerManager)
 
-		WakeHostExecutor(hostManager!!).execute(WakeHost(host))
+		WakeHostExecutor(hostManager!!, hostDynDao!!).execute(WakeHost(host))
 
 		Mockito.verify(powerManager!!).on()
 	}
