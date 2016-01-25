@@ -10,7 +10,7 @@ import org.junit.Test
 
 public class HostServiceIT {
 
-	//TODO: make a cucumber story out of this
+	//TODO: issue #127 make a cucumber story out of this
 	@Test
 	fun getPubkey() {
 		val client = createClient()
