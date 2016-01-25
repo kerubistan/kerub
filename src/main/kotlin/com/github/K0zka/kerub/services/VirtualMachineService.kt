@@ -25,25 +25,25 @@ public interface VirtualMachineService : RestCrud<VirtualMachine>, RestOperation
 	@Produces("application/x-virt-viewer")
 	@GET
 	fun spiceConnection() : String {
-		
+
 		return """
 [virt-viewer]
 type=spice
-host=${TODO()}
-port=${TODO()}
-password=${TODO()}
+host=${TODO("https://github.com/kerubistan/kerub/issues/77")}
+port=${TODO("https://github.com/kerubistan/kerub/issues/77")}
+password=${TODO("https://github.com/kerubistan/kerub/issues/77")}
 delete-this-file=1
 fullscreen=0
-title=${TODO()} - Release cursor: SHIFT+F12
+title=${TODO("https://github.com/kerubistan/kerub/issues/77")} - Release cursor: SHIFT+F12
 toggle-fullscreen=shift+f11
 release-cursor=shift+f12
 secure-attention=ctrl+alt+end
-tls-port=${TODO()}
+tls-port=${TODO("https://github.com/kerubistan/kerub/issues/77")}
 enable-smartcard=0
 enable-usb-autoshare=1
 tls-ciphers=DEFAULT
 host-subject=O=engine,CN=192.168.122.71
-ca=${TODO()}
+ca=${TODO("https://github.com/kerubistan/kerub/issues/77")}
 secure-channels=main;inputs;cursor;playback;record;display;smartcard;usbredir
 
 """
