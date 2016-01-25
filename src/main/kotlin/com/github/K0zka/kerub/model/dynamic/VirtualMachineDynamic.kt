@@ -20,7 +20,7 @@ public data class VirtualMachineDynamic(
 		val memoryUsed: BigInteger,
 		val cpuUsage: List<CpuStat> = listOf()
 ) : DynamicEntity {
-	//TODO: workaround to allow infinispan query hostId
+	//TODO: issue #125 - workaround to allow infinispan query hostId
 	@Field(analyze = noAnalyze)
 	fun getHostIdStr() = hostId.toString()
 }
