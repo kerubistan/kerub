@@ -6,7 +6,7 @@ import java.util.Comparator
 
 public class StepBenefitComparator(val state : OperationalState) : Comparator<AbstractOperationalStep> {
 	override fun compare(first: AbstractOperationalStep, second: AbstractOperationalStep): Int {
-		//TODO:
+		//TODO: issue #128
 		// this may not be efficient, but at the moment there
 		// is no other way than to really take the step
 		// and compare the number of constraints broken
