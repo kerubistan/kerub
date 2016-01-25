@@ -33,8 +33,8 @@ public class WakeHost(val host: Host) : AbstractOperationalStep {
 		                 )
 	}
 
-	/**
-	 * TODO
+	/*
+	 * TODO - issue #126
 	 * Cost calculation here ignores facts and builds on hardcoded defaults
 	 * What should be here in the future:
 	 * - decision based on the power management-method
