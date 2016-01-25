@@ -57,7 +57,7 @@ public class HostManagerImpl (
 
 	override fun getPowerManager(host: Host): PowerManager {
 		require(host.dedicated, {"If host is not dedicated, it can not be power-managed"})
-		//TODO
+		//TODO issue #126 - host power management
 		return WakeOnLan(host, this, this)
 	}
 
