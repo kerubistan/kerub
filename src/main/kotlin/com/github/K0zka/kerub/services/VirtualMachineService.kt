@@ -4,11 +4,7 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.wordnik.swagger.annotations.Api
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
-import javax.ws.rs.Consumes
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.PathParam
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 
 @Api("s/r/vm", description = "Virtual machine operations")
@@ -24,4 +20,32 @@ public interface VirtualMachineService : RestCrud<VirtualMachine>, RestOperation
 	@Path("{id}/stop")
 	@POST
 	fun stopVm(@PathParam("id") id: UUID)
+
+	@Path("{id}/connection/spice")
+	@Produces("application/x-virt-viewer")
+	@GET
+	fun spiceConnection() : String {
+		
+		return """
+[virt-viewer]
+type=spice
+host=${TODO()}
+port=${TODO()}
+password=${TODO()}
+delete-this-file=1
+fullscreen=0
+title=${TODO()} - Release cursor: SHIFT+F12
+toggle-fullscreen=shift+f11
+release-cursor=shift+f12
+secure-attention=ctrl+alt+end
+tls-port=${TODO()}
+enable-smartcard=0
+enable-usb-autoshare=1
+tls-ciphers=DEFAULT
+host-subject=O=engine,CN=192.168.122.71
+ca=${TODO()}
+secure-channels=main;inputs;cursor;playback;record;display;smartcard;usbredir
+
+"""
+	}
 }
