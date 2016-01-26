@@ -41,7 +41,7 @@ public class ControllerAssignerImplTest {
 
 	@Before
 	fun setup() {
-		backtrack = BacktrackService(1)
+		backtrack = BacktrackService(4)
 		Mockito.`when`(controllerDynamicDao?.listAll()).thenReturn(listOf(
 				ControllerDynamic(
 						controllerId = "ctrl-1",
