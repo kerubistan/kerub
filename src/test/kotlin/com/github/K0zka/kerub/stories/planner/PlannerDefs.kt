@@ -544,4 +544,17 @@ public class PlannerDefs {
         })
     }
 
+	@Given("virtual disk (\\S+) has not-same-storage expectation against (\\S+)")
+	fun addNotSameStorageExpectation(diskName : String, againstDiskName : String) {
+		val againstDisk = vdisks.first { it.name == againstDiskName }
+		vdisks = vdisks.replace( {it.name == diskName } , {
+			vdisk ->
+			vdisk.copy(
+					expectations = vdisk.expectations + NotSameStorageExpectation(
+							level = ExpectationLevel.DealBreaker,
+							otherDiskIds = listOf(againstDisk.id)
+					)
+			)
+		})
+	}
 }

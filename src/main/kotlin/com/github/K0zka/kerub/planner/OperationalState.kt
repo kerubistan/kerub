@@ -77,7 +77,7 @@ data class OperationalState(
 			vm.expectations.all {
 				expectation ->
 				expectation.level != ExpectationLevel.DealBreaker
-						|| checkExpectation(expectation, vm)
+						|| isExpectationSatisfied(expectation, vm)
 			}
 		}
 	}
@@ -88,23 +88,31 @@ data class OperationalState(
 			vm.expectations.count {
 				expectation ->
 				expectation.level == level
-						&& !checkExpectation(expectation, vm)
+						&& !isExpectationSatisfied(expectation, vm)
 			}
 		}
 	}
 
 	fun getUnsatisfiedExpectations(): List<Expectation> {
-		var expectations = listOf<Expectation>()
+		var unsatisfied = listOf<Expectation>()
 		vmsToCheck()
 				.forEach {
 					vm ->
-					expectations +=
-							vm.expectations.filter {
+					unsatisfied +=
+							vm.expectations.filterNot {
 								expectation ->
-								!checkExpectation(expectation, vm)
+								isExpectationSatisfied(expectation, vm)
 							}
 				}
-		return expectations
+		vStorage.values.forEach {
+			vdisk ->
+			unsatisfied +=
+				vdisk.expectations.filterNot {
+					expectation ->
+					isExpectationSatisfied(expectation, vdisk)
+				}
+		}
+		return unsatisfied
 	}
 
 	private fun vmsToCheck(): List<VirtualMachine> {
@@ -114,7 +122,25 @@ data class OperationalState(
 				}
 	}
 
-	private fun checkExpectation(expectation: Expectation, vm: VirtualMachine): Boolean {
+	private fun isExpectationSatisfied(expectation: Expectation, vdisk: VirtualStorageDevice): Boolean {
+		when (expectation) {
+			is NotSameStorageExpectation -> {
+				val diskDyn = vStorageDyns[vdisk.id]
+				return diskDyn == null || expectation.otherDiskIds.any {
+					otherVdiskId ->
+					val otherDiskDyn = vStorageDyns.get(otherVdiskId)
+					if (otherDiskDyn == null) {
+						true
+					} else {
+						otherDiskDyn.allocation.hostId == diskDyn.allocation.hostId
+					}
+				}
+			}
+			else -> throw IllegalArgumentException("Expectation $expectation not handled")
+		}
+	}
+
+	private fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
 			is ClockFrequencyExpectation             -> {
 				val host = vmHost(vm)
