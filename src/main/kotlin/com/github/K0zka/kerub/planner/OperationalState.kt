@@ -10,12 +10,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
-import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
-import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
-import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
-import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
-import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.expectations.*
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.k0zka.finder4j.backtrack.State
@@ -163,6 +158,12 @@ data class OperationalState(
 				} else {
 					expectation.cpuArchitecture == host.capabilities?.cpuArchitecture
 				}
+			}
+			is MemoryClockFrequencyExpectation -> {
+				val host = vmHost(vm)
+				val memoryDevices = host?.capabilities?.memoryDevices
+				return memoryDevices?.isNotEmpty() ?: false
+						&& memoryDevices?.all { it.speedMhz ?: 0 >= expectation.min } ?: false
 			}
 			else                                     ->
 				throw IllegalArgumentException("Expectation ${expectation} can not be checked")

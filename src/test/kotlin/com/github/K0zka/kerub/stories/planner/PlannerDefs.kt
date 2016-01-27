@@ -8,14 +8,10 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
-import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
-import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
-import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
-import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
-import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
-import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.expectations.*
 import com.github.K0zka.kerub.model.hardware.CacheInformation
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
@@ -498,4 +494,54 @@ public class PlannerDefs {
 	fun setHostNonEccMemory(hostAddr: String) {
 		throw PendingException()
 	}
+
+	@Given("(\\S+) has memory clock speed expectation (\\d+) Mhz")
+	fun addVmMemoryClockSpeedExpectation(vmName : String, speedMhz : Int) {
+        vms = vms.replace({it.name == vmName}, {
+            vm ->
+            vm.copy(
+                    expectations = vm.expectations
+                            + MemoryClockFrequencyExpectation(level = ExpectationLevel.DealBreaker, min = speedMhz)
+            )
+        })
+	}
+
+    @Given("(\\S+) memory information is not known")
+    fun clearHostMemoryInformation(hostAddr: String) {
+        hosts = hosts.replace( {it.address == hostAddr}, {
+            host ->
+            host.copy(
+                    capabilities = host.capabilities?.copy(
+                            memoryDevices = listOf()
+                    )
+            )
+        } )
+    }
+
+    @Given("(\\S+) memory clockspeed is (\\d+) Mhz")
+    fun setHostMemoryClockSpeed(hostAddr: String, speedMhz: Int) {
+        hosts = hosts.replace({ it.address == hostAddr }, {
+            host ->
+            host.copy(
+                    capabilities = host.capabilities!!.copy(
+                            memoryDevices = listOf(
+                                    host.capabilities!!.memoryDevices.firstOrNull()
+                                            ?: MemoryInformation(
+                                            size = "8 GB".toSize(),
+                                            type = "",
+                                            formFactor = "SODIMM",
+                                            locator = "BANK-A",
+                                            speedMhz = speedMhz,
+                                            manufacturer = "DUCT TAPE INC",
+                                            partNumber = "",
+                                            configuredSpeedMhz =speedMhz,
+                                            serialNumber = "",
+                                            bankLocator = ""
+                                    )
+                            )
+                    )
+            )
+        })
+    }
+
 }
