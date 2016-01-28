@@ -41,9 +41,14 @@ public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> 
 
 		var list = listOf<AbstractOperationalStep>()
 		allStepFactories.forEach { list += (it.produce(state.state) )}
-		list = list.sortedWith( StepBenefitComparator(state.state)
-				                    .thenComparator { first, second -> StepCostComparator.reversed().compare(first, second) } )
-		return list
+		return sort(list, state)
+	}
+
+	fun sort(list: List<AbstractOperationalStep>, state: Plan): List<AbstractOperationalStep> {
+		var list1 = list
+		list1 = list1.sortedWith(StepBenefitComparator(state.state)
+				.thenComparator { first, second -> StepCostComparator.compare(first, second) })
+		return list1
 	}
 
 }

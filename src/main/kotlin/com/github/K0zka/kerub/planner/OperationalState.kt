@@ -191,6 +191,7 @@ data class OperationalState(
 				return memoryDevices?.isNotEmpty() ?: false
 						&& memoryDevices?.all { it.speedMhz ?: 0 >= expectation.min } ?: false
 			}
+			is NoMigrationExpectation -> return true
 			else                                     ->
 				throw IllegalArgumentException("Expectation ${expectation} can not be checked")
 		}

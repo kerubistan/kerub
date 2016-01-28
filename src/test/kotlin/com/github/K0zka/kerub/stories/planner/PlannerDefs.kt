@@ -557,4 +557,14 @@ public class PlannerDefs {
 			)
 		})
 	}
+
+	@Given("(\\S+) has no-migrate expectation")
+	fun addNoMigrateExpectation(vmName : String) {
+		vms = vms.replace( {it.name == vmName} , {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations + NoMigrationExpectation(userTimeoutMinutes = 60)
+			)
+		})
+	}
 }
