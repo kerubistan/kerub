@@ -1,10 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
-import com.github.K0zka.kerub.model.hardware.CacheInformation
-import com.github.K0zka.kerub.model.hardware.ChassisInformation
-import com.github.K0zka.kerub.model.hardware.MemoryInformation
-import com.github.K0zka.kerub.model.hardware.ProcessorInformation
-import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.model.hardware.*
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.toSize
@@ -66,6 +62,13 @@ public class DmiDecoder : OsCommand {
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					                )
 				},
+				16 to {input, dependencies ->
+					MemoryArrayInformation(
+							maxCapacity = input.substringBetween("Maximum Capacity:", "\n")?.toSize(),
+							errorCorrection = input.substringBetween("Error Correction Type:", "\n")?.trim(),
+							location = input.substringBetween("Location:", "\n")?.trim()
+					)
+				},
 		        17 to {input, dependencies ->
 			        MemoryInformation(
 					        size = input.substringBetween("Size: ","\n").toSize(),
@@ -83,7 +86,7 @@ public class DmiDecoder : OsCommand {
 		        }
 		                                                                               )
 
-		@JvmStatic val resolutionOrder = arrayOf(17, 7, 3, 4, 1)
+		@JvmStatic val resolutionOrder = arrayOf(16, 17, 7, 3, 4, 1)
 
 		@JvmStatic fun parse(input: String) : Map<String, Any>{
 			val records = split(input)
