@@ -92,7 +92,7 @@ Built-in Pointing Device
 		assert(l3Cache.speedNs == null)
 		assert(l3Cache.errorCorrection == "Single-bit ECC")
 
-		val memArray = devices["0X003E"] as MemoryArrayInformation
+		val memArray = devices["0x003E"] as MemoryArrayInformation
 		assertEquals(memArray.maxCapacity, "16 GB".toSize())
 		assertEquals(memArray.errorCorrection, "None")
 	}
