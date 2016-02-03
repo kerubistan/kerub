@@ -9,4 +9,4 @@ data class StorageRedundancyExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val outOfBox : Boolean = false,
 		val nrOfCopies: Int
-) : Expectation
+) : VirtualStorageExpectation

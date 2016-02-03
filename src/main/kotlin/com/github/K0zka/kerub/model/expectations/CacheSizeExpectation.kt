@@ -9,4 +9,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class CacheSizeExpectation @JsonCreator constructor(
 		override val level: ExpectationLevel,
 		val minL1: Long
-) : Expectation
+) : VirtualMachineExpectation

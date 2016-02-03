@@ -9,4 +9,4 @@ import java.util.UUID
 data class NotSameStorageExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val otherDiskIds: List<UUID>
-) : Expectation
+) : VirtualStorageExpectation

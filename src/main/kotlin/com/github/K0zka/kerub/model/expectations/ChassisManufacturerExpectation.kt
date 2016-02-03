@@ -8,4 +8,4 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 data class ChassisManufacturerExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.Want,
 		val manufacturer: String
-) : Expectation
+) : VirtualMachineExpectation, VirtualStorageExpectation
