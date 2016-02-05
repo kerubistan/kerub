@@ -18,8 +18,6 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
-import kotlin.math.minus
-import kotlin.math.plus
 
 public data class MigrateVirtualMachine(
         val vm: VirtualMachine,

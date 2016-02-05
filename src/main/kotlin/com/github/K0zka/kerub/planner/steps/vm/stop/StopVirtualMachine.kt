@@ -12,7 +12,6 @@ import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 import java.math.BigInteger
-import kotlin.math.minus
 
 /**
  * Stop virtual machine.

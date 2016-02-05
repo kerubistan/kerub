@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.model.hardware
 
 import java.io.Serializable
-import java.math.BigInteger
 
 /**
  * Provides information about a cache of a CPU.

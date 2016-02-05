@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.StepExecutor

@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.planner.costs.ComputationCost
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
-import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
 data class EnableKsm(override val host: Host, val cycles: Long) : HostStep {

@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.planner.steps.host.startup
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.dynamic.HostStatus
-import com.github.K0zka.kerub.planner.StepExecutor
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.getLogger
 

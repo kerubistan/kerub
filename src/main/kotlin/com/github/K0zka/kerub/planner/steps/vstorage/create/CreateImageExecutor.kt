@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
-import com.github.K0zka.kerub.planner.StepExecutor
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger

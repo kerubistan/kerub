@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.utils
 
 import java.math.BigDecimal
 import java.math.BigInteger
-import kotlin.math.times
 
 val sizeMultiplier = BigDecimal("1024");
 

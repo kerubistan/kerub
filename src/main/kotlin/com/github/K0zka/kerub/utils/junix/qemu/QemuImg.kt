@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.utils.junix.qemu
 
-import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.createObjectMapper

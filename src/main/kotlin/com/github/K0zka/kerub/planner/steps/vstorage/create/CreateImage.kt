@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation

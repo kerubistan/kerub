@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import org.infinispan.Cache
 import org.infinispan.query.Search
-import org.infinispan.query.dsl.Query
 import java.util.UUID
 
 public class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener)

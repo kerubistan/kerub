@@ -1,6 +1,11 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
-import com.github.K0zka.kerub.model.hardware.*
+import com.github.K0zka.kerub.model.hardware.CacheInformation
+import com.github.K0zka.kerub.model.hardware.ChassisInformation
+import com.github.K0zka.kerub.model.hardware.MemoryArrayInformation
+import com.github.K0zka.kerub.model.hardware.MemoryInformation
+import com.github.K0zka.kerub.model.hardware.ProcessorInformation
+import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.toSize
