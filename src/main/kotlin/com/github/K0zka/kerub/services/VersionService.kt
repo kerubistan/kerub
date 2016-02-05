@@ -15,15 +15,15 @@ import javax.ws.rs.Produces
 
 @ApiModel("VersionInfo", description = "Version information")
 
-class VersionInfo @JsonCreator constructor (
-        @JsonProperty("version")
-        @ApiModelProperty(required = true, value = "Version")
+class VersionInfo @JsonCreator constructor(
+		@JsonProperty("version")
+		@ApiModelProperty(required = true, value = "Version")
 		val version: String,
-        @JsonProperty("vendor")
-        @ApiModelProperty(required = true, value = "Vendor")
+		@JsonProperty("vendor")
+		@ApiModelProperty(required = true, value = "Vendor")
 		val vendor: String,
-        @JsonProperty("title")
-        @ApiModelProperty(required = true, value = "Title")
+		@JsonProperty("title")
+		@ApiModelProperty(required = true, value = "Title")
 		val title: String) {
 }
 
@@ -33,9 +33,9 @@ class VersionInfo @JsonCreator constructor (
 @Path("/meta/version")
 public interface VersionService {
 
-    @ApiOperation(value = "Get version", notes = "Get the Kerub version")
-    @ApiResponses(ApiResponse(code = 200, message = "OK", response = VersionInfo::class))
-    @Path("/")
-    @GET
+	@ApiOperation(value = "Get version", notes = "Get the Kerub version")
+	@ApiResponses(ApiResponse(code = 200, message = "OK", response = VersionInfo::class))
+	@Path("/")
+	@GET
 	fun getVersionInfo(): VersionInfo
 }

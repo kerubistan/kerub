@@ -13,7 +13,7 @@ public class LoginServiceImpl : LoginService {
 		subject.login(UsernamePasswordToken(
 				authentication.username,
 				authentication.password)
-		             )
+		)
 	}
 
 	override
@@ -22,7 +22,7 @@ public class LoginServiceImpl : LoginService {
 		return LoginService.UserData(
 				subject.getPrincipal().toString(),
 				Roles.values().filter { subject.hasRole(it.name) }.toList()
-		                            )
+		)
 	}
 
 	override

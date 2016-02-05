@@ -29,7 +29,7 @@ public interface VirtualMachineService : RestCrud<VirtualMachine>, RestOperation
 	@Path("{id}/connection/spice")
 	@Produces("application/x-virt-viewer")
 	@GET
-	fun spiceConnection() : String {
+	fun spiceConnection(): String {
 
 		return """
 [virt-viewer]

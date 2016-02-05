@@ -9,7 +9,7 @@ import com.github.k0zka.finder4j.backtrack.StepFactory
  * Step factoryes should only care about the <strong>possibility</strong> of a step
  * not the <strong>feasibility</strong>
  */
-abstract class AbstractOperationalStepFactory<S: AbstractOperationalStep> : StepFactory<S, Plan> {
+abstract class AbstractOperationalStepFactory<S : AbstractOperationalStep> : StepFactory<S, Plan> {
 	//this here is only needed to have some restrictions on the method signature
 	//like List and not MutableList and no null values allowed
 	abstract fun produce(state: OperationalState): List<S>

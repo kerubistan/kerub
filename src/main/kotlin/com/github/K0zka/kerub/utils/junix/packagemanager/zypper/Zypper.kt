@@ -10,7 +10,7 @@ object Zypper {
 		session.execute("zypper -n install ${packs.joinToString(separator = " ")}")
 	}
 
-	fun uninstallPackage(session: ClientSession,vararg packs: String) {
+	fun uninstallPackage(session: ClientSession, vararg packs: String) {
 		require(packs.isNotEmpty())
 		session.execute("zypper -n remove ${packs.joinToString(separator = " ")}")
 	}

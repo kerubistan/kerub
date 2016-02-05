@@ -6,4 +6,4 @@ import com.github.K0zka.kerub.services.VirtualMachineDynamicService
 
 class VirtualMachineDynamicServiceImpl(dao: VirtualMachineDynamicDao)
 : AbstractDynamicServiceImpl<VirtualMachineDynamic>(dao, "vm-dynamic"),
-  VirtualMachineDynamicService
+		VirtualMachineDynamicService

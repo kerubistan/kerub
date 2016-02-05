@@ -7,12 +7,12 @@ import java.math.BigInteger
 
 object LvmLv {
 
-	internal fun optionalInt(input : String?) : Int? =
-		if(input?.isBlank() ?: true) {
-			null
-		} else {
-			input?.toInt()
-		}
+	internal fun optionalInt(input: String?): Int? =
+			if (input?.isBlank() ?: true) {
+				null
+			} else {
+				input?.toInt()
+			}
 
 	fun list(session: ClientSession): List<LogicalVolume> =
 			session.executeOrDie(
@@ -32,20 +32,29 @@ object LvmLv {
 			}
 
 	fun create(session: ClientSession,
-			   vgName : String,
+			   vgName: String,
 			   name: String,
 			   size: BigInteger,
 			   minRecovery: Int? = null,
 			   maxRecovery: Int? = null
 	): LogicalVolume {
-		fun minRecovery(minRecovery: Int?) = if(minRecovery == null) {""} else {"--minrecoveryrate $minRecovery"}
-		fun maxRecovery(maxRecovery: Int?) = if(maxRecovery == null) {""} else {"--maxrecoveryrate $maxRecovery"}
+		fun minRecovery(minRecovery: Int?) = if (minRecovery == null) {
+			""
+		} else {
+			"--minrecoveryrate $minRecovery"
+		}
+
+		fun maxRecovery(maxRecovery: Int?) = if (maxRecovery == null) {
+			""
+		} else {
+			"--maxrecoveryrate $maxRecovery"
+		}
 		session.executeOrDie(
 				"""lvcreate -n $name -L $size B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""")
 		return list(session).first { it.name == name }
 	}
 
-	fun delete(session : ClientSession, volumeName : String) {
+	fun delete(session: ClientSession, volumeName: String) {
 		session.executeOrDie("lvremove -f $volumeName")
 	}
 

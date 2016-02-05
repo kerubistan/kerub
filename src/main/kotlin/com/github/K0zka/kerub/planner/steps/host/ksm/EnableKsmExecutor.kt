@@ -4,4 +4,4 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 
 public class EnableKsmExecutor(exec: HostCommandExecutor,
-                               hostDynDao: HostDynamicDao) : AbstractKsmExecutor<EnableKsm>(exec, hostDynDao, true)
+							   hostDynDao: HostDynamicDao) : AbstractKsmExecutor<EnableKsm>(exec, hostDynDao, true)

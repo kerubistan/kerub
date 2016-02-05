@@ -41,13 +41,13 @@ public class PlannerImpl(
 						reservation is HostReservation && reservation.host == requestedReservation.host
 					}
 				}
-				is VmReservation       -> {
+				is VmReservation -> {
 					return !reservations.contains(requestedReservation)
 				}
-				is UseHostReservation  -> {
+				is UseHostReservation -> {
 					return !reservations.contains(requestedReservation)
 				}
-				else                   ->
+				else ->
 					return false
 			}
 		}

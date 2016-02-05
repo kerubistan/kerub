@@ -31,11 +31,11 @@ val services = mapOf<KClass<out Entity<out Any>>, KClass<*>>(
 fun pathFromJaxRsAnnotation(clazz: KClass<*>) =
 		(clazz.annotations.first { it is Path } as Path).value
 
-fun addSlashPrefix(path : String)
- = if(path.startsWith(slash)) path else "$slash$path"
+fun addSlashPrefix(path: String)
+		= if (path.startsWith(slash)) path else "$slash$path"
 
-fun addSlashPostFix(path : String)
-		= if(path.endsWith(slash)) path else "$path$slash"
+fun addSlashPostFix(path: String)
+		= if (path.endsWith(slash)) path else "$path$slash"
 
-val channels = services.map { it.key to addSlashPrefix(addSlashPostFix(pathFromJaxRsAnnotation(it.value))) } .toMap()
+val channels = services.map { it.key to addSlashPrefix(addSlashPostFix(pathFromJaxRsAnnotation(it.value))) }.toMap()
 val addressToEntity = channels.inverse()

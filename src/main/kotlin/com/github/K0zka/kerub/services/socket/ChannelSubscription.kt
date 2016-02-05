@@ -5,9 +5,9 @@ import com.github.K0zka.kerub.model.messages.EntityMessage
 import com.github.K0zka.kerub.utils.toUUID
 import kotlin.reflect.KClass
 
-data class ChannelSubscription(val entityClass : KClass<out Entity<out Any>>, val id : Any?) {
+data class ChannelSubscription(val entityClass: KClass<out Entity<out Any>>, val id: Any?) {
 	companion object {
-		fun fromChannel(channel : String) : ChannelSubscription {
+		fun fromChannel(channel: String): ChannelSubscription {
 			val channelFormated = addSlashPrefix(addSlashPostFix(channel))
 			val split = channelFormated.split(slash).filter { it.isNotBlank() }
 			val entityServiceAddress = addSlashPrefix(addSlashPostFix(split[0]))
@@ -16,7 +16,7 @@ data class ChannelSubscription(val entityClass : KClass<out Entity<out Any>>, va
 		}
 	}
 
-	fun interested(msg : EntityMessage) : Boolean {
+	fun interested(msg: EntityMessage): Boolean {
 		return id == null || msg.obj.id == id
 	}
 }

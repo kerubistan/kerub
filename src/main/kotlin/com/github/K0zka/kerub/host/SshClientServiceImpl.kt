@@ -19,12 +19,12 @@ import java.util.concurrent.TimeUnit
 public class SshClientServiceImpl(
 		val client: SshClient,
 		val keyPair: KeyPair,
-		val maxWait : Long = 500,
-		val maxWaitUnit : TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
+		val maxWait: Long = 500,
+		val maxWaitUnit: TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
 
-	class ServerFingerprintChecker(val expected :String) : DefaultSshEventListener() {
+	class ServerFingerprintChecker(val expected: String) : DefaultSshEventListener() {
 		override fun sessionEvent(session: Session, event: SessionListener.Event) {
-			if(SessionListener.Event.KeyEstablished == event) {
+			if (SessionListener.Event.KeyEstablished == event) {
 				checkServerFingerPrint(session, expected)
 			}
 		}
@@ -33,11 +33,11 @@ public class SshClientServiceImpl(
 	companion object {
 		val logger = getLogger(SshClientServiceImpl::class)
 
-		fun checkServerFingerPrint(session: Session, expected : String) {
+		fun checkServerFingerPrint(session: Session, expected: String) {
 			val serverKey = (session as AbstractSession).kex.serverKey
 			val fingerprint = KeyUtils.getFingerPrint(serverKey)
 			logger.debug("checking server ssh fingerprint {}", serverKey)
-			if(fingerprint != expected) {
+			if (fingerprint != expected) {
 				throw SshException("Ssh key $fingerprint does not match expected $expected ")
 			}
 		}
@@ -60,7 +60,7 @@ public class SshClientServiceImpl(
 		logger.debug("{}: public key installation finished", session)
 	}
 
-	fun encodePublicKey(key : RSAPublicKey) : String {
+	fun encodePublicKey(key: RSAPublicKey): String {
 		val out = ByteArrayOutputStream()
 
 		out.write(encodeString("ssh-rsa"))
@@ -70,7 +70,7 @@ public class SshClientServiceImpl(
 		return out.toByteArray().toBase64()
 	}
 
-	fun encodeString(str : String) : ByteArray {
+	fun encodeString(str: String): ByteArray {
 		val bytes = str.toByteArray("ASCII")
 		return encodeByteArray(bytes)
 	}
@@ -81,7 +81,7 @@ public class SshClientServiceImpl(
 		return out
 	}
 
-	fun encodeUInt32(value : Int) : ByteArray {
+	fun encodeUInt32(value: Int): ByteArray {
 		val bytes = ByteArray(4)
 		bytes[0] = value.shr(24).and(0xff).toByte()
 		bytes[1] = value.shr(16).and(0xff).toByte()
@@ -102,7 +102,7 @@ public class SshClientServiceImpl(
 		session.addPublicKeyIdentity(keyPair)
 		logger.debug("waiting for authentication from {}", address)
 		val authFuture = session.auth()
-		val finished = authFuture.await( maxWait, maxWaitUnit )
+		val finished = authFuture.await(maxWait, maxWaitUnit)
 		authFuture.verify()
 		logger.debug("{}: Authentication finished: {} success: {}", address, finished, authFuture.isSuccess())
 		return session

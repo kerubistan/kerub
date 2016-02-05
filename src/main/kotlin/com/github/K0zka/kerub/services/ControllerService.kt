@@ -14,8 +14,8 @@ import javax.ws.rs.core.MediaType
 @Path("/controllers/")
 @RequiresAuthentication
 public interface ControllerService {
-    @GET
-    @Path("/")
-    @RequiresRoles(admin)
-	fun list() : List<String>
+	@GET
+	@Path("/")
+	@RequiresRoles(admin)
+	fun list(): List<String>
 }

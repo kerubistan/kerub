@@ -4,5 +4,5 @@ import java.io.Serializable
 import java.util.UUID
 
 interface VirtualStorageAllocation : Serializable {
-	val hostId : UUID
+	val hostId: UUID
 }

@@ -22,7 +22,7 @@ public class WakeOnLan(
 		val wolUdpPort = 9
 		val magicCookieHeader = 0xFF.toByte()
 		fun buildMagicPocket(mac: ByteArray): ByteArray {
-			require(mac.size == 6, {"Mac address must be 6 bytes"})
+			require(mac.size == 6, { "Mac address must be 6 bytes" })
 			val bytes = ByteArray(102)
 			bytes[0] = magicCookieHeader
 			bytes[1] = magicCookieHeader
@@ -46,8 +46,8 @@ public class WakeOnLan(
 	}
 
 	override fun on() {
-		require(host.capabilities?.macAddresses != null, {"mac address list needed to wake up host"})
-		require(host.capabilities?.macAddresses!!.isNotEmpty(), {"non-empty mac address list needed to wake up host"})
+		require(host.capabilities?.macAddresses != null, { "mac address list needed to wake up host" })
+		require(host.capabilities?.macAddresses!!.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
 		for (mac in host.capabilities?.macAddresses!!) {
 			val bytes = buildMagicPocket(mac)
 
@@ -59,7 +59,7 @@ public class WakeOnLan(
 
 
 	override fun off() {
-		require(host.dedicated, {"Can not power off a non-dedicated host"})
+		require(host.dedicated, { "Can not power off a non-dedicated host" })
 		executor.execute(host, {
 			it.execute("poweroff")
 		})

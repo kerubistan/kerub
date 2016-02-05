@@ -7,14 +7,14 @@ import org.apache.sshd.ClientSession
 import java.io.StringReader
 import java.util.Properties
 
-public abstract class LsbDistribution(val distroName : String) : AbstractLinux() {
+public abstract class LsbDistribution(val distroName: String) : AbstractLinux() {
 
 	override fun name(): String {
 		return distroName
 	}
 
-	fun <T> enforce( value : T?, msg : String ) : T {
-		if(value == null) {
+	fun <T> enforce(value: T?, msg: String): T {
+		if (value == null) {
 			throw IllegalArgumentException("${msg} - value is null")
 		} else {
 			return value
@@ -24,16 +24,16 @@ public abstract class LsbDistribution(val distroName : String) : AbstractLinux()
 	override fun getVersion(session: ClientSession): Version {
 		return Version.fromVersionString(
 				enforce(readLsbReleaseProperties(session)
-						        .getProperty("VERSION_ID")
-						        ?.replace("\"".toRegex(), ""), "VERSION_ID is not found in the properties file"))
+						.getProperty("VERSION_ID")
+						?.replace("\"".toRegex(), ""), "VERSION_ID is not found in the properties file"))
 	}
 
 	override fun detect(session: ClientSession): Boolean {
 		return session.checkFileExists("/etc/os-release")
 				&& distroName.equals(
 				enforce(readLsbReleaseProperties(session)
-						        .getProperty("NAME")
-						        ?.replace("\"".toRegex(), ""), "NAME is not found in the properties file"), ignoreCase = true)
+						.getProperty("NAME")
+						?.replace("\"".toRegex(), ""), "NAME is not found in the properties file"), ignoreCase = true)
 	}
 
 	protected fun readLsbReleaseProperties(session: ClientSession): Properties {

@@ -31,7 +31,7 @@ data class OperationalState(
 		val vmDyns: Map<UUID, VirtualMachineDynamic> = mapOf(),
 		val vStorage: Map<UUID, VirtualStorageDevice> = mapOf(),
 		val vStorageDyns: Map<UUID, VirtualStorageDeviceDynamic> = mapOf(),
-		val reservations : List<Reservation<*>> = listOf()
+		val reservations: List<Reservation<*>> = listOf()
 ) : State {
 
 	companion object {
@@ -45,7 +45,7 @@ data class OperationalState(
 					  vmDyns: List<VirtualMachineDynamic> = listOf(),
 					  vStorage: List<VirtualStorageDevice> = listOf(),
 					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
-					  reservations : List<Reservation<*>> = listOf()
+					  reservations: List<Reservation<*>> = listOf()
 		) =
 				OperationalState(
 						hosts = mapById(hosts),
@@ -115,10 +115,10 @@ data class OperationalState(
 		vStorage.values.forEach {
 			vdisk ->
 			unsatisfied +=
-				vdisk.expectations.filterNot {
-					expectation ->
-					isExpectationSatisfied(expectation, vdisk)
-				}
+					vdisk.expectations.filterNot {
+						expectation ->
+						isExpectationSatisfied(expectation, vdisk)
+					}
 		}
 		return unsatisfied
 	}
@@ -150,7 +150,7 @@ data class OperationalState(
 
 	private fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
-			is ClockFrequencyExpectation             -> {
+			is ClockFrequencyExpectation -> {
 				val host = vmHost(vm)
 				return if (host == null) {
 					true
@@ -158,7 +158,7 @@ data class OperationalState(
 					host.capabilities?.cpus?.firstOrNull()?.maxSpeedMhz ?: 0 >= expectation.minimalClockFrequency
 				}
 			}
-			is NotSameHostExpectation                -> {
+			is NotSameHostExpectation -> {
 				val host = vmHost(vm)
 				return if (host == null) {
 					true
@@ -167,7 +167,7 @@ data class OperationalState(
 					!otherVmHosts.contains(host.id)
 				}
 			}
-			is ChassisManufacturerExpectation        -> {
+			is ChassisManufacturerExpectation -> {
 				val host = vmHost(vm)
 				return if (host == null) {
 					true
@@ -175,7 +175,7 @@ data class OperationalState(
 					host.capabilities?.chassis?.manufacturer == expectation.manufacturer
 				}
 			}
-			is CacheSizeExpectation                  -> {
+			is CacheSizeExpectation -> {
 				val host = vmHost(vm)
 				return if (host == null) {
 					true
@@ -185,7 +185,7 @@ data class OperationalState(
 			}
 			is VirtualMachineAvailabilityExpectation ->
 				return isVmRunning(vm) == expectation.up
-			is CpuArchitectureExpectation            -> {
+			is CpuArchitectureExpectation -> {
 				val host = vmHost(vm)
 				return if (host == null) {
 					true
@@ -200,7 +200,7 @@ data class OperationalState(
 						&& memoryDevices?.all { it.speedMhz ?: 0 >= expectation.min } ?: false
 			}
 			is NoMigrationExpectation -> return true
-			else                                     ->
+			else ->
 				throw IllegalArgumentException("Expectation ${expectation} can not be checked")
 		}
 	}

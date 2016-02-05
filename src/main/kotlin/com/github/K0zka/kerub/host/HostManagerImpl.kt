@@ -23,19 +23,19 @@ import java.util.Timer
 import java.util.TimerTask
 import java.util.UUID
 
-public class HostManagerImpl (
-		private val hostDao : HostDao,
-		private val hostDynamicDao : HostDynamicDao,
+public class HostManagerImpl(
+		private val hostDao: HostDao,
+		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
-		private val sshClientService : SshClientService,
-		private val controllerManager : ControllerManager,
-		private val hostAssignmentDao : AssignmentDao,
+		private val sshClientService: SshClientService,
+		private val controllerManager: ControllerManager,
+		private val hostAssignmentDao: AssignmentDao,
 		private val discoverer: HostCapabilitiesDiscoverer,
 		private val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
 
 	val timer = Timer("host-manager")
 
-	class ReconnectDisconnectedHosts(private val hostManager : HostManagerImpl) : TimerTask() {
+	class ReconnectDisconnectedHosts(private val hostManager: HostManagerImpl) : TimerTask() {
 		override fun run() {
 			hostManager.connectHosts()
 		}
@@ -48,7 +48,7 @@ public class HostManagerImpl (
 
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
-		if(connection != null) {
+		if (connection != null) {
 			return KvmHypervisor(connection.first, host, vmDynamicDao)
 		} else {
 			return null;
@@ -56,14 +56,14 @@ public class HostManagerImpl (
 	}
 
 	override fun getPowerManager(host: Host): PowerManager {
-		require(host.dedicated, {"If host is not dedicated, it can not be power-managed"})
+		require(host.dedicated, { "If host is not dedicated, it can not be power-managed" })
 		//TODO issue #126 - host power management
 		return WakeOnLan(host, this, this)
 	}
 
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
 		val session = connections[host.id]
-		if(session != null) {
+		if (session != null) {
 			closure(session.first)
 		}
 	}
@@ -75,9 +75,9 @@ public class HostManagerImpl (
 	}
 
 	class SessionCloseListener(
-			private val host : Host,
-			private val hostDynamicDao : HostDynamicDao,
-			private val connections : MutableMap<UUID, Pair<ClientSession, Distribution>>
+			private val host: Host,
+			private val hostDynamicDao: HostDynamicDao,
+			private val connections: MutableMap<UUID, Pair<ClientSession, Distribution>>
 	) : DefaultSshEventListener() {
 		override fun sessionClosed(session: Session) {
 			logger.info("Session closed for host:\n addrs: {}\n id: {}", host.address, host.id)
@@ -89,8 +89,8 @@ public class HostManagerImpl (
 		}
 	}
 
-	public var sshServerPort : Int = defaultSshServerPort
-	public var sshUserName : String = defaultSshUserName
+	public var sshServerPort: Int = defaultSshServerPort
+	public var sshUserName: String = defaultSshUserName
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
@@ -100,17 +100,17 @@ public class HostManagerImpl (
 				hostPublicKey = host.publicKey)
 		session.addListener(SessionCloseListener(host, hostDynamicDao, connections))
 		val distro = discoverer.detectDistro(session)
-		if(distro != null) {
+		if (distro != null) {
 			connections.put(host.id, session to distro)
 			logger.debug("starting host monitoring processes on {} {}", host.address, host.id)
-			if(host.dedicated) {
+			if (host.dedicated) {
 				distro.installMonitorPackages(session)
 				hostDao.update(host)
 			}
 			distro.startMonitorProcesses(session, host, hostDynamicDao)
 		}
 		val hypervisor = getHypervisor(host)
-		if(hypervisor != null) {
+		if (hypervisor != null) {
 			logger.debug("starting vm monitoring processes on {} {}", host.address, host.id)
 			hypervisor.startMonitoringProcess()
 		} else {
@@ -134,7 +134,7 @@ public class HostManagerImpl (
 				address = host.address,
 				userName = "root",
 				hostPublicKey = host.publicKey
-		                                                 )
+		)
 		return joinConnectedHost(host, session)
 	}
 
@@ -161,8 +161,8 @@ public class HostManagerImpl (
 				//over a slow, unreliable network
 				try {
 					connectHost(host)
-				} catch (e : Exception) {
-					logger.error("Could not connect host {} at {}",host.id, host.address, e)
+				} catch (e: Exception) {
+					logger.error("Could not connect host {} at {}", host.id, host.address, e)
 				}
 			} else {
 				logger.warn("Host {} assigned to {} but not found in host records, removing assignment", it.entityId, it.controller)
@@ -189,13 +189,14 @@ public class HostManagerImpl (
 			this.serverKey = serverKey
 			return true
 		}
-		var serverKey : PublicKey? = null
+
+		var serverKey: PublicKey? = null
 	}
 
 	override fun getHostPublicKey(address: String): PublicKey {
 		val pubKeySshClient = SshClient.setUpDefaultClient()!!
 		val serverKeyReader = ServerKeyReader()
-		pubKeySshClient.setServerKeyVerifier( serverKeyReader )
+		pubKeySshClient.setServerKeyVerifier(serverKeyReader)
 		pubKeySshClient.start()
 		try {
 			val connect = pubKeySshClient.connect(sshUserName, address, sshServerPort)!!
@@ -210,6 +211,7 @@ public class HostManagerImpl (
 		}
 
 	}
+
 	override fun registerHost() {
 		throw UnsupportedOperationException()
 	}

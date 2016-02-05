@@ -11,8 +11,8 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 interface AssignmentService {
-    @Path("{controller}/assignments")
+	@Path("{controller}/assignments")
 	fun listByController(
-            @PathParam("controller")
-			controller : String) : List<Assignment>
+			@PathParam("controller")
+			controller: String): List<Assignment>
 }

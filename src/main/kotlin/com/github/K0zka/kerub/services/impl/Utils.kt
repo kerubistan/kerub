@@ -9,7 +9,7 @@ import javax.ws.rs.NotFoundException
  * @param value the entity object
  * @param id    the ID of the entity
  */
-fun <T> assertExist(entityType : String, value: T?, id: Any): T {
+fun <T> assertExist(entityType: String, value: T?, id: Any): T {
 	if (value == null) {
 		throw NotFoundException("${entityType} ${id} not found")
 	} else {

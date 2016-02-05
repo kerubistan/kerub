@@ -12,7 +12,7 @@ import com.github.K0zka.kerub.utils.update
 class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
 	override fun reservations(): List<Reservation<*>>
-		= listOf(VmReservation(vm))
+			= listOf(VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState {
 		//TODO: should also transform host CPU load data to show any useful

@@ -24,7 +24,7 @@ public data class StopVirtualMachine(val vm: VirtualMachine, override val host: 
 				ExpectationLevel.Wish to 1,
 				ExpectationLevel.Want to 15,
 				ExpectationLevel.DealBreaker to 100
-		                                         )
+		)
 	}
 
 	override fun take(state: OperationalState): OperationalState {
@@ -34,15 +34,15 @@ public data class StopVirtualMachine(val vm: VirtualMachine, override val host: 
 				hostDyns = state.hostDyns + (host.id to
 						hostDyn.copy(
 								memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max
-						            ))
-		                 )
+						))
+		)
 
 	}
 
 	override fun getCost(): List<Cost> {
 		val availablityExpectation = vm.expectations.firstOrNull { it is VirtualMachineAvailabilityExpectation && it.up }
 				as VirtualMachineAvailabilityExpectation?
-		if(availablityExpectation == null ) {
+		if (availablityExpectation == null ) {
 			return listOf()
 		} else {
 			return listOf(Risk(score = score(availablityExpectation.level), comment = ""))
@@ -50,7 +50,7 @@ public data class StopVirtualMachine(val vm: VirtualMachine, override val host: 
 	}
 
 	private fun score(level: ExpectationLevel): Int =
-		scores[level] ?: 0
+			scores[level] ?: 0
 
 	override fun reservations() = listOf(
 			VmReservation(vm),

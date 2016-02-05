@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType
 
 @Path("/motd/")
 public interface MotdService {
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-	fun get() : String
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	fun get(): String
 }

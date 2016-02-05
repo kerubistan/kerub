@@ -36,7 +36,8 @@ object CreateImageFactory : AbstractOperationalStepFactory<CreateImage>() {
 			host ->
 			host.capabilities?.storageCapabilities?.filter {
 				capability
-					-> capability is FsStorageCapability && capability.mountPoint.startsWith("/var")
+				->
+				capability is FsStorageCapability && capability.mountPoint.startsWith("/var")
 			}?.forEach {
 				mount ->
 				steps += storageNotAllocated.map {

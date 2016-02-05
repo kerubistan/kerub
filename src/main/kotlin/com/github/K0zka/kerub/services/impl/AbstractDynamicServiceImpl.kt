@@ -7,8 +7,8 @@ import java.util.UUID
 
 abstract class AbstractDynamicServiceImpl<T : DynamicEntity>(
 		private val dao: DaoOperations.Read<T, UUID>,
-		private val entyityType : String
+		private val entyityType: String
 ) : DynamicService<T> {
 	override fun getById(id: UUID): T =
-		assertExist(entyityType, dao.get(id), id)
+			assertExist(entyityType, dao.get(id), id)
 }

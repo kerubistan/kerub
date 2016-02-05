@@ -71,9 +71,9 @@ public class ControllerAssignerImpl(private val backtrack: BacktrackService,
 				}
 						.map { ControllerAssignmentStep(host, it) }
 						.sortedBy({
-							        step: ControllerAssignmentStep ->
-							        controllerScore(state.controllerStates.get(step.controller))
-						        })
+							step: ControllerAssignmentStep ->
+							controllerScore(state.controllerStates.get(step.controller))
+						})
 			}
 		}
 	}
@@ -95,24 +95,24 @@ public class ControllerAssignerImpl(private val backtrack: BacktrackService,
 		val controllerList = controllerDynamicDao.listAll()
 		backtrack.backtrack(
 				ControllerAssignmentState(hosts,
-				                          controllerList.map { it.controllerId },
-				                          controllerList.toMapBy { it.controllerId },
-				                          mapOf()),
+						controllerList.map { it.controllerId },
+						controllerList.toMapBy { it.controllerId },
+						mapOf()),
 				ControllerAssignmentStepFactory,
 				//this is not quite
 				strategy,
 				strategy
-		                   )
+		)
 		for (assignment in strategy.getSolution().assignments) {
 			hostAssignmentDao.add(Assignment(
 					entityId = assignment.key.id,
 					controller = assignment.value,
 					type = AssignmentType.host))
 			interController.sendToController(assignment.value,
-			                                 HostAssignedMessage(
-					                                 hostId = assignment.key.id,
-					                                 conrollerId = assignment.value
-			                                                    ))
+					HostAssignedMessage(
+							hostId = assignment.key.id,
+							conrollerId = assignment.value
+					))
 		}
 	}
 }

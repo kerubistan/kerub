@@ -9,8 +9,8 @@ import com.github.K0zka.kerub.model.VirtualMachine
  * should have connection to the host.
  */
 public interface Hypervisor {
-	fun startVm(vm : VirtualMachine)
-	fun stopVm(vm : VirtualMachine)
+	fun startVm(vm: VirtualMachine)
+	fun stopVm(vm: VirtualMachine)
 	fun migrate(vm: VirtualMachine, source: Host, target: Host)
 	fun suspend(vm: VirtualMachine)
 	fun resume(vm: VirtualMachine)

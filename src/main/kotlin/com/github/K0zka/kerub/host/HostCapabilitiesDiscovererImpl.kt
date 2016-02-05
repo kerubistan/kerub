@@ -160,7 +160,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 						)
 					}
 				}
-				else                  -> {
+				else -> {
 					return listOf()
 				}
 			}

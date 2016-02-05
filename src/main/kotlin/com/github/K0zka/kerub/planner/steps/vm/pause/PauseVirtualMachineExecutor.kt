@@ -7,19 +7,19 @@ import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.planner.steps.vm.base.HypervisorStepExcecutor
 
 class PauseVirtualMachineExecutor(
-        hostManager: HostManager,
-        private val vmDynDao: VirtualMachineDynamicDao
+		hostManager: HostManager,
+		private val vmDynDao: VirtualMachineDynamicDao
 ) : HypervisorStepExcecutor<PauseVirtualMachine>(hostManager) {
-    override fun update(step: PauseVirtualMachine) {
-        vmDynDao.update(step.vm.id,  {
-            dyn ->
-            dyn.copy(
-                    status = VirtualMachineStatus.Paused
-            )
-        })
-    }
+	override fun update(step: PauseVirtualMachine) {
+		vmDynDao.update(step.vm.id, {
+			dyn ->
+			dyn.copy(
+					status = VirtualMachineStatus.Paused
+			)
+		})
+	}
 
-    override fun execute(hypervisor: Hypervisor, step: PauseVirtualMachine) {
-        hypervisor.suspend(step.vm)
-    }
+	override fun execute(hypervisor: Hypervisor, step: PauseVirtualMachine) {
+		hypervisor.suspend(step.vm)
+	}
 }

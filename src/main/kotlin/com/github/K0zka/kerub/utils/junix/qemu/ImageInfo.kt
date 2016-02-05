@@ -6,13 +6,13 @@ import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import java.io.Serializable
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class ImageInfo (
+data class ImageInfo(
 		@JsonProperty("filename")
-		val fileName : String,
+		val fileName: String,
 		@JsonProperty("format")
-        val format : VirtualDiskFormat,
+		val format: VirtualDiskFormat,
 		@JsonProperty("virtual-size")
-        val virtualSize : Long,
+		val virtualSize: Long,
 		@JsonProperty("actual-size")
-        val diskSize : Long
-                            ) : Serializable
+		val diskSize: Long
+) : Serializable

@@ -27,23 +27,23 @@ public class DmiDecoder : OsCommand {
 				input.substringBetween("Handle ", ",")
 
 		@JvmStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
-				1 to {input, dependencies ->
+				1 to { input, dependencies ->
 					SystemInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
-					        family = input.substringBetween("Family: ", "\n"),
-					        version = input.substringBetween("Version: ", "\n"),
-					        uuid = UUID.fromString (input.substringBetween("UUID: ", "\n"))
-					                 )
+							family = input.substringBetween("Family: ", "\n"),
+							version = input.substringBetween("Version: ", "\n"),
+							uuid = UUID.fromString (input.substringBetween("UUID: ", "\n"))
+					)
 				},
-				3 to {input, dependencies ->
+				3 to { input, dependencies ->
 					ChassisInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							height = input.optionalIntBetween("Height: ", "\n"),
 							nrOfPowerCords = input.optionalIntBetween("Number Of Power Cords: ", "\n"),
 							type = input.substringBetween("Type: ", "\n")
-					                  )
+					)
 				},
-				4 to {input, dependencies ->
+				4 to { input, dependencies ->
 					ProcessorInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							coreCount = input.optionalIntBetween("Core Count: ", "\n"),
@@ -56,44 +56,44 @@ public class DmiDecoder : OsCommand {
 							l2cache = dependencies[input.substringBetween("L2 Cache Handle: ", "\n")] as CacheInformation?,
 							l3cache = dependencies[input.substringBetween("L3 Cache Handle: ", "\n")] as CacheInformation?,
 							flags = listOf()
-					                    )
+					)
 				},
-				7 to {input, dependencies ->
+				7 to { input, dependencies ->
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
 							size = input.substringBetween("Installed Size: ", "\n")?.trim()?.toSize()?.toInt(),
 							operation = input.substringBetween("Operational Mode: ", "\n"),
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
-					                )
+					)
 				},
-				16 to {input, dependencies ->
+				16 to { input, dependencies ->
 					MemoryArrayInformation(
 							maxCapacity = input.substringBetween("Maximum Capacity:", "\n")?.toSize(),
 							errorCorrection = input.substringBetween("Error Correction Type:", "\n")?.trim(),
 							location = input.substringBetween("Location:", "\n")?.trim()
 					)
 				},
-		        17 to {input, dependencies ->
-			        MemoryInformation(
-					        size = input.substringBetween("Size: ","\n").toSize(),
-			                manufacturer = input.substringBetween("Manufacturer: ", "\n"),
-			                type = input.substringBetween("Type: ", "\n"),
-			                bankLocator = input.substringBetween("Bank Locator: ", "\n"),
-			                configuredSpeedMhz = input.optionalIntBetween("Configured Clock Speed: "," MHz"),
-			                formFactor = input.substringBetween("Form Factor: ","\n"),
-			                locator = input.substringBetween("Locator: ","\n"),
-			                partNumber = input.substringBetween("Part Number: ", "\n"),
-			                serialNumber = input.substringBetween("Serial Number: ","\n"),
-			                speedMhz = input.optionalIntBetween("Speed: ", " MHz")
-			                         )
+				17 to { input, dependencies ->
+					MemoryInformation(
+							size = input.substringBetween("Size: ", "\n").toSize(),
+							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
+							type = input.substringBetween("Type: ", "\n"),
+							bankLocator = input.substringBetween("Bank Locator: ", "\n"),
+							configuredSpeedMhz = input.optionalIntBetween("Configured Clock Speed: ", " MHz"),
+							formFactor = input.substringBetween("Form Factor: ", "\n"),
+							locator = input.substringBetween("Locator: ", "\n"),
+							partNumber = input.substringBetween("Part Number: ", "\n"),
+							serialNumber = input.substringBetween("Serial Number: ", "\n"),
+							speedMhz = input.optionalIntBetween("Speed: ", " MHz")
+					)
 
-		        }
-		                                                                               )
+				}
+		)
 
 		@JvmStatic val resolutionOrder = arrayOf(16, 17, 7, 3, 4, 1)
 
-		@JvmStatic fun parse(input: String) : Map<String, Any>{
+		@JvmStatic fun parse(input: String): Map<String, Any> {
 			val records = split(input)
 			val recordsByType = records.groupBy { type(it) }
 			val recordsByHandle = HashMap<String, Any>()
@@ -102,7 +102,7 @@ public class DmiDecoder : OsCommand {
 				for (record in recordsOfType ?: listOf()) {
 					val resolver = mappers[type]!!
 					try {
-						recordsByHandle.put(handle(record), resolver(record.concat("\n") , recordsByHandle))
+						recordsByHandle.put(handle(record), resolver(record.concat("\n"), recordsByHandle))
 					} catch (iae: IllegalArgumentException) {
 						logger.warn("Structure could not be parsed: {}", record, iae)
 					}

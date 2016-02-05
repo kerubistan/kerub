@@ -8,15 +8,15 @@ import java.io.IOException
 import java.net.InetAddress
 
 public class ControllerManagerImpl(val dao: ControllerDynamicDao,
-                                   val cacheManager: EmbeddedCacheManager)
+								   val cacheManager: EmbeddedCacheManager)
 : ControllerManager {
 
-	var id : String? = null
+	var id: String? = null
 
-	private fun getHostName() : String? {
+	private fun getHostName(): String? {
 		try {
 			return InetAddress.getLocalHost().getHostName()
-		} catch(ioe : IOException) {
+		} catch(ioe: IOException) {
 			return null
 		}
 	}

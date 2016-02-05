@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.getLogger
 
-class WakeHostExecutor(private val hostManager : HostManager, private val hostDynDao : HostDynamicDao) : AbstractStepExecutor<WakeHost>() {
+class WakeHostExecutor(private val hostManager: HostManager, private val hostDynDao: HostDynamicDao) : AbstractStepExecutor<WakeHost>() {
 
 	companion object {
 		val logger = getLogger(WakeHostExecutor::class)
@@ -14,7 +14,7 @@ class WakeHostExecutor(private val hostManager : HostManager, private val hostDy
 	}
 
 	override fun perform(step: WakeHost) {
-		for(nr in 0..maxHowWakeRetries) {
+		for (nr in 0..maxHowWakeRetries) {
 			try {
 				logger.debug("attempt {} - waking host {} {}", nr, step.host.address, step.host.id)
 				hostManager.getPowerManager(step.host).on()
@@ -23,7 +23,7 @@ class WakeHostExecutor(private val hostManager : HostManager, private val hostDy
 				logger.debug("attempt {} - host {} {} connected", nr, step.host.address, step.host.id)
 				Thread.sleep(30000)
 				return
-			} catch (e : Exception) {
+			} catch (e: Exception) {
 				logger.debug("attempt {} - connecting {} {}: failed", nr, step.host.address, step.host.id)
 			}
 		}

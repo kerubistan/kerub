@@ -13,24 +13,24 @@ import javax.ws.rs.core.MediaType
 @Consumes(MediaType.APPLICATION_JSON)
 public interface LoginService {
 	data class UserData(
-			val name : String,
-			val roles : List<Roles>
-	                   )
+			val name: String,
+			val roles: List<Roles>
+	)
 
 	data class UsernamePassword(
 			val username: String,
 			val password: String
-	                           )
+	)
 
-    @Path("login")
-    @POST
+	@Path("login")
+	@POST
 	fun login(authentication: UsernamePassword)
 
-    @GET
-    @Path("user")
-	fun getUser() : UserData
+	@GET
+	@Path("user")
+	fun getUser(): UserData
 
-    @Path("logout")
-    @POST
+	@Path("logout")
+	@POST
 	fun logout()
 }

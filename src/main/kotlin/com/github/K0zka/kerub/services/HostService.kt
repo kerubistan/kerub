@@ -27,47 +27,47 @@ import javax.ws.rs.core.MediaType
 @RequiresAuthentication
 public interface HostService : RestCrud<Host>, RestOperations.List<Host> {
 
-    @RequiresAuthentication
-    @RequiresRoles(admin)
+	@RequiresAuthentication
+	@RequiresRoles(admin)
 	override fun getById(id: UUID): Host;
 
-    @RequiresAuthentication
-    @RequiresRoles(admin)
+	@RequiresAuthentication
+	@RequiresRoles(admin)
 	override fun delete(id: UUID);
 
-    @RequiresAuthentication
-    @RequiresRoles(admin)
+	@RequiresAuthentication
+	@RequiresRoles(admin)
 	override fun update(id: UUID, entity: Host): Host
 
-    @ApiOperation("Add new object")
-    @ApiResponses(
-            ApiResponse(code = 200, message = "OK"),
+	@ApiOperation("Add new object")
+	@ApiResponses(
+			ApiResponse(code = 200, message = "OK"),
 			ApiResponse(code = 403, message = "Security error")
-	            )
+	)
 	@PUT
-    @Path("/join")
-    @RequiresRoles(admin)
-    @RequiresAuthentication
-	fun join(@ApiParam(value = "New host with password", required = true) hostPwd : HostAndPassword): Host
+	@Path("/join")
+	@RequiresRoles(admin)
+	@RequiresAuthentication
+	fun join(@ApiParam(value = "New host with password", required = true) hostPwd: HostAndPassword): Host
 
-    @PUT
-    @Path("/join-pubkey")
-    @RequiresRoles(admin)
-    @RequiresAuthentication
-	fun joinWithoutPassword(@ApiParam(value = "New host", required = true) host : Host): Host
+	@PUT
+	@Path("/join-pubkey")
+	@RequiresRoles(admin)
+	@RequiresAuthentication
+	fun joinWithoutPassword(@ApiParam(value = "New host", required = true) host: Host): Host
 
-    @ApiOperation("Get the public key of the server", httpMethod = "GET")
-    @GET
-    @Path("/helpers/pubkey")
-    @RequiresRoles(admin)
-    @RequiresAuthentication
-	fun getHostPubkey(@QueryParam("address") address : String) : HostPubKey
+	@ApiOperation("Get the public key of the server", httpMethod = "GET")
+	@GET
+	@Path("/helpers/pubkey")
+	@RequiresRoles(admin)
+	@RequiresAuthentication
+	fun getHostPubkey(@QueryParam("address") address: String): HostPubKey
 
-    @ApiOperation("Get the public key of kerub", httpMethod = "GET", produces = MediaType.TEXT_PLAIN)
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/helpers/controller-pubkey")
-    @RequiresRoles(admin)
-    @RequiresAuthentication
-	fun getPubkey() : String
+	@ApiOperation("Get the public key of kerub", httpMethod = "GET", produces = MediaType.TEXT_PLAIN)
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/helpers/controller-pubkey")
+	@RequiresRoles(admin)
+	@RequiresAuthentication
+	fun getPubkey(): String
 }

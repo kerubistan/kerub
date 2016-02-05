@@ -14,7 +14,7 @@ public class StatisticsInfo(
 		val misses: Long,
 		val avgReadTime: Long,
 		val avgWriteTime: Long,
-		val avgRemoveTime : Long) {
+		val avgRemoveTime: Long) {
 }
 
 @Produces("application/json")
@@ -22,7 +22,7 @@ public class StatisticsInfo(
 @Path("/stats/controller/db")
 @RequiresAuthentication
 public interface StatisticsService {
-    @GET
-    @Path("/{name}")
-	fun getStatisticsInfo(@PathParam("name") cacheName : String): StatisticsInfo
+	@GET
+	@Path("/{name}")
+	fun getStatisticsInfo(@PathParam("name") cacheName: String): StatisticsInfo
 }

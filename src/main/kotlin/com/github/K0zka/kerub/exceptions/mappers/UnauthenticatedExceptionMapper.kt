@@ -9,6 +9,7 @@ public class UnauthenticatedExceptionMapper : ExceptionMapper<UnauthenticatedExc
 	companion object {
 		private val logger = getLogger(UnauthenticatedExceptionMapper::class)
 	}
+
 	override fun toResponse(exception: UnauthenticatedException): Response {
 		logger.debug("Not authenticated", exception)
 		return Response.status(Response.Status.UNAUTHORIZED).entity(RestError("AUTH1", "Authentication needed")).build()

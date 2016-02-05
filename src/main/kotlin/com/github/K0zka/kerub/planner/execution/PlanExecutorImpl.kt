@@ -27,8 +27,8 @@ import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.async
 
 class PlanExecutorImpl(
-		private val hostCommandExecutor : HostCommandExecutor,
-		private val hostManager : HostManager,
+		private val hostCommandExecutor: HostCommandExecutor,
+		private val hostManager: HostManager,
 		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
 		private val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
@@ -43,14 +43,14 @@ class PlanExecutorImpl(
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
 			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
-	        DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
-	        CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
+			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao)
-	                         )
+	)
 
-	fun execute(step : AbstractOperationalStep) {
+	fun execute(step: AbstractOperationalStep) {
 		val executor = stepExecutors.get(step.javaClass.kotlin)
-		if(executor == null) {
+		if (executor == null) {
 			throw IllegalArgumentException("No executor for step ${step}")
 		} else {
 			(executor as StepExecutor<AbstractOperationalStep>).execute(step)
@@ -61,7 +61,7 @@ class PlanExecutorImpl(
 			execute(plan: Plan, callback: (Plan) -> Unit) {
 		async() {
 			logger.debug("Executing plan {}", plan)
-			for(step in plan.steps) {
+			for (step in plan.steps) {
 				execute(step)
 			}
 			logger.debug("Plan execution finished: {}", plan)

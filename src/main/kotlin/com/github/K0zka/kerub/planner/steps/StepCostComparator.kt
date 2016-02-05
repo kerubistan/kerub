@@ -22,27 +22,27 @@ public object StepCostComparator : Comparator<AbstractOperationalStep> {
 			IOCost::class to IOCostComparator,
 			NetworkCost::class to NetworkCostComparator,
 			ComputationCost::class to ComputationCostComparator
-	                        )
+	)
 
-	internal fun findCost(step : AbstractOperationalStep, costClass : KClass<out Cost>) : Cost? {
+	internal fun findCost(step: AbstractOperationalStep, costClass: KClass<out Cost>): Cost? {
 		return step.getCost().firstOrNull { it.javaClass.kotlin == costClass }
 	}
 
 	override fun compare(first: AbstractOperationalStep, second: AbstractOperationalStep): Int {
-		for(costClass in comparators.keys) {
+		for (costClass in comparators.keys) {
 			val firstCost = findCost(first, costClass)
 			val secondCost = findCost(second, costClass)
 
-			if(firstCost != null) {
-				if(secondCost != null) {
+			if (firstCost != null) {
+				if (secondCost != null) {
 					val result = compareCosts(firstCost, secondCost)
-					if(result != 0) {
+					if (result != 0) {
 						return result
 					}
 				} else {
 					return 1
 				}
-			} else if(secondCost != null) {
+			} else if (secondCost != null) {
 				return -1
 			}
 		}

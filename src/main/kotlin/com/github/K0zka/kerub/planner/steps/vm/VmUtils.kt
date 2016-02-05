@@ -12,15 +12,15 @@ import java.math.BigInteger
  */
 fun match(host: Host, dyn: HostDynamic?, vm: VirtualMachine): Boolean {
 
-	if(host.capabilities?.cpus?.map { it.coreCount ?: 1 } ?.sum() ?: 1 < vm.nrOfCpus) {
+	if (host.capabilities?.cpus?.map { it.coreCount ?: 1 }?.sum() ?: 1 < vm.nrOfCpus) {
 		return false
 	}
 
-	if((host.capabilities?.totalMemory?: BigInteger.ZERO) < vm.memory.min) {
+	if ((host.capabilities?.totalMemory ?: BigInteger.ZERO) < vm.memory.min) {
 		return false
 	}
 
-	if((dyn?.memFree ?: BigInteger.ZERO) < vm.memory.min) {
+	if ((dyn?.memFree ?: BigInteger.ZERO) < vm.memory.min) {
 		return false
 	}
 

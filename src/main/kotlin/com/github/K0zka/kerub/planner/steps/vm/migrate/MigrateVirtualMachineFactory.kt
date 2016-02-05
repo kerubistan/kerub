@@ -25,10 +25,10 @@ public object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<Migr
 			host ->
 			runningVms.forEach {
 				vm ->
-				if(match(host, state.hostDyns[host.id], vm)) {
+				if (match(host, state.hostDyns[host.id], vm)) {
 					val sourceId = state.vmDyns[vm.id]?.hostId
 					val sourceHost = state.hosts.getRaw(sourceId)!!
-					if(sourceId != host.id) {
+					if (sourceId != host.id) {
 						steps += MigrateVirtualMachine(vm = vm, source = sourceHost, target = host)
 					}
 				}

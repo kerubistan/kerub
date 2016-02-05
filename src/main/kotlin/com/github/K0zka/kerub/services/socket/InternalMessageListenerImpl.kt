@@ -8,41 +8,41 @@ import javax.jms.MessageListener
 import javax.jms.ObjectMessage
 import com.github.K0zka.kerub.model.messages.Message as KerubMessage
 
-open public class InternalMessageListenerImpl(private val planner : Planner) : MessageListener, InternalMessageListener {
+open public class InternalMessageListenerImpl(private val planner: Planner) : MessageListener, InternalMessageListener {
 
 	companion object {
 		val logger = getLogger(InternalMessageListenerImpl::class)
 	}
 
-	val channels : MutableMap<String, ClientConnection> = hashMapOf()
+	val channels: MutableMap<String, ClientConnection> = hashMapOf()
 
-	override fun addSocketListener(id: String, conn : ClientConnection) {
+	override fun addSocketListener(id: String, conn: ClientConnection) {
 		channels.put(id, conn)
 	}
 
-	override fun subscribe(sessionId : String, channel : String) {
+	override fun subscribe(sessionId: String, channel: String) {
 		channels[sessionId]?.addSubscription(channel)
 	}
 
-	override fun unsubscribe(sessionId : String, channel : String) {
+	override fun unsubscribe(sessionId: String, channel: String) {
 		channels[sessionId]?.removeSubscription(channel)
 	}
 
-	override fun removeSocketListener(id : String) {
+	override fun removeSocketListener(id: String) {
 		channels.remove(id)
 	}
 
 	override fun onMessage(message: Message?) {
 		val obj = (message as ObjectMessage).getObject()!!
 
-		if(obj is EntityMessage) {
+		if (obj is EntityMessage) {
 			planner.onEvent(obj)
 		}
 
-		for(connection in channels) {
+		for (connection in channels) {
 			try {
 				connection.value.filterAndSend(obj as KerubMessage)
-			} catch (e : IllegalStateException) {
+			} catch (e: IllegalStateException) {
 				logger.info("Could not deliver msg", e)
 			}
 		}

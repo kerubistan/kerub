@@ -9,17 +9,17 @@ public interface SshClientService {
 	/**
 	 * Create an unauthenticated session
 	 */
-	fun createSession(address: String, userName : String) : ClientSession
+	fun createSession(address: String, userName: String): ClientSession
 
 	/**
 	 * Create an authenticated session with public key authentication
 	 */
-	fun loginWithPublicKey(address: String, userName : String = "root", hostPublicKey: String) : ClientSession
+	fun loginWithPublicKey(address: String, userName: String = "root", hostPublicKey: String): ClientSession
 
 	/**
 	 * Create an authenticated session with
 	 */
-	fun loginWithPassword(address: String, userName : String, password : String, hostPublicKey: String) : ClientSession
+	fun loginWithPassword(address: String, userName: String, password: String, hostPublicKey: String): ClientSession
 
 	/**
 	 * Install public key on a host.
@@ -29,5 +29,5 @@ public interface SshClientService {
 	/**
 	 * Get the OpenSSH format of public key.
 	 */
-	fun getPublicKey() : String
+	fun getPublicKey(): String
 }

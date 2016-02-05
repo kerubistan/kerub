@@ -9,8 +9,8 @@ data class Risk(
 		/**
 		 * The score of the risk. The bigger the score, the bigger the issue and should make more effort to avoid
 		 */
-		val score : Int,
+		val score: Int,
 		/**
 		 * A comment about the nature of the risk
 		 */
-		val comment : String) : Cost
+		val comment: String) : Cost

@@ -4,5 +4,5 @@ import java.math.BigInteger
 
 data class FsStorageCapability(
 		override val size: BigInteger,
-		val mountPoint : String
+		val mountPoint: String
 ) : StorageCapability

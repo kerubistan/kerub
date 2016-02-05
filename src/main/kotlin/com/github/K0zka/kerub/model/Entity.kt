@@ -21,7 +21,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(Event::class)
 )
 interface Entity<T> : Serializable {
-//	@DocumentId
-//	@JsonProperty("id")
+	//	@DocumentId
+	//	@JsonProperty("id")
 	val id: T
 }

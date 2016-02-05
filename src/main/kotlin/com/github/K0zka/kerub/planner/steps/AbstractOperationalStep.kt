@@ -22,7 +22,7 @@ interface AbstractOperationalStep : Step<Plan> {
 			Plan(
 					state = take(state.state),
 					steps = state.steps + this
-			                              )
+			)
 
 	/**
 	 * Get the list of costs expected at executing this step.

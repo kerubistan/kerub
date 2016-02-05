@@ -18,8 +18,8 @@ class VersionServiceImpl : VersionService {
 		fun buildVersionInfo(): VersionInfo {
 			val pack = VersionServiceImpl::class.java.getPackage()
 			return VersionInfo(pack?.getImplementationVersion() ?: "dev",
-			                   pack?.getImplementationVendor() ?: "",
-			                   pack?.getImplementationTitle() ?: "kerub")
+					pack?.getImplementationVendor() ?: "",
+					pack?.getImplementationTitle() ?: "kerub")
 		}
 	}
 

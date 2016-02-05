@@ -16,18 +16,18 @@ public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> 
 
 	val defaultFactories
 			= setOf(MigrateVirtualMachineFactory, MigrateVirtualStorageDeviceFactory, PowerDownHostFactory,
-			         StartVirtualMachineFactory, StopVirtualMachineFactory)
+			StartVirtualMachineFactory, StopVirtualMachineFactory)
 
 	val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf<AbstractOperationalStepFactory<*>>(
-						StartVirtualMachineFactory,
-						CreateImageFactory,
-						StopVirtualMachineFactory,
-					    MigrateVirtualMachineFactory,
-					    WakeHostFactory
-					         )
-	                                                                                   )
+					StartVirtualMachineFactory,
+					CreateImageFactory,
+					StopVirtualMachineFactory,
+					MigrateVirtualMachineFactory,
+					WakeHostFactory
+			)
+	)
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 
@@ -40,7 +40,7 @@ public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> 
 		}
 
 		var list = listOf<AbstractOperationalStep>()
-		allStepFactories.forEach { list += (it.produce(state.state) )}
+		allStepFactories.forEach { list += (it.produce(state.state) ) }
 		return sort(list, state)
 	}
 

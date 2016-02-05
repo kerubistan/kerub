@@ -3,9 +3,9 @@ package com.github.K0zka.kerub.hypervisor.kvm
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageLink
 
-fun storageToXml(disks : List<VirtualStorageLink>) : String {
+fun storageToXml(disks: List<VirtualStorageLink>): String {
 	val ret = StringBuilder()
-	for(disk in disks) {
+	for (disk in disks) {
 		ret.append("""
 		<disk type='file' device='disk'>
             <driver />
@@ -16,12 +16,12 @@ fun storageToXml(disks : List<VirtualStorageLink>) : String {
 	return ret.toString()
 }
 
-fun escapeXmlText(str : String) : String {
+fun escapeXmlText(str: String): String {
 	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
 }
 
-fun vmDefinitiontoXml(vm : VirtualMachine) : String {
-return """
+fun vmDefinitiontoXml(vm: VirtualMachine): String {
+	return """
 <domain type='kvm'>
     <name>${vm.id}</name>
     <uuid>${vm.id}</uuid>

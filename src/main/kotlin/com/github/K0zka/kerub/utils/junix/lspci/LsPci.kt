@@ -25,12 +25,12 @@ public object LsPci {
 						.substringBefore(doublequote),
 				devClass = line.substringAfter(doublequote)
 						.substringBefore(doublequote),
-		        device = line.substringAfter(doublequote)
-				        .substringAfter(doublequote)
-				        .substringAfter(doublequote)
-				        .substringAfter(doublequote)
-				        .substringAfter(doublequote)
-				        .substringBefore(doublequote)
-		                )
+				device = line.substringAfter(doublequote)
+						.substringAfter(doublequote)
+						.substringAfter(doublequote)
+						.substringAfter(doublequote)
+						.substringAfter(doublequote)
+						.substringBefore(doublequote)
+		)
 	}
 }

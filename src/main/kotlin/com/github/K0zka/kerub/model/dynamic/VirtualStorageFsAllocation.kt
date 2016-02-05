@@ -5,6 +5,6 @@ import java.util.UUID
 
 data class VirtualStorageFsAllocation(
 		override val hostId: UUID,
-		val mountPoint : String,
-		val type : VirtualDiskFormat
+		val mountPoint: String,
+		val type: VirtualDiskFormat
 ) : VirtualStorageAllocation

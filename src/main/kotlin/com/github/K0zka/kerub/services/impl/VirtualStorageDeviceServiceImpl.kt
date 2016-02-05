@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 
 public class VirtualStorageDeviceServiceImpl(dao: VirtualStorageDeviceDao)
 : VirtualStorageDeviceService,
-  ListableBaseService<VirtualStorageDevice>(dao, "virtual disk") {
+		ListableBaseService<VirtualStorageDevice>(dao, "virtual disk") {
 	override fun search(field: String, value: String, start: Long, limit: Long): SearchResultPage<VirtualStorageDevice> {
 		val list = (dao as VirtualStorageDeviceDao).fieldSearch(
 				field = field,

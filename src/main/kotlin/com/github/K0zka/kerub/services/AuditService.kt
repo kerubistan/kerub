@@ -14,7 +14,7 @@ import javax.ws.rs.Produces
 @Consumes("application/json")
 @RequiresAuthentication
 public interface AuditService {
-    @Path("/{id}")
-    @GET
-	fun listById(@PathParam("id") id : UUID) : List<AuditEntry>
+	@Path("/{id}")
+	@GET
+	fun listById(@PathParam("id") id: UUID): List<AuditEntry>
 }

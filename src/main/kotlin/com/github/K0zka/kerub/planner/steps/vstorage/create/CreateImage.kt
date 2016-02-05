@@ -14,8 +14,8 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 data class CreateImage(
 		val device: VirtualStorageDevice,
 		val host: Host,
-		val path : String,
-		val format : VirtualDiskFormat) : AbstractOperationalStep {
+		val path: String,
+		val format: VirtualDiskFormat) : AbstractOperationalStep {
 
 	/*
 	 * TODO: add costs here:

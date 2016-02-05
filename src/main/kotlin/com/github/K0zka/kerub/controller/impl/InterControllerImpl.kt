@@ -8,7 +8,7 @@ import javax.jms.DeliveryMode
 import javax.jms.ObjectMessage
 import javax.jms.Session
 
-public class InterControllerImpl(val jmsTemplate : JmsTemplate) : InterController {
+public class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController {
 	override fun sendToController(controllerId: String, msg: Serializable) {
 		jmsTemplate.send ("jms.queue.kerub-mq-${controllerId}", {
 			createObjectMessage(it, msg)
@@ -24,14 +24,14 @@ public class InterControllerImpl(val jmsTemplate : JmsTemplate) : InterControlle
 	}
 
 	internal fun deliveryModeForMsgType(msg: Serializable): Int {
-		when(msg) {
+		when (msg) {
 			is EntityEventMessage -> return DeliveryMode.NON_PERSISTENT
 			else -> return DeliveryMode.PERSISTENT
 		}
 	}
 
-	internal fun priorityForMsgType(msg : Serializable): Int {
-		when(msg) {
+	internal fun priorityForMsgType(msg: Serializable): Int {
+		when (msg) {
 			is EntityEventMessage -> return 6
 			else -> return 5
 		}

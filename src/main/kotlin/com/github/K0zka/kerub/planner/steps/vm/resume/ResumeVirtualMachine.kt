@@ -19,7 +19,7 @@ class ResumeVirtualMachine(val vm: VirtualMachine, override val host: Host) : Ho
 				vmDyns = state.vmDyns.update(vm.id, {
 					it.copy(
 							status = VirtualMachineStatus.Up
-							)
+					)
 				})
 		)
 	}

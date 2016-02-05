@@ -50,10 +50,10 @@ public class WebSocketNotifier(val internalListener: InternalMessageListener) : 
 		val msg = objectMapper.readValue<Message>(message?.getPayload(), Message::class.java)
 
 		when (msg) {
-			is PingMessage        -> {
+			is PingMessage -> {
 				send(session!!, PongMessage())
 			}
-			is SubscribeMessage   -> {
+			is SubscribeMessage -> {
 				logger.info("subscribe to {}", msg.channel)
 				internalListener.subscribe(session.id, msg.channel)
 			}

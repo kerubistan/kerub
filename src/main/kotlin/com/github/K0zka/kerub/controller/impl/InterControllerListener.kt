@@ -20,7 +20,7 @@ public class InterControllerListener(
 	override fun onMessage(message: Message?) {
 		val msg = (message as ObjectMessage).getObject()!!
 		when (msg) {
-			is EntityEventMessage  -> {
+			is EntityEventMessage -> {
 
 			}
 			is HostAssignedMessage -> {

@@ -6,5 +6,5 @@ import java.util.UUID
 
 public interface AssignmentDao : ListableCrudDao<Assignment, UUID> {
 	fun listByController(controller: String): List<Assignment>
-	fun listByControllerAndType(controller: String, type : AssignmentType): List<Assignment>
+	fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment>
 }

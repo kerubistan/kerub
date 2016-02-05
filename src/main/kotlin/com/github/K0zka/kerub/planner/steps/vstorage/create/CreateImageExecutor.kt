@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger
 
-class CreateImageExecutor(private val exec : HostCommandExecutor, private val dynDao : VirtualStorageDeviceDynamicDao) : AbstractStepExecutor<CreateImage>(){
+class CreateImageExecutor(private val exec: HostCommandExecutor, private val dynDao: VirtualStorageDeviceDynamicDao) : AbstractStepExecutor<CreateImage>() {
 	override fun perform(step: CreateImage) {
 		exec.execute(step.host, {
 			QemuImg.create(
@@ -25,7 +25,7 @@ class CreateImageExecutor(private val exec : HostCommandExecutor, private val dy
 		dynDao.add(VirtualStorageDeviceDynamic(
 				id = step.device.id,
 				allocation = VirtualStorageFsAllocation(
-					hostId = step.host.id,
+						hostId = step.host.id,
 						mountPoint = step.path,
 						type = step.format
 				),

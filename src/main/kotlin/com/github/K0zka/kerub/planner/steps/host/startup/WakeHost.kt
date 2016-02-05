@@ -26,11 +26,11 @@ public class WakeHost(val host: Host) : AbstractOperationalStep {
 				memUsed = BigInteger.ZERO,
 				userCpu = 0,
 				systemCpu = 0
-				              )
+		)
 
 		return state.copy(
 				hostDyns = otherHosts + (host.id to dyn)
-		                 )
+		)
 	}
 
 	/*
@@ -46,7 +46,7 @@ public class WakeHost(val host: Host) : AbstractOperationalStep {
 				TimeCost(
 						minMs = 10000,
 						maxMs = 1000000
-				        )
-		             )
+				)
+		)
 	}
 }

@@ -17,7 +17,7 @@ public object QemuImg {
 			format: VirtualDiskFormat = VirtualDiskFormat.raw,
 			size: BigInteger,
 			path: String
-	          ) {
+	) {
 		session.executeOrDie("qemu-img create -f ${format} ${path} ${size}")
 	}
 
@@ -30,7 +30,7 @@ public object QemuImg {
 		session.executeOrDie("qemu-img resize ${path} ${size}")
 	}
 
-	fun convert(session: ClientSession, path: String, targetPath : String, targetFormat: VirtualDiskFormat) {
+	fun convert(session: ClientSession, path: String, targetPath: String, targetFormat: VirtualDiskFormat) {
 		session.executeOrDie("qemu-img convert -O ${targetFormat} ${path} ${targetPath}")
 	}
 }

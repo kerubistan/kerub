@@ -10,7 +10,7 @@ object DF : OsCommand {
 	private val regex = "\\s+".toRegex()
 
 	val multiplier = BigInteger("1024")
-	fun df(session : ClientSession) : List<FilesystemInfo> {
+	fun df(session: ClientSession): List<FilesystemInfo> {
 		val output = session.executeOrDie("df -l -P").split("\n").filterNot { it == "" }
 		return (output - output.first()).map {
 			row ->

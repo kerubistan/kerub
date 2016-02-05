@@ -26,14 +26,14 @@ interface RestOperations {
 	 */
 	interface Read<T> {
 		@ApiOperation("Get the object by it's ID.")
-        @ApiResponses(
+		@ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
 				ApiResponse(code = 403, message = "Security error"),
 				ApiResponse(code = 404, message = "Not found")
-		            )
-        @GET
-        @Path("/{id}")
-        @RequiresAuthentication
+		)
+		@GET
+		@Path("/{id}")
+		@RequiresAuthentication
 		fun getById(@ApiParam(value = "ID of the object", name = "id", required = true) @PathParam("id") id: UUID): T
 	}
 
@@ -41,14 +41,14 @@ interface RestOperations {
 	 * Interface for rest services that allow clients to add an entity.
 	 */
 	interface Add<T> {
-        @ApiOperation("Add new object")
-        @ApiResponses(
-                ApiResponse(code = 200, message = "OK"),
-                ApiResponse(code = 403, message = "Security error")
-        )
-        @PUT
-        @Path("/")
-        @RequiresAuthentication
+		@ApiOperation("Add new object")
+		@ApiResponses(
+				ApiResponse(code = 200, message = "OK"),
+				ApiResponse(code = 403, message = "Security error")
+		)
+		@PUT
+		@Path("/")
+		@RequiresAuthentication
 		fun add(@ApiParam(value = "New object", required = true) entity: T): T
 
 	}
@@ -57,15 +57,15 @@ interface RestOperations {
 	 * Interface for rest services that allow clients to delete an entity.
 	 */
 	interface Delete {
-        @ApiOperation("Delete the object")
-        @ApiResponses(
-                ApiResponse(code = 200, message = "OK"),
-                ApiResponse(code = 403, message = "Security error"),
-                ApiResponse(code = 404, message = "Not found")
-		            )
+		@ApiOperation("Delete the object")
+		@ApiResponses(
+				ApiResponse(code = 200, message = "OK"),
+				ApiResponse(code = 403, message = "Security error"),
+				ApiResponse(code = 404, message = "Not found")
+		)
 		@DELETE
 		@Path("/{id}")
-        @RequiresAuthentication
+		@RequiresAuthentication
 		fun delete(@ApiParam(value = "Object ID", name = "id", required = true) @PathParam("id") id: UUID)
 
 	}
@@ -75,14 +75,14 @@ interface RestOperations {
 	 */
 	interface Update<T> {
 		@ApiOperation("Update the object")
-        @ApiResponses(
+		@ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
 				ApiResponse(code = 403, message = "Security error"),
 				ApiResponse(code = 404, message = "Not found")
-		            )
-        @POST
-        @Path("/{id}")
-        @RequiresAuthentication
+		)
+		@POST
+		@Path("/{id}")
+		@RequiresAuthentication
 		fun update(@ApiParam(value = "ID of the object", name = "id", required = true) @PathParam("id") id: UUID, entity: T): T
 	}
 
@@ -90,20 +90,20 @@ interface RestOperations {
 	 * Interface for rest services that allow clients to list entities broken down to pages.
 	 */
 	interface List<T> {
-        @ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
-        @GET
-        @Path("/")
-        @RequiresAuthentication
+		@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
+		@GET
+		@Path("/")
+		@RequiresAuthentication
 		fun listAll(@ApiParam("First returned entity", defaultValue = "0", required = false)
-                    @QueryParam("start")
-                    @DefaultValue("0") start : Long,
-                    @ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
-                    @QueryParam("limit")
-                    @DefaultValue("20") limit : Long,
-                    @ApiParam("Property name to sort by", defaultValue = "id", required = false)
-                    @QueryParam("sort")
-                    @DefaultValue("id") sort : String
-		           ) : SortResultPage<T>
+					@QueryParam("start")
+					@DefaultValue("0") start: Long,
+					@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
+					@QueryParam("limit")
+					@DefaultValue("20") limit: Long,
+					@ApiParam("Property name to sort by", defaultValue = "id", required = false)
+					@QueryParam("sort")
+					@DefaultValue("id") sort: String
+		): SortResultPage<T>
 	}
 
 	interface SimpleSearch<T> {
@@ -123,11 +123,11 @@ interface RestOperations {
 
 				@ApiParam("First returned entity", defaultValue = "0", required = false)
 				@QueryParam("start")
-				@DefaultValue("0") start : Long = 0,
+				@DefaultValue("0") start: Long = 0,
 
 				@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
 				@QueryParam("limit")
-				@DefaultValue("20") limit : Long = 20
-		) : SearchResultPage<T>
+				@DefaultValue("20") limit: Long = 20
+		): SearchResultPage<T>
 	}
 }

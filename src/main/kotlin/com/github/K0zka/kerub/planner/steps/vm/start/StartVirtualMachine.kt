@@ -22,14 +22,14 @@ public data class StartVirtualMachine(val vm: VirtualMachine, override val host:
 						hostId = host.id,
 						memoryUsed = vm.memory.min,
 						cpuUsage = listOf()
-				                                                       )),
+				)),
 				hostDyns = (state.hostDyns - host.id) + (host.id to
 						hostDyn.copy(
 								idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage
 								memFree = hostDyn.memFree, //TODO - estimate on memory usage of the VM
 								memUsed = hostDyn.memUsed // TODO + estimate on memory usage of the VM
-						            ))
-		                 )
+						))
+		)
 	}
 
 	override fun reservations() = listOf<Reservation<*>>(

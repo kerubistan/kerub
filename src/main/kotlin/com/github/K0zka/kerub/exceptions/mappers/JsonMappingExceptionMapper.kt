@@ -7,5 +7,6 @@ public class JsonMappingExceptionMapper(mapper: ObjectMapper) : AbstractExceptio
 	companion object {
 		val error = RestError("MAP1", "Mapping error.")
 	}
+
 	override fun getRestError(exception: JsonMappingException) = error
 }

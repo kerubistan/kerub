@@ -13,12 +13,12 @@ import org.apache.sshd.ClientSession
  */
 public interface Distribution {
 
-	val operatingSystem : OperatingSystem
+	val operatingSystem: OperatingSystem
 
 	/**
 	 * Get the version of the host OS distribution.
 	 */
-	fun getVersion(session: ClientSession) : Version
+	fun getVersion(session: ClientSession): Version
 
 	/**
 	 * Get the name of the dstribution handler
@@ -29,6 +29,7 @@ public interface Distribution {
 	 * Check if the distribution handler supports a given release of the OS.
 	 */
 	fun handlesVersion(version: Version): Boolean
+
 	/**
 	 * Try to detect if the implementation handles the connected host OS' distribution.
 	 *
@@ -37,18 +38,18 @@ public interface Distribution {
 	 */
 	fun detect(session: ClientSession): Boolean
 
-	fun getPackageManager(session: ClientSession) : PackageManager
+	fun getPackageManager(session: ClientSession): PackageManager
 
 	fun installMonitorPackages(session: ClientSession)
 
 	/**
 	 * Start monitoring processes
 	 */
-	fun startMonitorProcesses(session: ClientSession, host : Host, hostDynDao : HostDynamicDao)
+	fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao)
 
 	/**
 	 * Get the list of packages to be installed for a given utility to work.
 	 */
-	fun getRequiredPackages(osCommand : OsCommand) : List<String>
+	fun getRequiredPackages(osCommand: OsCommand): List<String>
 
 }

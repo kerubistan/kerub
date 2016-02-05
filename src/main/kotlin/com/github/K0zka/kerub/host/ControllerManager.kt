@@ -10,5 +10,5 @@ public interface ControllerManager {
 	/**
 	 * Returns the ID of the controller.
 	 */
-	fun getControllerId() : String
+	fun getControllerId(): String
 }

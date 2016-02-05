@@ -11,16 +11,16 @@ object BridgeCtl : OsCommand {
 
 	val fieldSeparator = "\\s+".toRegex()
 
-	fun list(session : ClientSession) : List<Bridge> {
+	fun list(session: ClientSession): List<Bridge> {
 		var bridges = listOf<Bridge>()
 		session.executeOrDie("brctl show").rows().skip().forEach {
 			val fields = it.trim().split(fieldSeparator)
-			when(fields.size) {
+			when (fields.size) {
 				1 -> {
 					val last = bridges.last()
 					val ifname = fields[0]
-					if(ifname.isNotBlank()) {
-						bridges = bridges.replace( {it.id == last.id} , {
+					if (ifname.isNotBlank()) {
+						bridges = bridges.replace({ it.id == last.id }, {
 							it.copy(
 									ifaces = it.ifaces + fields[0]
 							)
@@ -40,7 +40,7 @@ object BridgeCtl : OsCommand {
 							name = fields[0],
 							id = fields[1],
 							stpEnabled = "yes" == fields[2],
-							ifaces = if(fields[3].isBlank()) listOf() else listOf(fields[3])
+							ifaces = if (fields[3].isBlank()) listOf() else listOf(fields[3])
 					)
 				}
 			}

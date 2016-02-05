@@ -23,13 +23,14 @@ public class OperationalStateBuilderImpl(
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
 		private val vmDao: VirtualMachineDao,
 		private val vmDynDao: VirtualMachineDynamicDao
-                                        ) : OperationalStateBuilder {
+) : OperationalStateBuilder {
 
 	companion object {
-		fun assignmentsOfType(assignments : List<Assignment>, type : AssignmentType) : List<UUID>
+		fun assignmentsOfType(assignments: List<Assignment>, type: AssignmentType): List<UUID>
 				= assignments.filter { it.type == type }.map { it.entityId }
+
 		//some parallelism would be definietly welcome here
-		fun <T : Entity<UUID>> retrieveAll(assignments : List<UUID>, dao : DaoOperations.Read<T, UUID>) : List<T>
+		fun <T : Entity<UUID>> retrieveAll(assignments: List<UUID>, dao: DaoOperations.Read<T, UUID>): List<T>
 				= assignments.map { dao.get(it) }.filterNot { it == null } as List<T>
 	}
 
@@ -45,6 +46,6 @@ public class OperationalStateBuilderImpl(
 				vmDyns = retrieveAll(vmAssignments, vmDynDao),
 				vStorage = retrieveAll(vstorageAssignments, virtualStorageDao),
 				vStorageDyns = retrieveAll(vstorageAssignments, virtualStorageDynDao)
-		                       )
+		)
 	}
 }
