@@ -2,6 +2,10 @@
     cursor: pointer;
 }
 
+ul.dropdown-menu li {
+    cursor: pointer;
+}
+
 .clickable {
     cursor: pointer;
     -moz-user-select: none;
