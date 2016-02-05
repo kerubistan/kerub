@@ -3,16 +3,16 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 		"cache-size" : {
 			"icon" : "fa fa-expand",
 			"displayName" : "Cache size",
-			"tooltip" : $sce.trustAsHtml("Expects that the VM will run on a host with at least the given amount of cache in the CPU"),
+			"tooltip" : $sce.trustAsHtml("Run on a host with at least the given amount of cache in the CPU"),
 			"shortDescr": function(expectation) {
-				return size.humanFriendlySize(expectation.minKbytes * 1024) + '+';
+				return size.humanFriendlySize(expectation.minl1 * 1024) + '+';
 			},
 			"virtTypes" : ["vm"]
 		},
 		"ecc-memory" : {
 			"icon" : "fa fa-certificate",
 			"displayName" : "ECC memory",
-			"tooltip": $sce.trustAsHtml("Expect this VM run on a host that have ECC memory"),
+			"tooltip": $sce.trustAsHtml("Run on a host that have ECC memory"),
 			"shortDescr": function(expectation) {
 				return "ECC";
 			},
@@ -21,7 +21,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 		"no-migration": {
 			"icon" : "glyphicon glyphicon-pushpin",
 			"displayName" : "No Migration",
-			"tooltip" : $sce.trustAsHtml("Expects that this VM/disk will not be migrated."),
+			"tooltip" : $sce.trustAsHtml("The virtual resource should not be migrated."),
 			"shortDescr": function(expectation) {
 				return "";
 			},
@@ -30,7 +30,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 		},
 		"availability": {
 			"icon": 'fa fa-power-off',
-			"displayName" : "availability",
+			"displayName" : "Availability",
 			"tooltip" : $sce.trustAsHtml("Expects that this VM will be running/stopped"),
 			"shortDescr": function(expectation) {
 				return expectation.up ? 'on' : 'off';
@@ -79,6 +79,42 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"tooltip" : $sce.trustAsHtml("Expect the VM to run on a host that has at least the given <strong>memory clock frequency</strong>"),
 			"shortDescr": function(expectation) {
 				return expectation.min + ' Mhz +';
+			},
+			"virtTypes" : ["vm"]
+		},
+		"not-same-host" : {
+			"icon": 'fa fa-ban',
+			"displayName" : "Not same host",
+			"tooltip" : $sce.trustAsHtml("Run on a <strong>different host</strong> than a set of given VM's"),
+			"shortDescr": function(expectation) {
+				return ' TODO ';
+			},
+			"virtTypes" : ["vm"]
+		},
+		"host-system-manufacturer": {
+			"icon": 'fa fa-industry',
+			"displayName" : "Manufacturer expectation",
+			"tooltip" : $sce.trustAsHtml("Run on a host built by <strong>a given manufacturer</strong>"),
+			"shortDescr": function(expectation) {
+				return expectation.manufacturer;
+			},
+			"virtTypes" : ["vm"]
+		},
+		"power-redundancy": {
+			"icon": 'fa fa-plug',
+			"displayName" : "Power redundancy",
+			"tooltip" : $sce.trustAsHtml("Run on a host that has <strong>N times redundant power supply</strong>"),
+			"shortDescr": function(expectation) {
+				return expectation.minPowerCords;
+			},
+			"virtTypes" : ["vm"]
+		},
+		"site-features" : {
+			"icon": 'fa fa-map',
+			"displayName" : "Site features",
+			"tooltip" : $sce.trustAsHtml("Operate on resources only at <strong>sites with the given features</strong>"),
+			"shortDescr": function(expectation) {
+				return expectation.minPowerCords;
 			},
 			"virtTypes" : ["vm"]
 		}

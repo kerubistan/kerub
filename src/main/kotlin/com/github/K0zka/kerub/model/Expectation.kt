@@ -14,6 +14,7 @@ import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
 import com.github.K0zka.kerub.model.expectations.PowerRedundancyExpectation
+import com.github.K0zka.kerub.model.expectations.SiteFeaturesExpectation
 import com.github.K0zka.kerub.model.expectations.StoragePerformanceExpectation
 import com.github.K0zka.kerub.model.expectations.StorageReadPerformanceExpectation
 import com.github.K0zka.kerub.model.expectations.StorageReadWritePerformance
@@ -47,7 +48,8 @@ import java.io.Serializable
 		JsonSubTypes.Type(ClockFrequencyExpectation::class),
 		JsonSubTypes.Type(MemoryClockFrequencyExpectation::class),
 		JsonSubTypes.Type(CacheSizeExpectation::class),
-		JsonSubTypes.Type(SystemManufacturerExpectation::class)
+		JsonSubTypes.Type(SystemManufacturerExpectation::class),
+		JsonSubTypes.Type(SiteFeaturesExpectation::class)
 )
 interface Expectation : Serializable {
 	val level: ExpectationLevel

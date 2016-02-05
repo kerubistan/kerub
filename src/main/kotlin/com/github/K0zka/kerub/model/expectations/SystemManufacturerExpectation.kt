@@ -6,5 +6,6 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 
 @JsonTypeName("host-system-manufacturer")
 data class SystemManufacturerExpectation @JsonCreator constructor(
-		override val level: ExpectationLevel = ExpectationLevel.Want
+		override val level: ExpectationLevel = ExpectationLevel.Want,
+		val manufacturer: String
 ) : VirtualMachineExpectation
