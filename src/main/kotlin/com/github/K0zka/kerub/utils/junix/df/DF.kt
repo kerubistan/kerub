@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
-import kotlin.math.times
 
 object DF : OsCommand {
 
