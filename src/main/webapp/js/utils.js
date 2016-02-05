@@ -23,3 +23,13 @@ function pages(resultPage, itemsPerPage) {
 function currentPage(resultPage, itemsPerPage) {
     return (resultPage.start / itemsPerPage) + 1;
 }
+
+function filterValues(obj, valueFilter) {
+	var results = [];
+	for(var prop in obj) {
+		if(obj.hasOwnProperty(prop) && valueFilter(obj[prop])) {
+			results.push(obj[prop]);
+		}
+	}
+	return results;
+}

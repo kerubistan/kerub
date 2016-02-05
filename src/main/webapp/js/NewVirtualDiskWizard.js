@@ -1,4 +1,4 @@
-var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uuid4, size) {
+var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uuid4, size, expectations) {
 	var id = uuid4.generate();
 
 	$scope.disk = {
@@ -35,5 +35,14 @@ var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uu
 	$scope.close = function() {
 		$modalInstance.dismiss();
 	};
+
+	$scope.storageExpectationsOpen = false;
+	$scope.storageExpectationFormOpen = false;
+	$scope.diskExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vstorage") } );
+	$scope.openExpectationForm = function(expType) {
+		$scope.storageExpectationsOpen = false;
+		$scope.storageExpectationFormOpen = true;
+		$scope.newExpectation = expType;
+	}
 
 }

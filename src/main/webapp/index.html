@@ -81,6 +81,10 @@
 
     <span ng-include="'MainTabs.html'"/>
 
+    <script type="text/ng-template" id="ExpectationSelection.html">
+        ...
+    </script>
+
     <script type="text/ng-template" id="NewVirtualDiskWizard.html">
         <div class="modal-header">
             <h3 class="modal-title">New Virtual Disk</h3>
@@ -109,6 +113,30 @@
             </tab>
             <tab>
                 <tab-heading>Expectations</tab-heading>
+
+                <span ng-if="!storageExpectationFormOpen">
+                    <div class="btn-group" ng-class='{open: storageExpectationsOpen}'>
+                        <button type="button"
+                                class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                uib-tooltip="Add an expectation to this virtual disk"
+                                ng-click='storageExpectationsOpen=!storageExpectationsOpen'>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="expType in diskExpectations">
+                                <a ng-click="openExpectationForm(expType)" uib-tooltip-html="expType.tooltip || 'Add this expectation'" tooltip-placement="right"><span ng-class="expType.icon"></span> {{expType.displayName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </span>
+                <span ng-if="storageExpectationFormOpen" ng-bind-template="{{newExpectation.template}}">
+
+                </span>
+
             </tab>
         </tabset>
         <div class="modal-footer">
@@ -119,6 +147,18 @@
                 Cancel
             </button>
         </div>
+    </script>
+
+    <script type="text/ng-template" id="expectation-edit-template-buttons">
+        <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" uib-tooltip="Add this expectation"></button>
+        <button type="button" class="btn btn-default glyphicon glyphicon-remove-sign" uib-tooltip="Scrap this expectation"></button>
+    </script>
+
+    <script type="text/ng-template" id="no-migration-edit-template">
+        No Migration
+        <span ng->
+
+        </span>
     </script>
 
     <script type="text/ng-template" id="DiskSelection.html">
@@ -265,6 +305,31 @@
             </tab>
             <tab>
                 <tab-heading>Expectations</tab-heading>
+
+                <span ng-if="!vmExpectationFormOpen">
+                    <div class="btn-group" ng-class='{open: vmExpectationsOpen}'>
+                        <button type="button"
+                                class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                uib-tooltip="Add an expectation to this virtual machine"
+                                ng-click='vmExpectationsOpen=!vmExpectationsOpen'>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="expType in vmExpectations">
+                                <a ng-click="openExpectationForm(expType)" uib-tooltip-html="expType.tooltip || 'Add this expectation'" tooltip-placement="right"><span ng-class="expType.icon"></span> {{expType.displayName}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </span>
+                <span ng-if="storageExpectationFormOpen" ng-bind-template="{{newExpectation.template}}">
+
+                </span>
+
+
             </tab>
         </tabset>
         <div class="modal-footer">

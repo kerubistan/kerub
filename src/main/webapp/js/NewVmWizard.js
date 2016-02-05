@@ -1,4 +1,4 @@
-var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4, size) {
+var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4, size, expectations) {
 	$scope.vm = {
 		"@type" : 'vm',
 		id : uuid4.generate(),
@@ -41,4 +41,9 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appses
     		}
     	);
     };
+
+	$scope.storageExpectationsOpen = false;
+	$scope.storageExpectationFormOpen = false;
+	$scope.vmExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vm") } );
+
 }
