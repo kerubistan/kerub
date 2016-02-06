@@ -4,7 +4,7 @@
             <tab-heading>
                 <i class="fa fa-cubes"></i> VMs
             </tab-heading>
-            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVmForm()">New VM</button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVmForm()" uib-tooltip="Create new VM" tooltip-placement="right"></button>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -33,17 +33,29 @@
                             </span>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-default" ng-click="startVm()" ng-disabled="workingprg">
-                                <span class="glyphicon glyphicon-play"></span>
+                            <button type="button"
+                                    class="btn btn-default glyphicon glyphicon-play"
+                                    ng-click="startVm()"
+                                    ng-disabled="workingprg"
+                                    uib-tooltip="Start this VM"
+                                    tooltip-placement="bottom">
                             </button>
-                            <button type="button" class="btn btn-default" ng-click="stopVm()" ng-disabled="workingprg">
-                                <span class="glyphicon glyphicon-stop"></span>
+                            <button type="button"
+                                    class="btn btn-default glyphicon glyphicon-stop"
+                                    ng-click="stopVm()"
+                                    ng-disabled="workingprg"
+                                    uib-tooltip="Stop this VM"
+                                    tooltip-placement="bottom">
                             </button>
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-pause"></span>
+                            <button type="button"
+                                    class="btn btn-default glyphicon glyphicon-pause"
+                                    uib-tooltip="Pause this VM"
+                                    tooltip-placement="bottom">
                             </button>
-                            <button type="button" class="btn btn-default">
-                                <span class="glyphicon glyphicon-camera"></span>
+                            <button type="button"
+                                    class="btn btn-default glyphicon glyphicon-camera"
+                                    uib-tooltip="Take snapshot from this VM"
+                                    tooltip-placement="bottom">
                             </button>
                         </td>
                     </tr>
@@ -60,7 +72,7 @@
             <tab-heading>
                 <i class="fa fa-database"></i> Virtual disks
             </tab-heading>
-            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVirtualDisk()">New Disk</button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVirtualDisk()" uib-tooltip="Create new Virtual Disk" tooltip-placement="right"></button>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
@@ -99,7 +111,7 @@
             <tab-heading>
                 <i class="fa fa-server"></i> Hosts
             </tab-heading>
-            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newHostForm()">Join Host</button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newHostForm()" uib-tooltip="Join a new Host" tooltip-placement="right"></button>
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
