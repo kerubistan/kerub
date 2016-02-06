@@ -9,6 +9,5 @@ import org.junit.runner.RunWith
 		plugin = arrayOf("pretty"),
 		features = arrayOf("classpath:stories/rest/authentication.feature"),
 		glue = arrayOf("com.github.K0zka.kerub.stories.rest.auth")
-               )
-public class AuthenticationStoriesIT {
+               ) class AuthenticationStoriesIT {
 }

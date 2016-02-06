@@ -17,7 +17,7 @@ import java.net.URI
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicBoolean
 
-public class WebSocketSecurityIT {
+class WebSocketSecurityIT {
 
 	companion object {
 		val logger = getLogger(WebSocketSecurityIT::class)
@@ -46,7 +46,7 @@ public class WebSocketSecurityIT {
 
 			@OnWebSocketConnect
 			fun connect(session : Session) {
-				logger.info("connected: ${session.isOpen()}")
+				logger.info("connected: ${session.isOpen}")
 			}
 			@OnWebSocketClose
 			fun close(code: Int, msg : String?) {
@@ -64,7 +64,7 @@ public class WebSocketSecurityIT {
 		}
 		val session = socketClient!!.connect(Listener(), URI(testWsUrl)).get()
 		session.use {
-			session.remote.sendPing(ByteBuffer.wrap("hello".toByteArray("UTF-8")))
+			session.remote.sendPing(ByteBuffer.wrap("hello".toByteArray(charset("UTF-8"))))
 
 		}
 		Assert.assertFalse(messageReceived.get())

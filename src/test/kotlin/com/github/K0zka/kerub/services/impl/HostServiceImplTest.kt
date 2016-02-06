@@ -19,8 +19,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.security.PublicKey
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class HostServiceImplTest {
+@RunWith(MockitoJUnitRunner::class) class HostServiceImplTest {
 	@Mock
 	var dao: HostDao? = null
 	@Mock
@@ -28,7 +27,7 @@ public class HostServiceImplTest {
 	@Mock
 	var sshClientService: SshClientService? = null
 
-	var pubKey: PublicKey = getTestKey().getPublic()
+	var pubKey: PublicKey = getTestKey().public
 
 	var service: HostServiceImpl? = null
 
@@ -71,8 +70,8 @@ public class HostServiceImplTest {
 		Mockito.`when`(manager!!.getHostPublicKey(anyString())).thenReturn(pubKey)
 
 		val hostPubKey = service!!.getHostPubkey("127.0.0l.1")
-		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey!!.getAlgorithm()))
-		Assert.assertThat(hostPubKey.format, CoreMatchers.`is`(pubKey!!.getFormat()))
+		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey.algorithm))
+		Assert.assertThat(hostPubKey.format, CoreMatchers.`is`(pubKey.format))
 
 
 	}

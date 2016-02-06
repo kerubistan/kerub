@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
 
-public class WakeHostFactoryTest {
+class WakeHostFactoryTest {
 
 	val host1 = Host(
 			address = "host-1.example.com",

@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.services.HostService
 import org.apache.sshd.common.util.KeyUtils
 
-public class HostServiceImpl(
+class HostServiceImpl(
 		dao: HostDao,
 		private val manager: HostManager,
 		private val sshClientService: SshClientService)
@@ -25,6 +25,6 @@ public class HostServiceImpl(
 
 	override fun getHostPubkey(address: String): HostPubKey {
 		val publicKey = manager.getHostPublicKey(address)
-		return HostPubKey(publicKey.getAlgorithm(), publicKey.getFormat(), KeyUtils.getFingerPrint(publicKey))
+		return HostPubKey(publicKey.algorithm, publicKey.format, KeyUtils.getFingerPrint(publicKey))
 	}
 }

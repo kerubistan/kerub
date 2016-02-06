@@ -8,7 +8,7 @@ import org.infinispan.Cache
 import org.infinispan.query.Search
 import java.util.UUID
 
-public class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener)
+class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener)
 : AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener) {
 
 	override fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment> {

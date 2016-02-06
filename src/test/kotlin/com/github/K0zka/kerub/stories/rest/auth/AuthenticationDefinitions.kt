@@ -22,7 +22,7 @@ import java.math.BigInteger
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 
-public class AuthenticationDefinitions {
+class AuthenticationDefinitions {
 	var user = "anonymous"
 	var password = "not set"
 
@@ -72,7 +72,7 @@ public class AuthenticationDefinitions {
 		if(exception != null) {
 			Assert.assertThat(
 					"no session should be created",
-					exception?.response?.getCookies()?.keys?.contains("JSESSIONID"),
+					exception?.response?.cookies?.keys?.contains("JSESSIONID"),
 					CoreMatchers.equalTo(false)
 			                 )
 		} else {

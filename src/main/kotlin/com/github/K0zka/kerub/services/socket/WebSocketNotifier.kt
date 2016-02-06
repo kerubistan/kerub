@@ -18,7 +18,7 @@ import java.io.StringWriter
 import java.util.HashSet
 import javax.websocket.Session
 
-public class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWebSocketHandler() {
+class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWebSocketHandler() {
 	protected companion object {
 		private fun init(): ObjectMapper {
 			val mapper = createObjectMapper()
@@ -47,11 +47,11 @@ public class WebSocketNotifier(val internalListener: InternalMessageListener) : 
 	override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
 		logger.info("text message {}", message)
 
-		val msg = objectMapper.readValue<Message>(message?.getPayload(), Message::class.java)
+		val msg = objectMapper.readValue<Message>(message.payload, Message::class.java)
 
 		when (msg) {
 			is PingMessage -> {
-				send(session!!, PongMessage())
+				send(session, PongMessage())
 			}
 			is SubscribeMessage -> {
 				logger.info("subscribe to {}", msg.channel)
@@ -74,13 +74,13 @@ public class WebSocketNotifier(val internalListener: InternalMessageListener) : 
 			session.close(CloseStatus.NORMAL)
 		} else {
 			logger.info("connection opened by {}", session.principal)
-			internalListener.addSocketListener(session.getId(), SpringSocketClientConnection(session, objectMapper))
+			internalListener.addSocketListener(session.id, SpringSocketClientConnection(session, objectMapper))
 			super.afterConnectionEstablished(session)
 		}
 	}
 
 	override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus?) {
-		internalListener.removeSocketListener(session.getId())
+		internalListener.removeSocketListener(session.id)
 		logger.info("connection closed, {}", status)
 	}
 

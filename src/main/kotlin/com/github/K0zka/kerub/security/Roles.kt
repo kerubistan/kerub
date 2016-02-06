@@ -8,7 +8,7 @@ const val user = "user"
  * The list of application roles.
  * See permissions assigned to roles in roles.ini
  */
-public enum class Roles(val roleName: String) {
+enum class Roles(val roleName: String) {
 	/**
 	 * The administrators are able to manage the infrastructure, manage hosts, storage, networks.
 	 */

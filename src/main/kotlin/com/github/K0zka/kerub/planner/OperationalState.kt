@@ -37,7 +37,7 @@ data class OperationalState(
 	companion object {
 
 		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T>
-				= entities.toMapBy { it.id }
+				= entities.associateBy { it.id }
 
 		fun fromLists(hosts: List<Host> = listOf(),
 					  hostDyns: List<HostDynamic> = listOf(),

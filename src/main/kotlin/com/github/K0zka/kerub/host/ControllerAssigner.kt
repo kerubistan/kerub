@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.Host
 /**
  * Interface for the logic that decides which controller should connect the host.
  */
-public interface ControllerAssigner {
+interface ControllerAssigner {
 	/**
 	 * Convenience method to use when there is a single ost only.
 	 * Delete if it never happens.

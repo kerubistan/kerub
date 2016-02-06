@@ -40,7 +40,7 @@ class DisableKsmExecutorTest {
         val closure: (org.apache.sshd.ClientSession) -> Unit = {}
         Mockito.verify(exec!!).execute(Mockito.eq(host) ?: host, Mockito.any() ?: closure)
         val change: (HostDynamic) -> HostDynamic = { it }
-        Mockito.verify(hostDynDao!!).update(eq(host.id), Mockito.any() ?: change )
+        Mockito.verify(hostDynDao!!).update(eq(host.id) ?: host.id, Mockito.any() ?: change)
 
     }
 }

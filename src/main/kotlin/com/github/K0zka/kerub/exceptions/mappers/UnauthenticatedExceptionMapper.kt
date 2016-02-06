@@ -5,7 +5,7 @@ import org.apache.shiro.authz.UnauthenticatedException
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper
 
-public class UnauthenticatedExceptionMapper : ExceptionMapper<UnauthenticatedException> {
+class UnauthenticatedExceptionMapper : ExceptionMapper<UnauthenticatedException> {
 	companion object {
 		private val logger = getLogger(UnauthenticatedExceptionMapper::class)
 	}

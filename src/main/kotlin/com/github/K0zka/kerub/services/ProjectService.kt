@@ -5,6 +5,5 @@ import com.wordnik.swagger.annotations.Api
 import javax.ws.rs.Path
 
 @Api("s/r/project", description = "Project service")
-@Path("/project")
-public interface ProjectService : RestCrud<Project> {
+@Path("/project") interface ProjectService : RestCrud<Project> {
 }

@@ -8,7 +8,7 @@ import javax.jms.DeliveryMode
 import javax.jms.ObjectMessage
 import javax.jms.Session
 
-public class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController {
+class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController {
 	override fun sendToController(controllerId: String, msg: Serializable) {
 		jmsTemplate.send ("jms.queue.kerub-mq-${controllerId}", {
 			createObjectMessage(it, msg)
@@ -17,9 +17,9 @@ public class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController
 
 	internal fun createObjectMessage(it: Session, msg: Serializable): ObjectMessage? {
 		val objMsg = it.createObjectMessage()
-		objMsg.setJMSPriority(priorityForMsgType(msg))
-		objMsg.setJMSDeliveryMode(deliveryModeForMsgType(msg))
-		objMsg.setObject(msg)
+		objMsg.jmsPriority = priorityForMsgType(msg)
+		objMsg.jmsDeliveryMode = deliveryModeForMsgType(msg)
+		objMsg.`object` = msg
 		return objMsg
 	}
 

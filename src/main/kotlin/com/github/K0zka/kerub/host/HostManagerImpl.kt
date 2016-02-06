@@ -23,7 +23,7 @@ import java.util.Timer
 import java.util.TimerTask
 import java.util.UUID
 
-public class HostManagerImpl(
+class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
@@ -89,8 +89,8 @@ public class HostManagerImpl(
 		}
 	}
 
-	public var sshServerPort: Int = defaultSshServerPort
-	public var sshUserName: String = defaultSshUserName
+	var sshServerPort: Int = defaultSshServerPort
+	var sshUserName: String = defaultSshUserName
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
@@ -196,15 +196,15 @@ public class HostManagerImpl(
 	override fun getHostPublicKey(address: String): PublicKey {
 		val pubKeySshClient = SshClient.setUpDefaultClient()!!
 		val serverKeyReader = ServerKeyReader()
-		pubKeySshClient.setServerKeyVerifier(serverKeyReader)
+		pubKeySshClient.serverKeyVerifier = serverKeyReader
 		pubKeySshClient.start()
 		try {
 			val connect = pubKeySshClient.connect(sshUserName, address, sshServerPort)!!
 
 			connect.await()
-			val session = connect.getSession()!!
+			val session = connect.session!!
 			session.auth()!!.await()
-			logger.info(session.getServerVersion())
+			logger.info(session.serverVersion)
 			return serverKeyReader.serverKey!!
 		} finally {
 			pubKeySshClient.stop()

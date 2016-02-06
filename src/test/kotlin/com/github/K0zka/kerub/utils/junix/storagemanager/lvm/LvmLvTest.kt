@@ -42,7 +42,7 @@ class LvmLvTest {
 
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val list = LvmLv.list(session!!)
@@ -71,7 +71,7 @@ class LvmLvTest {
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(ByteArrayInputStream(""" Volume group "test" not found
   Cannot process volume group test
-""".toByteArray("ASCII")))
+""".toByteArray(charset("ASCII"))))
 
 		LvmLv.delete(session!!, "test")
 
@@ -82,12 +82,12 @@ class LvmLvTest {
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvcreate"))).thenReturn(createExecChannel)
 		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(createExecChannel?.invertedOut)
-				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray("ASCII")))
+				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
 		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val volume = LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())

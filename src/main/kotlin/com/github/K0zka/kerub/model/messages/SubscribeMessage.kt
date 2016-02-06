@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 
 @JsonTypeName("subscribe")
-public data class SubscribeMessage @JsonCreator constructor(
+data class SubscribeMessage @JsonCreator constructor(
 		@JsonProperty("channel") val channel: String
 ) : Message

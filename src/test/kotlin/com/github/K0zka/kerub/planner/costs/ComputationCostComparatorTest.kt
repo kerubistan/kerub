@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.model.Host
 import org.junit.Assert
 import org.junit.Test
 
-public class ComputationCostComparatorTest {
+class ComputationCostComparatorTest {
 	val host = Host(
 			address = "host-1.example.com",
 	        dedicated = false,

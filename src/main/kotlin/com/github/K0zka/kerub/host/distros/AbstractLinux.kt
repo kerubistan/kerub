@@ -23,7 +23,7 @@ import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import org.apache.sshd.ClientSession
 import java.util.UUID
 
-public abstract class AbstractLinux : Distribution {
+abstract class AbstractLinux : Distribution {
 
 	override val operatingSystem = OperatingSystem.Linux
 

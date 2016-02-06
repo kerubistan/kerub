@@ -23,8 +23,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class ControllerAssignerImplTest {
+@RunWith(MockitoJUnitRunner::class) class ControllerAssignerImplTest {
 	var backtrack : BacktrackService? = null
 
 	@Mock

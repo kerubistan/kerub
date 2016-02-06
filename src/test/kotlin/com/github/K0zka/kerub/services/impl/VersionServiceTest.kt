@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.services.impl
 import org.junit.Assert
 import org.junit.Test
 
-public class VersionServiceTest {
+class VersionServiceTest {
 	@Test
 	fun getVersionInfo() {
 		Assert.assertNotNull(VersionServiceImpl().getVersionInfo())

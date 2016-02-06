@@ -41,10 +41,8 @@ import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
 import java.math.BigInteger
-import kotlin.math.minus
-import kotlin.math.plus
 
-public class PlannerDefs {
+class PlannerDefs {
 
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
@@ -80,7 +78,7 @@ public class PlannerDefs {
 		}
 		val callback: (Plan) -> Unit = {}
 		Mockito.doAnswer({
-			executedPlans += (it.getArguments()[0] as Plan)
+			executedPlans += (it.arguments[0] as Plan)
 			Unit
 		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()), Matchers.any(callback.javaClass) ?: callback)
 	}
@@ -166,7 +164,7 @@ public class PlannerDefs {
 
 	@Given("(\\S+) is running on (\\S+)")
 	fun setVmRunningOnHost(vmName: String, hostAddr: String) {
-		val vm = vms.first { it.name == vmName }!!
+		val vm = vms.first { it.name == vmName }
 		vms = vms.replace({ it.id == vm.id }, {
 			it.copy(
 					expectations = vm.expectations + listOf(

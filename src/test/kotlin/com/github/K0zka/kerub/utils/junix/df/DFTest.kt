@@ -49,8 +49,8 @@ tmpfs                                                776644       24    776620  
 
 	@Test
 	fun df() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray("ASCII")))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		val mounts = DF.df(session!!)
 

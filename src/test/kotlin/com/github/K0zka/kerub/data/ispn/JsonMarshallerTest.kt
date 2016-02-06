@@ -14,8 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class JsonMarshallerTest {
+@RunWith(MockitoJUnitRunner::class) class JsonMarshallerTest {
 
 	@Mock
 	var mapper: ObjectMapper? = null

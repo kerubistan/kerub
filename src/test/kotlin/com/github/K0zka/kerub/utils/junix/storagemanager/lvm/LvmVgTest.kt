@@ -35,7 +35,7 @@ class LvmVgTest {
 
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("vgs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 

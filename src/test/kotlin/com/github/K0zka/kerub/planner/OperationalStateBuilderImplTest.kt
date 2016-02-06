@@ -24,8 +24,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class OperationalStateBuilderImplTest {
+@RunWith(MockitoJUnitRunner::class) class OperationalStateBuilderImplTest {
 
 	@Mock
 	var controllerManager: ControllerManager? = null

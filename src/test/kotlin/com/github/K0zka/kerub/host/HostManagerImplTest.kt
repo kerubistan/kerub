@@ -29,8 +29,7 @@ import java.io.OutputStream
 import java.util.UUID
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
-public class HostManagerImplTest {
+@RunWith(MockitoJUnitRunner::class) class HostManagerImplTest {
 
 	@Mock
 	var hostDao: HostDao? = null
@@ -113,9 +112,9 @@ public class HostManagerImplTest {
 		hostManager!!.sshServerPort = 2022
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()
-		sshServer!!.setPort(2022)
-		sshServer!!.setUserAuthFactories(listOf(UserAuthPublicKey.Factory()))
-		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(key))
+		sshServer!!.port = 2022
+		sshServer!!.userAuthFactories = listOf(UserAuthPublicKey.Factory())
+		sshServer!!.keyPairProvider = SingleKeyPairProvider(key)
 		sshServer!!.setShellFactory { shell }
 		sshServer!!.start()
 	}
@@ -128,7 +127,7 @@ public class HostManagerImplTest {
 	@Test
 	fun getHostPubkey() {
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
-		assertEquals(getTestKey().getPublic(), publicKey)
+		assertEquals(getTestKey().public, publicKey)
 	}
 
 	@Test

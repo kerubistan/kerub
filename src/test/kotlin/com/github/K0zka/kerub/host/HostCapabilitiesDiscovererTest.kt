@@ -30,8 +30,7 @@ import java.util.EnumSet
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@RunWith(Parameterized::class)
-public class HostCapabilitiesDiscovererTest(
+@RunWith(Parameterized::class) class HostCapabilitiesDiscovererTest(
 		val distroName: String,
 		val cpuArchitecture: String,
 		val kernelVersion: Version,
@@ -175,13 +174,13 @@ base-files	7.1wheezy8+rpi1
 		private fun mockDirectory(path: String, entries: List<String>): SshFile {
 			val ret = Mockito.mock(SshFile::class.java)
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
-			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
-			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
-			Mockito.`when`(ret.getSize()).thenReturn(0)
-			Mockito.`when`(ret.isReadable()).thenReturn(true)
-			Mockito.`when`(ret.isFile()).thenReturn(false)
-			Mockito.`when`(ret.isWritable()).thenReturn(false)
-			Mockito.`when`(ret.isDirectory()).thenReturn(true)
+			Mockito.`when`(ret.absolutePath).thenReturn(path)
+			Mockito.`when`(ret.name).thenReturn(path.substringAfterLast("/", path))
+			Mockito.`when`(ret.size).thenReturn(0)
+			Mockito.`when`(ret.isReadable).thenReturn(true)
+			Mockito.`when`(ret.isFile).thenReturn(false)
+			Mockito.`when`(ret.isWritable).thenReturn(false)
+			Mockito.`when`(ret.isDirectory).thenReturn(true)
 			val subdirs = entries.map { mockDirectory(it, listOf()) }
 			Mockito.`when`(ret.listSshFiles()).thenReturn(subdirs)
 			Mockito.`when`(ret.getAttributes(Matchers.anyBoolean())).thenReturn(mapOf(
@@ -200,18 +199,18 @@ base-files	7.1wheezy8+rpi1
 		fun mockFile(path: String, contents: String): SshFile {
 			val ret = Mockito.mock(SshFile::class.java)
 			Mockito.`when`(ret.doesExist()).thenReturn(true)
-			Mockito.`when`(ret.getAbsolutePath()).thenReturn(path)
-			Mockito.`when`(ret.getName()).thenReturn(path.substringAfterLast("/", path))
-			Mockito.`when`(ret.getSize()).thenReturn(contents.length.toLong())
-			Mockito.`when`(ret.isReadable()).thenReturn(true)
-			Mockito.`when`(ret.isFile()).thenReturn(true)
-			Mockito.`when`(ret.isWritable()).thenReturn(false)
-			Mockito.`when`(ret.isDirectory()).thenReturn(false)
-			val binaryContents = contents.toByteArray("ASCII")
+			Mockito.`when`(ret.absolutePath).thenReturn(path)
+			Mockito.`when`(ret.name).thenReturn(path.substringAfterLast("/", path))
+			Mockito.`when`(ret.size).thenReturn(contents.length.toLong())
+			Mockito.`when`(ret.isReadable).thenReturn(true)
+			Mockito.`when`(ret.isFile).thenReturn(true)
+			Mockito.`when`(ret.isWritable).thenReturn(false)
+			Mockito.`when`(ret.isDirectory).thenReturn(false)
+			val binaryContents = contents.toByteArray(charset("ASCII"))
 			Mockito.`when`(ret.createInputStream(Matchers.anyLong())).then {
 				ByteArrayInputStream(binaryContents)
 			}
-			Mockito.`when`(ret.getSize()).thenReturn(binaryContents.size.toLong())
+			Mockito.`when`(ret.size).thenReturn(binaryContents.size.toLong())
 			return ret
 		}
 	}
@@ -232,23 +231,23 @@ base-files	7.1wheezy8+rpi1
 		commandFactory = Mockito.mock(CommandFactory::class.java)
 
 		Mockito.`when`(commandFactory!!.createCommand(Matchers.anyString())).then {
-			val command = it.getArguments()[0]
+			val command = it.arguments[0]
 			val commandMock = Mockito.mock(RunnableCommand::class.java)
 
 			var output: OutputStream? = null
 			Mockito.`when`(commandMock.setOutputStream(Matchers.any(OutputStream::class.java)))
 					.then {
-						output = it.getArguments()[0] as OutputStream
+						output = it.arguments[0] as OutputStream
 						null
 					}
 			var callback: ExitCallback? = null;
 			Mockito.doAnswer {
-				callback = it.getArguments()[0] as ExitCallback
+				callback = it.arguments[0] as ExitCallback
 				null
 			}.`when`(commandMock).setExitCallback(Matchers.any(ExitCallback::class.java))
 			Mockito.doAnswer {
-				val writer = output?.writer("ASCII")
-				writer?.appendln(commands.getRaw(command))
+				val writer = output?.writer(charset("ASCII"))
+				writer?.appendln(commands[command])
 				writer?.flush()
 				callback?.onExit(0)
 			}.`when`(commandMock).start(Matchers.any(Environment::class.java))
@@ -256,22 +255,22 @@ base-files	7.1wheezy8+rpi1
 		}
 
 		sshServer = SshServer.setUpDefaultServer()
-		sshServer!!.setPort(2222)
+		sshServer!!.port = 2222
 		sshServer!!.setPublickeyAuthenticator { s, publicKey, serverSession -> true }
-		sshServer!!.setKeyPairProvider(SingleKeyPairProvider(getTestKey()))
-		sshServer!!.setSubsystemFactories(listOf<NamedFactory<Command>>(SftpSubsystem.Factory()))
+		sshServer!!.keyPairProvider = SingleKeyPairProvider(getTestKey())
+		sshServer!!.subsystemFactories = listOf<NamedFactory<Command>>(SftpSubsystem.Factory())
 		sshServer!!.setFileSystemFactory {
 			HostFileSystem(
 					files.mapValues { mockFile(it.key, it.value) } +
 							directories.mapValues { mockDirectory(it.key, it.value) }
 			)
 		}
-		sshServer!!.setCommandFactory(commandFactory)
+		sshServer!!.commandFactory = commandFactory
 		sshServer!!.start()
 
 		sshClient = SshClient.setUpDefaultClient()
 		sshClient!!.start()
-		session = sshClient!!.connect("root", "127.0.0.1", 2222).await().getSession()
+		session = sshClient!!.connect("root", "127.0.0.1", 2222).await().session
 		session!!.addPublicKeyIdentity(getTestKey())
 		session!!.auth().await()
 	}

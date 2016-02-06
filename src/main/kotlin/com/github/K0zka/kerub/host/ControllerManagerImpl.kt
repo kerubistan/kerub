@@ -7,7 +7,7 @@ import org.infinispan.manager.EmbeddedCacheManager
 import java.io.IOException
 import java.net.InetAddress
 
-public class ControllerManagerImpl(val dao: ControllerDynamicDao,
+class ControllerManagerImpl(val dao: ControllerDynamicDao,
 								   val cacheManager: EmbeddedCacheManager)
 : ControllerManager {
 
@@ -15,7 +15,7 @@ public class ControllerManagerImpl(val dao: ControllerDynamicDao,
 
 	private fun getHostName(): String? {
 		try {
-			return InetAddress.getLocalHost().getHostName()
+			return InetAddress.getLocalHost().hostName
 		} catch(ioe: IOException) {
 			return null
 		}
@@ -27,7 +27,7 @@ public class ControllerManagerImpl(val dao: ControllerDynamicDao,
 		}
 	}
 
-	override fun getControllerId(): String = id ?: cacheManager.getAddress().toString()
+	override fun getControllerId(): String = id ?: cacheManager.address.toString()
 
 	companion object {
 		val logger = getLogger(ControllerManagerImpl::class)

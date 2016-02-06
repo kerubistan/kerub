@@ -5,8 +5,7 @@ import com.wordnik.swagger.annotations.Api
 import javax.ws.rs.Path
 
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
-@Path("/virtual-storage")
-public interface VirtualStorageDeviceService :
+@Path("/virtual-storage") interface VirtualStorageDeviceService :
 		RestCrud<VirtualStorageDevice>,
 		RestOperations.List<VirtualStorageDevice>,
 		RestOperations.SimpleSearch<VirtualStorageDevice>

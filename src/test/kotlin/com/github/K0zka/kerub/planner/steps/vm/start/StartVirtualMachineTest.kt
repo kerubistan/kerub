@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
 
-public class StartVirtualMachineTest {
+class StartVirtualMachineTest {
 	@Test
 	fun take() {
 		val host = Host(

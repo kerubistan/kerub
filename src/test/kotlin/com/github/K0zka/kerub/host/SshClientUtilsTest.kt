@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-public class SshClientUtilsTest {
+class SshClientUtilsTest {
 
 	var server: SshServer? = null
 	var client: SshClient? = null
@@ -47,24 +47,24 @@ public class SshClientUtilsTest {
 
 		//start ssh server
 		server = SshServer.setUpDefaultServer()
-		server?.setSubsystemFactories(listOf(SftpSubsystem.Factory()))
+		server?.subsystemFactories = listOf(SftpSubsystem.Factory())
 		val virtualFileSystemFactory = VirtualFileSystemFactory()
-		virtualFileSystemFactory.setUserHomeDir(testUserName, rootDir!!.getAbsolutePath())
-		server?.setFileSystemFactory(virtualFileSystemFactory)
+		virtualFileSystemFactory.setUserHomeDir(testUserName, rootDir!!.absolutePath)
+		server?.fileSystemFactory = virtualFileSystemFactory
 		server?.setPasswordAuthenticator {userName: String, password: String, serverSession: ServerSession ->
 			userName == testUserName && password == testUserPassword
 		}
-		server?.setUserAuthFactories(listOf<NamedFactory<UserAuth>>(UserAuthPassword.Factory(), UserAuthNone.Factory()))
-		server?.setKeyPairProvider(SingleKeyPairProvider(getTestKey()))
-		server?.setPort(sshPort)
+		server?.userAuthFactories = listOf<NamedFactory<UserAuth>>(UserAuthPassword.Factory(), UserAuthNone.Factory())
+		server?.keyPairProvider = SingleKeyPairProvider(getTestKey())
+		server?.port = sshPort
 		server?.start()
 
 		//start ssh client
 		client = SshClient.setUpDefaultClient()
 		client?.setServerKeyVerifier {clientSession: ClientSession, socketAddress: SocketAddress, publicKey: PublicKey -> true }
-		client?.setUserAuthFactories(listOf<NamedFactory<org.apache.sshd.client.UserAuth>>(org.apache.sshd.client.auth.UserAuthPassword.Factory()))
+		client?.userAuthFactories = listOf<NamedFactory<org.apache.sshd.client.UserAuth>>(org.apache.sshd.client.auth.UserAuthPassword.Factory())
 		client?.start()
-		session = client?.connect(testUserName, "localhost", sshPort)?.addListener { it.getSession().addPasswordIdentity(testUserPassword) }?.await()?.getSession()
+		session = client?.connect(testUserName, "localhost", sshPort)?.addListener { it.session.addPasswordIdentity(testUserPassword) }?.await()?.session
 		session?.auth()
 	}
 
@@ -79,7 +79,7 @@ public class SshClientUtilsTest {
 	@Test
 	fun readFile() {
 		session?.createSftpClient()?.use {
-			it.write("test.txt").writer("ASCII").use {
+			it.write("test.txt").writer(charset("ASCII")).use {
 				it.write("PASS")
 			}
 		}
@@ -91,7 +91,7 @@ public class SshClientUtilsTest {
 	@Test
 	fun checkFileExists() {
 		session?.createSftpClient()?.use {
-			it.write("shouldexist").writer("ASCII").use {
+			it.write("shouldexist").writer(charset("ASCII")).use {
 				it.write("yes")
 			}
 		}
@@ -103,7 +103,7 @@ public class SshClientUtilsTest {
 	@Test
 	fun appendToFile() {
 		session?.createSftpClient()?.use {
-			it.write("test.txt").writer("ASCII").use {
+			it.write("test.txt").writer(charset("ASCII")).use {
 				it.write("PA")
 			}
 		}

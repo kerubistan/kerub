@@ -6,7 +6,7 @@ package com.github.K0zka.kerub.host
  * A controller is responsible only for a set of hosts. In case a controller is lost,
  * another controller have to take over the hosts.
  */
-public interface ControllerManager {
+interface ControllerManager {
 	/**
 	 * Returns the ID of the controller.
 	 */

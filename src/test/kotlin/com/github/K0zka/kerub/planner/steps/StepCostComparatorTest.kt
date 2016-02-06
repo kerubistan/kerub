@@ -8,8 +8,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-public class StepCostComparatorTest {
+@RunWith(MockitoJUnitRunner::class) class StepCostComparatorTest {
 
 	@Mock
 	var step1 : AbstractOperationalStep? = null

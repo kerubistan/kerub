@@ -8,8 +8,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.context.ApplicationContext
 
-@RunWith(MockitoJUnitRunner::class)
-public class ExecutorTest {
+@RunWith(MockitoJUnitRunner::class) class ExecutorTest {
 	@Mock
 	var appCtx: ApplicationContext? = null
 

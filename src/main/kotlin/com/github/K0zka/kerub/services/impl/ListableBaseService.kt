@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.services.RestOperations
 import java.util.UUID
 
-abstract public class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao<T, UUID>, entityType: String)
+abstract class ListableBaseService<T : Entity<UUID>>(dao: ListableCrudDao<T, UUID>, entityType: String)
 : BaseServiceImpl<T>(dao, entityType), RestOperations.List<T> {
 	@JsonView(Detailed::class)
 	override fun listAll(start: Long, limit: Long, sort: String): SortResultPage<T> {

@@ -13,12 +13,11 @@ import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathFactory
 import com.github.K0zka.kerub.model.Range as serializableRange
 
-public class UtilsTest {
+class UtilsTest {
 
 	companion object val logger = getLogger(UtilsTest::class)
 
-	@Test
-	public fun vmDefinitiontoXml() {
+	@Test fun vmDefinitiontoXml() {
 		val vm = VirtualMachine(
 				id = UUID.randomUUID(),
 				nrOfCpus = 2,

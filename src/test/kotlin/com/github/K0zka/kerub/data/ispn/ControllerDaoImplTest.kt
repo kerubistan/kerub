@@ -11,8 +11,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
-public class ControllerDaoImplTest {
+@RunWith(MockitoJUnitRunner::class) class ControllerDaoImplTest {
 	var dao : ControllerDao? = null
 	@Mock
 	var cacheManager : EmbeddedCacheManager? = null
@@ -23,7 +22,7 @@ public class ControllerDaoImplTest {
 
 
 	@Before fun setup() {
-		Mockito.`when`( cacheManager!!.getMembers() ).thenReturn( listOf(address1, address1) )
+		Mockito.`when`( cacheManager!!.members).thenReturn( listOf(address1, address1) )
 		Mockito.`when`(address1.toString()).thenReturn("TEST-1")
 		Mockito.`when`(address2.toString()).thenReturn("TEST-2")
 		dao = ControllerDaoImpl(cacheManager!!)

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.Entity
 
 @JsonTypeName("entity-remove")
-public data class EntityRemoveMessage @JsonCreator constructor(
+data class EntityRemoveMessage @JsonCreator constructor(
 		override val obj: Entity<*>,
 		override val date: Long
 ) : EntityMessage

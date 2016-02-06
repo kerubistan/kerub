@@ -13,7 +13,7 @@ import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
 
-public class StopVirtualMachineTest {
+class StopVirtualMachineTest {
 	@Test
 	fun take() {
 		val host = Host(

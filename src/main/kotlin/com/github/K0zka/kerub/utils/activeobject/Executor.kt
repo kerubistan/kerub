@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.utils.getLogger
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 
-public open class Executor : ApplicationContextAware {
+open class Executor : ApplicationContextAware {
 	private var appCtx: ApplicationContext? = null
 
 	private companion object
@@ -15,7 +15,7 @@ public open class Executor : ApplicationContextAware {
 		appCtx = applicationContext
 	}
 
-	public fun execute(invocation: AsyncInvocation) {
+	fun execute(invocation: AsyncInvocation) {
 		logger.debug("executing async invocation on bean")
 		val bean = appCtx?.getBean(invocation.beanName)!!
 		val types = Array<Class<out Any?>>(invocation.paramTypes.size, { invocation.paramTypes[it] })

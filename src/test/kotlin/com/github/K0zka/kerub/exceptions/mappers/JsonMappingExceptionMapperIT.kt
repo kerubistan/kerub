@@ -10,16 +10,16 @@ import org.junit.Assert
 import org.junit.Test
 import javax.ws.rs.core.MediaType
 
-public class JsonMappingExceptionMapperIT {
+class JsonMappingExceptionMapperIT {
 
 	@Test
 	fun brokenJsonFormat() {
 		val client = HttpClientBuilder.create().build()
 		val post = HttpPost("${testRestBaseUrl}/auth/login")
 		post.setHeader("Content-Type", MediaType.APPLICATION_JSON)
-		post.setEntity(StringEntity("{username:'',password:''}"))
+		post.entity = StringEntity("{username:'',password:''}")
 		val response = client.execute(post)
-		Assert.assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
+		Assert.assertThat(response.statusLine.statusCode, CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
 	}
 
 	@Test
@@ -27,10 +27,10 @@ public class JsonMappingExceptionMapperIT {
 		val client = HttpClientBuilder.create().build()
 		val post = HttpPost("${testRestBaseUrl}/auth/login")
 		post.setHeader("Content-Type", MediaType.APPLICATION_JSON)
-		post.setEntity(StringEntity(
-				"""{"username__":"foo","password__":"bar"}"""))
+		post.entity = StringEntity(
+				"""{"username__":"foo","password__":"bar"}""")
 		val response = client.execute(post)
-		Assert.assertThat(response.getStatusLine().getStatusCode(), CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
+		Assert.assertThat(response.statusLine.statusCode, CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
 	}
 
 }

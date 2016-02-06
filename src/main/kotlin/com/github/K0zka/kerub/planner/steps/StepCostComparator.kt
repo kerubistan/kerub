@@ -14,7 +14,7 @@ import com.github.K0zka.kerub.planner.costs.TimeCostComparator
 import java.util.Comparator
 import kotlin.reflect.KClass
 
-public object StepCostComparator : Comparator<AbstractOperationalStep> {
+object StepCostComparator : Comparator<AbstractOperationalStep> {
 
 	val comparators = mapOf<KClass<out Cost>, Comparator<out Cost>>(
 			Risk::class to RiskComparator,

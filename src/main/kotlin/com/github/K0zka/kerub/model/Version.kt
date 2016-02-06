@@ -5,7 +5,7 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.util.regex.Pattern
 
-public data class Version(@Field val major: String,
+data class Version(@Field val major: String,
 						  @Field val minor: String?,
 						  @Field val build: String?) : Serializable, Comparable<Version> {
 	override fun compareTo(other: Version): Int {
@@ -18,7 +18,7 @@ public data class Version(@Field val major: String,
 
 		private val versionSplitter = Pattern.compile("\\.|_|\\-")
 
-		public fun fromVersionString(versionStr: String): Version {
+		fun fromVersionString(versionStr: String): Version {
 			val split = versionSplitter.split(versionStr)
 			return Version(split[0], split.elemOrNull(1), split.elemOrNull(2))
 		}

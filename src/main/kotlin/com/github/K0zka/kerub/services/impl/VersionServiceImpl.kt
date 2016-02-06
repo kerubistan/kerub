@@ -16,10 +16,10 @@ class VersionServiceImpl : VersionService {
 	companion object {
 		private val logger = getLogger(VersionServiceImpl::class)
 		fun buildVersionInfo(): VersionInfo {
-			val pack = VersionServiceImpl::class.java.getPackage()
-			return VersionInfo(pack?.getImplementationVersion() ?: "dev",
-					pack?.getImplementationVendor() ?: "",
-					pack?.getImplementationTitle() ?: "kerub")
+			val pack = VersionServiceImpl::class.java.`package`
+			return VersionInfo(pack?.implementationVersion ?: "dev",
+					pack?.implementationVendor ?: "",
+					pack?.implementationTitle ?: "kerub")
 		}
 	}
 

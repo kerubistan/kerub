@@ -16,7 +16,7 @@ import java.security.interfaces.RSAPublicKey
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-public class SshClientServiceImpl(
+class SshClientServiceImpl(
 		val client: SshClient,
 		val keyPair: KeyPair,
 		val maxWait: Long = 500,
@@ -64,14 +64,14 @@ public class SshClientServiceImpl(
 		val out = ByteArrayOutputStream()
 
 		out.write(encodeString("ssh-rsa"))
-		out.write(encodeByteArray(key.getPublicExponent().toByteArray()))
-		out.write(encodeByteArray(key.getModulus().toByteArray()))
+		out.write(encodeByteArray(key.publicExponent.toByteArray()))
+		out.write(encodeByteArray(key.modulus.toByteArray()))
 
 		return out.toByteArray().toBase64()
 	}
 
 	fun encodeString(str: String): ByteArray {
-		val bytes = str.toByteArray("ASCII")
+		val bytes = str.toByteArray(charset("ASCII"))
 		return encodeByteArray(bytes)
 	}
 
@@ -91,12 +91,12 @@ public class SshClientServiceImpl(
 	}
 
 	override fun createSession(address: String, userName: String): ClientSession {
-		return client.connect(userName, address, 22).await().getSession()
+		return client.connect(userName, address, 22).await().session
 	}
 
 	override fun loginWithPublicKey(address: String, userName: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with public key", address)
-		val session = client.connect(userName, address, 22).await().getSession()
+		val session = client.connect(userName, address, 22).await().session
 		session.addListener(ServerFingerprintChecker(hostPublicKey))
 		logger.debug("sending key to {}", address)
 		session.addPublicKeyIdentity(keyPair)
@@ -104,13 +104,13 @@ public class SshClientServiceImpl(
 		val authFuture = session.auth()
 		val finished = authFuture.await(maxWait, maxWaitUnit)
 		authFuture.verify()
-		logger.debug("{}: Authentication finished: {} success: {}", address, finished, authFuture.isSuccess())
+		logger.debug("{}: Authentication finished: {} success: {}", address, finished, authFuture.isSuccess)
 		return session
 	}
 
 	override fun loginWithPassword(address: String, userName: String, password: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with password", address)
-		val session = client.connect(userName, address, 22).await().getSession()
+		val session = client.connect(userName, address, 22).await().session
 		session.addListener(ServerFingerprintChecker(hostPublicKey))
 		logger.debug("sending password {}", address)
 		session.addPasswordIdentity(password)
@@ -124,7 +124,7 @@ public class SshClientServiceImpl(
 
 	override fun getPublicKey(): String = """
 #added by kerub - ${Date()}
-ssh-rsa ${encodePublicKey(keyPair.getPublic() as RSAPublicKey)}
+ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}
 """
 
 }

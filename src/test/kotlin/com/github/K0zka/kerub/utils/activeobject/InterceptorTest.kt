@@ -9,8 +9,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-public class InterceptorTest {
+@RunWith(MockitoJUnitRunner::class) class InterceptorTest {
 	@Mock
 	var queue: InvocationQueue? = null
 	@Mock
@@ -24,8 +23,8 @@ public class InterceptorTest {
 	}
 	@Test
 	fun invoke() {
-		Mockito.`when`(invocation!!.getMethod())!!.thenReturn(Any::class.java.getMethod("toString"))
-		Mockito.`when`(invocation!!.getArguments())!!.thenReturn(Array<Any>(0, { "" }))
+		Mockito.`when`(invocation!!.method)!!.thenReturn(Any::class.java.getMethod("toString"))
+		Mockito.`when`(invocation!!.arguments)!!.thenReturn(Array<Any>(0, { "" }))
 		interceptor!!.invoke(invocation)
 		//this is a workaround on a disagreement between kotlin and mockito
 		Mockito.verify(queue)!!.send(Matchers.any(AsyncInvocation::class.java) ?: AsyncInvocation("", "", listOf(), listOf()))

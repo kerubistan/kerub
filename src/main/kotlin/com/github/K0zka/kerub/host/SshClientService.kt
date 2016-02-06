@@ -5,7 +5,7 @@ import org.apache.sshd.ClientSession
 /**
  * Service to help creating ssh client sessions on hosts
  */
-public interface SshClientService {
+interface SshClientService {
 	/**
 	 * Create an unauthenticated session
 	 */

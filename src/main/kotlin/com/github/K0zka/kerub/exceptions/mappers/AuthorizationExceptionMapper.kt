@@ -5,7 +5,7 @@ import org.apache.shiro.authz.AuthorizationException
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper
 
-public class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationException> {
+class AuthorizationExceptionMapper : ExceptionMapper<AuthorizationException> {
 
 	companion object {
 		private val logger = getLogger(AuthorizationExceptionMapper::class)

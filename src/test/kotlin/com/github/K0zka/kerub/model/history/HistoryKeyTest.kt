@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.model.history
 import org.junit.Assert
 import org.junit.Test
 
-public class HistoryKeyTest {
+class HistoryKeyTest {
 	@Test
 	fun testToString() {
 		Assert.assertTrue(HistoryKey<String>("foo").toString().startsWith("foo - "))

@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.model
 /**
  * The expectation level tells the priority of an expectation when evaluating constraints.
  */
-public enum class ExpectationLevel {
+enum class ExpectationLevel {
 	/**
 	 * Wish can be ignored if no other way to get around.
 	 */

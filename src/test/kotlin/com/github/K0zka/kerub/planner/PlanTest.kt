@@ -30,8 +30,8 @@ class PlanTest {
 		)
 		val step1 = Mockito.mock(AbstractOperationalStep::class.java)
 		val step2 = Mockito.mock(AbstractOperationalStep::class.java)
-		Mockito.`when`(step1.reservations() ?: listOf()).thenReturn(listOf(FullHostReservation(host)))
-		Mockito.`when`(step2.reservations() ?: listOf()).thenReturn(listOf(FullHostReservation(host)))
+		Mockito.`when`(step1.reservations()).thenReturn(listOf(FullHostReservation(host)))
+		Mockito.`when`(step2.reservations()).thenReturn(listOf(FullHostReservation(host)))
 
 		assertEquals(setOf<Reservation<*>>(FullHostReservation(host)), Plan(
 				OperationalState.fromLists(),

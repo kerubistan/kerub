@@ -17,7 +17,7 @@ object TgtAdmin : OsCommand {
 <target ${volumePrefix}.${id}>
     direct-store ${path}
 </target>
-			""".toByteArray("ASCII"))
+			""".toByteArray(charset("ASCII")))
 			}
 		}
 		session.executeOrDie("tgt-admin -e")

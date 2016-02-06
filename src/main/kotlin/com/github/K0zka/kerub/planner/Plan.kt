@@ -9,7 +9,7 @@ data class Plan(
 		val steps: List<AbstractOperationalStep> = listOf()
 ) : State {
 
-	override fun isComplete(): Boolean = state.isComplete()
+	override fun isComplete(): Boolean = state.isComplete
 
 	fun reservations(): Collection<Reservation<*>> {
 		var result = setOf<Reservation<*>>()

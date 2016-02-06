@@ -4,7 +4,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
 
-public class UtilsTest {
+class UtilsTest {
 	@Test
 	fun collectionReplace() {
 		val original = listOf("A", "b", "c")

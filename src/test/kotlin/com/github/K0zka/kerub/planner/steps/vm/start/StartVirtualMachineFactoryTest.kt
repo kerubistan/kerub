@@ -17,7 +17,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
 
-public class StartVirtualMachineFactoryTest {
+class StartVirtualMachineFactoryTest {
 
 	val vm = VirtualMachine(
 			name = "test-vm"

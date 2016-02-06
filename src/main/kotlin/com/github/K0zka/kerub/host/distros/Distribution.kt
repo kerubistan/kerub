@@ -11,7 +11,7 @@ import org.apache.sshd.ClientSession
 /**
  * Interface to hide the details of some distribution-specific operations.
  */
-public interface Distribution {
+interface Distribution {
 
 	val operatingSystem: OperatingSystem
 

@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.ClientSession
 
-public class Gentoo : AbstractLinux() {
+class Gentoo : AbstractLinux() {
 	override fun getPackageManager(session: ClientSession): PackageManager {
 		throw UnsupportedOperationException()
 	}

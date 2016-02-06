@@ -21,9 +21,9 @@ fun <T> eq(param : T) = Matchers.eq(param) ?: param
 
 fun anyString() = Matchers.anyString() ?: ""
 
-fun anyInt() = Matchers.anyInt() ?: 1
+fun anyInt() = Matchers.anyInt()
 
-fun anyLong() = Matchers.anyLong() ?: 1L
+fun anyLong() = Matchers.anyLong()
 
 fun <T> matchAny(clazz : Class<T>) : T = Matchers.any(clazz) ?: Mockito.mock(clazz)
 fun <T : Any> matchAny(clazz : KClass<T>) : T = matchAny(clazz.java)

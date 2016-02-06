@@ -11,7 +11,7 @@ import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
-public data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
 		return state.copy(
@@ -23,7 +23,7 @@ public data class StartVirtualMachine(val vm: VirtualMachine, override val host:
 						memoryUsed = vm.memory.min,
 						cpuUsage = listOf()
 				)),
-				hostDyns = (state.hostDyns - host.id) + (host.id to
+				hostDyns = (state.hostDyns.filterKeys { it != host.id } ) + (host.id to
 						hostDyn.copy(
 								idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage
 								memFree = hostDyn.memFree, //TODO - estimate on memory usage of the VM

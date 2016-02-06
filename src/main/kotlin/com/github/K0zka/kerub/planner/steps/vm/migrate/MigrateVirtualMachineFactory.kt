@@ -10,7 +10,7 @@ import com.github.K0zka.kerub.planner.steps.vm.match
  * Takes each running virtual machines and running hosts except the one the VM is running on
  * and generates steps if the host matches the requirements of the VM.
  */
-public object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<MigrateVirtualMachine>() {
+object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<MigrateVirtualMachine>() {
 	override fun produce(state: OperationalState): List<MigrateVirtualMachine> {
 		val runningVms = state.vms.values.filter {
 			state.vmDyns[it.id]?.status == VirtualMachineStatus.Up
@@ -27,7 +27,7 @@ public object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<Migr
 				vm ->
 				if (match(host, state.hostDyns[host.id], vm)) {
 					val sourceId = state.vmDyns[vm.id]?.hostId
-					val sourceHost = state.hosts.getRaw(sourceId)!!
+					val sourceHost = requireNotNull(state.hosts[sourceId])
 					if (sourceId != host.id) {
 						steps += MigrateVirtualMachine(vm = vm, source = sourceHost, target = host)
 					}

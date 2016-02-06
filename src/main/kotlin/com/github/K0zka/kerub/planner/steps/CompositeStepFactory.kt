@@ -10,9 +10,10 @@ import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
 import com.github.k0zka.finder4j.backtrack.StepFactory
+import kotlin.comparisons.thenComparator
 import kotlin.reflect.KClass
 
-public object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
+object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 
 	val defaultFactories
 			= setOf(MigrateVirtualMachineFactory, MigrateVirtualStorageDeviceFactory, PowerDownHostFactory,

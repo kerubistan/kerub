@@ -12,9 +12,8 @@ import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
-import kotlin.math.plus
 
-public class VirtualStorageDeviceServiceImplIT {
+class VirtualStorageDeviceServiceImplIT {
 	@Test
 	fun crud() {
 		val client = createClient()

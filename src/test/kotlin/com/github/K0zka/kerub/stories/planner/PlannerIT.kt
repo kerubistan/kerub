@@ -21,6 +21,4 @@ import org.junit.runner.RunWith
 				"classpath:stories/general/planner/expectations/vm-nomigration.feature"
 		),
 		glue = arrayOf("com.github.K0zka.kerub.stories.planner")
-)
-
-public class PlannerIT
+) class PlannerIT

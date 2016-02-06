@@ -11,13 +11,13 @@ import javax.jms.ConnectionFactory
  * This class (and package) is only needed because HornetQ/Artemis does not support auto-creation of destinations.
  * https://issues.jboss.org/browse/HORNETQ-302
  */
-public object MqInit {
+object MqInit {
 	val logger = getLogger(MqInit::class)
 
 	@JvmStatic
 	fun init(controllerManager: ControllerManager, artemis: EmbeddedJMS, factory: ConnectionFactory): ConnectionFactory {
 		val controllerId = controllerManager.getControllerId()
-		val server = artemis.getActiveMQServer()
+		val server = artemis.activeMQServer
 		val mqName = "kerub-mq-${controllerId}"
 		server.deployQueue(SimpleString(mqName), SimpleString(mqName), null, true, false)
 		factory.createConnection().use {

@@ -6,14 +6,14 @@ import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
-public data class PowerDownHost(val host: Host) : AbstractOperationalStep {
+data class PowerDownHost(val host: Host) : AbstractOperationalStep {
 
 	override fun reservations(): List<Reservation<Host>>
 			= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
 		return state.copy(
-				hostDyns = state.hostDyns - host.id
+				hostDyns = state.hostDyns.filterNot { it.key == host.id }
 		)
 	}
 }

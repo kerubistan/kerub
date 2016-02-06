@@ -41,12 +41,12 @@ class MPStatTest {
 	fun monitor() {
 		on(session!!.createExecChannel(anyString())).thenReturn( execChannel )
 		Mockito.doAnswer {
-			val out = it.getArguments()[0] as OutputStream
+			val out = it.arguments[0] as OutputStream
 			testInput.forEach {
 				out.write( it.toInt() )
 			}
 			null
-		} .`when`(execChannel)!!.setOut( Matchers.any(OutputStream::class.java) )
+		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
 		on(execChannel!!.open()).thenReturn(openFuture)
 
 		var stat = listOf<CpuStat>()

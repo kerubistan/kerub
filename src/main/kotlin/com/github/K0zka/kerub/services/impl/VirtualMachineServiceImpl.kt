@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.services.VirtualMachineService
 import java.util.UUID
 
-public class VirtualMachineServiceImpl(dao: VirtualMachineDao) : ListableBaseService<VirtualMachine>(dao, "vm"),
+class VirtualMachineServiceImpl(dao: VirtualMachineDao) : ListableBaseService<VirtualMachine>(dao, "vm"),
 		VirtualMachineService {
 	override fun startVm(id: UUID) {
 		doWithVm(id, {

@@ -12,7 +12,7 @@ import com.github.K0zka.kerub.utils.toSize
 import java.util.HashMap
 import java.util.UUID
 
-public class DmiDecoder : OsCommand {
+class DmiDecoder : OsCommand {
 
 	companion object {
 		val logger = getLogger(DmiDecoder::class)
@@ -62,16 +62,16 @@ public class DmiDecoder : OsCommand {
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
-							size = input.substringBetween("Installed Size: ", "\n")?.trim()?.toSize()?.toInt(),
+							size = input.substringBetween("Installed Size: ", "\n")?.trim()?.toSize().toInt(),
 							operation = input.substringBetween("Operational Mode: ", "\n"),
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					)
 				},
 				16 to { input, dependencies ->
 					MemoryArrayInformation(
-							maxCapacity = input.substringBetween("Maximum Capacity:", "\n")?.toSize(),
-							errorCorrection = input.substringBetween("Error Correction Type:", "\n")?.trim(),
-							location = input.substringBetween("Location:", "\n")?.trim()
+							maxCapacity = input.substringBetween("Maximum Capacity:", "\n").toSize(),
+							errorCorrection = input.substringBetween("Error Correction Type:", "\n").trim(),
+							location = input.substringBetween("Location:", "\n").trim()
 					)
 				},
 				17 to { input, dependencies ->
@@ -102,7 +102,7 @@ public class DmiDecoder : OsCommand {
 				for (record in recordsOfType ?: listOf()) {
 					val resolver = mappers[type]!!
 					try {
-						recordsByHandle.put(handle(record), resolver(record.concat("\n"), recordsByHandle))
+						recordsByHandle.put(handle(record), resolver(record + "\n", recordsByHandle))
 					} catch (iae: IllegalArgumentException) {
 						logger.warn("Structure could not be parsed: {}", record, iae)
 					}

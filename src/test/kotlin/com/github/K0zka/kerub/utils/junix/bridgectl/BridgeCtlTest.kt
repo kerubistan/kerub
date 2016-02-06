@@ -37,8 +37,8 @@ virbr1		8000.000000000000	yes
 	fun list() {
 		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
 		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream(testOutput.toByteArray("ASCII")))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		val bridges = BridgeCtl.list(session!!)
 

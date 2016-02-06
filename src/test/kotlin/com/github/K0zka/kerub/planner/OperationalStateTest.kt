@@ -7,7 +7,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
 
-public class OperationalStateTest {
+class OperationalStateTest {
 	@Test
 	fun getNrOfUnsatisfiedExpectationsWithEmptyState() {
 		Assert.assertEquals(OperationalState().getNrOfUnsatisfiedExpectations(ExpectationLevel.DealBreaker), 0)

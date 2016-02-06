@@ -15,8 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.math.BigInteger
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class StopVirtualMachineExecutorTest {
+@RunWith(MockitoJUnitRunner::class) class StopVirtualMachineExecutorTest {
 	@Mock
 	var hostManager : HostManager? = null
 	@Mock

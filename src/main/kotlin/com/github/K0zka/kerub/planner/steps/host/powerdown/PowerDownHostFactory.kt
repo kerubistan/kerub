@@ -9,7 +9,7 @@ import java.util.UUID
 /**
  * Generates PowerDown steps for each host in Up state if no virtual services run.
  */
-public object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
+object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 	override fun produce(state: OperationalState): List<PowerDownHost> {
 
 		// NOTE:

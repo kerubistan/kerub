@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.Project
 import org.infinispan.Cache
 import java.util.UUID
 
-public class ProjectDaoImpl(cache: Cache<UUID, Project>, eventListener: EventListener) : ListableIspnDaoBase<Project, UUID>(cache, eventListener), ProjectDao {
+class ProjectDaoImpl(cache: Cache<UUID, Project>, eventListener: EventListener) : ListableIspnDaoBase<Project, UUID>(cache, eventListener), ProjectDao {
 	override fun getEntityClass(): Class<Project> {
 		return Project::class.java
 	}

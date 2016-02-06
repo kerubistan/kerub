@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 
-public class VirtualStorageDeviceServiceImpl(dao: VirtualStorageDeviceDao)
+class VirtualStorageDeviceServiceImpl(dao: VirtualStorageDeviceDao)
 : VirtualStorageDeviceService,
 		ListableBaseService<VirtualStorageDevice>(dao, "virtual disk") {
 	override fun search(field: String, value: String, start: Long, limit: Long): SearchResultPage<VirtualStorageDevice> {

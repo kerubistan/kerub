@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
-public class MigrateVirtualStorageDevice(
+class MigrateVirtualStorageDevice(
 		val device: VirtualStorageDevice,
 		val source: Host,
 		val target: Host

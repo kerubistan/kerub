@@ -13,7 +13,7 @@ import java.net.InetAddress
  * Uses wake-on-lan magic cookie to wake up the host
  * and the ssh connection to power it off.
  */
-public class WakeOnLan(
+class WakeOnLan(
 		private val host: Host,
 		private val executor: HostCommandExecutor,
 		private val hostManager: HostManager) : PowerManager {
@@ -48,7 +48,7 @@ public class WakeOnLan(
 	override fun on() {
 		require(host.capabilities?.macAddresses != null, { "mac address list needed to wake up host" })
 		require(host.capabilities?.macAddresses!!.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
-		for (mac in host.capabilities?.macAddresses!!) {
+		for (mac in host.capabilities?.macAddresses) {
 			val bytes = buildMagicPocket(mac)
 
 			DatagramSocket(null).use {

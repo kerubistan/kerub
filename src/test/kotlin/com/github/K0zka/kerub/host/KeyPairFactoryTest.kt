@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.host
 import org.junit.Test
 import kotlin.test.assertNotNull
 
-public class KeyPairFactoryTest {
+class KeyPairFactoryTest {
 	@Test
 	fun createKeyPair() {
 		val factory = KeyPairFactory()

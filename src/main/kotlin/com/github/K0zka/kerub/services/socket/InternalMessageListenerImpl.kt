@@ -8,7 +8,7 @@ import javax.jms.MessageListener
 import javax.jms.ObjectMessage
 import com.github.K0zka.kerub.model.messages.Message as KerubMessage
 
-open public class InternalMessageListenerImpl(private val planner: Planner) : MessageListener, InternalMessageListener {
+open class InternalMessageListenerImpl(private val planner: Planner) : MessageListener, InternalMessageListener {
 
 	companion object {
 		val logger = getLogger(InternalMessageListenerImpl::class)
@@ -33,7 +33,7 @@ open public class InternalMessageListenerImpl(private val planner: Planner) : Me
 	}
 
 	override fun onMessage(message: Message?) {
-		val obj = (message as ObjectMessage).getObject()!!
+		val obj = (message as ObjectMessage).`object`!!
 
 		if (obj is EntityMessage) {
 			planner.onEvent(obj)

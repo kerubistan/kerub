@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils
 import org.junit.Test
 import kotlin.test.assertTrue
 
-public class NumberUtilsTest {
+class NumberUtilsTest {
 	@Test
 	fun compareWithBetween() {
 		assertTrue("B".between("A", "C"))

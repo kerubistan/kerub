@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.services.LoginService
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.UsernamePasswordToken
 
-public class LoginServiceImpl : LoginService {
+class LoginServiceImpl : LoginService {
 
 	override
 	fun login(authentication: LoginService.UsernamePassword) {
@@ -20,7 +20,7 @@ public class LoginServiceImpl : LoginService {
 	fun getUser(): LoginService.UserData {
 		val subject = SecurityUtils.getSubject()
 		return LoginService.UserData(
-				subject.getPrincipal().toString(),
+				subject.principal.toString(),
 				Roles.values().filter { subject.hasRole(it.name) }.toList()
 		)
 	}

@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.host.packman.RaspbianPackageManager
 import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.ClientSession
 
-public class Raspbian : AbstractDebian("Raspbian GNU/Linux") {
+class Raspbian : AbstractDebian("Raspbian GNU/Linux") {
 	override fun getPackageManager(session: ClientSession): PackageManager
 			= RaspbianPackageManager(session)
 

@@ -9,7 +9,7 @@ import org.apache.sshd.ClientSession
  * Tool to get the list of packages with an rpm command.
  * It can be reused in RPM-based distribution adapters.
  */
-public object RpmListPackages {
+object RpmListPackages {
 	fun execute(session: ClientSession): List<SoftwarePackage> =
 			session.execute("rpm -qa --queryformat \"%{NAME}\\t%{VERSION}\\n\"")
 					.trim()

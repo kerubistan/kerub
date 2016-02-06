@@ -8,7 +8,7 @@ import java.math.BigInteger
 import java.util.UUID
 import org.hibernate.search.annotations.Analyze.NO as noAnalyze
 
-public data class VirtualMachineDynamic(
+data class VirtualMachineDynamic(
 		@DocumentId
 		@JsonProperty("id")
 		override

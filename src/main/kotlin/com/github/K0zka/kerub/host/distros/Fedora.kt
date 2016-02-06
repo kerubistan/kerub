@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.utils.between
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.ClientSession
 
-public open class Fedora : LsbDistribution("Fedora") {
+open class Fedora : LsbDistribution("Fedora") {
 	override fun getPackageManager(session: ClientSession): PackageManager {
 		return YumPackageManager(session)
 	}

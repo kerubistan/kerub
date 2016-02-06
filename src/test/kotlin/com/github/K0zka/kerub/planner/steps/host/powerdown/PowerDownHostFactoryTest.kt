@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
 
-public class PowerDownHostFactoryTest {
+class PowerDownHostFactoryTest {
 
 	val vm = VirtualMachine(
 			name = "vm-1",

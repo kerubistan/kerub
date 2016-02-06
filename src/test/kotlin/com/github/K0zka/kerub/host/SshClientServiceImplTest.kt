@@ -23,8 +23,7 @@ import java.security.PublicKey
 import java.util.concurrent.TimeUnit
 
 
-@RunWith(MockitoJUnitRunner::class)
-public class SshClientServiceImplTest {
+@RunWith(MockitoJUnitRunner::class) class SshClientServiceImplTest {
 	@Mock
 	var client : SshClient? = null
 	@Mock

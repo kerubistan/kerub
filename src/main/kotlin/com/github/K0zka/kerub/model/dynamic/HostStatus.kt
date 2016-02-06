@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.model.dynamic
 /**
  * Handled statuses of a host
  */
-public enum class HostStatus {
+enum class HostStatus {
 	/**
 	 * The host is being connected to the kerub controller.
 	 */

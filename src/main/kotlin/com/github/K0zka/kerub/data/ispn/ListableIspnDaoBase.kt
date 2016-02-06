@@ -7,8 +7,8 @@ import org.infinispan.Cache
 import org.infinispan.query.Search
 import org.infinispan.query.dsl.SortOrder
 
-public abstract class ListableIspnDaoBase<T : Entity<I>, I>(cache: Cache<I, T>, eventListener: EventListener)
-: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.List<T, I> {
+abstract class ListableIspnDaoBase<T : Entity<I>, I>(cache: Cache<I, T>, eventListener: EventListener)
+: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.PagedList<T, I> {
 	override fun count(): Int {
 		return cache.count()
 	}

@@ -10,7 +10,7 @@ import java.util.UUID
  * Dynamic general information about the status of a host.
  */
 @JsonTypeName("host-dyn")
-public data class HostDynamic(
+data class HostDynamic(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID,

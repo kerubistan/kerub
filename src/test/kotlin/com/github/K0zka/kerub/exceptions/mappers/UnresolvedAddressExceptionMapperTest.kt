@@ -5,11 +5,11 @@ import org.junit.Test
 import java.nio.channels.UnresolvedAddressException
 import javax.ws.rs.core.Response
 
-public class UnresolvedAddressExceptionMapperTest {
+class UnresolvedAddressExceptionMapperTest {
 	@Test
 	fun toResponse() {
 		val response = UnresolvedAddressExceptionMapper().toResponse(UnresolvedAddressException())
-		Assert.assertEquals(response.getStatus(), Response.Status.NOT_ACCEPTABLE.getStatusCode())
-		Assert.assertNotNull(response.getEntity())
+		Assert.assertEquals(response.status, Response.Status.NOT_ACCEPTABLE.statusCode)
+		Assert.assertNotNull(response.entity)
 	}
 }

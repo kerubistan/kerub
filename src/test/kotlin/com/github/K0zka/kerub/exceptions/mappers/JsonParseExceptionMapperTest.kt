@@ -7,11 +7,11 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
 
-public class JsonParseExceptionMapperTest {
+class JsonParseExceptionMapperTest {
 	@Test
 	fun toResponse() {
 		val response = JsonParseExceptionMapper(createObjectMapper()).toResponse(JsonParseException("TEST", null))
 		Assert.assertThat(response, CoreMatchers.notNullValue())
-		Assert.assertThat(response!!.getStatus(), CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
+		Assert.assertThat(response!!.status, CoreMatchers.`is`(HttpStatus.SC_NOT_ACCEPTABLE))
 	}
 }

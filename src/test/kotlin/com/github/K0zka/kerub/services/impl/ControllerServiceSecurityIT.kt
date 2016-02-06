@@ -9,7 +9,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.junit.Assert
 import org.junit.Test
 
-public class ControllerServiceSecurityIT {
+class ControllerServiceSecurityIT {
 
 	fun check(role: String, access: Boolean) {
 		val user = testUsers[role]!!

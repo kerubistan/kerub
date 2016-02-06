@@ -6,7 +6,7 @@ import org.infinispan.AdvancedCache
 import org.infinispan.query.Search
 import java.util.UUID
 
-public class AuditEntryDaoImpl(protected val cache: AdvancedCache<UUID, AuditEntry>) : AuditEntryDao {
+class AuditEntryDaoImpl(protected val cache: AdvancedCache<UUID, AuditEntry>) : AuditEntryDao {
 	override fun add(entry: AuditEntry): UUID {
 		cache.putAsync(entry.id, entry)
 		return entry.id

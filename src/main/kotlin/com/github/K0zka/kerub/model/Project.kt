@@ -8,8 +8,7 @@ import org.hibernate.search.annotations.Field
 import java.util.Date
 import java.util.UUID
 
-@JsonTypeName("project")
-public class Project @JsonCreator constructor(
+@JsonTypeName("project") class Project @JsonCreator constructor(
 		@DocumentId
 		@JsonProperty("id")
 		override var id: UUID = UUID.randomUUID(),

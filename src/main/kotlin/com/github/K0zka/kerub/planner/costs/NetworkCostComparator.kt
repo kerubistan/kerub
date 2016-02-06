@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.planner.costs
 
 import java.util.Comparator
 
-public object NetworkCostComparator : Comparator<NetworkCost> {
+object NetworkCostComparator : Comparator<NetworkCost> {
 
 	fun cost(networkCost: NetworkCost) = networkCost.bytes * (networkCost.hosts.size + 1)
 

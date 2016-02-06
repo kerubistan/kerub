@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.planner.steps.vm.migrate
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.planner.StepExecutor
 
-public class MigrateVirtualMachineExecutor(val hostManager: HostManager) : StepExecutor<MigrateVirtualMachine> {
+class MigrateVirtualMachineExecutor(val hostManager: HostManager) : StepExecutor<MigrateVirtualMachine> {
 	override fun execute(step: MigrateVirtualMachine) {
 		val hypervisor = requireNotNull(
 				hostManager.getHypervisor(step.target),

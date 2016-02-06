@@ -7,7 +7,7 @@ import org.infinispan.query.Search
 import org.infinispan.query.dsl.SortOrder
 import java.util.UUID
 
-public class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
+class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
 	override fun count(): Int {
 		return cache.count()
 	}

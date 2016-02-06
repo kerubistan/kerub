@@ -7,7 +7,7 @@ import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.util.UUID
 
-public data class Assignment @JsonCreator constructor(
+data class Assignment @JsonCreator constructor(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),

@@ -26,7 +26,7 @@ object Virsh {
 			try {
 				sftp.write(domainDefFile).use {
 					file ->
-					file.write(domainDef.toByteArray("UTF-8"))
+					file.write(domainDef.toByteArray(charset("UTF-8")))
 				}
 				session.executeOrDie("virsh create $domainDefFile")
 			} finally {

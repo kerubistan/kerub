@@ -13,7 +13,7 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.math.BigInteger
 
-public data class HostCapabilities(
+data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
 		val os: OperatingSystem?,

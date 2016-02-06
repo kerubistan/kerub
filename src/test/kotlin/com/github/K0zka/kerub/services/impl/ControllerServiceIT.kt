@@ -7,7 +7,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.junit.Assert
 import org.junit.Test
 
-public class ControllerServiceIT {
+class ControllerServiceIT {
 
 	@Test
 	fun list() {

@@ -15,7 +15,7 @@ import org.apache.cxf.jaxrs.client.WebClient
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 
-public class RestErrorCodesDefinitions {
+class RestErrorCodesDefinitions {
 
 	var hostAddress : String? = null
 	var publicKeyFingerPrint = ""

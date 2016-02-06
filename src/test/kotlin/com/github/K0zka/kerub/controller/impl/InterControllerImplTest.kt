@@ -12,8 +12,7 @@ import org.springframework.jms.core.JmsTemplate
 import java.util.Date
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class InterControllerImplTest {
+@RunWith(MockitoJUnitRunner::class) class InterControllerImplTest {
 	@Mock
 	var jmsTemplate: JmsTemplate? = null
 	var interControllerImpl: InterControllerImpl? = null

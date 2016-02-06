@@ -17,7 +17,7 @@ import java.math.BigInteger
  * Stop virtual machine.
  * Operation cost is considered negligible.
  */
-public data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) : AbstractOperationalStep, HostStep {
+data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) : AbstractOperationalStep, HostStep {
 
 	companion object {
 		val scores = mapOf<ExpectationLevel, Int>(
@@ -30,7 +30,7 @@ public data class StopVirtualMachine(val vm: VirtualMachine, override val host: 
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id]!!
 		return state.copy(
-				vmDyns = state.vmDyns - (vm.id),
+				vmDyns = state.vmDyns.filterNot { it.key == vm.id },
 				hostDyns = state.hostDyns + (host.id to
 						hostDyn.copy(
 								memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max

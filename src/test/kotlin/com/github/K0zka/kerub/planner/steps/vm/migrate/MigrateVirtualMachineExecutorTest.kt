@@ -11,8 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-public class MigrateVirtualMachineExecutorTest {
+@RunWith(MockitoJUnitRunner::class) class MigrateVirtualMachineExecutorTest {
 	@Mock
 	var hostManager: HostManager? = null
 	@Mock

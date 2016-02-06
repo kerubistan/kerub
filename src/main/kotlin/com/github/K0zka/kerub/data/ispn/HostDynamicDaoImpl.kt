@@ -6,5 +6,5 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import org.infinispan.Cache
 import java.util.UUID
 
-public class HostDynamicDaoImpl(cache: Cache<UUID, HostDynamic>, eventListener: EventListener) : IspnDaoBase<HostDynamic, UUID>(cache, eventListener), HostDynamicDao {
+class HostDynamicDaoImpl(cache: Cache<UUID, HostDynamic>, eventListener: EventListener) : IspnDaoBase<HostDynamic, UUID>(cache, eventListener), HostDynamicDao {
 }

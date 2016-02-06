@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
 
-public class PowerDownTest {
+class PowerDownTest {
 
 	val host = Host(
 			address = "host-1.example.com",

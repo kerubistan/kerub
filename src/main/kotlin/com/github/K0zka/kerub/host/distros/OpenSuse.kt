@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import org.apache.sshd.ClientSession
 
-public class OpenSuse : LsbDistribution("openSUSE") {
+class OpenSuse : LsbDistribution("openSUSE") {
 	override fun getPackageManager(session: ClientSession) = ZypperPackageManager(session)
 
 	companion object {

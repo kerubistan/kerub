@@ -6,7 +6,7 @@ import org.hibernate.search.annotations.DocumentId
 import java.util.UUID
 
 @JsonTypeName("event")
-public data class Event(
+data class Event(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),

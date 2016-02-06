@@ -9,6 +9,5 @@ import org.junit.runner.RunWith
 		plugin = arrayOf("pretty"),
 		features = arrayOf("classpath:stories/rest/errorcodes.feature"),
         glue = arrayOf("com.github.K0zka.kerub.stories.rest.errorcodes")
-               )
-public class RestErrorCodesStoriesIT {
+               ) class RestErrorCodesStoriesIT {
 }

@@ -11,8 +11,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class AuditServiceImplTest {
+@RunWith(MockitoJUnitRunner::class) class AuditServiceImplTest {
 	@Mock
 	var dao : AuditEntryDao? = null
 

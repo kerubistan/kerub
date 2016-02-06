@@ -5,16 +5,16 @@ import com.github.K0zka.kerub.services.StatisticsService
 import org.infinispan.AdvancedCache
 import org.infinispan.manager.EmbeddedCacheManager
 
-public class StatisticsServiceImpl(val cacheManager: EmbeddedCacheManager) : StatisticsService {
+class StatisticsServiceImpl(val cacheManager: EmbeddedCacheManager) : StatisticsService {
 	override fun getStatisticsInfo(cacheName: String): StatisticsInfo {
-		val stats = (cacheManager.getCache<Any, Any>(cacheName) as AdvancedCache<Any, Any>).getStats()
+		val stats = (cacheManager.getCache<Any, Any>(cacheName) as AdvancedCache<Any, Any>).stats
 		return StatisticsInfo(
-				avgReadTime = stats?.getAverageReadTime() ?: -1,
-				avgRemoveTime = stats?.getAverageRemoveTime() ?: -1,
-				avgWriteTime = stats?.getAverageWriteTime() ?: -1,
-				hits = stats?.getHits() ?: -1,
-				misses = stats?.getMisses() ?: -1,
-				nrEntries = stats?.getTotalNumberOfEntries() ?: -1,
-				upTime = stats?.getTimeSinceStart() ?: -1)
+				avgReadTime = stats?.averageReadTime ?: -1,
+				avgRemoveTime = stats?.averageRemoveTime ?: -1,
+				avgWriteTime = stats?.averageWriteTime ?: -1,
+				hits = stats?.hits ?: -1,
+				misses = stats?.misses ?: -1,
+				nrEntries = stats?.totalNumberOfEntries ?: -1,
+				upTime = stats?.timeSinceStart ?: -1)
 	}
 }

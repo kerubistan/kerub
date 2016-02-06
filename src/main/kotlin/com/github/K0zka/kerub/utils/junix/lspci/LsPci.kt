@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 
-public object LsPci {
+object LsPci {
 	val logger = getLogger(LsPci::class)
 	@JvmStatic val doublequote = "\""
 

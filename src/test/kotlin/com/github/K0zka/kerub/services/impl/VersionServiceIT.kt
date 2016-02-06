@@ -8,7 +8,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.junit.Assert
 import org.junit.Test
 
-public class VersionServiceIT {
+class VersionServiceIT {
 
 	private companion object val logger = getLogger(VersionServiceIT::class)
 

@@ -10,7 +10,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
 
-public class StopVirtualMachineFactoryTest {
+class StopVirtualMachineFactoryTest {
 	@Test
 	fun produceWithBlankState() {
 		val state = OperationalState.fromLists()

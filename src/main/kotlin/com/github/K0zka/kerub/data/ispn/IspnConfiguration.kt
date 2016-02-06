@@ -39,11 +39,11 @@ class IspnConfiguration {
 		System.setProperty("stat.owners", staticOwners.toString())
 
 		val template = loadTemplate()
-		var globalConfigBuilder = template.getGlobalConfigurationBuilder()
+		var globalConfigBuilder = template.globalConfigurationBuilder
 
 		globalConfigBuilder.transport().clusterName(clusterName).rackId(rackId).siteId(siteId)
 
-		var configBuilder = template.getCurrentConfigurationBuilder()
+		var configBuilder = template.currentConfigurationBuilder
 		globalConfig = globalConfigBuilder.build()
 		config = configBuilder.build(globalConfig)
 	}
@@ -57,7 +57,7 @@ class IspnConfiguration {
 	}
 
 	fun loadTemplate() =
-			Thread.currentThread().getContextClassLoader().getResourceAsStream(template).use {
+			Thread.currentThread().contextClassLoader.getResourceAsStream(template).use {
 				ParserRegistry().parse(it)
 			}
 

@@ -15,8 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import javax.jms.ObjectMessage
 
-@RunWith(MockitoJUnitRunner::class)
-public class InterControllerListenerTest {
+@RunWith(MockitoJUnitRunner::class) class InterControllerListenerTest {
 
 	@Mock
 	var hostManager: HostManager? = null
@@ -47,7 +46,7 @@ public class InterControllerListenerTest {
 		on(hostDao!!.get( eq(hostId) )).thenReturn(
 				        host
 		                                          )
-		on(message!!.getObject()).thenReturn(HostAssignedMessage(hostId, controllerId))
+		on(message!!.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))
 		impl!!.onMessage(message)
 
 		verify(hostManager!!).connectHost(eq(host))

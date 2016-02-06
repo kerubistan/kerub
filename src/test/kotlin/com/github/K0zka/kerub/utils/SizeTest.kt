@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils
 import org.junit.Assert
 import org.junit.Test
 
-public class SizeTest {
+class SizeTest {
 
 	@Test
 	fun parseStrorageSize() {

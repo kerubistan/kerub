@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.data.ispn
 
 import org.junit.Test
 
-public class IspnConfigurationTest {
+class IspnConfigurationTest {
 	@Test
 	fun initAndBuild() {
 		val config = IspnConfiguration()

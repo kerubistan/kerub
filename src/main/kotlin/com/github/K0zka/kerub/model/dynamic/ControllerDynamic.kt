@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.K0zka.kerub.model.Entity
 import org.hibernate.search.annotations.DocumentId
 
-public data class ControllerDynamic(val controllerId: String,
+data class ControllerDynamic(val controllerId: String,
 									val maxHosts: Int,
 									val totalHosts: Int,
 									val addresses: List<String>) : Entity<String> {

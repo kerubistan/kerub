@@ -14,7 +14,7 @@ import org.apache.sshd.ClientSession
  * Some settings need to be modified in sshd configuration:
  * PermitRootLogin yes
  */
-public class FreeBSD : Distribution {
+class FreeBSD : Distribution {
 	override fun installMonitorPackages(session: ClientSession) {
 		//TODO issue #57
 	}

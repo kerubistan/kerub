@@ -1,5 +1,5 @@
 package com.github.K0zka.kerub.planner
 
-public interface PlanExecutor {
+interface PlanExecutor {
 	fun execute(plan: Plan, callback: (Plan) -> Unit)
 }

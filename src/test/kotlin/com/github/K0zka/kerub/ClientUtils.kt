@@ -26,15 +26,15 @@ class RestException(val msg : String, val code : String, val status : Int, val r
 
 class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
 	override fun fromResponse(r: Response?): Exception? {
-		val entity = objectMapper.readValue(r!!.getEntity() as InputStream, RestError::class.java)
-		throw RestException(entity.message!!,entity.code!!,r!!.getStatus(), r)
+		val entity = objectMapper.readValue(r!!.entity as InputStream, RestError::class.java)
+		throw RestException(entity.message!!,entity.code!!, r.status, r)
 	}
 }
 
 fun createClient() : WebClient {
 	val objectMapper = createObjectMapper()
 	val client = WebClient.create(getServiceBaseUrl(), listOf(JacksonJsonProvider(objectMapper), RestExceptionHandler(objectMapper)), true)
-	WebClient.getConfig(client).getRequestContext().put(
+	WebClient.getConfig(client).requestContext.put(
 			org.apache.cxf.message.Message.MAINTAIN_SESSION, true)
 	return client;
 }

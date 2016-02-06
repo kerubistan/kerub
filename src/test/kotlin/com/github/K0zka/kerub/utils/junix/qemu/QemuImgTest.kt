@@ -17,8 +17,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
-public class QemuImgTest {
+@RunWith(MockitoJUnitRunner::class) class QemuImgTest {
 	@Mock
 	var session : ClientSession? = null
 
@@ -36,8 +35,8 @@ public class QemuImgTest {
 
 	@Test
 	fun create() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		QemuImg.create(session!!, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
 
@@ -57,8 +56,8 @@ public class QemuImgTest {
     "dirty-flag": false
 }
 """
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(ByteArrayInputStream(testOutput.toByteArray("UTF-8")))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("UTF-8"))))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		val info = QemuImg.info(session!!, "/tmp/test.raw")
 
@@ -72,8 +71,8 @@ public class QemuImgTest {
 
 	@Test
 	fun resize() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		QemuImg.resize(session!!, "/tmp/test.raw", "100 MB".toSize())
 
@@ -82,8 +81,8 @@ public class QemuImgTest {
 
 	@Test
 	fun convert() {
-		Mockito.`when`(execChannel!!.getInvertedOut()).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.getInvertedErr()).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 
 		QemuImg.convert(session!!, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
 

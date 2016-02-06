@@ -13,8 +13,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
-public class WakeOnLanTest {
+@RunWith(MockitoJUnitRunner::class) class WakeOnLanTest {
 
 	@Mock
 	var executor : HostCommandExecutor? = null

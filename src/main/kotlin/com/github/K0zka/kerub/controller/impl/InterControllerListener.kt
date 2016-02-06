@@ -9,7 +9,7 @@ import javax.jms.Message
 import javax.jms.MessageListener
 import javax.jms.ObjectMessage
 
-public class InterControllerListener(
+class InterControllerListener(
 		private val hostManager: HostManager,
 		private val hostDao: HostDao
 ) : MessageListener {
@@ -18,7 +18,7 @@ public class InterControllerListener(
 	}
 
 	override fun onMessage(message: Message?) {
-		val msg = (message as ObjectMessage).getObject()!!
+		val msg = (message as ObjectMessage).`object`!!
 		when (msg) {
 			is EntityEventMessage -> {
 

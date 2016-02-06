@@ -6,9 +6,8 @@ import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
 
-public class WakeHostTest {
-	@Test
-	public fun take() {
+class WakeHostTest {
+	@Test fun take() {
 		val host = Host(
 				address = "host-1.example.com",
 				dedicated = true,

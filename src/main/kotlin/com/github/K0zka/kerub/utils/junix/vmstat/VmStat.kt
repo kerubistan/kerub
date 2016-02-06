@@ -72,9 +72,9 @@ public object VmStat : OsCommand {
 
 	fun vmstat(session: ClientSession, handler: (VmStatEvent) -> Unit, delay: Int = 1): Unit {
 		val exec = session.createExecChannel("vmstat ${delay}")
-		exec.setIn(NullInputStream(0))
-		exec.setErr(NullOutputStream())
-		exec.setOut(VmstatOutputStream(handler))
+		exec.`in` = NullInputStream(0)
+		exec.err = NullOutputStream()
+		exec.out = VmstatOutputStream(handler)
 		exec.open().verify()
 	}
 }

@@ -10,7 +10,7 @@ import java.math.BigInteger
  * Utility wrapper around qemu-img
  * See http://manpages.ubuntu.com/manpages/utopic/man1/qemu-img.1.html
  */
-public object QemuImg {
+object QemuImg {
 	val objectMapper = createObjectMapper()
 	fun create(
 			session: ClientSession,

@@ -4,7 +4,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-public class VersionTest {
+class VersionTest {
 
 	fun params(): List<Pair<Version, String>> {
 		return listOf(

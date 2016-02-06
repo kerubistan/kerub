@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.VirtualMachine
  * A hypervisor represents an installation of a hypervisor software on a host, therefore it implementations
  * should have connection to the host.
  */
-public interface Hypervisor {
+interface Hypervisor {
 	fun startVm(vm: VirtualMachine)
 	fun stopVm(vm: VirtualMachine)
 	fun migrate(vm: VirtualMachine, source: Host, target: Host)

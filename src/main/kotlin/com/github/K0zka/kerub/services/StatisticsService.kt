@@ -7,7 +7,7 @@ import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 
-public class StatisticsInfo(
+class StatisticsInfo(
 		val upTime: Long,
 		val nrEntries: Long,
 		val hits: Long,
@@ -20,8 +20,7 @@ public class StatisticsInfo(
 @Produces("application/json")
 @Consumes("application/json")
 @Path("/stats/controller/db")
-@RequiresAuthentication
-public interface StatisticsService {
+@RequiresAuthentication interface StatisticsService {
 	@GET
 	@Path("/{name}")
 	fun getStatisticsInfo(@PathParam("name") cacheName: String): StatisticsInfo

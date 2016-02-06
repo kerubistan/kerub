@@ -9,7 +9,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
 
-public class MotdServiceIT {
+class MotdServiceIT {
 
 	companion object {
 		val logger = getLogger(MotdServiceIT::class)

@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
-public class InstallSoftware(val packageName: String, val host: Host) : AbstractOperationalStep {
+class InstallSoftware(val packageName: String, val host: Host) : AbstractOperationalStep {
 
 	override fun reservations(): List<Reservation<*>>
 			= listOf(FullHostReservation(host))

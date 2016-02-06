@@ -43,7 +43,7 @@ class LvmPvTest {
 	fun list() {
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("pvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val list = LvmPv.list(session!!)
@@ -60,7 +60,7 @@ class LvmPvTest {
 	fun listEmpty() {
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("pvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray("ASCII")))
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val list = LvmPv.list(session!!)

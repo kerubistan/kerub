@@ -59,7 +59,7 @@ class VirshTest {
 		try {
 			Mockito.`when`(sftpClient!!.write(anyString())).thenReturn(ByteArrayOutputStream())
 			Mockito.`when`(execChannel!!.invertedErr)
-					.thenReturn(ByteArrayInputStream("TEST ERROR".toByteArray("ASCII")))
+					.thenReturn(ByteArrayInputStream("TEST ERROR".toByteArray(charset("ASCII"))))
 			Mockito.`when`(execChannel!!.invertedOut)
 					.thenReturn(NullInputStream(0))
 			Virsh.create(session!!, UUID.randomUUID(), "TEST-DOMAIN-DEF")
@@ -76,7 +76,7 @@ class VirshTest {
 8952908a-f27d-45dc-b274-0aeb7a68660b
 8952908a-f27d-45dc-b274-0aeb7a68660c"""
 		Mockito.`when`(execChannel!!.invertedOut)
-				.thenReturn(ByteArrayInputStream(testOutput.toByteArray("ASCII")))
+				.thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel!!.invertedErr)
 				.thenReturn(NullInputStream(0))
 
@@ -283,7 +283,7 @@ Domain: 'kerub.hosts.fedora20'
 			null
 		}
 		Mockito.`when`(execChannel!!.open()).thenAnswer {
-			requireNotNull(output).writer("ASCII").use {
+			requireNotNull(output).writer(charset("ASCII")).use {
 				it.write(domStatMultiOutput)
 			}
 			channelOpenFuture
@@ -304,7 +304,7 @@ Domain: 'kerub.hosts.fedora20'
 		Mockito.`when`(execChannel!!.invertedErr)
 				.thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel!!.invertedOut)
-				.thenReturn(ByteArrayInputStream(domStatOutput.toByteArray("ASCII")))
+				.thenReturn(ByteArrayInputStream(domStatOutput.toByteArray(charset("ASCII"))))
 
 		val stats = Virsh.domStat(session!!)
 		assertEquals(2, stats.size)

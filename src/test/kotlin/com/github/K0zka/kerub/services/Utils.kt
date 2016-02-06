@@ -4,11 +4,11 @@ import java.net.ServerSocket
 
 fun getFreePort(): Int =
 		ServerSocket(0).use {
-			return it.getLocalPort()
+			return it.localPort
 		}
 
 
-public fun getBaseUrl(): String {
+fun getBaseUrl(): String {
 	val url = System.getProperty("kerub.it.url")
 	if (url == null) {
 		return "http://localhost:${getPort()}/"
@@ -17,7 +17,7 @@ public fun getBaseUrl(): String {
 	}
 }
 
-public fun getPort(): Int {
+fun getPort(): Int {
 	val portStr = System.getProperty("kerub.it.port")
 	if (portStr == null) {
 		return 8080
@@ -26,6 +26,6 @@ public fun getPort(): Int {
 	}
 }
 
-public fun getServiceBaseUrl(): String {
+fun getServiceBaseUrl(): String {
 	return "${getBaseUrl()}/s/r"
 }

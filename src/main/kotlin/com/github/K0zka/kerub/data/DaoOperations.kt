@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.Entity
 /**
  * Collection of common DAO operations to pick from when building DAO interfaces.
  */
-public interface DaoOperations {
+interface DaoOperations {
 
 	/**
 	 * Interface to allow adding entities to the backing data store.
@@ -39,7 +39,7 @@ public interface DaoOperations {
 	/**
 	 * List operations for DAOs.
 	 */
-	interface List<T : Entity<I>, I> {
+	interface PagedList<T : Entity<I>, I> {
 		/**
 		 * Get the total count of entities.
 		 */
@@ -51,7 +51,7 @@ public interface DaoOperations {
 		fun list(
 				start: Long = 0,
 				limit: Long = java.lang.Long.MAX_VALUE,
-				sort: String = "id"): kotlin.List<T>
+				sort: String = "id"): List<T>
 	}
 
 	/**
@@ -59,16 +59,16 @@ public interface DaoOperations {
 	 * This should only be applied in cases where the number of entities is low.
 	 */
 	interface SimpleList<T : Any> {
-		fun listAll(): kotlin.List<T>
+		fun listAll(): List<T>
 	}
 
-	public interface SimpleSearch<T : Entity<*>> {
+	interface SimpleSearch<T : Entity<*>> {
 		fun fieldSearch(
 				field: String,
 				value: String,
 				start: Long = 0,
 				limit: Long = java.lang.Long.MAX_VALUE
-		): kotlin.List<T>
+		): List<T>
 	}
 
 }

@@ -3,5 +3,4 @@ package com.github.K0zka.kerub.model.messages
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import java.io.Serializable
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-public interface Message : Serializable
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type") interface Message : Serializable

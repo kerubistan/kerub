@@ -7,7 +7,7 @@ import org.apache.sshd.ClientSession
 /**
  * Utilities to deal with the linux sysfs network information.
  */
-public object Net {
+object Net {
 
 	val macAddressSize = 6
 	val hexaDecimal = 16

@@ -12,8 +12,7 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/controllers/")
-@RequiresAuthentication
-public interface ControllerService {
+@RequiresAuthentication interface ControllerService {
 	@GET
 	@Path("/")
 	@RequiresRoles(admin)

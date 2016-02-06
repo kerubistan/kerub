@@ -16,7 +16,7 @@ import org.junit.Test
 import java.math.BigInteger
 import java.util.UUID
 
-public class VirtualMachineServiceIT {
+class VirtualMachineServiceIT {
 	@Test
 	fun crud() {
 		val client = createClient()

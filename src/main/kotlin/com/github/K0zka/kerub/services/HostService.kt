@@ -24,8 +24,7 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresRoles(admin)
-@RequiresAuthentication
-public interface HostService : RestCrud<Host>, RestOperations.List<Host> {
+@RequiresAuthentication interface HostService : RestCrud<Host>, RestOperations.List<Host> {
 
 	@RequiresAuthentication
 	@RequiresRoles(admin)

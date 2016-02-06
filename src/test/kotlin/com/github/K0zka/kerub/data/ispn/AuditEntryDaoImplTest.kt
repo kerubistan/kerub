@@ -15,8 +15,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class AuditEntryDaoImplTest {
+@RunWith(MockitoJUnitRunner::class) class AuditEntryDaoImplTest {
 
 	@Mock
 	var oldEntity : Entity<UUID>? = null

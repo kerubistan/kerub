@@ -8,7 +8,7 @@ import java.security.PublicKey
  * Host manager have to keep track of all hosts connected to the controller.
  *
  */
-public interface HostManager {
+interface HostManager {
 	fun registerHost()
 	fun getHostPublicKey(address: String): PublicKey
 	fun connectHost(host: Host)

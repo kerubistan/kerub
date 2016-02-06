@@ -13,8 +13,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
-public class LsPciTest {
+@RunWith(MockitoJUnitRunner::class) class LsPciTest {
 
 	@Mock
 	var session : ClientSession? = null
@@ -114,10 +113,10 @@ public class LsPciTest {
 
 	@Test
 	fun executeWithNuc() {
-		val input = ByteArrayInputStream(samples.nuc.toByteArray("ASCII"))
+		val input = ByteArrayInputStream(samples.nuc.toByteArray(charset("ASCII")))
 		Mockito.`when`(session?.createExecChannel(Matchers.eq("lspci -mm")))
 			.thenReturn(execChannel)
-		Mockito.`when`(execChannel?.getInvertedOut()).thenReturn(input)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(input)
 		Mockito.`when`(execChannel?.open()).thenReturn(channelOpenFuture)
 
 		val devices = LsPci.execute(session!!)

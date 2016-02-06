@@ -11,8 +11,7 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
-public class NetTest {
+@RunWith(MockitoJUnitRunner::class) class NetTest {
 
 	@Mock
 	var clientSession: ClientSession? = null
@@ -33,7 +32,7 @@ public class NetTest {
 
 	@Test
 	fun getMacAddress() {
-		val content = ByteArrayInputStream("52:54:00:b5:75:bb".toByteArray("ASCII"))
+		val content = ByteArrayInputStream("52:54:00:b5:75:bb".toByteArray(charset("ASCII")))
 		Mockito.`when`(sftpClient!!.read(Matchers.anyString())).thenReturn(content)
 		Mockito.`when`(clientSession!!.createSftpClient()).thenReturn(sftpClient)
 

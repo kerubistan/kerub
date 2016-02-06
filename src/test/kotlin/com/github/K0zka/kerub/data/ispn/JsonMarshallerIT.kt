@@ -9,7 +9,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
 
-public class JsonMarshallerIT {
+class JsonMarshallerIT {
 
 	val mapper: ObjectMapper = createObjectMapper()
 
@@ -21,7 +21,7 @@ public class JsonMarshallerIT {
 	@Test
 	fun objectToBuffer() {
 		val buffer = JsonMarshaller(mapper).objectToBuffer(vm)
-		Assert.assertThat("Buffer must be non-empty", buffer!!.getLength(), CoreMatchers.not(0))
+		Assert.assertThat("Buffer must be non-empty", buffer!!.length, CoreMatchers.not(0))
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class JsonMarshallerIT {
 					"expectations":[],
 					"virtualStorageLinks":[]
 				}
-				""").toByteArray("UTF-8")
+				""").toByteArray(charset("UTF-8"))
 		                                                    )
 				as VirtualMachine
 		Assert.assertThat("Person must be non-null", vm, CoreMatchers.notNullValue())
@@ -58,7 +58,7 @@ public class JsonMarshallerIT {
 					"dedicated":false,
 					"publicKey":"abcdef"
 				}
-				""").toByteArray("UTF-8")
+				""").toByteArray(charset("UTF-8"))
 		                                                    )
 				as Host
 		Assert.assertThat("Person must be non-null", host, CoreMatchers.notNullValue())

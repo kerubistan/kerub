@@ -7,7 +7,7 @@ import org.apache.sshd.ClientSession
 import java.io.StringReader
 import java.util.Properties
 
-public abstract class LsbDistribution(val distroName: String) : AbstractLinux() {
+abstract class LsbDistribution(val distroName: String) : AbstractLinux() {
 
 	override fun name(): String {
 		return distroName

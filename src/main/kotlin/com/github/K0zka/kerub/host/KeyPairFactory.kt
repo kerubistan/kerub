@@ -5,7 +5,7 @@ import java.security.KeyPair
 import java.security.KeyStore
 import java.security.PrivateKey
 
-public class KeyPairFactory {
+class KeyPairFactory {
 	var keyStorePath: String = "keystore.jks"
 	var keyStorePassword = emptyString
 	var certificatePassword = emptyString
@@ -13,7 +13,7 @@ public class KeyPairFactory {
 
 	fun createKeyPair(): KeyPair {
 		val keyStore = KeyStore.getInstance("JKS")
-		Thread.currentThread().getContextClassLoader().getResourceAsStream(keyStorePath).use {
+		Thread.currentThread().contextClassLoader.getResourceAsStream(keyStorePath).use {
 			if (it == null) {
 				throw IllegalArgumentException("Keystore ${keyStorePath} not found")
 			}
@@ -21,6 +21,6 @@ public class KeyPairFactory {
 		}
 		val key = keyStore.getKey(alias, certificatePassword.toCharArray());
 		val cert = keyStore.getCertificate(alias)
-		return KeyPair(cert.getPublicKey(), key as PrivateKey)
+		return KeyPair(cert.publicKey, key as PrivateKey)
 	}
 }

@@ -14,7 +14,7 @@ import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import java.util.UUID
 
-public class OperationalStateBuilderImpl(
+class OperationalStateBuilderImpl(
 		private val controllerManager: ControllerManager,
 		private val assignments: AssignmentDao,
 		private val hostDyn: HostDynamicDao,

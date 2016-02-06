@@ -15,8 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
-public class AssignmentDaoImplTest {
+@RunWith(MockitoJUnitRunner::class) class AssignmentDaoImplTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<UUID, Assignment>? = null
 	var dao  : AssignmentDao? = null

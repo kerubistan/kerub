@@ -19,7 +19,7 @@ import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
 
-public data class MigrateVirtualMachine(
+data class MigrateVirtualMachine(
 		val vm: VirtualMachine,
 		val source: Host,
 		val target: Host) : AbstractOperationalStep {
@@ -83,11 +83,11 @@ public data class MigrateVirtualMachine(
 			),
 			ComputationCost(
 					host = target,
-					cycles = vm.memory.max.longValue()
+					cycles = vm.memory.max.toLong()
 			),
 			ComputationCost(
 					host = source,
-					cycles = vm.memory.max.longValue()
+					cycles = vm.memory.max.toLong()
 			)
 
 	) + if (vm.expectations.any { it is NoMigrationExpectation }) {

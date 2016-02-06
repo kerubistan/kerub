@@ -4,7 +4,7 @@ import org.apache.sshd.server.PublickeyAuthenticator
 import org.apache.sshd.server.session.ServerSession
 import java.security.PublicKey
 
-public object AcceptAnyPublickeyAuthenticator : PublickeyAuthenticator {
+object AcceptAnyPublickeyAuthenticator : PublickeyAuthenticator {
 	override fun authenticate(
 			username: String,
 			key: PublicKey,

@@ -10,7 +10,7 @@ import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import kotlin.reflect.KClass
 
-public class SpringSocketClientConnection(val session: WebSocketSession, val mapper: ObjectMapper) : ClientConnection {
+class SpringSocketClientConnection(val session: WebSocketSession, val mapper: ObjectMapper) : ClientConnection {
 
 	var subscriptions: Map<KClass<*>, List<ChannelSubscription>> = services.map { it.key to listOf<ChannelSubscription>() }.toMap()
 

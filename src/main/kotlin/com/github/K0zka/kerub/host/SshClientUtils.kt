@@ -6,6 +6,7 @@ import org.apache.sshd.client.SftpClient
 import org.apache.sshd.client.channel.AbstractClientChannel
 import org.slf4j.Logger
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.EnumSet
 
 private val logger = getLogger(ClientSession::class)
@@ -16,7 +17,7 @@ private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 }
 
 
-public fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
+fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 	try {
 		this.open().await()
 		return fn(this)
@@ -26,22 +27,22 @@ public fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 	}
 }
 
-public fun ClientSession.execute(command: String): String {
+fun ClientSession.execute(command: String): String {
 	return this.createExecChannel(command).use {
-		it.getInvertedOut().reader("ASCII").use {
+		it.invertedOut.reader(Charset.forName("ASCII")).use {
 			logger.debugAndReturn("result of command ${command}: ", it.readText())
 		}
 	}
 }
 
-public fun ClientSession.executeOrDie(command: String): String {
+fun ClientSession.executeOrDie(command: String): String {
 	val execChannel = this.createExecChannel(command)
 	return execChannel.use {
-		val error = it.invertedErr.reader("ASCII").readText()
+		val error = it.invertedErr.reader(charset("ASCII")).readText()
 		if (error.isNotBlank()) {
 			throw IOException(error)
 		}
-		it.getInvertedOut().reader("ASCII").use {
+		it.invertedOut.reader(charset("ASCII")).use {
 			logger.debugAndReturn("result of command ${command}: ", it.readText())
 		}
 	}
@@ -52,7 +53,7 @@ public fun ClientSession.executeOrDie(command: String): String {
  * Check if a file exists.
  * Sftp channel is created, only use this if there is no sftp channel open yet.
  */
-public fun ClientSession.checkFileExists(file: String): Boolean {
+fun ClientSession.checkFileExists(file: String): Boolean {
 	return this.createSftpClient().use {
 		it.checkFileExists(file)
 	}
@@ -61,7 +62,7 @@ public fun ClientSession.checkFileExists(file: String): Boolean {
 /**
  * Check if a file exists.
  */
-public fun SftpClient.checkFileExists(file: String): Boolean {
+fun SftpClient.checkFileExists(file: String): Boolean {
 	try {
 		this.stat(file)
 		return true
@@ -71,19 +72,19 @@ public fun SftpClient.checkFileExists(file: String): Boolean {
 	}
 }
 
-public fun ClientSession.appendToFile(file: String, content: String) {
+fun ClientSession.appendToFile(file: String, content: String) {
 	this.createSftpClient().use {
 		it.appendToFile(file, content)
 	}
 }
 
-public fun SftpClient.appendToFile(file: String, content: String) {
+fun SftpClient.appendToFile(file: String, content: String) {
 	val handle = this.open(file, EnumSet.of<SftpClient.OpenMode>(
 			SftpClient.OpenMode.Append,
 			SftpClient.OpenMode.Create,
 			SftpClient.OpenMode.Write))
 	try {
-		val contentBytes = content.toByteArray("ASCII")
+		val contentBytes = content.toByteArray(charset("ASCII"))
 		val stat = this.stat(handle)
 		this.write(handle, stat.size, contentBytes, 0, contentBytes.size)
 	} finally {
@@ -112,7 +113,7 @@ fun <T> SftpClient.use(action: (client: SftpClient) -> T): T {
  * This should be used only on small files, usually configuration files.
  * Opens a session and closes it afterwards.
  */
-public fun ClientSession.getFileContents(file: String): String {
+fun ClientSession.getFileContents(file: String): String {
 	return this.createSftpClient().use {
 		it.getFileContents(file)
 	}
@@ -122,8 +123,8 @@ public fun ClientSession.getFileContents(file: String): String {
  * Get the contents of a file.
  * This should be used only on small files, usually configuration files.
  */
-public fun SftpClient.getFileContents(file: String): String {
+fun SftpClient.getFileContents(file: String): String {
 	return this.read(file).use {
-		logger.debugAndReturn("Contents of file ${file}: ", it.reader("ASCII").readText())
+		logger.debugAndReturn("Contents of file ${file}: ", it.reader(charset("ASCII")).readText())
 	}
 }

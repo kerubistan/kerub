@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
 
-public object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
+object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
 
 	override fun produce(state: OperationalState): List<StartVirtualMachine> {
 		val vmsToRun = state.vms.values.filter {

@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.planner.costs
 import org.junit.Assert
 import org.junit.Test
 
-public class TimeCostComparatorTest {
+class TimeCostComparatorTest {
 
 	val cost1 = TimeCost(minMs = 100, maxMs = 200)
 	val cost2 = TimeCost(minMs = 110, maxMs = 190)

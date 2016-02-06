@@ -17,8 +17,7 @@ import java.io.OutputStream
 import java.util.ArrayList
 import java.util.Collections
 
-@RunWith(MockitoJUnitRunner::class)
-public class VmStatTest {
+@RunWith(MockitoJUnitRunner::class) class VmStatTest {
 	@Mock
 	var clientSession : ClientSession? = null
 	@Mock
@@ -39,12 +38,12 @@ public class VmStatTest {
 	fun vmstat() {
 		on(clientSession!!.createExecChannel(anyString())).thenReturn( execChannel )
 		Mockito.doAnswer {
-			val out = it.getArguments()[0] as OutputStream
+			val out = it.arguments[0] as OutputStream
 			sample.forEach {
 				out.write( it.toInt() )
 			}
 			null
-		} .`when`(execChannel)!!.setOut( Matchers.any(OutputStream::class.java) )
+		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
 		on(execChannel!!.open()).thenReturn(openFuture)
 
 		val results = Collections.synchronizedList(ArrayList<VmStat.VmStatEvent>())

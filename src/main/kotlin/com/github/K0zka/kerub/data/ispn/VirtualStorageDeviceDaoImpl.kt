@@ -8,7 +8,7 @@ import org.infinispan.query.Search
 import org.infinispan.query.dsl.Query
 import java.util.UUID
 
-public class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, eventListener: EventListener)
+class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, eventListener: EventListener)
 : VirtualStorageDeviceDao, ListableIspnDaoBase<VirtualStorageDevice, UUID>(cache, eventListener) {
 	override fun fieldSearch(
 			field: String,

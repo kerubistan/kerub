@@ -22,7 +22,7 @@ import java.util.HashMap
  * The final implementation should consider network location, controller capacity,
  * host capabilities and the workload of the controller
  */
-public class ControllerAssignerImpl(private val backtrack: BacktrackService,
+class ControllerAssignerImpl(private val backtrack: BacktrackService,
 									private val controllerDao: ControllerDao,
 									private val controllerDynamicDao: ControllerDynamicDao,
 									private val hostAssignmentDao: AssignmentDao,
@@ -96,14 +96,14 @@ public class ControllerAssignerImpl(private val backtrack: BacktrackService,
 		backtrack.backtrack(
 				ControllerAssignmentState(hosts,
 						controllerList.map { it.controllerId },
-						controllerList.toMapBy { it.controllerId },
+						controllerList.associateBy { it.controllerId },
 						mapOf()),
 				ControllerAssignmentStepFactory,
 				//this is not quite
 				strategy,
 				strategy
 		)
-		for (assignment in strategy.getSolution().assignments) {
+		for (assignment in strategy.solution.assignments) {
 			hostAssignmentDao.add(Assignment(
 					entityId = assignment.key.id,
 					controller = assignment.value,

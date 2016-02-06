@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap
  * Implementation of planner.
  * <strong> This implementation stores mutable state.</strong>
  */
-public class PlannerImpl(
+class PlannerImpl(
 		private val backtrack: BacktrackService,
 		private val executor: PlanExecutor,
 		private val builder: OperationalStateBuilder
@@ -72,7 +72,7 @@ public class PlannerImpl(
 				strategy,
 				strategy
 		)
-		val plan = strategy.getSolution()
+		val plan = strategy.solution
 		if (plan == null) {
 			logger.debug("No plan generated.", msg)
 		} else {

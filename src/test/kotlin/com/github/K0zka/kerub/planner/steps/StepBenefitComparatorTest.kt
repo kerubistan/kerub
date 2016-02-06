@@ -11,7 +11,7 @@ import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import org.junit.Assert
 import org.junit.Test
 
-public class StepBenefitComparatorTest {
+class StepBenefitComparatorTest {
 
 	val virtualMachine = VirtualMachine(
 			name = "vm1",

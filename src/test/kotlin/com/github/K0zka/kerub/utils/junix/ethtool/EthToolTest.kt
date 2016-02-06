@@ -43,7 +43,7 @@ class EthToolTest : AbstractJunixCommandVerification() {
     @Test
     fun testGetDeviceInformation() {
         on(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
-        on(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray("ASCII")))
+        on(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
         val devInfo = EthTool.getDeviceInformation(session!!, "enp2s0")
 
         assertFalse(devInfo.link)

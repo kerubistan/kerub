@@ -18,8 +18,7 @@ import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
-public class PlanExecutorImplTest {
+@RunWith(MockitoJUnitRunner::class) class PlanExecutorImplTest {
 	@Mock
 	var executor: HostCommandExecutor? = null
 

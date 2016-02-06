@@ -6,7 +6,7 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals
 
-public class DmiDecoderTest {
+class DmiDecoderTest {
 	@Test
 	fun split() {
 		val handles = DmiDecoder.split(mylaptop);

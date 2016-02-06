@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream
  * Integrates the jackson objectmapper to the infinispan infrastructure and allows
  * persisting the data in json format.
  */
-public class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
+class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 
 	object Predictor : BufferSizePredictor {
 		override fun nextSize(obj: Any?): Int =
