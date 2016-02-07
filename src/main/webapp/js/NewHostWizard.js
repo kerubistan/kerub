@@ -1,4 +1,4 @@
-var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4) {
+var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
 
@@ -45,7 +45,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, apps
     };
     $scope.close = function() {
         $log.info('close window');
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 	$scope.onKeyPress = function(event) {
 		if(event.keyCode == 13) {
@@ -58,7 +58,7 @@ var NewHostWizard = function($scope, $modalInstance, $http, $log, $timeout, apps
     $scope.addHost = function () {
     	var onHostAdded = function() {
 			$log.debug('host add finished');
-			$modalInstance.close();
+			$uibModalInstance.close();
 		};
 		var hostAddError = function(error) {
 			$log.error('Host add failed', error);

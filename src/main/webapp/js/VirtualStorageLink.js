@@ -1,4 +1,4 @@
-kerubApp.controller('VirtualStorageLink', function($scope, $modal, $log, $http, size) {
+kerubApp.controller('VirtualStorageLink', function($scope, $uibModal, $log, $http, size) {
 	$scope.link = {
 		bus : 'virtio',
         expectations : [],

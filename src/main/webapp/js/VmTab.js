@@ -1,5 +1,5 @@
 
-kerubApp.controller('VmTab', function($scope, $modal, $log, socket, appsession, size) {
+kerubApp.controller('VmTab', function($scope, $uibModal, $log, socket, appsession, size) {
 	$scope.humanFriendlySize = size.humanFriendlySize;
 	$scope.vms = [];
 	$scope.refreshVms = function() {
@@ -9,7 +9,7 @@ kerubApp.controller('VmTab', function($scope, $modal, $log, socket, appsession, 
 	};
 	$scope.refreshVms();
 	$scope.newVmForm = function () {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 		   templateUrl : 'NewVmWizard.html',
 		   controller : NewVmWizard
         });

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html ng-app="kerubApp">
-<head ng-app="kerubApp">
+<head>
     <meta charset="UTF-8">
     <title>kerub</title>
-    <script src="webjars/angularjs/1.3.17/angular.min.js"></script>
-    <script src="webjars/angularjs/1.3.17/angular-sanitize.min.js"></script>
-    <script src="webjars/angularjs/1.3.17/angular-route.min.js"></script>
+    <script src="webjars/angularjs/1.4.9/angular.js"></script>
+    <script src="webjars/angularjs/1.4.9/angular-sanitize.js"></script>
+    <script src="webjars/angularjs/1.4.9/angular-route.js"></script>
     <script src="webjars/angular-uuid4/0.2.1/angular-uuid4.min.js"></script>
-    <script src="webjars/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+    <script src="webjars/angular-ui-bootstrap/1.1.1-1/ui-bootstrap-tpls.min.js"></script>
     <script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script src="webjars/markdown-js/0.5.0/markdown.js"></script>
     <script src="js/utils.js"></script>
@@ -32,7 +32,7 @@
     <script src="js/ExpectationMini.js"></script>
     <script src="js/DiskSelectionElem.js"></script>
     <script src="js/StorageDeviceRow.js"></script>
-    <link href="webjars/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="css/kerub.css" rel="stylesheet"/>
     <link rel="icon" href="img/kerub.ico" type="image/png"/>
@@ -89,9 +89,9 @@
         <div class="modal-header">
             <h3 class="modal-title">New Virtual Disk</h3>
         </div>
-        <tabset>
-            <tab>
-                <tab-heading>General</tab-heading>
+        <uib-tabset>
+            <uib-tab>
+                <uib-tab-heading>General</uib-tab-heading>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
@@ -110,9 +110,9 @@
                     </div>
                     <input ng-model="disk.userFriendlySize" ng-model-options="{ getterSetter: true }" class="form-control" autofocus>
                 </div>
-            </tab>
-            <tab>
-                <tab-heading>Expectations</tab-heading>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>Expectations</uib-tab-heading>
 
                 <span ng-if="!storageExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: storageExpectationsOpen}'>
@@ -137,8 +137,8 @@
 
                 </span>
 
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addStorage()" uib-tooltip="Create this virtual disk" tooltip-placement="top">
             </button>
@@ -177,9 +177,9 @@
         <div class="modal-header">
             <h3 class="modal-title">New VM</h3>
         </div>
-        <tabset>
-            <tab>
-                <tab-heading>General</tab-heading>
+        <uib-tabset>
+            <uib-tab>
+                <uib-tab-heading>General</uib-tab-heading>
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
@@ -205,9 +205,9 @@
                     <input ng-model="vm.memory.humanFriendlyMin" ng-model-options="{ getterSetter: true }" class="form-control">
                     <input ng-model="vm.memory.humanFriendlyMax" ng-model-options="{ getterSetter: true }" class="form-control">
                 </div>
-            </tab>
-            <tab>
-                <tab-heading>Disks</tab-heading>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>Disks</uib-tab-heading>
                 <table class="table table-condensed table-striped table-hover">
                     <thead>
                         <tr>
@@ -224,9 +224,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <tabset>
-                    <tab>
-                        <tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</tab-heading>
+                <uib-tabset>
+                    <uib-tab>
+                        <uib-tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</uib-tab-heading>
                         <div class="form-group has-feedback has-feedback-left">
                             <label class="control-label sr-only">Name</label>
                             <input type="text" class="form-control" placeholder="Name" />
@@ -237,9 +237,9 @@
                             <input type="text" class="form-control" placeholder="Size (e.g 20 GB)" />
                             <i class="form-control-feedback fa fa-hdd-o"></i>
                         </div>
-                    </tab>
-                    <tab>
-                        <tab-heading><span class="glyphicon glyphicon-link"></span> Existing</tab-heading>
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
                         <div class="panel panel-info" ng-controller="VirtualStorageLink">
                             <div class="form-group has-feedback has-feedback-left">
                                 <input type="text"
@@ -295,14 +295,14 @@
                             </div>
                         </div>
 
-                    </tab>
-                </tabset>
-            </tab>
-            <tab>
-                <tab-heading>Network</tab-heading>
-            </tab>
-            <tab>
-                <tab-heading>Expectations</tab-heading>
+                    </uib-tab>
+                </uib-tabset>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>Network</uib-tab-heading>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading>Expectations</uib-tab-heading>
 
                 <span ng-if="!vmExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: vmExpectationsOpen}'>
@@ -328,8 +328,8 @@
                 </span>
 
 
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()" uib-tooltip="Add this VM" tooltip-placement="top">
             </button>
@@ -381,25 +381,25 @@
                 </span>
             </div>
         </div>
-        <tabset>
-            <tab>
-                <tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</tab-heading>
+        <uib-tabset>
+            <uib-tab>
+                <uib-tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</uib-tab-heading>
                 <div class="panel panel-info">
                     <div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
                     <div class="panel-body publickey" ng-bind="controllerKey">
                     </div>
                 </div>
-            </tab>
-            <tab>
-                <tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</tab-heading>
+            </uib-tab>
+            <uib-tab>
+                <uib-tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</uib-tab-heading>
                 <input
                         ng-model="password.password"
                         class="form-control"
                         type="password"
                         placeholder="password"
                         ng-keypress="onKeyPress($event)">
-            </tab>
-        </tabset>
+            </uib-tab>
+        </uib-tabset>
 
         <span ng-show="pubkeyUpdating">
                 updating

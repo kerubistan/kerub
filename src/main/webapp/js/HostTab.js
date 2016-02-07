@@ -1,5 +1,5 @@
 
-kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession, size) {
+kerubApp.controller('HostTab', function($scope, $uibModal, $log, socket, appsession, size) {
 
 	$scope.humanFriendlySize = size.humanFriendlySize;
 
@@ -15,7 +15,7 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession
 
     $scope.newHostForm = function() {
         $log.info('opening new host wizard');
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl : 'NewHostWizard.html',
             controller : NewHostWizard
         });
@@ -27,7 +27,7 @@ kerubApp.controller('HostTab', function($scope, $modal, $log, socket, appsession
     };
 
     $scope.showHostDetails = function(hostId) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl : 'HostDetails.html',
             controller : HostDetails,
             resolve : {

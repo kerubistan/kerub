@@ -1,4 +1,4 @@
-var Login = function($scope, $log, $http, $modalInstance, appsession) {
+var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
     $scope.username = '';
     $scope.password = '';
     $scope.version = {};
@@ -21,8 +21,8 @@ var Login = function($scope, $log, $http, $modalInstance, appsession) {
             username : $scope.username,
             password : $scope.password
         }).success(function() {
-            $log.info("success", $modalInstance);
-            $modalInstance.dismiss();
+            $log.info("success", $uibModalInstance);
+            $uibModalInstance.dismiss();
             appsession.restartRequests();
         }).error(function(error){
             $log.info("error",error);

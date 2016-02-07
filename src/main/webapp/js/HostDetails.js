@@ -1,4 +1,4 @@
-var HostDetails = function($scope, $log, $modalInstance, appsession, hostId, size, socket) {
+var HostDetails = function($scope, $log, appsession, hostId, size, socket) {
     $scope.host = null;
 
     $scope.tab = "overview";

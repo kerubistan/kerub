@@ -1,4 +1,4 @@
-var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uuid4, size, expectations) {
+var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession, uuid4, size, expectations) {
 	var id = uuid4.generate();
 
 	$scope.disk = {
@@ -28,12 +28,12 @@ var NewVirtualDiskWizard = function($scope, $modalInstance, $log, appsession, uu
 
 	$scope.addStorage = function() {
 		appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
-        	$modalInstance.dismiss();
+        	$uibModalInstance.dismiss();
 		});
 	};
 
 	$scope.close = function() {
-		$modalInstance.dismiss();
+		$uibModalInstance.dismiss();
 	};
 
 	$scope.storageExpectationsOpen = false;

@@ -1,5 +1,5 @@
 
-kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, socket, appsession, size) {
+kerubApp.controller('VirtualDisksTab', function($scope, $uibModal, $log, socket, appsession, size) {
 	$scope.humanFriendlySize = size.humanFriendlySize;
 	$scope.virtualDisks = {};
 	$scope.refresh = function () {
@@ -9,7 +9,7 @@ kerubApp.controller('VirtualDisksTab', function($scope, $modal, $log, socket, ap
 	};
 
 	$scope.newVirtualDisk = function() {
-               var modalInstance = $modal.open({
+               var modalInstance = $uibModal.open({
                     templateUrl : 'NewVirtualDiskWizard.html',
                     controller : NewVirtualDiskWizard
                 });

@@ -1,4 +1,4 @@
-kerubApp.controller('BusType', function($scope, $modal, $log) {
+kerubApp.controller('BusType', function($scope, $log) {
 	$scope.init = function(link) {
 		$log.debug('init', link);
         $scope.link = link;

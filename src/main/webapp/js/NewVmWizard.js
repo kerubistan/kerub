@@ -1,4 +1,4 @@
-var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appsession, uuid4, size, expectations) {
+var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, appsession, uuid4, size, expectations) {
 	$scope.vm = {
 		"@type" : 'vm',
 		id : uuid4.generate(),
@@ -24,12 +24,12 @@ var NewVmWizard = function($scope, $modalInstance, $http, $log, $timeout, appses
 	};
 	$scope.addVm = function() {
 		appsession.put('s/r/vm', $scope.vm).success(function() {
-        	$modalInstance.close();
+        	$uibModalInstance.close();
 		});
 	};
     $scope.close = function() {
         $log.info('closed new vm dialog');
-        $modalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
     $scope.addStorageLink = function(disk) {
     	$log.info('adding link');
