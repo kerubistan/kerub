@@ -21,7 +21,7 @@
     </organization>
     <properties>
         <kotlin.version>1.0.0-rc-1036</kotlin.version>
-        <spring.version>4.2.4.RELEASE</spring.version>
+        <spring.version>4.1.1.RELEASE</spring.version>
         <cxf.version>3.1.4</cxf.version>
         <infinispan.version>8.1.0.Final</infinispan.version>
         <angularjs.version>1.4.9</angularjs.version>
@@ -29,7 +29,7 @@
         <slf4j.version>1.7.13</slf4j.version>
         <cucumber.version>1.2.4</cucumber.version>
         <jackson.version>2.6.5</jackson.version>
-        <jetty.version>9.3.7.v20160115</jetty.version>
+        <jetty.version>9.2.2.v20140723</jetty.version>
         <shiro.version>1.2.4</shiro.version>
         <kovenant.version>3.0.0-rc.1036.1</kovenant.version>
     </properties>
@@ -382,6 +382,7 @@
                         </goals>
                         <configuration>
                             <dumpOnStart>true</dumpOnStart>
+                            <daemon>true</daemon>
                             <scanIntervalSeconds>0</scanIntervalSeconds>
                         </configuration>
                     </execution>
