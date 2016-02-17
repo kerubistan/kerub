@@ -19,9 +19,18 @@
         <name>Duct Tape Solutions LTD</name>
         <url>https://github.com/kerubistan/kerub</url>
     </organization>
+
+    <repositories>
+        <repository>
+            <id>tmp-jaysonminard</id>
+            <url>http://dl.bintray.com/jaysonminard/kohesive</url>
+            <name>temporary repo until jackson-kotlin is released in central</name>
+        </repository>
+    </repositories>
+
     <properties>
-        <kotlin.version>1.0.0-rc-1036</kotlin.version>
-        <spring.version>4.1.1.RELEASE</spring.version>
+        <kotlin.version>1.0.0</kotlin.version>
+        <spring.version>4.2.4.RELEASE</spring.version>
         <cxf.version>3.1.4</cxf.version>
         <infinispan.version>8.1.0.Final</infinispan.version>
         <angularjs.version>1.4.9</angularjs.version>
@@ -31,7 +40,7 @@
         <jackson.version>2.6.5</jackson.version>
         <jetty.version>9.2.2.v20140723</jetty.version>
         <shiro.version>1.2.4</shiro.version>
-        <kovenant.version>3.0.0-rc.1036.1</kovenant.version>
+        <kovenant.version>3.0.0</kovenant.version>
     </properties>
     <dependencies>
         <dependency>
@@ -197,7 +206,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
-            <version>2.6.5-1</version>
+            <version>2.6.5-2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
