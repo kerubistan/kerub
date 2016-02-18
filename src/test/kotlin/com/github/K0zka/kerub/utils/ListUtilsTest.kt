@@ -1,9 +1,18 @@
 package com.github.K0zka.kerub.utils
 
+import com.github.K0zka.kerub.expect
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class ListUtilsTest {
+
+	@Test
+	fun only() {
+		assertEquals("A", listOf("A").only())
+		expect(IllegalArgumentException::class, {listOf<String>().only()})
+		expect(IllegalArgumentException::class, {listOf("A","B").only()})
+	}
+
 	@Test
 	fun skip() {
 		assertEquals(listOf("B", "C"), listOf("A", "B", "C").skip())

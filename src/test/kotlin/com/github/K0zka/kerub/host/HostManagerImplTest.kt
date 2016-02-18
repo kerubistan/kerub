@@ -3,8 +3,10 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
+import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.model.Host
@@ -48,6 +50,11 @@ import kotlin.test.assertEquals
 
 	@Mock
 	var hostAssignmentDao: AssignmentDao? = null
+
+	@Mock
+	var virtualStorageDao: VirtualStorageDeviceDao? = null
+	@Mock
+	var virtualStorageDynDao: VirtualStorageDeviceDynamicDao? = null
 
 	@Mock
 	var hostAssigner: ControllerAssigner? = null
@@ -103,6 +110,8 @@ import kotlin.test.assertEquals
 				hostDao!!,
 				hostDynamicDao!!,
 				vmDynDao!!,
+				virtualStorageDao!!,
+				virtualStorageDynDao!!,
 				sshClientService!!,
 				controllerManager!!,
 				hostAssignmentDao!!,

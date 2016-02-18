@@ -12,7 +12,9 @@ import java.util.EnumSet
 private val logger = getLogger(ClientSession::class)
 
 private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
-	this.debug("${msg} ${x}")
+	if(this.isDebugEnabled) {
+		this.debug("${msg} ${x}")
+	}
 	return x
 }
 
@@ -36,11 +38,17 @@ fun ClientSession.execute(command: String): String {
 }
 
 fun ClientSession.executeOrDie(command: String): String {
+	return this.executeOrDie(command, {it.isNotBlank()})
+}
+
+fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean): String {
 	val execChannel = this.createExecChannel(command)
 	return execChannel.use {
 		val error = it.invertedErr.reader(charset("ASCII")).readText()
-		if (error.isNotBlank()) {
+		if(isError(error)) {
 			throw IOException(error)
+		} else {
+			logger.warn("Error output ignored by command {} : {}", command, error)
 		}
 		it.invertedOut.reader(charset("ASCII")).use {
 			logger.debugAndReturn("result of command ${command}: ", it.readText())

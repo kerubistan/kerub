@@ -2,8 +2,10 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
+import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
@@ -27,6 +29,8 @@ class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
+		private val virtualStorageDao: VirtualStorageDeviceDao,
+		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
 		private val sshClientService: SshClientService,
 		private val controllerManager: ControllerManager,
 		private val hostAssignmentDao: AssignmentDao,
@@ -49,7 +53,7 @@ class HostManagerImpl(
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
 		if (connection != null) {
-			return KvmHypervisor(connection.first, host, vmDynamicDao)
+			return KvmHypervisor(connection.first, host, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
 		} else {
 			return null;
 		}

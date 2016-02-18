@@ -27,7 +27,7 @@ class UtilsTest {
 				virtualStorageLinks = listOf()
 		                       )
 
-		val libvirtXml = vmDefinitiontoXml(vm)
+		val libvirtXml = vmDefinitiontoXml(vm, mapOf())
 
 		val dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(libvirtXml)))
 		val xPath = XPathFactory.newInstance().newXPath()

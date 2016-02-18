@@ -2,10 +2,12 @@ package com.github.K0zka.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonTypeName
 import java.math.BigInteger
+import java.util.UUID
 
 @JsonTypeName("lvm")
 data class LvmStorageCapability(
-		val volumeGroupName: String,
+		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
+		val volumeGroupName: String,
 		val physicalVolumes: List<BigInteger>
 ) : StorageCapability

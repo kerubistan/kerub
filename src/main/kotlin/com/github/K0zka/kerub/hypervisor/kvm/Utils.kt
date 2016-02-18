@@ -1,26 +1,49 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageAllocation
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 
-fun storageToXml(disks: List<VirtualStorageLink>): String {
+fun storagesToXml(disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
 	val ret = StringBuilder()
-	for (disk in disks) {
-		ret.append("""
-		<disk type='file' device='disk'>
-            <driver />
-            <target dev='sda' bus='sata'/>
-		</disk>
-""")
+	for (device in disks) {
+		ret.append(storageToXml(device.value.first, device.key, device.value.second.allocation))
 	}
 	return ret.toString()
+}
+
+val allocationTypeToDiskType = mapOf(
+		VirtualStorageFsAllocation:: class to "file",
+		VirtualStorageLvmAllocation::class to "block"
+)
+
+private fun storageToXml(disk : VirtualStorageDevice, link: VirtualStorageLink, allocation : VirtualStorageAllocation): String {
+	return """
+		<disk type='${allocationTypeToDiskType[allocation.javaClass.kotlin]}' device='disk'>
+            <driver />
+            ${allocationToXml(allocation, disk)}
+            <target dev='sda' bus='${link.bus}'/>
+		</disk>
+"""
+}
+
+fun allocationToXml(allocation: VirtualStorageAllocation, disk : VirtualStorageDevice): String {
+	when(allocation) {
+		is VirtualStorageFsAllocation -> return "<source file='${allocation.mountPoint}/${disk.id}'/>"
+		is VirtualStorageLvmAllocation -> return "<source dev='${allocation.path}'/>"
+		else -> return TODO()
+	}
 }
 
 fun escapeXmlText(str: String): String {
 	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
 }
 
-fun vmDefinitiontoXml(vm: VirtualMachine): String {
+fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
 	return """
 <domain type='kvm'>
     <name>${vm.id}</name>
@@ -47,7 +70,7 @@ fun vmDefinitiontoXml(vm: VirtualMachine): String {
 			<model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1'/>
 			<address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
 		</video>
-		${storageToXml(vm.virtualStorageLinks)}
+		${storagesToXml(disks)}
     </devices>
 </domain>
 """

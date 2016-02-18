@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.utils.toSize
+import com.github.K0zka.kerub.verify
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
@@ -15,6 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.math.BigInteger
+import java.nio.charset.Charset
 
 @RunWith(MockitoJUnitRunner::class)
 class LvmLvTest {
@@ -55,6 +57,32 @@ class LvmLvTest {
 	}
 
 	@Test
+	fun listWithVgAndLv() {
+
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		val list = LvmLv.list(session!!, volGroupName = "testvg", volName = "testlv")
+
+		verify(session!!).createExecChannel("lvs -o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate ${listOptions} testvg/testlv")
+	}
+
+	@Test
+	fun listWithVg() {
+
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		val list = LvmLv.list(session!!, volGroupName = "testvg")
+
+		verify(session!!).createExecChannel("lvs -o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate ${listOptions} testvg")
+	}
+
+	@Test
 	fun delete() {
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvremove"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
@@ -84,6 +112,29 @@ class LvmLvTest {
 		Mockito.`when`(createExecChannel?.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
 		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		val volume = LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
+		Assert.assertEquals("testlv2", volume.name)
+	}
+
+	@Test
+	fun createWithWarning() {
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(createExecChannel?.invertedOut)
+				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
+		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(
+				ByteArrayInputStream(
+						("  WARNING: Sum of all thin volume sizes (20.00 PiB) exceeds the size of thin pools and " +
+								"the size of whole volume group (526.81 GiB)!")
+								.toByteArray(Charset.forName("ASCII"))
+				)
+		)
 
 		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)

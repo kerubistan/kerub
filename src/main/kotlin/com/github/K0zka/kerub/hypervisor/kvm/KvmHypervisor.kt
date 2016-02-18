@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
+import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
@@ -13,7 +15,11 @@ import com.github.K0zka.kerub.utils.toUUID
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
 
-class KvmHypervisor(private val client: ClientSession, private val host: Host, private val vmDynDao: VirtualMachineDynamicDao) : Hypervisor {
+class KvmHypervisor(private val client: ClientSession,
+					private val host: Host,
+					private val vmDynDao: VirtualMachineDynamicDao,
+					private val virtualStorageDao: VirtualStorageDeviceDao,
+					private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao) : Hypervisor {
 
 	companion object {
 		val logger = getLogger(KvmHypervisor::class)
@@ -60,7 +66,15 @@ class KvmHypervisor(private val client: ClientSession, private val host: Host, p
 	}
 
 	override fun startVm(vm: VirtualMachine) {
-		Virsh.create(client, vm.id, vmDefinitiontoXml(vm))
+		val storageMap = vm.virtualStorageLinks.map {
+			storageLink ->
+			storageLink to (
+					requireNotNull(virtualStorageDao[storageLink.virtualStorageId])
+							to
+							requireNotNull(virtualStorageDynDao[storageLink.virtualStorageId])
+					)
+		}.toMap()
+		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap))
 	}
 
 	override fun stopVm(vm: VirtualMachine) {

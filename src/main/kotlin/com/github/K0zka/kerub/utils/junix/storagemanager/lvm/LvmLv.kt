@@ -1,11 +1,16 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.host.executeOrDie
+import com.github.K0zka.kerub.utils.emptyString
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.ClientSession
 import java.math.BigInteger
 
 object LvmLv {
+
+	fun checkErrorOutput(err: String): Boolean {
+		return err.isNotBlank() && !err.trim().startsWith("WARNING")
+	}
 
 	internal fun optionalInt(input: String?): Int? =
 			if (input?.isBlank() ?: true) {
@@ -14,22 +19,31 @@ object LvmLv {
 				input?.toInt()
 			}
 
-	fun list(session: ClientSession): List<LogicalVolume> =
-			session.executeOrDie(
-					"lvs " +
-							"-o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate ${listOptions}")
-					.split("\n").map {
-				row ->
-				val fields = row.trim().split(",")
-				LogicalVolume(
-						id = fields[0],
-						name = fields[1],
-						path = fields[2],
-						size = fields[3].toSize(),
-						minRecovery = optionalInt(fields[4]),
-						maxRecovery = optionalInt(fields[5])
-				)
-			}
+	fun list(
+			session: ClientSession,
+			volGroupName: String? = null,
+			volName: String? = null
+	): List<LogicalVolume> {
+		val filter = if (volGroupName == null) {
+			""
+		} else {
+			"${volGroupName}${if (volName == null) emptyString else '/' + volName}"
+		}
+		return session.executeOrDie(
+				"lvs -o lv_uuid,lv_name,lv_path,lv_size,raid_min_recovery_rate,raid_max_recovery_rate ${listOptions} ${filter}")
+				.split("\n").map {
+			row ->
+			val fields = row.trim().split(",")
+			LogicalVolume(
+					id = fields[0],
+					name = fields[1],
+					path = fields[2],
+					size = fields[3].toSize(),
+					minRecovery = optionalInt(fields[4]),
+					maxRecovery = optionalInt(fields[5])
+			)
+		}
+	}
 
 	fun create(session: ClientSession,
 			   vgName: String,
@@ -50,7 +64,8 @@ object LvmLv {
 			"--maxrecoveryrate $maxRecovery"
 		}
 		session.executeOrDie(
-				"""lvcreate -n $name -L $size B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""")
+				"""lvcreate -n $name -L $size B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""",
+				{ checkErrorOutput(it) })
 		return list(session).first { it.name == name }
 	}
 
