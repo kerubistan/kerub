@@ -1,3 +1,4 @@
+[![Kotlin](https://img.shields.io/badge/kotlin-1.0.0-blue.svg)](http://kotlinlang.org)
 kerub
 =====
 
