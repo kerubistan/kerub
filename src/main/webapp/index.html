@@ -572,6 +572,9 @@
                                 </span>
 
                             </span>
+                            <span ng-if="cap['@type'] === 'fs'">
+                                <span class="label label-default"><span class="fa fa-folder"></span> {{cap.mountPoint}}</span>
+                            </span>
                         </td>
                     </tr>
                 </tbody>

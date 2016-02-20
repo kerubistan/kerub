@@ -7,7 +7,8 @@ import java.math.BigInteger
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
-		JsonSubTypes.Type(LvmStorageCapability::class)
+		JsonSubTypes.Type(LvmStorageCapability::class),
+		JsonSubTypes.Type(FsStorageCapability::class)
 )
 interface StorageCapability : Serializable {
 	val size: BigInteger

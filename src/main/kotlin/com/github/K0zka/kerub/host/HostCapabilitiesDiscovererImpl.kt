@@ -26,6 +26,8 @@ import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.VolumeGroup
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
@@ -142,8 +144,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		try {
 			when (os) {
 				OperatingSystem.Linux -> {
-					val pvs = LvmPv.list(session)
-					return LvmVg.list(session).map {
+					val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
+					return (silent {LvmVg.list(session)} ?: listOf<VolumeGroup>()) .map {
 						vg ->
 						LvmStorageCapability(
 								volumeGroupName = vg.name,
