@@ -33,8 +33,8 @@ class LvmPvTest {
 
 
 	companion object {
-		val testOutput = """  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1,/dev/sda2,166673252352B,0B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
-  02YYyV-qaA1-hSo7-M5Ua-5zx4-IzQm-f6eLRq,/dev/sda3,832997163008B,299804655616B,gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
+		val testOutput = """  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1:/dev/sda2:166673252352B:0B:gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
+  02YYyV-qaA1-hSo7-M5Ua-5zx4-IzQm-f6eLRq:/dev/sda3:832997163008B:299804655616B:gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
 """
 
 	}
