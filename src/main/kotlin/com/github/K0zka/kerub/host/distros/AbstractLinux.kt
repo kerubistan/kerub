@@ -2,9 +2,11 @@ package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
@@ -69,6 +71,39 @@ abstract class AbstractLinux : Distribution {
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
 		val id = host.id
+
+		val lvmStorageCapabilities = host
+				.capabilities
+				?.storageCapabilities
+				?.filter { it is LvmStorageCapability }
+		val lvmVgsById = lvmStorageCapabilities
+				?.map { (it as LvmStorageCapability).id to it }
+				?.toMap()
+		val lvmVgsByName = lvmStorageCapabilities
+				?.map { (it as LvmStorageCapability).volumeGroupName to it }
+				?.toMap()
+
+		LvmVg.monitor(session, {
+			volGroups ->
+			doWithDyn(id, hostDynDao, {
+				it.copy(
+						storageStatus =
+						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
+								+ volGroups.map {
+							volGroup ->
+							val storageDevice = lvmVgsByName?.get(volGroup.name)
+							if(storageDevice == null) {
+								null
+							} else {
+								StorageDeviceDynamic(
+										id = storageDevice.id,
+										freeCapacity = volGroup.freeSize
+								)
+							}
+						}.filterNotNull()
+				)
+			})
+		})
 		MPStat.monitor(session, {
 			stats ->
 			doWithDyn(id, hostDynDao, {
