@@ -12,15 +12,19 @@ import com.github.K0zka.kerub.services.VersionService
 import com.github.K0zka.kerub.services.VirtualMachineService
 import com.github.K0zka.kerub.utils.toSize
 import cucumber.api.PendingException
+import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
+import org.apache.cxf.jaxrs.client.WebClient
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import java.math.BigInteger
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class AuthenticationDefinitions {
 	var user = "anonymous"
@@ -29,6 +33,12 @@ class AuthenticationDefinitions {
 	var client = createClient()
 	var exception: RestException? = null
 	var response: Response? = null
+	var service: Any? = null
+
+	@Before
+	fun reset() {
+		client?.reset()
+	}
 
 	@Given("^user (\\S+) with password (\\S+)$")
 	fun setUserAndPassword(user: String, password: String) {
@@ -76,7 +86,7 @@ class AuthenticationDefinitions {
 					CoreMatchers.equalTo(false)
 			                 )
 		} else {
-			throw PendingException("TODO: How to verify no session")
+			assertFalse { WebClient.client(service).response.cookies.containsKey("JSESSIONID")  }
 		}
 	}
 
@@ -125,7 +135,9 @@ class AuthenticationDefinitions {
 
 	fun <X : Any> tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
 		try {
-			action(JAXRSClientFactory.fromClient(client, clientClass.java))
+			val serviceClient = JAXRSClientFactory.fromClient(client, clientClass.java)
+			service = serviceClient
+			action(serviceClient)
 		} catch (re: RestException) {
 			exception = re;
 		}
@@ -149,7 +161,7 @@ class AuthenticationDefinitions {
 
 	@Then("^session should be created$")
 	fun verifySessionCreated() {
-		throw PendingException("TODO: how to verify session creation")
+		assertTrue { WebClient.client(service).response.cookies.containsKey("JSESSIONID")  }
 	}
 
 }
