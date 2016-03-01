@@ -1,7 +1,10 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.create
 
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.planner.OperationalState
+import java.math.BigInteger
 
 object CreateLvFactory : AbstractVStorageCreateFactory<CreateLv>() {
 
@@ -20,7 +23,10 @@ object CreateLvFactory : AbstractVStorageCreateFactory<CreateLv>() {
 				capability is LvmStorageCapability
 			}?.forEach {
 				volGroup ->
-				steps += storageNotAllocated.map {
+				steps += storageNotAllocated.filter {
+					volGroup.size > it.size
+							&& actualFreeCapacity(host, state, volGroup) > it.size
+				}.map {
 					disk ->
 					CreateLv(
 							host = host,
@@ -32,5 +38,7 @@ object CreateLvFactory : AbstractVStorageCreateFactory<CreateLv>() {
 		}
 		return steps
 	}
+
+	private fun actualFreeCapacity(host: Host, state: OperationalState, volGroup: StorageCapability) = state.hostDyns[host.id]?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity ?: BigInteger.ZERO
 
 }
