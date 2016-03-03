@@ -379,6 +379,7 @@
             </bean>
             <bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
                 <constructor-arg ref="vmDynDao"/>
+                <constructor-arg ref="vmDao" />
             </bean>
             <bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
                 <constructor-arg ref="virtualStorageDeviceDao"/>

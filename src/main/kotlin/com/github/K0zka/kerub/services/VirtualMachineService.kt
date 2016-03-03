@@ -25,9 +25,5 @@ import javax.ws.rs.core.MediaType
 	@POST
 	fun stopVm(@PathParam("id") id: UUID)
 
-	@Path("{id}/connection/spice")
-	@Produces("application/x-virt-viewer")
-	@GET
-	fun spiceConnection(): String
 
 }
