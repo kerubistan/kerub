@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.model.VirtualMachineStatus
