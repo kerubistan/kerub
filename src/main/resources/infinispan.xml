@@ -49,7 +49,7 @@
         </distributed-cache>
         <distributed-cache name="vmDynCache" mode="ASYNC" owners="${stat.owners}">
             <persistence>
-                <file-store path="${store.dir}/store/dyn/audit"/>
+                <file-store path="${store.dir}/store/dyn/vm"/>
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
