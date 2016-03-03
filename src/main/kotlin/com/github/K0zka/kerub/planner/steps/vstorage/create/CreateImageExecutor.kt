@@ -6,18 +6,26 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
+import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger
 
 class CreateImageExecutor(private val exec: HostCommandExecutor, private val dynDao: VirtualStorageDeviceDynamicDao) : AbstractStepExecutor<CreateImage>() {
+
+	companion object {
+		private val logger = getLogger(CreateImageExecutor::class)
+	}
+
 	override fun perform(step: CreateImage) {
 		exec.execute(step.host, {
+			logger.info("Creating virtual disk {} on host {}", step.device, step.host.address)
 			QemuImg.create(
 					session = it,
 					format = VirtualDiskFormat.raw, //TODO
-					path = "/var/${step.device.id}", //TODO
+					path = "${step.path}/${step.device.id}",
 					size = step.device.size
 			)
+			logger.info("Created virtual disk")
 		})
 	}
 
