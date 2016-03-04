@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFact
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageFactory
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
 import com.github.k0zka.finder4j.backtrack.StepFactory
 import kotlin.comparisons.thenComparator
@@ -21,9 +22,10 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 
 	val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
-					to setOf<AbstractOperationalStepFactory<*>>(
+					to setOf(
 					StartVirtualMachineFactory,
 					CreateImageFactory,
+					CreateLvFactory,
 					StopVirtualMachineFactory,
 					MigrateVirtualMachineFactory,
 					WakeHostFactory

@@ -23,6 +23,8 @@ import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvExecutor
 import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.async
 
@@ -45,6 +47,7 @@ class PlanExecutorImpl(
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao)
 	)
 
@@ -62,6 +65,7 @@ class PlanExecutorImpl(
 		async() {
 			logger.debug("Executing plan {}", plan)
 			for (step in plan.steps) {
+				logger.debug("Executing step {}", step.javaClass.simpleName)
 				execute(step)
 			}
 			logger.debug("Plan execution finished: {}", plan)

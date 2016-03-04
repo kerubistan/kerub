@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.*
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
@@ -41,6 +42,7 @@ import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
 import java.math.BigInteger
+import java.util.UUID
 
 class PlannerDefs {
 
@@ -160,6 +162,27 @@ class PlannerDefs {
 					)
 			)
 		} )
+	}
+
+	@Given("host (\\S+) volume groups are:")
+	fun setHostLvmCapabilities(hostAddr : String, vgs : DataTable) {
+		val lvmCapabilities = vgs.raw().skip().map {
+			row ->
+			LvmStorageCapability(
+					id = UUID.randomUUID(),
+					physicalVolumes = row[2].split(",").map { it.toSize() },
+					size = row[1].toSize(),
+					volumeGroupName = row[0]
+			)
+		}
+		hosts = hosts.replace( {it.address == hostAddr} , {
+			host ->
+			host.copy(
+					capabilities = requireNotNull(host.capabilities).copy(
+							storageCapabilities = requireNotNull(requireNotNull(host.capabilities).storageCapabilities) + lvmCapabilities
+					)
+			)
+		})
 	}
 
 	@Given("(\\S+) is running on (\\S+)")
@@ -331,7 +354,7 @@ class PlannerDefs {
 	}
 
 	@Then("^the virtual disk (\\S+) must be allocated on (\\S+) under (\\S+)$")
-	fun verifyVirtualStorageCreated(storageName: String, hostAddr: String, mountPoint : String) {
+	fun verifyVirtualStorageCreatedOnFs(storageName: String, hostAddr: String, mountPoint : String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
 		Assert.assertTrue(executedPlans.first().steps.any {
@@ -340,6 +363,34 @@ class PlannerDefs {
 					it.host == host &&
 					it.path == mountPoint
 		})
+	}
+
+	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the volume group (\\S+)")
+	fun verifyVirtualStorageCreatedOnLvm(storageName: String, hostAddr: String, volumeGroup: String) {
+		//TODO()
+	}
+
+	@Given("volume group (\\S+) on host (\\S+) has (\\S+) free capacity")
+	fun setVolumeGroupFreeCapacity(volumeGroupName : String, hostAddr : String, capacity : String) {
+		val host = hosts.first { it.address == hostAddr }
+		val volumeGroup = requireNotNull(
+				host
+						.capabilities
+						?.storageCapabilities
+						?.first {
+							it is LvmStorageCapability
+									&& it.volumeGroupName == volumeGroupName
+						}
+		) as LvmStorageCapability
+		hostDyns = hostDyns.replace( {it.id == host.id}, {
+			dyn ->
+			dyn.copy(
+					storageStatus = dyn.storageStatus + StorageDeviceDynamic(
+							id = volumeGroup.id,
+							freeCapacity = capacity.toSize()
+					)
+			)
+		} )
 	}
 
 	@Then("^the virtual disk (\\S+) must not be allocated$")
