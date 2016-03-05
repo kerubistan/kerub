@@ -6,28 +6,35 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.getLogger
 
-class WakeHostExecutor(private val hostManager: HostManager, private val hostDynDao: HostDynamicDao) : AbstractStepExecutor<WakeHost>() {
+class WakeHostExecutor(
+		private val hostManager: HostManager,
+		private val hostDynDao: HostDynamicDao,
+		private val tries : Int = defaulMaxRetries,
+		private val wait : Long = defaultWaitBetweenTries
+) : AbstractStepExecutor<WakeHost>() {
 
 	companion object {
 		val logger = getLogger(WakeHostExecutor::class)
-		val maxHowWakeRetries = 8
+		val defaulMaxRetries = 8
+		val defaultWaitBetweenTries = 30000.toLong()
 	}
 
 	override fun perform(step: WakeHost) {
-		for (nr in 0..maxHowWakeRetries) {
+		for (nr in 0..tries) {
 			try {
 				logger.debug("attempt {} - waking host {} {}", nr, step.host.address, step.host.id)
 				hostManager.getPowerManager(step.host).on()
 				logger.debug("attempt {} - connecting host {} {}", nr, step.host.address, step.host.id)
 				hostManager.connectHost(step.host)
 				logger.debug("attempt {} - host {} {} connected", nr, step.host.address, step.host.id)
-				Thread.sleep(30000)
 				return
 			} catch (e: Exception) {
-				logger.debug("attempt {} - connecting {} {}: failed", nr, step.host.address, step.host.id)
+				logger.debug("attempt {} - connecting {} {}: failed - waiting {} ms before retry",
+						nr, step.host.address, step.host.id, wait)
+				Thread.sleep(wait)
 			}
 		}
-		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $maxHowWakeRetries attempts")
+		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts")
 	}
 
 	override fun update(step: WakeHost) {
