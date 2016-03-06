@@ -20,14 +20,6 @@
         <url>https://github.com/kerubistan/kerub</url>
     </organization>
 
-    <repositories>
-        <repository>
-            <id>tmp-jaysonminard</id>
-            <url>http://dl.bintray.com/jaysonminard/kohesive</url>
-            <name>temporary repo until jackson-kotlin is released in central</name>
-        </repository>
-    </repositories>
-
     <properties>
         <kotlin.version>1.0.0</kotlin.version>
         <spring.version>4.2.4.RELEASE</spring.version>
