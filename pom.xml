@@ -20,6 +20,13 @@
         <url>https://github.com/kerubistan/kerub</url>
     </organization>
 
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
     <properties>
         <kotlin.version>1.0.0</kotlin.version>
         <spring.version>4.2.4.RELEASE</spring.version>
@@ -299,6 +306,12 @@
             <groupId>nl.komponents.kovenant</groupId>
             <artifactId>kovenant-core</artifactId>
             <version>${kovenant.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.nhaarman</groupId>
+            <artifactId>mockito-kotlin</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
