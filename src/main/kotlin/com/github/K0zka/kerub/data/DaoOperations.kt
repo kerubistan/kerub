@@ -71,4 +71,17 @@ interface DaoOperations {
 		): List<T>
 	}
 
+	interface Listen<I, T: Entity<I>> {
+		fun listenCreate(action: (T) -> Boolean)
+		fun listenCreate(id: I, action: (T) -> Boolean)
+		fun listenUpdate(action: (T) -> Boolean)
+		fun listenUpdate(id: I, action: (T) -> Boolean)
+		fun listenDelete(action: (T) -> Boolean)
+		fun listenDelete(id: I, action: (T) -> Boolean)
+		/**
+		 * Get the entity and perform the action
+		 */
+		fun waitFor(id: I, action: (T) -> Unit)
+	}
+
 }
