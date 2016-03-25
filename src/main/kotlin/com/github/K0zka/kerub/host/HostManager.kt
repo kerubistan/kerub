@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
+import org.apache.sshd.ClientSession
 import java.security.PublicKey
 
 /**
@@ -9,9 +10,16 @@ import java.security.PublicKey
  *
  */
 interface HostManager {
-	fun registerHost()
+	/**
+	 * Get the public key of a host by it's address
+	 */
 	fun getHostPublicKey(address: String): PublicKey
+
+	/**
+	 * Connect to the host, start monitoring processes.
+	 */
 	fun connectHost(host: Host)
+
 	fun disconnectHost(host: Host)
 	fun join(host: Host, password: String): Host
 	fun join(host: Host): Host

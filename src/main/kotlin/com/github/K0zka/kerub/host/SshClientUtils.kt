@@ -4,6 +4,8 @@ import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.ClientSession
 import org.apache.sshd.client.SftpClient
 import org.apache.sshd.client.channel.AbstractClientChannel
+import org.apache.sshd.common.Closeable
+import org.apache.sshd.common.Session
 import org.slf4j.Logger
 import java.io.IOException
 import java.nio.charset.Charset
@@ -134,5 +136,13 @@ fun ClientSession.getFileContents(file: String): String {
 fun SftpClient.getFileContents(file: String): String {
 	return this.read(file).use {
 		logger.debugAndReturn("Contents of file ${file}: ", it.reader(charset("ASCII")).readText())
+	}
+}
+
+fun <T, S : Session> S.use(action : (S) -> T) : T {
+	try {
+		return action(this)
+	} finally {
+		close(true)
 	}
 }

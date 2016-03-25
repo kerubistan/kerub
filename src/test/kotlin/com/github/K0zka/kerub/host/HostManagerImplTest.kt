@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
+import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
@@ -22,6 +23,7 @@ import org.apache.sshd.server.ExitCallback
 import org.apache.sshd.server.auth.UserAuthPublicKey
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -30,6 +32,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.util.UUID
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class) class HostManagerImplTest {
 
@@ -69,6 +72,9 @@ import kotlin.test.assertEquals
 
 	var sshServer: SshServer? = null
 	var shell: TestShellCommand? = null
+
+	@Mock
+	var distro : Distribution? = null
 
 	class TestShellCommand : Command {
 
@@ -173,7 +179,25 @@ import kotlin.test.assertEquals
 	}
 
 	@Test
-	fun stop() {
+	fun dataConnection() {
+		on(sshClientService!!.loginWithPublicKey(anyString(), anyString(), anyString())).thenReturn(clientSession)
 
+		val hostId = UUID.randomUUID()
+		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
+		var called = false
+		hostManager!!.dataConnection(host, {
+			session ->
+			called = true
+			assertEquals(clientSession, session)
+		})
+
+		assertTrue(called)
+		verify(sshClientService!!).loginWithPublicKey(anyString(), anyString(), anyString())
+	}
+
+	@Ignore
+	@Test
+	fun stop() {
+		TODO()
 	}
 }

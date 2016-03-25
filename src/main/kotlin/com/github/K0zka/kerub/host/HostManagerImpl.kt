@@ -66,9 +66,23 @@ class HostManagerImpl(
 	}
 
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
-		val session = connections[host.id]
-		if (session != null) {
-			closure(session.first)
+		val session = requireNotNull(connections[host.id])
+		closure(session.first)
+	}
+
+	override fun <T> dataConnection(host: Host, action: (ClientSession) -> T): T {
+
+		val controllConnection = connections[host.id]?.first
+		if(controllConnection == null) {
+			return sshClientService.loginWithPublicKey(
+					address = host.address,
+					userName = "root",
+					hostPublicKey = host.publicKey).use {
+				session ->
+				action(session)
+			}
+		} else {
+			return action(controllConnection)
 		}
 	}
 
@@ -216,7 +230,4 @@ class HostManagerImpl(
 
 	}
 
-	override fun registerHost() {
-		throw UnsupportedOperationException()
-	}
 }
