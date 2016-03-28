@@ -291,7 +291,6 @@ Domain: 'kerub.hosts.fedora20'
 		var results: List<List<DomainStat>> = listOf()
 		Virsh.domStat(session!!, {
 			results += listOf(it)
-			null
 		})
 		assertEquals(2, results.size)
 		assertEquals("kerub.hosts.opensuse13", results[0][0].name)
