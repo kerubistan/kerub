@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.io.IoTune
 
 @JsonTypeName("storage-performance")
-interface StoragePerformanceExpectation : Expectation {
+interface StoragePerformanceExpectation : VirtualStorageExpectation {
 	override val level: ExpectationLevel
 	val speed: IoTune
 }

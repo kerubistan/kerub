@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
+import com.github.K0zka.kerub.model.expectations.VirtualMachineExpectation
 import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.model.views.Simple
 import org.hibernate.search.annotations.DocumentId
@@ -50,7 +51,7 @@ data class VirtualMachine constructor(
 		@JsonView(Detailed::class)
 		@JsonProperty("expectations")
 		override
-		val expectations: List<Expectation> = listOf(),
+		val expectations: List<VirtualMachineExpectation> = listOf(),
 		/**
 		 * Storage devices of the VM
 		 */
@@ -59,5 +60,5 @@ data class VirtualMachine constructor(
 		@JsonProperty("virtualStorageLinks")
 		val virtualStorageLinks: List<VirtualStorageLink> = listOf()
 )
-: Entity<UUID>, Constrained<Expectation>
+: Entity<UUID>, Constrained<VirtualMachineExpectation>
 
