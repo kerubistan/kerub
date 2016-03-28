@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.model
 
+import java.util.Comparator
+
 /**
  * The expectation level tells the priority of an expectation when evaluating constraints.
  */
@@ -15,5 +17,19 @@ enum class ExpectationLevel {
 	/**
 	 * If an expectation is deal-breaker, the resource can not be used unless the expectation is satisfied
 	 */
-	DealBreaker
+	DealBreaker;
+
+	object comparator : Comparator<ExpectationLevel> {
+
+		private val values = mapOf<ExpectationLevel, Int>(
+				Wish to 1,
+				Want to 2,
+				DealBreaker to 3
+		)
+
+		override fun compare(first: ExpectationLevel, second: ExpectationLevel): Int =
+				values[first]!! - values[second]!!
+
+	}
+
 }
