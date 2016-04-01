@@ -66,7 +66,7 @@ class HostManagerImpl(
 	}
 
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
-		val session = requireNotNull(connections[host.id])
+		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}"  })
 		closure(session.first)
 	}
 
