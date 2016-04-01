@@ -68,9 +68,11 @@ class PlanExecutorImpl(
 				logger.debug("Executing step {}", step.javaClass.simpleName)
 				execute(step)
 			}
-			logger.debug("Plan execution finished: {}", plan)
 		} always {
+			logger.debug("Plan execution finished: {}", plan)
 			callback(plan)
+		} fail {
+			logger.warn("plan execution failed", it)
 		}
 	}
 }
