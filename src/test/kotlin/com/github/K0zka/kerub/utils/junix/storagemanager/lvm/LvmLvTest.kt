@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 class LvmLvTest {
 
 	@Mock
-	var session : ClientSession? = null
+	var session: ClientSession? = null
 
 	@Mock
 	var execChannel: ChannelExec? = null
@@ -52,10 +52,10 @@ class LvmLvTest {
 		val list = LvmLv.list(session!!)
 
 		Assert.assertEquals(3, list.size)
-		Assert.assertEquals("Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK",list[0].id)
-		Assert.assertEquals("root",list[0].name)
-		Assert.assertEquals("/dev/fedora/root",list[0].path)
-		Assert.assertEquals(BigInteger("9135194112"),list[0].size)
+		Assert.assertEquals("Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK", list[0].id)
+		Assert.assertEquals("root", list[0].name)
+		Assert.assertEquals("/dev/fedora/root", list[0].path)
+		Assert.assertEquals(BigInteger("9135194112"), list[0].size)
 	}
 
 	@Test
@@ -147,8 +147,8 @@ class LvmLvTest {
 		Assert.assertEquals("testlv2", volume.name)
 	}
 
-	val monitorOutput=
-	"""  ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
+	val monitorOutput =
+			"""  ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
   0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
   Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
   3KdPRQ-syT1-FGdd-hWk5-DcHV-Vc5f-cH7CEl:var:/dev/fedora_localshot/var:214748364800B:::linear:
@@ -189,10 +189,10 @@ class LvmLvTest {
 		Mockito.doAnswer {
 			val out = it.arguments[0] as OutputStream
 			monitorOutput.forEach {
-				out.write( it.toInt() )
+				out.write(it.toInt())
 			}
 			null
-		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		var results = mutableListOf<List<LogicalVolume>>()
@@ -203,6 +203,15 @@ class LvmLvTest {
 		})
 
 		assertEquals(2, results.size)
+	}
+
+	@Test
+	fun roundUp() {
+		assertEquals("512B".toSize(), LvmLv.roundUp("0B".toSize()))
+		assertEquals("512B".toSize(), LvmLv.roundUp("128B".toSize()))
+		assertEquals("1KB".toSize(), LvmLv.roundUp("513B".toSize()))
+		assertEquals("1KB".toSize(), LvmLv.roundUp("1KB".toSize()))
+		assertEquals("2KB".toSize(), LvmLv.roundUp("2000B".toSize()))
 	}
 
 }

@@ -2,14 +2,29 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.emptyString
+import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.ClientSession
+import org.slf4j.LoggerFactory
 import java.io.OutputStream
 import java.math.BigInteger
 
 object LvmLv {
+
+	val minimalSize = BigInteger("512")
+	val logger = getLogger(LvmLv::class)
+
+	fun roundUp(size : BigInteger) : BigInteger {
+		if(size.mod(minimalSize) == BigInteger.ZERO && size != BigInteger.ZERO) {
+			return size
+		} else {
+			val newSize = (size.div(minimalSize) + BigInteger.ONE) * minimalSize
+			logger.info("Rounded up requested size {} to {}", size, newSize)
+			return newSize
+		}
+	}
 
 	class LvmMonitorOutputStream(
 			private val callback: (List<LogicalVolume>) -> Unit
@@ -114,7 +129,7 @@ object LvmLv {
 			"--maxrecoveryrate $maxRecovery"
 		}
 		session.executeOrDie(
-				"""lvcreate $vgName -n $name -L ${size}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""",
+				"""lvcreate $vgName -n $name -L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""",
 				{ checkErrorOutput(it) })
 		return list(session).first { it.name == name }
 	}
