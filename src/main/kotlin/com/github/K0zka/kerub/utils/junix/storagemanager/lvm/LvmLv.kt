@@ -55,6 +55,7 @@ object LvmLv {
 
 	private fun parseRow(row: String): LogicalVolume {
 		val fields = row.trim().split(fieldSeparator)
+		require(fields.size == 8, { "This row does not look any good: \n$row\n"})
 		return LogicalVolume(
 				id = fields[0],
 				name = fields[1],
