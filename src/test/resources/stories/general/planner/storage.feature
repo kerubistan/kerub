@@ -23,7 +23,7 @@ Feature: storage management
 	And VM vm1 gets scheduled on host 127.0.0.5
 
   Scenario: The virtual disk must be created for the VM, only LVM is available
-	And hosts:
+	Given hosts:
 	  | address   | ram  | Cores | Threads | Architecture |  |
 	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
 	And host 127.0.0.5 filesystem is:
@@ -47,3 +47,31 @@ Feature: storage management
 	Then the virtual disk system-disk-1 must be allocated on 127.0.0.5 under on the volume group volgroup-1
 	And VM vm1 gets scheduled on host 127.0.0.5
 
+  Scenario: disk created for the availability requirement
+	Given hosts:
+	  | address   | ram  | Cores | Threads | Architecture |  |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	And host 127.0.0.5 volume groups are:
+	  | vg name    | size   | pvs                            |
+	  | volgroup-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
+	And host 127.0.0.5 is Up
+	And virtual storage devices:
+	  | name          | size | ro    |
+	  | system-disk-1 | 2 GB | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then the virtual disk system-disk-1 must be allocated on 127.0.0.5 under on the volume group volgroup-1
+
+  Scenario: The only host needs to be waken up to make the disk available
+	Given hosts:
+	  | address   | ram  | Cores | Threads | Architecture |  |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	And host 127.0.0.5 volume groups are:
+	  | vg name    | size   | pvs                            |
+	  | volgroup-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
+	And host 127.0.0.5 is Down
+	And virtual storage devices:
+	  | name          | size | ro    |
+	  | system-disk-1 | 2 GB | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then host 127.0.0.5 must be waken up as step 1
+	And the virtual disk system-disk-1 must be allocated on 127.0.0.5 under on the volume group volgroup-1 as step 2
