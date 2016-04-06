@@ -45,6 +45,7 @@ fun ClientSession.executeOrDie(command: String): String {
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean): String {
 	val execChannel = this.createExecChannel(command)
+	logger.debug("executing command: {}", command)
 	return execChannel.use {
 		val error = it.invertedErr.reader(charset("ASCII")).readText()
 		if(isError(error)) {
