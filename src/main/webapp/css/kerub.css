@@ -44,3 +44,5 @@ ul.dropdown-menu li {
 .dropdown-menu {
     z-index: 9999 !important;
 }
+
+.drop-zone { border: dotted 3px lightgray; }

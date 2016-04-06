@@ -13,6 +13,8 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.DisableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
+import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownExecutor
+import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
@@ -27,6 +29,7 @@ import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvExecutor
 import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.async
+import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(
 		private val hostCommandExecutor: HostCommandExecutor,
@@ -48,7 +51,8 @@ class PlanExecutorImpl(
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
-			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao)
+			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
+			PowerDownHost::class to PowerDownExecutor(hostManager)
 	)
 
 	fun execute(step: AbstractOperationalStep) {
@@ -62,7 +66,7 @@ class PlanExecutorImpl(
 
 	override fun
 			execute(plan: Plan, callback: (Plan) -> Unit) {
-		async() {
+		task() {
 			logger.debug("Executing plan {}", plan)
 			for (step in plan.steps) {
 				logger.debug("Executing step {}", step.javaClass.simpleName)

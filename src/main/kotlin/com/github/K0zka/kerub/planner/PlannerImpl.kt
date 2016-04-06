@@ -58,15 +58,25 @@ class PlannerImpl(
 	private val reservations = ConcurrentHashMap<Plan, List<Reservation<*>>>()
 
 	override fun onEvent(msg: EntityMessage) {
-		val strategy = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
 
+		val state = buildState()
+		plan(state)
+
+	}
+
+	private fun buildState(): OperationalState {
+		return builder.buildState().copy(
+				reservations = reservations.values.join()
+		)
+	}
+
+	private fun plan(state: OperationalState) {
+		val strategy = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
 		logger.debug("starting planing")
 
 		backtrack.backtrack(
 				Plan(
-						state = builder.buildState().copy(
-								reservations = reservations.values.join()
-						)
+						state = state
 				),
 				CompositeStepFactory,
 				strategy,
@@ -74,7 +84,7 @@ class PlannerImpl(
 		)
 		val plan = strategy.solution
 		if (plan == null) {
-			logger.debug("No plan generated.", msg)
+			logger.debug("No plan generated.")
 		} else {
 			val planReservations = plan.reservations()
 			checkReservations(planReservations, reservations.values.join())
@@ -83,7 +93,6 @@ class PlannerImpl(
 				reservations.remove(plan)
 			})
 		}
-
 	}
 
 }

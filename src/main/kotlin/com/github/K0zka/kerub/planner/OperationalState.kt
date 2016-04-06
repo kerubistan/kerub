@@ -18,8 +18,11 @@ import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
+import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.expectations.VirtualStorageExpectation
 import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.k0zka.finder4j.backtrack.State
 import java.util.UUID
@@ -87,7 +90,41 @@ data class OperationalState(
 				expectation.level != ExpectationLevel.DealBreaker
 						|| isExpectationSatisfied(expectation, vm)
 			}
+		} && virtualStorageToCheck().all {
+			virtualStorageDevice ->
+			virtualStorageDevice.expectations.all {
+				expectation ->
+				expectation.level != ExpectationLevel.DealBreaker
+						||
+				isExpectationSatisfied(expectation, virtualStorageDevice)
+			}
 		}
+	}
+
+	private fun isExpectationSatisfied(expectation : VirtualStorageExpectation, virtualStorage : VirtualStorageDevice) : Boolean {
+		when(expectation) {
+			is StorageAvailabilityExpectation -> {
+				//if storage dynamic exists, allocation must exist
+				return vStorageDyns.containsKey(virtualStorage.id)
+			}
+			is NotSameStorageExpectation -> {
+				val diskDyn = vStorageDyns[virtualStorage.id]
+				return diskDyn == null || expectation.otherDiskIds.any {
+					otherVdiskId ->
+					val otherDiskDyn = vStorageDyns.get(otherVdiskId)
+					if (otherDiskDyn == null) {
+						true
+					} else {
+						otherDiskDyn.allocation.hostId == diskDyn.allocation.hostId
+					}
+				}
+			}
+			else -> return true
+		}
+	}
+
+	private fun virtualStorageToCheck(): List<VirtualStorageDevice> {
+		return vStorage.values.filter { reservations.contains(VirtualStorageReservation(it)) }
 	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
@@ -128,24 +165,6 @@ data class OperationalState(
 				.filterNot {
 					reservations.contains(VmReservation(it))
 				}
-	}
-
-	private fun isExpectationSatisfied(expectation: Expectation, vdisk: VirtualStorageDevice): Boolean {
-		when (expectation) {
-			is NotSameStorageExpectation -> {
-				val diskDyn = vStorageDyns[vdisk.id]
-				return diskDyn == null || expectation.otherDiskIds.any {
-					otherVdiskId ->
-					val otherDiskDyn = vStorageDyns.get(otherVdiskId)
-					if (otherDiskDyn == null) {
-						true
-					} else {
-						otherDiskDyn.allocation.hostId == diskDyn.allocation.hostId
-					}
-				}
-			}
-			else -> throw IllegalArgumentException("Expectation $expectation not handled")
-		}
 	}
 
 	private fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {

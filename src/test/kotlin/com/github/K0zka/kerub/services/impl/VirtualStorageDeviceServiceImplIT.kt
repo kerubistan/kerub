@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.createServiceClient
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.expectations.StorageReadPerformanceExpectation
 import com.github.K0zka.kerub.model.expectations.StorageRedundancyExpectation
+import com.github.K0zka.kerub.model.expectations.VirtualStorageExpectation
 import com.github.K0zka.kerub.model.io.IoTune
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService

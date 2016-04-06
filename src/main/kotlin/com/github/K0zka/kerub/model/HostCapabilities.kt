@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.model.views.Full
 import com.github.K0zka.kerub.model.views.Simple
@@ -44,13 +45,16 @@ data class HostCapabilities(
 		@JsonView(Detailed::class)
 		@Field
 		val chassis: ChassisInformation? = null,
-		/**
-		 * Used by wake on lan - however a more precise and detailed
-		 * network discovery should move it to it's correct place
-		 */
+//		/**
+//		 * Used by wake on lan - however a more precise and detailed
+//		 * network discovery should move it to it's correct place
+//		 */
+//		@Field
+//		@JsonView(Detailed::class)
+//		val macAddresses: List<ByteArray> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
-		val macAddresses: List<ByteArray> = listOf(),
+		val powerManagment: List<PowerManagementInfo> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
 		val storageCapabilities: List<StorageCapability> = listOf()

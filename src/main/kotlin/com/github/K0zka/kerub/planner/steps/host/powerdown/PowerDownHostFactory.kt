@@ -19,7 +19,11 @@ object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 			it.value.status != VirtualMachineStatus.Down
 		}.map { it.value.hostId }
 
-		val idleDedicatedHosts = state.hosts.filter { !vmsOnHost.contains(it.key) && it.value.dedicated }
+		val idleDedicatedHosts = state.hosts.filter {
+			!vmsOnHost.contains(it.key)
+					&& it.value.dedicated
+					&& it.value.capabilities?.powerManagment?.let { it.isNotEmpty() } ?: false
+		}
 
 		return idleDedicatedHosts.filter {
 			val dyn = state.hostDyns[it.key]

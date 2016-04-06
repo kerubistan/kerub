@@ -13,7 +13,6 @@ kerubApp.controller('VirtualDisksTab', function($scope, $uibModal, $log, socket,
                     templateUrl : 'NewVirtualDiskWizard.html',
                     controller : NewVirtualDiskWizard
                 });
-
 	};
 
 	$scope.refresh();

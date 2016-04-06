@@ -21,6 +21,10 @@ class WakeHostExecutor(
 
 	override fun perform(step: WakeHost) {
 		for (nr in 0..tries) {
+			if(hostDynDao.get(step.host.id)?.status == HostStatus.Up) {
+				//host connected
+				return
+			}
 			try {
 				logger.debug("attempt {} - waking host {} {}", nr, step.host.address, step.host.id)
 				hostManager.getPowerManager(step.host).on()

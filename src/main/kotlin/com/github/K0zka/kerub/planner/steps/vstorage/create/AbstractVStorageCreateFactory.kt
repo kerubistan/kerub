@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.planner.steps.vstorage.create
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
@@ -21,16 +22,19 @@ abstract class AbstractVStorageCreateFactory<S : AbstractOperationalStep> : Abst
 							&& expectation.up
 				}
 			}
+			//TODO: here also list the storage that has availibility expectation
 			val storageNotAllocated = state.vStorage.values.filterNot { state.vStorageDyns.contains(it.id) }
 					.filter {
 						storage ->
-						vmsThatMustRun.any {
-							vm ->
-							vm.virtualStorageLinks.any {
-								link ->
-								link.virtualStorageId == storage.id
-							}
-						}
+						storage.expectations.any { it is StorageAvailabilityExpectation }
+								||
+								vmsThatMustRun.any {
+									vm ->
+									vm.virtualStorageLinks.any {
+										link ->
+										link.virtualStorageId == storage.id
+									}
+								}
 					}
 			return storageNotAllocated
 		}

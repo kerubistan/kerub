@@ -10,6 +10,7 @@
     <script src="webjars/angular-ui-bootstrap/1.1.1-1/ui-bootstrap-tpls.min.js"></script>
     <script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script src="webjars/markdown-js/0.5.0/markdown.js"></script>
+    <script src="webjars/nervgh-angular-file-upload/2.1.1/angular-file-upload.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
     <script src="js/socket.js"></script>
@@ -46,6 +47,7 @@
             </div>
             <form ng-submit="login()">
             <div class="modal-body">
+
                     <div class="media login-screen form-group">
                         <div class="media-right thumbnail col-sm-3 col-md-3">
                             <a href="#">
@@ -61,14 +63,22 @@
                             </span>
                         </div>
                     </div>
-                    <div class="form-group has-feedback has-feedback-left">
-                        <input ng-model="username" class="form-control input-lg" placeholder="username" autofocus>
-                        <i class="form-control-feedback fa fa-user"></i>
+
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-user"></span></div>
+                            <input ng-model="username" class="form-control input-lg" placeholder="username" autofocus>
+                        </div>
                     </div>
-                    <div class="form-group has-feedback has-feedback-left">
-                        <input ng-model="password" class="form-control input-lg" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
-                        <i class="form-control-feedback fa fa-key"></i>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="fa fa-key"></span></div>
+                            <input ng-model="password" class="form-control input-lg" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
+                        </div>
                     </div>
+                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login()">
@@ -89,27 +99,62 @@
         <div class="modal-header">
             <h3 class="modal-title">New Virtual Disk</h3>
         </div>
+        <div class="modal-body">
         <uib-tabset>
             <uib-tab>
                 <uib-tab-heading>General</uib-tab-heading>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
+                            <input
+                                    ng-model="disk.id"
+                                    class="form-control"
+                                    uib-tooltip="Virtual disk unique ID"
+                                    readonly>
+                        </div>
                     </div>
-                    <input ng-model="disk.id" class="form-control" readonly>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-tag"/> name</h3>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-tag"/></div>
+                            <input ng-model="disk.name" class="form-control" uib-tooltip="Virtual disk name">
+                        </div>
                     </div>
-                    <input ng-model="disk.name" class="form-control">
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-resize-full"/> Size</h3>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-resize-full"/></div>
+                            <input ng-model="disk.userFriendlySize"
+                                   ng-model-options="{ getterSetter: true }"
+                                   ng-disabled="uploader.queue.length"
+                                   class="form-control"
+                                   uib-tooltip="Virtual disk size"
+                                   autofocus>
+                        </div>
                     </div>
-                    <input ng-model="disk.userFriendlySize" ng-model-options="{ getterSetter: true }" class="form-control" autofocus>
-                </div>
+
+                    <div nv-file-drop=""
+                         class="form-group"
+                         uploader="uploader"
+                         ng-if="!uploader.progress && uploader.queue.length == 0"
+                         uib-tooltip="Drag the disk image file here!">
+                        <div nv-file-over="" uploader="uploader" over-class="well drop-zone" class="well drop-zone">
+                            <span ng-if="uploader.queue.length == 0" class="glyphicon glyphicon-upload"></span>
+                        </div>
+                    </div>
+
+                    <div ng-repeat="item in uploader.queue" class="well"><span class="fa fa-file"></span> {{item.file.name}}</div>
+
+                    <div class="form-group progress" ng-if="uploader.progress">
+                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">{{uploader.progress}}% </div>
+                    </div>
+
+                </form>
+
+
+
             </uib-tab>
             <uib-tab>
                 <uib-tab-heading>Expectations</uib-tab-heading>
@@ -139,6 +184,7 @@
 
             </uib-tab>
         </uib-tabset>
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addStorage()" uib-tooltip="Create this virtual disk" tooltip-placement="top">
             </button>
@@ -177,34 +223,57 @@
         <div class="modal-header">
             <h3 class="modal-title">New VM</h3>
         </div>
+        <div class="modal-body">
         <uib-tabset>
             <uib-tab>
                 <uib-tab-heading>General</uib-tab-heading>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-barcode"/> ID</h3>
+                <form class="form-horizontal">
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
+                        <input
+                                ng-model="vm.id"
+                                class="form-control"
+                                readonly
+                                uib-tooltip="Virtual Machine unique identifier"
+                                autofocus>
                     </div>
-                    <input ng-model="vm.id" class="form-control" readonly autofocus>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-tag"/> Name</h3>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-tag"/>
+                        </div>
+                        <input
+                                ng-model="vm.name"
+                                class="form-control"
+                                placeholder="vm name"
+                                uib-tooltip="Virtual Machine name"
+                                autofocus>
                     </div>
-                    <input ng-model="vm.name" class="form-control" placeholder="vm name" autofocus>
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-cog"/> CPU</h3>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-cog"/>
+                        </div>
+                        <input
+                                ng-model="vm.nrOfCpus"
+                                class="form-control"
+                                uib-tooltip="Number of virtual CPUs for the virtual machine"
+                                type="number">
                     </div>
-                    <input ng-model="vm.nrOfCpus" class="form-control" type="number">
-                </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><span class="glyphicon glyphicon-signal"/> Memory</h3>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-signal"/>
+                        </div>
+                        <input
+                                ng-model="vm.memory.humanFriendlyMin"
+                                ng-model-options="{ getterSetter: true }"
+                                uib-tooltip="Minimal amount of memory for the virtual machine"
+                                class="form-control">
+                        <input
+                                ng-model="vm.memory.humanFriendlyMax"
+                                ng-model-options="{ getterSetter: true }"
+                                uib-tooltip="Maximal amount of memory for the virtual machine"
+                                class="form-control">
                     </div>
-                    <input ng-model="vm.memory.humanFriendlyMin" ng-model-options="{ getterSetter: true }" class="form-control">
-                    <input ng-model="vm.memory.humanFriendlyMax" ng-model-options="{ getterSetter: true }" class="form-control">
-                </div>
+                </form>
             </uib-tab>
             <uib-tab>
                 <uib-tab-heading>Disks</uib-tab-heading>
@@ -330,6 +399,7 @@
 
             </uib-tab>
         </uib-tabset>
+        </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()" uib-tooltip="Add this VM" tooltip-placement="top">
             </button>

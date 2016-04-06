@@ -1,5 +1,11 @@
-var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession, uuid4, size, expectations) {
+var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession, uuid4, size, expectations, FileUploader) {
+	$log.info('file uploader', FileUploader);
+
 	var id = uuid4.generate();
+
+	$scope.uploader = new FileUploader( {
+		url : 's/r/virtual-storage/load/' + id
+	} );
 
 	$scope.disk = {
 		'@type' : 'vstorage',
@@ -16,6 +22,11 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		expectations : []
 	};
 
+	$scope.uploader.onAfterAddingFile = function(item) {
+		$log.info('file added', item.file.name, item.file.size);
+		$scope.disk.size = item.file.size;
+	}
+
 	/**
 	 * gettersetter for disk size
 	 */
@@ -28,7 +39,14 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 
 	$scope.addStorage = function() {
 		appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
-        	$uibModalInstance.dismiss();
+			if($scope.uploader.queue.length > 0) {
+				$scope.uploader.uploadAll();
+				$scope.uploader.onSuccessItem = function(fileItem, response, status, headers) {
+					$uibModalInstance.dismiss();
+				}
+			} else {
+	        	$uibModalInstance.dismiss();
+			}
 		});
 	};
 

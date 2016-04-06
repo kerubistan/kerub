@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps
 
+import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHostFactory
@@ -10,6 +11,7 @@ import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
+import com.github.K0zka.kerub.utils.join
 import com.github.k0zka.finder4j.backtrack.StepFactory
 import kotlin.comparisons.thenComparator
 import kotlin.reflect.KClass
@@ -29,22 +31,22 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 					StopVirtualMachineFactory,
 					MigrateVirtualMachineFactory,
 					WakeHostFactory
+			),
+			StorageAvailabilityExpectation::class to  setOf(
+					CreateImageFactory,
+					CreateLvFactory,
+					WakeHostFactory,
+					MigrateVirtualMachineFactory
 			)
 	)
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
+		val stepFactories = state.state.getUnsatisfiedExpectations()
+				.map {
+					factories[it.javaClass.kotlin] ?: defaultFactories
+				}.join().toSet()
 
-		val unsat = state.state.getUnsatisfiedExpectations()
-		unsat.map { it.javaClass }.toSet()
-
-		var allStepFactories = setOf<AbstractOperationalStepFactory<*>>()
-		unsat.forEach {
-			allStepFactories = (allStepFactories + (factories[it.javaClass.kotlin] ?: defaultFactories)).toSet()
-		}
-
-		var list = listOf<AbstractOperationalStep>()
-		allStepFactories.forEach { list += (it.produce(state.state) ) }
-		return sort(list, state)
+		return sort(stepFactories.map { it.produce(state.state) }.join(), state)
 	}
 
 	fun sort(list: List<AbstractOperationalStep>, state: Plan): List<AbstractOperationalStep> {

@@ -10,8 +10,12 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 object WakeHostFactory : AbstractOperationalStepFactory<WakeHost>() {
 	override fun produce(state: OperationalState): List<WakeHost> {
 		return state.hosts.filter {
-			val dyn = state.hostDyns[it.key]
-			dyn == null || dyn.status == HostStatus.Down
+			it.value.capabilities?.powerManagment?.isNotEmpty() ?: false
+			&& state.hostDyns[it.key].let {
+				dyn ->
+				dyn == null || dyn.status == HostStatus.Down
+			}
+
 		}.map { WakeHost(it.value) }
 	}
 }

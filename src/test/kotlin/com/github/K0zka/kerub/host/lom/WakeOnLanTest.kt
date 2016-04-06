@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
@@ -16,25 +17,25 @@ import org.mockito.runners.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class) class WakeOnLanTest {
 
 	@Mock
-	var executor : HostCommandExecutor? = null
+	var executor: HostCommandExecutor? = null
 	@Mock
-	var hostManager : HostManager? = null
+	var hostManager: HostManager? = null
 	val host = Host(
 			address = "host-1.example.com",
-	        dedicated = true,
-	        publicKey = "",
-	        capabilities = HostCapabilities(
-			        macAddresses = listOf(Net.stringToMac("00:00:CA:FE:BA:BE")),
-	                cpuArchitecture = "x86_64",
-	                devices = listOf(),
-	                totalMemory = "1234 MB".toSize(),
-	                cpus = listOf(),
-	                installedSoftware = listOf(),
-	                chassis = null,
-	                os = null,
-			        distribution = null
-	                                       )
-	               )
+			dedicated = true,
+			publicKey = "",
+			capabilities = HostCapabilities(
+					powerManagment = listOf(WakeOnLanInfo(macAddresses = listOf(Net.stringToMac("00:00:CA:FE:BA:BE")))),
+					cpuArchitecture = "x86_64",
+					devices = listOf(),
+					totalMemory = "1234 MB".toSize(),
+					cpus = listOf(),
+					installedSoftware = listOf(),
+					chassis = null,
+					os = null,
+					distribution = null
+			)
+	)
 
 	@Ignore
 	@Test
@@ -44,7 +45,7 @@ import org.mockito.runners.MockitoJUnitRunner
 
 	@Test(expected = IllegalArgumentException::class)
 	fun onWithoutMacAddress() {
-		WakeOnLan(host.copy( capabilities = null), executor!!, hostManager!!).on()
+		WakeOnLan(host.copy(capabilities = null), executor!!, hostManager!!).on()
 	}
 
 	@Test

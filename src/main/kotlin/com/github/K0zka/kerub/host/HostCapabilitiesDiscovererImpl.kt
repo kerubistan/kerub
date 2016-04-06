@@ -20,6 +20,8 @@ import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.df.DF
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
@@ -78,9 +80,20 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
-				macAddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) },
+				powerManagment = discoverPowerManagement(session),
 				storageCapabilities = discoverStorage(session, distro?.operatingSystem)
 		)
+	}
+
+	private fun discoverPowerManagement(session: ClientSession): List<PowerManagementInfo> {
+		//TODO: filter out the ones not connected and not wal-enabled
+		val macAdddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
+
+		if(macAdddresses.isEmpty()) {
+			return listOf()
+		} else {
+			return listOf( WakeOnLanInfo(macAdddresses) )
+		}
 	}
 
 	internal fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {

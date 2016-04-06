@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.PowerManager
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -46,9 +47,10 @@ class WakeOnLan(
 	}
 
 	override fun on() {
-		require(host.capabilities?.macAddresses != null, { "mac address list needed to wake up host" })
-		require(host.capabilities?.macAddresses!!.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
-		for (mac in host.capabilities?.macAddresses) {
+		val info = host.capabilities?.powerManagment?.first { it is WakeOnLanInfo } as WakeOnLanInfo?
+		require( info != null, { "mac address list needed to wake up host" })
+		require(info!!.macAddresses.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
+		for (mac in info.macAddresses) {
 			val bytes = buildMagicPocket(mac)
 
 			DatagramSocket(null).use {
@@ -56,7 +58,6 @@ class WakeOnLan(
 			}
 		}
 	}
-
 
 	override fun off() {
 		require(host.dedicated, { "Can not power off a non-dedicated host" })
