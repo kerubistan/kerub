@@ -18,6 +18,7 @@
         <servlet-name>CXFServlet</servlet-name>
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
 
     <servlet>
@@ -43,6 +44,7 @@
             <param-name>targetFilterLifecycle</param-name>
             <param-value>true</param-value>
         </init-param>
+        <async-supported>true</async-supported>
     </filter>
 
     <filter-mapping>
