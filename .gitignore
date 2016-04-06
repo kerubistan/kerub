@@ -16,3 +16,10 @@ hs_err_pid*
 #various scripts
 *.sh
 
+#disk images of any kind, just in case it is in this directory
+*.iso
+*.img
+*.qcow
+*.qcow2
+*.raw
+
