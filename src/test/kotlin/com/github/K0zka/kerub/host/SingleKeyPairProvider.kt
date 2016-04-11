@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.host
 
-import org.apache.sshd.common.KeyPairProvider
+import org.apache.sshd.common.keyprovider.KeyPairProvider
 import java.security.KeyPair
 
 class SingleKeyPairProvider (val keyPair : KeyPair) : KeyPairProvider {
@@ -12,7 +12,7 @@ class SingleKeyPairProvider (val keyPair : KeyPair) : KeyPairProvider {
 		return keyPair
 	}
 
-	override fun getKeyTypes(): String? {
-		return "ssh-${keyPair.public.algorithm.toLowerCase()}"
+	override fun getKeyTypes(): Iterable<String> {
+		return listOf("ssh-${keyPair.public.algorithm.toLowerCase()}")
 	}
 }

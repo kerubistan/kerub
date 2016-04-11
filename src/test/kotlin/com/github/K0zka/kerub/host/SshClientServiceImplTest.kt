@@ -1,15 +1,20 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.anyInt
+import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.getTestKey
-import org.apache.sshd.ClientSession
-import org.apache.sshd.SshClient
-import org.apache.sshd.client.SftpClient
-import org.apache.sshd.common.KeyExchange
-import org.apache.sshd.common.SessionListener
+import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.any
+import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.DefaultCloseableHandle
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.SshException
-import org.apache.sshd.common.session.AbstractSession
+import org.apache.sshd.common.kex.KeyExchange
+import org.apache.sshd.common.session.SessionListener
+import org.apache.sshd.common.session.helpers.AbstractSession
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
@@ -20,6 +25,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.security.PublicKey
+import java.util.EnumSet
 import java.util.concurrent.TimeUnit
 
 
@@ -33,6 +39,9 @@ import java.util.concurrent.TimeUnit
 
 	@Mock
 	var serverPublicKey: PublicKey? = null
+
+	@Mock
+	var handle: SftpClient.CloseableHandle? = null
 
 	var service : SshClientServiceImpl? = null
 
@@ -49,11 +58,13 @@ import java.util.concurrent.TimeUnit
 	fun installPublicKey() {
 		Mockito.`when`(session!!.createSftpClient()).thenReturn(sftClient)
 		Mockito.`when`(sftClient!!.stat(eq(".ssh"))).thenReturn(SftpClient.Attributes())
-		val authorizedKeysHandle = SftpClient.Handle("TEST")
-		Mockito.`when`(sftClient!!.open(eq(".ssh/authorized_keys"), Matchers.any())).thenReturn(authorizedKeysHandle)
+		Mockito.`when`(sftClient!!.open(eq(".ssh/authorized_keys"), Matchers.any<SftpClient.OpenMode>())).thenReturn(handle)
+		Mockito.`when`(sftClient!!.open(eq(".ssh/authorized_keys"), Matchers.any<EnumSet<SftpClient.OpenMode>>())).thenReturn(handle)
 		Mockito.`when`(sftClient!!.stat(eq(".ssh/authorized_keys"))) .thenReturn(SftpClient.Attributes())
-		Mockito.`when`(sftClient!!.stat(eq(authorizedKeysHandle))).thenReturn(SftpClient.Attributes())
+		Mockito.`when`(sftClient!!.stat(eq(handle))).thenReturn(SftpClient.Attributes())
 		service!!.installPublicKey(session!!)
+
+		verify(sftClient)!!.close(eq(handle))
 	}
 
 	@Test

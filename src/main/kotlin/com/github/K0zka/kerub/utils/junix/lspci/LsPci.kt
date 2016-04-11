@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils.junix.lspci
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.hardware.PciDevice
 import com.github.K0zka.kerub.utils.getLogger
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 object LsPci {
 	val logger = getLogger(LsPci::class)

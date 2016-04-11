@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.packman.DnfPackageManager
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.silent
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 class Fedora23Plus : Fedora() {
 	override fun getPackageManager(session: ClientSession): PackageManager {

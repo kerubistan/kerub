@@ -14,10 +14,10 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
-import org.apache.sshd.ClientSession
-import org.apache.sshd.SshClient
-import org.apache.sshd.client.ServerKeyVerifier
-import org.apache.sshd.common.Session
+import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.keyverifier.ServerKeyVerifier
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.common.session.Session
 import java.net.SocketAddress
 import java.security.PublicKey
 import java.util.Collections
@@ -116,7 +116,7 @@ class HostManagerImpl(
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				hostPublicKey = host.publicKey)
-		session.addListener(SessionCloseListener(host, hostDynamicDao, connections))
+		session.addSessionListener(SessionCloseListener(host, hostDynamicDao, connections))
 		val distro = discoverer.detectDistro(session)
 		if (distro != null) {
 			connections.put(host.id, session to distro)

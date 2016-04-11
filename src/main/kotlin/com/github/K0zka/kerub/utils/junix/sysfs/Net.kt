@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.utils.junix.sysfs
 
 import com.github.K0zka.kerub.host.getFileContents
 import com.github.K0zka.kerub.host.use
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 /**
  * Utilities to deal with the linux sysfs network information.

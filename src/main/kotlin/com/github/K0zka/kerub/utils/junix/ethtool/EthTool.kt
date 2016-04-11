@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.utils.junix.ethtool
 
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.utils.toSize
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 object EthTool {

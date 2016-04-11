@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.getFileContents
 import com.github.K0zka.kerub.host.packman.YumPackageManager
 import com.github.K0zka.kerub.model.Version
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 class Centos6 : AbstractLinux() {
 	override fun getPackageManager(session: ClientSession): PackageManager

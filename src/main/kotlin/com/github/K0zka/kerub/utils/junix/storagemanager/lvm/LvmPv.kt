@@ -3,14 +3,14 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.toSize
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 /**
  * Utility to handle LVM Physical Volumes
  */
 object LvmPv {
 	fun list(session: ClientSession): List<PhysicalVolume>
-			= session.executeOrDie("pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid ${listOptions}")
+			= session.executeOrDie("pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions")
 			.rows()
 			.filterNot { it.isBlank() }
 			.map {

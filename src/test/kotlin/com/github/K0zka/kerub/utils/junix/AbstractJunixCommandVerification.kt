@@ -2,9 +2,9 @@ package com.github.K0zka.kerub.utils.junix
 
 import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.on
-import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.Mock

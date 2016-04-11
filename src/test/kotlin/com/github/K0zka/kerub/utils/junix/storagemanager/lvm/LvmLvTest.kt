@@ -3,9 +3,9 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 import com.github.K0zka.kerub.utils.toSize
 import com.github.K0zka.kerub.verify
 import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -207,11 +207,11 @@ class LvmLvTest {
 
 	@Test
 	fun roundUp() {
-		assertEquals("512B".toSize(), LvmLv.roundUp("0B".toSize()))
-		assertEquals("512B".toSize(), LvmLv.roundUp("128B".toSize()))
-		assertEquals("1KB".toSize(), LvmLv.roundUp("513B".toSize()))
-		assertEquals("1KB".toSize(), LvmLv.roundUp("1KB".toSize()))
-		assertEquals("2KB".toSize(), LvmLv.roundUp("2000B".toSize()))
+		assertEquals("4MB".toSize(), LvmLv.roundUp("0B".toSize()))
+		assertEquals("4MB".toSize(), LvmLv.roundUp("128B".toSize()))
+		assertEquals("4MB".toSize(), LvmLv.roundUp("513B".toSize()))
+		assertEquals("4MB".toSize(), LvmLv.roundUp("1KB".toSize()))
+		assertEquals("4MB".toSize(), LvmLv.roundUp("2000B".toSize()))
 	}
 
 }

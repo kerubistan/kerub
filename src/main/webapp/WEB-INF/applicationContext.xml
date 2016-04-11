@@ -184,7 +184,7 @@
     </bean>
 
     <bean id="sshClient"
-          class="org.apache.sshd.SshClient"
+          class="org.apache.sshd.client.SshClient"
           factory-method="setUpDefaultClient"
           init-method="start"
           destroy-method="stop"/>
@@ -299,7 +299,7 @@
 
     <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="artemisCF"/>
-        <property name="concurrency" value="1-4"/>
+        <property name="concurrency" value="1"/>
         <property name="destination" ref="globalEvents"/>
         <property name="messageListener" ref="messageListener"/>
     </bean>

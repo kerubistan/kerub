@@ -5,7 +5,6 @@ import com.wordnik.swagger.annotations.Api
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
 import javax.ws.rs.Consumes
-import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam

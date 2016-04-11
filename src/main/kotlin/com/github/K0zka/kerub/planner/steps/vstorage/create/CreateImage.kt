@@ -6,16 +6,12 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.reservations.Reservation
-import com.github.K0zka.kerub.planner.reservations.UseHostReservation
-import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
-import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 data class CreateImage(
-		val device: VirtualStorageDevice,
-		val host: Host,
+		override val disk: VirtualStorageDevice,
+		override val host: Host,
 		val path: String,
-		val format: VirtualDiskFormat) : AbstractOperationalStep {
+		val format: VirtualDiskFormat) : AbstractCreate {
 
 	/*
 	 * TODO: add costs here:
@@ -23,23 +19,17 @@ data class CreateImage(
 	 * - bandwidth and storage capacity
 	 */
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(
-			VirtualStorageReservation(device),
-			UseHostReservation(host)
-	)
-
 	override fun take(state: OperationalState): OperationalState =
 			state.copy(
 					vStorageDyns = state.vStorageDyns
-							+ (device.id to VirtualStorageDeviceDynamic(
-							id = device.id,
+							+ (disk.id to VirtualStorageDeviceDynamic(
+							id = disk.id,
 							allocation = VirtualStorageFsAllocation(
 									hostId = host.id,
 									mountPoint = "",
 									type = VirtualDiskFormat.qcow2
 							),
-							actualSize = device.size //TODO not true when thin provisioning
+							actualSize = disk.size //TODO not true when thin provisioning
 					))
 			)
 

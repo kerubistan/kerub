@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.model.dynamic
 
 import java.io.Serializable
-import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.UUID
 

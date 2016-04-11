@@ -15,12 +15,13 @@ import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.verify
-import org.apache.sshd.ClientSession
-import org.apache.sshd.SshServer
+import org.apache.sshd.client.auth.pubkey.UserAuthPublicKey
+import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.server.Command
 import org.apache.sshd.server.Environment
 import org.apache.sshd.server.ExitCallback
-import org.apache.sshd.server.auth.UserAuthPublicKey
+import org.apache.sshd.server.SshServer
+import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
@@ -128,7 +129,7 @@ import kotlin.test.assertTrue
 		shell = TestShellCommand()
 		sshServer = SshServer.setUpDefaultServer()
 		sshServer!!.port = 2022
-		sshServer!!.userAuthFactories = listOf(UserAuthPublicKey.Factory())
+		sshServer!!.userAuthFactories = listOf(UserAuthPublicKeyFactory())
 		sshServer!!.keyPairProvider = SingleKeyPairProvider(key)
 		sshServer!!.setShellFactory { shell }
 		sshServer!!.start()

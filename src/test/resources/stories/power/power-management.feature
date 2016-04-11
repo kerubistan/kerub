@@ -9,7 +9,7 @@ Feature: Host power management
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1GB    | 4GB    | 2    | x86_64       |
 	And vm1 is running on host-1.example.com
-	And host-2.example.com has <type> power management
+	And host host-2.example.com has <type> power management
 	When host-2.example.com is idle for 2 hours
 	Then host-2.example.com will be powered down
 	Examples: type
@@ -21,7 +21,7 @@ Feature: Host power management
 	Given hosts:
 	  | address            | ram | Cores | Threads | Architecture |  |
 	  | host-1.example.com | 2GB | 2     | 4       | x86_64       |  |
-	And host-1.example.com has no power management
+	And host host-1.example.com has no power management
 	When host-2.example.com is idle for 2 hours
 	Then host-2.example.com won't be powered down
 

@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 /**
  * FreeBSD distribution.

@@ -2,14 +2,16 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
-import org.apache.sshd.ClientSession
-import org.apache.sshd.SshClient
-import org.apache.sshd.client.SftpClient
-import org.apache.sshd.common.Session
-import org.apache.sshd.common.SessionListener
+import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.SshException
-import org.apache.sshd.common.session.AbstractSession
-import org.apache.sshd.common.util.KeyUtils
+import org.apache.sshd.common.config.keys.KeyUtils
+import org.apache.sshd.common.digest.BuiltinDigests
+import org.apache.sshd.common.digest.Digest
+import org.apache.sshd.common.session.Session
+import org.apache.sshd.common.session.SessionListener
+import org.apache.sshd.common.session.helpers.AbstractSession
+import org.apache.sshd.common.subsystem.sftp.SftpConstants
 import java.io.ByteArrayOutputStream
 import java.security.KeyPair
 import java.security.interfaces.RSAPublicKey
@@ -17,7 +19,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class SshClientServiceImpl(
-		val client: SshClient,
+		val client: SshClient = SshClient.setUpDefaultClient(),
 		val keyPair: KeyPair,
 		val maxWait: Long = 500,
 		val maxWaitUnit: TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
@@ -32,10 +34,11 @@ class SshClientServiceImpl(
 
 	companion object {
 		val logger = getLogger(SshClientServiceImpl::class)
+		val digest : Digest = BuiltinDigests.md5.create()
 
 		fun checkServerFingerPrint(session: Session, expected: String) {
 			val serverKey = (session as AbstractSession).kex.serverKey
-			val fingerprint = KeyUtils.getFingerPrint(serverKey)
+			val fingerprint = getSshFingerPrint(serverKey)
 			logger.debug("checking server ssh fingerprint {}", serverKey)
 			if (fingerprint != expected) {
 				throw SshException("Ssh key $fingerprint does not match expected $expected ")
@@ -55,7 +58,7 @@ class SshClientServiceImpl(
 			it.appendToFile(".ssh/authorized_keys", getPublicKey())
 			val stat = it.stat(".ssh/authorized_keys")
 			logger.debug("{}: setting permissions", session)
-			it.setStat(".ssh/authorized_keys", stat.perms(SftpClient.S_IRUSR or SftpClient.S_IWUSR))
+			it.setStat(".ssh/authorized_keys", stat.perms(SftpConstants.S_IRUSR or SftpConstants.S_IWUSR))
 		}
 		logger.debug("{}: public key installation finished", session)
 	}
@@ -91,13 +94,17 @@ class SshClientServiceImpl(
 	}
 
 	override fun createSession(address: String, userName: String): ClientSession {
-		return client.connect(userName, address, 22).await().session
+		val future = client.connect(userName, address, 22)
+		future.await()
+		return future.session
 	}
 
 	override fun loginWithPublicKey(address: String, userName: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with public key", address)
-		val session = client.connect(userName, address, 22).await().session
-		session.addListener(ServerFingerprintChecker(hostPublicKey))
+		val future = client.connect(userName, address, 22)
+		future.await()
+		val session = future.session
+		session.addSessionListener(ServerFingerprintChecker(hostPublicKey))
 		logger.debug("sending key to {}", address)
 		session.addPublicKeyIdentity(keyPair)
 		logger.debug("waiting for authentication from {}", address)
@@ -110,8 +117,10 @@ class SshClientServiceImpl(
 
 	override fun loginWithPassword(address: String, userName: String, password: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with password", address)
-		val session = client.connect(userName, address, 22).await().session
-		session.addListener(ServerFingerprintChecker(hostPublicKey))
+		val future = client.connect(userName, address, 22)
+		future.await()
+		val session = future.session
+		session.addSessionListener(ServerFingerprintChecker(hostPublicKey))
 		logger.debug("sending password {}", address)
 		session.addPasswordIdentity(password)
 		logger.debug("authenticating {}", address)

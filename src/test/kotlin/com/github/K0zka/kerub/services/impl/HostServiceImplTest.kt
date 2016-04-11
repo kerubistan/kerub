@@ -72,8 +72,7 @@ import java.util.UUID
 		val hostPubKey = service!!.getHostPubkey("127.0.0l.1")
 		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey.algorithm))
 		Assert.assertThat(hostPubKey.format, CoreMatchers.`is`(pubKey.format))
-
-
+		Assert.assertThat(hostPubKey.fingerprint, CoreMatchers.`is`("f6:aa:fa:c7:1d:98:cd:8b:0c:5b:c6:63:bb:3a:73:f6"))
 	}
 
 	@Test

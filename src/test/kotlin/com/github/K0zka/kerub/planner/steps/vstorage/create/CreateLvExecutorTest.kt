@@ -1,22 +1,16 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.create
 
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
-import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.host.HostCommandExecutor
-import com.github.K0zka.kerub.matchAny
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.utils.toSize
-import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 

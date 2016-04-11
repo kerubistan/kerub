@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.packagemanager.apt
 
 import com.github.K0zka.kerub.host.executeOrDie
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 object Apt {
 

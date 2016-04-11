@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.utils.junix.bridgectl
 
 import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.ClientSession
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mock

@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.host
 
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 /**
  * Service to help creating ssh client sessions on hosts

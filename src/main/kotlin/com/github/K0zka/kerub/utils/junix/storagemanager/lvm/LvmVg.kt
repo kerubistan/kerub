@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
 object LvmVg {
@@ -33,7 +33,7 @@ object LvmVg {
 
 	fun monitor(session: ClientSession, callback: (List<VolumeGroup>) -> Unit) {
 		val channel = session.createExecChannel(
-				"""bash -c "while true; do vgs -o $vgFields ${listOptions}; echo $separator; sleep 60; done" """)
+				"""bash -c "while true; do vgs -o $vgFields $listOptions; echo $separator; sleep 60; done" """)
 
 		channel.`in` = NullInputStream(0)
 		channel.err = NullOutputStream()
@@ -44,7 +44,7 @@ object LvmVg {
 
 	fun list(session: ClientSession): List<VolumeGroup> =
 			session.executeOrDie(
-					"vgs -o $vgFields ${listOptions}")
+					"vgs -o $vgFields $listOptions")
 					.trim().split("\n").map {
 				row ->
 				parseRow(row)

@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
-import org.apache.sshd.ClientSession
 import java.security.PublicKey
 
 /**

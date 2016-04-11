@@ -1,14 +1,17 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.utils.getLogger
-import org.apache.sshd.ClientSession
-import org.apache.sshd.client.SftpClient
 import org.apache.sshd.client.channel.AbstractClientChannel
-import org.apache.sshd.common.Closeable
-import org.apache.sshd.common.Session
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
+import org.apache.sshd.common.config.keys.KeyUtils
+import org.apache.sshd.common.digest.BuiltinDigests
+import org.apache.sshd.common.digest.Digest
+import org.apache.sshd.common.session.Session
 import org.slf4j.Logger
 import java.io.IOException
 import java.nio.charset.Charset
+import java.security.PublicKey
 import java.util.EnumSet
 
 private val logger = getLogger(ClientSession::class)
@@ -147,3 +150,10 @@ fun <T, S : Session> S.use(action : (S) -> T) : T {
 		close(true)
 	}
 }
+
+val md5Digest : Digest = BuiltinDigests.md5.create()
+
+/**
+ * 
+ */
+fun getSshFingerPrint(key : PublicKey) = KeyUtils.getFingerPrint(SshClientServiceImpl.digest, key).substringAfter("MD5:")

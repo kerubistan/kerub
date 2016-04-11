@@ -6,14 +6,13 @@ import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
-import org.apache.sshd.ClientSession
-import org.slf4j.LoggerFactory
+import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
 
 object LvmLv {
 
-	val minimalSize = BigInteger("512")
+	val minimalSize = "4 MB".toSize()
 	val logger = getLogger(LvmLv::class)
 
 	fun roundUp(size : BigInteger) : BigInteger {
@@ -101,7 +100,7 @@ object LvmLv {
 		val filter = if (volGroupName == null) {
 			""
 		} else {
-			"${volGroupName}${if (volName == null) emptyString else '/' + volName}"
+			"$volGroupName${if (volName == null) emptyString else '/' + volName}"
 		}
 		return session.executeOrDie(
 				"lvs -o $fields $listOptions $filter")

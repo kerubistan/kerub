@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.packagemanager.zypper
 
 import com.github.K0zka.kerub.host.execute
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 object Zypper {
 

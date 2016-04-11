@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.util.UUID
 
 object TgtAdmin : OsCommand {

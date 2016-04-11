@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.skip
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 object BridgeCtl : OsCommand {
 

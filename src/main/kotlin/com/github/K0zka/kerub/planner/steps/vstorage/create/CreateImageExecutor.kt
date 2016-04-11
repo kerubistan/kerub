@@ -18,12 +18,12 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 
 	override fun perform(step: CreateImage) {
 		exec.execute(step.host, {
-			logger.info("Creating virtual disk {} on host {}", step.device, step.host.address)
+			logger.info("Creating virtual disk {} on host {}", step.disk, step.host.address)
 			QemuImg.create(
 					session = it,
 					format = VirtualDiskFormat.raw, //TODO
-					path = "${step.path}/${step.device.id}",
-					size = step.device.size
+					path = "${step.path}/${step.disk.id}",
+					size = step.disk.size
 			)
 			logger.info("Created virtual disk")
 		})
@@ -31,7 +31,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 
 	override fun update(step: CreateImage) {
 		dynDao.add(VirtualStorageDeviceDynamic(
-				id = step.device.id,
+				id = step.disk.id,
 				allocation = VirtualStorageFsAllocation(
 						hostId = step.host.id,
 						mountPoint = step.path,

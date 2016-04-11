@@ -8,26 +8,18 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.IOCost
-import com.github.K0zka.kerub.planner.reservations.HostReservation
-import com.github.K0zka.kerub.planner.reservations.Reservation
-import com.github.K0zka.kerub.planner.reservations.UseHostReservation
-import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.replace
 
 class CreateLv(
-		val host : Host,
+		override val host : Host,
 		val volumeGroupName : String,
-		val disk : VirtualStorageDevice
-) : AbstractOperationalStep {
+		override val disk : VirtualStorageDevice
+) : AbstractCreate {
 
 	override fun getCost(): List<Cost> {
 		return listOf(
 				IOCost(2048, host)
 		)
-	}
-
-	override fun reservations(): List<Reservation<*>> {
-		return listOf(UseHostReservation(host))
 	}
 
 	override fun take(state: OperationalState): OperationalState {

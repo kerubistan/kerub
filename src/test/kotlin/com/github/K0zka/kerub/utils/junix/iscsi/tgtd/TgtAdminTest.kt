@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
 import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.ClientSession
-import org.apache.sshd.client.SftpClient
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

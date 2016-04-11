@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.model.Host
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 interface HostCommandExecutor {
 	/**

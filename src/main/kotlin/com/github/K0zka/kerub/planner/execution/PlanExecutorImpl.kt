@@ -28,7 +28,6 @@ import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvExecutor
 import com.github.K0zka.kerub.utils.getLogger
-import nl.komponents.kovenant.async
 import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(

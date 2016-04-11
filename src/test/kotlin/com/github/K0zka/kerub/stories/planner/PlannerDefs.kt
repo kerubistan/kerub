@@ -16,6 +16,8 @@ import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
+import com.github.K0zka.kerub.model.lom.IpmiInfo
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.OperationalStateBuilder
@@ -87,9 +89,6 @@ class PlannerDefs {
 
 	@Given("^VMs:$")
 	fun setVms(vmsTable: DataTable) {
-
-		val mb = 1024 * 1024
-
 		val raw = vmsTable.raw()
 		for (row in raw.filter { it != raw.first() }) {
 			val vm = VirtualMachine(
@@ -359,7 +358,7 @@ class PlannerDefs {
 		val host = hosts.first { it.address == hostAddr }
 		Assert.assertTrue(executedPlans.first().steps.any {
 			it is CreateImage &&
-					it.device == storage &&
+					it.disk == storage &&
 					it.host == host &&
 					it.path == mountPoint
 		})
@@ -396,7 +395,7 @@ class PlannerDefs {
 	@Then("^the virtual disk (\\S+) must not be allocated$")
 	fun verifyNoStorageCreate(storageName: String) {
 		val storage = vdisks.first { it.name == storageName }
-		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.device == storage })
+		Assert.assertTrue(executedPlans.first().steps.none { it is CreateImage && it.disk == storage })
 
 	}
 
@@ -616,4 +615,28 @@ class PlannerDefs {
 			)
 		})
 	}
+
+	@Given("host (\\S+) has (\\S+) power management")
+	fun setPowerManagement(hostAddr: String, powerManagementType : String) {
+		val host = hosts.first { it.address == hostAddr}
+		val pm = when(powerManagementType) {
+			"wake-on-lan" -> WakeOnLanInfo()
+			"ipmi" -> IpmiInfo(
+					address = "",
+					password = "",
+					username = ""
+			)
+			else -> throw IllegalArgumentException("typo? " + powerManagementType)
+		}
+		hosts = hosts.replace( {it.address == host.address}, {
+			host.copy(
+					capabilities = host.capabilities?.copy(
+							powerManagment = listOf(
+									pm
+							)
+					)
+			)
+		} )
+	}
+
 }

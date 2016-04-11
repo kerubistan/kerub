@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils.junix.packagemanager.pkg
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 object Pkg {
 

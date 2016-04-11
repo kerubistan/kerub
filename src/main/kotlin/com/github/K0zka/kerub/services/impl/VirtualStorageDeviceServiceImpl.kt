@@ -11,10 +11,9 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
-import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import com.github.K0zka.kerub.utils.copyFrom
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.io.InputStream
 import java.util.UUID
 import javax.ws.rs.container.AsyncResponse

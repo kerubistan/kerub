@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.sysfs
 
-import org.apache.sshd.ClientSession
-import org.apache.sshd.client.SftpClient
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +20,8 @@ import java.io.ByteArrayInputStream
 
 	@Test
 	fun listDevices() {
-		val deviceDir = SftpClient.DirEntry("eth0", "eth0", null)
+		val deviceDir = Mockito.mock(SftpClient.DirEntry::class.java)
+		Mockito.`when`(deviceDir.filename).thenReturn("eth0")
 		Mockito.`when`(clientSession!!.createSftpClient()).thenReturn(sftpClient)
 		Mockito.`when`(sftpClient!!.readDir(Matchers.anyString())).thenReturn(listOf(deviceDir))
 

@@ -12,7 +12,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.toUUID
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 class KvmHypervisor(private val client: ClientSession,

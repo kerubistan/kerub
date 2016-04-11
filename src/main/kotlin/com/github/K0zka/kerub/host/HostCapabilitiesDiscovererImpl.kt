@@ -33,7 +33,7 @@ import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.VolumeGroup
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.io.IOException
 import java.math.BigInteger
 import kotlin.reflect.KClass

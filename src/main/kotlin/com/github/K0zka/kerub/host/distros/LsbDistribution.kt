@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.host.checkFileExists
 import com.github.K0zka.kerub.host.getFileContents
 import com.github.K0zka.kerub.model.Version
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.io.StringReader
 import java.util.Properties
 

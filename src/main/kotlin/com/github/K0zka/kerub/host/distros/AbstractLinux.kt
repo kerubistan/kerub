@@ -22,7 +22,7 @@ import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.util.UUID
 
 abstract class AbstractLinux : Distribution {

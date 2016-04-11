@@ -51,7 +51,7 @@ import java.util.UUID
 				                        ),
 				steps = listOf(CreateImage(
 						host = host,
-						device = VirtualStorageDevice(
+						disk = VirtualStorageDevice(
 								size = "100 MB".toSize(),
 								name = "foo"
 						                             ),

@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
-import org.apache.sshd.server.PublickeyAuthenticator
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator
 import org.apache.sshd.server.session.ServerSession
 import java.security.PublicKey
 

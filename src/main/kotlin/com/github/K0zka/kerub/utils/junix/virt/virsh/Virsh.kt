@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toBigInteger
 import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.io.StringReader
 import java.util.Properties

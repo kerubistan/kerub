@@ -1,30 +1,31 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.services.getFreePort
-import org.apache.sshd.ClientSession
-import org.apache.sshd.SshClient
-import org.apache.sshd.SshServer
+import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.NamedFactory
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory
-import org.apache.sshd.server.UserAuth
-import org.apache.sshd.server.auth.UserAuthNone
-import org.apache.sshd.server.auth.UserAuthPassword
+import org.apache.sshd.server.SshServer
+import org.apache.sshd.server.auth.UserAuth
+import org.apache.sshd.server.auth.UserAuthNoneFactory
+import org.apache.sshd.server.auth.password.UserAuthPasswordFactory
 import org.apache.sshd.server.session.ServerSession
-import org.apache.sshd.server.sftp.SftpSubsystem
+import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import java.io.File
 import java.net.SocketAddress
+import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.security.PublicKey
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.apache.sshd.client.auth.UserAuth as ClientUserAuth
+import org.apache.sshd.client.auth.password.UserAuthPasswordFactory as ClientUserAuthPasswordFactory
 
 class SshClientUtilsTest {
 
@@ -49,24 +50,26 @@ class SshClientUtilsTest {
 
 		//start ssh server
 		server = SshServer.setUpDefaultServer()
-		server?.subsystemFactories = listOf(SftpSubsystem.Factory())
+		server?.subsystemFactories = listOf(SftpSubsystemFactory())
 		val virtualFileSystemFactory = VirtualFileSystemFactory()
-		virtualFileSystemFactory.setUserHomeDir(testUserName, rootDir!!.absolutePath)
+		virtualFileSystemFactory.setUserHomeDir(testUserName, FileSystems.getDefault().getPath(rootDir!!.absolutePath))
 		server?.fileSystemFactory = virtualFileSystemFactory
 		server?.setPasswordAuthenticator {userName: String, password: String, serverSession: ServerSession ->
 			userName == testUserName && password == testUserPassword
 		}
-		server?.userAuthFactories = listOf<NamedFactory<UserAuth>>(UserAuthPassword.Factory(), UserAuthNone.Factory())
+		server?.userAuthFactories = listOf<NamedFactory<UserAuth>>(UserAuthPasswordFactory(), UserAuthNoneFactory())
 		server?.keyPairProvider = SingleKeyPairProvider(getTestKey())
 		server?.port = sshPort
 		server?.start()
 
 		//start ssh client
-		client = SshClient.setUpDefaultClient()
+		client = requireNotNull(SshClient.setUpDefaultClient())
 		client?.setServerKeyVerifier {clientSession: ClientSession, socketAddress: SocketAddress, publicKey: PublicKey -> true }
-		client?.userAuthFactories = listOf<NamedFactory<org.apache.sshd.client.UserAuth>>(org.apache.sshd.client.auth.UserAuthPassword.Factory())
+		client?.userAuthFactories = listOf<NamedFactory<ClientUserAuth>>(ClientUserAuthPasswordFactory())
 		client?.start()
-		session = client?.connect(testUserName, "localhost", sshPort)?.addListener { it.session.addPasswordIdentity(testUserPassword) }?.await()?.session
+		val future = client?.connect(testUserName, "localhost", sshPort)?.addListener { it.session.addPasswordIdentity(testUserPassword) }
+		future?.await()
+		session = future?.session
 		session?.auth()
 	}
 

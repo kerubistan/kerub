@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.host.packman
 
 import com.github.K0zka.kerub.utils.junix.packagemanager.yum.Yum
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 
 class YumPackageManager(session: ClientSession) : AbstractRpmBasedPackageManager(session) {
 	override fun install(vararg packs: String) {

@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.utils.junix.df
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
-import org.apache.sshd.ClientSession
+import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 object DF : OsCommand {

@@ -1,4 +1,4 @@
-Feature: basic planner features planner
+Feature: basic planner features
 
   Scenario: Start a VM with single host
     Given VMs:
@@ -73,6 +73,7 @@ Feature: basic planner features planner
     And hosts:
       | address   | ram  | Cores | Threads | Architecture |  |
       | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+    And host 127.0.0.5 has wake-on-lan power management
     And host 127.0.0.5 is Down
     When VM vm1 is started
     Then 127.0.0.5 will be started as step 1
