@@ -21,3 +21,14 @@ fun <T> silent(actionName: String, body: () -> T): T? {
 		return null
 	}
 }
+
+fun <T> insist(tries: Int, action : () -> T) : T {
+	for(attempt in 0 .. tries - 1) {
+		try {
+			return action()
+		} catch (e : Exception) {
+			logger.warn("Attempt $attempt failed", e)
+		}
+	}
+	return action()
+}
