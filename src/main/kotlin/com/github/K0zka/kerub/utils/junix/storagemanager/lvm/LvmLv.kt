@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.emptyString
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.insist
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
@@ -104,7 +105,7 @@ object LvmLv {
 		}
 		return session.executeOrDie(
 				"lvs -o $fields $listOptions $filter")
-				.split("\n").map {
+				.split("\n").filterNot { it.isEmpty() }.map {
 			row ->
 			parseRow(row)
 		}
@@ -131,7 +132,7 @@ object LvmLv {
 		session.executeOrDie(
 				"""lvcreate $vgName -n $name -L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""",
 				{ checkErrorOutput(it) })
-		return list(session).first { it.name == name }
+		return list(session, volGroupName = vgName, volName = name).first { it.name == name }
 	}
 
 	fun delete(session: ClientSession, volumeName: String) {
