@@ -123,8 +123,10 @@ data class OperationalState(
 		}
 	}
 
-	private fun virtualStorageToCheck(): List<VirtualStorageDevice> {
-		return vStorage.values.filter { reservations.contains(VirtualStorageReservation(it)) }
+	fun virtualStorageToCheck(): List<VirtualStorageDevice> {
+		return vStorage.values.filterNot {
+			reservations.contains(VirtualStorageReservation(it))
+		}
 	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
