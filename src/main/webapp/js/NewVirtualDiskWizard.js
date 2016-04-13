@@ -7,6 +7,8 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		url : 's/r/virtual-storage/load/' + id
 	} );
 
+	$scope.autoname = true;
+
 	$scope.disk = {
 		'@type' : 'vstorage',
 		id : id,
@@ -24,7 +26,14 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 
 	$scope.uploader.onAfterAddingFile = function(item) {
 		$log.info('file added', item.file.name, item.file.size);
+		if($scope.autoname) {
+			$scope.disk.name = item.file.name
+		}
 		$scope.disk.size = item.file.size;
+	}
+
+	$scope.nameChanged = function() {
+		$scope.autoname = false;
 	}
 
 	/**
