@@ -14,6 +14,7 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		id : id,
 		name : 'disk-'+id,
 		size : size.toSize('16 GB'),
+		readOnly : false,
 		userFriendlySize : function(newSize) {
 			$log.debug(newSize);
 			if(newSize) {
@@ -29,12 +30,15 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		if($scope.autoname) {
 			$scope.disk.name = item.file.name
 		}
+		if(item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4) {
+			$scope.disk.readOnly = true;
+		}
 		$scope.disk.size = item.file.size;
-	}
+	};
 
 	$scope.nameChanged = function() {
 		$scope.autoname = false;
-	}
+	};
 
 	/**
 	 * gettersetter for disk size
