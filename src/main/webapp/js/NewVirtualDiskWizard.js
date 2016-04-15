@@ -25,12 +25,16 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		expectations : []
 	};
 
+	$scope.isIso = function(item) {
+		return item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4;
+	};
+
 	$scope.uploader.onAfterAddingFile = function(item) {
 		$log.info('file added', item.file.name, item.file.size);
 		if($scope.autoname) {
 			$scope.disk.name = item.file.name
 		}
-		if(item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4) {
+		if($scope.isIso(item)) {
 			$scope.disk.readOnly = true;
 		}
 		$scope.disk.size = item.file.size;

@@ -145,7 +145,11 @@
                         </div>
                     </div>
 
-                    <div ng-repeat="item in uploader.queue" class="well"><span class="fa fa-file"></span> {{item.file.name}}</div>
+                    <div ng-repeat="item in uploader.queue" class="well">
+                        <span ng-if="!isIso(item)" class="fa fa-file">
+                        </span><span ng-if="isIso(item)" class="glyphicon glyphicon-cd"></span>
+                        {{item.file.name}}
+                    </div>
 
                     <div class="form-group progress" ng-if="uploader.progress">
                         <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">{{uploader.progress}}% </div>
