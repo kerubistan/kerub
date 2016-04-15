@@ -12,7 +12,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
-import com.github.K0zka.kerub.utils.copyFrom
 import org.apache.sshd.client.session.ClientSession
 import java.io.InputStream
 import java.util.UUID
@@ -56,11 +55,11 @@ class VirtualStorageDeviceServiceImpl(
 				is VirtualStorageLvmAllocation -> {
 					sftp.write(dyn.allocation.path).use {
 						dev ->
-						dev.copyFrom(data)
+						data.copyTo(dev)
 					}
 				}
-				is VirtualStorageFsAllocation -> {
-
+				else -> {
+					TODO()
 				}
 			}
 		}
