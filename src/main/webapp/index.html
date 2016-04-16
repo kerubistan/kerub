@@ -120,6 +120,16 @@
                         <div class="input-group">
                             <div class="input-group-addon"><span class="glyphicon glyphicon-tag"/></div>
                             <input ng-model="disk.name" class="form-control" uib-tooltip="Virtual disk name" ng-change="nameChanged()">
+                            <div class="input-group-btn">
+                                <button type="button"
+                                        ng-click="disk.readOnly = !disk.readOnly"
+                                        ng-class="{true: 'btn btn-primary', false: 'btn btn-default'}[!disk.readOnly]"
+                                        uib-tooltip="{{disk.readOnly ? 'Read Only' : 'Read-Write'}}">
+                                    <span class="fa fa-edit"/>
+                                    <span class="fa fa-lock" ng-if="disk.readOnly"></span>
+                                    <span class="fa fa-unlock" ng-if="!disk.readOnly"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
