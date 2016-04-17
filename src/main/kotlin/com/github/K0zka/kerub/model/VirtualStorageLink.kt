@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.model
 
 import com.github.K0zka.kerub.model.io.BusType
+import com.github.K0zka.kerub.model.io.DeviceType
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.util.UUID
@@ -15,5 +16,9 @@ data class VirtualStorageLink(
 		val bus: BusType,
 		@Field
 		override
-		val expectations: List<Expectation> = listOf()
+		val expectations: List<Expectation> = listOf(),
+		@Field
+		val device : DeviceType = DeviceType.Disk,
+		@Field
+		val readOnly : Boolean = false
 ) : Serializable, Constrained<Expectation>
