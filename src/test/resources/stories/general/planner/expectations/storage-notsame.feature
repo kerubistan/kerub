@@ -21,7 +21,7 @@ Feature: support for not-same-storage expectation
       | vm2-disk      | 2 GB | false |
     And vm1-disk is attached to vm1
     And vm1-disk is not yet created
-    And vm2-disk is attached to vm1
+    And vm2-disk is attached to vm2
     And the virtual disk vm2-disk is created on host2.example.com
     And host host1.example.com is Up
     And host host2.example.com is Up

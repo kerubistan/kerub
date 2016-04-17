@@ -115,7 +115,7 @@ data class OperationalState(
 					if (otherDiskDyn == null) {
 						true
 					} else {
-						otherDiskDyn.allocation.hostId == diskDyn.allocation.hostId
+						otherDiskDyn.allocation.hostId != diskDyn.allocation.hostId
 					}
 				}
 			}
