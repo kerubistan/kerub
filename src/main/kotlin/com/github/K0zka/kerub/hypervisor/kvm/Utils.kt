@@ -23,8 +23,9 @@ val allocationTypeToDiskType = mapOf(
 
 private fun storageToXml(disk : VirtualStorageDevice, link: VirtualStorageLink, allocation : VirtualStorageAllocation): String {
 	return """
-		<disk type='${allocationTypeToDiskType[allocation.javaClass.kotlin]}' device='disk'>
+		<disk type='${allocationTypeToDiskType[allocation.javaClass.kotlin]}' device='${link.device.name.toLowerCase()}'>
             <driver />
+            ${if(link.readOnly || disk.readOnly) "<readonly/>" else ""}
             ${allocationToXml(allocation, disk)}
             <target dev='sda' bus='${link.bus}'/>
 		</disk>
