@@ -12,6 +12,8 @@ import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
+import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
+import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -71,18 +73,24 @@ class PlannerImpl(
 	}
 
 	private fun plan(state: OperationalState) {
-		val strategy = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
+		val listener = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
+		val strategy = OrTerminationStrategy<Plan>(listOf(
+				listener,
+				TimeoutTerminationStrategy(System.currentTimeMillis() + 20000)
+		)
+		)
 		logger.debug("starting planing")
+		logger.debug("reservations: " + state.reservations)
 
 		backtrack.backtrack(
 				Plan(
 						state = state
 				),
 				CompositeStepFactory,
-				strategy,
-				strategy
+				listener,
+				listener
 		)
-		val plan = strategy.solution
+		val plan = listener.solution
 		if (plan == null) {
 			logger.debug("No plan generated.")
 		} else {
