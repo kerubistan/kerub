@@ -242,50 +242,58 @@
             <uib-tab>
                 <uib-tab-heading>General</uib-tab-heading>
                 <form class="form-horizontal">
-                    <div class="input-group">
-                        <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
-                        <input
-                                ng-model="vm.id"
-                                class="form-control"
-                                readonly
-                                uib-tooltip="Virtual Machine unique identifier"
-                                autofocus>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-tag"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
+                            <input
+                                    ng-model="vm.id"
+                                    class="form-control"
+                                    readonly
+                                    uib-tooltip="Virtual Machine unique identifier"
+                                    autofocus>
                         </div>
-                        <input
-                                ng-model="vm.name"
-                                class="form-control"
-                                placeholder="vm name"
-                                uib-tooltip="Virtual Machine name"
-                                autofocus>
                     </div>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-cog"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-tag"/>
+                            </div>
+                            <input
+                                    ng-model="vm.name"
+                                    class="form-control"
+                                    placeholder="vm name"
+                                    uib-tooltip="Virtual Machine name"
+                                    autofocus>
                         </div>
-                        <input
-                                ng-model="vm.nrOfCpus"
-                                class="form-control"
-                                uib-tooltip="Number of virtual CPUs for the virtual machine"
-                                type="number">
                     </div>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-signal"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-cog"/>
+                            </div>
+                            <input
+                                    ng-model="vm.nrOfCpus"
+                                    class="form-control"
+                                    uib-tooltip="Number of virtual CPUs for the virtual machine"
+                                    type="number">
                         </div>
-                        <input
-                                ng-model="vm.memory.humanFriendlyMin"
-                                ng-model-options="{ getterSetter: true }"
-                                uib-tooltip="Minimal amount of memory for the virtual machine"
-                                class="form-control">
-                        <input
-                                ng-model="vm.memory.humanFriendlyMax"
-                                ng-model-options="{ getterSetter: true }"
-                                uib-tooltip="Maximal amount of memory for the virtual machine"
-                                class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-signal"/>
+                            </div>
+                            <input
+                                    ng-model="vm.memory.humanFriendlyMin"
+                                    ng-model-options="{ getterSetter: true }"
+                                    uib-tooltip="Minimal amount of memory for the virtual machine"
+                                    class="form-control">
+                            <input
+                                    ng-model="vm.memory.humanFriendlyMax"
+                                    ng-model-options="{ getterSetter: true }"
+                                    uib-tooltip="Maximal amount of memory for the virtual machine"
+                                    class="form-control">
+                        </div>
                     </div>
                 </form>
             </uib-tab>
