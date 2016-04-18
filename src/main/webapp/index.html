@@ -332,22 +332,27 @@
                     <uib-tab>
                         <uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
                         <div class="panel panel-info" ng-controller="VirtualStorageLink">
-                            <div class="form-group has-feedback has-feedback-left">
-                                <input type="text"
-                                       ng-model="existingStorageDevice"
-                                       class="form-control"
-                                       data-provide="typeahead"
-                                       uib-typeahead="result as result.name for result in listDisksByName($viewValue)"
-                                       placeholder="Type disk name"
-                                       autocomplete="off"
-                                       typeahead-template-url="DiskSelection.html"
-                                       typeahead-min-length="3"
-                                       typeahead-wait-ms="200"
-                                       typeahead-on-select="linkExistingVirtualDisk()"
-                                       />
-                                <i ng-show="loadingDisks" class="glyphicon glyphicon-refresh form-control-feedback"></i>
-                                <i ng-show="!loadingDisks" class="glyphicon glyphicon-hdd form-control-feedback"></i>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span ng-show="loadingDisks" class="glyphicon glyphicon-refresh"></span>
+                                        <span ng-show="!loadingDisks" class="glyphicon glyphicon-hdd"></span>
+                                    </div>
+                                    <input type="text"
+                                           ng-model="existingStorageDevice"
+                                           class="form-control"
+                                           data-provide="typeahead"
+                                           uib-typeahead="result as result.name for result in listDisksByName($viewValue)"
+                                           placeholder="Type disk name"
+                                           autocomplete="off"
+                                           typeahead-template-url="DiskSelection.html"
+                                           typeahead-min-length="3"
+                                           typeahead-wait-ms="200"
+                                           typeahead-on-select="linkExistingVirtualDisk()"
+                                           />
+                                </div>
                             </div>
+
                             <div class="panel-heading">
 
                                 <h3 class="panel-title"><span class="fa fa-plug"/> Bus type</h3>
