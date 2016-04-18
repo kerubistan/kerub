@@ -317,19 +317,6 @@
                 </table>
                 <uib-tabset>
                     <uib-tab>
-                        <uib-tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</uib-tab-heading>
-                        <div class="form-group has-feedback has-feedback-left">
-                            <label class="control-label sr-only">Name</label>
-                            <input type="text" class="form-control" placeholder="Name" />
-                            <i class="form-control-feedback fa fa-tag"></i>
-                        </div>
-                        <div class="form-group has-feedback has-feedback-left">
-                            <label class="control-label sr-only">Size</label>
-                            <input type="text" class="form-control" placeholder="Size (e.g 20 GB)" />
-                            <i class="form-control-feedback fa fa-hdd-o"></i>
-                        </div>
-                    </uib-tab>
-                    <uib-tab>
                         <uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
                         <div class="panel panel-info" ng-controller="VirtualStorageLink">
                             <div class="form-group">
@@ -391,6 +378,27 @@
                             </div>
                         </div>
 
+                    </uib-tab>
+                    <uib-tab>
+                        <uib-tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</uib-tab-heading>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-tag"></span>
+                                </div>
+                                <label class="control-label sr-only">Name</label>
+                                <input type="text" class="form-control" placeholder="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="fa fa-hdd-o"></span>
+                                </div>
+                                <label class="control-label sr-only">Size</label>
+                                <input type="text" class="form-control" placeholder="Size (e.g 20 GB)" />
+                            </div>
+                        </div>
                     </uib-tab>
                 </uib-tabset>
             </uib-tab>
