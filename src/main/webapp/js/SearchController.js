@@ -1,0 +1,3 @@
+kerubApp.controller('SearchController', function() {
+
+});
