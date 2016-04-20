@@ -1,195 +1,201 @@
 <!DOCTYPE html>
 <html ng-app="kerubApp">
 <head>
-    <meta charset="UTF-8">
-    <title>kerub</title>
-    <script src="webjars/angularjs/1.4.9/angular.min.js"></script>
-    <script src="webjars/angularjs/1.4.9/angular-sanitize.min.js"></script>
-    <script src="webjars/angularjs/1.4.9/angular-route.min.js"></script>
-    <script src="webjars/angular-uuid4/0.2.1/angular-uuid4.min.js"></script>
-    <script src="webjars/angular-ui-bootstrap/1.1.1-1/ui-bootstrap-tpls.min.js"></script>
-    <script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
-    <script src="webjars/markdown-js/0.5.0/markdown.js"></script>
-    <script src="webjars/nervgh-angular-file-upload/2.1.1/angular-file-upload.min.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/socket.js"></script>
-    <script src="js/SizeUtil.js"></script>
-    <script src="js/Session.js"></script>
-    <script src="js/Login.js"></script>
-    <script src="js/HostTab.js"></script>
-    <script src="js/VmTab.js"></script>
-    <script src="js/BusType.js"></script>
-    <script src="js/VirtualStorageLink.js"></script>
-    <script src="js/VirtualDisksTab.js"></script>
-    <script src="js/VmRow.js"></script>
-    <script src="js/VersionInfo.js"></script>
-    <script src="js/NewHostWizard.js"></script>
-    <script src="js/NewVirtualDiskWizard.js"></script>
-    <script src="js/NewVmWizard.js"></script>
-    <script src="js/HostDetails.js"></script>
-    <script src="js/MainTabs.js"></script>
-    <script src="js/Expectations.js"></script>
-    <script src="js/ExpectationMini.js"></script>
-    <script src="js/DiskSelectionElem.js"></script>
-    <script src="js/StorageDeviceRow.js"></script>
-    <script src="js/SearchController.js"></script>
-    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link href="css/kerub.css" rel="stylesheet"/>
-    <link rel="icon" href="img/kerub.ico" type="image/png"/>
+	<meta charset="UTF-8">
+	<title>kerub</title>
+	<script src="webjars/angularjs/1.4.9/angular.min.js"></script>
+	<script src="webjars/angularjs/1.4.9/angular-sanitize.min.js"></script>
+	<script src="webjars/angularjs/1.4.9/angular-route.min.js"></script>
+	<script src="webjars/angular-uuid4/0.2.1/angular-uuid4.min.js"></script>
+	<script src="webjars/angular-ui-bootstrap/1.1.1-1/ui-bootstrap-tpls.min.js"></script>
+	<script src="webjars/sockjs-client/0.3.4/sockjs.min.js"></script>
+	<script src="webjars/markdown-js/0.5.0/markdown.js"></script>
+	<script src="webjars/nervgh-angular-file-upload/2.1.1/angular-file-upload.min.js"></script>
+	<script src="js/utils.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/socket.js"></script>
+	<script src="js/SizeUtil.js"></script>
+	<script src="js/Session.js"></script>
+	<script src="js/Login.js"></script>
+	<script src="js/HostTab.js"></script>
+	<script src="js/VmTab.js"></script>
+	<script src="js/BusType.js"></script>
+	<script src="js/VirtualStorageLink.js"></script>
+	<script src="js/VirtualDisksTab.js"></script>
+	<script src="js/VmRow.js"></script>
+	<script src="js/VersionInfo.js"></script>
+	<script src="js/NewHostWizard.js"></script>
+	<script src="js/NewVirtualDiskWizard.js"></script>
+	<script src="js/NewVmWizard.js"></script>
+	<script src="js/HostDetails.js"></script>
+	<script src="js/MainTabs.js"></script>
+	<script src="js/Expectations.js"></script>
+	<script src="js/ExpectationMini.js"></script>
+	<script src="js/DiskSelectionElem.js"></script>
+	<script src="js/StorageDeviceRow.js"></script>
+	<script src="js/SearchController.js"></script>
+	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+	<link href="css/kerub.css" rel="stylesheet"/>
+	<link rel="icon" href="img/kerub.ico" type="image/png"/>
 </head>
 <body>
 
-    <div ng-controller="Login">
-        <script type="text/ng-template" id="Login.html">
-            <div class="modal-header">
-                <h3 class="modal-title">Login</h3>
-            </div>
-            <form ng-submit="login()">
-            <div class="modal-body">
+<div ng-controller="Login">
+	<script type="text/ng-template" id="Login.html">
+		<div class="modal-header">
+			<h3 class="modal-title">Login</h3>
+		</div>
+		<form ng-submit="login()">
+			<div class="modal-body">
 
-                    <div class="media login-screen form-group">
-                        <div class="media-right thumbnail col-sm-3 col-md-3">
-                            <a href="#">
-                                <img src="img/kerub.png" class="media-object" alt="logo"/>
-                            </a>
-                            <div class="caption">
-                                <span class="" ng-bind="version.title"></span>
-                                <span ng-bind="version.version"></span>
-                            </div>
-                        </div>
-                        <div class="media-body">
+				<div class="media login-screen form-group">
+					<div class="media-right thumbnail col-sm-3 col-md-3">
+						<a href="#">
+							<img src="img/kerub.png" class="media-object" alt="logo"/>
+						</a>
+						<div class="caption">
+							<span class="" ng-bind="version.title"></span>
+							<span ng-bind="version.version"></span>
+						</div>
+					</div>
+					<div class="media-body">
                             <span ng-bind-html="motd">
                             </span>
-                        </div>
-                    </div>
+					</div>
+				</div>
 
-                <form class="form-inline">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="fa fa-user"></span></div>
-                            <input ng-model="username" class="form-control input-lg" placeholder="username" autofocus>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="fa fa-key"></span></div>
-                            <input ng-model="password" class="form-control input-lg" type="password" placeholder="password" ng-keypress="onKeyPress($event)">
-                        </div>
-                    </div>
-                </form>
+				<form class="form-inline">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="fa fa-user"></span></div>
+							<input ng-model="username" class="form-control input-lg" placeholder="username" autofocus>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="fa fa-key"></span></div>
+							<input ng-model="password" class="form-control input-lg" type="password"
+							       placeholder="password" ng-keypress="onKeyPress($event)">
+						</div>
+					</div>
+				</form>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login()">
-                    Login
-                </button>
-            </div>
-            </form>
-        </script>
-    </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login()">
+					Login
+				</button>
+			</div>
+		</form>
+	</script>
+</div>
 
-    <span ng-include="'MainTabs.html'"/>
+<span ng-include="'MainTabs.html'"/>
 
-    <script type="text/ng-template" id="ExpectationSelection.html">
-        ...
-    </script>
+<script type="text/ng-template" id="ExpectationSelection.html">
+	...
+</script>
 
-    <script type="text/ng-template" id="NewVirtualDiskWizard.html">
-        <div class="modal-header">
-            <h3 class="modal-title">New Virtual Disk</h3>
-        </div>
-        <div class="modal-body">
-        <uib-tabset>
-            <uib-tab>
-                <uib-tab-heading>General</uib-tab-heading>
+<script type="text/ng-template" id="NewVirtualDiskWizard.html">
+	<div class="modal-header">
+		<h3 class="modal-title">New Virtual Disk</h3>
+	</div>
+	<div class="modal-body">
+		<uib-tabset>
+			<uib-tab>
+				<uib-tab-heading>General</uib-tab-heading>
 
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
-                            <input
-                                    ng-model="disk.id"
-                                    class="form-control"
-                                    uib-tooltip="Virtual disk unique ID"
-                                    readonly>
-                        </div>
-                    </div>
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
+							<input
+									ng-model="disk.id"
+									class="form-control"
+									uib-tooltip="Virtual disk unique ID"
+									readonly>
+						</div>
+					</div>
 
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-tag"/></div>
-                            <input ng-model="disk.name" class="form-control" uib-tooltip="Virtual disk name" ng-change="nameChanged()">
-                            <div class="input-group-btn">
-                                <button type="button"
-                                        ng-click="disk.readOnly = !disk.readOnly"
-                                        ng-class="{true: 'btn btn-primary', false: 'btn btn-default'}[!disk.readOnly]"
-                                        uib-tooltip="{{disk.readOnly ? 'Read Only' : 'Read-Write'}}">
-                                    <span class="fa fa-edit"/>
-                                    <span class="fa fa-lock" ng-if="disk.readOnly"></span>
-                                    <span class="fa fa-unlock" ng-if="!disk.readOnly"></span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-tag"/></div>
+							<input ng-model="disk.name" class="form-control" uib-tooltip="Virtual disk name"
+							       ng-change="nameChanged()">
+							<div class="input-group-btn">
+								<button type="button"
+								        ng-click="disk.readOnly = !disk.readOnly"
+								        ng-class="{true: 'btn btn-primary', false: 'btn btn-default'}[!disk.readOnly]"
+								        uib-tooltip="{{disk.readOnly ? 'Read Only' : 'Read-Write'}}">
+									<span class="fa fa-edit"/>
+									<span class="fa fa-lock" ng-if="disk.readOnly"></span>
+									<span class="fa fa-unlock" ng-if="!disk.readOnly"></span>
+								</button>
+							</div>
+						</div>
+					</div>
 
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-resize-full"/></div>
-                            <input ng-model="disk.userFriendlySize"
-                                   ng-model-options="{ getterSetter: true }"
-                                   ng-disabled="uploader.queue.length"
-                                   class="form-control"
-                                   uib-tooltip="Virtual disk size"
-                                   autofocus>
-                        </div>
-                    </div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-resize-full"/></div>
+							<input ng-model="disk.userFriendlySize"
+							       ng-model-options="{ getterSetter: true }"
+							       ng-disabled="uploader.queue.length"
+							       class="form-control"
+							       uib-tooltip="Virtual disk size"
+							       autofocus>
+						</div>
+					</div>
 
-                    <div nv-file-drop=""
-                         class="form-group"
-                         uploader="uploader"
-                         ng-if="!uploader.progress && uploader.queue.length == 0"
-                         uib-tooltip="Drag the disk image file here!">
-                        <div nv-file-over="" uploader="uploader" over-class="well drop-zone" class="well drop-zone">
-                            <span ng-if="uploader.queue.length == 0" class="glyphicon glyphicon-upload"></span>
-                        </div>
-                    </div>
+					<div nv-file-drop=""
+					     class="form-group"
+					     uploader="uploader"
+					     ng-if="!uploader.progress && uploader.queue.length == 0"
+					     uib-tooltip="Drag the disk image file here!">
+						<div nv-file-over="" uploader="uploader" over-class="well drop-zone" class="well drop-zone">
+							<span ng-if="uploader.queue.length == 0" class="glyphicon glyphicon-upload"></span>
+						</div>
+					</div>
 
-                    <div ng-repeat="item in uploader.queue" class="well">
+					<div ng-repeat="item in uploader.queue" class="well">
                         <span ng-if="!isIso(item)" class="fa fa-file">
                         </span><span ng-if="isIso(item)" class="glyphicon glyphicon-cd"></span>
-                        {{item.file.name}}
-                    </div>
+						{{item.file.name}}
+					</div>
 
-                    <div class="form-group progress" ng-if="uploader.progress">
-                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">{{uploader.progress}}% </div>
-                    </div>
+					<div class="form-group progress" ng-if="uploader.progress">
+						<div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">
+							{{uploader.progress}}%
+						</div>
+					</div>
 
-                </form>
+				</form>
 
 
-
-            </uib-tab>
-            <uib-tab>
-                <uib-tab-heading>Expectations</uib-tab-heading>
+			</uib-tab>
+			<uib-tab>
+				<uib-tab-heading>Expectations</uib-tab-heading>
 
                 <span ng-if="!storageExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: storageExpectationsOpen}'>
-                        <button type="button"
-                                class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                uib-tooltip="Add an expectation to this virtual disk"
-                                ng-click='storageExpectationsOpen=!storageExpectationsOpen'>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="expType in diskExpectations">
-                                <a ng-click="openExpectationForm(expType)" uib-tooltip-html="expType.tooltip || 'Add this expectation'" tooltip-placement="right"><span ng-class="expType.icon"></span> {{expType.displayName}}</a>
-                            </li>
-                        </ul>
+	                    <button type="button"
+	                            class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
+	                            data-toggle="dropdown"
+	                            aria-haspopup="true"
+	                            aria-expanded="false"
+	                            uib-tooltip="Add an expectation to this virtual disk"
+	                            ng-click='storageExpectationsOpen=!storageExpectationsOpen'>
+		                    <span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu">
+		                    <li ng-repeat="expType in diskExpectations">
+			                    <a ng-click="openExpectationForm(expType)"
+			                       uib-tooltip-html="expType.tooltip || 'Add this expectation'"
+			                       tooltip-placement="right"><span ng-class="expType.icon"></span>
+				                    {{expType.displayName}}</a>
+		                    </li>
+	                    </ul>
                     </div>
 
                 </span>
@@ -197,234 +203,243 @@
 
                 </span>
 
-            </uib-tab>
-        </uib-tabset>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addStorage()" uib-tooltip="Create this virtual disk" tooltip-placement="top">
-            </button>
-            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel" tooltip-placement="top">
-            </button>
-        </div>
-    </script>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addStorage()"
+		        uib-tooltip="Create this virtual disk" tooltip-placement="top">
+		</button>
+		<button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel"
+		        tooltip-placement="top">
+		</button>
+	</div>
+</script>
 
-    <script type="text/ng-template" id="expectation-edit-template-buttons">
-        <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" uib-tooltip="Add this expectation"></button>
-        <button type="button" class="btn btn-default glyphicon glyphicon-remove-sign" uib-tooltip="Scrap this expectation"></button>
-    </script>
+<script type="text/ng-template" id="expectation-edit-template-buttons">
+	<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign"
+	        uib-tooltip="Add this expectation"></button>
+	<button type="button" class="btn btn-default glyphicon glyphicon-remove-sign"
+	        uib-tooltip="Scrap this expectation"></button>
+</script>
 
-    <script type="text/ng-template" id="no-migration-edit-template">
-        No Migration
-        <span ng->
+<script type="text/ng-template" id="no-migration-edit-template">
+	No Migration
+	<span ng->
 
         </span>
-    </script>
+</script>
 
-    <script type="text/ng-template" id="DiskSelection.html">
-        <a ng-controller="DiskSelectionElem">
-            <span ng-if="!match.model.readonly" class="fa fa-database"></span>
-            <span ng-if="match.model.readonly" class="glyphicon glyphicon-cd"></span>
-            {{match.model.name}} - {{humanFriendlySize(match.model.size)}}<br>
+<script type="text/ng-template" id="DiskSelection.html">
+	<a ng-controller="DiskSelectionElem">
+		<span ng-if="!match.model.readonly" class="fa fa-database"></span>
+		<span ng-if="match.model.readonly" class="glyphicon glyphicon-cd"></span>
+		{{match.model.name}} - {{humanFriendlySize(match.model.size)}}<br>
             <span class="label label-default">
                 <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
             </span>
             <span class="label label-info">
                 <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
             </span>
-        </a>
-    </script>
+	</a>
+</script>
 
-    <script type="text/ng-template" id="NewVmWizard.html">
-        <div class="modal-header">
-            <h3 class="modal-title">New VM</h3>
-        </div>
-        <div class="modal-body">
-        <uib-tabset>
-            <uib-tab>
-                <uib-tab-heading>General</uib-tab-heading>
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
-                            <input
-                                    ng-model="vm.id"
-                                    class="form-control"
-                                    readonly
-                                    uib-tooltip="Virtual Machine unique identifier"
-                                    autofocus>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-tag"/>
-                            </div>
-                            <input
-                                    ng-model="vm.name"
-                                    class="form-control"
-                                    placeholder="vm name"
-                                    uib-tooltip="Virtual Machine name"
-                                    autofocus>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-cog"/>
-                            </div>
-                            <input
-                                    ng-model="vm.nrOfCpus"
-                                    class="form-control"
-                                    uib-tooltip="Number of virtual CPUs for the virtual machine"
-                                    type="number">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-signal"/>
-                            </div>
-                            <input
-                                    ng-model="vm.memory.humanFriendlyMin"
-                                    ng-model-options="{ getterSetter: true }"
-                                    uib-tooltip="Minimal amount of memory for the virtual machine"
-                                    class="form-control">
-                            <input
-                                    ng-model="vm.memory.humanFriendlyMax"
-                                    ng-model-options="{ getterSetter: true }"
-                                    uib-tooltip="Maximal amount of memory for the virtual machine"
-                                    class="form-control">
-                        </div>
-                    </div>
-                </form>
-            </uib-tab>
-            <uib-tab>
-                <uib-tab-heading>Disks</uib-tab-heading>
-                <table class="table table-condensed table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <td>name</td>
-                            <td>bus</td>
-                            <td>size</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="link in vm.virtualStorageLinks" ng-controller="StorageDeviceRow" ng-init="init(link.virtualStorageId)">
-                            <td>{{storageDevice.name}}</td>
-                            <td>{{link.bus}}</td>
-                            <td>{{friendlyDiskSize}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <uib-tabset>
-                    <uib-tab>
-                        <uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
-                        <div class="panel panel-info" ng-controller="VirtualStorageLink">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <span ng-show="loadingDisks" class="glyphicon glyphicon-refresh"></span>
-                                        <span ng-show="!loadingDisks" class="glyphicon glyphicon-hdd"></span>
-                                    </div>
-                                    <input type="text"
-                                           ng-model="existingStorageDevice"
-                                           class="form-control"
-                                           data-provide="typeahead"
-                                           uib-typeahead="result as result.name for result in listDisksByName($viewValue)"
-                                           placeholder="Type disk name"
-                                           autocomplete="off"
-                                           typeahead-template-url="DiskSelection.html"
-                                           typeahead-min-length="3"
-                                           typeahead-wait-ms="200"
-                                           typeahead-on-select="linkExistingVirtualDisk()"
-                                           />
-                                </div>
-                            </div>
+<script type="text/ng-template" id="NewVmWizard.html">
+	<div class="modal-header">
+		<h3 class="modal-title">New VM</h3>
+	</div>
+	<div class="modal-body">
+		<uib-tabset>
+			<uib-tab>
+				<uib-tab-heading>General</uib-tab-heading>
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-barcode"/></div>
+							<input
+									ng-model="vm.id"
+									class="form-control"
+									readonly
+									uib-tooltip="Virtual Machine unique identifier"
+									autofocus>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-tag"/>
+							</div>
+							<input
+									ng-model="vm.name"
+									class="form-control"
+									placeholder="vm name"
+									uib-tooltip="Virtual Machine name"
+									autofocus>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-cog"/>
+							</div>
+							<input
+									ng-model="vm.nrOfCpus"
+									class="form-control"
+									uib-tooltip="Number of virtual CPUs for the virtual machine"
+									type="number">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-signal"/>
+							</div>
+							<input
+									ng-model="vm.memory.humanFriendlyMin"
+									ng-model-options="{ getterSetter: true }"
+									uib-tooltip="Minimal amount of memory for the virtual machine"
+									class="form-control">
+							<input
+									ng-model="vm.memory.humanFriendlyMax"
+									ng-model-options="{ getterSetter: true }"
+									uib-tooltip="Maximal amount of memory for the virtual machine"
+									class="form-control">
+						</div>
+					</div>
+				</form>
+			</uib-tab>
+			<uib-tab>
+				<uib-tab-heading>Disks</uib-tab-heading>
+				<table class="table table-condensed table-striped table-hover">
+					<thead>
+					<tr>
+						<td>name</td>
+						<td>bus</td>
+						<td>size</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="link in vm.virtualStorageLinks" ng-controller="StorageDeviceRow"
+					    ng-init="init(link.virtualStorageId)">
+						<td>{{storageDevice.name}}</td>
+						<td>{{link.bus}}</td>
+						<td>{{friendlyDiskSize}}</td>
+					</tr>
+					</tbody>
+				</table>
+				<uib-tabset>
+					<uib-tab>
+						<uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
+						<div class="panel panel-info" ng-controller="VirtualStorageLink">
+							<div class="form-group">
+								<div class="input-group">
+									<div class="input-group-addon">
+										<span ng-show="loadingDisks" class="glyphicon glyphicon-refresh"></span>
+										<span ng-show="!loadingDisks" class="glyphicon glyphicon-hdd"></span>
+									</div>
+									<input type="text"
+									       ng-model="existingStorageDevice"
+									       class="form-control"
+									       data-provide="typeahead"
+									       uib-typeahead="result as result.name for result in listDisksByName($viewValue)"
+									       placeholder="Type disk name"
+									       autocomplete="off"
+									       typeahead-template-url="DiskSelection.html"
+									       typeahead-min-length="3"
+									       typeahead-wait-ms="200"
+									       typeahead-on-select="linkExistingVirtualDisk()"
+									/>
+								</div>
+							</div>
 
-                            <div class="panel-heading">
+							<div class="panel-heading">
 
-                                <h3 class="panel-title"><span class="fa fa-plug"/> Bus type</h3>
-                            </div>
-                            <div class="btn-group" role="group" ng-controller="BusType" ng-init="init(link)">
-                                <button type="button" class="btn btn-default" ng-click="setBus('ide')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('ide')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('ide')"></span>
-                                    ide
-                                </button>
-                                <button type="button" class="btn btn-default" ng-click="setBus('scsi')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('scsi')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('scsi')"></span>
-                                    scsi
-                                </button>
-                                <button type="button" class="btn btn-default" ng-click="setBus('usb')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('usb')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('usb')"></span>
-                                    usb
-                                </button>
-                                <button type="button" class="btn btn-default" ng-click="setBus('sata')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('sata')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('sata')"></span>
-                                    sata
-                                </button>
-                                <button type="button" class="btn btn-default" ng-click="setBus('virtio')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('virtio')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('virtio')"></span>
-                                    virtio
-                                </button>
-                                <button type="button" class="btn btn-default" ng-click="setBus('xen')">
-                                    <span class="fa fa-check-square-o" ng-show="isBus('xen')"></span>
-                                    <span class="fa fa-square-o" ng-show="!isBus('xen')"></span>
-                                    xen
-                                </button>
-                            </div>
-                        </div>
+								<h3 class="panel-title"><span class="fa fa-plug"/> Bus type</h3>
+							</div>
+							<div class="btn-group" role="group" ng-controller="BusType" ng-init="init(link)">
+								<button type="button" class="btn btn-default" ng-click="setBus('ide')">
+									<span class="fa fa-check-square-o" ng-show="isBus('ide')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('ide')"></span>
+									ide
+								</button>
+								<button type="button" class="btn btn-default" ng-click="setBus('scsi')">
+									<span class="fa fa-check-square-o" ng-show="isBus('scsi')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('scsi')"></span>
+									scsi
+								</button>
+								<button type="button" class="btn btn-default" ng-click="setBus('usb')">
+									<span class="fa fa-check-square-o" ng-show="isBus('usb')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('usb')"></span>
+									usb
+								</button>
+								<button type="button" class="btn btn-default" ng-click="setBus('sata')">
+									<span class="fa fa-check-square-o" ng-show="isBus('sata')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('sata')"></span>
+									sata
+								</button>
+								<button type="button" class="btn btn-default" ng-click="setBus('virtio')">
+									<span class="fa fa-check-square-o" ng-show="isBus('virtio')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('virtio')"></span>
+									virtio
+								</button>
+								<button type="button" class="btn btn-default" ng-click="setBus('xen')">
+									<span class="fa fa-check-square-o" ng-show="isBus('xen')"></span>
+									<span class="fa fa-square-o" ng-show="!isBus('xen')"></span>
+									xen
+								</button>
+							</div>
+						</div>
 
-                    </uib-tab>
-                    <uib-tab>
-                        <uib-tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New</uib-tab-heading>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-tag"></span>
-                                </div>
-                                <label class="control-label sr-only">Name</label>
-                                <input type="text" class="form-control" placeholder="Name" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <span class="fa fa-hdd-o"></span>
-                                </div>
-                                <label class="control-label sr-only">Size</label>
-                                <input type="text" class="form-control" placeholder="Size (e.g 20 GB)" />
-                            </div>
-                        </div>
-                    </uib-tab>
-                </uib-tabset>
-            </uib-tab>
-            <uib-tab>
-                <uib-tab-heading>Network</uib-tab-heading>
-            </uib-tab>
-            <uib-tab>
-                <uib-tab-heading>Expectations</uib-tab-heading>
+					</uib-tab>
+					<uib-tab>
+						<uib-tab-heading disabled="disabled"><span class="glyphicon glyphicon-plus-sign"></span> New
+						</uib-tab-heading>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="fa fa-tag"></span>
+								</div>
+								<label class="control-label sr-only">Name</label>
+								<input type="text" class="form-control" placeholder="Name"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="fa fa-hdd-o"></span>
+								</div>
+								<label class="control-label sr-only">Size</label>
+								<input type="text" class="form-control" placeholder="Size (e.g 20 GB)"/>
+							</div>
+						</div>
+					</uib-tab>
+				</uib-tabset>
+			</uib-tab>
+			<uib-tab>
+				<uib-tab-heading>Network</uib-tab-heading>
+			</uib-tab>
+			<uib-tab>
+				<uib-tab-heading>Expectations</uib-tab-heading>
 
                 <span ng-if="!vmExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: vmExpectationsOpen}'>
-                        <button type="button"
-                                class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                uib-tooltip="Add an expectation to this virtual machine"
-                                ng-click='vmExpectationsOpen=!vmExpectationsOpen'>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="expType in vmExpectations">
-                                <a ng-click="openExpectationForm(expType)" uib-tooltip-html="expType.tooltip || 'Add this expectation'" tooltip-placement="right"><span ng-class="expType.icon"></span> {{expType.displayName}}</a>
-                            </li>
-                        </ul>
+	                    <button type="button"
+	                            class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
+	                            data-toggle="dropdown"
+	                            aria-haspopup="true"
+	                            aria-expanded="false"
+	                            uib-tooltip="Add an expectation to this virtual machine"
+	                            ng-click='vmExpectationsOpen=!vmExpectationsOpen'>
+		                    <span class="caret"></span>
+	                    </button>
+	                    <ul class="dropdown-menu">
+		                    <li ng-repeat="expType in vmExpectations">
+			                    <a ng-click="openExpectationForm(expType)"
+			                       uib-tooltip-html="expType.tooltip || 'Add this expectation'"
+			                       tooltip-placement="right"><span ng-class="expType.icon"></span>
+				                    {{expType.displayName}}</a>
+		                    </li>
+	                    </ul>
                     </div>
 
                 </span>
@@ -433,48 +448,50 @@
                 </span>
 
 
-            </uib-tab>
-        </uib-tabset>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()" uib-tooltip="Add this VM" tooltip-placement="top">
-            </button>
-            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel" tooltip-placement="top">
-            </button>
-        </div>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addVm()"
+		        uib-tooltip="Add this VM" tooltip-placement="top">
+		</button>
+		<button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel"
+		        tooltip-placement="top">
+		</button>
+	</div>
 
-    </script>
+</script>
 
-    <script type="text/ng-template" id="NewHostWizard.html" >
+<script type="text/ng-template" id="NewHostWizard.html">
 
-        <div class="modal-header">
-            <h3 class="modal-title">Join Host {{host.address}}</h3>
-        </div>
-        <div ng-if="errors.length > 0" ng-repeat="error in errors">
-            <div class="alert alert-danger" role="alert">
-                <span class="glyphicon glyphicon-ban-circle"></span> {{error.message}} [{{error.code}}]
-            </div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Address</div>
-            <div class="panel-body">
-                <input
-                        ng-model="host.address"
-                        class="form-control"
-                        placeholder="address"
-                        ng-keypress="clearPublicKey()"
-                        ng-blur="updatePubkey()">
-                <input
-                        ng-model="host.publicKey"
-                        readonly
-                        disabled
-                        class="form-control"
-                        placeholder="fingerprint">
-            </div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading"><span class="glyphicon glyphicon-heart"></span> Dedicate</div>
-            <div class="panel-body">
+	<div class="modal-header">
+		<h3 class="modal-title">Join Host {{host.address}}</h3>
+	</div>
+	<div ng-if="errors.length > 0" ng-repeat="error in errors">
+		<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-ban-circle"></span> {{error.message}} [{{error.code}}]
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Address</div>
+		<div class="panel-body">
+			<input
+					ng-model="host.address"
+					class="form-control"
+					placeholder="address"
+					ng-keypress="clearPublicKey()"
+					ng-blur="updatePubkey()">
+			<input
+					ng-model="host.publicKey"
+					readonly
+					disabled
+					class="form-control"
+					placeholder="fingerprint">
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading"><span class="glyphicon glyphicon-heart"></span> Dedicate</div>
+		<div class="panel-body">
                 <span ng-if="host.dedicated">
                     <span class="glyphicon glyphicon-star"></span> Host is dedicated, all resources can be used by Kerub
                     and the host can be turned off when not needed.
@@ -485,159 +502,166 @@
                     resource usage is limited, Kerub is not allowed to turn of the server.
                     <button type="button" class="btn btn-success" ng-click="toggleDedicated()">Dedicate</button>
                 </span>
-            </div>
-        </div>
-        <uib-tabset>
-            <uib-tab>
-                <uib-tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</uib-tab-heading>
-                <div class="panel panel-info">
-                    <div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
-                    <div class="panel-body publickey" ng-bind="controllerKey">
-                    </div>
-                </div>
-            </uib-tab>
-            <uib-tab>
-                <uib-tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</uib-tab-heading>
-                <input
-                        ng-model="password.password"
-                        class="form-control"
-                        type="password"
-                        placeholder="password"
-                        ng-keypress="onKeyPress($event)">
-            </uib-tab>
-        </uib-tabset>
+		</div>
+	</div>
+	<uib-tabset>
+		<uib-tab>
+			<uib-tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</uib-tab-heading>
+			<div class="panel panel-info">
+				<div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
+				<div class="panel-body publickey" ng-bind="controllerKey">
+				</div>
+			</div>
+		</uib-tab>
+		<uib-tab>
+			<uib-tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</uib-tab-heading>
+			<input
+					ng-model="password.password"
+					class="form-control"
+					type="password"
+					placeholder="password"
+					ng-keypress="onKeyPress($event)">
+		</uib-tab>
+	</uib-tabset>
 
-        <span ng-show="pubkeyUpdating">
+	<span ng-show="pubkeyUpdating">
                 updating
             </span>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addHost()" uib-tooltip="Join this host to the IaaS service" tooltip-placement="top">
-            </button>
-            <button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel" tooltip-placement="top">
-            </button>
-        </div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addHost()"
+		        uib-tooltip="Join this host to the IaaS service" tooltip-placement="top">
+		</button>
+		<button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel"
+		        tooltip-placement="top">
+		</button>
+	</div>
 
-    </script>
-    <script type="text/ng-template" id="HostDetails.html">
-        <div class="modal-header">
-            <h3 class="modal-title">
-                <span ng-if="dyn.status" ng-class="hostStatusIcon()"></span>
-                <span ng-if="!dyn.status" class="fa fa-question"></span>
-                Host Details - {{host.address}}</h3>
-        </div>
-        <ul class="nav nav-tabs">
-            <li role="presentation" ng-class="isActive('overview')" ng-click="selectView('overview')"><a href="#">Overview</a></li>
-            <li role="presentation" ng-class="isActive('software')" ng-click="selectView('software')"><a href="#">Software</a></li>
-            <li role="presentation" ng-class="isActive('CPU')" ng-class="" ng-click="selectView('CPU')"><a href="#">CPU</a></li>
-            <li role="presentation" ng-class="isActive('RAM')" ng-class="" ng-click="selectView('RAM')"><a href="#">RAM</a></li>
-            <li role="presentation" ng-class="isActive('IO')" ng-click="selectView('IO')"><a href="#">I/O</a></li>
-        </ul>
-        <form ng-show="isVisible('overview')">
-            <div class="form-group">
-                <label>ID</label>
-                <input class="form-control" ng-model="host.id" disabled>
-            </div>
-            <div class="form-group">
-                <label>dedicated: {{host.dedicated}}</label>
-            </div>
-            <div class="form-group">
-                <label>public ssh key</label>
-                <input class="form-control" ng-model="host.publicKey" disabled>
-            </div>
-            <div ng-if="host.capabilities">
-                <div class="form-group" ng-if="host.capabilities.os">
-                    <label>Operating system</label>
-                    <input class="form-control" ng-model="host.capabilities.os" disabled>
-                </div>
-                <div class="form-group" ng-if="host.capabilities.distribution">
-                    <label>OS distribution and version</label>
-                    <input
-                            class="form-control"
-                            value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
-                            disabled>
-                </div>
-                <div class="form-group" ng-if="host.capabilities.cpuArchitecture">
-                    <label>CPU architecture</label>
-                    <input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
-                </div>
-            </div>
-        </form>
-        <form ng-show="isVisible('software')">
+</script>
+<script type="text/ng-template" id="HostDetails.html">
+	<div class="modal-header">
+		<h3 class="modal-title">
+			<span ng-if="dyn.status" ng-class="hostStatusIcon()"></span>
+			<span ng-if="!dyn.status" class="fa fa-question"></span>
+			Host Details - {{host.address}}</h3>
+	</div>
+	<ul class="nav nav-tabs">
+		<li role="presentation" ng-class="isActive('overview')" ng-click="selectView('overview')"><a
+				href="#">Overview</a></li>
+		<li role="presentation" ng-class="isActive('software')" ng-click="selectView('software')"><a
+				href="#">Software</a></li>
+		<li role="presentation" ng-class="isActive('CPU')" ng-class="" ng-click="selectView('CPU')"><a href="#">CPU</a>
+		</li>
+		<li role="presentation" ng-class="isActive('RAM')" ng-class="" ng-click="selectView('RAM')"><a href="#">RAM</a>
+		</li>
+		<li role="presentation" ng-class="isActive('IO')" ng-click="selectView('IO')"><a href="#">I/O</a></li>
+	</ul>
+	<form ng-show="isVisible('overview')">
+		<div class="form-group">
+			<label>ID</label>
+			<input class="form-control" ng-model="host.id" disabled>
+		</div>
+		<div class="form-group">
+			<label>dedicated: {{host.dedicated}}</label>
+		</div>
+		<div class="form-group">
+			<label>public ssh key</label>
+			<input class="form-control" ng-model="host.publicKey" disabled>
+		</div>
+		<div ng-if="host.capabilities">
+			<div class="form-group" ng-if="host.capabilities.os">
+				<label>Operating system</label>
+				<input class="form-control" ng-model="host.capabilities.os" disabled>
+			</div>
+			<div class="form-group" ng-if="host.capabilities.distribution">
+				<label>OS distribution and version</label>
+				<input
+						class="form-control"
+						value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
+						disabled>
+			</div>
+			<div class="form-group" ng-if="host.capabilities.cpuArchitecture">
+				<label>CPU architecture</label>
+				<input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
+			</div>
+		</div>
+	</form>
+	<form ng-show="isVisible('software')">
             <span ng-repeat="software in host.capabilities.installedSoftware">
                 <span class="label label-default">
-                    {{software.name}} {{software.ver.major}}<span ng-if="software.ver.minor">.{{software.ver.minor}}</span><span ng-if="software.ver.build">.{{software.ver.build}}</span>
+                    {{software.name}} {{software.ver.major}}<span
+		                ng-if="software.ver.minor">.{{software.ver.minor}}</span><span ng-if="software.ver.build">.{{software.ver.build}}</span>
                 </span>&nbsp;
             </span>
-        </form>
-        <form ng-show="isVisible('CPU')">
+	</form>
+	<form ng-show="isVisible('CPU')">
 
-            <div class="form-group">
-                <label>load</label>
-                <div class="form-group">
-                    <uib-progress>
-                        <uib-bar value="dyn.userCpu" max="100" type="info">{{dyn.userCpu}} %</uib-bar>
-                        <uib-bar value="dyn.systemCpu" max="100" type="warning">{{dyn.systemCpu}} %</uib-bar>
-                    </uib-progress>
-                </div>
-            </div>
+		<div class="form-group">
+			<label>load</label>
+			<div class="form-group">
+				<uib-progress>
+					<uib-bar value="dyn.userCpu" max="100" type="info">{{dyn.userCpu}} %</uib-bar>
+					<uib-bar value="dyn.systemCpu" max="100" type="warning">{{dyn.systemCpu}} %</uib-bar>
+				</uib-progress>
+			</div>
+		</div>
 
-            <div class="form-group">
-                <label>total</label>
-                <input class="form-control" ng-value="nrOfCpus" disabled>
-            </div>
+		<div class="form-group">
+			<label>total</label>
+			<input class="form-control" ng-value="nrOfCpus" disabled>
+		</div>
 
             <span ng-repeat="cpu in host.capabilities.cpus">
                 <h4>CPU</h4>
                 <div class="form-group" ng-if="cpu.manufacturer">
-                    <label>manufacturer</label>
-                    <input class="form-control" ng-model="cpu.manufacturer" disabled>
+	                <label>manufacturer</label>
+	                <input class="form-control" ng-model="cpu.manufacturer" disabled>
                 </div>
                 <div class="form-group" ng-if="cpu.version">
-                    <label>version</label>
-                    <input class="form-control" ng-model="cpu.version" disabled>
+	                <label>version</label>
+	                <input class="form-control" ng-model="cpu.version" disabled>
                 </div>
                 <div class="form-group" ng-if="cpu.coreCount">
-                    <label>cores</label>
-                    <input class="form-control" ng-model="cpu.coreCount" disabled>
+	                <label>cores</label>
+	                <input class="form-control" ng-model="cpu.coreCount" disabled>
                 </div>
                 <div class="form-group" ng-if="cpu.threadCount">
-                    <label>threads</label>
-                    <input class="form-control" ng-model="cpu.threadCount" disabled>
+	                <label>threads</label>
+	                <input class="form-control" ng-model="cpu.threadCount" disabled>
                 </div>
                 <div class="form-group" ng-if="cpu.maxSpeedMhz">
-                    <label>max speed (Mhz)</label>
-                    <input class="form-control" ng-model="cpu.maxSpeedMhz" disabled>
+	                <label>max speed (Mhz)</label>
+	                <input class="form-control" ng-model="cpu.maxSpeedMhz" disabled>
                 </div>
             </span>
-        </form>
-        <form ng-show="isVisible('RAM')">
-            <div class="form-group">
-                <div class="form-group">
-                    <uib-progress ng-if="host.capabilities.totalMemory && dyn.memUsed">
-                        <!--
-                            dynamic maximum is not supported by angular bootstrap, so this is a workaround here
+	</form>
+	<form ng-show="isVisible('RAM')">
+		<div class="form-group">
+			<div class="form-group">
+				<uib-progress ng-if="host.capabilities.totalMemory && dyn.memUsed">
+					<!--
+						dynamic maximum is not supported by angular bootstrap, so this is a workaround here
 
-                        -->
-                        <uib-bar value="hostMemUsedPercent()" max="100" type="warning">
-                            {{humanFriendlySize(dyn.memUsed)}} / {{humanFriendlySize(host.capabilities.totalMemory)}}
-                        </uib-bar>
-                    </uib-progress>
-                </div>
-            </div>
+					-->
+					<uib-bar value="hostMemUsedPercent()" max="100" type="warning">
+						{{humanFriendlySize(dyn.memUsed)}} / {{humanFriendlySize(host.capabilities.totalMemory)}}
+					</uib-bar>
+				</uib-progress>
+			</div>
+		</div>
 
-            <table class="table table-condensed table-striped table-hover">
-                <thead>
-                <tr>
-                    <td>Device</td>
-                    <td>Details</td>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="device in host.capabilities.memoryDevices">
-                        <td>
-                            {{device.serialNumber}}
-                        </td>
-                        <td>
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+			<tr>
+				<td>Device</td>
+				<td>Details</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="device in host.capabilities.memoryDevices">
+				<td>
+					{{device.serialNumber}}
+				</td>
+				<td>
                             <span ng-if="device.type">
                                 <span class="label label-default">{{device.type}}</span>
                             </span>
@@ -653,23 +677,23 @@
                             <span ng-if="device.manufacturer">
                                 <span class="label label-default"><span class="fa fa-industry"></span> {{device.manufacturer}}</span>
                             </span>
-                        </td>
-                    </tr>
-                </tbody>
-                </table>
-        </form>
-        <form ng-show="isVisible('IO')">
-            <table class="table table-condensed table-striped table-hover">
-                <thead>
-                    <tr>
-                        <td>Capacity</td>
-                        <td>Details</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="cap in host.capabilities.storageCapabilities">
-                        <td>{{humanFriendlySize(cap.size)}}</td>
-                        <td>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</form>
+	<form ng-show="isVisible('IO')">
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+			<tr>
+				<td>Capacity</td>
+				<td>Details</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="cap in host.capabilities.storageCapabilities">
+				<td>{{humanFriendlySize(cap.size)}}</td>
+				<td>
                             <span ng-if="cap['@type'] === 'lvm'">
                                 {{cap.physicalVolumes.length}}
                                 <span class="label label-default"><span class="fa fa-linux"></span> lvm</span>
@@ -681,12 +705,12 @@
                             <span ng-if="cap['@type'] === 'fs'">
                                 <span class="label label-default"><span class="fa fa-folder"></span> {{cap.mountPoint}}</span>
                             </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </script>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</form>
+</script>
 
 </body>
 </html>
