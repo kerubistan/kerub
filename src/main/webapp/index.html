@@ -84,8 +84,8 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="login()">
-					Login
+				<button type="button" class="btn btn-primary" ng-disabled="inprg" ng-click="login()">
+					<span ng-class="{true: 'fa fa-cog fa-spin', false: 'glyphicon glyphicon-ok-sign'}[inprg]"></span>
 				</button>
 			</div>
 		</form>

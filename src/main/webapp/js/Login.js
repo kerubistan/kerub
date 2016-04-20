@@ -3,6 +3,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
     $scope.password = '';
     $scope.version = {};
     $scope.motd = '';
+    $scope.inprg = false;
 
     $http.get('s/r/meta/version').success(function(version) {
         $scope.version = version;
@@ -17,6 +18,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
     }
     $scope.login = function() {
         $log.info('Login user ', $scope.username);
+        $scope.inprg = true;
         $http.post('s/r/auth/login', {
             username : $scope.username,
             password : $scope.password
@@ -24,8 +26,10 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
             $log.info("success", $uibModalInstance);
             $uibModalInstance.dismiss();
             appsession.restartRequests();
+        	$scope.inprg = false;
         }).error(function(error){
             $log.info("error",error);
+        	$scope.inprg = false;
         });
     };
 };
