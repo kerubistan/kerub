@@ -15,5 +15,10 @@ kerubApp.controller('VirtualDisksTab', function($scope, $uibModal, $log, socket,
                 });
 	};
 
+	socket.subscribe('/virtual-storage/', function(msg) {
+		$log.debug('new virtual storage device created:', msg);
+		$scope.refresh();
+	});
+
 	$scope.refresh();
 });

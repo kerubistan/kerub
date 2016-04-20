@@ -5,10 +5,6 @@ kerubApp.controller('HostTab', function($scope, $uibModal, $log, socket, appsess
 
     $log.info('initializing host tab');
 
-    socket.subscribe('/host', function(msg) {
-        $log.info("hey, a message for HostTab!",msg);
-    }, 'HostTab');
-
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;
     $scope.pages = [];
@@ -26,6 +22,23 @@ kerubApp.controller('HostTab', function($scope, $uibModal, $log, socket, appsess
         $log.info('opened new host wizard');
     };
 
+
+	$scope.refresh = function() {
+		appsession.get('s/r/host').success(function(hostsResult) {
+			$log.info("hosts", hostsResult);
+			$scope.hosts = hostsResult.result;
+			$scope.currentPage = currentPage(hostsResult, $scope.itemsPerPage);
+			$log.debug($scope.currentPage);
+			$scope.pages = pages(hostsResult, $scope.itemsPerPage);
+		});
+	}
+	$scope.refresh();
+    socket.subscribe('/host', function(msg) {
+        $log.info("hey, a message for HostTab!",msg);
+        $scope.refresh();
+    }, 'HostTab');
+
+
     $scope.showHostDetails = function(hostId) {
         var modalInstance = $uibModal.open({
             templateUrl : 'HostDetails.html',
@@ -38,11 +51,5 @@ kerubApp.controller('HostTab', function($scope, $uibModal, $log, socket, appsess
             });
     }
 
-    appsession.get('s/r/host').success(function(hostsResult) {
-        $log.info("hosts", hostsResult);
-        $scope.hosts = hostsResult.result;
-        $scope.currentPage = currentPage(hostsResult, $scope.itemsPerPage);
-        $log.debug($scope.currentPage);
-        $scope.pages = pages(hostsResult, $scope.itemsPerPage);
-    });
+
 });

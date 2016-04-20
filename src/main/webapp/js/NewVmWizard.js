@@ -37,6 +37,7 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
     		{
     			virtualStorageId : disk.id,
                 bus : 'sata',
+                device : 'Disk',
                 expectations : []
     		}
     	);

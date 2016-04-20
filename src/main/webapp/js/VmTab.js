@@ -8,6 +8,9 @@ kerubApp.controller('VmTab', function($scope, $uibModal, $log, socket, appsessio
 		});
 	};
 	$scope.refreshVms();
+	socket.subscribe('/vm', function(msg){
+		$scope.refreshVms();
+	});
 	$scope.newVmForm = function () {
 		var modalInstance = $uibModal.open({
 		   templateUrl : 'NewVmWizard.html',
