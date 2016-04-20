@@ -468,27 +468,33 @@
 	<div class="modal-header">
 		<h3 class="modal-title">Join Host {{host.address}}</h3>
 	</div>
+	<div class="modal-body">
 	<div ng-if="errors.length > 0" ng-repeat="error in errors">
 		<div class="alert alert-danger" role="alert">
 			<span class="glyphicon glyphicon-ban-circle"></span> {{error.message}} [{{error.code}}]
 		</div>
 	</div>
-	<div class="panel panel-info">
-		<div class="panel-heading"><span class="glyphicon glyphicon-map-marker"></span> Address</div>
-		<div class="panel-body">
-			<input
-					ng-model="host.address"
-					class="form-control"
-					placeholder="address"
-					ng-keypress="clearPublicKey()"
-					ng-blur="updatePubkey()">
-			<input
-					ng-model="host.publicKey"
-					readonly
-					disabled
-					class="form-control"
-					placeholder="fingerprint">
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="glyphicon glyphicon-map-marker"></span>
 		</div>
+		<input
+				ng-model="host.address"
+				class="form-control"
+				placeholder="address"
+				ng-keypress="clearPublicKey()"
+				ng-blur="updatePubkey()">
+	</div>
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span ng-class="{true: 'fa fa-refresh fa-spin', false: 'fa fa-cog'}[pubkeyUpdating]"></span>
+		</div>
+		<input
+				ng-model="host.publicKey"
+				readonly
+				disabled
+				class="form-control"
+				placeholder="fingerprint">
 	</div>
 	<div class="panel panel-info">
 		<div class="panel-heading"><span class="glyphicon glyphicon-heart"></span> Dedicate</div>
@@ -525,14 +531,23 @@
 		</uib-tab>
 	</uib-tabset>
 
-	<span ng-show="pubkeyUpdating">
-                updating
-            </span>
+	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign" ng-click="addHost()"
-		        uib-tooltip="Join this host to the IaaS service" tooltip-placement="top">
+		<button
+				type="button"
+				ng-click="addHost()"
+				class="btn btn-primary"
+				ng-disabled="inprg"
+		        uib-tooltip="Join this host to the IaaS service"
+				tooltip-placement="top">
+			<span ng-class="{false:'glyphicon glyphicon-ok-sign', true:'fa fa-refresh fa-spin'}[inprg]"></span>
 		</button>
-		<button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel"
+		<button
+				type="button"
+				class="btn btn-primary glyphicon glyphicon-remove"
+				ng-click="close()"
+				ng-disabled="inprg"
+				uib-tooltip="Cancel"
 		        tooltip-placement="top">
 		</button>
 	</div>

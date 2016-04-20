@@ -1,6 +1,7 @@
 var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
+    $scope.inprg = false;
 
     $scope.errors = [];
 
@@ -29,6 +30,7 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
     };
     $scope.updatePubkey = function () {
         $scope.host.publicKey = '';
+        $scope.pubkeyUpdating = true;
         $log.debug('change in hostname: '+$scope.host.address);
         if($scope.updateTimeout != null) {
             $timeout.cancel($scope.updateTimeout);
@@ -40,8 +42,13 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
                 $scope.pubkeyUptoDate = true;
                 $scope.pubkey = pubkey;
                 $scope.host.publicKey = pubkey.fingerprint;
+		        $scope.pubkeyUpdating = false;
+		        scope.errors = [];
             })
-            .error($scope.errorHandler);
+            .error(function() {
+            	$scope.errorHandler();
+            	$scope.pubkeyUpdating = false;
+            });
     };
     $scope.close = function() {
         $log.info('close window');
@@ -65,20 +72,21 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
 		};
 		$log.info('password',$scope.password);
 		$log.info('host',$scope.host);
+		$scope.inprg = true;
     	if($scope.password.password === '') {
     	    $log.debug('add host with public key');
-			appsession.put('s/r/host/join-pubkey',
-				$scope.host
-				).success(onHostAdded);
+			appsession.put('s/r/host/join-pubkey',$scope.host)
+				.success(onHostAdded)
+				.error($scope.errorHandler);
     	} else {
 			$log.debug('add host with password');
 			appsession.put('s/r/host/join',
 				{
 					host : $scope.host,
 					password : $scope.password.password
-				}
-				).success(onHostAdded)
-				.error($scope.errorHandler)
+				})
+				.success(onHostAdded)
+				.error($scope.errorHandler);
     	}
     };
 
