@@ -1,7 +1,9 @@
 var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, appsession, uuid4, size, expectations) {
+	var id = uuid4.generate();
 	$scope.vm = {
 		"@type" : 'vm',
-		id : uuid4.generate(),
+		id : id,
+		name : 'vm-' + id,
 		nrOfCpus : 1,
     	memory : {
     		min : size.toSize('512 MB'),
