@@ -483,6 +483,15 @@
 				placeholder="address"
 				ng-keypress="clearPublicKey()"
 				ng-blur="updatePubkey()">
+		<div class="input-group-btn">
+			<button
+					type="button"
+					class="btn btn-default"
+					uib-tooltip="If host is dedicated, kerub can use all resources, change configuration and turn off when the host is not needed"
+					ng-click="host.dedicated = !host.dedicated">
+				<span ng-class="{true: 'glyphicon glyphicon-heart', false: 'glyphicon glyphicon-heart-empty'}[host.dedicated]"></span>
+			</button>
+		</div>
 	</div>
 	<div class="input-group">
 		<div class="input-group-addon">
@@ -494,21 +503,6 @@
 				disabled
 				class="form-control"
 				placeholder="fingerprint">
-	</div>
-	<div class="panel panel-info">
-		<div class="panel-heading"><span class="glyphicon glyphicon-heart"></span> Dedicate</div>
-		<div class="panel-body">
-                <span ng-if="host.dedicated">
-                    <span class="glyphicon glyphicon-star"></span> Host is dedicated, all resources can be used by Kerub
-                    and the host can be turned off when not needed.
-                    <button type="button" class="btn btn-default" ng-click="toggleDedicated()">Do not dedicate</button>
-                </span>
-                <span ng-if="!host.dedicated">
-                    <span class="glyphicon glyphicon-star-empty"></span> Host is shared with other services,
-                    resource usage is limited, Kerub is not allowed to turn of the server.
-                    <button type="button" class="btn btn-success" ng-click="toggleDedicated()">Dedicate</button>
-                </span>
-		</div>
 	</div>
 	<uib-tabset>
 		<uib-tab>
