@@ -535,7 +535,7 @@
 				type="button"
 				ng-click="addHost()"
 				class="btn btn-primary"
-				ng-disabled="inprg"
+				ng-disabled="inprg || host.address == '' || (!usepubkey && password.password == '') || host.publicKey == '' "
 		        uib-tooltip="Join this host to the IaaS service"
 				tooltip-placement="top">
 			<span ng-class="{false:'glyphicon glyphicon-ok-sign', true:'fa fa-refresh fa-spin'}[inprg]"></span>

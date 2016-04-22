@@ -78,7 +78,7 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
 		$log.info('password',$scope.password);
 		$log.info('host',$scope.host);
 		$scope.inprg = true;
-    	if($scope.password.password === '') {
+    	if($scope.usepubkey) {
     	    $log.debug('add host with public key');
 			appsession.put('s/r/host/join-pubkey',$scope.host)
 				.success(onHostAdded)
