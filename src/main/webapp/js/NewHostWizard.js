@@ -31,6 +31,9 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
 		$scope.errors = [error];
     };
     $scope.updatePubkey = function () {
+    	if($scope.host.address == '') {
+    		return;
+    	}
         $scope.host.publicKey = '';
         $scope.pubkeyUpdating = true;
         $log.debug('change in hostname: '+$scope.host.address);
