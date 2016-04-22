@@ -482,7 +482,9 @@
 				class="form-control"
 				placeholder="address"
 				ng-keypress="clearPublicKey()"
-				ng-blur="updatePubkey()">
+				ng-blur="updatePubkey()"
+				autocomplete="off"
+				autofocus>
 		<div class="input-group-btn">
 			<button
 					type="button"
@@ -504,25 +506,28 @@
 				class="form-control"
 				placeholder="fingerprint">
 	</div>
-	<uib-tabset>
-		<uib-tab>
-			<uib-tab-heading><span class="glyphicon glyphicon-check"></span> Public Key</uib-tab-heading>
-			<div class="panel panel-info">
-				<div class="panel-heading">Add to /root/.ssh/authorized_keys</div>
-				<div class="panel-body publickey" ng-bind="controllerKey">
-				</div>
-			</div>
-		</uib-tab>
-		<uib-tab>
-			<uib-tab-heading><span class="glyphicon glyphicon-asterisk"></span> Password</uib-tab-heading>
-			<input
-					ng-model="password.password"
-					class="form-control"
-					type="password"
-					placeholder="password"
-					ng-keypress="onKeyPress($event)">
-		</uib-tab>
-	</uib-tabset>
+	<div class="input-group" ng-show="!usepubkey">
+		<div class="input-group-btn">
+			<button type="button" class="btn button-default" ng-click="usepubkey = !usepubkey">
+				<span class="glyphicon glyphicon-asterisk"></span>
+			</button>
+		</div>
+		<input
+				ng-model="password.password"
+				class="form-control"
+				type="password"
+				placeholder="password"
+				ng-keypress="onKeyPress($event)">
+	</div>
+	<div class="input-group" ng-show="usepubkey">
+		<div class="input-group-btn">
+			<button type="button" class="btn button-default" ng-click="usepubkey = !usepubkey">
+				<span class="fa fa-key"></span>
+			</button>
+		</div>
+		<input readonly="readonly" class="form-control" rows="3" ng-value="controllerKey" uib-tooltip="Add to /root/.ssh/authorized_keys">
+		</input>
+	</div>
 
 	</div>
 	<div class="modal-footer">

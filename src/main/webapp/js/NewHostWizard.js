@@ -16,6 +16,8 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
     	password: ''
     };
 
+	$scope.usepubkey = true;
+
 	$scope.controllerKey = '';
 
     $scope.updateTimeout = null;
