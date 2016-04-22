@@ -132,8 +132,7 @@ class SshClientServiceImpl(
 	}
 
 	override fun getPublicKey(): String = """
-#added by kerub - ${Date()}
-ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}
+ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)} #added by kerub - ${Date()}
 """
 
 }
