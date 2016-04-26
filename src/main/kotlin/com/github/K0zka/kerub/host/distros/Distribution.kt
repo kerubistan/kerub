@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
@@ -52,4 +53,5 @@ interface Distribution {
 	 */
 	fun getRequiredPackages(osCommand: OsCommand): List<String>
 
+	fun getFireWall(session: ClientSession) : FireWall
 }

@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.FireWall
+import com.github.K0zka.kerub.host.fw.IptablesFireWall
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
@@ -133,4 +135,6 @@ abstract class AbstractLinux : Distribution {
 
 	override fun getRequiredPackages(osCommand: OsCommand): List<String> =
 			packages[osCommand] ?: listOf()
+
+	override fun getFireWall(session: ClientSession): FireWall  = IptablesFireWall(session)
 }

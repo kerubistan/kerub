@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.execute
+import com.github.K0zka.kerub.host.fw.IpfwFireWall
 import com.github.K0zka.kerub.host.packman.PkgPackageManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
@@ -15,6 +17,7 @@ import org.apache.sshd.client.session.ClientSession
  * PermitRootLogin yes
  */
 class FreeBSD : Distribution {
+
 	override fun installMonitorPackages(session: ClientSession) {
 		//TODO issue #57
 	}
@@ -39,4 +42,7 @@ class FreeBSD : Distribution {
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
 		//TODO issue #57
 	}
+
+	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
+
 }
