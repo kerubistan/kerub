@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.anyString
+import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -309,4 +311,14 @@ Domain: 'kerub.hosts.fedora20'
 		assertEquals(2, stats.size)
 	}
 
+	@Test
+	fun getDisplay() {
+		whenever(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream("spice://localhost:5902".toByteArray()))
+
+		val display = Virsh.getDisplay(session!!, UUID.randomUUID())
+
+		assertEquals(RemoteConsoleProtocol.spice, display.first)
+		assertEquals(5902, display.second)
+	}
 }

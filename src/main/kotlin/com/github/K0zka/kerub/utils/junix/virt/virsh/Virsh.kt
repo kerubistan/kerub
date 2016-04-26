@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.use
+import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.substringBetween
 import com.github.K0zka.kerub.utils.rows
@@ -127,6 +128,13 @@ object Virsh {
 			errors = netToLong(props, netId, type, "errs"),
 			packets = netToLong(props, netId, type, "pkts")
 	)
+
+	fun getDisplay(session: ClientSession, vmId : UUID) : Pair<RemoteConsoleProtocol, Int> {
+		val display = session.executeOrDie("virsh domdisplay $vmId")
+		val protocol = RemoteConsoleProtocol.valueOf(display.substringBefore("://").toLowerCase())
+		val port = display.substringAfterLast(":").toInt()
+		return protocol to port
+	}
 
 	internal fun toCpuStat(props: Map<String, String>, id: Int): VcpuStat =
 			VcpuStat(
