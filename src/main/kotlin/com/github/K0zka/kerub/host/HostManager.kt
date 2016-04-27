@@ -24,4 +24,5 @@ interface HostManager {
 	fun join(host: Host): Host
 	fun getHypervisor(host: Host): Hypervisor?
 	fun getPowerManager(host: Host): PowerManager
+	fun getFireWall(host : Host) : FireWall
 }

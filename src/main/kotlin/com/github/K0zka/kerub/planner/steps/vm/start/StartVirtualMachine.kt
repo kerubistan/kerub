@@ -10,8 +10,12 @@ import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
+import com.github.K0zka.kerub.utils.genPassword
 
 data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+
+	val consolePassword = lazy { genPassword(length = 128) }
+
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
 		return state.copy(

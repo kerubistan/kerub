@@ -65,7 +65,7 @@ class KvmHypervisor(private val client: ClientSession,
 		Virsh.resume(client, vm.id)
 	}
 
-	override fun startVm(vm: VirtualMachine) {
+	override fun startVm(vm: VirtualMachine, consolePwd: String) {
 		val storageMap = vm.virtualStorageLinks.map {
 			storageLink ->
 			storageLink to (
@@ -74,7 +74,7 @@ class KvmHypervisor(private val client: ClientSession,
 							requireNotNull(virtualStorageDynDao[storageLink.virtualStorageId])
 					)
 		}.toMap()
-		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap))
+		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap, consolePwd))
 	}
 
 	override fun stopVm(vm: VirtualMachine) {
@@ -84,5 +84,8 @@ class KvmHypervisor(private val client: ClientSession,
 	override fun migrate(vm: VirtualMachine, source: Host, target: Host) {
 		throw UnsupportedOperationException()
 	}
+
+	override fun getDisplay(vm: VirtualMachine) =
+		Virsh.getDisplay(session = client, vmId = vm.id)
 
 }

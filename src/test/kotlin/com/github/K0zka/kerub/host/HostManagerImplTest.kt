@@ -196,6 +196,11 @@ import kotlin.test.assertTrue
 		verify(sshClientService!!).loginWithPublicKey(anyString(), anyString(), anyString())
 	}
 
+	@Test
+	fun getFireWall() {
+		hostManager
+	}
+
 	@Ignore
 	@Test
 	fun stop() {

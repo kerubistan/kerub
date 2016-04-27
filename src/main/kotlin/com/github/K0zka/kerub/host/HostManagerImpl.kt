@@ -65,6 +65,11 @@ class HostManagerImpl(
 		return WakeOnLan(host, this, this)
 	}
 
+	override fun getFireWall(host: Host): FireWall {
+		val conn = requireNotNull(connections[host.id])
+		return conn.second.getFireWall(conn.first)
+	}
+
 	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
 		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}"  })
 		closure(session.first)

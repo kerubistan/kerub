@@ -63,7 +63,7 @@ class KvmHypervisorTest {
 		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
 
-		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm)
+		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm, "")
 
 		Mockito.verify(virtualStorageDao!!, never).get(Mockito.any(UUID::class.java) ?: UUID.randomUUID())
 	}
@@ -101,7 +101,7 @@ class KvmHypervisorTest {
 		Mockito.`when`(virtualStorageDao!![eq(vDisk.id)]).thenReturn(vDisk)
 		Mockito.`when`(virtualStorageDynDao!![eq(vDisk.id)]).thenReturn(virtualStorageDeviceDynamic)
 
-		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm)
+		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm, "")
 
 		Mockito.verify(virtualStorageDao!!).get(Mockito.any(UUID::class.java) ?: UUID.randomUUID())
 	}

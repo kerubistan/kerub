@@ -15,7 +15,10 @@ import com.github.K0zka.kerub.model.Range as serializableRange
 
 class UtilsTest {
 
-	companion object val logger = getLogger(UtilsTest::class)
+	companion object {
+		val logger = getLogger(UtilsTest::class)
+	}
+
 
 	@Test fun vmDefinitiontoXml() {
 		val vm = VirtualMachine(
@@ -27,7 +30,7 @@ class UtilsTest {
 				virtualStorageLinks = listOf()
 		                       )
 
-		val libvirtXml = vmDefinitiontoXml(vm, mapOf())
+		val libvirtXml = vmDefinitiontoXml(vm, mapOf(), "")
 
 		val dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(libvirtXml)))
 		val xPath = XPathFactory.newInstance().newXPath()
