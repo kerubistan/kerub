@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.sysfs
 
 import com.github.K0zka.kerub.host.getFileContents
 import com.github.K0zka.kerub.host.use
+import com.github.K0zka.kerub.utils.buildString
 import org.apache.sshd.client.session.ClientSession
 
 /**
@@ -25,20 +26,18 @@ object Net {
 
 	fun macToString(mac: ByteArray): String {
 		require(mac.size == macAddressSize, { "The MAC address must be 6 bytes" })
-		val bldr = StringBuilder(17)
-
-		for (b in mac) {
-			if (bldr.length != 0) {
-				bldr.append(':')
+		return buildString(17) {
+			for (b in mac) {
+				if (length != 0) {
+					append(':')
+				}
+				val hexString = Integer.toHexString(b.toInt())
+				if (hexString.length == 1) {
+					append('0')
+				}
+				append(hexString)
 			}
-			val hexString = Integer.toHexString(b.toInt())
-			if (hexString.length == 1) {
-				bldr.append('0')
-			}
-			bldr.append(hexString)
 		}
-
-		return bldr.toString()
 	}
 
 	/**
