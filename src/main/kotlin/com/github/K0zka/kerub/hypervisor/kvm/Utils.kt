@@ -7,13 +7,14 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.K0zka.kerub.utils.buildString
 
 fun storagesToXml(disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
-	val ret = StringBuilder()
-	for (device in disks) {
-		ret.append(storageToXml(device.value.first, device.key, device.value.second.allocation))
+	return buildString(disks.size * 256) {
+		for (device in disks) {
+			append(storageToXml(device.value.first, device.key, device.value.second.allocation))
+		}
 	}
-	return ret.toString()
 }
 
 val allocationTypeToDiskType = mapOf(
@@ -44,7 +45,7 @@ fun escapeXmlText(str: String): String {
 	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
 }
 
-fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
+fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >, password : String): String {
 	return """
 <domain type='kvm'>
     <name>${vm.id}</name>
@@ -64,7 +65,8 @@ fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<Vi
     <devices>
 		<emulator>/usr/bin/qemu-kvm</emulator>
 		<input type='keyboard' bus='ps2'/>
-		<graphics type='spice' autoport='yes'>
+		<graphics type='spice' autoport='yes' listen='0.0.0.0' password='$password'>
+			<listen type='address' address='0.0.0.0'/>
 			<image compression='off'/>
 		</graphics>
 		<video>
