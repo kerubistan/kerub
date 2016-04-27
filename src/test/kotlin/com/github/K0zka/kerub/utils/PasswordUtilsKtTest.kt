@@ -7,6 +7,13 @@ import org.junit.Assert.*
 class PasswordUtilsKtTest {
 
 	@Test
+	fun testBuildString() {
+		buildString(1) {
+			assertEquals(1, capacity())
+		}
+	}
+
+	@Test
 	fun testGenPassword() {
 		assertEquals (4, genPassword(4).length)
 		assertEquals (8, genPassword(8).length)
