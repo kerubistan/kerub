@@ -65,7 +65,7 @@ fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<Vi
     <devices>
 		<emulator>/usr/bin/qemu-kvm</emulator>
 		<input type='keyboard' bus='ps2'/>
-		<graphics type='spice' autoport='yes' listen='0.0.0.0' password='$password'>
+		<graphics type='spice' autoport='yes' listen='0.0.0.0' passwd='$password'>
 			<listen type='address' address='0.0.0.0'/>
 			<image compression='off'/>
 		</graphics>
