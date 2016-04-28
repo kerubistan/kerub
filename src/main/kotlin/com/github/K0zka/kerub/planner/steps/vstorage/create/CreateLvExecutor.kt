@@ -11,9 +11,9 @@ import com.github.K0zka.kerub.utils.only
 class CreateLvExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val virtualDiskDynDao: VirtualStorageDeviceDynamicDao
-) : AbstractStepExecutor<CreateLv>() {
+) : AbstractStepExecutor<CreateLv, Unit>() {
 
-	override fun update(step: CreateLv) {
+	override fun update(step: CreateLv, updates: Unit) {
 		hostCommandExecutor.execute(step.host, {
 			session ->
 

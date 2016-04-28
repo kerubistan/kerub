@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 /**
  * Generic framework class to better organize what a step executor have to do.
  */
-abstract class AbstractStepExecutor<T : AbstractOperationalStep> : StepExecutor<T> {
+abstract class AbstractStepExecutor<T : AbstractOperationalStep, U> : StepExecutor<T> {
 
 	/**
 	 * Check if the pre-conditions of performing the action are met, throw an exception if not.
@@ -19,7 +19,7 @@ abstract class AbstractStepExecutor<T : AbstractOperationalStep> : StepExecutor<
 	/**
 	 * Perform the step.
 	 */
-	abstract fun perform(step: T)
+	abstract fun perform(step: T) : U
 
 	/**
 	 * Verify the execution of the step.
@@ -32,12 +32,12 @@ abstract class AbstractStepExecutor<T : AbstractOperationalStep> : StepExecutor<
 	/**
 	 * Update the database with the new fact
 	 */
-	abstract fun update(step: T)
+	abstract fun update(step: T, updates: U)
 
 	final override fun execute(step: T) {
 		prepare(step)
-		perform(step)
+		val updates = perform(step)
 		verify(step)
-		update(step)
+		update(step, updates)
 	}
 }

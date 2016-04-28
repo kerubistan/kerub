@@ -11,7 +11,7 @@ class WakeHostExecutor(
 		private val hostDynDao: HostDynamicDao,
 		private val tries : Int = defaulMaxRetries,
 		private val wait : Long = defaultWaitBetweenTries
-) : AbstractStepExecutor<WakeHost>() {
+) : AbstractStepExecutor<WakeHost, Unit>() {
 
 	companion object {
 		val logger = getLogger(WakeHostExecutor::class)
@@ -41,7 +41,7 @@ class WakeHostExecutor(
 		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts")
 	}
 
-	override fun update(step: WakeHost) {
+	override fun update(step: WakeHost, updates: Unit) {
 		hostDynDao.update(step.host.id, {
 			dyn ->
 			dyn.copy(

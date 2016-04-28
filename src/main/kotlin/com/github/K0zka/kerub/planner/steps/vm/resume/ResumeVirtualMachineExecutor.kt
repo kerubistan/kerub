@@ -6,8 +6,8 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.planner.steps.vm.base.HypervisorStepExcecutor
 
-class ResumeVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<ResumeVirtualMachine>(hostManager) {
-	override fun update(step: ResumeVirtualMachine) {
+class ResumeVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<ResumeVirtualMachine, Unit>(hostManager) {
+	override fun update(step: ResumeVirtualMachine, updates : Unit) {
 		vmDynDao.update(step.vm.id, {
 			it.copy(
 					status = VirtualMachineStatus.Up

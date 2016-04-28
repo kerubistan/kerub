@@ -10,7 +10,7 @@ import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger
 
-class CreateImageExecutor(private val exec: HostCommandExecutor, private val dynDao: VirtualStorageDeviceDynamicDao) : AbstractStepExecutor<CreateImage>() {
+class CreateImageExecutor(private val exec: HostCommandExecutor, private val dynDao: VirtualStorageDeviceDynamicDao) : AbstractStepExecutor<CreateImage, Unit>() {
 
 	companion object {
 		private val logger = getLogger(CreateImageExecutor::class)
@@ -29,7 +29,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 		})
 	}
 
-	override fun update(step: CreateImage) {
+	override fun update(step: CreateImage, updates: Unit) {
 		dynDao.add(VirtualStorageDeviceDynamic(
 				id = step.disk.id,
 				allocation = VirtualStorageFsAllocation(

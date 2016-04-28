@@ -4,14 +4,13 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 
-abstract class HypervisorStepExcecutor<T : HostStep>(private val hostManager: HostManager)
-: AbstractStepExecutor<T>() {
+abstract class HypervisorStepExcecutor<T : HostStep, U>(protected val hostManager: HostManager)
+: AbstractStepExecutor<T, U>() {
 
-	override fun perform(step: T) {
+	override fun perform(step: T) =
 		execute(getHypervisor(step), step)
-	}
 
 	protected fun getHypervisor(step: T) = requireNotNull(hostManager.getHypervisor(step.host), { "No hpervisor found on host ${step.host}" })
 
-	abstract fun execute(hypervisor: Hypervisor, step: T)
+	abstract fun execute(hypervisor: Hypervisor, step: T) : U
 }
