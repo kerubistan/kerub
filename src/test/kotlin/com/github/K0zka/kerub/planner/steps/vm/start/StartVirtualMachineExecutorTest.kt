@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -43,6 +44,7 @@ class StartVirtualMachineExecutorTest {
 		)
 
 		whenever(hostManager.getHypervisor(any())).thenReturn(hypervisor)
+		whenever(hypervisor.getDisplay(Mockito.any(VirtualMachine::class.java) ?: vm)).thenReturn(RemoteConsoleProtocol.spice to 5900)
 
 		StartVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
 
