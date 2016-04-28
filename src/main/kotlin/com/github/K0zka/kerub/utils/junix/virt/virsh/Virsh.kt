@@ -132,7 +132,7 @@ object Virsh {
 	fun getDisplay(session: ClientSession, vmId : UUID) : Pair<RemoteConsoleProtocol, Int> {
 		val display = session.executeOrDie("virsh domdisplay $vmId")
 		val protocol = RemoteConsoleProtocol.valueOf(display.substringBefore("://").toLowerCase())
-		val port = display.substringAfterLast(":").toInt()
+		val port = display.substringAfterLast(":").trim().toInt()
 		return protocol to port
 	}
 

@@ -314,7 +314,7 @@ Domain: 'kerub.hosts.fedora20'
 	@Test
 	fun getDisplay() {
 		whenever(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
-		whenever(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream("spice://localhost:5902".toByteArray()))
+		whenever(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream("spice://localhost:5902\n".toByteArray()))
 
 		val display = Virsh.getDisplay(session!!, UUID.randomUUID())
 
