@@ -35,9 +35,7 @@ enable-smartcard=0
 enable-usb-autoshare=1
 tls-ciphers=DEFAULT
 host-subject=O=engine,CN=${displaySettings.hostAddr}
-ca=${displaySettings.ca}
-secure-channels=main;inputs;cursor;playback;record;display;smartcard;usbredir
-
+#secure-channels=main;inputs;cursor;playback;record;display;smartcard;usbredir
 """
 
 	}

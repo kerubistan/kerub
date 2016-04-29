@@ -1,4 +1,4 @@
-kerubApp.controller('VmRow', function($scope, $log, socket, appsession) {
+kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsession) {
     $scope.vm = {};
     $scope.vmdyn = {};
     $scope.workingprg = false;
@@ -7,6 +7,9 @@ kerubApp.controller('VmRow', function($scope, $log, socket, appsession) {
     	appsession.post('s/r/vm/' + $scope.vm.id + '/start').then(function() {
     		$scope.workingprg = false;
     	});
+    };
+    $scope.spiceConnect = function() {
+		window.open('s/r/vm-dyn/'+$scope.vm.id+'/connection/spice', '__new')
     };
     $scope.stopVm = function() {
     	$scope.workingprg = true;

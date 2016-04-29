@@ -49,6 +49,13 @@
                                     tooltip-placement="bottom">
                             </button>
                             <button type="button"
+                                    class="btn btn-default fa fa-eye"
+                                    ng-click="spiceConnect()"
+                                    ng-disabled="workingprg"
+                                    uib-tooltip="Connect to VM console"
+                                    tooltip-placement="bottom">
+                            </button>
+                            <button type="button"
                                     class="btn btn-default glyphicon glyphicon-pause"
                                     uib-tooltip="Pause this VM"
                                     tooltip-placement="bottom">
