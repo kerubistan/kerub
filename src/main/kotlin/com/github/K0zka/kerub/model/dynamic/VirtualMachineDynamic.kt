@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.model.dynamic
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
@@ -8,6 +9,7 @@ import java.math.BigInteger
 import java.util.UUID
 import org.hibernate.search.annotations.Analyze.NO as noAnalyze
 
+@JsonTypeName("vm-dyn")
 data class VirtualMachineDynamic(
 		@DocumentId
 		@JsonProperty("id")
