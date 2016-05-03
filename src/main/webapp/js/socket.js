@@ -17,36 +17,36 @@
  *
  */
 kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
-    $log.info("init socket");
     //TODO: it would be great to get rid of this sophisticated calculation of the websocket URL
     var socketAddr = (location.protocol === "http:" ? "ws:" : "wss:")
         + '//' + location.hostname
         + ':' + location.port
         + (location.pathname === "/" ? "/" : location.pathname)
         + "ws";
-    $log.info("socket addr:"+socketAddr);
+    $log.debug("socket addr:"+socketAddr);
     var sock = {};
     var socket = new WebSocket(socketAddr);
     sock.socket = socket;
     sock.queue = [];
     sock.listeners = {};
     socket.onmessage = function(message) {
-        $log.info("raw message", message.data);
         var msg = angular.fromJson(message.data);
-        $log.info("message from server", msg);
         var type = msg['@type'];
         if(type === 'entity-update' || type === 'entity-remove' || type === 'entity-add') {
         	var entityId = msg.obj.id;
         	var entityType = msg.obj['@type'];
-        	$log.info("\t- entity id: "+entityId + "\n\n- "+entityType);
 			angular.forEach(sock.listeners, function(callbacks, channel) {
-				angular.forEach(callbacks, function(callback, clientId) {
-					$log.info('channel: '+channel);
-					$log.info("callback ",callbacks);
-					$log.info("\t - " + clientId);
+				if(channel == '/' + entityType
+					|| channel == '/' + entityType + '/'
+					|| channel == '/' + entityType + '/' + entityId
+					|| channel == '/' + entityType + '/' + entityId + '/') {
 
-					callback(msg);
-				});
+					angular.forEach(callbacks, function(callback, clientId) {
+						$log.debug('channel: '+channel, msg);
+						callback(msg);
+					});
+
+				}
 			});
         }
     };
@@ -66,7 +66,7 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
         if(sock.socket.readyState === WebSocket.OPEN) {
             sock.socket.send(angular.toJson(msg));
         } else {
-            $log.info("not connected, send delayed", msg);
+            $log.debug("not connected, send delayed", msg);
             sock.queue.push(msg);
         }
     };
@@ -80,12 +80,10 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
             if(!sock.listeners[channel]) {
                 $log.debug('sending subscribe to channel '+channel);
                 sock.send(msg);
-                $log.debug('subscribe sent');
                 sock.listeners[channel] = {};
             }
             sock.listeners[channel][clientId] = callback;
 
-            $log.debug('listener registered', sock.listeners);
         } catch (e) {
             $log.debug('subscribe was not sent', e);
         }
@@ -107,7 +105,6 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
         }
     };
     $interval(function() {
-        $log.debug('ping server');
         sock.send({ '@type' : 'ping' });
     }, 60000);
     return sock;

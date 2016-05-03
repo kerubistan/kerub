@@ -25,7 +25,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr": function(expectation) {
 				return "";
 			},
-			"virtTypes" : ["vm","vstorage"],
+			"virtTypes" : ["vm","virtual-storage"],
 			"template" : "no-migration-edit-template"
 		},
 		"availability": {
@@ -44,7 +44,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr" : function(expectation) {
 				return expectation.nrOfCopies;
 			},
-			"virtTypes" : ["vstorage"]
+			"virtTypes" : ["virtual-storage"]
 		},
 		"storage-read-perf" : {
 			"icon": 'glyphicon glyphicon-arrow-up',
@@ -53,7 +53,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr" : function(expectation) {
 				return size.humanFriendlySize(expectation.speed.kbPerSec * 1024) + '/s';
 			},
-			"virtTypes" : ["vstorage"]
+			"virtTypes" : ["virtual-storage"]
 		},
 		"storage-write-perf": {
 			"icon": 'glyphicon glyphicon-arrow-down',
@@ -62,7 +62,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr" : function(expectation) {
 				return 'TODO';
 			},
-			"virtTypes" : ["vstorage"]
+			"virtTypes" : ["virtual-storage"]
 		},
 		"cpu-clock-freq": {
 			"icon": 'glyphicon glyphicon-flash',

@@ -8,7 +8,7 @@ import org.hibernate.search.annotations.Field
 import java.math.BigInteger
 import java.util.UUID
 
-@JsonTypeName("vstorage")
+@JsonTypeName("virtual-storage")
 data class VirtualStorageDevice(
 		@DocumentId
 		@JsonProperty("id")

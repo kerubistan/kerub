@@ -19,9 +19,16 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
     };
     $scope.init = function(vm) {
     	$scope.vm = vm;
-    	//todo: subscribe events, fill vmdyn
+    	socket.subscribe('vm-dyn/'+$scope.vm.id, function(event) {
+    		$scope.$apply(function() {
+				$log.info('updated vm state', event);
+				if(event['@type'] == 'entity-update' && event.obj['@type'] == 'vm-dyn') {
+					$scope.vmdyn = event.obj;
+				}
+    		});
+    	}, 'VmRow');
     };
     $scope.destroy = function() {
-		//todo: unsubscribe from events
+		socket.unsubscribe('vm-dyn/'+$scope.vm.id);
     }
 });

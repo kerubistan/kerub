@@ -22,7 +22,12 @@
                         <td>{{vm.name}}</td>
                         <td>{{vm.nrOfCpus}}</td>
                         <td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}</td>
-                        <td>{{vmdyn.load()}}</td>
+                        <td>
+                            <uib-progress ng-if="vmdyn.status == 'Up'" animate="false" value="dynamic" type="success">
+                                <uib-bar ng-value="3" type="default">sys</uib-bar>
+                                <uib-bar ng-value="10" type="success">usr</uib-bar>
+                            </uib-progress>
+                        </td>
                         <td>
                                 <span ng-repeat="expectation in _vm.expectations"
                                       ng-controller="ExpectationMini"

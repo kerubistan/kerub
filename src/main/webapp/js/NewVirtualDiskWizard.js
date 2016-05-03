@@ -10,7 +10,7 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 	$scope.autoname = true;
 
 	$scope.disk = {
-		'@type' : 'vstorage',
+		'@type' : 'virtual-storage',
 		id : id,
 		name : 'disk-'+id,
 		size : size.toSize('16 GB'),
@@ -73,7 +73,7 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 
 	$scope.storageExpectationsOpen = false;
 	$scope.storageExpectationFormOpen = false;
-	$scope.diskExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vstorage") } );
+	$scope.diskExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("virtual-storage") } );
 	$scope.openExpectationForm = function(expType) {
 		$scope.storageExpectationsOpen = false;
 		$scope.storageExpectationFormOpen = true;
