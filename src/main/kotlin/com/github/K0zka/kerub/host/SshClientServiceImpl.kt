@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.SshException
-import org.apache.sshd.common.config.keys.KeyUtils
 import org.apache.sshd.common.digest.BuiltinDigests
 import org.apache.sshd.common.digest.Digest
 import org.apache.sshd.common.session.Session
