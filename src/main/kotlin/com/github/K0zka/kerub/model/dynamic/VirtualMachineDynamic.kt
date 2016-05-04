@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.model.dynamic
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.VirtualMachineStatus
@@ -25,5 +26,6 @@ data class VirtualMachineDynamic(
 ) : DynamicEntity {
 	//TODO: issue #125 - workaround to allow infinispan query hostId
 	@Field(analyze = noAnalyze)
+	@JsonIgnore
 	fun getHostIdStr() = hostId.toString()
 }
