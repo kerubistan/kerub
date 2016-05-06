@@ -17,9 +17,15 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
     		$scope.workingprg = false;
     	});
     };
+    $scope.cpuSum = function() {
+    	var sum = 0;
+		angular.forEach($scope.vmdyn.cpuUsage, function(cpu) {
+			sum += cpu.user + cpu.system;
+		});
+    };
     $scope.init = function(vm) {
     	$scope.vm = vm;
-    	socket.subscribe('vm-dyn/'+$scope.vm.id, function(event) {
+    	socket.subscribe('/vm-dyn/'+$scope.vm.id, function(event) {
     		$scope.$apply(function() {
 				$log.info('updated vm state', event);
 				if(event['@type'] == 'entity-update' && event.obj['@type'] == 'vm-dyn') {
