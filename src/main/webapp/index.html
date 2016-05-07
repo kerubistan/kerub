@@ -568,33 +568,53 @@
 		</li>
 		<li role="presentation" ng-class="isActive('IO')" ng-click="selectView('IO')"><a href="#">I/O</a></li>
 	</ul>
-	<form ng-show="isVisible('overview')">
+	<form class="modal-body" ng-show="isVisible('overview')">
 		<div class="form-group">
-			<label>ID</label>
-			<input class="form-control" ng-model="host.id" disabled>
+			<span class="input-group">
+				<span class="input-group-addon fa-fw">
+					<span class="glyphicon glyphicon-barcode"></span>
+				</span>
+				<input class="form-control" ng-model="host.id" disabled>
+				<span class="input-group-addon">
+					<span ng-class="{true:'glyphicon glyphicon-heart', false:'glyphicon glyphicon-heart-empty'}[host.dedicated]"></span>
+				</span>
+			</span>
 		</div>
 		<div class="form-group">
-			<label>dedicated: {{host.dedicated}}</label>
-		</div>
-		<div class="form-group">
-			<label>public ssh key</label>
-			<input class="form-control" ng-model="host.publicKey" disabled>
+			<span class="input-group">
+				<span class="input-group-addon">
+					<span class="fa fa-gear fa-fw"></span>
+				</span>
+				<input class="form-control" ng-model="host.publicKey" disabled>
+			</span>
 		</div>
 		<div ng-if="host.capabilities">
 			<div class="form-group" ng-if="host.capabilities.os">
-				<label>Operating system</label>
-				<input class="form-control" ng-model="host.capabilities.os" disabled>
+				<span class="input-group">
+					<span class="input-group-addon">
+						<span class="fa fa-code fa-fw"></span>
+					</span>
+					<input class="form-control" ng-model="host.capabilities.os" disabled>
+				</span>
 			</div>
 			<div class="form-group" ng-if="host.capabilities.distribution">
-				<label>OS distribution and version</label>
-				<input
-						class="form-control"
-						value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
-						disabled>
+				<span class="input-group">
+					<span class="input-group-addon">
+						<span class="fa fa-code-fork fa-fw"></span>
+					</span>
+					<input
+							class="form-control"
+							value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
+							disabled>
+				</span>
 			</div>
 			<div class="form-group" ng-if="host.capabilities.cpuArchitecture">
-				<label>CPU architecture</label>
-				<input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
+				<span class="input-group">
+					<span class="input-group-addon">
+						<span class="fa fa-server fa-fw"></span>
+					</span>
+					<input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
+				</span>
 			</div>
 		</div>
 	</form>
