@@ -618,7 +618,7 @@
 			</div>
 		</div>
 	</form>
-	<form ng-show="isVisible('software')">
+	<form class="modal-body" ng-show="isVisible('software')">
             <span ng-repeat="software in host.capabilities.installedSoftware">
                 <span class="label label-default">
                     {{software.name}} {{software.ver.major}}<span
@@ -626,10 +626,9 @@
                 </span>&nbsp;
             </span>
 	</form>
-	<form ng-show="isVisible('CPU')">
+	<form class="modal-body" ng-show="isVisible('CPU')">
 
 		<div class="form-group">
-			<label>load</label>
 			<div class="form-group">
 				<uib-progress>
 					<uib-bar value="dyn.userCpu" max="100" type="info">{{dyn.userCpu}} %</uib-bar>
@@ -639,31 +638,73 @@
 		</div>
 
 		<div class="form-group">
-			<label>total</label>
-			<input class="form-control" ng-value="nrOfCpus" disabled>
+			<span class="input-group">
+				<span class="input-group-addon">
+					<span class="fa fa-asterisk"></span>
+				</span>
+				<input class="form-control" ng-value="nrOfCpus" disabled>
+			</span>
 		</div>
-
             <span ng-repeat="cpu in host.capabilities.cpus">
-                <h4>CPU</h4>
                 <div class="form-group" ng-if="cpu.manufacturer">
-	                <label>manufacturer</label>
-	                <input class="form-control" ng-model="cpu.manufacturer" disabled>
+	                <span class="input-group">
+		                <span class="input-group-addon">
+			                <span class="fa fa-industry"></span>
+		                </span>
+		                <input
+				                class="form-control"
+				                ng-model="cpu.manufacturer"
+				                uib-tooltip="CPU manufacturer"
+				                disabled>
+	                </span>
                 </div>
                 <div class="form-group" ng-if="cpu.version">
-	                <label>version</label>
-	                <input class="form-control" ng-model="cpu.version" disabled>
+	                <span class="input-group">
+		                <span class="input-group-addon">
+			                <span class="fa fa-code-fork"></span>
+		                </span>
+		                <input
+				                class="form-control"
+				                ng-model="cpu.version"
+				                uib-tooltip="CPU version"
+				                disabled>
+	                </span>
                 </div>
                 <div class="form-group" ng-if="cpu.coreCount">
-	                <label>cores</label>
-	                <input class="form-control" ng-model="cpu.coreCount" disabled>
+	                <span class="input-group">
+		                <span class="input-group-addon">
+			                <span class="fa fa-cog"></span>
+		                </span>
+	                    <input
+			                    class="form-control"
+			                    ng-model="cpu.coreCount"
+			                    uib-tooltip="Number of cores"
+			                    disabled>
+	                </span>
                 </div>
                 <div class="form-group" ng-if="cpu.threadCount">
-	                <label>threads</label>
-	                <input class="form-control" ng-model="cpu.threadCount" disabled>
+	                <span class="input-group">
+		                <span class="input-group-addon">
+			                <span class="fa fa-cogs"></span>
+		                </span>
+		                <input
+				                class="form-control"
+				                ng-model="cpu.threadCount"
+				                uib-tooltip="Number of threads"
+				                disabled>
+	                </span>
                 </div>
                 <div class="form-group" ng-if="cpu.maxSpeedMhz">
-	                <label>max speed (Mhz)</label>
-	                <input class="form-control" ng-model="cpu.maxSpeedMhz" disabled>
+	                <span class="input-group">
+		                <span class="input-group-addon">
+			                <span class="fa fa-dashboard"></span>
+		                </span>
+	                <input
+			                class="form-control"
+			                ng-value="cpu.maxSpeedMhz + ' Mhz'"
+			                uib-tooltip="Maximal clock frequency"
+			                disabled>
+	                </span>
                 </div>
             </span>
 	</form>
