@@ -21,8 +21,7 @@ import javax.ws.rs.core.MediaType
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Multipart(value = "root", type = MediaType.APPLICATION_OCTET_STREAM)
 	@Path("/load/{id}")
-	fun load(@PathParam("id") id: UUID, @Suspended async : AsyncResponse, data: InputStream)
+	fun load(@PathParam("id") id: UUID, @Suspended async : AsyncResponse, @Multipart(value = "file", required = true) data: InputStream)
 
 }
