@@ -107,22 +107,6 @@ fun SftpClient.appendToFile(file: String, content: String) {
 }
 
 /**
- * Open an sftp channel and perform actions on it
- */
-fun <T> SftpClient.use(action: (client: SftpClient) -> T): T {
-	try {
-		return action(this)
-	} finally {
-		logger.debug("Closing sftp client")
-		try {
-			this.close()
-		} catch (e: IOException) {
-			logger.warn("Could not close sftpclient {} ", this, e)
-		}
-	}
-}
-
-/**
  * Get the contents of a file.
  * This should be used only on small files, usually configuration files.
  * Opens a session and closes it afterwards.
