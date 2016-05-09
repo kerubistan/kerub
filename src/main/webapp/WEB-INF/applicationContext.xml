@@ -183,11 +183,21 @@
         <constructor-arg ref="hostDao"/>
     </bean>
 
+    <bean id="sshClientFactory" class="com.github.K0zka.kerub.host.SshClientFactory"/>
+
     <bean id="sshClient"
-          class="org.apache.sshd.client.SshClient"
-          factory-method="setUpDefaultClient"
+          factory-bean="sshClientFactory"
+          factory-method="build"
           init-method="start"
-          destroy-method="stop"/>
+          destroy-method="stop">
+        <constructor-arg>
+            <map>
+                <entry key="hearbeat-interval" value="2000"/>
+                <entry key="sftp-channel-open-timeout" value="240000"/>
+                <entry key="idle-timeout" value="240000"/>
+            </map>
+        </constructor-arg>
+    </bean>
 
     <bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl" depends-on="artemis">
         <constructor-arg ref="sshClient"/>
