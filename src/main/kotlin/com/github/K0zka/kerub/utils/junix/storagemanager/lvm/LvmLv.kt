@@ -93,6 +93,19 @@ object LvmLv {
 		channel.open().verify()
 	}
 
+	/**
+	 * Check if the LV exists.
+	 * Simple but, but with large number of LVs it may proove inefficient since it downloads all the
+	 * logical volumes of the volume group.
+	 * The problem here is that lvs rather than returning an empty list will raise an error if no LV found.
+	 * This of course still expects that the VG does exist.
+	 */
+	fun exists(
+			session: ClientSession,
+			volGroupName: String,
+			volName: String
+	): Boolean = list(session = session, volGroupName = volGroupName).any { it.name == volName }
+
 	fun list(
 			session: ClientSession,
 			volGroupName: String? = null,

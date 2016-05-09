@@ -19,6 +19,8 @@ import java.io.OutputStream
 import java.math.BigInteger
 import java.nio.charset.Charset
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class LvmLvTest {
@@ -69,6 +71,30 @@ class LvmLvTest {
 		val list = LvmLv.list(session!!, volGroupName = "testvg", volName = "testlv")
 
 		verify(session!!).createExecChannel("lvs -o $fields $listOptions testvg/testlv")
+	}
+
+	@Test
+	fun exists() {
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		assertTrue {
+			LvmLv.exists(session!!, "testvg", "testlv1")
+		}
+	}
+
+	@Test
+	fun existsNotexisting() {
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+
+		assertFalse {
+			LvmLv.exists(session!!, "testvg", "NOTEXISTING")
+		}
 	}
 
 	@Test
