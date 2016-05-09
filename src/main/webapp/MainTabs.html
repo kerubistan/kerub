@@ -23,10 +23,16 @@
                         <td>{{vm.nrOfCpus}}</td>
                         <td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}</td>
                         <td>
-                            <uib-progress ng-if="vmdyn.status == 'Up'" animate="false" value="dynamic" type="success">
-                                <uib-bar ng-value="3" type="default">sys</uib-bar>
-                                <uib-bar ng-value="10" type="success">usr</uib-bar>
-                            </uib-progress>
+                            <div class="progress" ng-if="vmdyn.status == 'Up'">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{vmdyn.memoryUsed}}" aria-valuemin="0" aria-valuemax="{{vm.memory.max}}">
+                                        {{humanFriendlySize(vmdyn.memoryUsed)}}
+                                </div>
+                            </div>
+                            <div class="progress" ng-if="vmdyn.status == 'Up'">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{cpuSum()}}" aria-valuemin="0" aria-valuemax="{{vm.nrOfCpus * 100}}">
+                                    {{}}
+                                </div>
+                            </div>
                         </td>
                         <td>
                                 <span ng-repeat="expectation in _vm.expectations"
@@ -42,6 +48,7 @@
                             <button type="button"
                                     class="btn btn-default glyphicon glyphicon-play"
                                     ng-click="startVm()"
+                                    ng-if="vmdyn.status != 'Up'"
                                     ng-disabled="workingprg"
                                     uib-tooltip="Start this VM"
                                     tooltip-placement="bottom">
@@ -49,6 +56,7 @@
                             <button type="button"
                                     class="btn btn-default glyphicon glyphicon-stop"
                                     ng-click="stopVm()"
+                                    ng-if="vmdyn.status == 'Up'"
                                     ng-disabled="workingprg"
                                     uib-tooltip="Stop this VM"
                                     tooltip-placement="bottom">
@@ -56,6 +64,7 @@
                             <button type="button"
                                     class="btn btn-default fa fa-eye"
                                     ng-click="spiceConnect()"
+                                    ng-if="vmdyn.status == 'Up'"
                                     ng-disabled="workingprg"
                                     uib-tooltip="Connect to VM console"
                                     tooltip-placement="bottom">
@@ -63,6 +72,7 @@
                             <button type="button"
                                     class="btn btn-default glyphicon glyphicon-pause"
                                     uib-tooltip="Pause this VM"
+                                    ng-if="vmdyn.status == 'Up'"
                                     tooltip-placement="bottom">
                             </button>
                             <button type="button"
