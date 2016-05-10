@@ -5,19 +5,31 @@ import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
+import com.github.K0zka.kerub.utils.insist
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.K0zka.kerub.utils.only
 
 class CreateLvExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val virtualDiskDynDao: VirtualStorageDeviceDynamicDao
-) : AbstractStepExecutor<CreateLv, Unit>() {
+) : AbstractStepExecutor<CreateLv, LogicalVolume>() {
 
-	override fun update(step: CreateLv, updates: Unit) {
-		hostCommandExecutor.execute(step.host, {
+	override fun prepare(step: CreateLv) {
+		val diskId = step.disk.id.toString()
+		hostCommandExecutor.execute(step.host) {
 			session ->
 
-			val lv = LvmLv.list(session, volGroupName = step.volumeGroupName, volName = step.disk.id.toString()).only()
+			require(!LvmLv.exists(session, volGroupName = step.volumeGroupName, volName = diskId)) {
+				"Logical volume ${step.volumeGroupName} / ${diskId} already exists on host ${step.host.address}"
+			}
+		}
+
+	}
+
+	override fun update(step: CreateLv, updates: LogicalVolume) {
+		hostCommandExecutor.execute(step.host, {
+			session ->
 
 			virtualDiskDynDao.add(
 					VirtualStorageDeviceDynamic(
@@ -25,20 +37,24 @@ class CreateLvExecutor(
 							actualSize = step.disk.size,
 							allocation = VirtualStorageLvmAllocation(
 									hostId = step.host.id,
-									path = lv.path
+									path = updates.path
 							)
 					)
 			)
 		})
 	}
 
-	override fun perform(step: CreateLv) {
-		hostCommandExecutor.execute(step.host, {
-			session ->
-			LvmLv.create(session,
-					vgName = step.volumeGroupName,
-					name = step.disk.id.toString(),
-					size = step.disk.size)
-		})
-	}
+	override fun perform(step: CreateLv): LogicalVolume =
+			hostCommandExecutor.execute(step.host, {
+				session ->
+				LvmLv.create(session,
+						vgName = step.volumeGroupName,
+						name = step.disk.id.toString(),
+						size = step.disk.size)
+
+				//once created succesfully, take some effort to retrieve the data
+				insist(3) {
+					LvmLv.list(session, volGroupName = step.volumeGroupName, volName = step.disk.id.toString()).only()
+				}
+			})
 }
