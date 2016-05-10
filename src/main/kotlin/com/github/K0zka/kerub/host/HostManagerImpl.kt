@@ -70,9 +70,9 @@ class HostManagerImpl(
 		return conn.second.getFireWall(conn.first)
 	}
 
-	override fun execute(host: Host, closure: (ClientSession) -> Unit) {
+	override fun <T> execute(host: Host, closure: (ClientSession) -> T) : T {
 		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}"  })
-		closure(session.first)
+		return closure(session.first)
 	}
 
 	override fun <T> dataConnection(host: Host, action: (ClientSession) -> T): T {

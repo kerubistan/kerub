@@ -10,11 +10,16 @@ import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.host.distros.Distribution
+import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.auth.pubkey.UserAuthPublicKey
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.server.Command
@@ -68,6 +73,8 @@ import kotlin.test.assertTrue
 
 	@Mock
 	val clientSession : ClientSession? = null
+
+	val hypervisor : Hypervisor = mock()
 
 	var hostManager: HostManagerImpl? = null
 
@@ -194,6 +201,21 @@ import kotlin.test.assertTrue
 
 		assertTrue(called)
 		verify(sshClientService!!).loginWithPublicKey(anyString(), anyString(), anyString())
+	}
+
+	@Test
+	@Ignore("TODO: not finished, it needs the hypervisor separation")
+	fun execute() {
+		val hostId = UUID.randomUUID()
+		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
+		whenever(discoverer!!.detectDistro(eq(clientSession!!))).thenReturn(distro)
+		whenever(sshClientService!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))).thenReturn(clientSession)
+
+		hostManager!!.connectHost(host)
+		val result = hostManager!!.execute(host) {
+			"PASS"
+		}
+		assertEquals("PASS", result)
 	}
 
 	@Test
