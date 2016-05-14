@@ -11,8 +11,10 @@ import com.github.K0zka.kerub.utils.buildString
 
 fun storagesToXml(disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
 	return buildString(disks.size * 256) {
+		var targetDev = 'a'
 		for (device in disks) {
-			append(storageToXml(device.value.first, device.key, device.value.second.allocation))
+			append(storageToXml(device.value.first, device.key, device.value.second.allocation, targetDev))
+			targetDev++
 		}
 	}
 }
@@ -22,13 +24,13 @@ val allocationTypeToDiskType = mapOf(
 		VirtualStorageLvmAllocation::class to "block"
 )
 
-private fun storageToXml(disk : VirtualStorageDevice, link: VirtualStorageLink, allocation : VirtualStorageAllocation): String {
+private fun storageToXml(disk : VirtualStorageDevice, link: VirtualStorageLink, allocation : VirtualStorageAllocation, targetDev : Char): String {
 	return """
 		<disk type='${allocationTypeToDiskType[allocation.javaClass.kotlin]}' device='${link.device.name.toLowerCase()}'>
             <driver />
             ${if(link.readOnly || disk.readOnly) "<readonly/>" else ""}
             ${allocationToXml(allocation, disk)}
-            <target dev='sda' bus='${link.bus}'/>
+            <target dev='sd$targetDev' bus='${link.bus}'/>
 		</disk>
 """
 }
