@@ -33,16 +33,8 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
         $log.info('closed new vm dialog');
         $uibModalInstance.dismiss('cancel');
     };
-    $scope.addStorageLink = function(disk) {
-    	$log.info('adding link');
-    	$scope.vm.virtualStorageLinks.push(
-    		{
-    			virtualStorageId : disk.id,
-                bus : 'sata',
-                device : 'Disk',
-                expectations : []
-    		}
-    	);
+    $scope.addStorageLink = function(link) {
+    	$scope.vm.virtualStorageLinks.push(link);
     };
 
 	$scope.storageExpectationsOpen = false;

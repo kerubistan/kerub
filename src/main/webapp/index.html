@@ -36,7 +36,7 @@
 	<script src="js/SearchController.js"></script>
 	<script src="js/VirtualNetworkTab.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="webjars/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"/>
+	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="css/kerub.css" rel="stylesheet"/>
 	<link rel="icon" href="img/kerub.ico" type="image/png"/>
 </head>
@@ -330,12 +330,48 @@
 				<uib-tabset>
 					<uib-tab>
 						<uib-tab-heading><span class="glyphicon glyphicon-link"></span> Existing</uib-tab-heading>
-						<div class="panel panel-info" ng-controller="VirtualStorageLink">
+						<div ng-controller="VirtualStorageLink">
+
+							<div class="form-group" ng-controller="BusType">
+								<div class="input-group">
+									<span class="btn-group" uib-dropdown>
+										<button type="button" class="btn btn-primary" uib-dropdown-toggle>
+											<span class="fa fa-chain"></span> {{link.bus}}
+											<span class="caret"></span>
+											<span class="sr-only">Split button!</span>
+										</button>
+										<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+											<li class="menuitem" ng-click="setBus('ide')"><a href="#"><span class="glyphicon glyphicon-hdd"></span> ide</a></li>
+											<li class="menuitem" ng-click="setBus('scsi')"><a href="#"><span class="fa fa-exchange"></span> scsi</a></li>
+											<li class="menuitem" ng-click="setBus('sata')"><a href="#"><span class="fa fa-exchange"></span> sata</a></li>
+											<li class="menuitem" ng-click="setBus('usb')"><a href="#"><span class="fa fa-usb"></span> usb</a></li>
+											<li class="menuitem" ng-click="setBus('virtio')"><a href="#"><span class="fa fa-cube"></span> virtio</a></li>
+											<li class="menuitem" ng-click="setBus('xen')"><a href="#"><span class="fa fa-cube"></span> xen</a></li>
+										</ul>
+									</span>
+
+									<span class="btn-group" uib-dropdown>
+										<button type="button" class="btn btn-primary" uib-dropdown-toggle>
+											<span class="fa fa-floppy-o" ng-if="link.device == 'floppy'"></span>
+											<span class="fa fa-hdd-o" ng-if="link.device == 'disk'"></span>
+											<span class="glyphicon glyphicon-cd" ng-if="link.device == 'cdrom'"></span>
+											{{link.device}}
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+											<li class="menuitem" ng-click="setType('floppy')"><a href="#"><span class="fa fa-floppy-o"></span> floppy</a></li>
+											<li class="menuitem" ng-click="setType('disk')"><a href="#"><span class="fa fa-hdd-o"></span> disk</a></li>
+											<li class="menuitem" ng-click="setType('cdrom')"><a href="#"><span class="glyphicon glyphicon-cd"></span> cdrom</a></li>
+										</ul>
+									</span>
+
+								</div>
+							</div>
 							<div class="form-group">
 								<div class="input-group">
 									<div class="input-group-addon">
 										<span ng-show="loadingDisks" class="glyphicon glyphicon-refresh"></span>
-										<span ng-show="!loadingDisks" class="glyphicon glyphicon-hdd"></span>
+										<span ng-show="!loadingDisks" class="fa fa-tag"></span>
 									</div>
 									<input type="text"
 									       ng-model="existingStorageDevice"
@@ -352,42 +388,6 @@
 								</div>
 							</div>
 
-							<div class="panel-heading">
-
-								<h3 class="panel-title"><span class="fa fa-plug"/> Bus type</h3>
-							</div>
-							<div class="btn-group" role="group" ng-controller="BusType" ng-init="init(link)">
-								<button type="button" class="btn btn-default" ng-click="setBus('ide')">
-									<span class="fa fa-check-square-o" ng-show="isBus('ide')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('ide')"></span>
-									ide
-								</button>
-								<button type="button" class="btn btn-default" ng-click="setBus('scsi')">
-									<span class="fa fa-check-square-o" ng-show="isBus('scsi')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('scsi')"></span>
-									scsi
-								</button>
-								<button type="button" class="btn btn-default" ng-click="setBus('usb')">
-									<span class="fa fa-check-square-o" ng-show="isBus('usb')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('usb')"></span>
-									usb
-								</button>
-								<button type="button" class="btn btn-default" ng-click="setBus('sata')">
-									<span class="fa fa-check-square-o" ng-show="isBus('sata')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('sata')"></span>
-									sata
-								</button>
-								<button type="button" class="btn btn-default" ng-click="setBus('virtio')">
-									<span class="fa fa-check-square-o" ng-show="isBus('virtio')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('virtio')"></span>
-									virtio
-								</button>
-								<button type="button" class="btn btn-default" ng-click="setBus('xen')">
-									<span class="fa fa-check-square-o" ng-show="isBus('xen')"></span>
-									<span class="fa fa-square-o" ng-show="!isBus('xen')"></span>
-									xen
-								</button>
-							</div>
 						</div>
 
 					</uib-tab>

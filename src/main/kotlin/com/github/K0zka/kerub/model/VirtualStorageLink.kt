@@ -18,7 +18,7 @@ data class VirtualStorageLink(
 		override
 		val expectations: List<Expectation> = listOf(),
 		@Field
-		val device : DeviceType = DeviceType.Disk,
+		val device : DeviceType = DeviceType.disk,
 		@Field
 		val readOnly : Boolean = false
 ) : Serializable, Constrained<Expectation>

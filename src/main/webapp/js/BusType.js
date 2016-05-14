@@ -9,6 +9,9 @@ kerubApp.controller('BusType', function($scope, $log) {
     $scope.setBus = function (bus) {
     	$scope.link.bus = bus;
     };
+    $scope.setType = function (device) {
+    	$scope.link.device = device;
+    };
     $scope.isBus = function(bus) {
     	return $scope.link.bus === bus
     }

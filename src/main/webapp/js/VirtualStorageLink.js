@@ -1,9 +1,15 @@
 kerubApp.controller('VirtualStorageLink', function($scope, $uibModal, $log, $http, size) {
-	$scope.link = {
-		bus : 'virtio',
-        expectations : [],
-        virtualStorageId : null
+
+	var defaultLink = function() {
+		return {
+			bus : 'virtio',
+			device : 'disk',
+			   expectations : [],
+			   virtualStorageId : null
+		};
 	};
+
+	$scope.link = defaultLink();
 	$scope.size = size;
 
 	$scope.existingStorageDevice = null;
@@ -21,8 +27,9 @@ kerubApp.controller('VirtualStorageLink', function($scope, $uibModal, $log, $htt
 	};
 	$scope.linkExistingVirtualDisk = function() {
 		$log.info('link storage',$scope.existingStorageDevice);
-		$scope.addStorageLink($scope.existingStorageDevice);
-		$scope.existingStorageLink = null;
+		$scope.link.virtualStorageId = $scope.existingStorageDevice.id;
+		$scope.addStorageLink($scope.link);
+		$scope.link = defaultLink();
 	};
 
 	$scope.modelOptions = {
