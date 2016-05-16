@@ -135,9 +135,9 @@ fun <T, S : Session> S.use(action : (S) -> T) : T {
 	}
 }
 
-val md5Digest : Digest = BuiltinDigests.md5.create()
+val digest : Digest = BuiltinDigests.md5.create()
 
 /**
  * 
  */
-fun getSshFingerPrint(key : PublicKey) = KeyUtils.getFingerPrint(SshClientServiceImpl.digest, key).substringAfter("MD5:")
+fun getSshFingerPrint(key : PublicKey) = KeyUtils.getFingerPrint(digest, key).substringAfter("MD5:")

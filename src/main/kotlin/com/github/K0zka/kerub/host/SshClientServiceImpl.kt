@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh
 import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.SshException
@@ -10,7 +11,6 @@ import org.apache.sshd.common.digest.Digest
 import org.apache.sshd.common.session.Session
 import org.apache.sshd.common.session.SessionListener
 import org.apache.sshd.common.session.helpers.AbstractSession
-import org.apache.sshd.common.subsystem.sftp.SftpConstants
 import java.io.ByteArrayOutputStream
 import java.security.KeyPair
 import java.security.interfaces.RSAPublicKey
@@ -32,8 +32,7 @@ class SshClientServiceImpl(
 	}
 
 	companion object {
-		val logger = getLogger(SshClientServiceImpl::class)
-		val digest : Digest = BuiltinDigests.md5.create()
+		private val logger = getLogger(SshClientServiceImpl::class)
 
 		fun checkServerFingerPrint(session: Session, expected: String) {
 			val serverKey = (session as AbstractSession).kex.serverKey
@@ -49,15 +48,7 @@ class SshClientServiceImpl(
 	override fun installPublicKey(session: ClientSession) {
 		logger.debug("{}: installing kerub public key in ssh session", session)
 		session.createSftpClient().use {
-			if (!it.checkFileExists(".ssh")) {
-				logger.debug("{}: creating .ssh directory", session)
-				it.mkdir(".ssh")
-			}
-			logger.debug("{}: installing public key", session)
-			it.appendToFile(".ssh/authorized_keys", getPublicKey())
-			val stat = it.stat(".ssh/authorized_keys")
-			logger.debug("{}: setting permissions", session)
-			it.setStat(".ssh/authorized_keys", stat.perms(SftpConstants.S_IRUSR or SftpConstants.S_IWUSR))
+			OpenSsh.authorize(session, getPublicKey())
 		}
 		logger.debug("{}: public key installation finished", session)
 	}
