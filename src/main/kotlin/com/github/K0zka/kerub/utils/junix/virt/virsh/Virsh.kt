@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.host.executeOrDie
-import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.substringBetween
@@ -34,6 +33,19 @@ object Virsh {
 				silent { sftp.remove(domainDefFile) }
 			}
 		}
+	}
+
+	fun migrate(
+			session: ClientSession,
+			id: UUID,
+			targetAddress: String,
+			live: Boolean = true,
+			compressed: Boolean = true) {
+		session.executeOrDie(
+				"virsh migrate $id qemu+ssh://$targetAddress/system " +
+						"${if (live) "--live" else ""} ${if (compressed) " --compressed" else ""}" +
+						" --p2p --tunnelled"
+		)
 	}
 
 	fun destroy(session: ClientSession, id: UUID) {
@@ -129,7 +141,7 @@ object Virsh {
 			packets = netToLong(props, netId, type, "pkts")
 	)
 
-	fun getDisplay(session: ClientSession, vmId : UUID) : Pair<RemoteConsoleProtocol, Int> {
+	fun getDisplay(session: ClientSession, vmId: UUID): Pair<RemoteConsoleProtocol, Int> {
 		val display = session.executeOrDie("virsh domdisplay $vmId")
 		val protocol = RemoteConsoleProtocol.valueOf(display.substringBefore("://").toLowerCase())
 		val port = display.substringAfterLast(":").trim().toInt()
