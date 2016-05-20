@@ -9,8 +9,12 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.utils.KB
+import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toUUID
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -23,13 +27,14 @@ class KvmHypervisor(private val client: ClientSession,
 
 	companion object {
 		val logger = getLogger(KvmHypervisor::class)
+		val kb = KB.toBigInteger()
 	}
 
 	override fun startMonitoringProcess() {
 		Virsh.domStat(client, {
 			stats ->
 			val vmDyns = vmDynDao.findByHostId(host.id)
-			val runningVms = stats.map { it.name.toUUID() }
+			val runningVms = stats.map { silent { it.name.toUUID() } }.filterNotNull()
 
 			//handle vms that no longer run on this host
 			vmDyns.filterNot { it.id in runningVms }.forEach {
@@ -38,20 +43,27 @@ class KvmHypervisor(private val client: ClientSession,
 
 			stats.forEach {
 				stat ->
-				val runningVmId = stat.name.toUUID()
-				val dyn = vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(
-						id = runningVmId,
-						status = VirtualMachineStatus.Up,
-						memoryUsed = BigInteger.ZERO,
-						hostId = host.id
-				)
-				val updated = dyn.copy(
-						cpuUsage = stat.cpuStats.mapIndexed { i, vcpuStat -> CpuStat.zero.copy() },
-						lastUpdated = System.currentTimeMillis(),
-						hostId = host.id,
-						memoryUsed = stat.balloonSize ?: BigInteger.ZERO
-				)
-				vmDynDao.update(updated)
+				silent {
+					val runningVmId = stat.name.toUUID()
+					val dyn = vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(
+							id = runningVmId,
+							status = VirtualMachineStatus.Up,
+							memoryUsed = BigInteger.ZERO,
+							hostId = host.id
+					)
+					val updated = dyn.copy(
+							cpuUsage = stat.cpuStats.mapIndexed {
+								i, vcpuStat ->
+								CpuStat.zero.copy(
+										user = vcpuStat.time?.toFloat() ?: 0f
+								)
+							},
+							lastUpdated = System.currentTimeMillis(),
+							hostId = host.id,
+							memoryUsed = stat.balloonSize?.times(kb) ?: BigInteger.ZERO
+					)
+					vmDynDao.update(updated)
+				}
 			}
 
 		})
@@ -82,10 +94,18 @@ class KvmHypervisor(private val client: ClientSession,
 	}
 
 	override fun migrate(vm: VirtualMachine, source: Host, target: Host) {
-		throw UnsupportedOperationException()
+		try {
+			OpenSsh.keyGen(session = client, password = genPassword())
+			//TOdo: copy generated key to target server
+			Virsh.migrate(session = client, id = vm.id, targetAddress = target.address)
+
+		} finally {
+			//TODO: remove openssh key from host
+
+		}
 	}
 
 	override fun getDisplay(vm: VirtualMachine) =
-		Virsh.getDisplay(session = client, vmId = vm.id)
+			Virsh.getDisplay(session = client, vmId = vm.id)
 
 }
