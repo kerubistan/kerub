@@ -63,6 +63,7 @@ fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<Vi
         <acpi/>
         <apic/>
         <pae/>
+        <hap/>
     </features>
     <devices>
 		<emulator>/usr/bin/qemu-kvm</emulator>
