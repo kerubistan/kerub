@@ -25,11 +25,10 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
         + "ws";
     $log.debug("socket addr:"+socketAddr);
     var sock = {};
-    var socket = new WebSocket(socketAddr);
-    sock.socket = socket;
     sock.queue = [];
     sock.listeners = {};
-    socket.onmessage = function(message) {
+    sock.socket = null;
+    sock.__onmessage = function(message) {
         var msg = angular.fromJson(message.data);
         var type = msg['@type'];
         if(type === 'entity-update' || type === 'entity-remove' || type === 'entity-add') {
@@ -50,20 +49,27 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
 			});
         }
     };
-    socket.onopen = function() {
-        $log.info('connection established');
-        for(i = 0; i < sock.queue.length; i++) {
-            $log.debug('delayed sending msg', sock.queue[i]);
-            sock.socket.send(angular.toJson(sock.queue[i]));
-        }
-        $log.debug('all msg sent');
-        sock.queue = [];
-    };
-    socket.onclose = function() {
-        $log.debug('socket closed');
+    sock.start = function() {
+		$log.debug('socket start');
+		//TODO
+		var socket = new WebSocket(socketAddr);
+		sock.socket = socket;
+		socket.onmessage = sock.__onmessage;
+		socket.onopen = function() {
+			$log.info('connection established');
+			for(i = 0; i < sock.queue.length; i++) {
+				$log.debug('delayed sending msg', sock.queue[i]);
+				sock.socket.send(angular.toJson(sock.queue[i]));
+			}
+			$log.debug('all msg sent');
+			sock.queue = [];
+		};
+		socket.onclose = function() {
+			$log.debug('socket closed');
+		};
     };
     sock.send = function(msg) {
-        if(sock.socket.readyState === WebSocket.OPEN) {
+        if(sock.socket != null && sock.socket.readyState === WebSocket.OPEN) {
             sock.socket.send(angular.toJson(msg));
         } else {
             $log.debug("not connected, send delayed", msg);
@@ -104,6 +110,7 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
             }
         }
     };
+    sock.start();
     $interval(function() {
         sock.send({ '@type' : 'ping' });
     }, 60000);

@@ -1,4 +1,4 @@
-var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
+var Login = function($scope, $log, $http, $uibModalInstance, appsession, socket) {
     $scope.username = '';
     $scope.password = '';
     $scope.version = {};
@@ -27,6 +27,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession) {
             $uibModalInstance.dismiss();
             appsession.restartRequests();
         	$scope.inprg = false;
+        	socket.start();
         }).error(function(error){
             $log.info("error",error);
         	$scope.inprg = false;
