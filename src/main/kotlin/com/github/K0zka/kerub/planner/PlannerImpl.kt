@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.HostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
+import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.CompositeStepFactory
@@ -47,6 +48,9 @@ class PlannerImpl(
 					return !reservations.contains(requestedReservation)
 				}
 				is UseHostReservation -> {
+					return !reservations.contains(requestedReservation)
+				}
+				is VirtualStorageReservation -> {
 					return !reservations.contains(requestedReservation)
 				}
 				else ->
@@ -95,11 +99,14 @@ class PlannerImpl(
 			logger.debug("No plan generated.")
 		} else {
 			val planReservations = plan.reservations()
-			checkReservations(planReservations, reservations.values.join())
-			reservations.put(plan, planReservations.toList())
-			executor.execute(plan, {
-				reservations.remove(plan)
-			})
+			if(checkReservations(planReservations, reservations.values.join())) {
+				reservations.put(plan, planReservations.toList())
+				executor.execute(plan, {
+					reservations.remove(plan)
+				})
+			} else {
+				logger.info("reservations not matched")
+			}
 		}
 	}
 

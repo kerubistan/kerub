@@ -151,7 +151,7 @@ data class OperationalState(
 								isExpectationSatisfied(expectation, vm)
 							}
 				}
-		vStorage.values.forEach {
+		virtualStorageToCheck().forEach {
 			vdisk ->
 			unsatisfied +=
 					vdisk.expectations.filterNot {

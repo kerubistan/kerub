@@ -39,6 +39,7 @@ object CreateLvFactory : AbstractVStorageCreateFactory<CreateLv>() {
 		return steps
 	}
 
-	private fun actualFreeCapacity(host: Host, state: OperationalState, volGroup: StorageCapability) = state.hostDyns[host.id]?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity ?: BigInteger.ZERO
+	private fun actualFreeCapacity(host: Host, state: OperationalState, volGroup: StorageCapability)
+			= state.hostDyns[host.id]?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity ?: BigInteger.ZERO
 
 }
