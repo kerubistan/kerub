@@ -8,10 +8,10 @@ import java.math.BigInteger
 
 object VBoxManage {
 	fun startVm(session: ClientSession) {
-		TODO()
+		TODO("https://github.com/kerubistan/kerub/issues/93")
 	}
 	fun stopVm(session: ClientSession) {
-		TODO()
+		TODO("https://github.com/kerubistan/kerub/issues/93")
 	}
 	fun createMedium(session: ClientSession, path : String, size : BigInteger, type: DeviceType, format: VirtualDiskFormat) {
 		session.executeOrDie("VBoxManage create $type --filename $path --format $format")
