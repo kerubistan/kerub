@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.utils
 
 fun <T> Collection<T>.only() : T {
-	require(this.size == 1)
+	require(this.size == 1) { "List size (${size}) is not 1" }
 	return first()
 }
 
