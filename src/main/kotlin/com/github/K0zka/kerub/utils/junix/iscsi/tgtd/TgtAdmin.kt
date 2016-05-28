@@ -8,7 +8,7 @@ import java.util.UUID
 
 object TgtAdmin : OsCommand {
 
-	fun shareBlockDevice(session: ClientSession, id: UUID, path: String) {
+	fun shareBlockDevice(session: ClientSession, id: UUID, path: String, readOnly: Boolean = false) {
 		session.createSftpClient().use {
 			ftp ->
 			ftp.write(configurationPath(id)).use {
@@ -16,6 +16,7 @@ object TgtAdmin : OsCommand {
 				out.write("""
 <target ${volumePrefix}.${id}>
     direct-store ${path}
+    readonly ${if(readOnly) "1" else "0"}
 </target>
 			""".toByteArray(charset("ASCII")))
 			}
