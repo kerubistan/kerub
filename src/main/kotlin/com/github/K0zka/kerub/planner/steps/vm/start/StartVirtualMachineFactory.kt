@@ -36,10 +36,10 @@ object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualM
 	}
 
 	private fun checkStartRequirements(virtualMachine: VirtualMachine, state: OperationalState): Boolean {
-		return allDisksCreated(virtualMachine, state)
+		return allDisksAvailable(virtualMachine, state)
 	}
 
-	private fun allDisksCreated(virtualMachine: VirtualMachine, state: OperationalState): Boolean =
+	private fun allDisksAvailable(virtualMachine: VirtualMachine, state: OperationalState): Boolean =
 			virtualMachine.virtualStorageLinks.all {
 				link ->
 				state.vStorageDyns[link.virtualStorageId] != null
