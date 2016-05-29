@@ -13,8 +13,9 @@ object IscsiShareFactory : AbstractOperationalStepFactory<IscsiShare>() {
 			diskAndDyn ->
 			IscsiShare(host = requireNotNull(
 					state.hosts[diskAndDyn.second.allocation.hostId]),
-					vstorage = diskAndDyn.first
-					)
+					vstorage = diskAndDyn.first,
+					devicePath = (diskAndDyn.second.allocation as VirtualStorageLvmAllocation).path
+			)
 		}
 	}
 

@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.utils.update
 
-data class IscsiShare(val host: Host, val vstorage: VirtualStorageDevice) : AbstractOperationalStep {
+data class IscsiShare(val host: Host, val vstorage: VirtualStorageDevice, val devicePath : String) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState
 			= state.copy(
 			hostDyns = state.hostDyns.update(host.id, {

@@ -44,15 +44,18 @@ class IscsiShareTest {
 			)
 	)
 
-
 	@Test
 	fun testTake() {
-		val newState = IscsiShare(host = host, vstorage = vStorage).take(OperationalState.fromLists(
-				hosts = listOf(host),
-				hostDyns = listOf(hostDyn),
-				vStorage = listOf(vStorage),
-				vStorageDyns = listOf(vStorageDyn)
-		))
+		val newState = IscsiShare(
+				host = host,
+				vstorage = vStorage,
+				devicePath = "/dev/test/${vStorage.id}")
+				.take(OperationalState.fromLists(
+						hosts = listOf(host),
+						hostDyns = listOf(hostDyn),
+						vStorage = listOf(vStorage),
+						vStorageDyns = listOf(vStorageDyn)
+				))
 		assertTrue(newState.hostDyns[host.id]!!.services.isNotEmpty())
 	}
 }
