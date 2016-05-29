@@ -8,12 +8,10 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.services.socket.services
 import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class IscsiShareFactoryTest {
