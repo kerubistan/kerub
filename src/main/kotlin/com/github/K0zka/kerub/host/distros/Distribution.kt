@@ -53,5 +53,14 @@ interface Distribution {
 	 */
 	fun getRequiredPackages(osCommand: OsCommand): List<String>
 
+	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
+		return getRequiredPackages(osCommand).all {
+			pack ->
+			host.capabilities?.installedSoftware?.any {
+				it.name == pack
+			} ?: false
+		}
+	}
+
 	fun getFireWall(session: ClientSession) : FireWall
 }
