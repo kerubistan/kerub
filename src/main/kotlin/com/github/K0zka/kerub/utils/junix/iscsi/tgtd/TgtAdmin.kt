@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
 import java.util.UUID
 
@@ -14,7 +15,7 @@ object TgtAdmin : OsCommand {
 			ftp.write(configurationPath(id)).use {
 				out ->
 				out.write("""
-<target ${volumePrefix}.${id}>
+<target ${iscsiStorageId(id)}>
     direct-store ${path}
     readonly ${if(readOnly) "1" else "0"}
 </target>
@@ -31,7 +32,7 @@ object TgtAdmin : OsCommand {
 			ftp.remove(configurationPath(id))
 		}
 		//remove the configuration from the tgt admin
-		session.executeOrDie("tgt-admin --delete ${volumePrefix}.${id}")
+		session.executeOrDie("tgt-admin --delete ${iscsiStorageId(id)}")
 	}
 
 	//TODO: this path may change by OS distribution
