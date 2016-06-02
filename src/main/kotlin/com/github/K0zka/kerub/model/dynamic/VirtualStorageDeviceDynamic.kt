@@ -7,7 +7,7 @@ import java.math.BigInteger
 import java.util.UUID
 
 @JsonTypeName("virtual-storage-dyn")
-class VirtualStorageDeviceDynamic(
+data class VirtualStorageDeviceDynamic(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID,
