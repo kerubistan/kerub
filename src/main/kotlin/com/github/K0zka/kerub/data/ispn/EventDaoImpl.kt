@@ -8,6 +8,10 @@ import org.infinispan.query.dsl.SortOrder
 import java.util.UUID
 
 class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
+
+	override fun get(ids: Collection<UUID>): List<Event>
+			= cache.advancedCache.getAll(ids.toHashSet()).values.toList()
+
 	override fun count(): Int {
 		return cache.count()
 	}

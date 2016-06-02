@@ -34,6 +34,7 @@ interface DaoOperations {
 	 */
 	interface Read<T : Entity<I>, I> {
 		operator fun get(id: I): T?
+		operator fun get(ids: Collection<I>) : List<T>
 	}
 
 	/**
