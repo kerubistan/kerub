@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils
 
 import com.github.K0zka.kerub.expect
+import com.github.K0zka.kerub.model.Entity
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -9,8 +10,8 @@ class ListUtilsTest {
 	@Test
 	fun only() {
 		assertEquals("A", listOf("A").only())
-		expect(IllegalArgumentException::class, {listOf<String>().only()})
-		expect(IllegalArgumentException::class, {listOf("A","B").only()})
+		expect(IllegalArgumentException::class, { listOf<String>().only() })
+		expect(IllegalArgumentException::class, { listOf("A", "B").only() })
 	}
 
 	@Test
@@ -27,4 +28,25 @@ class ListUtilsTest {
 		assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A", "B"), listOf("C", "D")).join())
 		assertEquals(listOf<String>(), listOf(listOf<String>(), listOf<String>()).join())
 	}
+
+	@Test
+	fun toMap() {
+		assertEquals(mapOf(1 to "1", 2 to "2", 3 to "3"), listOf("1", "2", "3").toMap { it.toInt() })
+	}
+
+	data class TestEntity(override val id: Int, val name : String) : Entity<Int>
+
+	@Test
+	fun toMapEntities() {
+		assertEquals(mapOf(
+				1 to TestEntity(1, "FOO"),
+				2 to TestEntity(2, "BAR"),
+				3 to TestEntity(3, "BAZ")
+		), listOf(
+				TestEntity(1, "FOO"),
+				TestEntity(2, "BAR"),
+				TestEntity(3, "BAZ")
+		).toMap())
+	}
+
 }

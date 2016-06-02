@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.utils
 
-fun <T> Collection<T>.only() : T {
+import com.github.K0zka.kerub.model.Entity
+
+fun <T> Collection<T>.only(): T {
 	require(this.size == 1) { "List size (${size}) is not 1" }
 	return first()
 }
@@ -17,3 +19,9 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
 	this.forEach { result += it }
 	return result
 }
+
+fun <K, V> Collection<V>.toMap(key: (V) -> K): Map<K, V> =
+		this.map { key(it) to it }.toMap()
+
+fun <K, V : Entity<K>> Collection<V>.toMap(): Map<K, V> =
+		this.map { it.id to it }.toMap()
