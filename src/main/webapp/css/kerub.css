@@ -46,3 +46,8 @@ ul.dropdown-menu li {
 }
 
 .drop-zone { border: dotted 3px lightgray; }
+
+.expectation-big-icon {
+	font-size: 32px;
+	padding: 16px;
+}

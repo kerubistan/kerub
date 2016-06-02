@@ -11,8 +11,8 @@ object IscsiShareFactory : AbstractOperationalStepFactory<IscsiShare>() {
 	override fun produce(state: OperationalState): List<IscsiShare> {
 		return unsharedDisks(state).map {
 			diskAndDyn ->
-			IscsiShare(host = requireNotNull(
-					state.hosts[diskAndDyn.second.allocation.hostId]),
+			IscsiShare(
+					host = requireNotNull(state.hosts[diskAndDyn.second.allocation.hostId]),
 					vstorage = diskAndDyn.first,
 					devicePath = (diskAndDyn.second.allocation as VirtualStorageLvmAllocation).path
 			)
@@ -26,7 +26,7 @@ object IscsiShareFactory : AbstractOperationalStepFactory<IscsiShare>() {
 		return state.vStorage.values.map {
 			vStorage ->
 			val dyn = state.vStorageDyns[vStorage.id]
-			dyn.let { vStorage to requireNotNull(dyn) }
+			dyn?.let { vStorage to requireNotNull(dyn) }
 		}.filterNotNull().filter {
 			// OR other block-storage, even files, but not virtual disks
 			it.second.allocation is VirtualStorageLvmAllocation

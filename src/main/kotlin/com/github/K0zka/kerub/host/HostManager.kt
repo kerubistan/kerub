@@ -25,4 +25,5 @@ interface HostManager {
 	fun getHypervisor(host: Host): Hypervisor?
 	fun getPowerManager(host: Host): PowerManager
 	fun getFireWall(host : Host) : FireWall
+	fun getServiceManager(host: Host) : ServiceManager
 }

@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
+import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.fw.IpfwFireWall
 import com.github.K0zka.kerub.host.packman.PkgPackageManager
@@ -17,6 +18,9 @@ import org.apache.sshd.client.session.ClientSession
  * PermitRootLogin yes
  */
 class FreeBSD : Distribution {
+	override fun getServiceManager(session: ClientSession): ServiceManager {
+		TODO("issue #57")
+	}
 
 	override fun installMonitorPackages(session: ClientSession) {
 		//TODO issue #57

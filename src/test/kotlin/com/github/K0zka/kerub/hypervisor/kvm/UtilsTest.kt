@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.utils.getLogger
 import org.hamcrest.CoreMatchers
@@ -25,12 +26,19 @@ class UtilsTest {
 				id = UUID.randomUUID(),
 				nrOfCpus = 2,
 				expectations = listOf(),
-				memory = serializableRange( BigInteger("1024"), BigInteger("2048")),
+				memory = serializableRange(BigInteger("1024"), BigInteger("2048")),
 				name = "test-vm</",
 				virtualStorageLinks = listOf()
-		                       )
+		)
 
-		val libvirtXml = vmDefinitiontoXml(vm, mapOf(), "")
+		val host = Host(
+				id = UUID.randomUUID(),
+				dedicated = true,
+				address = "host1.example.com",
+				publicKey = ""
+		)
+
+		val libvirtXml = vmDefinitiontoXml(vm, listOf(), "", targetHost = host)
 
 		val dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(libvirtXml)))
 		val xPath = XPathFactory.newInstance().newXPath()

@@ -1,15 +1,33 @@
 package com.github.K0zka.kerub.stories.planner
 
-import com.github.K0zka.kerub.eq
-import com.github.K0zka.kerub.model.*
+import com.github.K0zka.kerub.model.ExpectationLevel
+import com.github.K0zka.kerub.model.FsStorageCapability
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.HostCapabilities
+import com.github.K0zka.kerub.model.LvmStorageCapability
+import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
+import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
-import com.github.K0zka.kerub.model.expectations.*
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
+import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
+import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
+import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
+import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
+import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
+import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
+import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.CacheInformation
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
@@ -19,6 +37,7 @@ import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.model.lom.IpmiInfo
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
+import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.OperationalStateBuilder
 import com.github.K0zka.kerub.planner.Plan
@@ -30,6 +49,8 @@ import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
+import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -39,7 +60,6 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import nl.komponents.kovenant.any
 import org.junit.Assert
 import org.mockito.Matchers
 import org.mockito.Mockito
@@ -93,7 +113,7 @@ class PlannerDefs {
 		for (row in raw.filter { it != raw.first() }) {
 			val vm = VirtualMachine(
 					name = row[0],
-					memory = Range<BigInteger>(
+					memory = Range(
 							min = (row[1].toSize()),
 							max = (row[2].toSize())
 					),
@@ -146,11 +166,11 @@ class PlannerDefs {
 
 	@Given("host (\\S+) filesystem is:")
 	fun setHostFilesystemCapabilities(hostAddr : String, mounts : DataTable) {
-		var fsCapabilities = mounts.raw().skip().map {
+		val fsCapabilities = mounts.raw().skip().map {
 			row ->
 			FsStorageCapability(
-					size = row.get(1).toSize(),
-					mountPoint = row.get(0)
+					size = row[1].toSize(),
+					mountPoint = row[0]
 			)
 		}
 		hosts = hosts.replace( {it.address == hostAddr}, {
@@ -195,7 +215,7 @@ class PlannerDefs {
 		})
 		val host = hosts.first { it.address == hostAddr }
 
-		vmDyns = vmDyns + VirtualMachineDynamic(
+		vmDyns += VirtualMachineDynamic(
 				id = vm.id,
 				hostId = host.id,
 				status = VirtualMachineStatus.Up,
@@ -246,9 +266,17 @@ class PlannerDefs {
 		})
 	}
 
+	@Then("(\\S+) must be shared with iscsi on host (\\S+) as step (\\d+)")
+	fun verifyDiskIscsiShare(diskName: String, hostName: String, stepNo: Int) {
+		val shareStep = executedPlans.first().steps[stepNo - 1]
+		Assert.assertTrue("step $stepNo is $shareStep", shareStep is IscsiShare)
+		Assert.assertEquals((shareStep as IscsiShare).host.address, hostName)
+		Assert.assertEquals(shareStep.vstorage.name, diskName)
+	}
+
 	@Then("^(\\S+) will be migrated to (\\S+) as step (\\d+)")
 	fun verifyVmMigration(vmName: String, targetHostAddr: String, stepNo: Int) {
-		val migrationStep = executedPlans.first().steps.get(stepNo - 1)
+		val migrationStep = executedPlans.first().steps[stepNo - 1]
 		Assert.assertTrue(migrationStep is MigrateVirtualMachine)
 		Assert.assertEquals((migrationStep as MigrateVirtualMachine).target.address, targetHostAddr)
 		Assert.assertEquals(migrationStep.vm.name, vmName)
@@ -256,7 +284,7 @@ class PlannerDefs {
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
 	fun verifyVmGetsScheduled(vmName: String, targetHostAddr: String, stepNo: Int) {
-		val startStep = executedPlans.first().steps.get(stepNo - 1)
+		val startStep = executedPlans.first().steps[stepNo - 1]
 		Assert.assertTrue(startStep is StartVirtualMachine)
 		Assert.assertEquals((startStep as StartVirtualMachine).host.address, targetHostAddr)
 		Assert.assertEquals(startStep.vm.name, vmName)
@@ -279,8 +307,8 @@ class PlannerDefs {
 
 	@Given("^host (\\S+) is Up$")
 	fun setHostDyn(address: String) {
-		var host = hosts.firstOrNull { it.address == address }!!
-		hostDyns = hostDyns + HostDynamic(
+		val host = hosts.firstOrNull { it.address == address }!!
+		hostDyns += HostDynamic(
 				id = host.id,
 				status = HostStatus.Up,
 				memFree = host.capabilities?.totalMemory
@@ -301,7 +329,7 @@ class PlannerDefs {
 
 	@Then("^(\\S+) will be started as step (\\d+)$")
 	fun verifyHostStartedUp(hostAddr: String, stepNo: Int) {
-		val startStep = executedPlans.first().steps.get(stepNo - 1)
+		val startStep = executedPlans.first().steps[stepNo - 1]
 		Assert.assertTrue(startStep is WakeHost)
 		Assert.assertEquals((startStep as WakeHost).host.address, hostAddr)
 	}
@@ -341,7 +369,7 @@ class PlannerDefs {
 	fun createVStorageDyn(storageName: String, hostAddr: String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
-		vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
+		vstorageDyns += VirtualStorageDeviceDynamic(
 				id = storage.id,
 				actualSize = storage.size,
 				allocation = VirtualStorageFsAllocation(
@@ -366,7 +394,12 @@ class PlannerDefs {
 
 	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the volume group (\\S+)")
 	fun verifyVirtualStorageCreatedOnLvm(storageName: String, hostAddr: String, volumeGroup: String) {
-		//TODO()
+		Assert.assertTrue(executedPlans.first().steps.any {
+			it is CreateLv
+			&& it.disk.name == storageName
+			&& it.host.address == hostAddr
+			&& it.volumeGroupName == volumeGroup
+		})
 	}
 
 	@Given("volume group (\\S+) on host (\\S+) has (\\S+) free capacity")
@@ -493,8 +526,8 @@ class PlannerDefs {
 	}
 
 	@Given("^(\\S+) has notsame host expectation against (\\S+)$")
-	fun addNotSameHostExpectation(vmName : String, otherVm: String) {
-		val otherVm = vms.first { it.name == otherVm }
+	fun addNotSameHostExpectation(vmName : String, otherVmName: String) {
+		val otherVm = vms.first { it.name == otherVmName }
 		vms = vms.replace({it.name == vmName}, {
 			vm ->
 			vm.copy(
@@ -639,4 +672,48 @@ class PlannerDefs {
 		} )
 	}
 
+	@When("virtual disk (\\S+) gets an availability expectation")
+	fun createVirtualStorageAvailabilityExpectation(diskName: String) {
+
+		vdisks = vdisks.replace({ it.name == diskName }, { it.copy(
+				expectations = it.expectations + StorageAvailabilityExpectation()
+		) })
+		val virtualStorage = vdisks.first { it.name == diskName }
+
+		planner.onEvent(EntityUpdateMessage(
+				obj = virtualStorage,
+				date = System.currentTimeMillis()
+		));
+	}
+
+	@Given("(\\S+) is allocated on host (\\S+) volume group (\\S+)")
+	fun createLvmAllocation(diskName : String, hostName : String, volumeGroup: String) {
+
+		val host = hosts.first { it.address == hostName }
+		val disk = vdisks.first { it.name == diskName }
+		val diskDyn = vstorageDyns.firstOrNull { it.id == disk.id }
+		if(diskDyn == null) {
+			vstorageDyns += VirtualStorageDeviceDynamic(
+					id = disk.id,
+					allocation = VirtualStorageLvmAllocation(
+							hostId = host.id,
+							path = "/dev/test/"+disk.id
+					),
+					actualSize = disk.size,
+					lastUpdated = System.currentTimeMillis()
+			)
+		}
+	}
+
+	@Given("(\\S+) is shared with iscsi on host (\\S+)")
+	fun createIscsiShare(diskName : String, hostName : String) {
+		val host = hosts.first { it.address == hostName }
+		val disk = vdisks.first { it.name == diskName }
+		hostDyns = hostDyns.replace( {it.id == host.id}, {it.copy(
+			services = it.services + IscsiService(
+					vstorageId = disk.id
+			)
+		)})
+
+	}
 }

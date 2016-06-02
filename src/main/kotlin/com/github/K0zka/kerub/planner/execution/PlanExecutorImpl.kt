@@ -27,6 +27,8 @@ import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareExecutor
 import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.task
 
@@ -51,7 +53,8 @@ class PlanExecutorImpl(
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
-			PowerDownHost::class to PowerDownExecutor(hostManager)
+			PowerDownHost::class to PowerDownExecutor(hostManager),
+			IscsiShare::class to IscsiShareExecutor(hostDynamicDao, hostCommandExecutor, hostManager)
 	)
 
 	fun execute(step: AbstractOperationalStep) {

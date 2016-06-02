@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
+import java.util.Date
 import java.util.UUID
 
 object TgtAdmin : OsCommand {
@@ -14,9 +15,12 @@ object TgtAdmin : OsCommand {
 			ftp ->
 			ftp.write(configurationPath(id)).use {
 				out ->
+				//it needs to be backing-store for LVM volumes
+				//with direct-store tgtd tries to read scsi info
 				out.write("""
+#created by kerub on ${Date()}
 <target ${iscsiStorageId(id)}>
-    direct-store ${path}
+    backing-store ${path}
     readonly ${if(readOnly) "1" else "0"}
 </target>
 			""".toByteArray(charset("ASCII")))

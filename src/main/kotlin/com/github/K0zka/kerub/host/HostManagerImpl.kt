@@ -53,9 +53,10 @@ class HostManagerImpl(
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
 		if (connection != null) {
-			return KvmHypervisor(connection.first, host, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
+			return KvmHypervisor(connection.first, host, hostDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
 		} else {
-			return null;
+			//TODO: not connected: throw exception?
+			return null
 		}
 	}
 
@@ -68,6 +69,11 @@ class HostManagerImpl(
 	override fun getFireWall(host: Host): FireWall {
 		val conn = requireNotNull(connections[host.id])
 		return conn.second.getFireWall(conn.first)
+	}
+
+	override fun getServiceManager(host: Host): ServiceManager {
+		val conn = requireNotNull(connections[host.id])
+		return conn.second.getServiceManager(conn.first)
 	}
 
 	override fun <T> execute(host: Host, closure: (ClientSession) -> T) : T {

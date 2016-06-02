@@ -23,6 +23,8 @@ class IscsiShareExecutor(
 	override fun perform(step: IscsiShare) {
 		hostExecutor.execute(step.host) {
 			session ->
+
+			hostManager.getServiceManager(step.host).start(TgtAdmin)
 			hostManager.getFireWall(step.host).open(
 					port = 3260,
 					proto = "tcp"

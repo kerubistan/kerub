@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
+import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.hypervisor.Hypervisor
@@ -15,12 +17,15 @@ import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.silent
+import com.github.K0zka.kerub.utils.toMap
 import com.github.K0zka.kerub.utils.toUUID
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 class KvmHypervisor(private val client: ClientSession,
 					private val host: Host,
+					private val hostDao: HostDao,
+					private val hostDynamicDao: HostDynamicDao,
 					private val vmDynDao: VirtualMachineDynamicDao,
 					private val virtualStorageDao: VirtualStorageDeviceDao,
 					private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao) : Hypervisor {
@@ -78,15 +83,30 @@ class KvmHypervisor(private val client: ClientSession,
 	}
 
 	override fun startVm(vm: VirtualMachine, consolePwd: String) {
+		val storageDeviceIds = vm.virtualStorageLinks.map { it.virtualStorageId }
+		val storageDevices = virtualStorageDao[storageDeviceIds]
+		val storageDevicesMap = storageDevices.toMap()
+		val storageDeviceDyns = virtualStorageDynDao[storageDeviceIds]
+		val storageDeviceDynMap = storageDeviceDyns.toMap()
+		val hostIds = storageDeviceDyns.map { it.allocation.hostId }
+		val storageHosts = hostDao[hostIds]
+		val storageHostMap = storageHosts.toMap()
+		val hostDyns = hostDynamicDao[hostIds]
+		val hostDynMap = hostDyns.toMap()
+
 		val storageMap = vm.virtualStorageLinks.map {
-			storageLink ->
-			storageLink to (
-					requireNotNull(virtualStorageDao[storageLink.virtualStorageId])
-							to
-							requireNotNull(virtualStorageDynDao[storageLink.virtualStorageId])
-					)
-		}.toMap()
-		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap, consolePwd))
+			link ->
+			val deviceDyn = requireNotNull(storageDeviceDynMap[link.virtualStorageId])
+			VirtualStorageLinkInfo(
+					link = link,
+					device = requireNotNull(storageDevicesMap[link.virtualStorageId]),
+					deviceDyn = deviceDyn,
+					host = requireNotNull(storageHostMap[deviceDyn.allocation.hostId]),
+					hostDynamic = requireNotNull(hostDynMap[deviceDyn.allocation.hostId])
+			)
+		}
+
+		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap, consolePwd, host))
 	}
 
 	override fun stopVm(vm: VirtualMachine) {

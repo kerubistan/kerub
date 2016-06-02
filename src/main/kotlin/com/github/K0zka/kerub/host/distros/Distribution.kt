@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
+import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Version
@@ -63,4 +64,6 @@ interface Distribution {
 	}
 
 	fun getFireWall(session: ClientSession) : FireWall
+
+	fun getServiceManager(session: ClientSession) : ServiceManager
 }

@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
 import com.github.K0zka.kerub.anyString
+import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
@@ -9,11 +11,14 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.never
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.any
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -43,6 +48,12 @@ class KvmHypervisorTest {
 	@Mock
 	var virtualStorageDynDao: VirtualStorageDeviceDynamicDao? = null
 	@Mock
+	var hostDao : HostDao? = null
+	@Mock
+	var hostDynDao : HostDynamicDao? = null
+
+
+	@Mock
 	var sftpClient: SftpClient? = null
 
 	val host = Host(
@@ -63,7 +74,7 @@ class KvmHypervisorTest {
 		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
 
-		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm, "")
+		KvmHypervisor(client!!, host, hostDao!!, hostDynDao!!, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm, "")
 
 		Mockito.verify(virtualStorageDao!!, never).get(Mockito.any(UUID::class.java) ?: UUID.randomUUID())
 	}
@@ -92,6 +103,12 @@ class KvmHypervisorTest {
 				))
 		)
 
+		val hostDyn = HostDynamic(
+				id = host.id,
+				status = HostStatus.Up,
+				memFree = "2GB".toSize()
+		)
+
 		Mockito.`when`(client!!.createSftpClient()).thenReturn(sftpClient!!)
 		Mockito.`when`(sftpClient!!.write(anyString())).thenReturn(ByteArrayOutputStream())
 		Mockito.`when`(client!!.createExecChannel(anyString())).thenReturn(execChannel!!)
@@ -100,10 +117,15 @@ class KvmHypervisorTest {
 		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
 		Mockito.`when`(virtualStorageDao!![eq(vDisk.id)]).thenReturn(vDisk)
 		Mockito.`when`(virtualStorageDynDao!![eq(vDisk.id)]).thenReturn(virtualStorageDeviceDynamic)
+		Mockito.`when`(virtualStorageDynDao!![eq(listOf(vDisk.id))]).thenReturn(listOf(virtualStorageDeviceDynamic))
+		Mockito.`when`(virtualStorageDao!![eq(listOf(vDisk.id))]).thenReturn(listOf(vDisk))
+		Mockito.`when`(hostDao!![eq(listOf(host.id))]).thenReturn(listOf(host))
+		Mockito.`when`(hostDynDao!![eq(listOf(host.id))]).thenReturn(listOf(hostDyn))
 
-		KvmHypervisor(client!!, host, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!).startVm(vm, "")
+		KvmHypervisor(client!!, host, hostDao!!, hostDynDao!!, vmDynDao!!, virtualStorageDao!!, virtualStorageDynDao!!)
+				.startVm(vm, "")
 
-		Mockito.verify(virtualStorageDao!!).get(Mockito.any(UUID::class.java) ?: UUID.randomUUID())
+		Mockito.verify(client)!!.createExecChannel(any())
 	}
 
 

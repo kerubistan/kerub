@@ -2,10 +2,14 @@ package com.github.K0zka.kerub.planner.steps.vm.start
 
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
+import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
 
 object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
 
@@ -23,10 +27,11 @@ object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualM
 
 		vmsToStart.forEach {
 			vm ->
+			val vstorageState = storageAllocationMap(state)
 			state.hosts.values.forEach {
 				host ->
 				val dyn = state.hostDyns[host.id]
-				if (match(host, dyn, vm)) {
+				if (match(host, dyn, vm, vstorageState)) {
 					steps += StartVirtualMachine(vm, host)
 				}
 			}
@@ -43,6 +48,7 @@ object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualM
 			virtualMachine.virtualStorageLinks.all {
 				link ->
 				state.vStorageDyns[link.virtualStorageId] != null
+
 			}
 
 }

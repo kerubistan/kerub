@@ -1,19 +1,18 @@
 package com.github.K0zka.kerub.hypervisor.kvm
 
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.model.VirtualStorageLink
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.utils.buildString
+import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 
-fun storagesToXml(disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >): String {
+fun storagesToXml(disks: List<VirtualStorageLinkInfo>, targetHost:Host): String {
 	return buildString(disks.size * 256) {
 		var targetDev = 'a'
-		for (device in disks) {
-			append(storageToXml(device.value.first, device.key, device.value.second.allocation, targetDev))
+		for (link in disks) {
+			append(storageToXml(link, targetHost, targetDev))
 			targetDev++
 		}
 	}
@@ -24,22 +23,42 @@ val allocationTypeToDiskType = mapOf(
 		VirtualStorageLvmAllocation::class to "block"
 )
 
-private fun storageToXml(disk : VirtualStorageDevice, link: VirtualStorageLink, allocation : VirtualStorageAllocation, targetDev : Char): String {
+private fun storageToXml(
+		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String {
+
 	return """
-		<disk type='${allocationTypeToDiskType[allocation.javaClass.kotlin]}' device='${link.device.name.toLowerCase()}'>
-            <driver />
-            ${if(link.readOnly || disk.readOnly) "<readonly/>" else ""}
-            ${allocationToXml(allocation, disk)}
-            <target dev='sd$targetDev' bus='${link.bus}'/>
+		<disk type='${allocationTypeToDiskType[linkInfo.deviceDyn.allocation.javaClass.kotlin]}' device='${linkInfo.link.device.name.toLowerCase()}'>
+            <driver name='qemu' type='${allocationType(linkInfo.deviceDyn)}'/>
+            ${if(linkInfo.device.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
+            ${allocationToXml(linkInfo, targetHost)}
+            <target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
 		</disk>
 """
 }
 
-fun allocationToXml(allocation: VirtualStorageAllocation, disk : VirtualStorageDevice): String {
-	when(allocation) {
-		is VirtualStorageFsAllocation -> return "<source file='${allocation.mountPoint}/${disk.id}'/>"
-		is VirtualStorageLvmAllocation -> return "<source dev='${allocation.path}'/>"
-		else -> return TODO()
+fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
+	return when(deviceDyn.allocation) {
+		is VirtualStorageLvmAllocation -> "raw"
+		is VirtualStorageFsAllocation -> deviceDyn.allocation.type.name.toLowerCase()
+		else -> TODO("")
+	}
+}
+
+fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String {
+	return if(linkInfo.deviceDyn.allocation.hostId != targetHost.id) {
+		"""
+		<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.id)}/1'>
+			<host name='${linkInfo.host.address}' port='3260'/>
+		</source>
+		"""
+	} else {
+		when(linkInfo.deviceDyn.allocation) {
+			is VirtualStorageFsAllocation ->
+				"<source file='${linkInfo.deviceDyn.allocation.mountPoint}/${linkInfo.device.id}'/>"
+			is VirtualStorageLvmAllocation ->
+				"<source dev='${linkInfo.deviceDyn.allocation.path}'/>"
+			else -> TODO()
+		}
 	}
 }
 
@@ -47,7 +66,7 @@ fun escapeXmlText(str: String): String {
 	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
 }
 
-fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic> >, password : String): String {
+fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password : String, targetHost : Host): String {
 	return """
 <domain type='kvm'>
     <name>${vm.id}</name>
@@ -76,7 +95,7 @@ fun vmDefinitiontoXml(vm: VirtualMachine, disks: Map<VirtualStorageLink, Pair<Vi
 			<model type='qxl' ram='65536' vram='65536' vgamem='16384' heads='1'/>
 			<address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
 		</video>
-		${storagesToXml(disks)}
+		${storagesToXml(disks, targetHost)}
     </devices>
 </domain>
 """

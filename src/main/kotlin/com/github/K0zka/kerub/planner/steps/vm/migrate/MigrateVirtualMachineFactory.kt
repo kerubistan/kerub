@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
+import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
 
 /**
  * Takes each running virtual machines and running hosts except the one the VM is running on
@@ -25,7 +26,7 @@ object MigrateVirtualMachineFactory : AbstractOperationalStepFactory<MigrateVirt
 			host ->
 			runningVms.forEach {
 				vm ->
-				if (match(host, state.hostDyns[host.id], vm)) {
+				if (match(host, state.hostDyns[host.id], vm, storageAllocationMap(state))) {
 					val sourceId = state.vmDyns[vm.id]?.hostId
 					val sourceHost = requireNotNull(state.hosts[sourceId])
 					if (sourceId != host.id) {

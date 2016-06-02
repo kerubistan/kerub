@@ -35,6 +35,7 @@
 	<script src="js/StorageDeviceRow.js"></script>
 	<script src="js/SearchController.js"></script>
 	<script src="js/VirtualNetworkTab.js"></script>
+	<script src="js/NoMigrationExpectationEdit.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="css/kerub.css" rel="stylesheet"/>
@@ -200,7 +201,7 @@
                     </div>
 
                 </span>
-                <span ng-if="storageExpectationFormOpen" ng-bind-template="{{newExpectation.template}}">
+                <span ng-if="storageExpectationFormOpen" ng-include="newExpectation.template">
 
                 </span>
 
@@ -225,10 +226,20 @@
 </script>
 
 <script type="text/ng-template" id="no-migration-edit-template">
-	No Migration
-	<span ng->
 
-        </span>
+	<div class="media" ng-controller="NoMigrationExpectationEdit">
+		<div class="media-left">
+			<span class="glyphicon glyphicon-pushpin expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<p>Please do not migrate this resource!
+					<a href="#" class="btn btn-primary glyphicon glyphicon-ok" ng-click="parent.addExpectation" role="button"></a>
+					<a href="#" class="btn btn-default glyphicon glyphicon-remove" ng-click="" role="button"></a></p>
+			</div>
+		</div>
+	</div>
+
 </script>
 
 <script type="text/ng-template" id="DiskSelection.html">
@@ -443,7 +454,7 @@
                     </div>
 
                 </span>
-                <span ng-if="storageExpectationFormOpen" ng-bind-template="{{newExpectation.template}}">
+                <span ng-if="storageExpectationFormOpen" ng-include="{{newExpectation.template}}">
 
                 </span>
 

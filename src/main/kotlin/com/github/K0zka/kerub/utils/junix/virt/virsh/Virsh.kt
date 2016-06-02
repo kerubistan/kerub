@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils.junix.virt.virsh
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.dmi.substringBetween
 import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.silent
@@ -14,7 +15,7 @@ import java.io.StringReader
 import java.util.Properties
 import java.util.UUID
 
-object Virsh {
+object Virsh : OsCommand {
 
 	val logger = getLogger(Virsh::class)
 

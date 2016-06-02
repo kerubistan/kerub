@@ -8,16 +8,29 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
+import com.github.K0zka.kerub.model.services.IscsiService
+import com.github.K0zka.kerub.planner.OperationalState
 import java.math.BigInteger
+
+fun storageAllocationMap(state: OperationalState) =
+		state.vStorage.values.map {
+			vStorage ->
+			val dynamic = state.vStorageDyns[vStorage.id]
+			val host = if (dynamic?.allocation?.hostId == null ) null else state.hosts[dynamic!!.allocation.hostId]
+			val hostDyn = if (host == null) null else state.hostDyns[host.id]
+			vStorage to (dynamic to hostDyn)
+		}.toMap()
+
 
 /**
  * Checks if the virtual machine is <strong>technically</strong> able to run on the host.
+ * It does not check on the vm, virtual storage, network expectations, that's the planner's business.
  */
 fun match(
 		host: Host,
 		dyn: HostDynamic?,
 		vm: VirtualMachine,
-		vStorage: Map<VirtualStorageDevice, VirtualStorageDeviceDynamic> = mapOf()): Boolean {
+		vStorage: Map<VirtualStorageDevice, Pair<VirtualStorageDeviceDynamic?, HostDynamic?>> = mapOf()): Boolean {
 
 	//host not running or not known
 	if (dyn == null) {
@@ -52,9 +65,19 @@ fun match(
 /**
  * Storage is create and is either local OR shared on the host where it is created.
  */
-fun storageAvailable(link: VirtualStorageLink, vStorage: Map<VirtualStorageDevice, VirtualStorageDeviceDynamic>, vm: VirtualMachine, host: Host, hostDynamic: HostDynamic): Boolean {
-	//TODO: https://github.com/kerubistan/kerub/issues/154
-	// I need the host dyn here from the host where the vstorage is
-	// so meanwhile, as a placeholder...
-	return true
+fun storageAvailable(
+		link: VirtualStorageLink,
+		vStorage: Map<VirtualStorageDevice, Pair<VirtualStorageDeviceDynamic?, HostDynamic?>>,
+		vm: VirtualMachine,
+		host: Host,
+		hostDynamic: HostDynamic): Boolean {
+
+	return vStorage.all {
+		val device = it.key
+		val storageDyn = it.value.first
+		val storageHostDyn = it.value.second
+
+		storageHostDyn?.id == host.id ||
+		storageHostDyn?.services?.contains( IscsiService(device.id) ) ?: false
+	}
 }
