@@ -143,7 +143,9 @@ object LvmLv {
 			"--maxrecoveryrate $maxRecovery"
 		}
 		session.executeOrDie(
-				"""lvcreate $vgName -n $name -L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}""",
+				"lvcreate $vgName -n $name " +
+						"-Wn -Zy " +
+						"-L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}",
 				{ checkErrorOutput(it) })
 		return list(session, volGroupName = vgName, volName = name).first { it.name == name }
 	}
