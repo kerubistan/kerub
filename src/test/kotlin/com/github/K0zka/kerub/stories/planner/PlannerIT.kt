@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
-		plugin = arrayOf("pretty"),
+		plugin = arrayOf("pretty", "html:target/test-reports/planner"),
 		features = arrayOf(
 				"classpath:stories/general/planner/planner.feature",
 				"classpath:stories/general/planner/storage.feature",
