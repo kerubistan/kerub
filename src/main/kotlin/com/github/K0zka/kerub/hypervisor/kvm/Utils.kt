@@ -27,13 +27,21 @@ private fun storageToXml(
 		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String {
 
 	return """
-		<disk type='${allocationTypeToDiskType[linkInfo.deviceDyn.allocation.javaClass.kotlin]}' device='${linkInfo.link.device.name.toLowerCase()}'>
+		<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
             <driver name='qemu' type='${allocationType(linkInfo.deviceDyn)}'/>
             ${if(linkInfo.device.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
             ${allocationToXml(linkInfo, targetHost)}
             <target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
 		</disk>
 """
+}
+
+private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host) : String {
+	if(remoteHost(linkInfo, targetHost)) {
+		return "network"
+	} else {
+		return allocationTypeToDiskType[linkInfo.deviceDyn.allocation.javaClass.kotlin] ?: TODO()
+	}
 }
 
 fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
@@ -45,7 +53,7 @@ fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
 }
 
 fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String {
-	return if(linkInfo.deviceDyn.allocation.hostId != targetHost.id) {
+	return if(remoteHost(linkInfo, targetHost)) {
 		"""
 		<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.id)}/1'>
 			<host name='${linkInfo.host.address}' port='3260'/>
@@ -61,6 +69,8 @@ fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String
 		}
 	}
 }
+
+private fun remoteHost(linkInfo: VirtualStorageLinkInfo, targetHost: Host) = linkInfo.deviceDyn.allocation.hostId != targetHost.id
 
 fun escapeXmlText(str: String): String {
 	return str.replace("<".toRegex(), "&lt;").replace(">".toRegex(), "&gt;")
