@@ -25,4 +25,10 @@ bla bla bla"""
 		assertEquals(BigInteger.TEN, "10".toBigInteger())
 	}
 
+	@Test
+	fun remove() {
+		assertEquals("foo bar baz", "foo, bar, baz".remove(",".toRegex()))
+		assertEquals("abcdefgh", "abc12def45gh6".remove("\\d+".toRegex()))
+		assertEquals("123456", "12   3  45\t6".remove("\\s+".toRegex()))
+	}
 }

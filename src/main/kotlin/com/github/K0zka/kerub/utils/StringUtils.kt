@@ -14,3 +14,6 @@ fun String.toUUID(): UUID =
 		UUID.fromString(this)
 
 fun String.toBigInteger() = BigInteger(this)
+
+fun String.remove(regex: Regex)
+		= this.replace(regex, "")
