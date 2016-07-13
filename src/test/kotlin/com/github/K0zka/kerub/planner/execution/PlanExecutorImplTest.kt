@@ -10,7 +10,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.Plan
-import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
+import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateImage
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Test
 import org.junit.runner.RunWith

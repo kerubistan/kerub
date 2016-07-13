@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.create
+package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
 import org.junit.Assert.*
 import org.junit.Test

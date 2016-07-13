@@ -23,10 +23,10 @@ import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
-import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImage
-import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateImageExecutor
-import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLv
-import com.github.K0zka.kerub.planner.steps.vstorage.create.CreateLvExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateImage
+import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateImageExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
+import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareExecutor
 import com.github.K0zka.kerub.utils.getLogger

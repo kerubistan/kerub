@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.create
+package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities

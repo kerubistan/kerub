@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.create
+package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostStatus
