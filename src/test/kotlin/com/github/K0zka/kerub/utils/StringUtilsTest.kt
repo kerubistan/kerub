@@ -31,4 +31,9 @@ bla bla bla"""
 		assertEquals("abcdefgh", "abc12def45gh6".remove("\\d+".toRegex()))
 		assertEquals("123456", "12   3  45\t6".remove("\\s+".toRegex()))
 	}
+
+	@Test
+	fun substringsBetween() {
+		assertEquals("world", "hello world!".substringBetween("hello ", "!"))
+	}
 }

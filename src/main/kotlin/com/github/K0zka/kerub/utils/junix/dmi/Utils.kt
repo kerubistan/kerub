@@ -1,9 +1,8 @@
 package com.github.K0zka.kerub.utils.junix.dmi
 
+import com.github.K0zka.kerub.utils.substringBetween
 import java.math.BigDecimal
 
-fun String.substringBetween(prefix: String, postfix: String): String =
-		this.substringAfter(prefix, "").substringBefore(postfix, "")
 
 fun String.bigDecimalBetween(prefix: String, postfix: String): BigDecimal? {
 	try {

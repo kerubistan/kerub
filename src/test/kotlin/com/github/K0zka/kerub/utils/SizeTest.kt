@@ -8,6 +8,8 @@ class SizeTest {
 	@Test
 	fun parseStrorageSize() {
 		Assert.assertEquals(512, parseStorageSize("512 B").toInt())
+		Assert.assertEquals(512, parseStorageSize("512 byte").toInt())
+		Assert.assertEquals(512, parseStorageSize("512 bytes").toInt())
 		Assert.assertEquals(512, parseStorageSize("0.5 KB").toInt())
 		Assert.assertEquals(256, parseStorageSize("0.25 KB").toInt())
 		Assert.assertEquals(1024, parseStorageSize("1 KB").toInt())

@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.substringBetween
 import com.github.K0zka.kerub.utils.toSize
 import java.util.HashMap
 import java.util.UUID
@@ -62,7 +63,7 @@ class DmiDecoder : OsCommand {
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
-							size = input.substringBetween("Installed Size: ", "\n")?.trim()?.toSize().toInt(),
+							size = input.substringBetween("Installed Size: ", "\n").trim().toSize().toInt(),
 							operation = input.substringBetween("Operational Mode: ", "\n"),
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					)
