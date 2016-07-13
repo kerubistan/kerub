@@ -1,0 +1,18 @@
+3 plexes:
+Plex testvol1.p0:	Size:	536870912 bytes (512 MB)
+		Subdisks:        1
+		State: up
+		Organization: concat		Flags: 0
+		Part of volume testvol1
+Plex testvol2.p0:	Size:	        0 bytes (0 MB)
+		Subdisks:        2
+		State: up
+		Organization: striped	Stripe size: 256 MB
+		Flags: 0
+		Part of volume testvol2
+Plex testvol3.p0:	Size:	        0 bytes (0 MB)
+		Subdisks:        2
+		State: up
+		Organization: striped	Stripe size: 256 MB
+		Flags: 0
+		Part of volume testvol3

@@ -1,0 +1,31 @@
+5 subdisks:
+Subdisk testvol1.p0.s0:
+		Size:        536870912 bytes (512 MB)
+		State: up
+		Plex testvol1.p0 at offset 0 (0  B)
+		Drive a (a) at offset 135680 (132 kB)
+		Flags: 0
+Subdisk testvol2.p0.s0:
+		Size:                0 bytes (0 MB)
+		State: up
+		Plex testvol2.p0 at offset 0 (0  B)
+		Drive a (a) at offset 537006592 (512 MB)
+		Flags: 0
+Subdisk testvol2.p0.s1:
+		Size:                0 bytes (0 MB)
+		State: up
+		Plex testvol2.p0 at offset 268435456 (256 MB)
+		Drive b (b) at offset 135680 (132 kB)
+		Flags: 4
+Subdisk testvol3.p0.s0:
+		Size:                0 bytes (0 MB)
+		State: up
+		Plex testvol3.p0 at offset 0 (0  B)
+		Drive a (a) at offset 537006592 (512 MB)
+		Flags: 0
+Subdisk testvol3.p0.s1:
+		Size:                0 bytes (0 MB)
+		State: up
+		Plex testvol3.p0 at offset 268435456 (256 MB)
+		Drive b (b) at offset 135680 (132 kB)
+		Flags: 4

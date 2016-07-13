@@ -1,0 +1,7 @@
+3 volumes:
+Volume testvol1:	Size: 536870912 bytes (512 MB)
+		State: up
+Volume testvol2:	Size: 0 bytes (0 MB)
+		State: up
+Volume testvol3:	Size: 0 bytes (0 MB)
+		State: up

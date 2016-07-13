@@ -1,0 +1,13 @@
+2 drives:
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:                0 bytes (0 MB)
+		Available:  5368573440 bytes (5119 MB)
+		State: up
+		Flags: 0
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        536870912 bytes (512 MB)
+		Available:  4831702528 bytes (4607 MB)
+		State: up
+		Flags: 0
