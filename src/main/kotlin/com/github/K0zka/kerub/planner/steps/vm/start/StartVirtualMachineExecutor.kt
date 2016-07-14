@@ -8,9 +8,14 @@ import com.github.K0zka.kerub.model.dynamic.DisplaySettings
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.steps.vm.base.HypervisorStepExcecutor
 import com.github.K0zka.kerub.utils.genPassword
+import com.github.K0zka.kerub.utils.getLogger
 import java.math.BigInteger
 
 class StartVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<StartVirtualMachine, DisplaySettings>(hostManager) {
+
+	companion object {
+		val logger = getLogger(StartVirtualMachineExecutor::class)
+	}
 
 	override fun update(step: StartVirtualMachine, updates: DisplaySettings) {
 		val dyn = VirtualMachineDynamic(

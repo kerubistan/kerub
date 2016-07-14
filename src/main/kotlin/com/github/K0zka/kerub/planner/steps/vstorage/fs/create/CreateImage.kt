@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
+package com.github.K0zka.kerub.planner.steps.vstorage.fs.create
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
@@ -6,12 +6,13 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 
 data class CreateImage(
 		override val disk: VirtualStorageDevice,
 		override val host: Host,
 		val path: String,
-		val format: VirtualDiskFormat) : AbstractCreate {
+		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage {
 
 	/*
 	 * TODO: add costs here:

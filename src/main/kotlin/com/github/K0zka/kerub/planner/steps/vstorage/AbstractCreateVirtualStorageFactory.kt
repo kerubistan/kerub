@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
+package com.github.K0zka.kerub.planner.steps.vstorage
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostStatus
@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 
-abstract class AbstractVStorageCreateFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
+abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
 	companion object {
 		fun listRunningHosts(state: OperationalState) = state.hosts.values.filter { state.hostDyns[it.id]?.status == HostStatus.Up }

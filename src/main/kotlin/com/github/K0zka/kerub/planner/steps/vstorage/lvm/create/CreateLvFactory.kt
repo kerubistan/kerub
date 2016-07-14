@@ -4,9 +4,10 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorageFactory
 import java.math.BigInteger
 
-object CreateLvFactory : AbstractVStorageCreateFactory<CreateLv>() {
+object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 
 	override fun produce(state: OperationalState): List<CreateLv> {
 

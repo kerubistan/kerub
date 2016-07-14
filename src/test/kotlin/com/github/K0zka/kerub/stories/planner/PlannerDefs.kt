@@ -48,7 +48,7 @@ import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateImage
+import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
 import com.github.K0zka.kerub.utils.skip

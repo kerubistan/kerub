@@ -11,12 +11,13 @@ import com.github.K0zka.kerub.planner.costs.IOCost
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.steps.replace
+import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 
 class CreateLv(
 		override val host: Host,
 		val volumeGroupName: String,
 		override val disk: VirtualStorageDevice
-) : AbstractCreate {
+) : AbstractCreateVirtualStorage {
 
 	override fun getCost(): List<Cost> {
 		return listOf(

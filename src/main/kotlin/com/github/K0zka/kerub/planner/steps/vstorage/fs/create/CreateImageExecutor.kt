@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
+package com.github.K0zka.kerub.planner.steps.vstorage.fs.create
 
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
