@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.utils.toSize
@@ -20,6 +21,17 @@ val testHost = Host(
 val testHostCapabilities = HostCapabilities(
 		cpuArchitecture = "X86_64",
 		totalMemory = "32 GB".toSize()
+)
+
+val testFreeBsdHost = Host(
+		id = UUID.randomUUID(),
+		address = "host-1.freebsd.example.com",
+		dedicated = true,
+		publicKey = "",
+		capabilities = testHostCapabilities.copy(
+				os = OperatingSystem.BSD,
+				distribution = SoftwarePackage("FreeBSD", Version.fromVersionString("11.0"))
+		)
 )
 
 val testVm = VirtualMachine(
