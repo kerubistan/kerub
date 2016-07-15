@@ -5,9 +5,11 @@ import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.host.fw.IptablesFireWall
 import com.github.K0zka.kerub.host.servicemanager.systemd.SystemdServiceManager
+import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
@@ -23,9 +25,12 @@ import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
+import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.VolumeGroup
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
+import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
 import java.util.UUID
 
@@ -142,5 +147,25 @@ abstract class AbstractLinux : Distribution {
 
 	override fun getServiceManager(session: ClientSession): ServiceManager {
 		return SystemdServiceManager(session)
+	}
+
+	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> {
+		val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
+		return (silent {LvmVg.list(session)} ?: listOf<VolumeGroup>()) .map {
+			vg ->
+			LvmStorageCapability(
+					volumeGroupName = vg.name,
+					size = vg.size,
+					physicalVolumes = pvs.filter {
+						pv ->
+						pv.volumeGroupId == vg.id
+					}.map { it.size })
+		} + DF.df(session).map {
+			mount ->
+			FsStorageCapability(
+					size = mount.free + mount.used,
+					mountPoint = mount.mountPoint
+			)
+		}
 	}
 }

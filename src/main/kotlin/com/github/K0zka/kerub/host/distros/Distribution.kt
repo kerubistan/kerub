@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
@@ -53,6 +54,8 @@ interface Distribution {
 	 * Get the list of packages to be installed for a given utility to work.
 	 */
 	fun getRequiredPackages(osCommand: OsCommand): List<String>
+
+	fun detectStorageCapabilities(session: ClientSession) : List<StorageCapability>
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
 		return getRequiredPackages(osCommand).all {

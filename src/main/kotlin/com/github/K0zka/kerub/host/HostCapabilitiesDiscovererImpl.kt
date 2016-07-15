@@ -81,7 +81,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = discoverPowerManagement(session),
-				storageCapabilities = discoverStorage(session, distro?.operatingSystem)
+				storageCapabilities = discoverStorage(session, distro)
 		)
 	}
 
@@ -153,33 +153,9 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		}
 	}
 
-	internal fun discoverStorage(session: ClientSession, os: OperatingSystem?): List<StorageCapability> {
+	internal fun discoverStorage(session: ClientSession, distro : Distribution?): List<StorageCapability> {
 		try {
-			when (os) {
-				OperatingSystem.Linux -> {
-					val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
-					return (silent {LvmVg.list(session)} ?: listOf<VolumeGroup>()) .map {
-						vg ->
-						LvmStorageCapability(
-								volumeGroupName = vg.name,
-								size = vg.size,
-								physicalVolumes = pvs.filter {
-									pv ->
-									pv.volumeGroupId == vg.id
-								}.map { it.size })
-					} + DF.df(session).map {
-						mount ->
-						FsStorageCapability(
-								size = mount.free + mount.used,
-								mountPoint = mount.mountPoint
-						)
-					}
-				}
-				else -> {
-					return listOf()
-				}
-			}
-
+			return distro?.detectStorageCapabilities(session) ?: listOf()
 		} catch (e: IOException) {
 			return listOf();
 		}

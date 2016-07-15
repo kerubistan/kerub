@@ -17,10 +17,10 @@ import java.math.BigInteger
 data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
-		val os: OperatingSystem?,
+		val os: OperatingSystem? = null,
 		@JsonView(Simple::class)
 		@Field
-		val distribution: SoftwarePackage?,
+		val distribution: SoftwarePackage? = null,
 		@JsonView(Full::class)
 		@Field
 		val installedSoftware: List<SoftwarePackage> = listOf(),

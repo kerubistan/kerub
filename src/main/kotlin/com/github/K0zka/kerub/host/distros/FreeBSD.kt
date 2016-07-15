@@ -6,10 +6,13 @@ import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.fw.IpfwFireWall
 import com.github.K0zka.kerub.host.packman.PkgPackageManager
+import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
 import org.apache.sshd.client.session.ClientSession
 
 /**
@@ -18,6 +21,13 @@ import org.apache.sshd.client.session.ClientSession
  * PermitRootLogin yes
  */
 class FreeBSD : Distribution {
+	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> {
+		return GVinum.listDrives(session).map {
+			drive ->
+			GvinumStorageCapability(name = drive.name, device = drive.device, size = drive.size)
+		}
+	}
+
 	override fun getServiceManager(session: ClientSession): ServiceManager {
 		TODO("issue #57")
 	}

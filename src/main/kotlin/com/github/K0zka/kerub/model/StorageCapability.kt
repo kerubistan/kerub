@@ -9,9 +9,10 @@ import java.util.UUID
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
 		JsonSubTypes.Type(LvmStorageCapability::class),
-		JsonSubTypes.Type(FsStorageCapability::class)
+		JsonSubTypes.Type(FsStorageCapability::class),
+		JsonSubTypes.Type(GvinumStorageCapability::class)
 )
 interface StorageCapability : Serializable {
-	val id : UUID
+	val id: UUID
 	val size: BigInteger
 }
