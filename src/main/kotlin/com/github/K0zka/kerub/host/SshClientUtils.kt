@@ -53,7 +53,7 @@ fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean): S
 		val error = it.invertedErr.reader(charset("ASCII")).readText()
 		if(isError(error)) {
 			throw IOException(error)
-		} else {
+		} else if (error.isNotBlank()) {
 			logger.warn("Error output ignored by command {} : {}", command, error)
 		}
 		it.invertedOut.reader(charset("ASCII")).use {

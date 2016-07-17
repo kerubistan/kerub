@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
+import java.math.BigInteger
 
 /**
  * Interface to hide the details of some distribution-specific operations.
@@ -56,6 +57,8 @@ interface Distribution {
 	fun getRequiredPackages(osCommand: OsCommand): List<String>
 
 	fun detectStorageCapabilities(session: ClientSession) : List<StorageCapability>
+
+	fun getTotalMemory(session: ClientSession) : BigInteger
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
 		return getRequiredPackages(osCommand).all {

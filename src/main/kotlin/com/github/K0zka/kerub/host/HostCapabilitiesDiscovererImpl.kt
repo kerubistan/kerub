@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host
 
+import com.github.K0zka.kerub.exc.UnknownHostOperatingSystemException
 import com.github.K0zka.kerub.host.distros.Centos6
 import com.github.K0zka.kerub.host.distros.Centos7
 import com.github.K0zka.kerub.host.distros.Distribution
@@ -9,9 +10,7 @@ import com.github.K0zka.kerub.host.distros.FreeBSD
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
-import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.HostCapabilities
-import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
@@ -23,16 +22,10 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.getLogger
-import com.github.K0zka.kerub.utils.junix.df.DF
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.VolumeGroup
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.silent
-import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 import java.io.IOException
 import java.math.BigInteger
@@ -64,7 +57,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	fun discoverHost(session: ClientSession, dedicated: Boolean): HostCapabilities {
 
 		val distro = detectDistro(session)
-		val packages = silent { distro?.getPackageManager(session)?.list() } ?: listOf<SoftwarePackage>()
+		val packages = silent { distro.getPackageManager(session).list() } ?: listOf<SoftwarePackage>()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
@@ -74,7 +67,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				cpuArchitecture = getHostCpuType(session),
 				distribution = getDistribution(session, distro),
 				installedSoftware = packages,
-				totalMemory = getTotalMemory(session),
+				totalMemory = distro.getTotalMemory(session) ?: BigInteger.ZERO,
 				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
@@ -112,12 +105,6 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return packages.any { "dmidecode" == it.name }
 	}
 
-	fun getTotalMemory(session: ClientSession): BigInteger {
-		return session
-				.execute("cat /proc/meminfo | grep  MemTotal")
-				.substringAfter("MemTotal:").toSize()
-	}
-
 	fun getHostOs(session: ClientSession): OperatingSystem {
 		return OperatingSystem.valueOf(session.execute("uname -s").trim())
 	}
@@ -135,14 +122,15 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		}
 	}
 
-	override fun detectDistro(session: ClientSession): Distribution? {
+	override fun detectDistro(session: ClientSession): Distribution {
 		for (distro in distributions) {
 			logger.debug("Checking host with ${distro.name()} distro helper")
 			if (distro.detect(session)) {
 				return distro
 			}
 		}
-		return null
+		throw UnknownHostOperatingSystemException("Mone of the distributions matched: "
+				+ distributions.map { "${it.operatingSystem}/${it.name()}" }.joinToString(","))
 	}
 
 	internal fun getDistribution(session: ClientSession, distro: Distribution?): SoftwarePackage? {

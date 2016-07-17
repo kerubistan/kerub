@@ -3,6 +3,8 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
+import com.github.K0zka.kerub.host.execute
+import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.fw.IptablesFireWall
 import com.github.K0zka.kerub.host.servicemanager.systemd.SystemdServiceManager
 import com.github.K0zka.kerub.model.FsStorageCapability
@@ -31,7 +33,9 @@ import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import com.github.K0zka.kerub.utils.silent
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
+import java.math.BigInteger
 import java.util.UUID
 
 abstract class AbstractLinux : Distribution {
@@ -167,5 +171,11 @@ abstract class AbstractLinux : Distribution {
 					mountPoint = mount.mountPoint
 			)
 		}
+	}
+
+	override fun getTotalMemory(session: ClientSession): BigInteger {
+		return session
+				.executeOrDie("cat /proc/meminfo | grep  MemTotal")
+				.substringAfter("MemTotal:").toSize()
 	}
 }

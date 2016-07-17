@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.host.execute
+import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.fw.IpfwFireWall
 import com.github.K0zka.kerub.host.packman.PkgPackageManager
 import com.github.K0zka.kerub.model.GvinumStorageCapability
@@ -13,7 +14,10 @@ import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
+import com.github.K0zka.kerub.utils.toBigInteger
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
+import java.math.BigInteger
 
 /**
  * FreeBSD distribution.
@@ -21,6 +25,14 @@ import org.apache.sshd.client.session.ClientSession
  * PermitRootLogin yes
  */
 class FreeBSD : Distribution {
+
+	override fun getTotalMemory(session: ClientSession) : BigInteger {
+		return (session
+				.executeOrDie("sysctl hw.physmem")
+				.substringAfter("hw.physmem:").trim())
+				.toBigInteger()
+	}
+
 	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> {
 		return GVinum.listDrives(session).map {
 			drive ->
@@ -43,13 +55,13 @@ class FreeBSD : Distribution {
 
 	override val operatingSystem = OperatingSystem.BSD
 
-	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(session.execute("uname -s"))
+	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(session.execute("uname -r"))
 
 	override fun name(): String = "FreeBSD"
 
 	override fun handlesVersion(version: Version): Boolean = version.major >= "10"
 
-	override fun detect(session: ClientSession): Boolean = session.execute("uname -s") == "FreeBSD"
+	override fun detect(session: ClientSession): Boolean = session.execute("uname -s").trim() == "FreeBSD"
 
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
