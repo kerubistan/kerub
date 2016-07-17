@@ -15,6 +15,11 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
 		</license>
 	</licenses>
+	<scm>
+		<connection>scm:git:ssh://github.com/kerubistan/kerub</connection>
+		<developerConnection>scm:git:ssh://github.com/kerubistan/kerub</developerConnection>
+		<url>https://github.com/kerubistan/kerub</url>
+	</scm>
 	<organization>
 		<name>Duct Tape Solutions LTD</name>
 		<url>https://github.com/kerubistan/kerub</url>
