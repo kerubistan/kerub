@@ -16,9 +16,9 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:ssh://github.com/kerubistan/kerub</connection>
-		<developerConnection>scm:git:git://github.com/kerubistan/kerub</developerConnection>
+		<developerConnection>scm:git:https://github.com/kerubistan/kerub</developerConnection>
 		<url>https://github.com/kerubistan/kerub</url>
-  </scm>
+	</scm>
 	<organization>
 		<name>Duct Tape Solutions LTD</name>
 		<url>https://github.com/kerubistan/kerub</url>
