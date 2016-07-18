@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.K0zka</groupId>
 	<artifactId>kerub</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Kerub</name>
 	<description>Infrastructure as a Service prototype app</description>
@@ -18,7 +18,8 @@
 		<connection>scm:git:ssh://github.com/kerubistan/kerub</connection>
 		<developerConnection>scm:git:https://github.com/kerubistan/kerub</developerConnection>
 		<url>https://github.com/kerubistan/kerub</url>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 	<organization>
 		<name>Duct Tape Solutions LTD</name>
 		<url>https://github.com/kerubistan/kerub</url>
