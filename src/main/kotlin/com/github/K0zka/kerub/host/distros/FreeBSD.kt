@@ -12,6 +12,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.K0zka.kerub.utils.toBigInteger
@@ -70,5 +71,9 @@ class FreeBSD : Distribution {
 	}
 
 	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
+
+	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
+		return listOf()
+	}
 
 }

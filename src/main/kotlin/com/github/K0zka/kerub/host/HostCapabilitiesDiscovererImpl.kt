@@ -73,20 +73,9 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
-				powerManagment = discoverPowerManagement(session),
+				powerManagment = distro.detectPowerManagement(session),
 				storageCapabilities = discoverStorage(session, distro)
 		)
-	}
-
-	private fun discoverPowerManagement(session: ClientSession): List<PowerManagementInfo> {
-		//TODO: filter out the ones not connected and not wal-enabled
-		val macAdddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
-
-		if(macAdddresses.isEmpty()) {
-			return listOf()
-		} else {
-			return listOf( WakeOnLanInfo(macAdddresses) )
-		}
 	}
 
 	internal fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {

@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -57,6 +58,8 @@ interface Distribution {
 	fun getRequiredPackages(osCommand: OsCommand): List<String>
 
 	fun detectStorageCapabilities(session: ClientSession) : List<StorageCapability>
+
+	fun detectPowerManagement(session: ClientSession) : List<PowerManagementInfo>
 
 	fun getTotalMemory(session: ClientSession) : BigInteger
 

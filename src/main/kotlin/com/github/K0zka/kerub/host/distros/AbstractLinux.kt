@@ -15,6 +15,8 @@ import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
@@ -177,5 +179,17 @@ abstract class AbstractLinux : Distribution {
 		return session
 				.executeOrDie("cat /proc/meminfo | grep  MemTotal")
 				.substringAfter("MemTotal:").toSize()
+	}
+
+	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
+		//TODO: filter out the ones not connected and not wal-enabled
+		val macAdddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
+
+		if(macAdddresses.isEmpty()) {
+			return listOf()
+		} else {
+			return listOf( WakeOnLanInfo(macAdddresses) )
+		}
+
 	}
 }
