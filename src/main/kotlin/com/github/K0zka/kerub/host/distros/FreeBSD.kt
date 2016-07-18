@@ -95,4 +95,6 @@ class FreeBSD : Distribution {
 		}
 	}
 
+	override fun getHostOs(): OperatingSystem = OperatingSystem.BSD
+
 }

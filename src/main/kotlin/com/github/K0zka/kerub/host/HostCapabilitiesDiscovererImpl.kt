@@ -11,23 +11,17 @@ import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.model.HostCapabilities
-import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
-import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.hardware.ChassisInformation
 import com.github.K0zka.kerub.model.hardware.MemoryInformation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.model.hardware.SystemInformation
-import com.github.K0zka.kerub.model.lom.PowerManagementInfo
-import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
-import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
-import java.io.IOException
 import java.math.BigInteger
 import kotlin.reflect.KClass
 
@@ -63,8 +57,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 		val hardwareInfo = systemInfo.values
 		return HostCapabilities(
-				os = silent { getHostOs(session) },
-				cpuArchitecture = getHostCpuType(session),
+				os = distro.getHostOs(),
+				cpuArchitecture = distro.detectHostCpuType(session),
 				distribution = SoftwarePackage(distro.name(), distro.getVersion(session)),
 				installedSoftware = packages,
 				totalMemory = distro.getTotalMemory(session) ?: BigInteger.ZERO,
@@ -94,21 +88,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return packages.any { "dmidecode" == it.name }
 	}
 
-	fun getHostOs(session: ClientSession): OperatingSystem {
-		return OperatingSystem.valueOf(session.execute("uname -s").trim())
-	}
-
 	fun getHostKernelVersion(session: ClientSession): Version {
 		return Version.fromVersionString(session.execute("uname -r").trim())
-	}
-
-	fun getHostCpuType(session: ClientSession): String {
-		val processorType = session.execute("uname -p").trim()
-		if (processorType == "unknown") {
-			return session.execute("uname -m").trim()
-		} else {
-			return processorType
-		}
 	}
 
 	override fun detectDistro(session: ClientSession): Distribution {
@@ -122,8 +103,5 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				+ distributions.map { "${it.operatingSystem}/${it.name()}" }.joinToString(","))
 	}
 
-	internal fun discoverStorage(session: ClientSession, distro : Distribution): List<StorageCapability> {
-		return distro.detectStorageCapabilities(session)
-	}
 
 }

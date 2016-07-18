@@ -77,4 +77,6 @@ interface Distribution {
 	fun getFireWall(session: ClientSession) : FireWall
 
 	fun getServiceManager(session: ClientSession) : ServiceManager
+
+	fun getHostOs() : OperatingSystem
 }

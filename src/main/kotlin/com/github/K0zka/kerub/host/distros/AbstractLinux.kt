@@ -201,4 +201,6 @@ abstract class AbstractLinux : Distribution {
 			return processorType
 		}
 	}
+
+	override fun getHostOs() : OperatingSystem = OperatingSystem.Linux
 }
