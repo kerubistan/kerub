@@ -61,6 +61,8 @@ interface Distribution {
 
 	fun detectPowerManagement(session: ClientSession) : List<PowerManagementInfo>
 
+	fun detectHostCpuType(session: ClientSession) : String
+
 	fun getTotalMemory(session: ClientSession) : BigInteger
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {

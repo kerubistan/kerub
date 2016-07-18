@@ -76,4 +76,23 @@ class FreeBSD : Distribution {
 		return listOf()
 	}
 
+	//BSD distributions have different naming conventions for architectures
+	val cpuTypeMap = mapOf(
+			"amd64" to "X86_64"
+	)
+
+	override fun detectHostCpuType(session: ClientSession): String {
+		val cpuType =  cpuTypeByOS(session)
+		return cpuTypeMap[cpuType] ?: cpuType
+	}
+
+	private fun cpuTypeByOS(session: ClientSession): String {
+		val processorType = session.execute("uname -p").trim()
+		if (processorType == "unknown") {
+			return session.execute("uname -m").trim()
+		} else {
+			return processorType
+		}
+	}
+
 }

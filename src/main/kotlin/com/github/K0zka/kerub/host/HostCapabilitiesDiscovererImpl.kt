@@ -65,7 +65,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return HostCapabilities(
 				os = silent { getHostOs(session) },
 				cpuArchitecture = getHostCpuType(session),
-				distribution = getDistribution(session, distro),
+				distribution = SoftwarePackage(distro.name(), distro.getVersion(session)),
 				installedSoftware = packages,
 				totalMemory = distro.getTotalMemory(session) ?: BigInteger.ZERO,
 				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
@@ -74,7 +74,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
-				storageCapabilities = discoverStorage(session, distro)
+				storageCapabilities = distro.detectStorageCapabilities(session)
 		)
 	}
 
@@ -122,21 +122,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				+ distributions.map { "${it.operatingSystem}/${it.name()}" }.joinToString(","))
 	}
 
-	internal fun getDistribution(session: ClientSession, distro: Distribution?): SoftwarePackage? {
-		if (distro == null) {
-			return null
-		} else {
-			return SoftwarePackage(distro.name(), distro.getVersion(session))
-		}
-	}
-
-	internal fun discoverStorage(session: ClientSession, distro : Distribution?): List<StorageCapability> {
-		try {
-			return distro?.detectStorageCapabilities(session) ?: listOf()
-		} catch (e: IOException) {
-			return listOf();
-		}
-
+	internal fun discoverStorage(session: ClientSession, distro : Distribution): List<StorageCapability> {
+		return distro.detectStorageCapabilities(session)
 	}
 
 }

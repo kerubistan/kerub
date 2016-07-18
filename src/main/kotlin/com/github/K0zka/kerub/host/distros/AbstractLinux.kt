@@ -192,4 +192,13 @@ abstract class AbstractLinux : Distribution {
 		}
 
 	}
+
+	override fun detectHostCpuType(session: ClientSession): String {
+		val processorType = session.execute("uname -p").trim()
+		if (processorType == "unknown") {
+			return session.execute("uname -m").trim()
+		} else {
+			return processorType
+		}
+	}
 }
