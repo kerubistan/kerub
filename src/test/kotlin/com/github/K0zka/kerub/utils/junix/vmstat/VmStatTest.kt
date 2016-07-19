@@ -46,7 +46,7 @@ import java.util.Collections
 		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
 		on(execChannel!!.open()).thenReturn(openFuture)
 
-		val results = Collections.synchronizedList(ArrayList<VmStat.VmStatEvent>())
+		val results = Collections.synchronizedList(ArrayList<VmStatEvent>())
 		VmStat.vmstat(clientSession!!, { results.add(it) })
 
 		Assert.assertThat(results.size, CoreMatchers.`is`(6))

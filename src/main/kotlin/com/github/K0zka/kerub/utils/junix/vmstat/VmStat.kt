@@ -12,24 +12,6 @@ import java.util.regex.Pattern
 
 object VmStat : OsCommand {
 
-	data class IoStatistic(
-			val read: Int,
-			val write: Int
-	) : Serializable
-
-	data class VmStatEvent(
-			val userCpu: Byte,
-			val systemCpu: Byte,
-			val idleCpu: Byte,
-			val iowaitCpu: Byte,
-			val swap: IoStatistic,
-			val block: IoStatistic,
-			val freeMem: BigInteger,
-			val ioBuffMem: BigInteger,
-			val cacheMem: BigInteger,
-			val swapMem: BigInteger
-	) : Serializable
-
 	val someSpaces = Pattern.compile("\\s+")
 
 	class VmstatOutputStream(val handler: (VmStatEvent) -> Unit) : OutputStream() {
