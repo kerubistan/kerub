@@ -12,11 +12,13 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
+import com.github.K0zka.kerub.utils.junix.vmstat.BsdVmStat
 import com.github.K0zka.kerub.utils.toBigInteger
-import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -27,7 +29,7 @@ import java.math.BigInteger
  */
 class FreeBSD : Distribution {
 
-	override fun getTotalMemory(session: ClientSession) : BigInteger {
+	override fun getTotalMemory(session: ClientSession): BigInteger {
 		return (session
 				.executeOrDie("sysctl hw.physmem")
 				.substringAfter("hw.physmem:").trim())
@@ -67,7 +69,20 @@ class FreeBSD : Distribution {
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
-		//TODO issue #57
+		BsdVmStat.vmstat(session, {
+			event ->
+			val dyn = hostDynDao[host.id] ?: HostDynamic(
+					id = host.id,
+					status = HostStatus.Up
+			)
+
+			hostDynDao.update(dyn.copy(
+					memFree = event.freeMem,
+					systemCpu = event.systemCpu,
+					userCpu = event.userCpu,
+					idleCpu = event.idleCpu
+			))
+		})
 	}
 
 	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
@@ -82,7 +97,7 @@ class FreeBSD : Distribution {
 	)
 
 	override fun detectHostCpuType(session: ClientSession): String {
-		val cpuType =  cpuTypeByOS(session)
+		val cpuType = cpuTypeByOS(session)
 		return cpuTypeMap[cpuType] ?: cpuType
 	}
 
