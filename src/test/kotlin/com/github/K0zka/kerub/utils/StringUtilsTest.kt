@@ -41,6 +41,7 @@ bla bla bla"""
 	@Test
 	fun substringAfterOrNull() {
 		assertEquals("C", "ABC".substringAfterOrNull("B"))
+		assertEquals("C", "ABC".substringAfterOrNull("AB"))
 		assertEquals("", "ABC".substringAfterOrNull("C"))
 		assertNull("ABC".substringAfterOrNull("D"))
 	}
@@ -48,6 +49,8 @@ bla bla bla"""
 	@Test
 	fun substringBetweenOrNull() {
 		assertEquals("B", "ABC".substringBetweenOrNull("A", "C"))
+		assertEquals("BC", "ABCD".substringBetweenOrNull("A", "D"))
+		assertEquals("C", "ABCD".substringBetweenOrNull("AB", "D"))
 		assertNull("ABC".substringBetweenOrNull("A", "D"))
 	}
 
