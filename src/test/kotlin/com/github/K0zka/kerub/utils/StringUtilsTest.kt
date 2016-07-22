@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils
 import org.junit.Test
 import java.math.BigInteger
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class StringUtilsTest {
 
@@ -35,5 +36,25 @@ bla bla bla"""
 	@Test
 	fun substringsBetween() {
 		assertEquals("world", "hello world!".substringBetween("hello ", "!"))
+	}
+
+	@Test
+	fun substringAfterOrNull() {
+		assertEquals("C", "ABC".substringAfterOrNull("B"))
+		assertEquals("", "ABC".substringAfterOrNull("C"))
+		assertNull("ABC".substringAfterOrNull("D"))
+	}
+
+	@Test
+	fun substringBetweenOrNull() {
+		assertEquals("B", "ABC".substringBetweenOrNull("A", "C"))
+		assertNull("ABC".substringBetweenOrNull("A", "D"))
+	}
+
+	@Test
+	fun substringBeforeOrNull() {
+		assertEquals("A", "ABC".substringBeforeOrNull("B"))
+		assertEquals("A", "ABC".substringBeforeOrNull("BC"))
+		assertNull("ABC".substringBeforeOrNull("D"))
 	}
 }
