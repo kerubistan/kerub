@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.utils.junix.ifconfig
 
 import com.github.K0zka.kerub.host.executeOrDie
+import com.github.K0zka.kerub.utils.substringAfterOrNull
 import com.github.K0zka.kerub.utils.substringBetween
+import com.github.K0zka.kerub.utils.substringBetweenOrNull
 import org.apache.sshd.client.session.ClientSession
 import java.util.regex.Pattern
 
@@ -14,9 +16,9 @@ object IfConfig {
 				NetInterface(
 						name = str.substringBefore(":"),
 						mtu = str.substringBetween("mtu ", "\n").toInt(),
-						mac = str.substringBetween("ether ", "\n"),
-						inet4Addr = str.substringBetween("inet ", " "),
-						inet6Addr = str.substringBetween("inet6 ", " ")
+						mac = str.substringAfterOrNull("ether ")?.substring(startIndex = 0, endIndex = 17),
+						inet4Addr = str.substringBetweenOrNull("inet ", " "),
+						inet6Addr = str.substringBetweenOrNull("inet6 ", " ")
 				)
 			}
 }
