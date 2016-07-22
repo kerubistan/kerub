@@ -32,6 +32,7 @@ class IfConfigTest {
 		assertEquals(3, list.size)
 		assertEquals("enp2s0", list[0].name)
 		assertEquals(1500, list[0].mtu)
+		assertEquals("68:f7:28:e2:29:e5", list[0].mac)
 		assertEquals("lo", list[1].name)
 		assertEquals(65536, list[1].mtu)
 		assertEquals("virbr0", list[2].name)

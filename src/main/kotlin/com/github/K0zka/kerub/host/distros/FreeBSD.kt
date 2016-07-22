@@ -15,9 +15,12 @@ import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
+import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.junix.ifconfig.IfConfig
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.K0zka.kerub.utils.junix.vmstat.BsdVmStat
+import com.github.K0zka.kerub.utils.stringToMac
 import com.github.K0zka.kerub.utils.toBigInteger
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -88,7 +91,8 @@ class FreeBSD : Distribution {
 	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
-		return listOf()
+		val macs = IfConfig.list(session).map { it.mac }.filterNotNull().map { stringToMac(it) }
+		return if (macs.isEmpty()) listOf() else listOf(WakeOnLanInfo(macs))
 	}
 
 	//BSD distributions have different naming conventions for architectures

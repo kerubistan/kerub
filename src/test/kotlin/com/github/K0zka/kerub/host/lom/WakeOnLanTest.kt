@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
-import com.github.K0zka.kerub.utils.junix.sysfs.Net
+import com.github.K0zka.kerub.utils.stringToMac
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Ignore
@@ -25,7 +25,7 @@ import org.mockito.runners.MockitoJUnitRunner
 			dedicated = true,
 			publicKey = "",
 			capabilities = HostCapabilities(
-					powerManagment = listOf(WakeOnLanInfo(macAddresses = listOf(Net.stringToMac("00:00:CA:FE:BA:BE")))),
+					powerManagment = listOf(WakeOnLanInfo(macAddresses = listOf(stringToMac("00:00:CA:FE:BA:BE")))),
 					cpuArchitecture = "x86_64",
 					devices = listOf(),
 					totalMemory = "1234 MB".toSize(),

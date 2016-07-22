@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils.junix.sysfs
 import com.github.K0zka.kerub.host.getFileContents
 import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.utils.buildString
+import com.github.K0zka.kerub.utils.stringToMac
 import org.apache.sshd.client.session.ClientSession
 
 /**
@@ -12,33 +13,6 @@ object Net {
 
 	val macAddressSize = 6
 	val hexaDecimal = 16
-
-	fun stringToMac(strMac: String): ByteArray {
-		val bytes = strMac.trim().split(':')
-		require(bytes.size == macAddressSize, { "The MAC address must be 6 bytes" })
-		return bytes
-				.map {
-					require(it.length <= 2, { "Maximum two hexadecimal digits needed" })
-					Integer.parseInt(it, hexaDecimal).toByte()
-				}
-				.toByteArray()
-	}
-
-	fun macToString(mac: ByteArray): String {
-		require(mac.size == macAddressSize, { "The MAC address must be 6 bytes" })
-		return buildString(17) {
-			for (b in mac) {
-				if (length != 0) {
-					append(':')
-				}
-				val hexString = Integer.toHexString(b.toInt())
-				if (hexString.length == 1) {
-					append('0')
-				}
-				append(hexString)
-			}
-		}
-	}
 
 	/**
 	 * List ethernet devices.
