@@ -10,7 +10,7 @@ import org.apache.sshd.client.session.ClientSession
  */
 object LvmPv {
 	fun list(session: ClientSession): List<PhysicalVolume>
-			= session.executeOrDie("pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions")
+			= session.executeOrDie("lvm pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions")
 			.rows()
 			.filterNot { it.isBlank() }
 			.map {

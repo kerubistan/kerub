@@ -85,7 +85,7 @@ object LvmLv {
 
 	fun monitor(session: ClientSession, callback: (List<LogicalVolume>) -> Unit) {
 		val channel = session.createExecChannel(
-				"""bash -c "while true; do lvs -o $fields $listOptions; echo $separator; sleep 60; done;"  """)
+				"""bash -c "while true; do lvm lvs -o $fields $listOptions; echo $separator; sleep 60; done;"  """)
 
 		channel.`in` = NullInputStream(0)
 		channel.err = NullOutputStream()
@@ -117,7 +117,7 @@ object LvmLv {
 			"$volGroupName${if (volName == null) emptyString else '/' + volName}"
 		}
 		return session.executeOrDie(
-				"lvs -o $fields $listOptions $filter")
+				"lvm lvs -o $fields $listOptions $filter")
 				.split("\n").filterNot { it.isEmpty() }.map {
 			row ->
 			parseRow(row)
@@ -143,7 +143,7 @@ object LvmLv {
 			"--maxrecoveryrate $maxRecovery"
 		}
 		session.executeOrDie(
-				"lvcreate $vgName -n $name " +
+				"lvm lvcreate $vgName -n $name " +
 						"-Wn -Zy " +
 						"-L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}",
 				{ checkErrorOutput(it) })
@@ -151,7 +151,7 @@ object LvmLv {
 	}
 
 	fun delete(session: ClientSession, volumeName: String) {
-		session.executeOrDie("lvremove -f $volumeName")
+		session.executeOrDie("lvm lvremove -f $volumeName")
 	}
 
 }

@@ -46,7 +46,7 @@ class LvmLvTest {
 	@Test
 	fun list() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
@@ -63,19 +63,19 @@ class LvmLvTest {
 	@Test
 	fun listWithVgAndLv() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val list = LvmLv.list(session!!, volGroupName = "testvg", volName = "testlv")
 
-		verify(session!!).createExecChannel("lvs -o $fields $listOptions testvg/testlv")
+		verify(session!!).createExecChannel("lvm lvs -o $fields $listOptions testvg/testlv")
 	}
 
 	@Test
 	fun exists() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
@@ -87,7 +87,7 @@ class LvmLvTest {
 
 	@Test
 	fun existsNotexisting() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
@@ -100,19 +100,19 @@ class LvmLvTest {
 	@Test
 	fun listWithVg() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
 
 		val list = LvmLv.list(session!!, volGroupName = "testvg")
 
-		verify(session!!).createExecChannel("lvs -o $fields $listOptions testvg")
+		verify(session!!).createExecChannel("lvm lvs -o $fields $listOptions testvg")
 	}
 
 	@Test
 	fun delete() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvremove"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
@@ -122,7 +122,7 @@ class LvmLvTest {
 
 	@Test(expected = IOException::class)
 	fun deleteAndFail() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvremove"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(ByteArrayInputStream(""" Volume group "test" not found
@@ -135,13 +135,13 @@ class LvmLvTest {
 
 	@Test
 	fun create() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
 		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(createExecChannel?.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
 		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(NullInputStream(0))
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
@@ -152,7 +152,7 @@ class LvmLvTest {
 
 	@Test
 	fun createWithWarning() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
 		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(createExecChannel?.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
@@ -164,7 +164,7 @@ class LvmLvTest {
 				)
 		)
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvs"))).thenReturn(execChannel)
+		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
 		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
