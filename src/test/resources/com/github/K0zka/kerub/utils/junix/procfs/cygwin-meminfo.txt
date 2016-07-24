@@ -1,0 +1,8 @@
+MemTotal:        4193780 kB
+MemFree:         3195752 kB
+HighTotal:             0 kB
+HighFree:              0 kB
+LowTotal:        4193780 kB
+LowFree:         3195752 kB
+SwapTotal:       1441792 kB
+SwapFree:        1358296 kB
