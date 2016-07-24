@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.exc.UnknownHostOperatingSystemException
 import com.github.K0zka.kerub.host.distros.Centos6
 import com.github.K0zka.kerub.host.distros.Centos7
+import com.github.K0zka.kerub.host.distros.Cygwin
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Fedora
 import com.github.K0zka.kerub.host.distros.Fedora23Plus
@@ -40,7 +41,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				Centos7(),
 				OpenSuse(),
 				Raspbian(),
-				FreeBSD())
+				FreeBSD(),
+				Cygwin())
 	}
 
 	fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
