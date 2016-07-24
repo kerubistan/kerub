@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils.junix.packagemanager.cygwin
 import com.github.K0zka.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -31,5 +32,6 @@ class CygCheckTest {
 
 		assertFalse(packages.isEmpty())
 		assertTrue(packages.any { it.name == "sed" && it.version.major == "4" && it.version.minor == "2" })
+		verify(execChannel).close(true)
 	}
 }
