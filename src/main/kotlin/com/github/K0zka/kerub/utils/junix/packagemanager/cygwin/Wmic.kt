@@ -18,8 +18,11 @@ object Wmic {
 
 		val nameStart = header.indexOf("Name")
 		val nameEnd = header.indexOf("PackageCache")
+		require(nameStart >= 0) { "'Name' not found in header: $header" }
+		require(nameEnd >= 0) { "'PackageCache' not found in header: $header" }
 
 		val versionStart = header.indexOf("Version")
+		require(versionStart >= 0) { "'Version' not found in header: $header" }
 
 		return data.map {
 			pack ->

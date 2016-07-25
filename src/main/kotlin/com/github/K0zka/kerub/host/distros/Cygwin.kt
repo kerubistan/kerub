@@ -32,7 +32,7 @@ class Cygwin : Distribution {
 	override fun getPackageManager(session: ClientSession): PackageManager = CygwinPackageManager(session)
 
 	override fun installMonitorPackages(session: ClientSession) {
-		TODO()
+		// do nothing, cygwin can not install, try to work with what is installed
 	}
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
