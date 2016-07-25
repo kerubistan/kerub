@@ -46,17 +46,17 @@ fun ClientSession.executeOrDie(command: String): String {
 	return this.executeOrDie(command, {it.isNotBlank()})
 }
 
-fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean): String {
+fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs : Charset = charset("ASCII") ): String {
 	val execChannel = this.createExecChannel(command)
 	logger.debug("executing command: {}", command)
 	return execChannel.use {
-		val error = it.invertedErr.reader(charset("ASCII")).readText()
+		val error = it.invertedErr.reader(cs).readText()
 		if(isError(error)) {
 			throw IOException(error)
 		} else if (error.isNotBlank()) {
 			logger.warn("Error output ignored by command {} : {}", command, error)
 		}
-		it.invertedOut.reader(charset("ASCII")).use {
+		it.invertedOut.reader(cs).use {
 			logger.debugAndReturn("result of command ${command}: ", it.readText())
 		}
 	}
