@@ -62,19 +62,6 @@ abstract class AbstractLinux : Distribution {
 		)
 	}
 
-	fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
-		val hostDyn = hostDynDao[id]
-		if (hostDyn == null) {
-			val newHostDyn = HostDynamic(
-					id = id,
-					status = HostStatus.Up
-			)
-			hostDynDao.add(action(newHostDyn))
-		} else {
-			hostDynDao.update(action(hostDyn))
-		}
-	}
-
 	override fun installMonitorPackages(session: ClientSession) {
 		//TODO: filter what is already installed, do not install if the list is empty
 		val packsNeeded =

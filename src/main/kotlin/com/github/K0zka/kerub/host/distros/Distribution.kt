@@ -8,10 +8,13 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
+import java.util.UUID
 
 /**
  * Interface to hide the details of some distribution-specific operations.
@@ -79,4 +82,19 @@ interface Distribution {
 	fun getServiceManager(session: ClientSession) : ServiceManager
 
 	fun getHostOs() : OperatingSystem
+
+	fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
+		val hostDyn = hostDynDao[id]
+		if (hostDyn == null) {
+			val newHostDyn = HostDynamic(
+					id = id,
+					status = HostStatus.Up
+			)
+			hostDynDao.add(action(newHostDyn))
+		} else {
+			hostDynDao.update(action(hostDyn))
+		}
+	}
+
+
 }

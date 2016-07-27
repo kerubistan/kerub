@@ -10,9 +10,12 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
+import com.github.K0zka.kerub.utils.asPercentOf
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.junix.procfs.MemInfo
+import com.github.K0zka.kerub.utils.junix.procfs.Stat
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -36,7 +39,25 @@ class Cygwin : Distribution {
 	}
 
 	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
-		TODO()
+		Stat.cpuLoadMonitorIncremental(session) {
+			cpus ->
+
+			val idle = cpus["cpu"]?.idle ?: 0
+			val user = cpus["cpu"]?.user ?: 0
+			val system = cpus["cpu"]?.system ?: 0
+			val sum = system + idle + user
+
+			doWithDyn(host.id, hostDynDao) {
+				dyn ->
+				dyn.copy(
+						status = HostStatus.Up,
+						idleCpu = idle.asPercentOf(sum).toByte(),
+						systemCpu = system.asPercentOf(sum).toByte(),
+						userCpu = user.asPercentOf(sum).toByte(),
+						lastUpdated = System.currentTimeMillis()
+				)
+			}
+		}
 	}
 
 	override fun getRequiredPackages(osCommand: OsCommand): List<String> = listOf()

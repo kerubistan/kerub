@@ -48,18 +48,19 @@ object Stat {
 		var previous: Map<String, CpuStat>? = null
 		cpuLoadMonitor(session) {
 			newStats ->
-			if (previous != null) {
-				handler(previous!!.map {
-					val prev = requireNotNull(previous!![it.key])
-					val curr = it.value
-					it.key to curr.copy(
-							user = curr.user - prev.user,
-							system = curr.system - prev.system,
-							idle = curr.idle - prev.idle
+			synchronized(this) {
+				if (previous != null) {
+					handler(previous!!.map {
+						val prev = requireNotNull(previous!![it.key])
+						val curr = newStats[it.key]!!
+						it.key to curr.copy(
+								user = curr.user - prev.user,
+								system = curr.system - prev.system,
+								idle = curr.idle - prev.idle
+						)
+					}.toMap()
 					)
-				}.toMap()
-				)
-			} else {
+				}
 				previous = newStats
 			}
 		}
