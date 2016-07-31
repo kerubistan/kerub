@@ -23,7 +23,6 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 							size = virtualStorage.size,
 							capabilities = filterBySize(gvinumCapabilities(host), virtualStorage.size)).map {
 						gvinumCapability ->
-						//TODO: filter out the ones too small and not enough free capacity
 
 						CreateGvinumVolume(
 								host = host,
