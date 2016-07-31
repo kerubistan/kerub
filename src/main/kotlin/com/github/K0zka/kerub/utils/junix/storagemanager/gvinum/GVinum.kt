@@ -63,13 +63,35 @@ object GVinum {
 			}
 
 	internal fun parseVolumeList(output: String): List<GvinumVolume>
-	= output.substringAfter("volumes:").split(volumeHeader).filter { it.isNotBlank() }.map {
+			= output.substringAfter("volumes:").split(volumeHeader).filter { it.isNotBlank() }.map {
 		str ->
 		GvinumVolume(
 				name = str.substringBefore(":").trim(),
-				size = str.substringBetween("Size: "," (").toSize(),
+				size = str.substringBetween("Size: ", " (").toSize(),
 				up = isUp(str)
 		)
 	}
 
+	fun createSimpleVolume(session: ClientSession, volName: String, disk : String, size : BigInteger) {
+		val config =
+				createVolume(config =
+				"""
+					volume $volName
+					  plex org concat
+						sd length ${size}b drive $disk
+				""", session = session, volName = volName)
+	}
+
+	private fun createVolume(config: String, session: ClientSession, volName: String) {
+		session.createSftpClient().use {
+			sftp ->
+			val tempConfigFile = "/tmp/$volName"
+			sftp.write(tempConfigFile).writer(charset("ASCII")).use {
+				writer ->
+				writer.write(config)
+			}
+			session.executeOrDie("gvinum create $tempConfigFile")
+			sftp.remove(tempConfigFile)
+		}
+	}
 }

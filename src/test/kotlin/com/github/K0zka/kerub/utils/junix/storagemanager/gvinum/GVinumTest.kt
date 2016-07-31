@@ -5,14 +5,17 @@ import com.github.K0zka.kerub.utils.resourceToString
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.ByteArrayOutputStream
 import java.math.BigInteger
 
 class GVinumTest {
@@ -20,6 +23,7 @@ class GVinumTest {
 	val session : ClientSession = mock()
 	val execChannel : ChannelExec = mock()
 	val future : OpenFuture = mock()
+	val ftp : SftpClient = mock()
 
 	@Test
 	fun parseDriveList() {
@@ -128,6 +132,22 @@ class GVinumTest {
 				resourceToString("com/github/K0zka/kerub/utils/junix/storagemanager/gvinum/plexes.txt")
 		)
 		verifyPlexesList(plexes)
+	}
+
+	@Test
+	fun createVolume() {
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(future)
+		whenever(execChannel.invertedErr).then { NullInputStream(0) }
+		whenever(execChannel.invertedOut).then { NullInputStream(0) }
+		whenever(session.createSftpClient()).thenReturn(ftp)
+		val outputStream = ByteArrayOutputStream()
+		whenever(ftp.write(any())).thenReturn(outputStream)
+
+		GVinum.createSimpleVolume(session, "test-vol", "ada1", "100 GB".toSize())
+
+		verify(ftp).remove(any())
+		assertTrue(outputStream.toByteArray().isNotEmpty())
 	}
 
 	private fun verifyPlexesList(plexes: List<GvinumPlex>) {
