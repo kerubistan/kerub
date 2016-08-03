@@ -28,7 +28,7 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 								host = host,
 								disk = virtualStorage,
 								config = SimpleGvinumConfiguration(
-										diskName = (gvinumCapability as GvinumStorageCapability).name
+										diskId = (gvinumCapability as GvinumStorageCapability).id
 								)
 						)
 					}

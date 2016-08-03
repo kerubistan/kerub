@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostFactory
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
+import com.github.K0zka.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImageFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLvFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
@@ -31,8 +32,7 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(
 					StartVirtualMachineFactory,
-					CreateImageFactory,
-					CreateLvFactory,
+					CreateDiskFactory,
 					StopVirtualMachineFactory,
 					MigrateVirtualMachineFactory,
 					WakeHostFactory,
@@ -43,9 +43,8 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 					WakeHostFactory,
 					MigrateVirtualMachineFactory
 			),
-			StorageAvailabilityExpectation::class to  setOf(
-					CreateImageFactory,
-					CreateLvFactory,
+			StorageAvailabilityExpectation::class to setOf(
+					CreateDiskFactory,
 					WakeHostFactory,
 					MigrateVirtualMachineFactory
 			)

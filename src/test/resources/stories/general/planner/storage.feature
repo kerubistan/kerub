@@ -2,8 +2,8 @@ Feature: storage management
 
   Scenario: The virtual disk must be created for the VM
 	And hosts:
-	  | address   | ram  | Cores | Threads | Architecture |  |
-	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	  | address   | ram  | Cores | Threads | Architecture | Operating System |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            |
 	And host 127.0.0.5 filesystem is:
 	  | mount point | size   | free   |
 	  | /var        | 128 GB | 128 GB |
@@ -24,8 +24,8 @@ Feature: storage management
 
   Scenario: The virtual disk must be created for the VM, only LVM is available
 	Given hosts:
-	  | address   | ram  | Cores | Threads | Architecture |  |
-	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	  | address   | ram  | Cores | Threads | Architecture | Operating System |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            |
 	And host 127.0.0.5 filesystem is:
 	  | mount point | size  | free |
 	  | /           | 10 GB | 2 GB |
@@ -47,10 +47,10 @@ Feature: storage management
 	Then the virtual disk system-disk-1 must be allocated on 127.0.0.5 under on the volume group volgroup-1
 	And VM vm1 gets scheduled on host 127.0.0.5
 
-  Scenario: disk created for the availability requirement
+  Scenario: disk created for the availability requirement on LVM
 	Given hosts:
-	  | address   | ram  | Cores | Threads | Architecture |  |
-	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	  | address   | ram  | Cores | Threads | Architecture | Operating System |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            |
 	And host 127.0.0.5 volume groups are:
 	  | vg name    | size   | pvs                            |
 	  | volgroup-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
@@ -62,10 +62,42 @@ Feature: storage management
 	When virtual disk system-disk-1 gets an availability expectation
 	Then the virtual disk system-disk-1 must be allocated on 127.0.0.5 under on the volume group volgroup-1
 
+  Scenario: disk created for the availability requirement on gvinum
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System |
+	  | host-1.example.com | 6 GB | 2     | 4       | x86_64       | FreeBSD          |
+	And host host-1.example.com gvinum disks are:
+	  | disk name | device | size   |
+	  | disk-1    | ada0   | 512 GB |
+	And host host-1.example.com is Up
+	And gvinum disk disk-1 on host host-1.example.com has 500GB free capacity
+	And virtual storage devices:
+	  | name          | size | ro    |
+	  | system-disk-1 | 2 GB | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then the virtual disk system-disk-1 must be allocated on host-1.example.com under on the gvinum disk disk-1
+
+  Scenario: disk created for the availability requirement on gvinum on the disk that has enough capacity
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System |
+	  | host-1.example.com | 6 GB | 2     | 4       | x86_64       | FreeBSD          |
+	And host host-1.example.com gvinum disks are:
+	  | disk name | device | size   |
+	  | disk-1    | ada0   | 512 GB |
+	  | disk-2    | ada1   | 512 GB |
+	And host host-1.example.com is Up
+	And gvinum disk disk-1 on host host-1.example.com has 500GB free capacity
+	And gvinum disk disk-2 on host host-1.example.com has 1GB free capacity
+	And virtual storage devices:
+	  | name          | size | ro    |
+	  | system-disk-1 | 2 GB | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then the virtual disk system-disk-1 must be allocated on host-1.example.com under on the gvinum disk disk-1
+
   Scenario: The only host needs to be waken up to make the disk available
 	Given hosts:
-	  | address   | ram  | Cores | Threads | Architecture |  |
-	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       |  |
+	  | address   | ram  | Cores | Threads | Architecture | Operating System |
+	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux			 |
 	And host 127.0.0.5 volume groups are:
 	  | vg name    | size   | pvs                            |
 	  | volgroup-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
@@ -80,9 +112,9 @@ Feature: storage management
 
 Scenario: Share an existing disk with ISCSI to start the VM
   Given hosts:
-	| address   | ram  | Cores | Threads | Architecture |
-	| host-1.example.com | 2 GB | 2     | 4       | x86_64       |
-	| host-2.example.com | 8 GB | 2     | 4       | x86_64       |
+	| address            | ram  | Cores | Threads | Architecture | Operating System |
+	| host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            |
+	| host-2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            |
   And host 127.0.0.5 volume groups are:
 	| vg name    | size   | pvs                            |
 	| vg-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
@@ -102,9 +134,9 @@ Scenario: Share an existing disk with ISCSI to start the VM
 
   Scenario: Disk already shared with iscsi
 	Given hosts:
-	  | address   | ram  | Cores | Threads | Architecture |
-	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       |
-	  | host-2.example.com | 8 GB | 2     | 4       | x86_64       |
+	  | address            | ram  | Cores | Threads | Architecture | Operating System |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            |
+	  | host-2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            |
 	And host 127.0.0.5 volume groups are:
 	  | vg name    | size   | pvs                            |
 	  | vg-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |

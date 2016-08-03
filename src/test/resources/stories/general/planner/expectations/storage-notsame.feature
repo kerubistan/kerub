@@ -2,9 +2,9 @@ Feature: support for not-same-storage expectation
 
   Scenario: When a not-same-storage virtual disk is allocated on host, allocate storage on another host
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture |
-	  | host1.example.com | 8 GB | 2     | 4       | x86_64       |
-	  | host2.example.com | 8 GB | 2     | 4       | x86_64       |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System |
+	  | host1.example.com | 8 GB | 2     | 4       | x86_64       | Linux            |
+	  | host2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            |
 	And host host1.example.com filesystem is:
 	  | mount point | size   | free   |
 	  | /var        | 128 GB | 128 GB |

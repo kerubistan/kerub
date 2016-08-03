@@ -2,17 +2,22 @@ package com.github.K0zka.kerub.stories.planner
 
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.FsStorageCapability
+import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
+import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.StorageCapability
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -49,6 +54,7 @@ import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
+import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
 import com.github.K0zka.kerub.utils.skip
@@ -128,6 +134,11 @@ class PlannerDefs {
 		}
 	}
 
+	val operatingSystems = mapOf(
+			"Linux" to OperatingSystem.Linux,
+			"FreeBSD" to OperatingSystem.BSD
+	)
+
 	@Given("^hosts:$")
 	fun hosts(hostsTable: DataTable) {
 		for (row in hostsTable.raw().filter { it != hostsTable.raw().first() }) {
@@ -136,7 +147,7 @@ class PlannerDefs {
 					dedicated = true,
 					publicKey = "",
 					capabilities = HostCapabilities(
-							os = OperatingSystem.Linux,
+							os = operatingSystems[row[5]],
 							cpuArchitecture = row[4],
 							cpus = listOf(ProcessorInformation(
 									manufacturer = "Test",
@@ -153,7 +164,7 @@ class PlannerDefs {
 							)
 							),
 							chassis = null,
-							distribution = null,
+							distribution = SoftwarePackage(name = row[5], version = Version.fromVersionString("1.0")),
 							devices = listOf(),
 							installedSoftware = listOf(),
 							system = null,
@@ -178,6 +189,26 @@ class PlannerDefs {
 			host.copy(
 					capabilities = requireNotNull(host.capabilities).copy(
 							storageCapabilities = requireNotNull(host.capabilities).storageCapabilities + fsCapabilities
+					)
+			)
+		} )
+	}
+
+	@Given("host (\\S+) gvinum disks are:")
+	fun setHostGvinumCapabilities(hostAddr : String, disks : DataTable) {
+		val diskCapabilities = disks.raw().skip().map {
+			row ->
+			GvinumStorageCapability(
+					name = row[0],
+					device = row[1],
+					size = row[2].toSize()
+			)
+		}
+		hosts = hosts.replace( {it.address == hostAddr}, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities!!.copy(
+							storageCapabilities = requireNotNull(host.capabilities?.storageCapabilities) + diskCapabilities
 					)
 			)
 		} )
@@ -402,6 +433,18 @@ class PlannerDefs {
 		})
 	}
 
+	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the gvinum disk (\\S+)")
+	fun verifyVirtualStorageCreatedOnGvinum(storageName: String, hostAddr: String, diskName: String) {
+
+		Assert.assertTrue(executedPlans.first().steps.any {
+			it is CreateGvinumVolume
+					&& it.disk.name == storageName
+					&& it.host.address == hostAddr
+					// TODO: verify disk name
+		})
+
+	}
+
 	@Given("volume group (\\S+) on host (\\S+) has (\\S+) free capacity")
 	fun setVolumeGroupFreeCapacity(volumeGroupName : String, hostAddr : String, capacity : String) {
 		val host = hosts.first { it.address == hostAddr }
@@ -414,15 +457,26 @@ class PlannerDefs {
 									&& it.volumeGroupName == volumeGroupName
 						}
 		) as LvmStorageCapability
-		hostDyns = hostDyns.replace( {it.id == host.id}, {
+		setStorageCapabilityFreeCapacity(capacity, volumeGroup.id, host)
+	}
+
+	@Given("gvinum disk (\\S+) on host (\\S+) has (\\S+) free capacity")
+	fun setGvinumDiskFreeCapacity(diskName : String, hostAddr : String, capacity : String) {
+		val host = hosts.first { it.address == hostAddr }
+		val disk = requireNotNull(host.capabilities?.storageCapabilities?.first { it is GvinumStorageCapability && it.name == diskName})
+		setStorageCapabilityFreeCapacity(capacity, disk.id, host)
+	}
+
+	private fun setStorageCapabilityFreeCapacity(capacity: String, capId: UUID, host: Host) {
+		hostDyns = hostDyns.replace({ it.id == host.id }, {
 			dyn ->
 			dyn.copy(
 					storageStatus = dyn.storageStatus + StorageDeviceDynamic(
-							id = volumeGroup.id,
+							id = capId,
 							freeCapacity = capacity.toSize()
 					)
 			)
-		} )
+		})
 	}
 
 	@Then("^the virtual disk (\\S+) must not be allocated$")

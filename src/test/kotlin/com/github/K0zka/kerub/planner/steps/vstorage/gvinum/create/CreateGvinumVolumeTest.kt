@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.testHostCapabilities
 import com.github.K0zka.kerub.testVirtualDisk
 import org.junit.Test
+import java.util.UUID
 
 class CreateGvinumVolumeTest {
 
@@ -25,7 +26,7 @@ class CreateGvinumVolumeTest {
 					),
 					disk = testVirtualDisk,
 					config = SimpleGvinumConfiguration(
-							diskName = "foo"
+							diskId = UUID.randomUUID()
 					)
 			).take(OperationalState.fromLists())
 		}
@@ -39,7 +40,7 @@ class CreateGvinumVolumeTest {
 					),
 					disk = testVirtualDisk,
 					config = SimpleGvinumConfiguration(
-							diskName = "foo"
+							diskId = UUID.randomUUID()
 					)
 			).take(OperationalState.fromLists())
 		}

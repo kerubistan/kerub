@@ -23,7 +23,7 @@ class CreateGvinumVolumeFactoryTest {
 				device = "ada1",
 				name = "a"
 		)
-		assertFalse(CreateGvinumVolumeFactory.produce(
+		assertTrue(CreateGvinumVolumeFactory.produce(
 				OperationalState.fromLists(
 						hosts = listOf(
 								testHost,
@@ -56,7 +56,7 @@ class CreateGvinumVolumeFactoryTest {
 						)),
 						vStorageDyns = listOf()
 				)
-		).isEmpty())
+		).isNotEmpty(), "all should be given for an allocation")
 
 		assertTrue(CreateGvinumVolumeFactory.produce(
 				OperationalState.fromLists(
