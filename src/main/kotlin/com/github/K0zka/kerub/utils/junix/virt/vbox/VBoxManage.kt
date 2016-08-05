@@ -4,8 +4,11 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
+import org.apache.sshd.client.scp.ScpClient
 import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.common.scp.ScpTimestamp
 import java.math.BigInteger
+import java.nio.file.attribute.PosixFilePermission
 
 object VBoxManage {
 	fun startVm(session: ClientSession, vm : VirtualMachine) {
@@ -85,6 +88,14 @@ object VBoxManage {
   </Machine>
 </VirtualBox>
 		"""
+		session.createSftpClient().use {
+			sftp ->
+			sftp.write("/tmp/${vm.id}.xml").writer(charset("ASCII")).use {
+				it.write(vmDescriptor)
+			}
+		}
+		session.executeOrDie("VBoxManage registervm /tmp/${vm.id}.xml")
+		session.executeOrDie("VBoxManage start ${vm.id}")
 		TODO("https://github.com/kerubistan/kerub/issues/93")
 	}
 	fun stopVm(session: ClientSession) {
