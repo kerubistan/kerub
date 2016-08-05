@@ -1,9 +1,14 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.K0zka.kerub.host.executeOrDie
+import com.github.K0zka.kerub.utils.KB
+import com.github.K0zka.kerub.utils.MB
 import com.github.K0zka.kerub.utils.substringBetween
 import com.github.K0zka.kerub.utils.toSize
+import org.apache.commons.io.input.NullInputStream
+import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
+import java.io.OutputStream
 import java.math.BigInteger
 
 object GVinum {
@@ -12,6 +17,8 @@ object GVinum {
 	fun listSubDisks(session: ClientSession): List<GvinumSubDisk> = parseSubDiskList(gvinum("ls", session))
 	fun listVolumes(session: ClientSession): List<GvinumVolume> = parseVolumeList(gvinum("lv", session))
 	fun listPlexes(session: ClientSession) = parsePlexesList(gvinum("lp", session))
+
+	private val separator = "--sep"
 
 	private val header = Regex.fromLiteral("\\n+\\s\\S+:$")
 	private val driveHeader = Regex.fromLiteral("Drive ")
@@ -72,13 +79,18 @@ object GVinum {
 		)
 	}
 
-	fun createSimpleVolume(session: ClientSession, volName: String, disk : String, size : BigInteger) {
+	fun roundUpKb(size: BigInteger) : BigInteger {
+		val kbs = size / KB.toBigInteger()
+		return (kbs + BigInteger.ONE)
+	}
+
+	fun createSimpleVolume(session: ClientSession, volName: String, disk: String, size: BigInteger) {
 		val config =
 				createVolume(config =
 				"""
 					volume $volName
 					  plex org concat
-						sd length ${size}b drive $disk
+						sd length ${roundUpKb(size)}kb drive $disk
 				""", session = session, volName = volName)
 	}
 
@@ -94,4 +106,24 @@ object GVinum {
 			sftp.remove(tempConfigFile)
 		}
 	}
+
+	class GvinumDriveMonitorOutputStream(private val callback: (List<GvinumDrive>) -> Unit) : OutputStream() {
+		private val buffer = StringBuilder(128)
+		override fun write(input: Int) {
+			buffer.append(input.toChar())
+			if (buffer.endsWith(separator)) {
+				callback(parseDriveList(buffer.substring(0, buffer.length - separator.length)))
+				buffer.setLength(0)
+			}
+		}
+	}
+
+	fun monitorDrives(session: ClientSession, callback: (List<GvinumDrive>) -> Unit) {
+		val channel = session.createExecChannel(""" bash -c " while true; do gvinum ld -v; echo $separator; sleep 60; done " """)
+		channel.out = GvinumDriveMonitorOutputStream(callback)
+		channel.err = NullOutputStream()
+		channel.`in` = NullInputStream(0)
+		channel.open().verify()
+	}
+
 }

@@ -1,0 +1,70 @@
+2 drives:
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        547356672 bytes (522 MB)
+		Available:  4821216768 bytes (4597 MB)
+		State: up
+		Flags: 0
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:         10485760 bytes (10 MB)
+		Available:  5358087680 bytes (5109 MB)
+		State: up
+		Flags: 0
+--sep
+2 drives:
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        547356672 bytes (522 MB)
+		Available:  4821216768 bytes (4597 MB)
+		State: up
+		Flags: 0
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:         10485760 bytes (10 MB)
+		Available:  5358087680 bytes (5109 MB)
+		State: up
+		Flags: 0
+--sep
+2 drives:
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        547356672 bytes (522 MB)
+		Available:  4821216768 bytes (4597 MB)
+		State: up
+		Flags: 0
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:         10485760 bytes (10 MB)
+		Available:  5358087680 bytes (5109 MB)
+		State: up
+		Flags: 0
+--sep
+2 drives:
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        547356672 bytes (522 MB)
+		Available:  4821216768 bytes (4597 MB)
+		State: up
+		Flags: 0
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:         10485760 bytes (10 MB)
+		Available:  5358087680 bytes (5109 MB)
+		State: up
+		Flags: 0
+--sep
+2 drives:
+Drive a:	Device ada1
+		Size:       5368573440 bytes (5119 MB)
+		Used:        547356672 bytes (522 MB)
+		Available:  4821216768 bytes (4597 MB)
+		State: up
+		Flags: 0
+Drive b:	Device ada2
+		Size:       5368573440 bytes (5119 MB)
+		Used:         10485760 bytes (10 MB)
+		Available:  5358087680 bytes (5109 MB)
+		State: up
+		Flags: 0
+--sep

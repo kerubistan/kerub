@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.utils.resource
 import com.github.K0zka.kerub.utils.resourceToString
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -15,8 +16,13 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.mockito.Matchers
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 import java.math.BigInteger
+import kotlin.test.assertFails
+import kotlin.test.assertFalse
 
 class GVinumTest {
 
@@ -156,6 +162,23 @@ class GVinumTest {
 		assertEquals(1, plexes[0].subdisks)
 		assertEquals("testvol1", plexes[0].volume)
 		assertEquals("testvol1.p0", plexes[0].name)
+	}
+
+	@Test
+	fun monitorDrives() {
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(future)
+		doAnswer {
+			resource("com/github/K0zka/kerub/utils/junix/storagemanager/gvinum/monitor-drives.txt")
+					.copyTo (it.arguments[0] as OutputStream)
+		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+
+		var drives : List<List<GvinumDrive>> = listOf()
+		GVinum.monitorDrives(session, {
+			drives = drives + listOf(it)
+		})
+
+		assertFalse(drives.isEmpty())
 	}
 
 }
