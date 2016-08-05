@@ -4,11 +4,8 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
-import org.apache.sshd.client.scp.ScpClient
 import org.apache.sshd.client.session.ClientSession
-import org.apache.sshd.common.scp.ScpTimestamp
 import java.math.BigInteger
-import java.nio.file.attribute.PosixFilePermission
 
 object VBoxManage {
 	fun startVm(session: ClientSession, vm : VirtualMachine) {

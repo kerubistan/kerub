@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.emptyString
 import com.github.K0zka.kerub.utils.getLogger
-import com.github.K0zka.kerub.utils.insist
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream

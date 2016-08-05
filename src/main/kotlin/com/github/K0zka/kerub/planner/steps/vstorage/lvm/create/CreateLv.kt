@@ -8,8 +8,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.IOCost
-import com.github.K0zka.kerub.planner.reservations.Reservation
-import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 

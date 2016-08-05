@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.skip
 import org.apache.sshd.client.session.ClientSession
-import java.nio.charset.Charset
 
 object Wmic {
 

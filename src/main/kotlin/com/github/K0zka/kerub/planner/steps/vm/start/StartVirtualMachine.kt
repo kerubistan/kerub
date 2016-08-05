@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
-import com.github.K0zka.kerub.utils.genPassword
 
 data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState {

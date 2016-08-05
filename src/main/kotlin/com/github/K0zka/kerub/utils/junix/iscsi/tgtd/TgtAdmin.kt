@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
 import com.github.K0zka.kerub.host.executeOrDie
-import com.github.K0zka.kerub.host.use
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession

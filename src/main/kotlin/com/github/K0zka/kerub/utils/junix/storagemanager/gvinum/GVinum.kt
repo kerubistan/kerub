@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.utils.KB
-import com.github.K0zka.kerub.utils.MB
 import com.github.K0zka.kerub.utils.substringBetween
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream

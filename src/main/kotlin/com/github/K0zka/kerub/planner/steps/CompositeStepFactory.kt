@@ -10,8 +10,6 @@ import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFact
 import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.CreateDiskFactory
-import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImageFactory
-import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLvFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareFactory
 import com.github.K0zka.kerub.utils.getLogger

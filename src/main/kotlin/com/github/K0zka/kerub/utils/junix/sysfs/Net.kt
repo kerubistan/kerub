@@ -1,8 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.sysfs
 
 import com.github.K0zka.kerub.host.getFileContents
-import com.github.K0zka.kerub.host.use
-import com.github.K0zka.kerub.utils.buildString
 import com.github.K0zka.kerub.utils.stringToMac
 import org.apache.sshd.client.session.ClientSession
 

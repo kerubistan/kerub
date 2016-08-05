@@ -12,7 +12,6 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.StorageCapability
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
@@ -38,7 +37,6 @@ import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
-import java.util.UUID
 
 abstract class AbstractLinux : Distribution {
 

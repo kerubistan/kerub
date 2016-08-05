@@ -6,8 +6,6 @@ import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh
 import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.SshException
-import org.apache.sshd.common.digest.BuiltinDigests
-import org.apache.sshd.common.digest.Digest
 import org.apache.sshd.common.session.Session
 import org.apache.sshd.common.session.SessionListener
 import org.apache.sshd.common.session.helpers.AbstractSession

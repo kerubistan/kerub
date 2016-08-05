@@ -18,10 +18,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Matchers
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 import java.io.OutputStream
 import java.math.BigInteger
-import kotlin.test.assertFails
 import kotlin.test.assertFalse
 
 class GVinumTest {

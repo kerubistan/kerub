@@ -8,9 +8,6 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostPubKey
 import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.services.HostService
-import org.apache.sshd.common.config.keys.KeyUtils
-import org.apache.sshd.common.digest.BuiltinDigests
-import org.apache.sshd.common.digest.Digest
 
 class HostServiceImpl(
 		dao: HostDao,

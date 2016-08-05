@@ -2,9 +2,6 @@ package com.github.K0zka.kerub.planner.steps.vm.start
 
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
-import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
