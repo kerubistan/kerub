@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
@@ -51,18 +52,25 @@ class VirtualStorageDeviceServiceImpl(
 	private fun pump(data: InputStream, device: VirtualStorageDevice, dyn: VirtualStorageDeviceDynamic, session: ClientSession) {
 		when (dyn.allocation) {
 			is VirtualStorageLvmAllocation -> {
-				session.createScpClient().upload(
-						data,
-						dyn.allocation.path,
-						device.size.toLong(),
-						listOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE),
-						ScpTimestamp(System.currentTimeMillis(), System.currentTimeMillis())
-				)
+				uploadRaw(data, device, dyn.allocation.path, session)
+			}
+			is VirtualStorageGvinumAllocation -> {
+				uploadRaw(data, device, "/dev/gvinum/${device.id}", session)
 			}
 			else -> {
 				TODO()
 			}
 		}
+	}
+
+	private fun uploadRaw(data: InputStream, device: VirtualStorageDevice, path: String, session: ClientSession) {
+		session.createScpClient().upload(
+				data,
+				path,
+				device.size.toLong(),
+				listOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE),
+				ScpTimestamp(System.currentTimeMillis(), System.currentTimeMillis())
+		)
 	}
 
 	override fun search(field: String, value: String, start: Long, limit: Long): SearchResultPage<VirtualStorageDevice> {

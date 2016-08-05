@@ -25,6 +25,8 @@ import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImageExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
+import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolumeExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
@@ -52,6 +54,7 @@ class PlanExecutorImpl(
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
 			IscsiShare::class to IscsiShareExecutor(hostDynamicDao, hostCommandExecutor, hostManager)

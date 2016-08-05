@@ -14,6 +14,7 @@ import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
@@ -86,6 +87,28 @@ class FreeBSD : Distribution {
 					idleCpu = event.idleCpu
 			))
 		})
+		GVinum.monitorDrives(session) {
+			disks ->
+			val dyn = hostDynDao[host.id] ?: HostDynamic(
+					id = host.id,
+					status = HostStatus.Up
+			)
+			val gvinumCapabilities = host.capabilities
+					?.storageCapabilities
+					?.filter { it is GvinumStorageCapability }
+					?: listOf()
+			val gvinumDiskIds = gvinumCapabilities.map { it.id }
+			hostDynDao.update(dyn.copy(
+					storageStatus = dyn
+							.storageStatus
+							.filterNot { storageStat -> gvinumDiskIds.contains(storageStat.id) }
+							+ disks.map {
+						disk ->
+						val cap = gvinumCapabilities.first { (it as GvinumStorageCapability).name == disk.name }
+						StorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
+					}
+			))
+		}
 	}
 
 	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
