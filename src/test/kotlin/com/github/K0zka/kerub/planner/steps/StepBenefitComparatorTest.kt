@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
-import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import org.junit.Assert
 import org.junit.Test
 
@@ -37,7 +37,7 @@ class StepBenefitComparatorTest {
 	                               ))
 	                            )
 
-	val start = StartVirtualMachine(
+	val start = KvmStartVirtualMachine(
 			vm = virtualMachine,
 	        host = host
 	                               )

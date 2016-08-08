@@ -1,13 +1,14 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import org.junit.Assert
 import org.junit.Test
 
-class StartVirtualMachineTest {
+class KvmStartVirtualMachineTest {
 	@Test
 	fun take() {
 		val host = Host(
@@ -23,7 +24,7 @@ class StartVirtualMachineTest {
 				hosts = listOf(host)
 		                                              )
 
-		val transformed = StartVirtualMachine(vm = vm, host = host).take(originalState)
+		val transformed = KvmStartVirtualMachine(vm = vm, host = host).take(originalState)
 		Assert.assertTrue(transformed.vms.containsKey(vm.id))
 		Assert.assertTrue(transformed.hosts.containsKey(host.id))
 		Assert.assertTrue(transformed.hostDyns.containsKey(host.id))

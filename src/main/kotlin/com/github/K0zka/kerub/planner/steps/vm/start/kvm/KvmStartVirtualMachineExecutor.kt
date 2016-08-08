@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.host.HostManager
@@ -11,13 +11,13 @@ import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.getLogger
 import java.math.BigInteger
 
-class StartVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<StartVirtualMachine, DisplaySettings>(hostManager) {
+class KvmStartVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<KvmStartVirtualMachine, DisplaySettings>(hostManager) {
 
 	companion object {
-		val logger = getLogger(StartVirtualMachineExecutor::class)
+		val logger = getLogger(KvmStartVirtualMachineExecutor::class)
 	}
 
-	override fun update(step: StartVirtualMachine, updates: DisplaySettings) {
+	override fun update(step: KvmStartVirtualMachine, updates: DisplaySettings) {
 		val dyn = VirtualMachineDynamic(
 				id = step.vm.id,
 				displaySetting = updates,
@@ -29,7 +29,7 @@ class StartVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao
 		vmDynDao.update(dyn)
 	}
 
-	override fun execute(hypervisor: Hypervisor, step: StartVirtualMachine) : DisplaySettings {
+	override fun execute(hypervisor: Hypervisor, step: KvmStartVirtualMachine) : DisplaySettings {
 		val consolePwd = genPassword(length = 16)
 		hypervisor.startVm(step.vm, consolePwd)
 		val protoAndPort = getHypervisor(step).getDisplay(step.vm)

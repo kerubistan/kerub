@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.host.FireWall
@@ -10,6 +10,8 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -20,7 +22,7 @@ import org.mockito.Mockito
 import java.math.BigInteger
 import java.util.UUID
 
-class StartVirtualMachineExecutorTest {
+class KvmStartVirtualMachineExecutorTest {
 	val hostManager: HostManager = mock()
 
 	val vmDynDao: VirtualMachineDynamicDao = mock()
@@ -44,7 +46,7 @@ class StartVirtualMachineExecutorTest {
 				memory = Range(BigInteger("128"), BigInteger("256"))
 		)
 
-		val step = StartVirtualMachine(
+		val step = KvmStartVirtualMachine(
 				host = host,
 				vm = vm
 		)
@@ -53,7 +55,7 @@ class StartVirtualMachineExecutorTest {
 		whenever(hypervisor.getDisplay(Mockito.any(VirtualMachine::class.java) ?: vm)).thenReturn(RemoteConsoleProtocol.spice to 5900)
 		whenever(hostManager.getFireWall(Mockito.any(Host::class.java) ?: host)).thenReturn(firewall)
 
-		StartVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
+		KvmStartVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
 
 		verify(hypervisor).startVm(
 				//TODO: eq is failing with VM in kotlin-mockito (test framework bug)

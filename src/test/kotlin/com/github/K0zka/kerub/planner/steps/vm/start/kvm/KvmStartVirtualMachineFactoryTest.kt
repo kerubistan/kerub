@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
@@ -12,12 +12,14 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineFactory
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
 
-class StartVirtualMachineFactoryTest {
+class KvmStartVirtualMachineFactoryTest {
 
 	val vm = VirtualMachine(
 			name = "test-vm"
@@ -65,19 +67,19 @@ class StartVirtualMachineFactoryTest {
 
 	@Test
 	fun produceWithoutBlankState() {
-		val steps = StartVirtualMachineFactory.produce(OperationalState.fromLists())
+		val steps = KvmStartVirtualMachineFactory.produce(OperationalState.fromLists())
 		Assert.assertTrue(steps.isEmpty())
 	}
 
 	@Test
 	fun produceWithoutHost() {
-		val steps = StartVirtualMachineFactory.produce(OperationalState.fromLists())
+		val steps = KvmStartVirtualMachineFactory.produce(OperationalState.fromLists())
 		Assert.assertTrue(steps.isEmpty())
 	}
 
 	@Test
 	fun produceWithoutRunningHosts() {
-		val steps = StartVirtualMachineFactory.produce(
+		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
 						vms = listOf(vm),
 						hosts = listOf(host),
@@ -87,7 +89,7 @@ class StartVirtualMachineFactoryTest {
 
 	@Test
 	fun produceWithVmRunning() {
-		val steps = StartVirtualMachineFactory.produce(
+		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
 						vms = listOf(vm.copy(
 								expectations = listOf(VirtualMachineAvailabilityExpectation(
@@ -109,14 +111,14 @@ class StartVirtualMachineFactoryTest {
 						level = ExpectationLevel.DealBreaker
 				                                                           )
 				                     ))
-		val steps = StartVirtualMachineFactory.produce(
+		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
 						vms = listOf(vmToRun),
 						hosts = listOf(host),
 						vmDyns = listOf(),
 						hostDyns = listOf(hostDyn)))
 		Assert.assertTrue(steps.isNotEmpty())
-		Assert.assertTrue(steps.any { it is StartVirtualMachine
+		Assert.assertTrue(steps.any { it is KvmStartVirtualMachine
 				&& it.vm == vmToRun
 				&& it.host == host } )
 	}

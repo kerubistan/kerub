@@ -52,7 +52,7 @@ import com.github.K0zka.kerub.planner.PlannerImpl
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
@@ -290,7 +290,7 @@ class PlannerDefs {
 	fun verifyVmScheduledOnHost(vmName: String, hostAddress: String) {
 		Assert.assertTrue(executedPlans.any {
 			it.steps.any {
-				it is StartVirtualMachine
+				it is KvmStartVirtualMachine
 						&& it.host.address == hostAddress
 						&& it.vm.name == vmName
 			}
@@ -316,8 +316,8 @@ class PlannerDefs {
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
 	fun verifyVmGetsScheduled(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val startStep = executedPlans.first().steps[stepNo - 1]
-		Assert.assertTrue(startStep is StartVirtualMachine)
-		Assert.assertEquals((startStep as StartVirtualMachine).host.address, targetHostAddr)
+		Assert.assertTrue(startStep is KvmStartVirtualMachine)
+		Assert.assertEquals((startStep as KvmStartVirtualMachine).host.address, targetHostAddr)
 		Assert.assertEquals(startStep.vm.name, vmName)
 	}
 

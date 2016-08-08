@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
@@ -8,9 +8,9 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vm.match
 import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
 
-object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualMachine>() {
+object KvmStartVirtualMachineFactory : AbstractOperationalStepFactory<KvmStartVirtualMachine>() {
 
-	override fun produce(state: OperationalState): List<StartVirtualMachine> {
+	override fun produce(state: OperationalState): List<KvmStartVirtualMachine> {
 		val vmsToRun = state.vms.values.filter {
 			it.expectations.any {
 				it is VirtualMachineAvailabilityExpectation
@@ -20,7 +20,7 @@ object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualM
 		val vmsActuallyRunning = state.vmDyns.values.filter { it.status == VirtualMachineStatus.Up }.map { it.id }
 		val vmsToStart = vmsToRun.filter { !vmsActuallyRunning.contains(it.id) }.filter { checkStartRequirements(it, state) }
 
-		var steps = listOf<StartVirtualMachine>()
+		var steps = listOf<KvmStartVirtualMachine>()
 
 		vmsToStart.forEach {
 			vm ->
@@ -29,7 +29,7 @@ object StartVirtualMachineFactory : AbstractOperationalStepFactory<StartVirtualM
 				host ->
 				val dyn = state.hostDyns[host.id]
 				if (match(host, dyn, vm, vstorageState)) {
-					steps += StartVirtualMachine(vm, host)
+					steps += KvmStartVirtualMachine(vm, host)
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.start
+package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
@@ -11,7 +11,7 @@ import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 
-data class StartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+data class KvmStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
 		return state.copy(
