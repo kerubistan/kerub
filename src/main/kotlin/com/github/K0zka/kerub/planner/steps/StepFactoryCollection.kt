@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.utils.join
 /**
  * Groups together step factories that perform similar functionality, e.g. start VM, create storage
  */
-abstract class AbstractStepFactoryCollection(
+open class StepFactoryCollection(
 		private val factories: List<AbstractOperationalStepFactory<*>>
 ) : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 	override fun produce(state: OperationalState): List<AbstractOperationalStep>

@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.planner.steps.vm.start
 
-import com.github.K0zka.kerub.planner.steps.AbstractStepFactoryCollection
+import com.github.K0zka.kerub.planner.steps.StepFactoryCollection
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineFactory
 
-object StartVirtualMachineFactory : AbstractStepFactoryCollection(listOf(
+object StartVirtualMachineFactory : StepFactoryCollection(listOf(
 		KvmStartVirtualMachineFactory
 		//virtualbox, xen, bhyve, etc
 ))
