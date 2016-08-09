@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHostFactory
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostFactory
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineFactory
+import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
@@ -24,12 +24,12 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 
 	val defaultFactories
 			= setOf(MigrateVirtualMachineFactory, MigrateVirtualStorageDeviceFactory, PowerDownHostFactory,
-			KvmStartVirtualMachineFactory, StopVirtualMachineFactory)
+			StartVirtualMachineFactory, StopVirtualMachineFactory)
 
 	val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(
-					KvmStartVirtualMachineFactory,
+					StartVirtualMachineFactory,
 					CreateDiskFactory,
 					StopVirtualMachineFactory,
 					MigrateVirtualMachineFactory,
