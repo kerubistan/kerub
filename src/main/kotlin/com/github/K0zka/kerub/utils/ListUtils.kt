@@ -7,6 +7,10 @@ fun <T> Collection<T>.only(): T {
 	return first()
 }
 
+operator fun <X, Y> Collection<X>.times(other : Collection<Y>): List<Pair<X, Y>> {
+	return this.map { x -> other.map { y -> x to y } }.join()
+}
+
 fun <T> List<T>.skip(): List<T> =
 		if (this.isEmpty()) {
 			listOf<T>()

@@ -34,7 +34,7 @@ class ListUtilsTest {
 		assertEquals(mapOf(1 to "1", 2 to "2", 3 to "3"), listOf("1", "2", "3").toMap { it.toInt() })
 	}
 
-	data class TestEntity(override val id: Int, val name : String) : Entity<Int>
+	data class TestEntity(override val id: Int, val name: String) : Entity<Int>
 
 	@Test
 	fun toMapEntities() {
@@ -49,4 +49,11 @@ class ListUtilsTest {
 		).toMap())
 	}
 
+	@Test
+	fun times() {
+		assertEquals(listOf("A" to 1, "A" to 2, "B" to 1, "B" to 2), listOf("A", "B") * listOf(1, 2))
+		assertEquals(listOf(), listOf<String>() * listOf(1, 2))
+		assertEquals(listOf(), listOf("A", "B") * (listOf<Any>()))
+		assertEquals(listOf(), listOf<String>() * (listOf<Int>()))
+	}
 }
