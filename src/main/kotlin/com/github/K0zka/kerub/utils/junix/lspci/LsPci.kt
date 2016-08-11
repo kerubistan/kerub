@@ -14,7 +14,7 @@ object LsPci {
 	}
 
 	@JvmStatic fun parse(output: String): List<PciDevice> =
-			output.trim().split("\n").toList().map { parseLine(it) }
+			output.trim().lines().toList().map { parseLine(it) }
 
 	@JvmStatic fun parseLine(line: String): PciDevice {
 		return PciDevice(

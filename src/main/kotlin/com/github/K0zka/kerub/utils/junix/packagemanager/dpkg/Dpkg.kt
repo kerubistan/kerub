@@ -11,7 +11,7 @@ object Dpkg {
 		return session.execute(
 				"dpkg-query -W")
 				.trim()
-				.split('\n').map {
+				.lines().map {
 			parseDpkgOutputLine(it)
 		}
 	}
@@ -20,7 +20,7 @@ object Dpkg {
 		return session.execute(
 				"dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"")
 				.trim()
-				.split('\n').map {
+				.lines().map {
 			parseDpkgOutputLine(it)
 		}
 	}

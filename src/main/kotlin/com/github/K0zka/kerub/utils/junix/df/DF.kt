@@ -5,13 +5,14 @@ import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
-object DF : OsCommand {
+object
+DF : OsCommand {
 
 	private val regex = "\\s+".toRegex()
 
 	val multiplier = BigInteger("1024")
 	fun df(session: ClientSession): List<FilesystemInfo> {
-		val output = session.executeOrDie("df -l -P").split("\n").filterNot { it == "" }
+		val output = session.executeOrDie("df -l -P").lines().filterNot { it == "" }
 		return (output - output.first()).map {
 			row ->
 			val fields = row.trim().split(regex)

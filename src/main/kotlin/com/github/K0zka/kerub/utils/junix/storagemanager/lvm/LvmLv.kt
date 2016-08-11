@@ -117,7 +117,7 @@ object LvmLv {
 		}
 		return session.executeOrDie(
 				"lvm lvs -o $fields $listOptions $filter")
-				.split("\n").filterNot { it.isEmpty() }.map {
+				.lines().filterNot { it.isEmpty() }.map {
 			row ->
 			parseRow(row)
 		}
