@@ -9,30 +9,34 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.K0zka.kerub.utils.toMap
 
 abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
-	fun getWorkingHosts(state: OperationalState) : Map<Host, HostDynamic> {
+	fun getWorkingHosts(state: OperationalState, filter: (Host, HostDynamic) -> Boolean): Map<Host, HostDynamic> {
 		return state.hosts.values.map {
 			host ->
 			val dyn = state.hostDyns[host.id]
-			if(dyn != null && dyn.status == HostStatus.Up) host to dyn else null
+			if (dyn != null && dyn.status == HostStatus.Up) host to dyn else null
 		}.filterNotNull().toMap()
-
 	}
 
-	fun getVmsToStart(state: OperationalState): List<VirtualMachine> {
+	fun getWorkingHosts(state: OperationalState): Map<Host, HostDynamic> = getWorkingHosts(state) { host, dyn -> true }
+
+	fun getVmsToStart(state: OperationalState, filter: (VirtualMachine) -> Boolean): List<VirtualMachine> {
 		val vmsToRun = state.vms.values.filter {
-			it.expectations.any {
+			vm ->
+			vm.expectations.any {
 				it is VirtualMachineAvailabilityExpectation
 						&& it.up
 			}
+					&& filter(vm)
 		}
 		val vmsActuallyRunning = state.vmDyns.values.filter { it.status == VirtualMachineStatus.Up }.map { it.id }
 		val vmsToStart = vmsToRun.filter { !vmsActuallyRunning.contains(it.id) }.filter { checkStartRequirements(it, state) }
 		return vmsToStart
 	}
+
+	fun getVmsToStart(state: OperationalState): List<VirtualMachine> = getVmsToStart(state) { true }
 
 	private fun checkStartRequirements(virtualMachine: VirtualMachine, state: OperationalState): Boolean {
 		return allDisksAvailable(virtualMachine, state)
