@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.vmstat
 
+import com.github.K0zka.kerub.utils.KB
 import com.github.K0zka.kerub.utils.toBigInteger
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -15,7 +16,7 @@ object BsdVmStat {
 							cacheMem = BigInteger.ZERO,
 							ioBuffMem = BigInteger.ZERO,
 							swapMem = BigInteger.ZERO,
-							freeMem = split[4].toBigInteger()
+							freeMem = split[4].toBigInteger() * KB.toBigInteger()
 					)
 			)
 		}
