@@ -65,6 +65,10 @@ class PlannerExecutorDefs {
 					os = OperatingSystem.Linux,
 					totalMemory = "1 TB".toSize(),
 					distribution = SoftwarePackage(name = "Centos", version = Version.fromVersionString("7.0")),
+					installedSoftware = listOf(
+							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
+							SoftwarePackage(name = "libvirt", version = Version.fromVersionString("1.2.18"))
+					),
 					cpuArchitecture = "X86_64",
 					cpus = listOf(
 							ProcessorInformation(

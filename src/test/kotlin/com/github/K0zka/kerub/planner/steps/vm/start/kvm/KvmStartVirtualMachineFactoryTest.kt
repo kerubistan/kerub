@@ -4,6 +4,8 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
@@ -42,7 +44,10 @@ class KvmStartVirtualMachineFactoryTest {
 			                                          )),
 	                cpuArchitecture = "x86_64",
 	                totalMemory = "8 GB".toSize(),
-	                installedSoftware = listOf(),
+	                installedSoftware = listOf(
+							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
+							SoftwarePackage(name = "libvirt", version = Version.fromVersionString("1.2.18"))
+					),
 	                devices = listOf(),
 	                os = OperatingSystem.Linux,
 	                system = null,

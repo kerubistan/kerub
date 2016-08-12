@@ -336,6 +336,24 @@ class PlannerDefs {
 		throw PendingException();
 	}
 
+	@Given("software installed on host (\\S+):")
+	fun setHostInstalledSoftware(hostAddr : String , software: DataTable) {
+		hosts = hosts.replace(
+				{it.address ==hostAddr},
+				{
+					host ->
+					val caps = requireNotNull(host.capabilities)
+					host.copy(
+							capabilities = caps.copy(
+								installedSoftware = software.raw().skip().map {
+									SoftwarePackage(name = it[0], version = Version.fromVersionString(it[1]))
+								}
+							)
+					)
+				}
+		)
+	}
+
 	@Given("^host (\\S+) is Up$")
 	fun setHostDyn(address: String) {
 		val host = hosts.firstOrNull { it.address == address }!!

@@ -16,7 +16,7 @@ abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOpe
 		return state.hosts.values.map {
 			host ->
 			val dyn = state.hostDyns[host.id]
-			if (dyn != null && dyn.status == HostStatus.Up) host to dyn else null
+			if (dyn != null && dyn.status == HostStatus.Up && filter(host, dyn)) host to dyn else null
 		}.filterNotNull().toMap()
 	}
 

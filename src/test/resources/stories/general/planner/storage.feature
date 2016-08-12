@@ -15,6 +15,10 @@ Feature: storage management
 	And virtual storage devices:
 	  | name          | size | ro    |
 	  | system-disk-1 | 2 GB | false |
+	And software installed on host 127.0.0.5:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
 	And host 127.0.0.5 is Up
 	And system-disk-1 is attached to vm1
 	And system-disk-1 is not yet created
@@ -33,6 +37,10 @@ Feature: storage management
 	And host 127.0.0.5 volume groups are:
 	  | vg name    | size   | pvs                            |
 	  | volgroup-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
+	And software installed on host 127.0.0.5:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
 	Given VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
@@ -120,6 +128,14 @@ Scenario: Share an existing disk with ISCSI to start the VM
 	| vg-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
   And host host-1.example.com is Up
   And host host-2.example.com is Up
+  And software installed on host host-2.example.com:
+	| package  | version |
+	| qemu-kvm | 2.4.1   |
+	| libvirt  | 1.2.18  |
+  And software installed on host host-1.example.com:
+	| package  | version |
+	| qemu-kvm | 2.4.1   |
+	| libvirt  | 1.2.18  |
   And virtual storage devices:
 	| name          | size | ro    |
 	| system-disk-1 | 2 GB | false |
@@ -142,6 +158,14 @@ Scenario: Share an existing disk with ISCSI to start the VM
 	  | vg-1 | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And host host-1.example.com is Up
 	And host host-2.example.com is Up
+	And software installed on host host-1.example.com:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
+	And software installed on host host-2.example.com:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
 	And virtual storage devices:
 	  | name          | size | ro    |
 	  | system-disk-1 | 2 GB | false |
