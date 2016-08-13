@@ -1,6 +1,6 @@
 Feature: basic planner features
 
-  Scenario: Start a VM with single host
+  Scenario: Start a VM with single host with kvm
 	Given VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1GB    | 4GB    | 2    | x86_64       |
@@ -14,6 +14,20 @@ Feature: basic planner features
 	And host 127.0.0.5 is Up
 	When VM vm1 is started
 	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
+
+  Scenario: Start a VM with single host with virtualbox
+	Given VMs:
+	  | name | MinRam | MaxRam | CPUs | Architecture |
+	  | vm1  | 1GB    | 4GB    | 2    | x86_64       |
+	And hosts:
+	  | address   | ram | Cores | Threads | Architecture | Operating System |
+	  | 127.0.0.5 | 2GB | 2     | 4       | x86_64       | Linux            |
+	And software installed on host 127.0.0.5:
+	  | package    | version |
+	  | VirtualBox | 2.4.1   |
+	And host 127.0.0.5 is Up
+	When VM vm1 is started
+	Then VM vm1 gets scheduled on host 127.0.0.5 with virtualbox hypervisor
 
   Scenario: Start a VM with two hosts, one of them is does not match required architecture
 	Given VMs:
