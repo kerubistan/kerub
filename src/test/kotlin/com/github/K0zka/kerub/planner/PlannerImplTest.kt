@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.planner
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.utils.toSize
@@ -35,6 +36,14 @@ class PlannerImplTest {
 			publicKey = "",
 			dedicated = true
 	)
+
+	@Test
+	fun checkReservations() {
+		assertTrue(PlannerImpl.checkReservations(listOf(), listOf()))
+		assertTrue(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf()))
+		assertTrue(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf(VmReservation(vm2))))
+		assertFalse(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf(VmReservation(vm1))))
+	}
 
 	@Test
 	fun checkReservation() {

@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.planner
 
 import com.github.K0zka.kerub.model.messages.EntityMessage
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
+import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.HostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
@@ -29,7 +30,7 @@ class PlannerImpl(
 
 	companion object {
 		fun checkReservations(planReservations: Collection<Reservation<*>>, reservations: List<Reservation<*>>): Boolean =
-				planReservations.any {
+				planReservations.all {
 					checkReservation(it, reservations)
 				}
 
@@ -53,8 +54,10 @@ class PlannerImpl(
 				is VirtualStorageReservation -> {
 					return !reservations.contains(requestedReservation)
 				}
-				else ->
-					return false
+				is HostMemoryReservation -> {
+					return true //TODO: correct verification needed
+				}
+				else -> TODO("check not implemented: ${requestedReservation}")
 			}
 		}
 
