@@ -7,19 +7,6 @@ import kotlin.test.assertNull
 
 class StringUtilsTest {
 
-	val str = """bla
-bla bla
-bla bla bla"""
-
-	@Test
-	fun rows() {
-		val rows = str.rows()
-		assertEquals(3, rows.size)
-		assertEquals("bla", rows[0])
-		assertEquals("bla bla", rows[1])
-		assertEquals("bla bla bla", rows[2])
-	}
-
 	@Test
 	fun toBigInteger() {
 		assertEquals(BigInteger.ONE, "1".toBigInteger())

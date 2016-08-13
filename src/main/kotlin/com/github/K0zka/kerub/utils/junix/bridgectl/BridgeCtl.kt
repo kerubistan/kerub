@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.utils.junix.bridgectl
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
-import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.skip
 import org.apache.sshd.client.session.ClientSession
 
@@ -13,7 +12,7 @@ object BridgeCtl : OsCommand {
 
 	fun list(session: ClientSession): List<Bridge> {
 		var bridges = listOf<Bridge>()
-		session.executeOrDie("brctl show").rows().skip().forEach {
+		session.executeOrDie("brctl show").lines().skip().forEach {
 			val fields = it.trim().split(fieldSeparator)
 			when (fields.size) {
 				1 -> {

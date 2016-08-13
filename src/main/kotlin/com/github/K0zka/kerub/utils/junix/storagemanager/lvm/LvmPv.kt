@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.host.executeOrDie
-import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 
@@ -11,7 +10,7 @@ import org.apache.sshd.client.session.ClientSession
 object LvmPv {
 	fun list(session: ClientSession): List<PhysicalVolume>
 			= session.executeOrDie("lvm pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions")
-			.rows()
+			.lines()
 			.filterNot { it.isBlank() }
 			.map {
 				row ->

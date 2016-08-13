@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
-import com.github.K0zka.kerub.utils.rows
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.substringBetween
 import com.github.K0zka.kerub.utils.toBigInteger
@@ -54,7 +53,7 @@ object Virsh : OsCommand {
 	}
 
 	fun list(session: ClientSession): List<UUID>
-			= session.executeOrDie("virsh list --uuid").rows().map { UUID.fromString(it) }
+			= session.executeOrDie("virsh list --uuid").lines().map { UUID.fromString(it) }
 
 	fun suspend(session: ClientSession, id: UUID) {
 		session.executeOrDie("virsh suspend $id")
