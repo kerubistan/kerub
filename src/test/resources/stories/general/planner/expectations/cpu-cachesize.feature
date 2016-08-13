@@ -24,7 +24,7 @@ Feature: support for host cpu cache-size expectation
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
 	And VM vm1 requires 512 KB L1 cache
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host1.example.com
+	Then VM vm1 gets scheduled on host host1.example.com with kvm hypervisor
 
   Scenario: host selection with cache information, one host with too few cache, one with just enough
 	Given hosts:
@@ -61,4 +61,4 @@ Feature: support for host cpu cache-size expectation
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
 	And VM vm1 requires 512 KB L1 cache
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host1.example.com
+	Then VM vm1 gets scheduled on host host1.example.com with kvm hypervisor

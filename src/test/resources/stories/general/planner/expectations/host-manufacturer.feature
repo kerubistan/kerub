@@ -22,4 +22,4 @@ Feature: support for host manufacturer expectation
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
 	And VM vm1 requires manufacturer enterprisejunkyard
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host2.example.com
+	Then VM vm1 gets scheduled on host host2.example.com with kvm hypervisor

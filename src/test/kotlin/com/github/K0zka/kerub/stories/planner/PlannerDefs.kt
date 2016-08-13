@@ -53,6 +53,7 @@ import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
@@ -286,11 +287,22 @@ class PlannerDefs {
 		));
 	}
 
-	@Then("^VM (\\S+) gets scheduled on host (\\S+)$")
-	fun verifyVmScheduledOnHost(vmName: String, hostAddress: String) {
+	@Then("^VM (\\S+) gets scheduled on host (\\S+) with kvm hypervisor$")
+	fun verifyVmScheduledOnHostWithKvm(vmName: String, hostAddress: String) {
 		Assert.assertTrue(executedPlans.any {
 			it.steps.any {
 				it is KvmStartVirtualMachine
+						&& it.host.address == hostAddress
+						&& it.vm.name == vmName
+			}
+		})
+	}
+
+	@Then("^VM (\\S+) gets scheduled on host (\\S+) with virtualbox hypervisor$")
+	fun verifyVmScheduledOnHostWithVirtualBox(vmName: String, hostAddress: String) {
+		Assert.assertTrue(executedPlans.any {
+			it.steps.any {
+				it is VirtualBoxStartVirtualMachine
 						&& it.host.address == hostAddress
 						&& it.vm.name == vmName
 			}

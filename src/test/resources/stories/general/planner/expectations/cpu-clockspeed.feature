@@ -22,4 +22,4 @@ Feature: support for cpu clock speed expectation
 	And host1.example.com cpu clockspeed is 1700 Mhz
 	And host2.example.com cpu clockspeed is 2400 Mhz
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host2.example.com
+	Then VM vm1 gets scheduled on host host2.example.com with kvm hypervisor

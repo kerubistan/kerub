@@ -22,7 +22,7 @@ Feature: support for memory clock speed expectation
 	And host1.example.com memory clockspeed is 1300 Mhz
 	And host2.example.com memory clockspeed is 2300 Mhz
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host2.example.com
+	Then VM vm1 gets scheduled on host host2.example.com with kvm hypervisor
 
   Scenario: Start a virtual machine memory clock speed expectation on it, some host does not have known mem clock freq
 	Given hosts:
@@ -46,4 +46,4 @@ Feature: support for memory clock speed expectation
 	And host1.example.com memory information is not known
 	And host2.example.com memory clockspeed is 2300 Mhz
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host2.example.com
+	Then VM vm1 gets scheduled on host host2.example.com with kvm hypervisor

@@ -22,7 +22,7 @@ Feature: support not-same-host expectation
 	And vm2 is running on host2.example.com
 	And vm1 has notsame host expectation against vm2
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host host1.example.com
+	Then VM vm1 gets scheduled on host host1.example.com with kvm hypervisor
 
   Scenario: the other vm must be migrated to another host to be able to start
 	Given hosts:

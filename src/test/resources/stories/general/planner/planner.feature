@@ -13,7 +13,7 @@ Feature: basic planner features
 	  | libvirt  | 1.2.18  |
 	And host 127.0.0.5 is Up
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host 127.0.0.5
+	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
 
   Scenario: Start a VM with two hosts, one of them is does not match required architecture
 	Given VMs:
@@ -34,7 +34,7 @@ Feature: basic planner features
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host 127.0.0.5
+	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
 
   Scenario: Start a VM with two hosts, one of them is does not match required amount of cores
 	Given VMs:
@@ -55,7 +55,7 @@ Feature: basic planner features
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host 127.0.0.5
+	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
 
   Scenario: Start a VM with two hosts, one of them is does not match required amount of RAM
 	Given VMs:
@@ -76,7 +76,7 @@ Feature: basic planner features
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
 	When VM vm1 is started
-	Then VM vm1 gets scheduled on host 127.0.0.5
+	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
 
   Scenario: migration is needed to start the second VM
 	Given VMs:
