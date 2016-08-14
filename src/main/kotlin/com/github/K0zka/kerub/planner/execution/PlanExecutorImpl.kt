@@ -21,6 +21,8 @@ import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
+import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
@@ -48,6 +50,7 @@ class PlanExecutorImpl(
 
 	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao),
+			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor, vmDynamicDao),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
 			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
