@@ -15,13 +15,11 @@ import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigDecimal
 import java.math.BigInteger
-import java.math.MathContext
-import java.math.RoundingMode
 import java.util.UUID
 
 object VBoxManage {
 
-	private val mc = MathContext(1, RoundingMode.UP)
+
 	private val mediatype = mapOf(
 			DeviceType.disk to "hdd",
 			DeviceType.cdrom to "dvddrive",
@@ -31,7 +29,7 @@ object VBoxManage {
 	fun startVm(session: ClientSession, vm : VirtualMachine, targetHost: Host, storageMap : Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>) {
 		session.executeOrDie("VBoxManage createvm --name ${vm.id} --uuid ${vm.id} --register")
 		// memory is meant in megabytes, kerub has it in bytes, let's round it up
-		session.executeOrDie("VBoxManage modifyvm --memory ${(BigDecimal(vm.memory.min) / MB).round(mc)} ")
+		session.executeOrDie("VBoxManage modifyvm --memory ${round(vm.memory.min)} ")
 		session.executeOrDie("VBoxManage modifyvm --cpus ${vm.nrOfCpus} ")
 		vm.virtualStorageLinks.forEach {
 			link ->
@@ -47,6 +45,19 @@ object VBoxManage {
 			)
 		}
 		session.executeOrDie("VBoxManage start ${vm.id}")
+	}
+
+	/**
+	 * Round to MB
+	 */
+	internal fun round(amount: BigInteger) : String {
+		val accurate = BigDecimal(amount).divide(MB)
+		val round = accurate.toBigInteger()
+		if(accurate > BigDecimal(round)) {
+			return (round + BigInteger.ONE).toString()
+		} else {
+			return round.toString()
+		}
 	}
 
 	private fun medium(dyn: VirtualStorageDeviceDynamic, storageHost: Host, targetHost : Host): String {
