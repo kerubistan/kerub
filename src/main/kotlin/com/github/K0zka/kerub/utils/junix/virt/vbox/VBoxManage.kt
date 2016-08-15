@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.MB
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigDecimal
@@ -27,24 +28,34 @@ object VBoxManage {
 	)
 
 	fun startVm(session: ClientSession, vm : VirtualMachine, targetHost: Host, storageMap : Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>) {
-		session.executeOrDie("VBoxManage createvm --name ${vm.id} --uuid ${vm.id} --register")
-		// memory is meant in megabytes, kerub has it in bytes, let's round it up
-		session.executeOrDie("VBoxManage modifyvm --memory ${round(vm.memory.min)} ")
-		session.executeOrDie("VBoxManage modifyvm --cpus ${vm.nrOfCpus} ")
-		vm.virtualStorageLinks.forEach {
-			link ->
-			val storage = requireNotNull(storageMap[link.virtualStorageId])
-			val device = storage.first
-			val dyn = storage.second
-			val host = storage.third
-			session.executeOrDie(
-					"VBoxManage storageattach ${vm.id} " +
-							"--storagectl ${link.virtualStorageId} " +
-							"--type ${mediatype[link.device]}" +
-							"--medium ${medium(dyn, host, targetHost)}"
-			)
+		var success = false
+		try {
+			session.executeOrDie("VBoxManage createvm --name ${vm.id} --uuid ${vm.id} --register")
+			// memory is meant in megabytes, kerub has it in bytes, let's round it up
+			session.executeOrDie("VBoxManage modifyvm ${vm.id} --memory ${round(vm.memory.min)} ")
+			session.executeOrDie("VBoxManage modifyvm ${vm.id} --cpus ${vm.nrOfCpus} ")
+			vm.virtualStorageLinks.forEach {
+				link ->
+				val storage = requireNotNull(storageMap[link.virtualStorageId])
+				val device = storage.first
+				val dyn = storage.second
+				val host = storage.third
+				session.executeOrDie(
+						"VBoxManage storageattach ${vm.id} " +
+								"--storagectl ${link.virtualStorageId} " +
+								"--type ${mediatype[link.device]}" +
+								"--medium ${medium(dyn, host, targetHost)}"
+				)
+			}
+			session.executeOrDie("VBoxManage startvm ${vm.id} --type headless")
+			success = true
+		} finally {
+			if(!success) {
+				silent {
+					session.executeOrDie("VBoxManage unregistervm ${vm.id} --delete")
+				}
+			}
 		}
-		session.executeOrDie("VBoxManage start ${vm.id}")
 	}
 
 	/**
