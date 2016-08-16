@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareFactory
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
@@ -34,7 +35,7 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 					StopVirtualMachineFactory,
 					MigrateVirtualMachineFactory,
 					WakeHostFactory,
-					TgtdIscsiShareFactory
+					IscsiShareFactory
 			),
 			NotSameStorageExpectation:: class to setOf(
 					MigrateVirtualStorageDeviceFactory,
