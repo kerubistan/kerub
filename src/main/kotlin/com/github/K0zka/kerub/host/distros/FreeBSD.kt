@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.fw.IpfwFireWall
 import com.github.K0zka.kerub.host.packman.PkgPackageManager
+import com.github.K0zka.kerub.host.servicemanager.rc.RcServiceManager
 import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
@@ -48,7 +49,7 @@ class FreeBSD : Distribution {
 	}
 
 	override fun getServiceManager(session: ClientSession): ServiceManager {
-		TODO("issue #57")
+		return RcServiceManager(session)
 	}
 
 	override fun installMonitorPackages(session: ClientSession) {
