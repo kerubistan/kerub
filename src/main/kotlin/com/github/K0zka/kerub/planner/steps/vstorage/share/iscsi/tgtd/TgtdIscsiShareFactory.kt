@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -7,11 +7,11 @@ import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 
-object IscsiShareFactory : AbstractOperationalStepFactory<IscsiShare>() {
-	override fun produce(state: OperationalState): List<IscsiShare> {
+object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() {
+	override fun produce(state: OperationalState): List<TgtdIscsiShare> {
 		return unsharedDisks(state).map {
 			diskAndDyn ->
-			IscsiShare(
+			TgtdIscsiShare(
 					host = requireNotNull(state.hosts[diskAndDyn.second.allocation.hostId]),
 					vstorage = diskAndDyn.first,
 					devicePath = (diskAndDyn.second.allocation as VirtualStorageLvmAllocation).path

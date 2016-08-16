@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
@@ -6,6 +6,8 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareExecutor
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
@@ -22,7 +24,7 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
 import java.util.UUID
 
-class IscsiShareExecutorTest {
+class TgtdIscsiShareExecutorTest {
 
 	val hostDynamicDao: HostDynamicDao = mock()
 	val hostManager: HostManager = mock()
@@ -58,8 +60,8 @@ class IscsiShareExecutorTest {
 		whenever(session.createSftpClient()).thenReturn(sftp)
 		whenever(sftp.write(any())).thenReturn(NullOutputStream())
 		whenever(hostManager.getServiceManager(any())).thenReturn(serviceManager)
-		IscsiShareExecutor(hostDynamicDao, HostCommandExecutorStub(session), hostManager)
-				.execute(step = IscsiShare(host = host, devicePath = "/dev/test", vstorage = vStorage))
+		TgtdIscsiShareExecutor(hostDynamicDao, HostCommandExecutorStub(session), hostManager)
+				.execute(step = TgtdIscsiShare(host = host, devicePath = "/dev/test", vstorage = vStorage))
 
 		verify(firewall).open(eq(3260), eq("tcp"))
 		verify(serviceManager).start(TgtAdmin)

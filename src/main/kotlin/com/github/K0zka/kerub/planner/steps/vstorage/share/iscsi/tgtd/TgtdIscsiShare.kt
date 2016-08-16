@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.utils.update
 
-data class IscsiShare(val host: Host, val vstorage: VirtualStorageDevice, val devicePath: String) : AbstractOperationalStep {
+data class TgtdIscsiShare(val host: Host, val vstorage: VirtualStorageDevice, val devicePath: String) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState
 			= state.copy(
 			hostDyns = state.hostDyns.update(host.id, {
@@ -18,7 +18,7 @@ data class IscsiShare(val host: Host, val vstorage: VirtualStorageDevice, val de
 			})
 	)
 
-	override fun toString() = "IscsiShare(host=${host.address} (${host.id})," +
+	override fun toString() = "TgtdIscsiShare(host=${host.address} (${host.id})," +
 			"vstorage=${vstorage.name} (${vstorage.id})," +
 			"path=$devicePath)"
 }

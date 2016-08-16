@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.Host

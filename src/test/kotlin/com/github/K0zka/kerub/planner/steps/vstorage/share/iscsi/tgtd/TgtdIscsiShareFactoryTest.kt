@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
@@ -8,13 +8,14 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareFactory
 import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
 
-class IscsiShareFactoryTest {
+class TgtdIscsiShareFactoryTest {
 
 	val host = Host(
 			id = UUID.randomUUID(),
@@ -47,7 +48,7 @@ class IscsiShareFactoryTest {
 
 	@Test
 	fun produceSingleShareable() {
-		val steps = IscsiShareFactory.produce(
+		val steps = TgtdIscsiShareFactory.produce(
 				OperationalState.fromLists(
 						hosts = listOf(host),
 						hostDyns = listOf(hostDyn),
@@ -64,7 +65,7 @@ class IscsiShareFactoryTest {
 	fun produceAlreadyShared() {
 		@Test
 		fun produceSingleShareable() {
-			val steps = IscsiShareFactory.produce(
+			val steps = TgtdIscsiShareFactory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostDyn.copy(

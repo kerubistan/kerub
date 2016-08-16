@@ -57,7 +57,7 @@ import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartV
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -312,8 +312,8 @@ class PlannerDefs {
 	@Then("(\\S+) must be shared with iscsi on host (\\S+) as step (\\d+)")
 	fun verifyDiskIscsiShare(diskName: String, hostName: String, stepNo: Int) {
 		val shareStep = executedPlans.first().steps[stepNo - 1]
-		Assert.assertTrue("step $stepNo is $shareStep", shareStep is IscsiShare)
-		Assert.assertEquals((shareStep as IscsiShare).host.address, hostName)
+		Assert.assertTrue("step $stepNo is $shareStep", shareStep is TgtdIscsiShare)
+		Assert.assertEquals((shareStep as TgtdIscsiShare).host.address, hostName)
 		Assert.assertEquals(shareStep.vstorage.name, diskName)
 	}
 

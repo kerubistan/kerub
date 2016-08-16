@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
@@ -7,12 +7,12 @@ import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
-class IscsiShareExecutor(
+class TgtdIscsiShareExecutor(
 		private val hostDynamicDao: HostDynamicDao,
 		private val hostExecutor: HostCommandExecutor,
 		private val hostManager: HostManager)
-: AbstractStepExecutor<IscsiShare, Unit>() {
-	override fun update(step: IscsiShare, updates: Unit) {
+: AbstractStepExecutor<TgtdIscsiShare, Unit>() {
+	override fun update(step: TgtdIscsiShare, updates: Unit) {
 		hostDynamicDao.update(step.host.id) {
 			it.copy(
 					services = it.services + IscsiService(vstorageId = step.vstorage.id)
@@ -20,7 +20,7 @@ class IscsiShareExecutor(
 		}
 	}
 
-	override fun perform(step: IscsiShare) {
+	override fun perform(step: TgtdIscsiShare) {
 		hostExecutor.execute(step.host) {
 			session ->
 

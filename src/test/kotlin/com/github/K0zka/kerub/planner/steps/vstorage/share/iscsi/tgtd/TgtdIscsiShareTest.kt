@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi
+package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
@@ -7,13 +7,14 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Test
 
 import org.junit.Assert.*
 import java.util.UUID
 
-class IscsiShareTest {
+class TgtdIscsiShareTest {
 
 	val host = Host(
 			id = UUID.randomUUID(),
@@ -46,7 +47,7 @@ class IscsiShareTest {
 
 	@Test
 	fun testTake() {
-		val newState = IscsiShare(
+		val newState = TgtdIscsiShare(
 				host = host,
 				vstorage = vStorage,
 				devicePath = "/dev/test/${vStorage.id}")

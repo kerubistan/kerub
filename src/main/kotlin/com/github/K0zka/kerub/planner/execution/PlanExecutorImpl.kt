@@ -31,8 +31,8 @@ import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumV
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolumeExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShare
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareExecutor
 import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.task
 
@@ -60,7 +60,7 @@ class PlanExecutorImpl(
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
-			IscsiShare::class to IscsiShareExecutor(hostDynamicDao, hostCommandExecutor, hostManager)
+			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostDynamicDao, hostCommandExecutor, hostManager)
 	)
 
 	fun execute(step: AbstractOperationalStep) {
