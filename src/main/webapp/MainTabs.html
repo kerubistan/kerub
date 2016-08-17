@@ -153,14 +153,14 @@
                     <tr ng-repeat="_host in hosts" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
                         <td>{{host.address}}</td>
                         <td>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{hostDyn.userCpu}}" aria-valuemin="0" aria-valuemax="100" style="width: {{hostDyn.userCpu}}%;">
+                            <uib-progress>
+                                <uib-bar value="hostDyn.userCpu" min="0" max="100">
                                     {{hostDyn.userCpu}} %
-                                </div>
-                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{hostDyn.systemCpu}}" aria-valuemin="0" aria-valuemax="100" style="width: {{hostDyn.systemCpu}}%;">
+                                </uib-bar>
+                                <uib-bar type="warning" value="hostDyn.systemCpu" min="0" max="100">
                                     {{hostDyn.systemCpu}} %
-                                </div>
-                            </div>
+                                </uib-bar>
+                            </uib-progress>
                         </td>
                         <td><span ng-if="host.capabilities.distribution" class="label label-primary">
                                     <i class="fa fa-linux"></i>
