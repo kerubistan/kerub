@@ -146,15 +146,22 @@
                     <tr>
                         <td>address</td>
                         <td>status</td>
-                        <td>dedicated</td>
                         <td>info</td>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="host in hosts" class="clickable" ng-click="showHostDetails(host.id)">
+                    <tr ng-repeat="_host in hosts" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
                         <td>{{host.address}}</td>
-                        <td>N/A</td>
-                        <td>{{host.dedicated}}</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{hostDyn.userCpu}}" aria-valuemin="0" aria-valuemax="100" style="width: {{hostDyn.userCpu}}%;">
+                                    {{hostDyn.userCpu}} %
+                                </div>
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{hostDyn.systemCpu}}" aria-valuemin="0" aria-valuemax="100" style="width: {{hostDyn.systemCpu}}%;">
+                                    {{hostDyn.systemCpu}} %
+                                </div>
+                            </div>
+                        </td>
                         <td><span ng-if="host.capabilities.distribution" class="label label-primary">
                                     <i class="fa fa-linux"></i>
                                     {{host.capabilities.distribution.name}}
