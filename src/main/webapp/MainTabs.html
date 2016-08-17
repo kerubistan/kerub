@@ -153,16 +153,16 @@
                     <tr ng-repeat="_host in hosts" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
                         <td>{{host.address}}</td>
                         <td>
-                            <uib-progress>
-                                <uib-bar value="hostDyn.userCpu" min="0" max="100">
+                            <uib-progress animate="false" min="0" max="100">
+                                <uib-bar value="hostDyn.userCpu" >
                                     {{hostDyn.userCpu}} %
                                 </uib-bar>
                                 <uib-bar type="warning" value="hostDyn.systemCpu" min="0" max="100">
                                     {{hostDyn.systemCpu}} %
                                 </uib-bar>
                             </uib-progress>
-                            <uib-progress>
-                                <uib-bar value="(host.capabilities.totalMemory - hostDyn.memFree) / (host.capabilities.totalMemory / 100)">
+                            <uib-progress max="host.capabilities.totalMemory" animate="false">
+                                <uib-bar value="host.capabilities.totalMemory - hostDyn.memFree">
                                     {{ humanFriendlySize(host.capabilities.totalMemory-hostDyn.memFree)}} / {{ humanFriendlySize(host.capabilities.totalMemory)}}
                                 </uib-bar>
                             </uib-progress>
