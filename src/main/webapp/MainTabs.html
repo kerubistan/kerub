@@ -161,6 +161,11 @@
                                     {{hostDyn.systemCpu}} %
                                 </uib-bar>
                             </uib-progress>
+                            <uib-progress>
+                                <uib-bar value="(host.capabilities.totalMemory - hostDyn.memFree) / (host.capabilities.totalMemory / 100)">
+                                    {{ humanFriendlySize(host.capabilities.totalMemory-hostDyn.memFree)}} / {{ humanFriendlySize(host.capabilities.totalMemory)}}
+                                </uib-bar>
+                            </uib-progress>
                         </td>
                         <td><span ng-if="host.capabilities.distribution" class="label label-primary">
                                     <i class="fa fa-linux"></i>
