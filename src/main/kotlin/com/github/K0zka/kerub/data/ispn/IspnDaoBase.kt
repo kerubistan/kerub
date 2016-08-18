@@ -36,11 +36,14 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 		cache.advancedCache.getAll(ids.toHashSet()).values.toList()
 
 	override fun remove(entity: T) {
-		eventListener.send(EntityRemoveMessage(entity, System.currentTimeMillis()))
+		eventListener.send(EntityRemoveMessage(entity))
 		cache.remove(entity.id)
 	}
 
 	override fun remove(id: I) {
+		val entity = get(id)
+		if(entity != null)
+			eventListener.send(EntityRemoveMessage(entity))
 		cache.remove(id)
 	}
 

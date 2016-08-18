@@ -7,5 +7,5 @@ import com.github.K0zka.kerub.model.Entity
 @JsonTypeName("entity-remove")
 data class EntityRemoveMessage @JsonCreator constructor(
 		override val obj: Entity<*>,
-		override val date: Long
+		override val date: Long = System.currentTimeMillis()
 ) : EntityMessage

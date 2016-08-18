@@ -5,5 +5,6 @@ import java.util.UUID
 
 class VirtualNetwork(
 		override val id: UUID,
-		override val expectations: List<VirtualNetworkExpectation>
+		override val expectations: List<VirtualNetworkExpectation>,
+		val name : String
 ) : Entity<UUID>, Constrained<VirtualNetworkExpectation>
