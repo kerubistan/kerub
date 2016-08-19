@@ -39,11 +39,11 @@ class IspnConfiguration {
 		System.setProperty("stat.owners", staticOwners.toString())
 
 		val template = loadTemplate()
-		var globalConfigBuilder = template.globalConfigurationBuilder
+		val globalConfigBuilder = template.globalConfigurationBuilder
 
 		globalConfigBuilder.transport().clusterName(clusterName).rackId(rackId).siteId(siteId)
 
-		var configBuilder = template.currentConfigurationBuilder
+		val configBuilder = template.currentConfigurationBuilder
 		globalConfig = globalConfigBuilder.build()
 		config = configBuilder.build(globalConfig)
 	}
