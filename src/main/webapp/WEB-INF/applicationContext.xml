@@ -30,6 +30,10 @@
         <constructor-arg value="vmCache"/>
     </bean>
 
+    <bean id="vNetCache" parent="cache">
+        <constructor-arg value="vNetCache"/>
+    </bean>
+
     <bean id="vmDynCache" parent="cache">
         <constructor-arg value="vmDynCache"/>
     </bean>
@@ -89,6 +93,11 @@
 
     <bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl" parent="daoBase">
         <constructor-arg ref="virtualStorageDeviceCache"/>
+        <constructor-arg ref="eventListener"/>
+    </bean>
+
+    <bean id="vNetDao" class="com.github.K0zka.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
+        <constructor-arg ref="vNetCache"/>
         <constructor-arg ref="eventListener"/>
     </bean>
 
@@ -386,6 +395,9 @@
         <jaxrs:serviceBeans>
             <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
                 <constructor-arg ref="vmDao"/>
+            </bean>
+            <bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
+                <constructor-arg ref="vNetDao"/>
             </bean>
             <bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
                 <constructor-arg ref="vmDynDao"/>

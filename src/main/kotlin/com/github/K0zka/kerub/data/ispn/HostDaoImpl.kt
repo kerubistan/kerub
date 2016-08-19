@@ -7,7 +7,5 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class HostDaoImpl(cache: Cache<UUID, Host>, eventListener: EventListener) : ListableIspnDaoBase<Host, UUID>(cache, eventListener), HostDao {
-	override fun getEntityClass(): Class<Host> {
-		return Host::class.java
-	}
+	override fun getEntityClass(): Class<Host> = Host::class.java
 }

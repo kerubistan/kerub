@@ -41,6 +41,12 @@
             </persistence>
             <indexing auto-config="true"/>
         </distributed-cache>
+        <distributed-cache name="vNetCache" owners="${stat.owners}">
+            <persistence>
+                <file-store path="${store.dir}/store/base/vnets"/>
+            </persistence>
+            <indexing auto-config="true"/>
+        </distributed-cache>
         <distributed-cache name="projectCache" owners="${stat.owners}">
             <persistence>
                 <file-store path="${store.dir}/store/base/projects"/>
