@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <infinispan
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="urn:infinispan:config:7.0 http://www.infinispan.org/schemas/infinispan-config-7.0.xsd"
-        xmlns="urn:infinispan:config:7.0">
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="urn:infinispan:config:7.0 http://www.infinispan.org/schemas/infinispan-config-7.0.xsd"
+		xmlns="urn:infinispan:config:7.0">
 
-    <jgroups>
-        <stack-file name="udp" path="default-configs/default-jgroups-udp.xml"/>
-    </jgroups>
+	<jgroups>
+		<stack-file name="udp" path="default-configs/default-jgroups-udp.xml"/>
+	</jgroups>
 
-    <cache-container default-cache="default" statistics="true" >
-        <transport stack="udp"/>
-        <jmx
-                domain="org.infinispan"
-                duplicate-domains="true"
-                mbean-server-lookup="org.infinispan.jmx.PlatformMBeanServerLookup"/>
-        <distributed-cache name="default" statistics="true">
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="hostCache" statistics="true" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/hosts"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="hostDynamicCache" statistics="true" owners="${dyn.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/hosts"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="virtualStorageDeviceDynamicCache" statistics="true" owners="${dyn.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/vstorage"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="vmCache" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/vms"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="vNetCache" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/vnets"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="projectCache" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/projects"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="vmDynCache" mode="ASYNC" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/vm"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="auditCache" mode="ASYNC" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/audit"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="eventCache" mode="ASYNC" owners="${dyn.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/event"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="assignmentCache" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/assignments"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="virtualStorageDeviceCache" owners="${stat.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/base/virtualstorage"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-        <distributed-cache name="controllerDynamicCache" mode="ASYNC" owners="${dyn.owners}">
-            <persistence>
-                <file-store path="${store.dir}/store/dyn/controller"/>
-            </persistence>
-            <indexing auto-config="true"/>
-        </distributed-cache>
-    </cache-container>
+	<cache-container default-cache="default" statistics="true">
+		<transport stack="udp"/>
+		<jmx
+				domain="org.infinispan"
+				duplicate-domains="true"
+				mbean-server-lookup="org.infinispan.jmx.PlatformMBeanServerLookup"/>
+		<distributed-cache name="default" statistics="true">
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="hostCache" statistics="true" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/hosts"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="hostDynamicCache" statistics="true" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/hosts"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="virtualStorageDeviceDynamicCache" statistics="true" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/vstorage"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="vmCache" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/vms"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="vNetCache" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/vnets"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="projectCache" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/projects"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="vmDynCache" mode="ASYNC" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/vm"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="auditCache" mode="ASYNC" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/audit"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="eventCache" mode="ASYNC" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/event"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="assignmentCache" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/assignments"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="virtualStorageDeviceCache" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/virtualstorage"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="controllerDynamicCache" mode="ASYNC" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/controller"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+	</cache-container>
 </infinispan>

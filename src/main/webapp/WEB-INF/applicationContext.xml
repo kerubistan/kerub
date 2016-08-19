@@ -6,510 +6,513 @@
             http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
 
-    <!--
-    infinispan config
-    -->
-
-    <bean id="cacheConfigBuilder" class="com.github.K0zka.kerub.data.ispn.IspnConfiguration" init-method="init">
-        <property name="baseDir" value="target/kerub-store"/>
-        <property name="dynamicOwners" value="1"/>
-        <property name="staticOwners" value="1"/>
-    </bean>
-
-    <bean name="cacheConfig" factory-bean="cacheConfigBuilder" factory-method="build"/>
-
-    <bean name="globalConfig" factory-bean="cacheConfigBuilder" factory-method="buildGlobal"/>
-
-    <bean id="cacheManager" class="org.infinispan.manager.DefaultCacheManager">
-        <constructor-arg value="infinispan.xml"/>
-    </bean>
-
-    <bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
-
-    <bean id="vmCache" parent="cache">
-        <constructor-arg value="vmCache"/>
-    </bean>
-
-    <bean id="vNetCache" parent="cache">
-        <constructor-arg value="vNetCache"/>
-    </bean>
-
-    <bean id="vmDynCache" parent="cache">
-        <constructor-arg value="vmDynCache"/>
-    </bean>
-
-    <bean id="hostCache" parent="cache">
-        <constructor-arg value="hostCache"/>
-    </bean>
-
-    <bean id="hostDynamicCache" parent="cache">
-        <constructor-arg value="hostDynamicCache"/>
-    </bean>
-
-    <bean id="virtualStorageDeviceDynamicCache" parent="cache">
-        <constructor-arg value="virtualStorageDeviceDynamicCache"/>
-    </bean>
-
-    <bean id="projectCache" parent="cache">
-        <constructor-arg value="projectCache"/>
-    </bean>
-
-    <bean id="auditCache" parent="cache">
-        <constructor-arg value="auditCache"/>
-    </bean>
-
-    <bean id="eventCache" parent="cache">
-        <constructor-arg value="eventCache"/>
-    </bean>
-
-    <bean id="controllerDynamicCache" parent="cache">
-        <constructor-arg value="controllerDynamicCache"/>
-    </bean>
-
-    <bean id="assignmentCache" parent="cache">
-        <constructor-arg value="assignmentCache"/>
-    </bean>
-
-    <bean id="virtualStorageDeviceCache" parent="cache">
-        <constructor-arg value="virtualStorageDeviceCache"/>
-    </bean>
-
-    <!--
-    DAO
-    -->
-
-    <bean id="daoBase" abstract="true">
-    </bean>
-
-    <bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
-        <constructor-arg ref="vmCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
-        <constructor-arg ref="vmDynCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl" parent="daoBase">
-        <constructor-arg ref="virtualStorageDeviceCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="vNetDao" class="com.github.K0zka.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
-        <constructor-arg ref="vNetCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl" parent="daoBase">
-        <constructor-arg ref="hostCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
-        <constructor-arg ref="assignmentCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
-        <constructor-arg ref="hostDynamicCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="virtualStorageDeviceDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl" parent="daoBase">
-        <constructor-arg ref="virtualStorageDeviceDynamicCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
-        <constructor-arg ref="projectCache"/>
-        <constructor-arg ref="eventListener"/>
-    </bean>
-
-    <bean id="auditDao" class="com.github.K0zka.kerub.data.ispn.AuditEntryDaoImpl">
-        <constructor-arg ref="auditCache"/>
-    </bean>
-
-    <bean id="eventDao" class="com.github.K0zka.kerub.data.ispn.EventDaoImpl">
-        <constructor-arg ref="eventCache"/>
-    </bean>
-
-    <bean id="controllerDao" class="com.github.K0zka.kerub.data.ispn.ControllerDaoImpl">
-        <constructor-arg ref="cacheManager"/>
-    </bean>
-
-    <bean id="controllerDynamicDao" class="com.github.K0zka.kerub.data.ispn.ControllerDynamicDaoImpl">
-        <constructor-arg ref="controllerDynamicCache"/>
-    </bean>
-
-    <!--
-    Managers
-    -->
-
-    <bean
-            id="keyPairFactory"
-            class="com.github.K0zka.kerub.host.KeyPairFactory">
-        <property name="keyStorePassword" value="password"/>
-        <property name="certificatePassword" value="password"/>
-    </bean>
-
-    <bean id="keyPair"
-          factory-bean="keyPairFactory"
-          factory-method="createKeyPair"/>
-
-    <bean
-            id="hostManager"
-            class="com.github.K0zka.kerub.host.HostManagerImpl"
-            init-method="start"
-            destroy-method="stop">
-        <constructor-arg ref="hostDao"/>
-        <constructor-arg ref="hostDynamicDao"/>
-        <constructor-arg ref="vmDynDao"/>
-        <constructor-arg ref="virtualStorageDeviceDao"/>
-        <constructor-arg ref="virtualStorageDeviceDynDao"/>
-        <constructor-arg ref="sshClientService"/>
-        <constructor-arg ref="controllerManager"/>
-        <constructor-arg ref="assignmentDao"/>
-        <constructor-arg ref="hostDiscoverer"/>
-        <constructor-arg ref="hostAssigner"/>
-    </bean>
-
-    <bean id="hostDiscoverer" class="com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl"/>
-    <bean id="hostAssigner" class="com.github.K0zka.kerub.host.ControllerAssignerImpl">
-        <constructor-arg ref="backtrack"/>
-        <constructor-arg ref="controllerDao"/>
-        <constructor-arg ref="controllerDynamicDao"/>
-        <constructor-arg ref="assignmentDao"/>
-        <constructor-arg ref="interController"/>
-    </bean>
-
-    <bean id="interController" class="com.github.K0zka.kerub.controller.impl.InterControllerImpl">
-        <constructor-arg ref="jmsTemplate"/>
-    </bean>
-
-    <bean id="interControllerListener" class="com.github.K0zka.kerub.controller.impl.InterControllerListener">
-        <constructor-arg ref="hostManager"/>
-        <constructor-arg ref="hostDao"/>
-    </bean>
-
-    <bean id="sshClientFactory" class="com.github.K0zka.kerub.host.SshClientFactory"/>
-
-    <bean id="sshClient"
-          factory-bean="sshClientFactory"
-          factory-method="build"
-          init-method="start"
-          destroy-method="stop">
-        <constructor-arg>
-            <map>
-                <entry key="hearbeat-interval" value="2000"/>
-                <entry key="sftp-channel-open-timeout" value="240000"/>
-                <entry key="idle-timeout" value="240000"/>
-            </map>
-        </constructor-arg>
-    </bean>
-
-    <bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl" depends-on="artemis">
-        <constructor-arg ref="sshClient"/>
-        <constructor-arg ref="keyPair"/>
-        <constructor-arg value="1000"/>
-        <constructor-arg value="MILLISECONDS"/>
-    </bean>
-
-    <bean
-            id="controllerManager"
-            class="com.github.K0zka.kerub.host.ControllerManagerImpl"
-            init-method="start">
-        <constructor-arg ref="controllerDynamicDao"/>
-        <constructor-arg ref="cacheManager"/>
-    </bean>
-
-    <!--
-    Planner and executor
-    -->
-
-    <!--
-    <bean id="stateBuilder" class="com.github.K0zka.kerub.planner.OperationalStateBuilderImpl">
-        <constructor-arg ref="controllerManager"/>
-        <constructor-arg ref="assignmentDao"/>
-        <constructor-arg ref="hostDynamicDao"/>
-        <constructor-arg ref="hostDao"/>
-        <constructor-arg ref="virtualStorageDeviceDao"/>
-        <constructor-arg ref="virtualStorageDeviceDynDao"/>
-        <constructor-arg ref="vmDao"/>
-        <constructor-arg ref="vmDynDao"/>
-    </bean>
-    -->
-
-    <bean id="stateBuilder" class="com.github.K0zka.kerub.planner.GlobalOperationalStateBuilderImpl">
-        <constructor-arg ref="hostDynamicDao"/>
-        <constructor-arg ref="hostDao"/>
-        <constructor-arg ref="virtualStorageDeviceDao"/>
-        <constructor-arg ref="virtualStorageDeviceDynDao"/>
-        <constructor-arg ref="vmDao"/>
-        <constructor-arg ref="vmDynDao"/>
-    </bean>
-
-
-    <bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
-
-    <bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl">
-        <constructor-arg ref="backtrack"/>
-        <constructor-arg ref="planExecutor"/>
-        <constructor-arg ref="stateBuilder"/>
-    </bean>
-
-    <bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
-        <constructor-arg ref="hostManager"/>
-        <constructor-arg ref="hostManager"/>
-        <constructor-arg ref="hostDynamicDao"/>
-        <constructor-arg ref="vmDynDao"/>
-        <constructor-arg ref="virtualStorageDeviceDynDao"/>
-    </bean>
-
-    <!--
-    MQ
-    -->
-
-    <bean id="artemis"
-          class="org.apache.activemq.artemis.jms.server.embedded.EmbeddedJMS"
-          init-method="start"
-          destroy-method="stop">
-    </bean>
-
-    <bean id="globalEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQTopic">
-        <constructor-arg value="jms.topic.globalEvents"/>
-    </bean>
-
-    <bean id="privateEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
-        <constructor-arg value="jms.queue.kerub-mq-#{controllerManager.controllerId}"/>
-    </bean>
-
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="artemisCF"/>
-    </bean>
-
-    <bean id="artemisCF" class="org.apache.activemq.artemis.jms.client.ActiveMQJMSConnectionFactory">
-        <constructor-arg value="false"/>
-        <constructor-arg>
-            <bean class="org.apache.activemq.artemis.api.core.TransportConfiguration">
-                <constructor-arg value="org.apache.activemq.artemis.core.remoting.impl.invm.InVMConnectorFactory"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <bean class="com.github.K0zka.kerub.utils.artemis.MqInit" factory-method="init">
-        <constructor-arg ref="controllerManager"/>
-        <constructor-arg ref="artemis"/>
-        <constructor-arg ref="artemisCF"/>
-    </bean>
-
-    <!--
-    Event listeners
-    -->
-
-    <bean id="eventListener" class="com.github.K0zka.kerub.utils.JmsEventListener">
-        <constructor-arg>
-            <bean class="org.springframework.jms.core.JmsTemplate">
-                <property name="connectionFactory" ref="artemisCF"/>
-                <property name="defaultDestination" ref="globalEvents"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="artemisCF"/>
-        <property name="concurrency" value="1"/>
-        <property name="destination" ref="globalEvents"/>
-        <property name="messageListener" ref="messageListener"/>
-    </bean>
-
-    <bean
-            id="messageListener"
-            class="com.github.K0zka.kerub.services.socket.InternalMessageListenerImpl">
-        <constructor-arg ref="planner"/>
-    </bean>
-
-    <bean id="privateMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="artemisCF"/>
-        <property name="concurrency" value="1-2"/>
-        <property name="destination" ref="privateEvents"/>
-        <property name="messageListener" ref="interControllerListener"/>
-    </bean>
-
-
-    <!--
-    Asynchronous invocations
-    -->
-
-    <bean id="asyncInvocationsQueue" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
-        <constructor-arg value="jms.queue.asyncInvocations"/>
-    </bean>
-
-    <bean id="asyncInvocationsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <constructor-arg ref="artemisCF"/>
-        <property name="defaultDestination" ref="asyncInvocationsQueue"/>
-    </bean>
-
-    <bean id="asyncInvocationsListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
-        <property name="connectionFactory" ref="artemisCF"/>
-        <property name="concurrency" value="1-8"/>
-        <property name="destination" ref="asyncInvocationsQueue"/>
-        <property name="messageListener" ref="asyncInvocationsMessageListener"/>
-    </bean>
-
-    <bean id="asyncInvocationsMessageListener" class="com.github.K0zka.kerub.utils.activeobject.MqExecutor"/>
-
-    <!--
-    REST
-    -->
-
-    <import resource="classpath:META-INF/cxf/cxf.xml" />
-    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-
-    <bean id="objectMapper"
-          class="com.github.K0zka.kerub.utils.ObjectMapperUtilsKt"
-          factory-method="createObjectMapper">
-    </bean>
-
-    <jaxrs:server address="/r" serviceName="r" >
-        <jaxrs:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
-                <constructor-arg ref="objectMapper"/>
-            </bean>
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
-
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
-
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.JsonMappingExceptionMapper">
-                <constructor-arg ref="objectMapper"/>
-            </bean>
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.JsonParseExceptionMapper">
-                <constructor-arg ref="objectMapper"/>
-            </bean>
-
-            <bean class="com.github.K0zka.kerub.exceptions.mappers.DefaultExceptionMapper"/>
-        </jaxrs:providers>
-        <jaxrs:serviceBeans>
-            <bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
-                <constructor-arg ref="vmDao"/>
-            </bean>
-            <bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
-                <constructor-arg ref="vNetDao"/>
-            </bean>
-            <bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
-                <constructor-arg ref="vmDynDao"/>
-                <constructor-arg ref="vmDao" />
-            </bean>
-            <bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
-                <constructor-arg ref="virtualStorageDeviceDao"/>
-                <constructor-arg ref="virtualStorageDeviceDynDao"/>
-                <constructor-arg ref="hostDao"/>
-                <constructor-arg ref="hostManager"/>
-            </bean>
-            <bean id="vstorageDyn" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceDynamicServiceImpl">
-                <constructor-arg ref="virtualStorageDeviceDynDao"/>
-            </bean>
-            <bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
-                <constructor-arg ref="projectDao"/>
-            </bean>
-            <bean id="audit" class="com.github.K0zka.kerub.services.impl.AuditServiceImpl">
-                <constructor-arg ref="auditDao"/>
-            </bean>
-            <bean id="event" class="com.github.K0zka.kerub.services.impl.EventServiceImpl">
-                <constructor-arg ref="eventDao"/>
-            </bean>
-            <bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
-                <constructor-arg ref="cacheManager"/>
-            </bean>
-            <bean id="controllers" class="com.github.K0zka.kerub.services.impl.ControllerServiceImpl">
-                <constructor-arg ref="controllerDao"/>
-            </bean>
-            <bean id="assignments" class="com.github.K0zka.kerub.services.impl.AssignmentServiceImpl">
-                <constructor-arg ref="assignmentDao"/>
-                <constructor-arg ref="hostManager"/>
-            </bean>
-            <ref bean="version"/>
-            <bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
-                <constructor-arg ref="hostDao"/>
-                <constructor-arg ref="hostManager"/>
-                <constructor-arg ref="sshClientService"/>
-            </bean>
-            <bean id="hostDyn" class="com.github.K0zka.kerub.services.impl.HostDynamicServiceImpl">
-                <constructor-arg ref="hostDynamicDao"/>
-            </bean>
-            <bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
-            </bean>
-            <ref bean="motd"/>
-        </jaxrs:serviceBeans>
-    </jaxrs:server>
-
-    <bean id="motd" class="com.github.K0zka.kerub.services.impl.MotdServiceImpl">
-        <constructor-arg index="0" name="motd">
-            <value>#### Developer mode
-
-This instance seems to be running in dev/eval mode.
-You can log in with the following users (see **shiro.ini**):
-
- * admin/password
- * poweruser/password
- * enduser/password
-
-You can edit the 'motd' of kerub in the configuration.
-Remember, that the motd is readable by anyone!</value>
-        </constructor-arg>
-    </bean>
-
-
-    <bean
-            id="version"
-            class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
-            init-method="logStart"
-            destroy-method="logStop"/>
-
-    <!--
-    Security
-    -->
-
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-
-    <bean
-            id="securityManager"
-            class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="kerubRealm"/>
-    </bean>
-
-    <bean
-            id="lifecycleBeanPostProcessor"
-            class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-
-    <bean
-            class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-            depends-on="lifecycleBeanPostProcessor"/>
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"/>
-    </bean>
-
-    <bean id="kerubRealm" class="org.apache.shiro.realm.text.IniRealm">
-        <property name="resourcePath" value="classpath:shiro.ini"/>
-    </bean>
-
-    <!--
-    Configuration, utilities
-    -->
-
-    <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-        <property name="location" value="classpath:local/kerub.properties"/>
-        <property name="ignoreResourceNotFound" value="true"/>
-    </bean>
-
-    <bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
-        <property name="location" value="classpath:cluster/kerub.properties"/>
-        <property name="ignoreResourceNotFound" value="true"/>
-    </bean>
+	<!--
+	infinispan config
+	-->
+
+	<bean id="cacheConfigBuilder" class="com.github.K0zka.kerub.data.ispn.IspnConfiguration" init-method="init">
+		<property name="baseDir" value="target/kerub-store"/>
+		<property name="dynamicOwners" value="1"/>
+		<property name="staticOwners" value="1"/>
+	</bean>
+
+	<bean name="cacheConfig" factory-bean="cacheConfigBuilder" factory-method="build"/>
+
+	<bean name="globalConfig" factory-bean="cacheConfigBuilder" factory-method="buildGlobal"/>
+
+	<bean id="cacheManager" class="org.infinispan.manager.DefaultCacheManager">
+		<constructor-arg value="infinispan.xml"/>
+	</bean>
+
+	<bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
+
+	<bean id="vmCache" parent="cache">
+		<constructor-arg value="vmCache"/>
+	</bean>
+
+	<bean id="vNetCache" parent="cache">
+		<constructor-arg value="vNetCache"/>
+	</bean>
+
+	<bean id="vmDynCache" parent="cache">
+		<constructor-arg value="vmDynCache"/>
+	</bean>
+
+	<bean id="hostCache" parent="cache">
+		<constructor-arg value="hostCache"/>
+	</bean>
+
+	<bean id="hostDynamicCache" parent="cache">
+		<constructor-arg value="hostDynamicCache"/>
+	</bean>
+
+	<bean id="virtualStorageDeviceDynamicCache" parent="cache">
+		<constructor-arg value="virtualStorageDeviceDynamicCache"/>
+	</bean>
+
+	<bean id="projectCache" parent="cache">
+		<constructor-arg value="projectCache"/>
+	</bean>
+
+	<bean id="auditCache" parent="cache">
+		<constructor-arg value="auditCache"/>
+	</bean>
+
+	<bean id="eventCache" parent="cache">
+		<constructor-arg value="eventCache"/>
+	</bean>
+
+	<bean id="controllerDynamicCache" parent="cache">
+		<constructor-arg value="controllerDynamicCache"/>
+	</bean>
+
+	<bean id="assignmentCache" parent="cache">
+		<constructor-arg value="assignmentCache"/>
+	</bean>
+
+	<bean id="virtualStorageDeviceCache" parent="cache">
+		<constructor-arg value="virtualStorageDeviceCache"/>
+	</bean>
+
+	<!--
+	DAO
+	-->
+
+	<bean id="daoBase" abstract="true">
+	</bean>
+
+	<bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
+		<constructor-arg ref="vmCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
+		<constructor-arg ref="vmDynCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl"
+	      parent="daoBase">
+		<constructor-arg ref="virtualStorageDeviceCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="vNetDao" class="com.github.K0zka.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
+		<constructor-arg ref="vNetCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl" parent="daoBase">
+		<constructor-arg ref="hostCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
+		<constructor-arg ref="assignmentCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
+		<constructor-arg ref="hostDynamicCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="virtualStorageDeviceDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl"
+	      parent="daoBase">
+		<constructor-arg ref="virtualStorageDeviceDynamicCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
+		<constructor-arg ref="projectCache"/>
+		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="auditDao" class="com.github.K0zka.kerub.data.ispn.AuditEntryDaoImpl">
+		<constructor-arg ref="auditCache"/>
+	</bean>
+
+	<bean id="eventDao" class="com.github.K0zka.kerub.data.ispn.EventDaoImpl">
+		<constructor-arg ref="eventCache"/>
+	</bean>
+
+	<bean id="controllerDao" class="com.github.K0zka.kerub.data.ispn.ControllerDaoImpl">
+		<constructor-arg ref="cacheManager"/>
+	</bean>
+
+	<bean id="controllerDynamicDao" class="com.github.K0zka.kerub.data.ispn.ControllerDynamicDaoImpl">
+		<constructor-arg ref="controllerDynamicCache"/>
+	</bean>
+
+	<!--
+	Managers
+	-->
+
+	<bean
+			id="keyPairFactory"
+			class="com.github.K0zka.kerub.host.KeyPairFactory">
+		<property name="keyStorePassword" value="password"/>
+		<property name="certificatePassword" value="password"/>
+	</bean>
+
+	<bean id="keyPair"
+	      factory-bean="keyPairFactory"
+	      factory-method="createKeyPair"/>
+
+	<bean
+			id="hostManager"
+			class="com.github.K0zka.kerub.host.HostManagerImpl"
+			init-method="start"
+			destroy-method="stop">
+		<constructor-arg ref="hostDao"/>
+		<constructor-arg ref="hostDynamicDao"/>
+		<constructor-arg ref="vmDynDao"/>
+		<constructor-arg ref="virtualStorageDeviceDao"/>
+		<constructor-arg ref="virtualStorageDeviceDynDao"/>
+		<constructor-arg ref="sshClientService"/>
+		<constructor-arg ref="controllerManager"/>
+		<constructor-arg ref="assignmentDao"/>
+		<constructor-arg ref="hostDiscoverer"/>
+		<constructor-arg ref="hostAssigner"/>
+	</bean>
+
+	<bean id="hostDiscoverer" class="com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl"/>
+	<bean id="hostAssigner" class="com.github.K0zka.kerub.host.ControllerAssignerImpl">
+		<constructor-arg ref="backtrack"/>
+		<constructor-arg ref="controllerDao"/>
+		<constructor-arg ref="controllerDynamicDao"/>
+		<constructor-arg ref="assignmentDao"/>
+		<constructor-arg ref="interController"/>
+	</bean>
+
+	<bean id="interController" class="com.github.K0zka.kerub.controller.impl.InterControllerImpl">
+		<constructor-arg ref="jmsTemplate"/>
+	</bean>
+
+	<bean id="interControllerListener" class="com.github.K0zka.kerub.controller.impl.InterControllerListener">
+		<constructor-arg ref="hostManager"/>
+		<constructor-arg ref="hostDao"/>
+	</bean>
+
+	<bean id="sshClientFactory" class="com.github.K0zka.kerub.host.SshClientFactory"/>
+
+	<bean id="sshClient"
+	      factory-bean="sshClientFactory"
+	      factory-method="build"
+	      init-method="start"
+	      destroy-method="stop">
+		<constructor-arg>
+			<map>
+				<entry key="hearbeat-interval" value="2000"/>
+				<entry key="sftp-channel-open-timeout" value="240000"/>
+				<entry key="idle-timeout" value="240000"/>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl" depends-on="artemis">
+		<constructor-arg ref="sshClient"/>
+		<constructor-arg ref="keyPair"/>
+		<constructor-arg value="1000"/>
+		<constructor-arg value="MILLISECONDS"/>
+	</bean>
+
+	<bean
+			id="controllerManager"
+			class="com.github.K0zka.kerub.host.ControllerManagerImpl"
+			init-method="start">
+		<constructor-arg ref="controllerDynamicDao"/>
+		<constructor-arg ref="cacheManager"/>
+	</bean>
+
+	<!--
+	Planner and executor
+	-->
+
+	<!--
+	<bean id="stateBuilder" class="com.github.K0zka.kerub.planner.OperationalStateBuilderImpl">
+		<constructor-arg ref="controllerManager"/>
+		<constructor-arg ref="assignmentDao"/>
+		<constructor-arg ref="hostDynamicDao"/>
+		<constructor-arg ref="hostDao"/>
+		<constructor-arg ref="virtualStorageDeviceDao"/>
+		<constructor-arg ref="virtualStorageDeviceDynDao"/>
+		<constructor-arg ref="vmDao"/>
+		<constructor-arg ref="vmDynDao"/>
+	</bean>
+	-->
+
+	<bean id="stateBuilder" class="com.github.K0zka.kerub.planner.GlobalOperationalStateBuilderImpl">
+		<constructor-arg ref="hostDynamicDao"/>
+		<constructor-arg ref="hostDao"/>
+		<constructor-arg ref="virtualStorageDeviceDao"/>
+		<constructor-arg ref="virtualStorageDeviceDynDao"/>
+		<constructor-arg ref="vmDao"/>
+		<constructor-arg ref="vmDynDao"/>
+	</bean>
+
+
+	<bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
+
+	<bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl">
+		<constructor-arg ref="backtrack"/>
+		<constructor-arg ref="planExecutor"/>
+		<constructor-arg ref="stateBuilder"/>
+	</bean>
+
+	<bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
+		<constructor-arg ref="hostManager"/>
+		<constructor-arg ref="hostManager"/>
+		<constructor-arg ref="hostDynamicDao"/>
+		<constructor-arg ref="vmDynDao"/>
+		<constructor-arg ref="virtualStorageDeviceDynDao"/>
+	</bean>
+
+	<!--
+	MQ
+	-->
+
+	<bean id="artemis"
+	      class="org.apache.activemq.artemis.jms.server.embedded.EmbeddedJMS"
+	      init-method="start"
+	      destroy-method="stop">
+	</bean>
+
+	<bean id="globalEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQTopic">
+		<constructor-arg value="jms.topic.globalEvents"/>
+	</bean>
+
+	<bean id="privateEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+		<constructor-arg value="jms.queue.kerub-mq-#{controllerManager.controllerId}"/>
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="artemisCF"/>
+	</bean>
+
+	<bean id="artemisCF" class="org.apache.activemq.artemis.jms.client.ActiveMQJMSConnectionFactory">
+		<constructor-arg value="false"/>
+		<constructor-arg>
+			<bean class="org.apache.activemq.artemis.api.core.TransportConfiguration">
+				<constructor-arg value="org.apache.activemq.artemis.core.remoting.impl.invm.InVMConnectorFactory"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean class="com.github.K0zka.kerub.utils.artemis.MqInit" factory-method="init">
+		<constructor-arg ref="controllerManager"/>
+		<constructor-arg ref="artemis"/>
+		<constructor-arg ref="artemisCF"/>
+	</bean>
+
+	<!--
+	Event listeners
+	-->
+
+	<bean id="eventListener" class="com.github.K0zka.kerub.utils.JmsEventListener">
+		<constructor-arg>
+			<bean class="org.springframework.jms.core.JmsTemplate">
+				<property name="connectionFactory" ref="artemisCF"/>
+				<property name="defaultDestination" ref="globalEvents"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="messageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="artemisCF"/>
+		<property name="concurrency" value="1"/>
+		<property name="destination" ref="globalEvents"/>
+		<property name="messageListener" ref="messageListener"/>
+	</bean>
+
+	<bean
+			id="messageListener"
+			class="com.github.K0zka.kerub.services.socket.InternalMessageListenerImpl">
+		<constructor-arg ref="planner"/>
+	</bean>
+
+	<bean id="privateMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="artemisCF"/>
+		<property name="concurrency" value="1-2"/>
+		<property name="destination" ref="privateEvents"/>
+		<property name="messageListener" ref="interControllerListener"/>
+	</bean>
+
+
+	<!--
+	Asynchronous invocations
+	-->
+
+	<bean id="asyncInvocationsQueue" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+		<constructor-arg value="jms.queue.asyncInvocations"/>
+	</bean>
+
+	<bean id="asyncInvocationsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="artemisCF"/>
+		<property name="defaultDestination" ref="asyncInvocationsQueue"/>
+	</bean>
+
+	<bean id="asyncInvocationsListener" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="artemisCF"/>
+		<property name="concurrency" value="1-8"/>
+		<property name="destination" ref="asyncInvocationsQueue"/>
+		<property name="messageListener" ref="asyncInvocationsMessageListener"/>
+	</bean>
+
+	<bean id="asyncInvocationsMessageListener" class="com.github.K0zka.kerub.utils.activeobject.MqExecutor"/>
+
+	<!--
+	REST
+	-->
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+	<bean id="objectMapper"
+	      class="com.github.K0zka.kerub.utils.ObjectMapperUtilsKt"
+	      factory-method="createObjectMapper">
+	</bean>
+
+	<jaxrs:server address="/r" serviceName="r">
+		<jaxrs:providers>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<constructor-arg ref="objectMapper"/>
+			</bean>
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
+
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
+
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.JsonMappingExceptionMapper">
+				<constructor-arg ref="objectMapper"/>
+			</bean>
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.JsonParseExceptionMapper">
+				<constructor-arg ref="objectMapper"/>
+			</bean>
+
+			<bean class="com.github.K0zka.kerub.exceptions.mappers.DefaultExceptionMapper"/>
+		</jaxrs:providers>
+		<jaxrs:serviceBeans>
+			<bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
+				<constructor-arg ref="vmDao"/>
+			</bean>
+			<bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
+				<constructor-arg ref="vNetDao"/>
+			</bean>
+			<bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
+				<constructor-arg ref="vmDynDao"/>
+				<constructor-arg ref="vmDao"/>
+			</bean>
+			<bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
+				<constructor-arg ref="virtualStorageDeviceDao"/>
+				<constructor-arg ref="virtualStorageDeviceDynDao"/>
+				<constructor-arg ref="hostDao"/>
+				<constructor-arg ref="hostManager"/>
+			</bean>
+			<bean id="vstorageDyn" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceDynamicServiceImpl">
+				<constructor-arg ref="virtualStorageDeviceDynDao"/>
+			</bean>
+			<bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
+				<constructor-arg ref="projectDao"/>
+			</bean>
+			<bean id="audit" class="com.github.K0zka.kerub.services.impl.AuditServiceImpl">
+				<constructor-arg ref="auditDao"/>
+			</bean>
+			<bean id="event" class="com.github.K0zka.kerub.services.impl.EventServiceImpl">
+				<constructor-arg ref="eventDao"/>
+			</bean>
+			<bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
+				<constructor-arg ref="cacheManager"/>
+			</bean>
+			<bean id="controllers" class="com.github.K0zka.kerub.services.impl.ControllerServiceImpl">
+				<constructor-arg ref="controllerDao"/>
+			</bean>
+			<bean id="assignments" class="com.github.K0zka.kerub.services.impl.AssignmentServiceImpl">
+				<constructor-arg ref="assignmentDao"/>
+				<constructor-arg ref="hostManager"/>
+			</bean>
+			<ref bean="version"/>
+			<bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
+				<constructor-arg ref="hostDao"/>
+				<constructor-arg ref="hostManager"/>
+				<constructor-arg ref="sshClientService"/>
+			</bean>
+			<bean id="hostDyn" class="com.github.K0zka.kerub.services.impl.HostDynamicServiceImpl">
+				<constructor-arg ref="hostDynamicDao"/>
+			</bean>
+			<bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
+			</bean>
+			<ref bean="motd"/>
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+
+	<bean id="motd" class="com.github.K0zka.kerub.services.impl.MotdServiceImpl">
+		<constructor-arg index="0" name="motd">
+			<value>#### Developer mode
+
+				This instance seems to be running in dev/eval mode.
+				You can log in with the following users (see **shiro.ini**):
+
+				* admin/password
+				* poweruser/password
+				* enduser/password
+
+				You can edit the 'motd' of kerub in the configuration.
+				Remember, that the motd is readable by anyone!
+			</value>
+		</constructor-arg>
+	</bean>
+
+
+	<bean
+			id="version"
+			class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
+			init-method="logStart"
+			destroy-method="logStop"/>
+
+	<!--
+	Security
+	-->
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+
+	<bean
+			id="securityManager"
+			class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="kerubRealm"/>
+	</bean>
+
+	<bean
+			id="lifecycleBeanPostProcessor"
+			class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+	<bean
+			class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+			depends-on="lifecycleBeanPostProcessor"/>
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+
+	<bean id="kerubRealm" class="org.apache.shiro.realm.text.IniRealm">
+		<property name="resourcePath" value="classpath:shiro.ini"/>
+	</bean>
+
+	<!--
+	Configuration, utilities
+	-->
+
+	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="location" value="classpath:local/kerub.properties"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+		<property name="location" value="classpath:cluster/kerub.properties"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+	</bean>
 
 </beans>
