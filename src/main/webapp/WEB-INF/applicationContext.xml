@@ -452,15 +452,15 @@
 		<constructor-arg index="0" name="motd">
 			<value>#### Developer mode
 
-				This instance seems to be running in dev/eval mode.
-				You can log in with the following users (see **shiro.ini**):
+This instance seems to be running in dev/eval mode.
+You can log in with the following users (see **shiro.ini**):
 
-				* admin/password
-				* poweruser/password
-				* enduser/password
+* admin/password
+* poweruser/password
+* enduser/password
 
-				You can edit the 'motd' of kerub in the configuration.
-				Remember, that the motd is readable by anyone!
+You can edit the 'motd' of kerub in the configuration.
+Remember, that the motd is readable by anyone!
 			</value>
 		</constructor-arg>
 	</bean>
