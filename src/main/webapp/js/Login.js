@@ -9,7 +9,9 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession, socket)
         $scope.version = version;
     });
     $http.get('s/r/motd').success(function(motdMarkDown) {
+    	$log.info(motdMarkDown);
         $scope.motd = markdown.toHTML(motdMarkDown);
+    	$log.info($scope.motd);
     });
     $scope.onKeyPress = function(event) {
         if(event.keyCode == 13) {

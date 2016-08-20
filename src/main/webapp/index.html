@@ -26,6 +26,7 @@
 	<script src="js/VersionInfo.js"></script>
 	<script src="js/NewHostWizard.js"></script>
 	<script src="js/NewVirtualDiskWizard.js"></script>
+	<script src="js/NewVirtualNetworkWizard.js"></script>
 	<script src="js/NewVmWizard.js"></script>
 	<script src="js/HostDetails.js"></script>
 	<script src="js/HostRowController.js"></script>
@@ -469,6 +470,65 @@
 		</button>
 		<button type="button" class="btn btn-primary glyphicon glyphicon-remove" ng-click="close()" uib-tooltip="Cancel"
 		        tooltip-placement="top">
+		</button>
+	</div>
+
+</script>
+
+<script type="text/ng-template" id="NewVirtualNetworkWizard.html">
+
+	<div class="modal-header">
+		<h3 class="modal-title">New Virtual Network</h3>
+	</div>
+	<div class="modal-body">
+
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-addon">
+					<span class="glyphicon glyphicon-barcode"></span>
+				</div>
+				<input type="text"
+				       ng-model="vnet.id"
+				       class="form-control"
+				       placeholder="Virtual Network ID"
+				       autocomplete="off"
+				       readonly
+				/>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-addon">
+					<span class="fa fa-tag"></span>
+				</div>
+				<input type="text"
+				       ng-model="vnet.name"
+				       class="form-control"
+				       placeholder="Virtual Network Name"
+				       autocomplete="off"
+				/>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button
+				type="button"
+				ng-click="addVirtualNetwork()"
+				class="btn btn-primary"
+				ng-disabled=""
+				uib-tooltip="Add Virtual Network"
+				tooltip-placement="top">
+			<span ng-class="{false:'glyphicon glyphicon-ok-sign', true:'fa fa-refresh fa-spin'}[inprg]"></span>
+		</button>
+		<button
+				type="button"
+				class="btn btn-primary glyphicon glyphicon-remove"
+				ng-click="close()"
+				ng-disabled="inprg"
+				uib-tooltip="Cancel"
+				tooltip-placement="top">
 		</button>
 	</div>
 
