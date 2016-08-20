@@ -92,6 +92,24 @@
             </uib-tab-heading>
             <span ng-controller="VirtualNetworkTab">
                 <button type="button" class="btn btn-default glyphicon glyphicon-plus" uib-tooltip="Create new Virtual Network" tooltip-placement="right" ng-click="newVirtualNetwork()"></button>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <td>name</td>
+                            <td>expectations</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="vNet in vnets.result">
+                            <td>
+                                {{vNet.name}}
+                            </td>
+                            <td>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </span>
         </uib-tab>
         <uib-tab >
