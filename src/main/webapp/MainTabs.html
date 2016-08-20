@@ -110,7 +110,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </span>
+               <ul uib-pager total-items="vnets.total" ng-model="currentPage" ng-change="refresh()"></ul>
+             </span>
         </uib-tab>
         <uib-tab >
             <uib-tab-heading>
@@ -159,6 +160,10 @@
             </uib-tab-heading>
             <span ng-controller="HostTab">
                 <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newHostForm()" uib-tooltip="Join a new Host" tooltip-placement="right"></button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" ng-model="checkModel.left">&laquo;</button>
+                    <button type="button" class="btn btn-default" ng-model="checkModel.right">&raquo;</button>
+                </div>
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
@@ -209,10 +214,6 @@
                     </tr>
                     </tbody>
                 </table>
-                <ul class="pagination">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                </ul>
             </span>
         </uib-tab>
         <uib-tab>
