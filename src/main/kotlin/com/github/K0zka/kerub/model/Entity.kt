@@ -14,6 +14,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(Host::class),
 		JsonSubTypes.Type(HostDynamic::class),
 		JsonSubTypes.Type(VirtualMachine::class),
+		JsonSubTypes.Type(VirtualNetwork::class),
 		JsonSubTypes.Type(VirtualStorageDevice::class),
 		JsonSubTypes.Type(Project::class),
 		JsonSubTypes.Type(Network::class),
