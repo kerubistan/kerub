@@ -1,10 +1,15 @@
 
 kerubApp.controller('VmTab', function($scope, $uibModal, $log, socket, appsession, size) {
 	$scope.humanFriendlySize = size.humanFriendlySize;
-	$scope.vms = [];
+	$scope.vms = {};
+	$scope.currentPage = 1;
+	$scope.itemsPerPage = 10;
 	$scope.refreshVms = function() {
-		appsession.get('s/r/vm').success(function(result) {
-			$scope.vms = result.result;
+		appsession.get('s/r/vm?start='
+			+ ($scope.itemsPerPage * ($scope.currentPage -1))
+			+ '&limit=' + $scope.itemsPerPage
+			+ '&sort=name').success(function(result) {
+			$scope.vms = result;
 		});
 	};
 	$scope.refreshVms();

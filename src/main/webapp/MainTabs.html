@@ -18,7 +18,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="_vm in vms" ng-controller="VmRow" ng-init="init(_vm)">
+                    <tr ng-repeat="_vm in vms.result" ng-controller="VmRow" ng-init="init(_vm)">
                         <td>{{vm.name}}</td>
                         <td>{{vm.nrOfCpus}}</td>
                         <td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}</td>
@@ -84,6 +84,7 @@
                     </tr>
                     </tbody>
                 </table>
+               <ul uib-pagination total-items="vms.total" ng-model="currentPage" ng-change="refreshVms()" previous-text="&laquo;" next-text="&raquo;"></ul>
             </span>
         </uib-tab>
         <uib-tab disabled="true">
@@ -110,7 +111,7 @@
                         </tr>
                     </tbody>
                 </table>
-               <ul uib-pager total-items="vnets.total" ng-model="currentPage" ng-change="refresh()"></ul>
+               <ul uib-pagination total-items="vnets.total" ng-model="currentPage" ng-change="refresh()" previous-text="&laquo;" next-text="&raquo;"></ul>
              </span>
         </uib-tab>
         <uib-tab >
@@ -152,6 +153,7 @@
                         </tr>
                     </tbody>
                 </table>
+               <ul uib-pagination total-items="virtualDisks.total" ng-model="currentPage" ng-change="refresh()" previous-text="&laquo;" next-text="&raquo;"></ul>
             </span>
         </uib-tab>
         <uib-tab>
@@ -160,10 +162,6 @@
             </uib-tab-heading>
             <span ng-controller="HostTab">
                 <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newHostForm()" uib-tooltip="Join a new Host" tooltip-placement="right"></button>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" ng-model="checkModel.left">&laquo;</button>
-                    <button type="button" class="btn btn-default" ng-model="checkModel.right">&raquo;</button>
-                </div>
                 <table class="table table-striped table-hover">
                     <thead>
                     <tr>
@@ -173,7 +171,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="_host in hosts" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
+                    <tr ng-repeat="_host in hosts.result" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
                         <td>{{host.address}}</td>
                         <td style="maxheight: 50px">
                             <span ng-if="hostDyn">
@@ -214,6 +212,7 @@
                     </tr>
                     </tbody>
                 </table>
+               <ul uib-pagination items-per-page="itemsPerPage" total-items="hosts.total" ng-model="currentPage" ng-change="refresh()" previous-text="&laquo;" next-text="&raquo;"></ul>
             </span>
         </uib-tab>
         <uib-tab>

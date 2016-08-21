@@ -3,38 +3,28 @@ kerubApp.controller('HostTab', function($scope, $uibModal, $log, socket, appsess
 
 	$scope.humanFriendlySize = size.humanFriendlySize;
 
-    $log.info('initializing host tab');
-
+	$scope.hosts = {};
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;
-    $scope.pages = [];
 
     $scope.newHostForm = function() {
-        $log.info('opening new host wizard');
         var modalInstance = $uibModal.open({
             templateUrl : 'NewHostWizard.html',
             controller : NewHostWizard
         });
-        modalInstance.result.then(function() {
-            $log.info('kakukk');
-        });
         $log.debug(modalInstance);
-        $log.info('opened new host wizard');
     };
 
-
 	$scope.refresh = function() {
-		appsession.get('s/r/host').success(function(hostsResult) {
-			$log.info("hosts", hostsResult);
-			$scope.hosts = hostsResult.result;
-			$scope.currentPage = currentPage(hostsResult, $scope.itemsPerPage);
-			$log.debug($scope.currentPage);
-			$scope.pages = pages(hostsResult, $scope.itemsPerPage);
+		appsession.get('s/r/host?start='
+			+ ($scope.itemsPerPage * ($scope.currentPage -1))
+			+ '&limit=' + $scope.itemsPerPage
+			+ '&sort=address').success(function(hostsResult) {
+			$scope.hosts = hostsResult;
 		});
 	}
 	$scope.refresh();
     socket.subscribe('/host', function(msg) {
-        $log.info("hey, a message for HostTab!",msg);
         $scope.refresh();
     }, 'HostTab');
 
