@@ -18,7 +18,9 @@ import java.io.Serializable
 		JsonSubTypes.Type(VirtualStorageDevice::class),
 		JsonSubTypes.Type(Project::class),
 		JsonSubTypes.Type(Network::class),
-		JsonSubTypes.Type(AuditEntry::class),
+		JsonSubTypes.Type(AddEntry::class),
+		JsonSubTypes.Type(DeleteEntry::class),
+		JsonSubTypes.Type(UpdateEntry::class),
 		JsonSubTypes.Type(Event::class)
 )
 interface Entity<T> : Serializable {

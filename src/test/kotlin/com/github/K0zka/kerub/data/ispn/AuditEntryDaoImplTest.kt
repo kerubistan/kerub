@@ -3,6 +3,8 @@ package com.github.K0zka.kerub.data.ispn
 import com.github.K0zka.kerub.data.AuditEntryDao
 import com.github.K0zka.kerub.model.AuditEntry
 import com.github.K0zka.kerub.model.Entity
+import com.github.K0zka.kerub.model.UpdateEntry
+import com.github.K0zka.kerub.utils.toUUID
 import org.infinispan.AdvancedCache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -18,11 +20,11 @@ import java.util.UUID
 @RunWith(MockitoJUnitRunner::class) class AuditEntryDaoImplTest {
 
 	@Mock
-	var oldEntity : Entity<UUID>? = null
+	var oldEntity: Entity<UUID>? = null
 	@Mock
-	var newEntity : Entity<UUID>? = null
+	var newEntity: Entity<UUID>? = null
 
-	var cacheManager : DefaultCacheManager? = null
+	var cacheManager: DefaultCacheManager? = null
 	var cache: AdvancedCache<UUID, AuditEntry>? = null
 	var dao: AuditEntryDao? = null
 
@@ -42,15 +44,15 @@ import java.util.UUID
 	@Test
 	fun add() {
 		Mockito.`when`(oldEntity!!.id)!!
-				.thenReturn(UUID.fromString("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc"))
+				.thenReturn("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc".toUUID())
 		Mockito.`when`(newEntity!!.id)!!
-				.thenReturn(UUID.fromString("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc"))
-		dao!!.add(AuditEntry(
+				.thenReturn("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc".toUUID())
+		dao!!.add(UpdateEntry(
 				old = oldEntity!!,
 				new = newEntity!!,
-				user = UUID.randomUUID()))
+				user = UUID.randomUUID().toString()))
 
-		val list = dao!!.listById(UUID.fromString("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc"))
+		val list = dao!!.listById("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc".toUUID())
 		Assert.assertEquals(1, list.size)
 
 	}
