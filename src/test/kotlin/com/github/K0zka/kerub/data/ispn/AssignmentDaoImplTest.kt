@@ -1,9 +1,11 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.audit.AuditManager
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -21,12 +23,14 @@ import kotlin.test.assertEquals
 	var dao  : AssignmentDao? = null
 	@Mock var eventListener : EventListener? = null
 
+	val auditManager = mock<AuditManager>()
+
 	@Before fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()
-		dao = AssignmentDaoImpl(cache!!, eventListener!!)
+		dao = AssignmentDaoImpl(cache!!, eventListener!!, auditManager)
 	}
 
 	@After fun cleanup() {

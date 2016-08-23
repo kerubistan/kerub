@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.audit.AuditManager
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.Entity
+import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -15,12 +17,14 @@ import org.mockito.runners.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class IspnDaoBaseTest {
 
+	val auditManager = mock<AuditManager>()
+
 	class TestEntity : Entity<String>{
 		override var id: String = "TEST"
 	}
 
-	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener)
-		: ListableIspnDaoBase<TestEntity, String>(cache, eventListener) {
+	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener, auditManager: AuditManager)
+		: ListableIspnDaoBase<TestEntity, String>(cache, eventListener, auditManager) {
 		override fun getEntityClass(): Class<TestEntity> {
 			return TestEntity::class.java
 		}
@@ -37,7 +41,7 @@ class IspnDaoBaseTest {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
-		dao = TestDao(cache!!, eventListener!!)
+		dao = TestDao(cache!!, eventListener!!, auditManager)
 	}
 
 	@After

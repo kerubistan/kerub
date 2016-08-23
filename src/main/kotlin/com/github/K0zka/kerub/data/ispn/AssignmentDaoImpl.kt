@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.audit.AuditManager
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.controller.Assignment
@@ -8,8 +9,8 @@ import org.infinispan.Cache
 import org.infinispan.query.Search
 import java.util.UUID
 
-class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener)
-: AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener) {
+class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener, auditManager: AuditManager)
+: AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener, auditManager) {
 
 	override fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment> {
 		return basicSearch()

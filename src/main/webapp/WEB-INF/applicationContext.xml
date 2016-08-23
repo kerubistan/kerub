@@ -84,6 +84,7 @@
 	<bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
 		<constructor-arg ref="vmCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
@@ -95,21 +96,25 @@
 	      parent="daoBase">
 		<constructor-arg ref="virtualStorageDeviceCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="vNetDao" class="com.github.K0zka.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
 		<constructor-arg ref="vNetCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
 		<constructor-arg ref="assignmentCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
@@ -126,6 +131,7 @@
 	<bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
 		<constructor-arg ref="projectCache"/>
 		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="auditDao" class="com.github.K0zka.kerub.data.ispn.AuditEntryDaoImpl">
@@ -147,6 +153,12 @@
 	<!--
 	Managers
 	-->
+
+	<bean
+			id="auditManager"
+	        class="com.github.K0zka.kerub.audit.AuditManagerImpl">
+		<constructor-arg ref="auditDao"/>
+	</bean>
 
 	<bean
 			id="keyPairFactory"
