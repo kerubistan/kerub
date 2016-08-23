@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.host.distros.FreeBSD
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
+import com.github.K0zka.kerub.host.distros.UbuntuBSD
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
@@ -34,14 +35,19 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	private companion object {
 		val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
 		internal val distributions = listOf<Distribution>(
-				Ubuntu(),
+				//RPM-based distros
 				Fedora(),
 				Fedora23Plus(),
 				Centos6(),
 				Centos7(),
 				OpenSuse(),
+				// Debian-family
+				Ubuntu(),
 				Raspbian(),
+				// The BSD's
 				FreeBSD(),
+				UbuntuBSD(),
+				//Windows
 				Cygwin())
 	}
 
