@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.planner.steps.vm.migrate
+package com.github.K0zka.kerub.planner.steps.vm.migrate.kvm
 
 import com.github.K0zka.kerub.model.Constrained
 import com.github.K0zka.kerub.model.Expectation
@@ -19,7 +19,7 @@ import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
 
-data class MigrateVirtualMachine(
+data class KvmMigrateVirtualMachine(
 		val vm: VirtualMachine,
 		val source: Host,
 		val target: Host) : AbstractOperationalStep {

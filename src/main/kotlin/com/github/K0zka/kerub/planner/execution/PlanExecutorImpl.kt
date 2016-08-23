@@ -17,8 +17,8 @@ import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
-import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachineExecutor
+import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
@@ -52,7 +52,7 @@ class PlanExecutorImpl(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao),
 			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor, vmDynamicDao),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
-			MigrateVirtualMachine::class to MigrateVirtualMachineExecutor(hostManager),
+			KvmMigrateVirtualMachine::class to KvmMigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),

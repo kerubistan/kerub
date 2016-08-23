@@ -1,9 +1,11 @@
-package com.github.K0zka.kerub.planner.steps.vm.migrate
+package com.github.K0zka.kerub.planner.steps.vm.migrate.kvm
 
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Matchers
@@ -11,7 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class) class MigrateVirtualMachineExecutorTest {
+@RunWith(MockitoJUnitRunner::class) class KvmMigrateVirtualMachineExecutorTest {
 	@Mock
 	var hostManager: HostManager? = null
 	@Mock
@@ -33,7 +35,7 @@ import org.mockito.runners.MockitoJUnitRunner
 				name = "vm-1"
 		                       )
 		Mockito.`when`(hostManager!!.getHypervisor(Matchers.any(Host::class.java) ?: target)).thenReturn(hypervisor!!)
-		MigrateVirtualMachineExecutor(hostManager!!).execute(MigrateVirtualMachine(
+		KvmMigrateVirtualMachineExecutor(hostManager!!).execute(KvmMigrateVirtualMachine(
 				vm = vm,
 				source = source,
 				target = target

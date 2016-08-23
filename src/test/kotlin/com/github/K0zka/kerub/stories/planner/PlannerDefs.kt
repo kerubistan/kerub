@@ -51,7 +51,7 @@ import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.planner.PlannerImpl
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
 import com.github.K0zka.kerub.planner.steps.replace
-import com.github.K0zka.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
+import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
@@ -320,8 +320,8 @@ class PlannerDefs {
 	@Then("^(\\S+) will be migrated to (\\S+) as step (\\d+)")
 	fun verifyVmMigration(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val migrationStep = executedPlans.first().steps[stepNo - 1]
-		Assert.assertTrue(migrationStep is MigrateVirtualMachine)
-		Assert.assertEquals((migrationStep as MigrateVirtualMachine).target.address, targetHostAddr)
+		Assert.assertTrue(migrationStep is KvmMigrateVirtualMachine)
+		Assert.assertEquals((migrationStep as KvmMigrateVirtualMachine).target.address, targetHostAddr)
 		Assert.assertEquals(migrationStep.vm.name, vmName)
 	}
 

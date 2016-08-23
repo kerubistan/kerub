@@ -1,10 +1,10 @@
-package com.github.K0zka.kerub.planner.steps.vm.migrate
+package com.github.K0zka.kerub.planner.steps.vm.migrate.kvm
 
 import org.junit.Test
 
 import org.junit.Assert.*
 
-class MigrateVirtualMachineTest {
+class KvmMigrateVirtualMachineTest {
 
     @Test
     fun getCost() {
