@@ -1,12 +1,16 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.packman.RaspbianPackageManager
 import com.github.K0zka.kerub.model.FsStorageCapability
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.df.DF
+import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
 
@@ -31,4 +35,26 @@ class UbuntuBSD : AbstractDebian("ubuntuBSD") {
 				)
 			}
 
+	override fun installMonitorPackages(session: ClientSession) {
+		//TODO: find monitoring packages
+	}
+
+	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
+		VmStat.vmstat(session, { event ->
+			doWithDyn(host.id, hostDynDao, {
+				val memFree = (event.freeMem
+						+ event.cacheMem
+						+ event.ioBuffMem)
+				it.copy(
+						status = HostStatus.Up,
+						idleCpu = event.idleCpu,
+						systemCpu = event.systemCpu,
+						userCpu = event.userCpu,
+						memFree = memFree,
+						memUsed = host.capabilities?.totalMemory?.minus(memFree),
+						memSwapped = event.swapMem
+				)
+			})
+		})
+	}
 }
