@@ -1,6 +1,18 @@
 package com.github.K0zka.kerub.utils
 
+import java.io.PrintStream
+import java.io.PrintWriter
+import java.io.StringWriter
+
 private val logger = getLogger("com.github.K0zka.kerub.utils")
+
+fun Throwable.getStackTraceAsString(): String =
+		StringWriter().use {
+			PrintWriter(it).use {
+				this.printStackTrace(it)
+			}
+			it.toString()
+		}
 
 fun <T> silent(body: () -> T): T? = silent(body, "")
 
@@ -22,11 +34,11 @@ fun <T> silent(actionName: String, body: () -> T): T? {
 	}
 }
 
-fun <T> insist(tries: Int, action : () -> T) : T {
-	for(attempt in 0 .. tries - 1) {
+fun <T> insist(tries: Int, action: () -> T): T {
+	for (attempt in 0..tries - 1) {
 		try {
 			return action()
-		} catch (e : Exception) {
+		} catch (e: Exception) {
 			logger.warn("Attempt $attempt failed", e)
 		}
 	}
