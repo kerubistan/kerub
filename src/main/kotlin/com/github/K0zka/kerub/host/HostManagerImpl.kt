@@ -18,6 +18,7 @@ import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.session.Session
+import java.net.InetAddress
 import java.net.SocketAddress
 import java.security.PublicKey
 import java.util.Collections
@@ -25,7 +26,7 @@ import java.util.Timer
 import java.util.TimerTask
 import java.util.UUID
 
-class HostManagerImpl(
+open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
@@ -123,6 +124,7 @@ class HostManagerImpl(
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
+		checkAddressNotLocal(host.address)
 		logger.info("Connecting to host {} {}", host.id, host.address)
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
@@ -146,6 +148,15 @@ class HostManagerImpl(
 			logger.info("Host {} {} does not have a hypervisor, no vm monitoring started", host.address, host.id)
 		}
 	}
+
+	internal fun checkAddressNotLocal(address: String) {
+		val addr = resolve(address)
+		if(addr.isLoopbackAddress || addr.isLinkLocalAddress || addr.isAnyLocalAddress) {
+			throw IllegalArgumentException("$address is local")
+		}
+	}
+
+	open internal fun resolve(address: String) = InetAddress.getByName(address)
 
 	override fun join(host: Host, password: String): Host {
 		val session = sshClientService.loginWithPassword(
@@ -223,6 +234,7 @@ class HostManagerImpl(
 	}
 
 	override fun getHostPublicKey(address: String): PublicKey {
+		checkAddressNotLocal(address)
 		val pubKeySshClient = SshClient.setUpDefaultClient()!!
 		val serverKeyReader = ServerKeyReader()
 		pubKeySshClient.serverKeyVerifier = serverKeyReader

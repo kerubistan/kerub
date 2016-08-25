@@ -8,19 +8,20 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
+import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.github.K0zka.kerub.never
 import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.verify
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.sshd.client.auth.pubkey.UserAuthPublicKey
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.server.Command
 import org.apache.sshd.server.Environment
@@ -36,6 +37,7 @@ import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.InputStream
 import java.io.OutputStream
+import java.net.InetAddress
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -49,7 +51,7 @@ import kotlin.test.assertTrue
 	var hostDynamicDao: HostDynamicDao? = null
 
 	@Mock
-	var vmDynDao : VirtualMachineDynamicDao? = null
+	var vmDynDao: VirtualMachineDynamicDao? = null
 
 	@Mock
 	var sshClientService: SshClientService? = null
@@ -72,9 +74,9 @@ import kotlin.test.assertTrue
 	var discoverer: HostCapabilitiesDiscoverer? = null
 
 	@Mock
-	val clientSession : ClientSession? = null
+	val clientSession: ClientSession? = null
 
-	val hypervisor : Hypervisor = mock()
+	val hypervisor: Hypervisor = mock()
 
 	var hostManager: HostManagerImpl? = null
 
@@ -82,7 +84,7 @@ import kotlin.test.assertTrue
 	var shell: TestShellCommand? = null
 
 	@Mock
-	var distro : Distribution? = null
+	var distro: Distribution? = null
 
 	class TestShellCommand : Command {
 
@@ -120,17 +122,19 @@ import kotlin.test.assertTrue
 	@Before
 	fun setup() {
 		val key = getTestKey()
-		hostManager = HostManagerImpl(
-				hostDao!!,
-				hostDynamicDao!!,
-				vmDynDao!!,
-				virtualStorageDao!!,
-				virtualStorageDynDao!!,
-				sshClientService!!,
-				controllerManager!!,
-				hostAssignmentDao!!,
-				discoverer!!,
-				hostAssigner!!
+		hostManager = spy(
+				HostManagerImpl(
+						hostDao!!,
+						hostDynamicDao!!,
+						vmDynDao!!,
+						virtualStorageDao!!,
+						virtualStorageDynDao!!,
+						sshClientService!!,
+						controllerManager!!,
+						hostAssignmentDao!!,
+						discoverer!!,
+						hostAssigner!!
+				)
 		)
 		hostManager!!.sshServerPort = 2022
 		shell = TestShellCommand()
@@ -149,6 +153,7 @@ import kotlin.test.assertTrue
 
 	@Test
 	fun getHostPubkey() {
+		whenever(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
 		assertEquals(getTestKey().public, publicKey)
 	}
@@ -156,16 +161,35 @@ import kotlin.test.assertTrue
 	@Test
 	fun connectHost() {
 		val host = Host(id = UUID.randomUUID(),
-		                address = "127.0.0.1",
-		                capabilities = null,
-		                dedicated = false,
-		                publicKey = "")
+				address = "host1.example.com",
+				capabilities = null,
+				dedicated = false,
+				publicKey = "")
+		whenever(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
 		on(sshClientService!!.loginWithPublicKey(
-				address =  anyString(),
+				address = anyString(),
 				hostPublicKey = anyString(),
 				userName = anyString())).thenReturn(clientSession)
 		hostManager!!.connectHost(host)
 		Thread.sleep(1000)
+	}
+
+	@Test
+	fun connectHostWithNotExisting() {
+		val host = Host(id = UUID.randomUUID(),
+				address = "host1.example.com",
+				capabilities = null,
+				dedicated = false,
+				publicKey = "")
+		whenever(hostManager!!.resolve(any())).thenThrow(IllegalArgumentException("TEST"))
+		on(sshClientService!!.loginWithPublicKey(
+				address = anyString(),
+				hostPublicKey = anyString(),
+				userName = anyString())).thenReturn(clientSession)
+		expect(IllegalArgumentException::class) {
+			hostManager!!.connectHost(host)
+		}
+		verify(sshClientService!!, never).loginWithPublicKey(any(), any(), any())
 	}
 
 	@Test
@@ -176,13 +200,15 @@ import kotlin.test.assertTrue
 		on(controllerManager!!.getControllerId()).thenReturn(controllerId)
 		on(hostAssignmentDao!!.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
 				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
-		                                                                     )
+		)
 		on(hostDao!!.get(hostId)).thenReturn(host)
 		on(sshClientService!!.createSession(anyString(), anyString())).thenReturn(clientSession)
+		on(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
+		on(sshClientService!!.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		hostManager!!.start()
 
-		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey) )
+		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))
 
 	}
 
@@ -221,6 +247,22 @@ import kotlin.test.assertTrue
 	@Test
 	fun getFireWall() {
 		hostManager
+	}
+
+	@Test
+	fun checkAddressNotLocal() {
+		expect(IllegalArgumentException::class) {
+			hostManager!!.checkAddressNotLocal("127.0.0.1")
+		}
+		expect(IllegalArgumentException::class) {
+			hostManager!!.checkAddressNotLocal("127.0.0.5")
+		}
+		expect(IllegalArgumentException::class) {
+			hostManager!!.checkAddressNotLocal("127.1.2.3")
+		}
+		expect(IllegalArgumentException::class) {
+			hostManager!!.checkAddressNotLocal("localhost")
+		}
 	}
 
 	@Ignore
