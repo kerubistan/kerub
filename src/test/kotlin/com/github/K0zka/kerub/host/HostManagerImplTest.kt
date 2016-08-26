@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.eq
+import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.host.distros.Distribution
@@ -35,9 +36,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
+import sun.security.krb5.internal.HostAddress
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
+import java.net.UnknownHostException
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -181,12 +184,12 @@ import kotlin.test.assertTrue
 				capabilities = null,
 				dedicated = false,
 				publicKey = "")
-		whenever(hostManager!!.resolve(any())).thenThrow(IllegalArgumentException("TEST"))
+		whenever(hostManager!!.resolve(any())).then { throw UnknownHostException("TEST") }
 		on(sshClientService!!.loginWithPublicKey(
 				address = anyString(),
 				hostPublicKey = anyString(),
 				userName = anyString())).thenReturn(clientSession)
-		expect(IllegalArgumentException::class) {
+		expect(HostAddressException::class) {
 			hostManager!!.connectHost(host)
 		}
 		verify(sshClientService!!, never).loginWithPublicKey(any(), any(), any())
@@ -251,16 +254,16 @@ import kotlin.test.assertTrue
 
 	@Test
 	fun checkAddressNotLocal() {
-		expect(IllegalArgumentException::class) {
+		expect(HostAddressException::class) {
 			hostManager!!.checkAddressNotLocal("127.0.0.1")
 		}
-		expect(IllegalArgumentException::class) {
+		expect(HostAddressException::class) {
 			hostManager!!.checkAddressNotLocal("127.0.0.5")
 		}
-		expect(IllegalArgumentException::class) {
+		expect(HostAddressException::class) {
 			hostManager!!.checkAddressNotLocal("127.1.2.3")
 		}
-		expect(IllegalArgumentException::class) {
+		expect(HostAddressException::class) {
 			hostManager!!.checkAddressNotLocal("localhost")
 		}
 	}

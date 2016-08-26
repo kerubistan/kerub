@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
+import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
@@ -20,6 +21,7 @@ import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.session.Session
 import java.net.InetAddress
 import java.net.SocketAddress
+import java.net.UnknownHostException
 import java.security.PublicKey
 import java.util.Collections
 import java.util.Timer
@@ -150,9 +152,14 @@ open class HostManagerImpl(
 	}
 
 	internal fun checkAddressNotLocal(address: String) {
-		val addr = resolve(address)
-		if(addr.isLoopbackAddress || addr.isLinkLocalAddress || addr.isAnyLocalAddress) {
-			throw IllegalArgumentException("$address is local")
+		try {
+			val addr = resolve(address)
+			if (addr.isLoopbackAddress || addr.isLinkLocalAddress || addr.isAnyLocalAddress) {
+				throw HostAddressException("$address is local")
+			}
+		} catch (hnf : UnknownHostException) {
+			logger.info("$address host address resolution failed", hnf)
+			throw HostAddressException("$address can't be resolved")
 		}
 	}
 
