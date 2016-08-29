@@ -5,10 +5,11 @@ import com.github.K0zka.kerub.model.AddEntry
 import com.github.K0zka.kerub.model.DeleteEntry
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.UpdateEntry
+import com.github.K0zka.kerub.utils.currentUser
 import com.github.K0zka.kerub.utils.silent
 import org.apache.shiro.SecurityUtils
 
-class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditManager {
+open class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditManager {
 	override fun auditUpdate(old: Entity<*>, new: Entity<*>) {
 		auditEntryDao.add(
 				UpdateEntry(
@@ -37,5 +38,5 @@ class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditManager 
 		)
 	}
 
-	private fun getCurrentUser() = silent { SecurityUtils.getSubject()?.principal?.toString() }
+	open internal fun getCurrentUser() = silent { currentUser() }
 }
