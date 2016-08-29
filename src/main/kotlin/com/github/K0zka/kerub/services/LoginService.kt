@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.services
 
 import com.github.K0zka.kerub.security.Roles
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.POST
@@ -25,6 +26,7 @@ import javax.ws.rs.core.MediaType
 	@POST
 	fun login(authentication: UsernamePassword)
 
+	@RequiresAuthentication
 	@GET
 	@Path("user")
 	fun getUser(): UserData
