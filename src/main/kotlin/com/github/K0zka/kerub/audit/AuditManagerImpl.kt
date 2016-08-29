@@ -37,5 +37,5 @@ class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditManager 
 		)
 	}
 
-	private fun getCurrentUser() = silent { SecurityUtils.getSubject()?.toString() }
+	private fun getCurrentUser() = silent { SecurityUtils.getSubject()?.principal?.toString() }
 }
