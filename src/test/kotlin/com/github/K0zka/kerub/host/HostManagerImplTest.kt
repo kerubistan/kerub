@@ -156,7 +156,11 @@ import kotlin.test.assertTrue
 
 	@Test
 	fun getHostPubkey() {
-		whenever(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
+		val address = mock<InetAddress>()
+		whenever(address.isLoopbackAddress).thenReturn(false)
+		whenever(address.isLinkLocalAddress).thenReturn(false)
+		whenever(address.isAnyLocalAddress).thenReturn(false)
+		whenever(hostManager!!.resolve(any())).thenReturn(address)
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
 		assertEquals(getTestKey().public, publicKey)
 	}
@@ -168,7 +172,11 @@ import kotlin.test.assertTrue
 				capabilities = null,
 				dedicated = false,
 				publicKey = "")
-		whenever(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
+		val address = mock<InetAddress>()
+		whenever(address.isLoopbackAddress).thenReturn(false)
+		whenever(address.isLinkLocalAddress).thenReturn(false)
+		whenever(address.isAnyLocalAddress).thenReturn(false)
+		whenever(hostManager!!.resolve(any())).thenReturn(address)
 		on(sshClientService!!.loginWithPublicKey(
 				address = anyString(),
 				hostPublicKey = anyString(),
@@ -206,7 +214,11 @@ import kotlin.test.assertTrue
 		)
 		on(hostDao!!.get(hostId)).thenReturn(host)
 		on(sshClientService!!.createSession(anyString(), anyString())).thenReturn(clientSession)
-		on(hostManager!!.resolve(any())).thenReturn(InetAddress.getLocalHost())
+		val address = mock<InetAddress>()
+		whenever(address.isLoopbackAddress).thenReturn(false)
+		whenever(address.isLinkLocalAddress).thenReturn(false)
+		whenever(address.isAnyLocalAddress).thenReturn(false)
+		on(hostManager!!.resolve(any())).thenReturn(address)
 		on(sshClientService!!.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		hostManager!!.start()
