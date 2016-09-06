@@ -6,26 +6,21 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.SshClientService
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.nhaarman.mockito_kotlin.mock
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers.anyString
 import org.mockito.Matchers.eq
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.security.PublicKey
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class) class HostServiceImplTest {
-	@Mock
-	var dao: HostDao? = null
-	@Mock
-	var manager: HostManager? = null
-	@Mock
-	var sshClientService: SshClientService? = null
+class hostserviceimpltest {
+	val dao: HostDao = mock()
+	val manager: HostManager = mock()
+	val sshClientService: SshClientService = mock()
 
 	var pubKey: PublicKey = getTestKey().public
 
@@ -33,7 +28,7 @@ import java.util.UUID
 
 	@Before
 	fun setup() {
-		service = HostServiceImpl(dao!!, manager!!, sshClientService!!)
+		service = HostServiceImpl(dao, manager, sshClientService)
 	}
 
 	@Test
@@ -46,8 +41,8 @@ import java.util.UUID
 						publicKey = "TEST",
 						dedicated = true,
 						capabilities = null
-				           )
-		                                )
+				)
+		)
 		service!!.join(hostAndPwd)
 		Mockito.verify(manager)!!.join(eq(hostAndPwd.host) ?: hostAndPwd.host, eq(hostAndPwd.password) ?: hostAndPwd.password)
 	}
@@ -60,14 +55,14 @@ import java.util.UUID
 				publicKey = "TEST",
 				dedicated = true,
 				capabilities = null
-		               )
+		)
 		service!!.joinWithoutPassword(host)
 		Mockito.verify(manager)!!.join(eq(host) ?: host)
 	}
 
 	@Test
 	fun getHostPubkey() {
-		Mockito.`when`(manager!!.getHostPublicKey(anyString())).thenReturn(pubKey)
+		Mockito.`when`(manager.getHostPublicKey(anyString())).thenReturn(pubKey)
 
 		val hostPubKey = service!!.getHostPubkey("127.0.0l.1")
 		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey.algorithm))
@@ -77,7 +72,7 @@ import java.util.UUID
 
 	@Test
 	fun getPubKey() {
-		Mockito.`when`(sshClientService!!.getPublicKey()).thenReturn("TEST-KEY")
+		Mockito.`when`(sshClientService.getPublicKey()).thenReturn("TEST-KEY")
 
 		Assert.assertThat(service!!.getPubkey(), CoreMatchers.`is`("TEST-KEY"))
 
