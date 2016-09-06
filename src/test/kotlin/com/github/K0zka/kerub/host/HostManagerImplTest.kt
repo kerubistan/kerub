@@ -33,10 +33,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
-import sun.security.krb5.internal.HostAddress
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
@@ -45,39 +41,29 @@ import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@RunWith(MockitoJUnitRunner::class) class HostManagerImplTest {
+class HostManagerImplTest {
 
-	@Mock
-	var hostDao: HostDao? = null
+	val hostDao: HostDao = mock()
 
-	@Mock
-	var hostDynamicDao: HostDynamicDao? = null
+	val hostDynamicDao: HostDynamicDao = mock()
 
-	@Mock
-	var vmDynDao: VirtualMachineDynamicDao? = null
+	val vmDynDao: VirtualMachineDynamicDao = mock()
 
-	@Mock
-	var sshClientService: SshClientService? = null
+	val sshClientService: SshClientService = mock()
 
-	@Mock
-	var controllerManager: ControllerManager? = null
+	val controllerManager: ControllerManager = mock()
 
-	@Mock
-	var hostAssignmentDao: AssignmentDao? = null
+	val hostAssignmentDao: AssignmentDao = mock()
 
-	@Mock
-	var virtualStorageDao: VirtualStorageDeviceDao? = null
-	@Mock
-	var virtualStorageDynDao: VirtualStorageDeviceDynamicDao? = null
+	val virtualStorageDao: VirtualStorageDeviceDao = mock()
 
-	@Mock
-	var hostAssigner: ControllerAssigner? = null
+	val virtualStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
 
-	@Mock
-	var discoverer: HostCapabilitiesDiscoverer? = null
+	val hostAssigner: ControllerAssigner = mock()
 
-	@Mock
-	val clientSession: ClientSession? = null
+	val discoverer: HostCapabilitiesDiscoverer = mock()
+
+	val clientSession: ClientSession = mock()
 
 	val hypervisor: Hypervisor = mock()
 
@@ -86,8 +72,7 @@ import kotlin.test.assertTrue
 	var sshServer: SshServer? = null
 	var shell: TestShellCommand? = null
 
-	@Mock
-	var distro: Distribution? = null
+	val distro: Distribution = mock()
 
 	class TestShellCommand : Command {
 
@@ -127,16 +112,16 @@ import kotlin.test.assertTrue
 		val key = getTestKey()
 		hostManager = spy(
 				HostManagerImpl(
-						hostDao!!,
-						hostDynamicDao!!,
-						vmDynDao!!,
-						virtualStorageDao!!,
-						virtualStorageDynDao!!,
-						sshClientService!!,
-						controllerManager!!,
-						hostAssignmentDao!!,
-						discoverer!!,
-						hostAssigner!!
+						hostDao,
+						hostDynamicDao,
+						vmDynDao,
+						virtualStorageDao,
+						virtualStorageDynDao,
+						sshClientService,
+						controllerManager,
+						hostAssignmentDao,
+						discoverer,
+						hostAssigner
 				)
 		)
 		hostManager!!.sshServerPort = 2022
@@ -177,7 +162,7 @@ import kotlin.test.assertTrue
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
 		whenever(hostManager!!.resolve(any())).thenReturn(address)
-		on(sshClientService!!.loginWithPublicKey(
+		on(sshClientService.loginWithPublicKey(
 				address = anyString(),
 				hostPublicKey = anyString(),
 				userName = anyString())).thenReturn(clientSession)
@@ -193,14 +178,14 @@ import kotlin.test.assertTrue
 				dedicated = false,
 				publicKey = "")
 		whenever(hostManager!!.resolve(any())).then { throw UnknownHostException("TEST") }
-		on(sshClientService!!.loginWithPublicKey(
+		on(sshClientService.loginWithPublicKey(
 				address = anyString(),
 				hostPublicKey = anyString(),
 				userName = anyString())).thenReturn(clientSession)
 		expect(HostAddressException::class) {
 			hostManager!!.connectHost(host)
 		}
-		verify(sshClientService!!, never).loginWithPublicKey(any(), any(), any())
+		verify(sshClientService, never).loginWithPublicKey(any(), any(), any())
 	}
 
 	@Test
@@ -208,18 +193,18 @@ import kotlin.test.assertTrue
 		val controllerId = "test controller id"
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
-		on(controllerManager!!.getControllerId()).thenReturn(controllerId)
-		on(hostAssignmentDao!!.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
+		on(controllerManager.getControllerId()).thenReturn(controllerId)
+		on(hostAssignmentDao.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
 				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
 		)
-		on(hostDao!!.get(hostId)).thenReturn(host)
-		on(sshClientService!!.createSession(anyString(), anyString())).thenReturn(clientSession)
+		on(hostDao[hostId]).thenReturn(host)
+		on(sshClientService.createSession(anyString(), anyString())).thenReturn(clientSession)
 		val address = mock<InetAddress>()
 		whenever(address.isLoopbackAddress).thenReturn(false)
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
 		on(hostManager!!.resolve(any())).thenReturn(address)
-		on(sshClientService!!.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
+		on(sshClientService.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		hostManager!!.start()
 
@@ -229,7 +214,7 @@ import kotlin.test.assertTrue
 
 	@Test
 	fun dataConnection() {
-		on(sshClientService!!.loginWithPublicKey(anyString(), anyString(), anyString())).thenReturn(clientSession)
+		on(sshClientService.loginWithPublicKey(anyString(), anyString(), anyString())).thenReturn(clientSession)
 
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
@@ -241,7 +226,7 @@ import kotlin.test.assertTrue
 		})
 
 		assertTrue(called)
-		verify(sshClientService!!).loginWithPublicKey(anyString(), anyString(), anyString())
+		verify(sshClientService).loginWithPublicKey(anyString(), anyString(), anyString())
 	}
 
 	@Test
@@ -249,8 +234,8 @@ import kotlin.test.assertTrue
 	fun execute() {
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
-		whenever(discoverer!!.detectDistro(eq(clientSession!!))).thenReturn(distro)
-		whenever(sshClientService!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))).thenReturn(clientSession)
+		whenever(discoverer.detectDistro(eq(clientSession))).thenReturn(distro)
+		whenever(sshClientService.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))).thenReturn(clientSession)
 
 		hostManager!!.connectHost(host)
 		val result = hostManager!!.execute(host) {
