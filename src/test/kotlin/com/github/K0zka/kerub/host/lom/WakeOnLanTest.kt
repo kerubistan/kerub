@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.stringToMac
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
@@ -14,12 +15,10 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class) class WakeOnLanTest {
+class WakeOnLanTest {
 
-	@Mock
-	var executor: HostCommandExecutor? = null
-	@Mock
-	var hostManager: HostManager? = null
+	val executor: HostCommandExecutor = mock()
+	val hostManager: HostManager = mock()
 	val host = Host(
 			address = "host-1.example.com",
 			dedicated = true,
@@ -40,12 +39,12 @@ import org.mockito.runners.MockitoJUnitRunner
 	@Ignore
 	@Test
 	fun on() {
-		WakeOnLan(host, executor!!, hostManager!!).on()
+		WakeOnLan(host, executor, hostManager).on()
 	}
 
 	@Test(expected = IllegalArgumentException::class)
 	fun onWithoutMacAddress() {
-		WakeOnLan(host.copy(capabilities = null), executor!!, hostManager!!).on()
+		WakeOnLan(host.copy(capabilities = null), executor, hostManager).on()
 	}
 
 	@Test
@@ -65,6 +64,6 @@ import org.mockito.runners.MockitoJUnitRunner
 
 	@Test
 	fun off() {
-		WakeOnLan(host, executor!!, hostManager!!).off()
+		WakeOnLan(host, executor, hostManager).off()
 	}
 }
