@@ -7,30 +7,25 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import javax.jms.ObjectMessage
 
-@RunWith(MockitoJUnitRunner::class) class InterControllerListenerTest {
+class InterControllerListenerTest {
 
-	@Mock
-	var hostManager: HostManager? = null
+	val hostManager: HostManager = mock()
 
-	@Mock
-	var hostDao: HostDao? = null
+	var hostDao: HostDao = mock()
 
-	@Mock
-	var message : ObjectMessage? = null
+	val message : ObjectMessage = mock()
 
 	var impl : InterControllerListener? = null
 
 	@Before
 	fun setup() {
-		impl = InterControllerListener(hostManager!!, hostDao!!)
+		impl = InterControllerListener(hostManager, hostDao)
 	}
 
 	@Test
@@ -43,13 +38,13 @@ import javax.jms.ObjectMessage
 				dedicated = true,
 				publicKey = "TEST"
 		               )
-		on(hostDao!!.get( eq(hostId) )).thenReturn(
+		on(hostDao.get( eq(hostId) )).thenReturn(
 				        host
 		                                          )
-		on(message!!.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))
+		on(message.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))
 		impl!!.onMessage(message)
 
-		verify(hostManager!!).connectHost(eq(host))
+		verify(hostManager).connectHost(eq(host))
 	}
 
 }
