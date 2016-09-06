@@ -10,19 +10,21 @@ import java.math.BigInteger
 object KsmFactory : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 
 	private fun totalMemoryUsedByVms(state: OperationalState, host: Host): BigInteger =
-			state.vmDyns.values.map { if (it.hostId == host.id) it.memoryUsed else BigInteger.ZERO }.sum()
+			state.vms.values.map { if (it.dynamic?.hostId == host.id) it.dynamic?.memoryUsed else null }
+					.filterNotNull()
+					.sum()
 
 	override fun produce(state: OperationalState): List<AbstractOperationalStep> {
 		return state.hosts.values.map {
 			host ->
-			val dyn = state.hostDyns[host.id]
+			val dyn = host.dynamic
 			if (dyn == null) {
 				null
 			} else
 				if (dyn.ksmEnabled) {
-					DisableKsm(host)
+					DisableKsm(host.stat)
 				} else {
-					EnableKsm(host, totalMemoryUsedByVms(state, host).toLong())
+					EnableKsm(host.stat, totalMemoryUsedByVms(state, host.stat).toLong())
 				}
 		}.filterNotNull()
 	}

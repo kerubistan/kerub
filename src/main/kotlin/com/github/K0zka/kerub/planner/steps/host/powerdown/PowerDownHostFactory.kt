@@ -15,20 +15,21 @@ object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 		// NOTE:
 		// for now the only service is the running VM's storage, network
 		// and other computational resources should also be included
-		val vmsOnHost: List<UUID> = state.vmDyns.filter {
-			it.value.status != VirtualMachineStatus.Down
-		}.map { it.value.hostId }
+		val hostsWithVms: List<UUID> = state.vms.values.filter {
+			it.dynamic?.status != VirtualMachineStatus.Down
+		}.map { it.dynamic?.hostId }.filterNotNull()
 
 		val idleDedicatedHosts = state.hosts.filter {
-			!vmsOnHost.contains(it.key)
-					&& it.value.dedicated
-					&& it.value.capabilities?.powerManagment?.let { it.isNotEmpty() } ?: false
+			!hostsWithVms.contains(it.key)
+					&& it.value.stat.dedicated
+					&& it.value.config?.services?.isEmpty() ?: true
+					&& it.value.stat.capabilities?.powerManagment?.let { it.isNotEmpty() } ?: false
 		}
 
 		return idleDedicatedHosts.filter {
-			val dyn = state.hostDyns[it.key]
+			val dyn = state.hosts[it.key]?.dynamic
 			dyn?.status == HostStatus.Up
-		}.map { PowerDownHost(it.value) }
+		}.map { PowerDownHost(it.value.stat) }
 
 	}
 }

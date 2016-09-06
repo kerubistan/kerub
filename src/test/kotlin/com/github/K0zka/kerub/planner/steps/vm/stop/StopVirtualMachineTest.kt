@@ -12,6 +12,9 @@ import com.github.K0zka.kerub.planner.costs.Risk
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class StopVirtualMachineTest {
 	@Test
@@ -45,8 +48,8 @@ class StopVirtualMachineTest {
 
 		val transformed = StopVirtualMachine(vm = vm, host = host).take(originalState)
 
-		Assert.assertTrue(transformed.vms.containsKey(vm.id))
-		Assert.assertFalse(transformed.vmDyns.containsKey(vm.id))
+		assertTrue(transformed.vms.containsKey(vm.id))
+		assertNull(transformed.vms[vm.id]?.dynamic)
 	}
 
 	@Test
@@ -60,7 +63,7 @@ class StopVirtualMachineTest {
 				name = "text-vm"
 		                       )
 		val costs = StopVirtualMachine(vm = vm, host = host).getCost()
-		Assert.assertTrue(costs.isEmpty())
+		assertTrue(costs.isEmpty())
 	}
 
 	@Test
@@ -75,7 +78,7 @@ class StopVirtualMachineTest {
 		        expectations = listOf(VirtualMachineAvailabilityExpectation())
 		                       )
 		val costs = StopVirtualMachine(vm = vm, host = host).getCost()
-		Assert.assertTrue(costs.isNotEmpty())
-		Assert.assertTrue(costs.any {it is Risk} )
+		assertTrue(costs.isNotEmpty())
+		assertTrue(costs.any {it is Risk} )
 	}
 }

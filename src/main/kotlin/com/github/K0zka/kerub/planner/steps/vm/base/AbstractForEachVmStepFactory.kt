@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vm.base
 
+import com.github.K0zka.kerub.model.collection.VirtualMachineDataCollection
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
@@ -10,7 +11,7 @@ abstract class AbstractForEachVmStepFactory<T : AbstractOperationalStep> : Abstr
 
 	abstract fun filter(vmDyn: VirtualMachineDynamic): Boolean
 
-	abstract fun create(vmDyn: VirtualMachineDynamic, state: OperationalState): T
+	abstract fun create(vmData: VirtualMachineDataCollection, state: OperationalState): T
 
 	protected fun getVm(id: UUID, state: OperationalState) =
 			requireNotNull(state.vms[id], { "VM not found with id $id" })
@@ -19,11 +20,11 @@ abstract class AbstractForEachVmStepFactory<T : AbstractOperationalStep> : Abstr
 			requireNotNull(state.hosts[id], { "Host not found with id $id" })
 
 	override final fun produce(state: OperationalState): List<T> {
-		return state.vmDyns.values
-				.filter { filter(it) }
+		return state.vms.values
+				.filter { it.dynamic != null && filter(it.dynamic) }
 				.map {
-					vmDyn ->
-					create(vmDyn, state)
+					vm ->
+					create(vm, state)
 				}
 	}
 }

@@ -14,23 +14,23 @@ import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
 object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigrateVirtualMachine>() {
 	override fun produce(state: OperationalState): List<KvmMigrateVirtualMachine> {
 		val runningVms = state.vms.values.filter {
-			state.vmDyns[it.id]?.status == VirtualMachineStatus.Up
+			it.dynamic?.status == VirtualMachineStatus.Up
 		}
 		val runningHosts = state.hosts.values.filter {
-			state.hostDyns[it.id]?.status == HostStatus.Up
+			it.dynamic?.status == HostStatus.Up
 		}
 
 		var steps = listOf<KvmMigrateVirtualMachine>()
 
 		runningHosts.forEach {
-			host ->
+			hostData ->
 			runningVms.forEach {
-				vm ->
-				if (match(host, state.hostDyns[host.id], vm, storageAllocationMap(state))) {
-					val sourceId = state.vmDyns[vm.id]?.hostId
+				vmData ->
+				if (match(hostData.stat, hostData.dynamic, vmData.stat, storageAllocationMap(state, vmData.stat.virtualStorageLinks))) {
+					val sourceId = vmData.dynamic?.hostId
 					val sourceHost = requireNotNull(state.hosts[sourceId])
-					if (sourceId != host.id) {
-						steps += KvmMigrateVirtualMachine(vm = vm, source = sourceHost, target = host)
+					if (sourceId != hostData.stat.id) {
+						steps += KvmMigrateVirtualMachine(vm = vmData.stat, source = sourceHost.stat, target = hostData.stat)
 					}
 				}
 			}

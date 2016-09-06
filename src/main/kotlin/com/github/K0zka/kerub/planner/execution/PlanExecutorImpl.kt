@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.execution
 
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -37,11 +38,12 @@ import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(
-		private val hostCommandExecutor: HostCommandExecutor,
-		private val hostManager: HostManager,
-		private val hostDynamicDao: HostDynamicDao,
-		private val vmDynamicDao: VirtualMachineDynamicDao,
-		private val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+		hostCommandExecutor: HostCommandExecutor,
+		hostManager: HostManager,
+		hostDynamicDao: HostDynamicDao,
+		vmDynamicDao: VirtualMachineDynamicDao,
+		virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+		hostConfigurationDao: HostConfigurationDao
 ) : PlanExecutor {
 
 	companion object {
@@ -60,7 +62,7 @@ class PlanExecutorImpl(
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
 			WakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
-			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostDynamicDao, hostCommandExecutor, hostManager)
+			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager)
 	)
 
 	fun execute(step: AbstractOperationalStep) {

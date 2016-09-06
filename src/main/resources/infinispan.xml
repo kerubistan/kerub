@@ -29,6 +29,12 @@
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>
+		<distributed-cache name="hostConfigCache" statistics="true" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/config/hosts"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
 		<distributed-cache name="virtualStorageDeviceDynamicCache" statistics="true" owners="${dyn.owners}">
 			<persistence>
 				<file-store path="${store.dir}/store/dyn/vstorage"/>

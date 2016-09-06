@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.utils.update
 
 data class PowerDownHost(val host: Host) : AbstractOperationalStep {
 	override fun getCost(): List<Cost> {
@@ -17,7 +18,11 @@ data class PowerDownHost(val host: Host) : AbstractOperationalStep {
 
 	override fun take(state: OperationalState): OperationalState {
 		return state.copy(
-				hostDyns = state.hostDyns.filterNot { it.key == host.id }
+				hosts = state.hosts.update(host.id) {
+					it.copy(
+							dynamic = null
+					)
+				}
 		)
 	}
 }

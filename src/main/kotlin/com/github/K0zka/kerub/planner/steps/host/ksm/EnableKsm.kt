@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
+import com.github.K0zka.kerub.utils.update
 
 data class EnableKsm(override val host: Host, val cycles: Long) : HostStep {
 
@@ -22,15 +23,20 @@ data class EnableKsm(override val host: Host, val cycles: Long) : HostStep {
 			= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
-		val dyn = requireNotNull(state.hostDyns[host.id])
+		val dyn = requireNotNull(state.hosts[host.id]?.dynamic)
 
 		return state.copy(
-				hostDyns = state.hostDyns + (host.id to dyn.copy(
-						ksmEnabled = true,
-						systemCpu = ((dyn.systemCpu ?: 0) + ksmGeneratedLoad).toByte(),
-						idleCpu = ((dyn.idleCpu ?: 0) + ksmGeneratedLoad).toByte(),
-						memFree = ((dyn.memFree))
-				))
+				hosts = state.hosts.update(host.id) {
+					hostData ->
+					hostData.copy(
+							dynamic = dyn.copy(
+									ksmEnabled = true,
+									systemCpu = ((dyn.systemCpu ?: 0) + ksmGeneratedLoad).toByte(),
+									idleCpu = ((dyn.idleCpu ?: 0) + ksmGeneratedLoad).toByte(),
+									memFree = ((dyn.memFree))
+							)
+					)
+				}
 		)
 	}
 

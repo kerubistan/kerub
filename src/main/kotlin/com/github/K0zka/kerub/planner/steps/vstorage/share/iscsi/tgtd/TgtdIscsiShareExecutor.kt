@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
@@ -8,14 +9,15 @@ import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
 class TgtdIscsiShareExecutor(
-		private val hostDynamicDao: HostDynamicDao,
+		private val hostConfigDao: HostConfigurationDao,
 		private val hostExecutor: HostCommandExecutor,
 		private val hostManager: HostManager)
 : AbstractStepExecutor<TgtdIscsiShare, Unit>() {
 	override fun update(step: TgtdIscsiShare, updates: Unit) {
-		hostDynamicDao.update(step.host.id) {
-			it.copy(
-					services = it.services + IscsiService(vstorageId = step.vstorage.id)
+		hostConfigDao.update(step.host.id) {
+			config ->
+			config.copy(
+					services = config.services + IscsiService(vstorageId = step.vstorage.id)
 			)
 		}
 	}

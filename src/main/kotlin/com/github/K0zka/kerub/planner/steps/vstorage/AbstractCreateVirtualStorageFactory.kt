@@ -11,32 +11,33 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
 	companion object {
-		fun listRunningHosts(state: OperationalState) = state.hosts.values.filter { state.hostDyns[it.id]?.status == HostStatus.Up }
+		fun listRunningHosts(state: OperationalState) =
+				state.hosts.values.filter { it.dynamic?.status == HostStatus.Up }
 
 		fun listStorageNotAllocated(state: OperationalState): List<VirtualStorageDevice> {
 			val vmsThatMustRun = state.vms.values.filter {
 				vm ->
-				vm.expectations.any {
+				vm.stat.expectations.any {
 					expectation ->
 					expectation is VirtualMachineAvailabilityExpectation
 							&& expectation.up
 				}
 			}
 			//TODO: here also list the storage that has availibility expectation
-			val storageNotAllocated = state.vStorage.values.filterNot { state.vStorageDyns.contains(it.id) }
+			val storageNotAllocated = state.vStorage.values.filter { it.dynamic == null }
 					.filter {
 						storage ->
-						storage.expectations.any { it is StorageAvailabilityExpectation }
+						storage.stat.expectations.any { it is StorageAvailabilityExpectation }
 								||
 								vmsThatMustRun.any {
 									vm ->
-									vm.virtualStorageLinks.any {
+									vm.stat.virtualStorageLinks.any {
 										link ->
-										link.virtualStorageId == storage.id
+										link.virtualStorageId == storage.stat.id
 									}
 								}
 					}
-			return storageNotAllocated
+			return storageNotAllocated.map { it.stat }
 		}
 
 	}

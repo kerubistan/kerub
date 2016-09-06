@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
+import com.github.K0zka.kerub.utils.update
 import java.math.BigInteger
 
 /**
@@ -28,13 +29,20 @@ data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) :
 	}
 
 	override fun take(state: OperationalState): OperationalState {
-		val hostDyn = state.hostDyns[host.id]!!
+		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		return state.copy(
-				vmDyns = state.vmDyns.filterNot { it.key == vm.id },
-				hostDyns = state.hostDyns + (host.id to
-						hostDyn.copy(
-								memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max
-						))
+				vms = state.vms.update(vm.id) {
+					it.copy(
+							dynamic = null
+					)
+				},
+				hosts = state.hosts.update(host.id) {
+					it.copy(
+							dynamic = hostDyn.copy(
+									memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max
+							)
+					)
+				}
 		)
 
 	}

@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.data.DaoOperations
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -18,6 +19,7 @@ class OperationalStateBuilderImpl(
 		private val controllerManager: ControllerManager,
 		private val assignments: AssignmentDao,
 		private val hostDyn: HostDynamicDao,
+		private val hostCfg: HostConfigurationDao,
 		private val hostDao: HostDao,
 		private val virtualStorageDao: VirtualStorageDeviceDao,
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
@@ -42,6 +44,7 @@ class OperationalStateBuilderImpl(
 		return OperationalState.fromLists(
 				hosts = retrieveAll(hostAssignments, hostDao),
 				hostDyns = retrieveAll(hostAssignments, hostDyn),
+				hostCfgs = retrieveAll(hostAssignments, hostCfg),
 				vms = retrieveAll(vmAssignments, vmDao),
 				vmDyns = retrieveAll(vmAssignments, vmDynDao),
 				vStorage = retrieveAll(vstorageAssignments, virtualStorageDao),

@@ -13,8 +13,8 @@ object CreateImageFactory : AbstractCreateVirtualStorageFactory<CreateImage>() {
 		var steps = listOf<CreateImage>()
 
 		runningHosts.forEach {
-			host ->
-			host.capabilities?.storageCapabilities?.filter {
+			hostData ->
+			hostData.stat.capabilities?.storageCapabilities?.filter {
 				capability
 				->
 				capability is FsStorageCapability && capability.mountPoint.startsWith("/var")
@@ -24,7 +24,7 @@ object CreateImageFactory : AbstractCreateVirtualStorageFactory<CreateImage>() {
 					storage ->
 					CreateImage(
 							disk = storage,
-							host = host,
+							host = hostData.stat,
 							format = VirtualDiskFormat.qcow2,
 							path = (mount as FsStorageCapability).mountPoint
 					)

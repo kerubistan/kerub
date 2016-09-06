@@ -5,6 +5,8 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
 import org.junit.Assert
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class WakeHostTest {
 	@Test fun take() {
@@ -19,7 +21,7 @@ class WakeHostTest {
 
 		val transformed = WakeHost(host).take(originalState)
 
-		Assert.assertTrue(transformed.hostDyns.containsKey(host.id))
-		Assert.assertTrue(transformed.hostDyns[host.id]?.status == HostStatus.Up)
+		assertNotNull(transformed.hosts[host.id]?.dynamic)
+		assertEquals(HostStatus.Up, transformed.hosts[host.id]?.dynamic?.status)
 	}
 }

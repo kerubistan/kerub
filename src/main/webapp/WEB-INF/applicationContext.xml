@@ -46,6 +46,10 @@
 		<constructor-arg value="hostDynamicCache"/>
 	</bean>
 
+	<bean id="hostConfigCache" parent="cache">
+		<constructor-arg value="hostConfigCache"/>
+	</bean>
+
 	<bean id="virtualStorageDeviceDynamicCache" parent="cache">
 		<constructor-arg value="virtualStorageDeviceDynamicCache"/>
 	</bean>
@@ -109,6 +113,11 @@
 		<constructor-arg ref="hostCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
+	</bean>
+
+	<bean id="hostConfigDao" class="com.github.K0zka.kerub.data.ispn.HostConfigurationDaoImpl" parent="daoBase">
+		<constructor-arg ref="hostConfigCache"/>
+		<constructor-arg ref="eventListener"/>
 	</bean>
 
 	<bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
@@ -257,6 +266,7 @@
 	<bean id="stateBuilder" class="com.github.K0zka.kerub.planner.GlobalOperationalStateBuilderImpl">
 		<constructor-arg ref="hostDynamicDao"/>
 		<constructor-arg ref="hostDao"/>
+		<constructor-arg ref="hostConfigDao"/>
 		<constructor-arg ref="virtualStorageDeviceDao"/>
 		<constructor-arg ref="virtualStorageDeviceDynDao"/>
 		<constructor-arg ref="vmDao"/>
@@ -278,6 +288,7 @@
 		<constructor-arg ref="hostDynamicDao"/>
 		<constructor-arg ref="vmDynDao"/>
 		<constructor-arg ref="virtualStorageDeviceDynDao"/>
+		<constructor-arg ref="hostConfigDao"/>
 	</bean>
 
 	<!--

@@ -17,10 +17,13 @@ class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : Hos
 	override fun take(state: OperationalState): OperationalState {
 		//TODO: should also transform host CPU load data to show any useful
 		return state.copy(
-				vmDyns = state.vmDyns.update(vm.id, {
-					it.copy(
-							status = VirtualMachineStatus.Paused,
-							cpuUsage = listOf()
+				vms = state.vms.update(vm.id, {
+					vmData ->
+					vmData.copy(
+							dynamic = requireNotNull(vmData.dynamic).copy(
+									status = VirtualMachineStatus.Paused,
+									cpuUsage = listOf()
+							)
 					)
 				})
 		)

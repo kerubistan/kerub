@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.HostManager
@@ -26,10 +27,10 @@ import java.util.UUID
 
 class TgtdIscsiShareExecutorTest {
 
-	val hostDynamicDao: HostDynamicDao = mock()
+	val hostConfigDao: HostConfigurationDao = mock()
 	val hostManager: HostManager = mock()
 	val firewall: FireWall = mock()
-	val serviceManager : ServiceManager = mock()
+	val serviceManager: ServiceManager = mock()
 	val session: ClientSession = mock()
 	val channel: ChannelExec = mock()
 	val sftp: SftpClient = mock()
@@ -60,7 +61,7 @@ class TgtdIscsiShareExecutorTest {
 		whenever(session.createSftpClient()).thenReturn(sftp)
 		whenever(sftp.write(any())).thenReturn(NullOutputStream())
 		whenever(hostManager.getServiceManager(any())).thenReturn(serviceManager)
-		TgtdIscsiShareExecutor(hostDynamicDao, HostCommandExecutorStub(session), hostManager)
+		TgtdIscsiShareExecutor(hostConfigDao, HostCommandExecutorStub(session), hostManager)
 				.execute(step = TgtdIscsiShare(host = host, devicePath = "/dev/test", vstorage = vStorage))
 
 		verify(firewall).open(eq(3260), eq("tcp"))

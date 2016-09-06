@@ -29,9 +29,9 @@ class CreateImageTest {
 				vStorage = listOf(device)
 		))
 
-		Assert.assertTrue(state.vStorageDyns.values.any {
-			it.allocation.hostId == host.id
-					&& it.id == device.id
+		Assert.assertTrue(state.vStorage.values.any {
+			it.dynamic?.allocation?.hostId == host.id
+					&& it.dynamic?.id == device.id
 		})
 	}
 }

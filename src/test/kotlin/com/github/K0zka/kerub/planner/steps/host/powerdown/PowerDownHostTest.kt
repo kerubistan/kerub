@@ -26,6 +26,6 @@ class PowerDownHostTest {
 
 		val transformed = PowerDownHost(host).take(state)
 
-		Assert.assertFalse(transformed.hostDyns.containsKey(host.id))
+		assertNull(transformed.hosts[host.id]?.dynamic)
 	}
 }

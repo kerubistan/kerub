@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.planner.costs.TimeCost
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.utils.update
 import java.math.BigInteger
 
 class WakeHost(val host: Host) : AbstractOperationalStep {
@@ -16,10 +17,7 @@ class WakeHost(val host: Host) : AbstractOperationalStep {
 			= listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
-		val otherHosts = state.hostDyns.filter { it.value.id != host.id }
-
-		val dyn = state.hostDyns[host.id]
-				?: HostDynamic(
+		val dyn = HostDynamic(
 				id = host.id,
 				status = HostStatus.Up,
 				memFree = host.capabilities?.totalMemory,
@@ -29,7 +27,11 @@ class WakeHost(val host: Host) : AbstractOperationalStep {
 		)
 
 		return state.copy(
-				hostDyns = otherHosts + (host.id to dyn)
+				hosts = state.hosts.update(host.id) {
+					it.copy(
+							dynamic = dyn
+					)
+				}
 		)
 	}
 

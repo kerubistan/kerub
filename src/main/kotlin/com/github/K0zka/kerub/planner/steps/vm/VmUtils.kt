@@ -2,23 +2,24 @@ package com.github.K0zka.kerub.planner.steps.vm
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.collection.HostDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
 import java.math.BigInteger
 
-fun storageAllocationMap(state: OperationalState) =
-		state.vStorage.values.map {
-			vStorage ->
-			val dynamic = state.vStorageDyns[vStorage.id]
-			val host = if (dynamic?.allocation?.hostId == null ) null else state.hosts[dynamic!!.allocation.hostId]
-			val hostDyn = if (host == null) null else state.hostDyns[host.id]
-			vStorage to (dynamic to hostDyn)
+fun storageAllocationMap(state: OperationalState, links : List<VirtualStorageLink>): Map<VirtualStorageDataCollection, HostDataCollection?> =
+		links.map {
+			link ->
+			val vStorage = requireNotNull(state.vStorage[link.virtualStorageId])
+			val dynamic = state.vStorage[vStorage.stat.id]?.dynamic
+			val hostId = dynamic?.allocation?.hostId
+			val hostData = if (hostId == null ) null else state.hosts[hostId]
+			vStorage to hostData
 		}.toMap()
 
 
@@ -30,7 +31,7 @@ fun match(
 		host: Host,
 		dyn: HostDynamic?,
 		vm: VirtualMachine,
-		vStorage: Map<VirtualStorageDevice, Pair<VirtualStorageDeviceDynamic?, HostDynamic?>> = mapOf()): Boolean {
+		vStorage: Map<VirtualStorageDataCollection, HostDataCollection?> = mapOf()): Boolean {
 
 	//host not running or not known
 	if (dyn == null) {
@@ -49,7 +50,7 @@ fun match(
 		return false
 	}
 
-	if (vm.virtualStorageLinks.any { link -> !storageAvailable(link, vStorage, vm, host, dyn) }) {
+	if (vm.virtualStorageLinks.any { link -> !storageAvailable(vStorage, host) }) {
 		return false
 	}
 
@@ -63,21 +64,19 @@ fun match(
 }
 
 /**
- * Storage is create and is either local OR shared on the host where it is created.
+ * Storage is created and is either local OR shared on the host where it is created.
  */
 fun storageAvailable(
-		link: VirtualStorageLink,
-		vStorage: Map<VirtualStorageDevice, Pair<VirtualStorageDeviceDynamic?, HostDynamic?>>,
-		vm: VirtualMachine,
-		host: Host,
-		hostDynamic: HostDynamic): Boolean {
+		vStorage: Map<VirtualStorageDataCollection, HostDataCollection?>,
+		host: Host): Boolean {
 
 	return vStorage.all {
-		val device = it.key
-		val storageDyn = it.value.first
-		val storageHostDyn = it.value.second
+		val storage = it.key
+		val storageHost = it.value
 
-		storageHostDyn?.id == host.id ||
-		storageHostDyn?.services?.contains( IscsiService(device.id) ) ?: false
+		//either it is on the same host
+		storage.dynamic?.allocation?.hostId == host.id ||
+		//or another host, but it is shared
+		storageHost?.config?.services?.contains( IscsiService(storage.stat.id) ) ?: false
 	}
 }

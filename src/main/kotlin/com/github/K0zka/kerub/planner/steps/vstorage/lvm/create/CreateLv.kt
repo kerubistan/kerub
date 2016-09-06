@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.IOCost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
+import com.github.K0zka.kerub.utils.update
 
 class CreateLv(
 		override val host: Host,
@@ -32,7 +33,7 @@ class CreateLv(
 				),
 				actualSize = disk.size
 		)
-		val originalHostDyn = requireNotNull(state.hostDyns[host.id])
+		val originalHostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		val volGroup = requireNotNull(host.capabilities?.storageCapabilities?.first { it is LvmStorageCapability && it.volumeGroupName == volumeGroupName })
 		val hostDyn = originalHostDyn.copy(
 				storageStatus = originalHostDyn.storageStatus.replace({ it.id == volGroup.id }, {
@@ -42,8 +43,12 @@ class CreateLv(
 				})
 		)
 		return state.copy(
-				vStorageDyns = state.vStorageDyns + (disk.id to vStorageDyn),
-				hostDyns = state.hostDyns + (host.id to hostDyn)
+				vStorage = state.vStorage.update(disk.id) {
+					it.copy(dynamic = vStorageDyn)
+				},
+				hosts = state.hosts.update(host.id) {
+					it.copy(dynamic = hostDyn)
+				}
 		)
 	}
 }

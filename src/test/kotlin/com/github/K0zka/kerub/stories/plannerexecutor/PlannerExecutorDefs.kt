@@ -8,6 +8,9 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.collection.HostDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualMachineDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
@@ -24,17 +27,13 @@ import com.github.K0zka.kerub.planner.PlannerImpl
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import java.math.BigDecimal
-import java.math.BigInteger
 import java.util.UUID
 import kotlin.test.assertEquals
 
@@ -46,7 +45,7 @@ class PlannerExecutorDefs {
 		var plans = listOf<Plan>()
 		override fun execute(plan: Plan, callback: (Plan) -> Unit) {
 			synchronized(this) {
-				plans = plans + plan
+				plans += plan
 			}
 		}
 	}
@@ -106,20 +105,19 @@ class PlannerExecutorDefs {
 
 	@Given("a VM")
 	fun addVmToSituation() {
-		var vm = VirtualMachine(
+		val vm = VirtualMachine(
 				id = UUID.randomUUID(),
 				name = "test-vm-1",
 				expectations = listOf(),
 				nrOfCpus = 1
 		)
-		state = state.copy(vms = mapOf(vm.id to vm))
+		state = state.copy(vms = mapOf(vm.id to VirtualMachineDataCollection(stat = vm, dynamic = null)))
 	}
 
 	@Given("a host")
 	fun addHostToSituation() {
 		state = state.copy(
-				hosts = mapOf(host.id to host),
-				hostDyns = mapOf(host.id to HostDynamic(
+				hosts = mapOf(host.id to /*host*/ HostDataCollection(stat = host, dynamic = HostDynamic(
 						id = host.id,
 						status = HostStatus.Up,
 						memFree = "1 TB".toSize(),
@@ -129,20 +127,20 @@ class PlannerExecutorDefs {
 										freeCapacity = "1 PB".toSize()
 								)
 						)
-				))
+				)))
 		)
 	}
 
 	@Given("a disk")
 	fun addVirtualDiskToSituation() {
-		var disk = VirtualStorageDevice(
+		val disk = VirtualStorageDevice(
 				id = UUID.randomUUID(),
 				name = "test-disk",
 				size = "100 GB".toSize(),
 				expectations = listOf()
 		)
 
-		state = state.copy(vStorage = mapOf(disk.id to disk))
+		state = state.copy(vStorage = mapOf(disk.id to VirtualStorageDataCollection(stat = disk, dynamic = null)))
 	}
 
 	@Given("a dummy executor")
@@ -168,8 +166,11 @@ class PlannerExecutorDefs {
 	fun setVmAvailabilityRequirement() {
 		state = state.copy(
 				vms = state.vms.map {
-					it.key to it.value.copy(
-							expectations = it.value.expectations + VirtualMachineAvailabilityExpectation()
+					val vmData = it.value
+					it.key to vmData.copy(
+							stat = vmData.stat.copy(
+									expectations = vmData.stat.expectations + VirtualMachineAvailabilityExpectation()
+							)
 					)
 				}.toMap()
 		)
@@ -179,8 +180,11 @@ class PlannerExecutorDefs {
 	fun setVStorageAllocationRequirement() {
 		state = state.copy(
 				vStorage = state.vStorage.map {
-					it.key to it.value.copy(
-							expectations = it.value.expectations + StorageAvailabilityExpectation()
+					val storageData = it.value
+					it.key to storageData.copy(
+							stat = storageData.stat.copy(
+									expectations = storageData.stat.expectations + StorageAvailabilityExpectation()
+							)
 					)
 				}.toMap()
 		)
@@ -188,6 +192,6 @@ class PlannerExecutorDefs {
 
 	@Then("executor should receive exactly (\\d+) plan to execute")
 	fun checkNrOfPlans(nr: Int) {
-		assertEquals (nr, (executor as MockExecutor).plans.size)
+		assertEquals(nr, (executor as MockExecutor).plans.size)
 	}
 }

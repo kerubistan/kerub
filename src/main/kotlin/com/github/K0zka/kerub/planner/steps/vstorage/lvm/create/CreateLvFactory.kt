@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
-import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.StorageCapability
+import com.github.K0zka.kerub.model.collection.HostDataCollection
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorageFactory
 import java.math.BigInteger
@@ -18,7 +18,7 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 
 		runningHosts.forEach {
 			host ->
-			host.capabilities?.storageCapabilities?.filter {
+			host.stat.capabilities?.storageCapabilities?.filter {
 				capability
 				->
 				capability is LvmStorageCapability
@@ -26,11 +26,11 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 				volGroup ->
 				steps += storageNotAllocated.filter {
 					volGroup.size > it.size
-							&& actualFreeCapacity(host, state, volGroup) > it.size
+							&& actualFreeCapacity(host, volGroup) > it.size
 				}.map {
 					disk ->
 					CreateLv(
-							host = host,
+							host = host.stat,
 							volumeGroupName = (volGroup as LvmStorageCapability).volumeGroupName,
 							disk = disk
 					)
@@ -40,7 +40,7 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 		return steps
 	}
 
-	private fun actualFreeCapacity(host: Host, state: OperationalState, volGroup: StorageCapability)
-			= state.hostDyns[host.id]?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity ?: BigInteger.ZERO
+	private fun actualFreeCapacity(host: HostDataCollection, volGroup: StorageCapability)
+			= host.dynamic?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity ?: BigInteger.ZERO
 
 }

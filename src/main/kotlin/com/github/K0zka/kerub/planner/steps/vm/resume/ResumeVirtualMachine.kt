@@ -16,11 +16,12 @@ class ResumeVirtualMachine(val vm: VirtualMachine, override val host: Host) : Ho
 
 	override fun take(state: OperationalState): OperationalState {
 		return state.copy(
-				vmDyns = state.vmDyns.update(vm.id, {
-					it.copy(
-							status = VirtualMachineStatus.Up
+				vms = state.vms.update(vm.id) {
+					vmData ->
+					vmData.copy(
+							dynamic = requireNotNull(vmData.dynamic).copy(status = VirtualMachineStatus.Up)
 					)
-				})
+				}
 		)
 	}
 }

@@ -71,8 +71,8 @@ class CreateLvTest {
 				)
 		)
 
-		assertEquals(vDisk.size, transformed.vStorageDyns.values.only().actualSize)
-		assertEquals("100 GB".toSize(), transformed.hostDyns.values.only().storageStatus.only().freeCapacity)
+		assertEquals(vDisk.size, transformed.vStorage.values.only().dynamic?.actualSize)
+		assertEquals("100 GB".toSize(), transformed.hosts.values.only().dynamic?.storageStatus?.only()?.freeCapacity)
 	}
 
 	@Test

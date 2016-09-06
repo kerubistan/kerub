@@ -7,11 +7,9 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
 import com.github.K0zka.kerub.utils.toSize
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class TgtdIscsiShareTest {
@@ -25,8 +23,7 @@ class TgtdIscsiShareTest {
 
 	val hostDyn = HostDynamic(
 			id = host.id,
-			status = HostStatus.Up,
-			services = listOf()
+			status = HostStatus.Up
 	)
 
 	val vStorage = VirtualStorageDevice(
@@ -57,6 +54,6 @@ class TgtdIscsiShareTest {
 						vStorage = listOf(vStorage),
 						vStorageDyns = listOf(vStorageDyn)
 				))
-		assertTrue(newState.hostDyns[host.id]!!.services.isNotEmpty())
+		assertTrue(newState.hosts[host.id]!!.config!!.services.isNotEmpty())
 	}
 }

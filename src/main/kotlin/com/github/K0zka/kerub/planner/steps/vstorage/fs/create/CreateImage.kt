@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
+import com.github.K0zka.kerub.utils.update
 
 data class CreateImage(
 		override val disk: VirtualStorageDevice,
@@ -22,16 +23,20 @@ data class CreateImage(
 
 	override fun take(state: OperationalState): OperationalState =
 			state.copy(
-					vStorageDyns = state.vStorageDyns
-							+ (disk.id to VirtualStorageDeviceDynamic(
-							id = disk.id,
-							allocation = VirtualStorageFsAllocation(
-									hostId = host.id,
-									mountPoint = "",
-									type = VirtualDiskFormat.qcow2
-							),
-							actualSize = disk.size //TODO not true when thin provisioning
-					))
+					vStorage = state.vStorage.update(disk.id) {
+						it.copy(
+								dynamic =
+								VirtualStorageDeviceDynamic(
+										id = disk.id,
+										allocation = VirtualStorageFsAllocation(
+												hostId = host.id,
+												mountPoint = "",
+												type = VirtualDiskFormat.qcow2
+										),
+										actualSize = disk.size //TODO not true when thin provisioning
+								)
+						)
+					}
 			)
 
 }

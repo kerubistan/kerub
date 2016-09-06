@@ -152,5 +152,5 @@ Feature: basic planner features
 	And the virtual disk system-disk-1 is created on 127.0.0.5
 	When VM vm1 is started
 	Then the virtual disk system-disk-1 must not be allocated
-	And VM vm1 gets scheduled on host 127.0.0.5
+	And VM vm1 gets scheduled on host 127.0.0.5 as step 1
 

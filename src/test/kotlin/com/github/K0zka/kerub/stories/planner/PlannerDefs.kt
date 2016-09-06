@@ -9,15 +9,14 @@ import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.SoftwarePackage
-import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
-import com.github.K0zka.kerub.model.dynamic.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -83,6 +82,8 @@ class PlannerDefs {
 	var hostDyns = listOf<HostDynamic>()
 	var vstorageDyns = listOf<VirtualStorageDeviceDynamic>()
 
+	var hostConfigs = listOf<HostConfiguration>()
+
 	val backtrack: BacktrackService = BacktrackService(1)
 	val executor: PlanExecutor = Mockito.mock(PlanExecutor::class.java)
 	val builder: OperationalStateBuilder = Mockito.mock(OperationalStateBuilder::class.java)
@@ -101,6 +102,7 @@ class PlannerDefs {
 			OperationalState.fromLists(
 					hosts = hosts,
 					hostDyns = hostDyns,
+					hostCfgs = hostConfigs,
 					vms = vms,
 					vmDyns = vmDyns,
 					vStorage = vdisks,
@@ -284,7 +286,7 @@ class PlannerDefs {
 		planner.onEvent(EntityUpdateMessage(
 				obj = vms.filter { it.name == vm }.first(),
 				date = System.currentTimeMillis()
-		));
+		))
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) with kvm hypervisor$")
@@ -335,17 +337,17 @@ class PlannerDefs {
 
 	@When("^optimization is triggered$")
 	fun optimization_is_triggered() {
-		throw PendingException();
+		throw PendingException()
 	}
 
 	@Then("^host (\\S+) should be go to power-save$")
 	fun host_should_be_go_to_power_save(host: String) {
-		throw PendingException();
+		throw PendingException()
 	}
 
 	@Given("^status:$")
 	fun status(vmstatus: DataTable) {
-		throw PendingException();
+		throw PendingException()
 	}
 
 	@Given("software installed on host (\\S+):")
@@ -767,7 +769,7 @@ class PlannerDefs {
 		planner.onEvent(EntityUpdateMessage(
 				obj = virtualStorage,
 				date = System.currentTimeMillis()
-		));
+		))
 	}
 
 	@Given("(\\S+) is allocated on host (\\S+) volume group (\\S+)")
@@ -793,11 +795,19 @@ class PlannerDefs {
 	fun createIscsiShare(diskName : String, hostName : String) {
 		val host = hosts.first { it.address == hostName }
 		val disk = vdisks.first { it.name == diskName }
-		hostDyns = hostDyns.replace( {it.id == host.id}, {it.copy(
-			services = it.services + IscsiService(
-					vstorageId = disk.id
+		val service = IscsiService(
+				vstorageId = disk.id
+		)
+		if(hostConfigs.any { it.id == host.id }) {
+			hostConfigs = hostConfigs.replace( {it.id == host.id}, {it.copy(
+					services = it.services + service
+			)})
+		} else {
+			hostConfigs += HostConfiguration(
+					id = host.id,
+					services = listOf(service)
 			)
-		)})
+		}
 
 	}
 }

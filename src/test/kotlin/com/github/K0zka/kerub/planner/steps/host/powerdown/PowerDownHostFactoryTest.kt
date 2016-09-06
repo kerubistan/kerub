@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
-import java.util.UUID
 
 class PowerDownHostFactoryTest {
 

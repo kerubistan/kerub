@@ -11,16 +11,23 @@ import java.math.BigInteger
 
 data class VirtualBoxStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState = state.copy(
-			vmDyns = state.vmDyns + (vm.id to VirtualMachineDynamic(
-					id = vm.id,
-					status = VirtualMachineStatus.Up,
-					hostId = host.id,
-					memoryUsed = vm.memory.min
-			)),
-			hostDyns = state.hostDyns.update(host.id) {
-				dyn ->
-				dyn.copy(
-						memFree = dyn.memFree ?: host.capabilities?.totalMemory ?: BigInteger.ZERO - vm.memory.min
+			vms = state.vms.update(vm.id) {
+				it.copy(
+						dynamic = VirtualMachineDynamic(
+								id = vm.id,
+								status = VirtualMachineStatus.Up,
+								hostId = host.id,
+								memoryUsed = vm.memory.min
+						)
+				)
+			},
+			hosts = state.hosts.update(host.id) {
+				hostData ->
+				val dynamic = requireNotNull(hostData.dynamic)
+				hostData.copy(
+						dynamic = dynamic.copy(
+								memFree = dynamic.memFree ?: host.capabilities?.totalMemory ?: BigInteger.ZERO - vm.memory.min
+						)
 				)
 			}
 	)

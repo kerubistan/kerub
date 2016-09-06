@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
+import com.github.K0zka.kerub.utils.update
 
 data class CreateGvinumVolume(
 		override val host: Host,
@@ -22,19 +23,29 @@ data class CreateGvinumVolume(
 		require(host.capabilities?.distribution?.name == "FreeBSD", {
 			"Gvinum runs on FreeBSD, got ${host.capabilities?.distribution?.name}"
 		})
-		val hostDyn = requireNotNull(state.hostDyns[host.id]) {
+		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic) {
 			"Host dynamic not found - host must be running"
 		}
 		return state.copy(
-				hostDyns = state.hostDyns + (host.id to hostDyn.copy(
-						storageStatus = hostDyn.storageStatus // TODO tell about the storage
-				)),
-				vStorageDyns = state.vStorageDyns + (disk.id to VirtualStorageDeviceDynamic(
-						id = disk.id,
-						actualSize = disk.size,
-						lastUpdated = System.currentTimeMillis(),
-						allocation = VirtualStorageGvinumAllocation(hostId = host.id, configuration = config)
-				))
+				hosts = state.hosts.update(host.id) {
+					hostData ->
+					hostData.copy(
+							dynamic = hostDyn.copy(
+									storageStatus = hostDyn.storageStatus // TODO tell about the storage
+							)
+					)
+				},
+				vStorage = state.vStorage.update(disk.id) {
+					vStorageData ->
+					vStorageData.copy(
+							dynamic = VirtualStorageDeviceDynamic(
+									id = disk.id,
+									actualSize = disk.size,
+									lastUpdated = System.currentTimeMillis(),
+									allocation = VirtualStorageGvinumAllocation(hostId = host.id, configuration = config)
+							)
+					)
+				}
 		)
 	}
 }

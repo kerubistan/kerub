@@ -16,12 +16,12 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 			getVmsToStart(state).map {
 				vm ->
 				getWorkingHosts(state) {
-					host, dyn ->
-					host.capabilities?.os == OperatingSystem.Linux
-							&& isKvmInstalled(host)
-							&& match(host, dyn, vm, storageAllocationMap(state))
+					hostData ->
+					hostData.stat.capabilities?.os == OperatingSystem.Linux
+							&& isKvmInstalled(hostData.stat)
+							&& match(hostData.stat, hostData.dynamic, vm, storageAllocationMap(state, vm.virtualStorageLinks))
 				}.map {
-					KvmStartVirtualMachine(vm, it.key)
+					KvmStartVirtualMachine(vm, it.stat)
 				}
 			}.join()
 

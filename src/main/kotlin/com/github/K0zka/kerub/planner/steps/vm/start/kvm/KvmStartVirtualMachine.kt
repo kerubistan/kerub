@@ -10,25 +10,35 @@ import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
+import com.github.K0zka.kerub.utils.update
 
 data class KvmStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
-		val hostDyn = state.hostDyns[host.id] ?: HostDynamic(id = host.id)
+		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		return state.copy(
-				vmDyns = state.vmDyns + (vm.id to VirtualMachineDynamic(
-						status = VirtualMachineStatus.Up,
-						lastUpdated = System.currentTimeMillis(),
-						id = vm.id,
-						hostId = host.id,
-						memoryUsed = vm.memory.min,
-						cpuUsage = listOf()
-				)),
-				hostDyns = (state.hostDyns.filterKeys { it != host.id } ) + (host.id to
-						hostDyn.copy(
-								idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage
-								memFree = hostDyn.memFree, //TODO - estimate on memory usage of the VM
-								memUsed = hostDyn.memUsed // TODO + estimate on memory usage of the VM
-						))
+				vms = state.vms.update(vm.id) {
+					vmData ->
+					vmData.copy(
+							dynamic = VirtualMachineDynamic(
+									status = VirtualMachineStatus.Up,
+									lastUpdated = System.currentTimeMillis(),
+									id = vm.id,
+									hostId = host.id,
+									memoryUsed = vm.memory.min,
+									cpuUsage = listOf()
+							)
+					)
+				},
+				hosts = state.hosts.update(host.id) {
+					hostData ->
+					hostData.copy(
+							dynamic = hostDyn.copy(
+									idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage
+									memFree = hostDyn.memFree, //TODO - estimate on memory usage of the VM
+									memUsed = hostDyn.memUsed // TODO + estimate on memory usage of the VM
+							)
+					)
+				}
 		)
 	}
 

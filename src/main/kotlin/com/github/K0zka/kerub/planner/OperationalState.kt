@@ -7,6 +7,12 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.collection.DataCollection
+import com.github.K0zka.kerub.model.collection.HostDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualMachineDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
+import com.github.K0zka.kerub.model.config.HostConfiguration
+import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -28,12 +34,9 @@ import com.github.k0zka.finder4j.backtrack.State
 import java.util.UUID
 
 data class OperationalState(
-		val hosts: Map<UUID, Host> = mapOf(),
-		val hostDyns: Map<UUID, HostDynamic> = mapOf(),
-		val vms: Map<UUID, VirtualMachine> = mapOf(),
-		val vmDyns: Map<UUID, VirtualMachineDynamic> = mapOf(),
-		val vStorage: Map<UUID, VirtualStorageDevice> = mapOf(),
-		val vStorageDyns: Map<UUID, VirtualStorageDeviceDynamic> = mapOf(),
+		val hosts: Map<UUID, HostDataCollection> = mapOf(),
+		val vms: Map<UUID, VirtualMachineDataCollection> = mapOf(),
+		val vStorage: Map<UUID, VirtualStorageDataCollection> = mapOf(),
 		val reservations: List<Reservation<*>> = listOf()
 ) : State {
 
@@ -42,8 +45,23 @@ data class OperationalState(
 		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T>
 				= entities.associateBy { it.id }
 
+		fun mapHostData(hosts: List<Host> = listOf(),
+						hostDyns: List<HostDynamic> = listOf(),
+						hostCfgs: List<HostConfiguration> = listOf()): Map<UUID, HostDataCollection> {
+			val hostDynMap = mapById(hostDyns)
+			val hostCfgMap = mapById(hostCfgs)
+			return hosts.map { it.id to HostDataCollection(it, hostDynMap[it.id], hostCfgMap[it.id]) }.toMap()
+		}
+
+		fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<T, D>>
+				mapToCollection(staticData: List<T>, dynamicData: List<D>, transform: (static: T, dynamic: D?) -> C): Map<I, C> {
+			val dynMap: Map<UUID, D> = mapById(dynamicData)
+			return staticData.map { it.id to transform(it, dynMap[it.id as UUID]) }.toMap()
+		}
+
 		fun fromLists(hosts: List<Host> = listOf(),
 					  hostDyns: List<HostDynamic> = listOf(),
+					  hostCfgs: List<HostConfiguration> = listOf(),
 					  vms: List<VirtualMachine> = listOf(),
 					  vmDyns: List<VirtualMachineDynamic> = listOf(),
 					  vStorage: List<VirtualStorageDevice> = listOf(),
@@ -51,24 +69,21 @@ data class OperationalState(
 					  reservations: List<Reservation<*>> = listOf()
 		) =
 				OperationalState(
-						hosts = mapById(hosts),
-						hostDyns = mapById(hostDyns),
-						vms = mapById(vms),
-						vmDyns = mapById(vmDyns),
-						vStorage = mapById(vStorage),
-						vStorageDyns = mapById(vStorageDyns),
+						hosts = mapHostData(hosts, hostDyns, hostCfgs),
+						vms = mapToCollection(vms, vmDyns) { stat, dyn -> VirtualMachineDataCollection(stat, dyn) },
+						vStorage = mapToCollection(vStorage, vStorageDyns) { stat, dyn -> VirtualStorageDataCollection(stat, dyn) },
 						reservations = reservations
 				)
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
-		return vmDyns.values
-				.filter { it.status == VirtualMachineStatus.Up && it.hostId == hostId }
-				.map { vms[it.id] }.filterNotNull()
+		return vms.values
+				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic?.hostId == hostId }
+				.map { vms[it.dynamic!!.id]?.stat }.filterNotNull()
 	}
 
 	fun isVmRunning(vm: VirtualMachine): Boolean {
-		val dyn = vmDyns[vm.id]
+		val dyn = vms[vm.id]?.dynamic
 		return dyn != null && dyn.status == VirtualMachineStatus.Up
 	}
 
@@ -77,8 +92,8 @@ data class OperationalState(
 	}
 
 	fun vmHost(vmId: UUID): Host? {
-		val dyn = vmDyns[vmId]
-		return if (dyn == null) null else hosts[dyn.hostId]
+		val dyn = vms[vmId]?.dynamic
+		return if (dyn == null) null else hosts[dyn.hostId]?.stat
 	}
 
 	override fun isComplete(): Boolean {
@@ -96,22 +111,22 @@ data class OperationalState(
 				expectation ->
 				expectation.level != ExpectationLevel.DealBreaker
 						||
-				isExpectationSatisfied(expectation, virtualStorageDevice)
+						isExpectationSatisfied(expectation, virtualStorageDevice)
 			}
 		}
 	}
 
-	private fun isExpectationSatisfied(expectation : VirtualStorageExpectation, virtualStorage : VirtualStorageDevice) : Boolean {
-		when(expectation) {
+	private fun isExpectationSatisfied(expectation: VirtualStorageExpectation, virtualStorage: VirtualStorageDevice): Boolean {
+		when (expectation) {
 			is StorageAvailabilityExpectation -> {
 				//if storage dynamic exists, allocation must exist
-				return vStorageDyns.containsKey(virtualStorage.id)
+				return vStorage[virtualStorage.id]?.dynamic != null
 			}
 			is NotSameStorageExpectation -> {
-				val diskDyn = vStorageDyns[virtualStorage.id]
+				val diskDyn = vStorage[virtualStorage.id]?.dynamic
 				return diskDyn == null || expectation.otherDiskIds.any {
 					otherVdiskId ->
-					val otherDiskDyn = vStorageDyns.get(otherVdiskId)
+					val otherDiskDyn = vStorage[otherVdiskId]?.dynamic
 					if (otherDiskDyn == null) {
 						true
 					} else {
@@ -125,8 +140,8 @@ data class OperationalState(
 
 	fun virtualStorageToCheck(): List<VirtualStorageDevice> {
 		return vStorage.values.filterNot {
-			reservations.contains(VirtualStorageReservation(it))
-		}
+			reservations.contains(VirtualStorageReservation(it.stat))
+		}.map { it.stat }
 	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
@@ -165,8 +180,8 @@ data class OperationalState(
 	private fun vmsToCheck(): List<VirtualMachine> {
 		return vms.values
 				.filterNot {
-					reservations.contains(VmReservation(it))
-				}
+					reservations.contains(VmReservation(it.stat))
+				}.map { it.stat }
 	}
 
 	private fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {

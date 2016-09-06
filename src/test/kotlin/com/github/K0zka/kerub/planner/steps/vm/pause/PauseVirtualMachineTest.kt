@@ -42,6 +42,6 @@ class PauseVirtualMachineTest {
 	@Test
 	fun take() {
 		val transformed = PauseVirtualMachine(vm, host).take(state)
-		assertEquals(VirtualMachineStatus.Paused, transformed.vmDyns[vm.id]!!.status)
+		assertEquals(VirtualMachineStatus.Paused, transformed.vms[vm.id]?.dynamic!!.status)
 	}
 }

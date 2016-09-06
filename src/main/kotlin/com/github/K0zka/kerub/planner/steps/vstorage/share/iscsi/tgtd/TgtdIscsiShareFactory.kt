@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.services.IscsiService
@@ -10,11 +11,11 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() {
 	override fun produce(state: OperationalState): List<TgtdIscsiShare> {
 		return unsharedDisks(state).map {
-			diskAndDyn ->
+			storageData ->
 			TgtdIscsiShare(
-					host = requireNotNull(state.hosts[diskAndDyn.second.allocation.hostId]),
-					vstorage = diskAndDyn.first,
-					devicePath = (diskAndDyn.second.allocation as VirtualStorageLvmAllocation).path
+					host = requireNotNull(state.hosts[storageData.dynamic?.allocation?.hostId]?.stat),
+					vstorage = storageData.stat,
+					devicePath = (storageData.dynamic?.allocation as VirtualStorageLvmAllocation).path
 			)
 		}
 	}
@@ -22,19 +23,15 @@ object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() 
 	/**
 	 * List of pairs of disks and disk dynamic of virtual storage devices that are allocated but not shared
 	 */
-	private fun unsharedDisks(state: OperationalState): List<Pair<VirtualStorageDevice, VirtualStorageDeviceDynamic>> {
-		return state.vStorage.values.map {
-			vStorage ->
-			val dyn = state.vStorageDyns[vStorage.id]
-			dyn?.let { vStorage to requireNotNull(dyn) }
-		}.filterNotNull().filter {
+	private fun unsharedDisks(state: OperationalState): List<VirtualStorageDataCollection> {
+		return state.vStorage.values.filterNotNull().filter {
 			// OR other block-storage, even files, but not virtual disks
-			it.second.allocation is VirtualStorageLvmAllocation
+			it.dynamic?.allocation is VirtualStorageLvmAllocation
 		}.filterNot {
 			// it is not shared yet
-			val hostDynamic = state.hostDyns[it.second.allocation.hostId]
-			val services = hostDynamic?.services
-			services?.contains(IscsiService(vstorageId = it.first.id)) ?: false
+			val hostData = state.hosts[it.dynamic?.allocation?.hostId]
+			val services = hostData?.config?.services
+			services?.contains(IscsiService(vstorageId = it.stat.id)) ?: false
 		}
 	}
 }

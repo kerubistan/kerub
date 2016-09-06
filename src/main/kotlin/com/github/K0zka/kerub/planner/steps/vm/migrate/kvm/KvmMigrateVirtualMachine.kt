@@ -15,6 +15,7 @@ import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
+import com.github.K0zka.kerub.utils.update
 import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
@@ -51,23 +52,33 @@ data class KvmMigrateVirtualMachine(
 	}
 
 	override fun take(state: OperationalState): OperationalState {
-		val vmDyn = state.vmDyns[vm.id]!!
-		val targetHostDyn = state.hostDyns[target.id]!!
-		val sourceHostDyn = state.hostDyns[source.id]!!
+		val vmDyn = requireNotNull(state.vms[vm.id]?.dynamic)
+		val targetHostDyn = requireNotNull(state.hosts[target.id]?.dynamic)
+		val sourceHostDyn = requireNotNull(state.hosts[source.id]?.dynamic)
 		return state.copy(
-				vmDyns = state.vmDyns +
-						(vm.id to vmDyn.copy(
-								hostId = target.id
-						)),
-				hostDyns = state.hostDyns
-						+ (target.id to targetHostDyn.copy(
-						memFree = targetHostDyn.memFree!! - vmDyn.memoryUsed,
-						memUsed = targetHostDyn.memUsed ?: BigInteger.ZERO + vmDyn.memoryUsed
-				))
-						+ (source.id to sourceHostDyn.copy(
-						memFree = sourceHostDyn.memFree!! + vmDyn.memoryUsed,
-						memUsed = sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed
-				))
+				vms = state.vms.update(vm.id) {
+					it.copy(dynamic = vmDyn.copy(
+							hostId = target.id
+					)
+					)
+				},
+				hosts = state.hosts
+						.update(target.id) {
+							it.copy(
+									dynamic = targetHostDyn.copy(
+											memFree = sourceHostDyn.memFree!! + vmDyn.memoryUsed,
+											memUsed = sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed
+									)
+							)
+						}
+						.update(source.id) {
+							it.copy(
+									dynamic = sourceHostDyn.copy(
+											memFree = sourceHostDyn.memFree!! + vmDyn.memoryUsed,
+											memUsed = sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed
+									)
+							)
+						}
 		)
 	}
 

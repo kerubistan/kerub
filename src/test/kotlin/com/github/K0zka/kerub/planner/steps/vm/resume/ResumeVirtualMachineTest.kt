@@ -40,6 +40,6 @@ class ResumeVirtualMachineTest {
 	@Test
 	fun take() {
 		val transformed = ResumeVirtualMachine(vm, host).take(state)
-		assertEquals(VirtualMachineStatus.Up, transformed.vmDyns[vm.id]?.status)
+		assertEquals(VirtualMachineStatus.Up, transformed.vms[vm.id]?.dynamic?.status)
 	}
 }

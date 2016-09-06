@@ -24,7 +24,6 @@ data class HostDynamic(
 		val memSwapped: BigInteger? = null,
 		val ksmEnabled: Boolean = false,
 		val cpuStats: List<CpuStat> = listOf(),
-		val storageStatus : List<StorageDeviceDynamic> = listOf(),
-		val services : List<Any> = listOf()
+		val storageStatus : List<StorageDeviceDynamic> = listOf()
 )
 : DynamicEntity

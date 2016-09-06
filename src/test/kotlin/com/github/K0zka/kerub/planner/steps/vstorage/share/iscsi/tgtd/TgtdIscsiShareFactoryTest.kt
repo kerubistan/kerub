@@ -2,13 +2,13 @@ package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareFactory
 import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert.assertTrue
@@ -26,8 +26,7 @@ class TgtdIscsiShareFactoryTest {
 
 	val hostDyn = HostDynamic(
 			id = host.id,
-			status = HostStatus.Up,
-			services = listOf()
+			status = HostStatus.Up
 	)
 
 	val vStorage = VirtualStorageDevice(
@@ -63,23 +62,21 @@ class TgtdIscsiShareFactoryTest {
 
 	@Test
 	fun produceAlreadyShared() {
-		@Test
-		fun produceSingleShareable() {
-			val steps = TgtdIscsiShareFactory.produce(
-					OperationalState.fromLists(
-							hosts = listOf(host),
-							hostDyns = listOf(hostDyn.copy(
-									services = listOf(
-											IscsiService(vStorage.id)
-									)
-							)),
-							vStorage = listOf(vStorage),
-							vStorageDyns = listOf(vStorageDyn)
-					)
-			)
-			assertTrue(steps.isEmpty())
-		}
-
+		val steps = TgtdIscsiShareFactory.produce(
+				OperationalState.fromLists(
+						hosts = listOf(host),
+						hostCfgs = listOf(HostConfiguration(
+								id = host.id,
+								services = listOf(
+										IscsiService(vStorage.id)
+								)
+						)),
+						vStorage = listOf(vStorage),
+						vStorageDyns = listOf(vStorageDyn)
+				)
+		)
+		assertTrue(steps.isEmpty())
 	}
+
 
 }
