@@ -2,17 +2,15 @@ package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.utils.toSize
 import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.mock
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -22,20 +20,12 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@RunWith(MockitoJUnitRunner::class)
 class LvmLvTest {
 
-	@Mock
-	var session: ClientSession? = null
-
-	@Mock
-	var execChannel: ChannelExec? = null
-
-	@Mock
-	var createExecChannel: ChannelExec? = null
-
-	@Mock
-	var openFuture: OpenFuture? = null
+	val session: ClientSession = mock()
+	val execChannel: ChannelExec = mock()
+	val createExecChannel: ChannelExec = mock()
+	var openFuture: OpenFuture = mock()
 
 	val testListOutput =
 			"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
@@ -46,12 +36,12 @@ class LvmLvTest {
 	@Test
 	fun list() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val list = LvmLv.list(session!!)
+		val list = LvmLv.list(session)
 
 		Assert.assertEquals(3, list.size)
 		Assert.assertEquals("Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK", list[0].id)
@@ -63,100 +53,102 @@ class LvmLvTest {
 	@Test
 	fun listWithVgAndLv() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val list = LvmLv.list(session!!, volGroupName = "testvg", volName = "testlv")
+		val list = LvmLv.list(session, volGroupName = "testvg", volName = "testlv")
 
-		verify(session!!).createExecChannel("lvm lvs -o $fields $listOptions testvg/testlv")
+		assertEquals(3, list.size)
+		verify(session).createExecChannel("lvm lvs -o $fields $listOptions testvg/testlv")
 	}
 
 	@Test
 	fun exists() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		assertTrue {
-			LvmLv.exists(session!!, "testvg", "testlv1")
+			LvmLv.exists(session, "testvg", "testlv1")
 		}
 	}
 
 	@Test
 	fun existsNotexisting() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		assertFalse {
-			LvmLv.exists(session!!, "testvg", "NOTEXISTING")
+			LvmLv.exists(session, "testvg", "NOTEXISTING")
 		}
 	}
 
 	@Test
 	fun listWithVg() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val list = LvmLv.list(session!!, volGroupName = "testvg")
+		val list = LvmLv.list(session, volGroupName = "testvg")
 
-		verify(session!!).createExecChannel("lvm lvs -o $fields $listOptions testvg")
+		assertEquals(3, list.size)
+		verify(session).createExecChannel("lvm lvs -o $fields $listOptions testvg")
 	}
 
 	@Test
 	fun delete() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		LvmLv.delete(session!!, "test")
+		LvmLv.delete(session, "test")
 	}
 
 	@Test(expected = IOException::class)
 	fun deleteAndFail() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(ByteArrayInputStream(""" Volume group "test" not found
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(ByteArrayInputStream(""" Volume group "test" not found
   Cannot process volume group test
 """.toByteArray(charset("ASCII"))))
 
-		LvmLv.delete(session!!, "test")
+		LvmLv.delete(session, "test")
 
 	}
 
 	@Test
 	fun create() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
-		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(createExecChannel?.invertedOut)
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(createExecChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(createExecChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
-		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(createExecChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val volume = LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
+		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
 		Assert.assertEquals("testlv2", volume.name)
 	}
 
 	@Test
 	fun createWithWarning() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
-		Mockito.`when`(createExecChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(createExecChannel?.invertedOut)
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
+		Mockito.`when`(createExecChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(createExecChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
-		Mockito.`when`(createExecChannel?.invertedErr).thenReturn(
+		Mockito.`when`(createExecChannel.invertedErr).thenReturn(
 				ByteArrayInputStream(
 						("  WARNING: Sum of all thin volume sizes (20.00 PiB) exceeds the size of thin pools and " +
 								"the size of whole volume group (526.81 GiB)!")
@@ -164,12 +156,12 @@ class LvmLvTest {
 				)
 		)
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val volume = LvmLv.create(session!!, "test", "testlv2", "16 GB".toSize())
+		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
 		Assert.assertEquals("testlv2", volume.name)
 	}
 
@@ -210,8 +202,8 @@ class LvmLvTest {
 
 	@Test
 	fun monitor() {
-		Mockito.`when`(session?.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
+		Mockito.`when`(session.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
 		Mockito.doAnswer {
 			val out = it.arguments[0] as OutputStream
 			monitorOutput.forEach {
@@ -219,11 +211,11 @@ class LvmLvTest {
 			}
 			null
 		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		var results = mutableListOf<List<LogicalVolume>>()
+		val results = mutableListOf<List<LogicalVolume>>()
 
-		LvmLv.monitor(session!!, {
+		LvmLv.monitor(session, {
 			volumes ->
 			results.add(volumes)
 		})
