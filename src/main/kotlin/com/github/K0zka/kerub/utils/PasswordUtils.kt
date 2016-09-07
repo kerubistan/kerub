@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.utils
 
+import java.nio.charset.Charset
+import java.util.Base64
 import java.util.Random
 
 private val pwdCharacters = (charsBetween('a', 'z') +
@@ -23,3 +25,7 @@ fun genPassword(length : Int = 16) : String {
 		}
 	}
 }
+
+fun String.base64(charset : Charset = Charsets.UTF_8) = Base64.getEncoder().encode(this.toByteArray(charset))
+
+fun ByteArray.base64decode(charset : Charset = Charsets.UTF_8) = Base64.getDecoder().decode(this).toString(charset)

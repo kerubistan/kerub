@@ -21,4 +21,12 @@ class PasswordUtilsKtTest {
 		assertEquals(0, genPassword(0).length)
 		assertEquals(1, genPassword(1).length)
 	}
+
+	@Test
+	fun base64() {
+		assertNotEquals("hello world", "hello world".base64().toString(Charsets.UTF_8))
+		assertEquals("","".base64().base64decode())
+		assertEquals("hello world","hello world".base64().base64decode())
+	}
+
 }
