@@ -11,17 +11,14 @@ import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class) class AssignmentDaoImplTest {
+class AssignmentDaoImplTest {
 	var cacheManager : DefaultCacheManager? = null
 	var cache : Cache<UUID, Assignment>? = null
 	var dao  : AssignmentDao? = null
-	@Mock var eventListener : EventListener? = null
+	var eventListener : EventListener = mock()
 
 	val auditManager = mock<AuditManager>()
 
@@ -30,7 +27,7 @@ import kotlin.test.assertEquals
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()
-		dao = AssignmentDaoImpl(cache!!, eventListener!!, auditManager)
+		dao = AssignmentDaoImpl(cache!!, eventListener, auditManager)
 	}
 
 	@After fun cleanup() {

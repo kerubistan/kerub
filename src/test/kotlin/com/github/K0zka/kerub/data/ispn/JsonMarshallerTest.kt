@@ -3,21 +3,18 @@ package com.github.K0zka.kerub.data.ispn
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class) class JsonMarshallerTest {
+class JsonMarshallerTest {
 
-	@Mock
-	var mapper: ObjectMapper? = null
+	val mapper: ObjectMapper = mock()
 
 	var marshaller: JsonMarshaller? = null
 
@@ -28,7 +25,7 @@ import java.util.UUID
 
 	@Before
 	fun setup() {
-		marshaller = JsonMarshaller(mapper!!)
+		marshaller = JsonMarshaller(mapper)
 	}
 
 	@Test
@@ -40,7 +37,7 @@ import java.util.UUID
 
 	@Test
 	fun objectFromByteBuffer() {
-		Mockito.`when`(mapper!!.readValue(
+		Mockito.`when`(mapper.readValue(
 				Matchers.any(ByteArray::class.java),
 				Matchers.anyInt(),
 				Matchers.anyInt(),
@@ -48,7 +45,7 @@ import java.util.UUID
 
 		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0)))
 
-		Mockito.verify(mapper!!).readValue(
+		Mockito.verify(mapper).readValue(
 				Matchers.any(ByteArray::class.java),
 				Matchers.anyInt(),
 				Matchers.anyInt(),
@@ -57,7 +54,7 @@ import java.util.UUID
 
 	@Test
 	fun objectFromByteBufferWithLimits() {
-		Mockito.`when`(mapper!!.readValue(
+		Mockito.`when`(mapper.readValue(
 				Matchers.any(ByteArray::class.java),
 				Matchers.anyInt(),
 				Matchers.anyInt(),
@@ -65,7 +62,7 @@ import java.util.UUID
 
 		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0), 0, 0))
 
-		Mockito.verify(mapper!!).readValue(
+		Mockito.verify(mapper).readValue(
 				Matchers.any(ByteArray::class.java),
 				Matchers.anyInt(),
 				Matchers.anyInt(),

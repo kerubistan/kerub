@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.utils.junix.df
 
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
-import junit.framework.TestCase
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
