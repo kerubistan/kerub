@@ -1,6 +1,9 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.HostCapabilities
+import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
@@ -21,7 +24,15 @@ class TgtdIscsiShareFactoryTest {
 			id = UUID.randomUUID(),
 			address = "test-1.example.com",
 			publicKey = "",
-			dedicated = true
+			dedicated = true,
+			capabilities = HostCapabilities(
+					distribution = SoftwarePackage("Fedora", Version.fromVersionString("23")),
+					installedSoftware = listOf(
+							SoftwarePackage("scsi-target-utils", Version.fromVersionString("1.0.55"))
+					),
+					cpuArchitecture = "X86_64",
+					totalMemory = "1 GB".toSize()
+			)
 	)
 
 	val hostDyn = HostDynamic(

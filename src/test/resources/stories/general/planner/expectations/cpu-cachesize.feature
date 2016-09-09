@@ -2,9 +2,9 @@ Feature: support for host cpu cache-size expectation
 
   Scenario: host selection with cache information
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And host1.example.com manufaturer has 512 KB L1 cache
 	And host1.example.com manufaturer has 1024 KB L2 cache
 	And host2.example.com manufaturer has NO L1 cache
@@ -28,10 +28,10 @@ Feature: support for host cpu cache-size expectation
 
   Scenario: host selection with cache information, one host with too few cache, one with just enough
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host0.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host0.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
  #too few cache
 	And host0.example.com manufaturer has 128 KB L1 cache
 	And host0.example.com manufaturer has 256 KB L2 cache

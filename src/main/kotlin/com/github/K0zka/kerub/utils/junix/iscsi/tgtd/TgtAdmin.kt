@@ -1,15 +1,28 @@
 package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
 import com.github.K0zka.kerub.host.executeOrDie
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
 import java.util.Date
 import java.util.UUID
+import com.github.K0zka.kerub.utils.storage.iscsiDefaultUser as user
 
 object TgtAdmin : OsCommand {
 
-	fun shareBlockDevice(session: ClientSession, id: UUID, path: String, readOnly: Boolean = false) {
+	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
+			= listOf(
+			{ distro  : SoftwarePackage-> distro.name == "Fedora" } to listOf("scsi-target-utils"),
+			{ distro  : SoftwarePackage-> distro.name == "openSUSE" } to listOf("tgt")
+	)
+
+	fun shareBlockDevice(
+			session: ClientSession,
+			id: UUID,
+			path: String,
+			readOnly: Boolean = false,
+			password: String? = null) {
 		session.createSftpClient().use {
 			ftp ->
 			ftp.write(configurationPath(id)).use {
@@ -20,7 +33,8 @@ object TgtAdmin : OsCommand {
 #created by kerub on ${Date()}
 <target ${iscsiStorageId(id)}>
     backing-store ${path}
-    readonly ${if(readOnly) "1" else "0"}
+    readonly ${if (readOnly) "1" else "0"}
+    ${if (password == null) "incominguser $user $password" else ""}
 </target>
 			""".toByteArray(charset("ASCII")))
 			}

@@ -2,9 +2,9 @@ Feature: support not-same-host expectation
 
   Scenario: Start a virtual machine with notsame expectation on it
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
@@ -26,9 +26,9 @@ Feature: support not-same-host expectation
 
   Scenario: the other vm must be migrated to another host to be able to start
 	Given hosts:
-	  | address            | ram    | Cores | Threads | Architecture | Operating System |
-	  | host-s.example.com | 2 GB   | 2     | 4       | x86_64       | Linux            |
-	  | host-b.example.com | 4.5 GB | 2     | 4       | x86_64       | Linux            |
+	  | address            | ram    | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host-s.example.com | 2 GB   | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host-b.example.com | 4.5 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm-s | 1 GB   | 1 GB   | 2    | x86_64       |

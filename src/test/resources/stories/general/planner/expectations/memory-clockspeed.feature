@@ -2,9 +2,9 @@ Feature: support for memory clock speed expectation
 
   Scenario: Start a virtual machine memory clock speed expectation on it
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
@@ -26,9 +26,9 @@ Feature: support for memory clock speed expectation
 
   Scenario: Start a virtual machine memory clock speed expectation on it, some host does not have known mem clock freq
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |

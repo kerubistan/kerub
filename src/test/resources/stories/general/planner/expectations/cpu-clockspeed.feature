@@ -2,9 +2,9 @@ Feature: support for cpu clock speed expectation
 
   Scenario: Start a virtual machine with cpu clockspeed expectation
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Vresion |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |

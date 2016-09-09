@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
+import com.github.K0zka.kerub.utils.base64
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.silent
@@ -17,6 +18,34 @@ import java.util.UUID
 object Virsh : OsCommand {
 
 	val logger = getLogger(Virsh::class)
+	val utf8 = charset("UTF-8")
+
+	fun setSecret(session: ClientSession, id : UUID, type : SecretType, value : String) {
+		val secretDefFile = "/tmp/$id-secret.xml"
+		val secretDef = """
+			<?xml version="1.0" encoding="UTF-8"?>
+			<secret ephemeral='no' private='yes'>
+				<uuid>$id</uuid>
+				<usage type='$type'>
+					<target>libvirtiscsi</target>
+				</usage>
+			</secret>
+		"""
+		session.createSftpClient().use {
+			sftp ->
+			sftp.write(secretDefFile).use {
+				file ->
+				file.write(secretDef.toByteArray(utf8))
+			}
+			session.executeOrDie("virsh secret-define $secretDefFile")
+			session.executeOrDie("virsh secret-set-value $id ${value.base64().toString(Charsets.US_ASCII)}")
+		}
+
+	}
+
+	fun clearSecret(session: ClientSession, id : UUID) {
+		session.executeOrDie("virsh secret-undefine $id")
+	}
 
 	fun create(session: ClientSession, id: UUID, domainDef: String) {
 		val domainDefFile = "/tmp/$id.xml"
@@ -26,7 +55,7 @@ object Virsh : OsCommand {
 			try {
 				sftp.write(domainDefFile).use {
 					file ->
-					file.write(domainDef.toByteArray(charset("UTF-8")))
+					file.write(domainDef.toByteArray(utf8))
 				}
 				session.executeOrDie("virsh create $domainDefFile")
 			} finally {

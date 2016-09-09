@@ -2,9 +2,9 @@ Feature: support for host manufacturer expectation
 
   Scenario: host selection with manufacturer info
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And host1.example.com manufaturer is awesomehardware
 	And host2.example.com manufaturer is enterprisejunkyard
 	And host host1.example.com is Up

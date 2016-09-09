@@ -2,6 +2,8 @@ package com.github.K0zka.kerub.utils.storage
 
 import java.util.UUID
 
+val iscsiDefaultUser = "kerubagent"
+
 private val iscsiVolumePrefix: String = "iqn.io.github.kerub"
 
 fun iscsiStorageId(id: UUID) =

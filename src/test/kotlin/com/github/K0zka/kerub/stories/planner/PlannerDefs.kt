@@ -57,6 +57,7 @@ import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
@@ -137,11 +138,6 @@ class PlannerDefs {
 		}
 	}
 
-	val operatingSystems = mapOf(
-			"Linux" to OperatingSystem.Linux,
-			"FreeBSD" to OperatingSystem.BSD
-	)
-
 	@Given("^hosts:$")
 	fun hosts(hostsTable: DataTable) {
 		for (row in hostsTable.raw().filter { it != hostsTable.raw().first() }) {
@@ -150,7 +146,7 @@ class PlannerDefs {
 					dedicated = true,
 					publicKey = "",
 					capabilities = HostCapabilities(
-							os = operatingSystems[row[5]],
+							os = OperatingSystem.valueOf(row[5]),
 							cpuArchitecture = row[4],
 							cpus = listOf(ProcessorInformation(
 									manufacturer = "Test",
@@ -167,7 +163,11 @@ class PlannerDefs {
 							)
 							),
 							chassis = null,
-							distribution = SoftwarePackage(name = row[5], version = Version.fromVersionString("1.0")),
+							distribution = SoftwarePackage(
+									name = silent { row[6] } ?: row[5],
+									version = silent { Version.fromVersionString(row[7]) }
+											?: Version.fromVersionString("1.0")
+							),
 							devices = listOf(),
 							installedSoftware = listOf(),
 							system = null,

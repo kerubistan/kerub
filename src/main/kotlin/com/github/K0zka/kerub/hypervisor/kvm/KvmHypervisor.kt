@@ -9,6 +9,8 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
+import com.github.K0zka.kerub.model.collection.HostDataCollection
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.utils.KB
@@ -94,17 +96,23 @@ class KvmHypervisor(private val client: ClientSession,
 		val hostDyns = hostDynamicDao[hostIds]
 		val hostDynMap = hostDyns.toMap()
 
-		val storageMap = vm.virtualStorageLinks.map {
+		val storageMap: List<VirtualStorageLinkInfo> = vm.virtualStorageLinks.map {
 			link ->
 			val deviceDyn = requireNotNull(storageDeviceDynMap[link.virtualStorageId])
 			VirtualStorageLinkInfo(
 					link = link,
-					device = requireNotNull(storageDevicesMap[link.virtualStorageId]),
-					deviceDyn = deviceDyn,
-					host = requireNotNull(storageHostMap[deviceDyn.allocation.hostId]),
-					hostDynamic = requireNotNull(hostDynMap[deviceDyn.allocation.hostId])
+					device = VirtualStorageDataCollection(
+							stat = requireNotNull(storageDevicesMap[link.virtualStorageId]),
+							dynamic = deviceDyn
+					),
+					storageHost = HostDataCollection(
+							stat = requireNotNull(storageHostMap[deviceDyn.allocation.hostId]),
+							dynamic = requireNotNull(hostDynMap[deviceDyn.allocation.hostId])
+					)
 			)
 		}
+
+
 
 		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap, consolePwd, host))
 	}
