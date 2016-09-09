@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
+import com.nhaarman.mockito_kotlin.mock
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -9,7 +10,6 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayOutputStream
@@ -18,43 +18,39 @@ import java.util.UUID
 @RunWith(MockitoJUnitRunner::class)
 class TgtAdminTest {
 
-	@Mock
-	var session: ClientSession? = null
+	val session: ClientSession = mock()
 
-	@Mock
-	var openFuture: OpenFuture? = null
+	val openFuture: OpenFuture = mock()
 
-	@Mock
-	var execChannel: ChannelExec? = null
+	val execChannel: ChannelExec = mock()
 
-	@Mock
-	var sftpClient: SftpClient? = null
+	val sftpClient: SftpClient = mock()
 
 	val id = UUID.randomUUID()
 
 	@Test
 	fun shareBlockDevice() {
 		val out = ByteArrayOutputStream()
-		Mockito.`when`(session!!.createSftpClient()).thenReturn(sftpClient)
-		Mockito.`when`(execChannel!!.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(sftpClient!!.write(Matchers.anyString() ?: "")).thenReturn(out)
-		TgtAdmin.shareBlockDevice(session!!, id, "/dev/mapper/bla-bla")
+		Mockito.`when`(session.createSftpClient()).thenReturn(sftpClient)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		TgtAdmin.shareBlockDevice(session, id, "/dev/mapper/bla-bla")
 
 		Assert.assertTrue(out.toByteArray().size > 0)
 	}
 
 	@Test
 	fun unshareBlockDevice() {
-		Mockito.`when`(session!!.createSftpClient()).thenReturn(sftpClient)
-		Mockito.`when`(execChannel!!.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(session.createSftpClient()).thenReturn(sftpClient)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
 
-		TgtAdmin.unshareBlockDevice(session!!, id)
+		TgtAdmin.unshareBlockDevice(session, id)
 
 		Mockito.verify(sftpClient)!!.remove(Matchers.anyString() ?: "")
 	}

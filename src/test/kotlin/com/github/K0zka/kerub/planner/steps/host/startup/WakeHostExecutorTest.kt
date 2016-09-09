@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.PowerManager
 import com.github.K0zka.kerub.model.Host
+import com.nhaarman.mockito_kotlin.mock
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -12,14 +13,11 @@ import org.mockito.runners.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class WakeHostExecutorTest {
-	@Mock
-	var hostManager : HostManager? = null
+	val hostManager : HostManager = mock()
 
-	@Mock
-	var powerManager: PowerManager? = null
+	val powerManager: PowerManager = mock()
 
-	@Mock
-	var hostDynDao : HostDynamicDao? = null
+	val hostDynDao : HostDynamicDao = mock()
 
 	val host = Host(
 			address = "host-1.example.com",
@@ -29,11 +27,11 @@ class WakeHostExecutorTest {
 
 	@Test
 	fun execute() {
-		Mockito.`when`(hostManager?.getPowerManager( Mockito.any(Host::class.java) ?: host ))
+		Mockito.`when`(hostManager.getPowerManager( Mockito.any(Host::class.java) ?: host ))
 				.thenReturn(powerManager)
 
-		WakeHostExecutor(hostManager!!, hostDynDao!!).execute(WakeHost(host))
+		WakeHostExecutor(hostManager, hostDynDao).execute(WakeHost(host))
 
-		Mockito.verify(powerManager!!).on()
+		Mockito.verify(powerManager).on()
 	}
 }

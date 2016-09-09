@@ -15,29 +15,20 @@ import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class) class PlanExecutorImplTest {
-	@Mock
-	var executor: HostCommandExecutor? = null
+class PlanExecutorImplTest {
+	val executor: HostCommandExecutor = mock()
 
-	@Mock
 	val hostConfigDao = mock<HostConfigurationDao>()
 
-	@Mock
-	var hostManager: HostManager? = null
+	val hostManager: HostManager = mock()
 
-	@Mock
-	var hostDynamicDao: HostDynamicDao? = null
+	val hostDynamicDao: HostDynamicDao = mock()
 
-	@Mock
-	var vmDynamicDao: VirtualMachineDynamicDao? = null
+	val vmDynamicDao: VirtualMachineDynamicDao = mock()
 
-	@Mock
-	var virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao? = null
+	val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao = mock()
 
 	@Test
 	fun execute() {
@@ -66,11 +57,11 @@ import java.util.UUID
 				                )
 		               )
 		PlanExecutorImpl(
-				executor!!,
-				hostManager!!,
-				hostDynamicDao!!,
-				vmDynamicDao!!,
-				virtualStorageDeviceDynamicDao!!,
+				executor,
+				hostManager,
+				hostDynamicDao,
+				vmDynamicDao,
+				virtualStorageDeviceDynamicDao,
 				hostConfigDao
 		).execute(plan, {})
 

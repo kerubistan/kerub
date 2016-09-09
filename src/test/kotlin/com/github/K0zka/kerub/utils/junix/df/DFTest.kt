@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.df
 
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
 import junit.framework.TestCase
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -9,23 +10,15 @@ import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
-class DFTest : TestCase() {
+class DFTest {
 
-	@Mock
-	var session : ClientSession? = null
-	@Mock
-	var execChannel : ChannelExec? = null
-
-	@Mock
-	var channelOpenFuture : OpenFuture? = null
+	val session : ClientSession = mock()
+	val execChannel : ChannelExec = mock()
+	val channelOpenFuture : OpenFuture = mock()
 
 val testDfOutput = """Filesystem                                      1024-blocks     Used Available Capacity Mounted on
 devtmpfs                                            3871128        0   3871128       0% /dev
@@ -43,16 +36,16 @@ tmpfs                                                776644       24    776620  
 
 	@Before
 	fun setup() {
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
-		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
+		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(execChannel.open()).thenReturn(channelOpenFuture)
 	}
 
 	@Test
 	fun df() {
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val mounts = DF.df(session!!)
+		val mounts = DF.df(session)
 
 		Assert.assertEquals(11, mounts.size)
 		val libvirt = mounts.first { it.mountPoint == "/var/lib/libvirt" }
