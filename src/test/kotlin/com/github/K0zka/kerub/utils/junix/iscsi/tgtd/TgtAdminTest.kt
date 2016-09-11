@@ -39,7 +39,52 @@ class TgtAdminTest {
 		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
 		TgtAdmin.shareBlockDevice(session, id, "/dev/mapper/bla-bla")
 
-		Assert.assertTrue(out.toByteArray().size > 0)
+		val config = out.toByteArray().toString(Charsets.US_ASCII)
+		Assert.assertTrue(config.length > 0)
+		Assert.assertFalse(config.contains("incominguser"))
+		Assert.assertFalse(config.contains("readonly 1"))
+	}
+
+	@Test
+	fun shareBlockDeviceWithPassword() {
+		val out = ByteArrayOutputStream()
+		Mockito.`when`(session.createSftpClient()).thenReturn(sftpClient)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		TgtAdmin.shareBlockDevice(
+				session = session,
+				id =  id,
+				path = "/dev/mapper/bla-bla",
+				password = "TEST-PASSWORD"
+		)
+
+		val config = out.toByteArray().toString(Charsets.US_ASCII)
+		Assert.assertTrue(config.length > 0)
+		Assert.assertTrue(config.contains("TEST-PASSWORD"))
+		Assert.assertFalse(config.contains("readonly 1"))
+	}
+
+	@Test
+	fun shareBlockDeviceWithReadonly() {
+		val out = ByteArrayOutputStream()
+		Mockito.`when`(session.createSftpClient()).thenReturn(sftpClient)
+		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
+		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		TgtAdmin.shareBlockDevice(
+				session = session,
+				id =  id,
+				path = "/dev/mapper/bla-bla",
+				readOnly = true
+		)
+
+		val config = out.toByteArray().toString(Charsets.US_ASCII)
+		Assert.assertTrue(config.contains("readonly 1"))
 	}
 
 	@Test

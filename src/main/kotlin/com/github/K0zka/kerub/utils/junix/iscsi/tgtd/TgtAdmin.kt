@@ -34,7 +34,7 @@ object TgtAdmin : OsCommand {
 <target ${iscsiStorageId(id)}>
     backing-store ${path}
     readonly ${if (readOnly) "1" else "0"}
-    ${if (password == null) "incominguser $user $password" else ""}
+    ${if (password != null) "incominguser $user $password" else ""}
 </target>
 			""".toByteArray(charset("ASCII")))
 			}
