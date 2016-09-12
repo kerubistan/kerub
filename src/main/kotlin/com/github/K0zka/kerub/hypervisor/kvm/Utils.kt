@@ -29,7 +29,7 @@ private fun storageToXml(
 
 	return """
 		<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
-            <driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}'/>
+            <driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
             ${if(linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
             ${allocationToXml(linkInfo, targetHost)}
             <target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
