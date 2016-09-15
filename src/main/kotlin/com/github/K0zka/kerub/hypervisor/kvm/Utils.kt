@@ -28,12 +28,12 @@ private fun storageToXml(
 		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String {
 
 	return """
-		<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
-            <driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
-            ${if(linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
-            ${allocationToXml(linkInfo, targetHost)}
-            <target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
-		</disk>
+			<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
+				<driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
+				${if(linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
+				${allocationToXml(linkInfo, targetHost)}
+				<target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
+			</disk>
 """
 }
 
@@ -58,10 +58,10 @@ fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String
 		"""
 		<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
 			<host name='${linkInfo.storageHost.stat.address}' port='3260' />
-			<auth username="$iscsiUser">
-				<secret type="" />
-			</auth>
 		</source>
+		<auth username="$iscsiUser">
+			<secret type='iscsi' uuid-'${linkInfo.device.stat.id}'/>
+		</auth>
 		"""
 	} else {
 		val allocation = requireNotNull(linkInfo.device.dynamic).allocation
