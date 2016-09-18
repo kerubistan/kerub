@@ -29,14 +29,20 @@ interface AbstractOperationalStep : Step<Plan> {
 	 * Default implementation returns an empty list, meaning negligible
 	 * costs.
 	 */
-	open fun getCost(): List<Cost> = listOf();
+	fun getCost(): List<Cost> = listOf();
 
 	/**
 	 * Returns a map of violated resources.
 	 */
-	open fun violations(state: OperationalState)
+	fun violations(state: OperationalState)
 			: Map<Constrained<Expectation>, List<Expectation>>
 			= mapOf()
 
-	open fun reservations() = listOf<Reservation<*>>()
+	/**
+	 * List both the physical and virtual resources reserved for the execution of the step.
+	 *
+	 * This method does not have a default implementation since I have frequently made mistakes
+	 * by leaving the default implementation. Actually the default empty list rarely makes sense.
+	 */
+	fun reservations(): List<Reservation<*>>
 }
