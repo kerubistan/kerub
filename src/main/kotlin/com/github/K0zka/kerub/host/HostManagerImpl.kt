@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.host
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -31,6 +32,7 @@ import java.util.UUID
 open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
+		private val hostCfgDao : HostConfigurationDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
 		private val virtualStorageDao: VirtualStorageDeviceDao,
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
@@ -56,7 +58,7 @@ open class HostManagerImpl(
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
 		if (connection != null) {
-			return KvmHypervisor(connection.first, host, hostDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
+			return KvmHypervisor(connection.first, host, hostDao, hostCfgDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
 		} else {
 			//TODO: not connected: throw exception?
 			return null

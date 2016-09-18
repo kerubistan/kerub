@@ -34,6 +34,12 @@ val testFreeBsdHost = Host(
 		)
 )
 
+val testDisk = VirtualStorageDevice(
+		id = UUID.randomUUID(),
+		name = "test-vm",
+		size = "2 GB".toSize()
+)
+
 val testVm = VirtualMachine(
 		id = UUID.randomUUID(),
 		memory = Range(min = "1 GB".toSize(), max = "2 GB".toSize()),

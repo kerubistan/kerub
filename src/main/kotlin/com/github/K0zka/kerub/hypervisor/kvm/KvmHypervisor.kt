@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.hypervisor.kvm
 
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -13,10 +14,14 @@ import com.github.K0zka.kerub.model.collection.HostDataCollection
 import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.K0zka.kerub.model.services.PasswordProtected
+import com.github.K0zka.kerub.model.services.StorageService
 import com.github.K0zka.kerub.utils.KB
+import com.github.K0zka.kerub.utils.base64
 import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh
+import com.github.K0zka.kerub.utils.junix.virt.virsh.SecretType
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toMap
@@ -27,6 +32,7 @@ import java.math.BigInteger
 class KvmHypervisor(private val client: ClientSession,
 					private val host: Host,
 					private val hostDao: HostDao,
+					private val hostCfgDao : HostConfigurationDao,
 					private val hostDynamicDao: HostDynamicDao,
 					private val vmDynDao: VirtualMachineDynamicDao,
 					private val virtualStorageDao: VirtualStorageDeviceDao,
@@ -107,12 +113,26 @@ class KvmHypervisor(private val client: ClientSession,
 					),
 					storageHost = HostDataCollection(
 							stat = requireNotNull(storageHostMap[deviceDyn.allocation.hostId]),
-							dynamic = requireNotNull(hostDynMap[deviceDyn.allocation.hostId])
+							dynamic = requireNotNull(hostDynMap[deviceDyn.allocation.hostId]),
+							config = hostCfgDao[deviceDyn.allocation.hostId]
 					)
 			)
 		}
 
+		storageMap.filter { it.storageHost.stat.id != host.id } .forEach {
+			remoteDevice ->
+			val cfg = remoteDevice.storageHost.config
+			val service = cfg?.services?.firstOrNull { it is StorageService && it.vstorageId == remoteDevice.device.stat.id }
 
+			if(service is PasswordProtected) {
+				Virsh.setSecret(
+						session = client,
+						id = remoteDevice.device.stat.id,
+						type = SecretType.iscsi,
+						value = requireNotNull(service.password)
+				)
+			}
+		}
 
 		Virsh.create(client, vm.id, vmDefinitiontoXml(vm, storageMap, consolePwd, host))
 	}

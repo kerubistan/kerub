@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
 object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() {
+
 	override fun produce(state: OperationalState): List<TgtdIscsiShare> {
 		return unsharedDisks(state).map {
 			storageData ->
@@ -25,15 +26,16 @@ object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() 
 	/**
 	 * List of pairs of disks and disk dynamic of virtual storage devices that are allocated but not shared
 	 */
-	private fun unsharedDisks(state: OperationalState): List<VirtualStorageDataCollection> {
+	internal fun unsharedDisks(state: OperationalState): List<VirtualStorageDataCollection> {
 		return state.vStorage.values.filterNotNull().filter {
 			// OR other block-storage, even files, but not virtual disks
 			it.dynamic?.allocation is VirtualStorageLvmAllocation
 		}.filterNot {
 			// it is not shared yet
-			val hostData = state.hosts[it.dynamic?.allocation?.hostId]
+			vStorage ->
+			val hostData = state.hosts[vStorage.dynamic?.allocation?.hostId]
 			val services = hostData?.config?.services
-			services?.contains(IscsiService(vstorageId = it.stat.id)) ?: false
+			services?.any { it is IscsiService && it.vstorageId == vStorage.stat.id } ?: false
 		}
 	}
 }

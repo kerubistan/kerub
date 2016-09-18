@@ -22,23 +22,25 @@ object Virsh : OsCommand {
 
 	fun setSecret(session: ClientSession, id : UUID, type : SecretType, value : String) {
 		val secretDefFile = "/tmp/$id-secret.xml"
-		val secretDef = """
-			<?xml version="1.0" encoding="UTF-8"?>
-			<secret ephemeral='no' private='yes'>
-				<uuid>$id</uuid>
-				<usage type='$type'>
-					<target>libvirtiscsi</target>
-				</usage>
-			</secret>
-		"""
+		val secretDef = """<?xml version="1.0" encoding="UTF-8"?>
+<secret ephemeral='no' private='yes'>
+	<uuid>$id</uuid>
+	<usage type='$type'>
+		<target>$id</target>
+	</usage>
+</secret>"""
 		session.createSftpClient().use {
 			sftp ->
-			sftp.write(secretDefFile).use {
-				file ->
-				file.write(secretDef.toByteArray(utf8))
+			try {
+				sftp.write(secretDefFile).use {
+					file ->
+					file.write(secretDef.toByteArray(utf8))
+				}
+				session.executeOrDie("virsh secret-define $secretDefFile")
+				session.executeOrDie("virsh secret-set-value $id ${value.base64().toString(Charsets.US_ASCII)}")
+			} finally {
+				sftp.remove(secretDefFile)
 			}
-			session.executeOrDie("virsh secret-define $secretDefFile")
-			session.executeOrDie("virsh secret-set-value $id ${value.base64().toString(Charsets.US_ASCII)}")
 		}
 
 	}

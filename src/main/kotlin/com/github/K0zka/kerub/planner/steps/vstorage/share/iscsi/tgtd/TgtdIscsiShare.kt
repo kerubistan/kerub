@@ -5,6 +5,9 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.reservations.Reservation
+import com.github.K0zka.kerub.planner.reservations.UseHostReservation
+import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.utils.update
 
@@ -20,6 +23,10 @@ data class TgtdIscsiShare(val host: Host, val vstorage: VirtualStorageDevice, va
 				)
 			})
 	)
+
+	override fun reservations(): List<Reservation<*>> {
+		return listOf(VirtualStorageReservation(device = vstorage), UseHostReservation(host = host))
+	}
 
 	private fun updateHostConfig(hostConfig: HostConfiguration?, service: IscsiService): HostConfiguration {
 		return if (hostConfig == null) {

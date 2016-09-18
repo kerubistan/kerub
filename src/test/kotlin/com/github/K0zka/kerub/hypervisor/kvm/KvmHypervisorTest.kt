@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.hypervisor.kvm
 import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -34,12 +35,13 @@ class KvmHypervisorTest {
 
 	val client: ClientSession = mock()
 	val execChannel: ChannelExec = mock()
-	val openFuture : OpenFuture = mock()
+	val openFuture: OpenFuture = mock()
 	val vmDynDao: VirtualMachineDynamicDao = mock()
 	val virtualStorageDao: VirtualStorageDeviceDao = mock()
 	val virtualStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
-	val hostDao : HostDao = mock()
-	val hostDynDao : HostDynamicDao = mock()
+	val hostDao: HostDao = mock()
+	val hostDynDao: HostDynamicDao = mock()
+	val hostCfgDao: HostConfigurationDao = mock()
 	val sftpClient: SftpClient = mock()
 
 	val host = Host(
@@ -60,7 +62,8 @@ class KvmHypervisorTest {
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
 
-		KvmHypervisor(client, host, hostDao, hostDynDao, vmDynDao, virtualStorageDao, virtualStorageDynDao).startVm(vm, "")
+		KvmHypervisor(client, host, hostDao, hostCfgDao, hostDynDao, vmDynDao, virtualStorageDao, virtualStorageDynDao)
+				.startVm(vm, "")
 
 		Mockito.verify(virtualStorageDao, never).get(Mockito.any(UUID::class.java) ?: UUID.randomUUID())
 	}
@@ -108,7 +111,7 @@ class KvmHypervisorTest {
 		Mockito.`when`(hostDao[eq(listOf(host.id))]).thenReturn(listOf(host))
 		Mockito.`when`(hostDynDao[eq(listOf(host.id))]).thenReturn(listOf(hostDyn))
 
-		KvmHypervisor(client, host, hostDao, hostDynDao, vmDynDao, virtualStorageDao, virtualStorageDynDao)
+		KvmHypervisor(client, host, hostDao, hostCfgDao, hostDynDao, vmDynDao, virtualStorageDao, virtualStorageDynDao)
 				.startVm(vm, "")
 
 		Mockito.verify(client).createExecChannel(any())

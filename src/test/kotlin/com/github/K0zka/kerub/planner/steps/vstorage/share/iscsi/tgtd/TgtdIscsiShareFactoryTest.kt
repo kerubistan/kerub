@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
@@ -12,11 +13,15 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.testDisk
+import com.github.K0zka.kerub.testHost
+import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertEquals
 
 class TgtdIscsiShareFactoryTest {
 
@@ -89,5 +94,58 @@ class TgtdIscsiShareFactoryTest {
 		assertTrue(steps.isEmpty())
 	}
 
+	@Test
+	fun unsharedDisks() {
+		val diskDyn = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocation = VirtualStorageLvmAllocation(hostId = testHost.id, path = "/dev/test/1234"),
+				actualSize = testDisk.size
+		)
+		assertEquals(
+				listOf(VirtualStorageDataCollection(stat = testDisk, dynamic = diskDyn)),
+				TgtdIscsiShareFactory.unsharedDisks(
+						OperationalState.fromLists(
+								vStorage = listOf(testDisk),
+								vStorageDyns = listOf(diskDyn),
+								hosts = listOf(testHost)
+						)
+				)
+		)
+	}
+
+
+	@Test
+	fun unsharedDisksWithSharedDisk() {
+		val diskDyn = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocation = VirtualStorageLvmAllocation(hostId = testHost.id, path = "/dev/test/1234"),
+				actualSize = testDisk.size
+		)
+		val hostDyn = HostDynamic(
+				id = testHost.id,
+				status = HostStatus.Up
+		)
+		val hostConfig = HostConfiguration(
+				id = testHost.id,
+				services = listOf(
+						IscsiService(
+								password = genPassword(),
+								vstorageId = testDisk.id
+						)
+				)
+		)
+		assertEquals(
+				listOf(),
+				TgtdIscsiShareFactory.unsharedDisks(
+						OperationalState.fromLists(
+								vStorage = listOf(testDisk),
+								vStorageDyns = listOf(diskDyn),
+								hosts = listOf(testHost),
+								hostCfgs = listOf(hostConfig),
+								hostDyns = listOf(hostDyn)
+						)
+				)
+		)
+	}
 
 }

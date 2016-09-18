@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
@@ -44,6 +45,8 @@ import kotlin.test.assertTrue
 class HostManagerImplTest {
 
 	val hostDao: HostDao = mock()
+
+	val hostCfgDao: HostConfigurationDao = mock()
 
 	val hostDynamicDao: HostDynamicDao = mock()
 
@@ -114,6 +117,7 @@ class HostManagerImplTest {
 				HostManagerImpl(
 						hostDao,
 						hostDynamicDao,
+						hostCfgDao,
 						vmDynDao,
 						virtualStorageDao,
 						virtualStorageDynDao,

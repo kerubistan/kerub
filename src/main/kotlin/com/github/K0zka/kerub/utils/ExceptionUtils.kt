@@ -20,7 +20,7 @@ fun <T> silent(body: () -> T, actionName: String): T? {
 	try {
 		return body()
 	} catch(exc: Exception) {
-		logger.warn("Exception occured during execution: $actionName", exc)
+		logger.debug("Exception occured during execution: $actionName", exc)
 		return null
 	}
 }
