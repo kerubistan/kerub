@@ -7,4 +7,4 @@ import java.util.UUID
 data class VirtualStorageGvinumAllocation(
 		override val hostId: UUID,
 		val configuration : GvinumConfiguration
-) : VirtualStorageAllocation
+) : VirtualStorageBlockDeviceAllocation

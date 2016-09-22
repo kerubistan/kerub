@@ -94,58 +94,5 @@ class TgtdIscsiShareFactoryTest {
 		assertTrue(steps.isEmpty())
 	}
 
-	@Test
-	fun unsharedDisks() {
-		val diskDyn = VirtualStorageDeviceDynamic(
-				id = testDisk.id,
-				allocation = VirtualStorageLvmAllocation(hostId = testHost.id, path = "/dev/test/1234"),
-				actualSize = testDisk.size
-		)
-		assertEquals(
-				listOf(VirtualStorageDataCollection(stat = testDisk, dynamic = diskDyn)),
-				TgtdIscsiShareFactory.unsharedDisks(
-						OperationalState.fromLists(
-								vStorage = listOf(testDisk),
-								vStorageDyns = listOf(diskDyn),
-								hosts = listOf(testHost)
-						)
-				)
-		)
-	}
-
-
-	@Test
-	fun unsharedDisksWithSharedDisk() {
-		val diskDyn = VirtualStorageDeviceDynamic(
-				id = testDisk.id,
-				allocation = VirtualStorageLvmAllocation(hostId = testHost.id, path = "/dev/test/1234"),
-				actualSize = testDisk.size
-		)
-		val hostDyn = HostDynamic(
-				id = testHost.id,
-				status = HostStatus.Up
-		)
-		val hostConfig = HostConfiguration(
-				id = testHost.id,
-				services = listOf(
-						IscsiService(
-								password = genPassword(),
-								vstorageId = testDisk.id
-						)
-				)
-		)
-		assertEquals(
-				listOf(),
-				TgtdIscsiShareFactory.unsharedDisks(
-						OperationalState.fromLists(
-								vStorage = listOf(testDisk),
-								vStorageDyns = listOf(diskDyn),
-								hosts = listOf(testHost),
-								hostCfgs = listOf(hostConfig),
-								hostDyns = listOf(hostDyn)
-						)
-				)
-		)
-	}
 
 }

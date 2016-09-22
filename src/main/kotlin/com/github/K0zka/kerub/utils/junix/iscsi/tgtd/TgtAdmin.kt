@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.utils.equalsAnyOf
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
@@ -13,8 +14,10 @@ object TgtAdmin : OsCommand {
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
 			= listOf(
-			{ distro  : SoftwarePackage-> distro.name == "Fedora" } to listOf("scsi-target-utils"),
-			{ distro  : SoftwarePackage-> distro.name == "openSUSE" } to listOf("tgt")
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Fedora", "Centos Linux") } to listOf("scsi-target-utils"),
+			{ distro: SoftwarePackage -> distro.name == "openSUSE" } to listOf("tgt"),
+			{ distro: SoftwarePackage -> distro.name.startsWith("Debian") } to listOf("tgt"),
+			{ distro: SoftwarePackage -> distro.name.startsWith("Ubuntu") } to listOf("tgt")
 	)
 
 	fun shareBlockDevice(

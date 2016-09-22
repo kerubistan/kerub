@@ -6,29 +6,17 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
+import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiExecutor
 import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
 class TgtdIscsiShareExecutor(
-		private val hostConfigDao: HostConfigurationDao,
-		private val hostExecutor: HostCommandExecutor,
-		private val hostManager: HostManager)
-: AbstractStepExecutor<TgtdIscsiShare, String>() {
-	override fun update(step: TgtdIscsiShare, updates: String) {
-		val config = hostConfigDao[step.host.id] ?: HostConfiguration(id = step.host.id)
-		config.copy()
-		hostConfigDao.update(
-				config.copy(
-						services = config.services + IscsiService(
-								vstorageId = step.vstorage.id,
-								password = updates
-						)
-				)
-		)
-	}
+		hostConfigDao: HostConfigurationDao,
+		hostExecutor: HostCommandExecutor,
+		hostManager: HostManager)
+: AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
 
-	override fun perform(step: TgtdIscsiShare): String {
-		val password = genPassword()
+	override fun perform(step: TgtdIscsiShare, password: String) {
 		hostExecutor.execute(step.host) {
 			session ->
 
@@ -45,6 +33,5 @@ class TgtdIscsiShareExecutor(
 					password = password
 			)
 		}
-		return password
 	}
 }

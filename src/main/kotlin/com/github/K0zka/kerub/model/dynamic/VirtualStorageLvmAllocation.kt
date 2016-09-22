@@ -7,4 +7,4 @@ import java.util.UUID
 data class VirtualStorageLvmAllocation(
 		override val hostId: UUID,
 		val path : String
-) : VirtualStorageAllocation
+) : VirtualStorageBlockDeviceAllocation
