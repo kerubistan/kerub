@@ -57,11 +57,14 @@ import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
 import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.DataTable
 import cucumber.api.PendingException
 import cucumber.api.java.Before
@@ -70,7 +73,6 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Assert
 import org.mockito.Matchers
-import org.mockito.Mockito
 import java.math.BigInteger
 import java.util.UUID
 
@@ -87,8 +89,8 @@ class PlannerDefs {
 	var hostConfigs = listOf<HostConfiguration>()
 
 	val backtrack: BacktrackService = BacktrackService(1)
-	val executor: PlanExecutor = Mockito.mock(PlanExecutor::class.java)
-	val builder: OperationalStateBuilder = Mockito.mock(OperationalStateBuilder::class.java)
+	val executor: PlanExecutor = mock()
+	val builder: OperationalStateBuilder = mock()
 
 	val planner: Planner = PlannerImpl(
 			backtrack,
@@ -100,7 +102,7 @@ class PlannerDefs {
 
 	@Before
 	fun setup() {
-		Mockito.`when`(builder.buildState()).then {
+		whenever(builder.buildState()).then {
 			OperationalState.fromLists(
 					hosts = hosts,
 					hostDyns = hostDyns,
@@ -111,11 +113,10 @@ class PlannerDefs {
 					vStorageDyns = vstorageDyns
 			)
 		}
-		val callback: (Plan) -> Unit = {}
-		Mockito.doAnswer({
+		doAnswer({
 			executedPlans += (it.arguments[0] as Plan)
 			Unit
-		}).`when`(executor).execute(Matchers.any(Plan::class.java) ?: Plan(OperationalState()), Matchers.any(callback.javaClass) ?: callback)
+		}).whenever(executor).execute(any<Plan>(), any<(Plan) -> Unit>())
 	}
 
 	@Given("^VMs:$")

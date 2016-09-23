@@ -1,35 +1,24 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
-import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.math.BigInteger
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
 class LvmPvTest {
 
-	@Mock
-	var session : ClientSession? = null
-
-	@Mock
-	var execChannel: ChannelExec? = null
-
-	@Mock
-	var createExecChannel: ChannelExec? = null
-
-	@Mock
-	var openFuture: OpenFuture? = null
+	val session : ClientSession = mock()
+	val execChannel: ChannelExec = mock()
+	val createExecChannel: ChannelExec = mock()
+	val openFuture: OpenFuture = mock()
 
 
 	companion object {
@@ -41,29 +30,29 @@ class LvmPvTest {
 
 	@Test
 	fun list() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		whenever(session.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(openFuture)
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val list = LvmPv.list(session!!)
+		val list = LvmPv.list(session)
 
-		Assert.assertEquals(2, list.size)
+		assertEquals(2, list.size)
 
-		Assert.assertEquals("166673252352 B".toSize(), list[0].size)
-		Assert.assertEquals(BigInteger.ZERO, list[0].freeSize)
-		Assert.assertEquals("/dev/sda2", list[0].device)
-		Assert.assertEquals("gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g", list[0].volumeGroupId)
+		assertEquals("166673252352 B".toSize(), list[0].size)
+		assertEquals(BigInteger.ZERO, list[0].freeSize)
+		assertEquals("/dev/sda2", list[0].device)
+		assertEquals("gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g", list[0].volumeGroupId)
 	}
 
 	@Test
 	fun listEmpty() {
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		whenever(session.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(openFuture)
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray(charset("ASCII"))))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val list = LvmPv.list(session!!)
+		val list = LvmPv.list(session)
 
 		assertEquals(listOf<PhysicalVolume>(), list)
 	}

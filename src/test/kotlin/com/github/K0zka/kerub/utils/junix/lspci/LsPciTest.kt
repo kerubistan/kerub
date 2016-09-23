@@ -1,5 +1,8 @@
 package com.github.K0zka.kerub.utils.junix.lspci
 
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
@@ -13,16 +16,11 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class) class LsPciTest {
+class LsPciTest {
 
-	@Mock
-	var session : ClientSession? = null
-
-	@Mock
-	var execChannel : ChannelExec? = null
-
-	@Mock
-	var channelOpenFuture : OpenFuture? = null
+	val session : ClientSession = mock()
+	val execChannel : ChannelExec = mock()
+	val channelOpenFuture : OpenFuture = mock()
 
 	object samples {
 		val nuc =
@@ -114,12 +112,12 @@ import java.io.ByteArrayInputStream
 	@Test
 	fun executeWithNuc() {
 		val input = ByteArrayInputStream(samples.nuc.toByteArray(charset("ASCII")))
-		Mockito.`when`(session?.createExecChannel(Matchers.eq("lspci -mm")))
+		whenever(session.createExecChannel(eq("lspci -mm")))
 			.thenReturn(execChannel)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(input)
-		Mockito.`when`(execChannel?.open()).thenReturn(channelOpenFuture)
+		whenever(execChannel.invertedOut).thenReturn(input)
+		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 
-		val devices = LsPci.execute(session!!)
+		val devices = LsPci.execute(session)
 		Assert.assertThat(devices.size, CoreMatchers.`is`(10))
 	}
 }

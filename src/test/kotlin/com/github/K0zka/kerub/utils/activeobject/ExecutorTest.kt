@@ -1,19 +1,15 @@
 package com.github.K0zka.kerub.utils.activeobject
 
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.context.ApplicationContext
 
-@RunWith(MockitoJUnitRunner::class) class ExecutorTest {
-	@Mock
-	var appCtx: ApplicationContext? = null
-
-	@Mock
-	var service : HelloService? = null
+class ExecutorTest {
+	var appCtx: ApplicationContext = mock()
+	var service : HelloService = mock()
 
 	var executor: Executor? = null
 
@@ -21,7 +17,7 @@ import org.springframework.context.ApplicationContext
 	fun setup() {
 		executor = Executor()
 		executor!!.setApplicationContext(appCtx)
-		Mockito.`when`(appCtx!!.getBean("helloService"))!!.thenReturn(service)
+		whenever(appCtx.getBean("helloService")).thenReturn(service)
 	}
 
 	interface HelloService {

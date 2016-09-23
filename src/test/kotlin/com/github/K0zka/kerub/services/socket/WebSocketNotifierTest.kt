@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.services.socket
 
 import com.github.K0zka.kerub.planner.Planner
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
@@ -13,37 +15,27 @@ import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import java.security.Principal
 
-@RunWith(MockitoJUnitRunner::class)
 class WebSocketNotifierTest {
 
-	@Mock
-	var planner: Planner? = null
-
-	@Mock
-	var internal: InternalMessageListener? = null
-
-	@Mock
-	var session: WebSocketSession? = null
-
-	@Mock
-	var connection: ClientConnection? = null
-
-	@Mock
-	var principal: Principal? = null
+	val planner: Planner = mock()
+	val internal: InternalMessageListener = mock()
+	val session: WebSocketSession = mock()
+	val connection: ClientConnection = mock()
+	var principal: Principal = mock()
 
 	var notifier: WebSocketNotifier? = null
 
 	@Before
 	fun setup() {
-		notifier = WebSocketNotifier(internal!!)
+		notifier = WebSocketNotifier(internal)
 	}
 
 	@Test
 	fun afterConnectionEstablished() {
-		Mockito.`when`(session!!.id).thenReturn("session-id")
-		Mockito.`when`(session!!.principal).thenReturn(principal)
+		Mockito.`when`(session.id).thenReturn("session-id")
+		Mockito.`when`(session.principal).thenReturn(principal)
 
-		notifier!!.afterConnectionEstablished(session!!)
+		notifier!!.afterConnectionEstablished(session)
 
 		val conn = Mockito.mock(ClientConnection::class.java)
 		//		verify(internal)!!.addSocketListener(
@@ -61,12 +53,12 @@ class WebSocketNotifierTest {
 				}"""
 		))
 
-		verify(session)!!.sendMessage(Matchers.any(TextMessage::class.java) ?: TextMessage(""))
+		verify(session).sendMessage(any<TextMessage>())
 	}
 
 	@Test
 	fun handleTextMessageWithSubscribe() {
-		Mockito.`when`(session!!.id).thenReturn("test-session-id")
+		Mockito.`when`(session.id).thenReturn("test-session-id")
 		notifier!!.handleMessage(session, TextMessage(
 				"""{
 				"@type":"subscribe",
@@ -78,14 +70,13 @@ class WebSocketNotifierTest {
 
 	@Test
 	fun handleTextMessageWithUnsubscribe() {
-		Mockito.`when`(session!!.id).thenReturn("test-session-id")
+		Mockito.`when`(session.id).thenReturn("test-session-id")
 		notifier!!.handleMessage(session, TextMessage(
 				"""{
 				"@type":"unsubscribe",
 				"channel":"/host/"
 				}"""
 		))
-
 
 	}
 

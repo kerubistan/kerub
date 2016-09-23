@@ -2,6 +2,9 @@ package com.github.K0zka.kerub.utils.junix.qemu
 
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -10,43 +13,34 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class) class QemuImgTest {
-	@Mock
-	var session : ClientSession? = null
-
-	@Mock
-	var execChannel : ChannelExec? = null
-
-	@Mock
-	var channelOpenFuture : OpenFuture? = null
+class QemuImgTest {
+	val session: ClientSession = mock()
+	val execChannel: ChannelExec = mock()
+	val channelOpenFuture: OpenFuture = mock()
 
 	@Before
 	fun setup() {
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
-		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
+		whenever(session.createExecChannel(any<String>())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 	}
 
 	@Test
 	fun create() {
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		QemuImg.create(session!!, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
+		QemuImg.create(session, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
 
-		Mockito.verify(session!!).createExecChannel("qemu-img create -f raw /tmp/test.raw ${"100 MB".toSize()}")
+		Mockito.verify(session).createExecChannel("qemu-img create -f raw /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
 	@Test
 	fun info() {
-		Mockito.`when`(session!!.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel!!)
-		Mockito.`when`(execChannel!!.open()).thenReturn(channelOpenFuture)
+		whenever(session.createExecChannel(any<String>())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 		val testOutput = """
 {
     "virtual-size": 1073741824,
@@ -56,12 +50,12 @@ import java.io.ByteArrayInputStream
     "dirty-flag": false
 }
 """
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("UTF-8"))))
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("UTF-8"))))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val info = QemuImg.info(session!!, "/tmp/test.raw")
+		val info = QemuImg.info(session, "/tmp/test.raw")
 
-		Mockito.verify(session!!).createExecChannel("qemu-img info /tmp/test.raw")
+		Mockito.verify(session).createExecChannel("qemu-img info /tmp/test.raw")
 		Assert.assertThat(info.virtualSize, CoreMatchers.equalTo(1073741824.toLong()))
 		Assert.assertThat(info.diskSize, CoreMatchers.equalTo(0.toLong()))
 		Assert.assertThat(info.fileName, CoreMatchers.`is`("tmp/test.raw"))
@@ -71,22 +65,22 @@ import java.io.ByteArrayInputStream
 
 	@Test
 	fun resize() {
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		QemuImg.resize(session!!, "/tmp/test.raw", "100 MB".toSize())
+		QemuImg.resize(session, "/tmp/test.raw", "100 MB".toSize())
 
-		Mockito.verify(session!!).createExecChannel("qemu-img resize /tmp/test.raw ${"100 MB".toSize()}")
+		Mockito.verify(session).createExecChannel("qemu-img resize /tmp/test.raw ${"100 MB".toSize()}")
 	}
 
 	@Test
 	fun convert() {
-		Mockito.`when`(execChannel!!.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		QemuImg.convert(session!!, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
+		QemuImg.convert(session, "/tmp/test.raw", "/tmp/test.qcow2", VirtualDiskFormat.qcow2)
 
-		Mockito.verify(session!!).createExecChannel("qemu-img convert -O qcow2 /tmp/test.raw /tmp/test.qcow2")
+		Mockito.verify(session).createExecChannel("qemu-img convert -O qcow2 /tmp/test.raw /tmp/test.qcow2")
 	}
 
 }
