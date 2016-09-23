@@ -4,13 +4,12 @@ import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.utils.junix.AbstractJunixCommandVerification
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.commons.io.input.NullInputStream
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
 class EthToolTest : AbstractJunixCommandVerification() {
 
     val testOutput =

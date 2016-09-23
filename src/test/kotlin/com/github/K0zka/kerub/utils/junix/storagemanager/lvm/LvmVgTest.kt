@@ -1,32 +1,25 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
+import com.nhaarman.mockito_kotlin.doAnswer
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 import java.io.OutputStream
 import java.math.BigInteger
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
 class LvmVgTest {
 
-	@Mock
-	var session: ClientSession? = null
-
-	@Mock
-	var execChannel: ChannelExec? = null
-
-	@Mock
-	var openFuture : OpenFuture? = null
+	val session: ClientSession = mock()
+	val execChannel: ChannelExec = mock()
+	val openFuture : OpenFuture = mock()
 
 	val testOutput = """  WfbuiJ-KniK-WBF9-h2ae-IwgM-k1Jh-671l51:fedora:9139388416B:4194304B:2179:1
   uPPT5K-Rtym-cxQX-f3iu-oiZf-M4Z3-t8v4We:test:4286578688B:1065353216B:1022:254
@@ -35,13 +28,13 @@ class LvmVgTest {
 	@Test
 	fun list() {
 
-		Mockito.`when`(session?.createExecChannel(Matchers.startsWith("lvm vgs"))).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.`when`(execChannel?.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		whenever(session.createExecChannel(Matchers.startsWith("lvm vgs"))).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(openFuture)
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 
-		val list = LvmVg.list(session!!)
+		val list = LvmVg.list(session)
 
 		Assert.assertEquals(2, list.size)
 		Assert.assertEquals("WfbuiJ-KniK-WBF9-h2ae-IwgM-k1Jh-671l51", list[0].id)
@@ -63,19 +56,19 @@ class LvmVgTest {
 
 	@Test
 	fun monitor() {
-		Mockito.`when`(session?.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
-		Mockito.`when`(execChannel?.open()).thenReturn(openFuture)
-		Mockito.doAnswer {
+		whenever(session.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(openFuture)
+		doAnswer {
 			val out = it.arguments[0] as OutputStream
 			monitorOutput.forEach {
 				out.write( it.toInt() )
 			}
 			null
-		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
-		Mockito.`when`(execChannel?.invertedErr).thenReturn(NullInputStream(0))
+		} .whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		var results = mutableListOf<List<VolumeGroup>>()
-		LvmVg.monitor(session!!, {
+		val results = mutableListOf<List<VolumeGroup>>()
+		LvmVg.monitor(session, {
 			vgs ->
 			results.add(vgs)
 		})

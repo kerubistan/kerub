@@ -8,26 +8,19 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.math.BigInteger
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class PauseVirtualMachineExecutorTest {
 
-	@Mock
-	var hostManager: HostManager? = null
-
-	@Mock
-	var hypervisor: Hypervisor? = null
-
-	@Mock
-	var vmDynDao: VirtualMachineDynamicDao? = null
+	val hostManager: HostManager = mock()
+	var hypervisor: Hypervisor = mock()
+	var vmDynDao: VirtualMachineDynamicDao = mock()
 
 
 	val vm = VirtualMachine(
@@ -51,15 +44,15 @@ class PauseVirtualMachineExecutorTest {
 
 	@Before
 	fun setup() {
-		Mockito.`when`(hostManager!!.getHypervisor(eq(host))).thenReturn(hypervisor)
+		whenever(hostManager.getHypervisor(eq(host))).thenReturn(hypervisor)
 	}
 
 	@Test
 	fun execute() {
-		Mockito.`when`(vmDynDao!!.get(vm.id)).thenReturn(vmDyn)
-		PauseVirtualMachineExecutor(hostManager!!, vmDynDao!!).execute(PauseVirtualMachine(vm = vm, host = host))
+		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		PauseVirtualMachineExecutor(hostManager, vmDynDao).execute(PauseVirtualMachine(vm = vm, host = host))
 
-		Mockito.verify(hypervisor)!!.suspend(eq(vm))
+		verify(hypervisor).suspend(eq(vm))
 	}
 
 }

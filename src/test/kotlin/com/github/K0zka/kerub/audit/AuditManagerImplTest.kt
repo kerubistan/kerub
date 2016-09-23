@@ -13,9 +13,6 @@ import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 
-import org.junit.Assert.*
-import org.mockito.Mockito
-
 class AuditManagerImplTest {
 
 	val auditDao: AuditEntryDao = mock()
@@ -26,7 +23,7 @@ class AuditManagerImplTest {
 		doReturn("TEST-USER").whenever(auditManager).getCurrentUser()
 		auditManager.auditUpdate(testVm, testVm.copy(name = "modified"))
 
-		verify(auditDao).add(Mockito.any(UpdateEntry::class.java) ?: UpdateEntry(old = testVm, new = testVm, user = ""))
+		verify(auditDao).add(any<UpdateEntry>())
 	}
 
 	@Test
@@ -35,7 +32,7 @@ class AuditManagerImplTest {
 		doReturn("TEST-USER").whenever(auditManager).getCurrentUser()
 		auditManager.auditDelete(testVm)
 
-		verify(auditDao).add(Mockito.any(UpdateEntry::class.java) ?: UpdateEntry(old = testVm, user = "", new = testVm))
+		verify(auditDao).add(any<DeleteEntry>())
 
 	}
 
@@ -45,7 +42,7 @@ class AuditManagerImplTest {
 		doReturn("TEST-USER").whenever(auditManager).getCurrentUser()
 		auditManager.auditAdd(testVm)
 
-		verify(auditDao).add(Mockito.any(AddEntry::class.java) ?: AddEntry(new = testVm, user = ""))
+		verify(auditDao).add(any<AddEntry>())
 
 	}
 }

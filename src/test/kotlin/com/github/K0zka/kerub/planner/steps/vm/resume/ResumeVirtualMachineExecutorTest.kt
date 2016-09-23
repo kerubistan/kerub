@@ -8,26 +8,18 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
-import org.junit.Assert.*
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.math.BigInteger
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class ResumeVirtualMachineExecutorTest{
-	@Mock
-	var hostManager: HostManager? = null
-
-	@Mock
-	var hypervisor: Hypervisor? = null
-
-	@Mock
-	var vmDynDao : VirtualMachineDynamicDao? = null
+	val hostManager: HostManager = mock()
+	val hypervisor: Hypervisor = mock()
+	val vmDynDao : VirtualMachineDynamicDao = mock()
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),
@@ -50,21 +42,21 @@ class ResumeVirtualMachineExecutorTest{
 
 	@Before
 	fun setup() {
-		Mockito.`when`(hostManager!!.getHypervisor(eq(host))).thenReturn(hypervisor)
+		whenever(hostManager.getHypervisor(eq(host))).thenReturn(hypervisor)
 	}
 
 	@Test
 	fun execute() {
-		Mockito.`when`(vmDynDao!!.get(vm.id)).thenReturn(vmDyn)
-		ResumeVirtualMachineExecutor(hostManager!!, vmDynDao!!).execute(ResumeVirtualMachine(vm, host))
+		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
 		Mockito.verify(hypervisor)!!.resume(eq(vm))
 	}
 
 	@Test
 	fun executeWithoutData() {
-		Mockito.`when`(vmDynDao!!.get(vm.id)).thenReturn(vmDyn)
-		ResumeVirtualMachineExecutor(hostManager!!, vmDynDao!!).execute(ResumeVirtualMachine(vm, host))
+		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
 		Mockito.verify(hypervisor)!!.resume(eq(vm))
 	}
