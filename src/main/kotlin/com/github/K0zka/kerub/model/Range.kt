@@ -8,6 +8,6 @@ import java.io.Serializable
  */
 data class Range<T>(
 		@JsonProperty("min")
-		final val min: T,
+		val min: T,
 		@JsonProperty("max")
-		final val max: T) : Serializable
+		val max: T) : Serializable

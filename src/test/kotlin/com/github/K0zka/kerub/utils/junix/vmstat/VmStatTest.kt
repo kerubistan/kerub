@@ -1,29 +1,24 @@
 package com.github.K0zka.kerub.utils.junix.vmstat
 
-import com.github.K0zka.kerub.anyString
-import com.github.K0zka.kerub.on
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
 import java.util.ArrayList
 import java.util.Collections
 
-@RunWith(MockitoJUnitRunner::class) class VmStatTest {
-	@Mock
-	var clientSession : ClientSession? = null
-	@Mock
-	var execChannel : ChannelExec? = null
-	@Mock
-	var openFuture : OpenFuture? = null
+class VmStatTest {
+	val clientSession: ClientSession = mock()
+	val execChannel: ChannelExec = mock()
+	val openFuture: OpenFuture = mock()
 
 	val sample = """procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
@@ -34,20 +29,21 @@ import java.util.Collections
  0  0 162500 400712 1730456 1251508    0    0     0   308 1547 2593 14  6 75  5
  1  0 162500 400624 1730460 1251508    0    0     0     4 1497 2357 13  5 80  2
 """
+
 	@Test
 	fun vmstat() {
-		on(clientSession!!.createExecChannel(anyString())).thenReturn( execChannel )
+		whenever(clientSession.createExecChannel(any())).thenReturn(execChannel)
 		Mockito.doAnswer {
 			val out = it.arguments[0] as OutputStream
 			sample.forEach {
-				out.write( it.toInt() )
+				out.write(it.toInt())
 			}
 			null
-		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
-		on(execChannel!!.open()).thenReturn(openFuture)
+		}.whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		whenever(execChannel.open()).thenReturn(openFuture)
 
 		val results = Collections.synchronizedList(ArrayList<VmStatEvent>())
-		VmStat.vmstat(clientSession!!, { results.add(it) })
+		VmStat.vmstat(clientSession, { results.add(it) })
 
 		Assert.assertThat(results.size, CoreMatchers.`is`(6))
 

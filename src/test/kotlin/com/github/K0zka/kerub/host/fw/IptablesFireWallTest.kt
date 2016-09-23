@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.fw
 
-import com.github.K0zka.kerub.anyString
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -13,8 +12,8 @@ import org.junit.Test
 
 class IptablesFireWallTest {
 
-	val session : ClientSession = mock()
-	val channel : ChannelExec = mock()
+	val session: ClientSession = mock()
+	val channel: ChannelExec = mock()
 
 	@Before
 	fun setup() {
@@ -28,13 +27,13 @@ class IptablesFireWallTest {
 	fun testOpen() {
 		IptablesFireWall(session).open(1234, "tcp")
 		verify(channel).open()
-		verify(session).createExecChannel(anyString())
+		verify(session).createExecChannel(any())
 	}
 
 	@Test
 	fun testClose() {
 		IptablesFireWall(session).close(1234, "tcp")
 		verify(channel).open()
-		verify(session).createExecChannel(anyString())
+		verify(session).createExecChannel(any())
 	}
 }

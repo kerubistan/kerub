@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.utils.junix.ethtool
 
-import com.github.K0zka.kerub.on
 import com.github.K0zka.kerub.utils.junix.AbstractJunixCommandVerification
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -12,8 +12,8 @@ import java.io.ByteArrayInputStream
 
 class EthToolTest : AbstractJunixCommandVerification() {
 
-    val testOutput =
-            """"Settings for enp2s0:
+	val testOutput =
+			""""Settings for enp2s0:
 	Supported ports: [ TP MII ]
 	Supported link modes:   10baseT/Half 10baseT/Full
 	                        100baseT/Half 100baseT/Full
@@ -39,14 +39,14 @@ class EthToolTest : AbstractJunixCommandVerification() {
 """"
 
 
-    @Test
-    fun testGetDeviceInformation() {
-        on(execChannel!!.invertedErr).thenReturn(NullInputStream(0))
-        on(execChannel!!.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
-        val devInfo = EthTool.getDeviceInformation(session!!, "enp2s0")
+	@Test
+	fun testGetDeviceInformation() {
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
+		val devInfo = EthTool.getDeviceInformation(session, "enp2s0")
 
-        assertFalse(devInfo.link)
-        assertTrue(devInfo.wakeOnLan)
-        assertEquals("10 MB".toSize(), devInfo.transferRate)
-    }
+		assertFalse(devInfo.link)
+		assertTrue(devInfo.wakeOnLan)
+		assertEquals("10 MB".toSize(), devInfo.transferRate)
+	}
 }

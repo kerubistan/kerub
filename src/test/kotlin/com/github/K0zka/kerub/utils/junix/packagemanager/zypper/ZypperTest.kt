@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.utils.junix.packagemanager.zypper
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.expect
-import com.github.K0zka.kerub.never
 import com.github.K0zka.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.never
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Before
@@ -21,26 +21,26 @@ class ZypperTest : AbstractJunixCommandVerification() {
 	@Test
 	fun installNoPackage() {
 		expect(IllegalArgumentException::class, { Zypper.installPackage(session) })
-		verify(session, never)!!.createExecChannel(anyString())
+		verify(session, never()).createExecChannel(any())
 	}
 
 	@Test
 	fun uninstallNoPackage() {
 		expect(IllegalArgumentException::class, { Zypper.uninstallPackage(session /* no packages listed */) })
-		verify(session, never)!!.createExecChannel(anyString())
+		verify(session, never()).createExecChannel(any())
 	}
 
 	@Test
 	fun installPackage() {
 		Zypper.installPackage(session, "foo", "bar", "baz")
 
-		verify(session)!!.createExecChannel("zypper -n install foo bar baz")
+		verify(session).createExecChannel("zypper -n install foo bar baz")
 	}
 
 	@Test
 	fun uninstallPackage() {
 		Zypper.uninstallPackage(session, "foo", "bar", "baz")
 
-		verify(session)!!.createExecChannel("zypper -n remove foo bar baz")
+		verify(session).createExecChannel("zypper -n remove foo bar baz")
 	}
 }

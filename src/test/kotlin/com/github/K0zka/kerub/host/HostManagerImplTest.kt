@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
@@ -8,7 +7,6 @@ import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
-import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.getTestKey
@@ -17,12 +15,12 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
-import com.github.K0zka.kerub.never
-import com.github.K0zka.kerub.on
-import com.github.K0zka.kerub.verify
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.server.Command
@@ -166,10 +164,10 @@ class HostManagerImplTest {
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
 		whenever(hostManager!!.resolve(any())).thenReturn(address)
-		on(sshClientService.loginWithPublicKey(
-				address = anyString(),
-				hostPublicKey = anyString(),
-				userName = anyString())).thenReturn(clientSession)
+		whenever(sshClientService.loginWithPublicKey(
+				address = any(),
+				hostPublicKey = any(),
+				userName = any())).thenReturn(clientSession)
 		hostManager!!.connectHost(host)
 		Thread.sleep(1000)
 	}
@@ -182,14 +180,14 @@ class HostManagerImplTest {
 				dedicated = false,
 				publicKey = "")
 		whenever(hostManager!!.resolve(any())).then { throw UnknownHostException("TEST") }
-		on(sshClientService.loginWithPublicKey(
-				address = anyString(),
-				hostPublicKey = anyString(),
-				userName = anyString())).thenReturn(clientSession)
+		whenever(sshClientService.loginWithPublicKey(
+				address = any(),
+				hostPublicKey = any(),
+				userName = any())).thenReturn(clientSession)
 		expect(HostAddressException::class) {
 			hostManager!!.connectHost(host)
 		}
-		verify(sshClientService, never).loginWithPublicKey(any(), any(), any())
+		verify(sshClientService, never()).loginWithPublicKey(any(), any(), any())
 	}
 
 	@Test
@@ -197,28 +195,28 @@ class HostManagerImplTest {
 		val controllerId = "test controller id"
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
-		on(controllerManager.getControllerId()).thenReturn(controllerId)
-		on(hostAssignmentDao.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
+		whenever(controllerManager.getControllerId()).thenReturn(controllerId)
+		whenever(hostAssignmentDao.listByControllerAndType(eq(controllerId), eq(AssignmentType.host))).thenReturn(
 				listOf(Assignment(controller = controllerId, entityId = hostId, type = AssignmentType.host))
 		)
-		on(hostDao[hostId]).thenReturn(host)
-		on(sshClientService.createSession(anyString(), anyString())).thenReturn(clientSession)
+		whenever(hostDao[hostId]).thenReturn(host)
+		whenever(sshClientService.createSession(any(), any())).thenReturn(clientSession)
 		val address = mock<InetAddress>()
 		whenever(address.isLoopbackAddress).thenReturn(false)
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
-		on(hostManager!!.resolve(any())).thenReturn(address)
-		on(sshClientService.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
+		whenever(hostManager!!.resolve(any())).thenReturn(address)
+		whenever(sshClientService.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		hostManager!!.start()
 
-		verify(sshClientService)!!.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))
+		verify(sshClientService).loginWithPublicKey(eq(host.address), any(), eq(host.publicKey))
 
 	}
 
 	@Test
 	fun dataConnection() {
-		on(sshClientService.loginWithPublicKey(anyString(), anyString(), anyString())).thenReturn(clientSession)
+		whenever(sshClientService.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
@@ -230,7 +228,7 @@ class HostManagerImplTest {
 		})
 
 		assertTrue(called)
-		verify(sshClientService).loginWithPublicKey(anyString(), anyString(), anyString())
+		verify(sshClientService).loginWithPublicKey(any(), any(), any())
 	}
 
 	@Test
@@ -239,7 +237,7 @@ class HostManagerImplTest {
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
 		whenever(discoverer.detectDistro(eq(clientSession))).thenReturn(distro)
-		whenever(sshClientService.loginWithPublicKey(eq(host.address), anyString(), eq(host.publicKey))).thenReturn(clientSession)
+		whenever(sshClientService.loginWithPublicKey(eq(host.address), any(), eq(host.publicKey))).thenReturn(clientSession)
 
 		hostManager!!.connectHost(host)
 		val result = hostManager!!.execute(host) {

@@ -1,8 +1,9 @@
 package com.github.K0zka.kerub.utils.junix.virt.virsh
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
@@ -34,17 +35,17 @@ class VirshTest {
 
 	@Before
 	fun setup() {
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(execChannel.open()).thenReturn(channelOpenFuture)
-		Mockito.`when`(session.createSftpClient()).thenReturn(sftpClient)
+		whenever(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(channelOpenFuture)
+		whenever(session.createSftpClient()).thenReturn(sftpClient)
 	}
 
 	@Test
 	fun create() {
-		Mockito.`when`(sftpClient.write(anyString())).thenReturn(ByteArrayOutputStream())
-		Mockito.`when`(execChannel.invertedErr)
+		whenever(sftpClient.write(any())).thenReturn(ByteArrayOutputStream())
+		whenever(execChannel.invertedErr)
 				.thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel.invertedOut)
+		whenever(execChannel.invertedOut)
 				.thenReturn(NullInputStream(0))
 		Virsh.create(session, UUID.randomUUID(), "TEST-DOMAIN-DEF")
 	}
@@ -52,15 +53,15 @@ class VirshTest {
 	@Test
 	fun createAndFail() {
 		try {
-			Mockito.`when`(sftpClient.write(anyString())).thenReturn(ByteArrayOutputStream())
-			Mockito.`when`(execChannel.invertedErr)
+			whenever(sftpClient.write(any())).thenReturn(ByteArrayOutputStream())
+			whenever(execChannel.invertedErr)
 					.thenReturn(ByteArrayInputStream("TEST ERROR".toByteArray(charset("ASCII"))))
-			Mockito.`when`(execChannel.invertedOut)
+			whenever(execChannel.invertedOut)
 					.thenReturn(NullInputStream(0))
 			Virsh.create(session, UUID.randomUUID(), "TEST-DOMAIN-DEF")
 		} catch(e: IOException) {
-			Mockito.verify(sftpClient)!!.write(anyString())
-			Mockito.verify(sftpClient)!!.remove(anyString())
+			verify(sftpClient).write(any())
+			verify(sftpClient).remove(any())
 		}
 	}
 
@@ -70,9 +71,9 @@ class VirshTest {
 				"""8952908a-f27d-45dc-b274-0aeb7a68660a
 8952908a-f27d-45dc-b274-0aeb7a68660b
 8952908a-f27d-45dc-b274-0aeb7a68660c"""
-		Mockito.`when`(execChannel.invertedOut)
+		whenever(execChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel.invertedErr)
+		whenever(execChannel.invertedErr)
 				.thenReturn(NullInputStream(0))
 
 		val ids = Virsh.list(session)
@@ -84,9 +85,9 @@ class VirshTest {
 
 	@Test
 	fun suspend() {
-		Mockito.`when`(execChannel.invertedOut)
+		whenever(execChannel.invertedOut)
 				.thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel.invertedErr)
+		whenever(execChannel.invertedErr)
 				.thenReturn(NullInputStream(0))
 		Virsh.suspend(session, UUID.randomUUID())
 
@@ -95,9 +96,9 @@ class VirshTest {
 
 	@Test
 	fun resume() {
-		Mockito.`when`(execChannel.invertedOut)
+		whenever(execChannel.invertedOut)
 				.thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel.invertedErr)
+		whenever(execChannel.invertedErr)
 				.thenReturn(NullInputStream(0))
 		Virsh.resume(session, UUID.randomUUID())
 
@@ -273,11 +274,11 @@ Domain: 'kerub.hosts.fedora20'
 	@Test
 	fun domStat() {
 		var output: OutputStream? = null
-		Mockito.`when`(execChannel.setOut(Mockito.any(OutputStream::class.java) ?: NullOutputStream())).thenAnswer {
+		whenever(execChannel.setOut(Mockito.any(OutputStream::class.java) ?: NullOutputStream())).thenAnswer {
 			output = it.arguments[0] as OutputStream
 			null
 		}
-		Mockito.`when`(execChannel.open()).thenAnswer {
+		whenever(execChannel.open()).thenAnswer {
 			requireNotNull(output).writer(charset("ASCII")).use {
 				it.write(domStatMultiOutput)
 			}
@@ -295,9 +296,9 @@ Domain: 'kerub.hosts.fedora20'
 
 	@Test
 	fun domStatSingle() {
-		Mockito.`when`(execChannel.invertedErr)
+		whenever(execChannel.invertedErr)
 				.thenReturn(NullInputStream(0))
-		Mockito.`when`(execChannel.invertedOut)
+		whenever(execChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream(domStatOutput.toByteArray(charset("ASCII"))))
 
 		val stats = Virsh.domStat(session)

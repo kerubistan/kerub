@@ -1,21 +1,18 @@
 package com.github.K0zka.kerub.utils.junix.mpstat
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.model.dynamic.CpuStat
-import com.github.K0zka.kerub.on
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.OutputStream
 
-@RunWith(MockitoJUnitRunner::class)
 class MPStatTest {
 	val testInput = """Linux 4.1.6-201.fc22.x86_64 (localshot) 	11/02/2015 	_x86_64_	(2 CPU)
 
@@ -30,16 +27,13 @@ class MPStatTest {
 07:11:05 AM    1   30.61    0.00    6.12    0.00    0.00    0.00    0.00    0.00    0.00   63.27
 """
 
-	@Mock
-	var session : ClientSession? = null
-	@Mock
-	var execChannel : ChannelExec? = null
-	@Mock
-	var openFuture : OpenFuture? = null
+	val session : ClientSession = mock()
+	val execChannel : ChannelExec = mock()
+	val openFuture : OpenFuture = mock()
 
 	@Test
 	fun monitor() {
-		on(session!!.createExecChannel(anyString())).thenReturn( execChannel )
+		whenever(session.createExecChannel(any())).thenReturn( execChannel )
 		Mockito.doAnswer {
 			val out = it.arguments[0] as OutputStream
 			testInput.forEach {
@@ -47,11 +41,11 @@ class MPStatTest {
 			}
 			null
 		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
-		on(execChannel!!.open()).thenReturn(openFuture)
+		whenever(execChannel.open()).thenReturn(openFuture)
 
 		var stat = listOf<CpuStat>()
 
-		MPStat.monitor(session!!, { stat += it } , interval = 1)
+		MPStat.monitor(session, { stat += it } , interval = 1)
 
 		Assert.assertEquals(0, stat[0].cpuNr)
 		Assert.assertEquals(13.27.toDouble(), stat[0].user.toDouble(), 0.1)

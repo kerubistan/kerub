@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.services.socket
 
 import com.github.K0zka.kerub.planner.Planner
-import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

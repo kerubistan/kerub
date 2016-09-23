@@ -2,12 +2,12 @@ package com.github.K0zka.kerub.controller.impl
 
 import com.github.K0zka.kerub.controller.HostAssignedMessage
 import com.github.K0zka.kerub.data.HostDao
-import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.on
-import com.github.K0zka.kerub.verify
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
@@ -38,10 +38,10 @@ class InterControllerListenerTest {
 				dedicated = true,
 				publicKey = "TEST"
 		               )
-		on(hostDao.get( eq(hostId) )).thenReturn(
+		whenever(hostDao.get( eq(hostId) )).thenReturn(
 				        host
 		                                          )
-		on(message.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))
+		whenever(message.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))
 		impl!!.onMessage(message)
 
 		verify(hostManager).connectHost(eq(host))

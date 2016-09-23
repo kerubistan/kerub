@@ -1,10 +1,10 @@
 package com.github.K0zka.kerub.planner.steps.host.ksm
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
-import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.nhaarman.mockito_kotlin.eq
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import org.junit.runner.RunWith

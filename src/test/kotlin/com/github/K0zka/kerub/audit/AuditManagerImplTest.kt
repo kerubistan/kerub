@@ -5,11 +5,11 @@ import com.github.K0zka.kerub.model.AddEntry
 import com.github.K0zka.kerub.model.DeleteEntry
 import com.github.K0zka.kerub.model.UpdateEntry
 import com.github.K0zka.kerub.testVm
-import com.github.K0zka.kerub.verify
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 

@@ -1,7 +1,7 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.expect
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
@@ -22,7 +22,7 @@ class SshClientUtilsKtTest {
 
 	@Test
 	fun testExecuteOrDie() {
-		whenever(session.createExecChannel(anyString())).thenReturn(execChannel)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("hello".toByteArray(Charset.forName("ASCII"))))
@@ -34,7 +34,7 @@ class SshClientUtilsKtTest {
 
 	@Test
 	fun testExecuteOrDieAndDie() {
-		whenever(session.createExecChannel(anyString())).thenReturn(execChannel)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedErr).thenReturn(ByteArrayInputStream("error".toByteArray(Charset.forName("ASCII"))))
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("hello".toByteArray(Charset.forName("ASCII"))))

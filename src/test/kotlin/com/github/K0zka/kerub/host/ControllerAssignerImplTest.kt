@@ -1,20 +1,19 @@
 package com.github.K0zka.kerub.host
 
-import com.github.K0zka.kerub.anyString
 import com.github.K0zka.kerub.controller.HostAssignedMessage
 import com.github.K0zka.kerub.controller.InterController
 import com.github.K0zka.kerub.data.AssignmentDao
 import com.github.K0zka.kerub.data.ControllerDao
 import com.github.K0zka.kerub.data.dynamic.ControllerDynamicDao
-import com.github.K0zka.kerub.matchAny
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.model.dynamic.ControllerDynamic
-import com.github.K0zka.kerub.times
-import com.github.K0zka.kerub.verify
 import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -24,15 +23,15 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
 @RunWith(MockitoJUnitRunner::class) class ControllerAssignerImplTest {
-	var backtrack : BacktrackService? = null
+	var backtrack: BacktrackService? = null
 
-	val controllerDao : ControllerDao = mock()
+	val controllerDao: ControllerDao = mock()
 
-	val controllerDynamicDao : ControllerDynamicDao = mock()
+	val controllerDynamicDao: ControllerDynamicDao = mock()
 
-	var hostAssignmentDao : AssignmentDao = mock()
+	var hostAssignmentDao: AssignmentDao = mock()
 
-	var interController : InterController = mock()
+	var interController: InterController = mock()
 
 	@Before
 	fun setup() {
@@ -40,18 +39,18 @@ import java.util.UUID
 		Mockito.`when`(controllerDynamicDao.listAll()).thenReturn(listOf(
 				ControllerDynamic(
 						controllerId = "ctrl-1",
-				        addresses = listOf(),
-				        maxHosts = 64,
-				        totalHosts = 0
-				                 ),
+						addresses = listOf(),
+						maxHosts = 64,
+						totalHosts = 0
+				),
 				ControllerDynamic(
 						controllerId = "ctrl-2",
 						addresses = listOf(),
 						maxHosts = 64,
 						totalHosts = 10
-				                 )
+				)
 
-		                                                                 ))
+		))
 	}
 
 	@After
@@ -76,17 +75,10 @@ import java.util.UUID
 				controller = "",
 				entityId = UUID.randomUUID(),
 				type = AssignmentType.host
-		                           )
-		verify(hostAssignmentDao, times(2)).add( matchAny(Assignment::class.java,
-		                                                    assignment
-		                                                    ) )
+		)
+		verify(hostAssignmentDao, times(2)).add(any<Assignment>())
 
-		verify(interController, times(2)).sendToController( anyString(), matchAny(HostAssignedMessage::class.java,
-		                                                                            HostAssignedMessage(
-				                                                                            hostId = UUID.randomUUID(),
-		                                                                                    conrollerId = ""
-		                                                                                               )
-		                                                                            ) )
+		verify(interController, times(2)).sendToController(any(), any<HostAssignedMessage>())
 
 	}
 }

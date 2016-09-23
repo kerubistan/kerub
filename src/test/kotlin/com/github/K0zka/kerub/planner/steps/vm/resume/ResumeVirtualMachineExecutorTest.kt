@@ -1,14 +1,16 @@
 package com.github.K0zka.kerub.planner.steps.vm.resume
 
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
-import com.github.K0zka.kerub.eq
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
@@ -47,10 +49,10 @@ class ResumeVirtualMachineExecutorTest{
 
 	@Test
 	fun execute() {
-		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		whenever(vmDynDao.get(eq(vm.id))).thenReturn(vmDyn)
 		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
-		Mockito.verify(hypervisor)!!.resume(eq(vm))
+		verify(hypervisor).resume(Mockito.eq(vm) ?: vm)
 	}
 
 	@Test
@@ -58,7 +60,7 @@ class ResumeVirtualMachineExecutorTest{
 		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
 		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
-		Mockito.verify(hypervisor)!!.resume(eq(vm))
+		verify(hypervisor).resume(Mockito.eq(vm) ?: vm)
 	}
 
 }
