@@ -3,23 +3,23 @@ package com.github.K0zka.kerub.services.impl
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.invocation.InvocationOnMock
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class VirtualMachineServiceImplTest {
 
 	val existingId = UUID.randomUUID()
 	val notExistingId = UUID.randomUUID()
 
-	@Mock
-	var dao: VirtualMachineDao? = null
+	val dao: VirtualMachineDao = mock()
 
 	@Test
 	fun startVm() {
@@ -34,11 +34,11 @@ class VirtualMachineServiceImplTest {
 	}
 
 	private fun checkStartVm(vm: VirtualMachine) {
-		Mockito.`when`(dao!!.get(Mockito.eq(existingId) ?: existingId)).thenReturn(vm)
-		Mockito.doAnswer {
+		whenever(dao.get(eq(existingId))).thenReturn(vm)
+		doAnswer {
 			checkExpectation(it, true)
-		}.`when`(dao!!).update(Mockito.any(VirtualMachine::class.java) ?: vm)
-		VirtualMachineServiceImpl(dao!!).startVm(existingId)
+		}.whenever(dao).update(Mockito.any<VirtualMachine>() ?: vm)
+		VirtualMachineServiceImpl(dao).startVm(existingId)
 	}
 
 	private fun checkExpectation(invocation: InvocationOnMock, expected: Boolean) {
@@ -53,11 +53,11 @@ class VirtualMachineServiceImplTest {
 	}
 
 	private fun checkStopVm(vm: VirtualMachine) {
-		Mockito.`when`(dao!!.get(Mockito.eq(existingId) ?: existingId)).thenReturn(vm)
-		Mockito.doAnswer {
+		whenever(dao.get(eq(existingId) ?: existingId)).thenReturn(vm)
+		doAnswer {
 			checkExpectation(it, true)
-		}.`when`(dao!!).update(Mockito.any(VirtualMachine::class.java) ?: vm)
-		VirtualMachineServiceImpl(dao!!).startVm(existingId)
+		}.`when`(dao).update(Mockito.any<VirtualMachine>() ?: vm)
+		VirtualMachineServiceImpl(dao).startVm(existingId)
 	}
 
 	@Test

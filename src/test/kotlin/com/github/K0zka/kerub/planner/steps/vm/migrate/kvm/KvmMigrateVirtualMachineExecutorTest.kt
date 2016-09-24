@@ -4,20 +4,17 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class) class KvmMigrateVirtualMachineExecutorTest {
-	@Mock
-	var hostManager: HostManager? = null
-	@Mock
-	var hypervisor: Hypervisor? = null
+class KvmMigrateVirtualMachineExecutorTest {
+	val hostManager: HostManager = mock()
+	val hypervisor: Hypervisor = mock()
 
 	@Test
 	fun execute() {
@@ -34,17 +31,17 @@ import org.mockito.runners.MockitoJUnitRunner
 		val vm = VirtualMachine(
 				name = "vm-1"
 		                       )
-		Mockito.`when`(hostManager!!.getHypervisor(Matchers.any(Host::class.java) ?: target)).thenReturn(hypervisor!!)
-		KvmMigrateVirtualMachineExecutor(hostManager!!).execute(KvmMigrateVirtualMachine(
+		whenever(hostManager.getHypervisor(any<Host>())).thenReturn(hypervisor)
+		KvmMigrateVirtualMachineExecutor(hostManager).execute(KvmMigrateVirtualMachine(
 				vm = vm,
 				source = source,
 				target = target
 		                                                                          ))
 
-		Mockito.verify(hypervisor!!).migrate(
+		verify(hypervisor).migrate(
 				vm = Matchers.eq(vm) ?: vm,
-				source = Matchers.eq(source) ?: source,
-		        target = Matchers.eq(target) ?: target
+				source = eq(source),
+		        target = eq(target)
 		                                   )
 	}
 }

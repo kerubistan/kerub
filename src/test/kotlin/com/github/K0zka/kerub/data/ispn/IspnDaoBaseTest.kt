@@ -14,17 +14,14 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class IspnDaoBaseTest {
 
-	val auditManager = mock<AuditManager>()
-
-	class TestEntity : Entity<String>{
+	class TestEntity : Entity<String> {
 		override var id: String = "TEST"
 	}
 
-	class TestDao (cache :Cache<String, TestEntity>, eventListener : EventListener, auditManager: AuditManager)
-		: ListableIspnDaoBase<TestEntity, String>(cache, eventListener, auditManager) {
+	class TestDao(cache: Cache<String, TestEntity>, eventListener: EventListener, auditManager: AuditManager)
+	: ListableIspnDaoBase<TestEntity, String>(cache, eventListener, auditManager) {
 		override fun getEntityClass(): Class<TestEntity> {
 			return TestEntity::class.java
 		}
@@ -32,16 +29,18 @@ class IspnDaoBaseTest {
 
 	}
 
-	var cacheManager : DefaultCacheManager? = null
-	var cache : Cache<String, TestEntity>? = null
-	var dao  : IspnDaoBase<TestEntity, String>? = null
-	@Mock var eventListener : EventListener? = null
+	var cacheManager: DefaultCacheManager? = null
+	var cache: Cache<String, TestEntity>? = null
+	var dao: IspnDaoBase<TestEntity, String>? = null
+	val eventListener: EventListener = mock()
+	val auditManager = mock<AuditManager>()
+
 
 	@Before fun setup() {
 		cacheManager = DefaultCacheManager()
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
-		dao = TestDao(cache!!, eventListener!!, auditManager)
+		dao = TestDao(cache!!, eventListener, auditManager)
 	}
 
 	@After

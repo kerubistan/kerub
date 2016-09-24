@@ -3,20 +3,17 @@ package com.github.K0zka.kerub.planner.steps.host.powerdown
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.PowerManager
 import com.github.K0zka.kerub.model.Host
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class PowerDownExecutorTest {
 
-	@Mock
-	var hostManager : HostManager? = null
+	val hostManager: HostManager = mock()
 
-	@Mock
-	var powerManager: PowerManager? = null
+	val powerManager: PowerManager = mock()
 
 	val host = Host(
 			address = "host-1.example.com",
@@ -26,11 +23,11 @@ class PowerDownExecutorTest {
 
 	@Test
 	fun execute() {
-		Mockito.`when`(hostManager?.getPowerManager( Mockito.any(Host::class.java) ?: host ))
-			.thenReturn(powerManager)
+		whenever(hostManager.getPowerManager(any<Host>()))
+				.thenReturn(powerManager)
 
-		PowerDownExecutor(hostManager!!).execute(PowerDownHost(host))
+		PowerDownExecutor(hostManager).execute(PowerDownHost(host))
 
-		Mockito.verify(powerManager!!).off()
+		verify(powerManager).off()
 	}
 }

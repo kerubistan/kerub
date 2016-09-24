@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -16,11 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
 
-@RunWith(MockitoJUnitRunner::class)
 class VirtualMachineDynamicDaoImplTest {
 
-	@Mock
-	var eventListener: EventListener? = null
+	val eventListener: EventListener = mock()
 
 	var cacheManager: DefaultCacheManager? = null
 	var cache: Cache<UUID, VirtualMachineDynamic>? = null
@@ -32,7 +31,7 @@ class VirtualMachineDynamicDaoImplTest {
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()
-		dao = VirtualMachineDynamicDaoImpl(cache!!, eventListener!!)
+		dao = VirtualMachineDynamicDaoImpl(cache!!, eventListener)
 	}
 
 	@After fun cleanup() {

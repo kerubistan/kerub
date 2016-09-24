@@ -8,6 +8,10 @@ import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.DisplaySettings
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
+import org.hamcrest.CoreMatchers
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -17,13 +21,10 @@ import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class VirtualMachineDynamicServiceImplTest {
 
-	@Mock
-	var dao: VirtualMachineDynamicDao? = null
-	@Mock
-	var vmDao : VirtualMachineDao? = null
+	val dao: VirtualMachineDynamicDao = mock()
+	val vmDao : VirtualMachineDao = mock()
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),
@@ -47,9 +48,15 @@ class VirtualMachineDynamicServiceImplTest {
 
 	@Test
 	fun spiceConnection() {
-		Mockito.`when`(dao!![vm.id]).thenReturn(vmDyn)
-		Mockito.`when`(vmDao!![vm.id]).thenReturn(vm)
+		whenever(dao[vm.id]).thenReturn(vmDyn)
+		whenever(vmDao[vm.id]).thenReturn(vm)
 
-		val result = VirtualMachineDynamicServiceImpl(dao!!, vmDao!!).spiceConnection(vm.id)
+		val result = VirtualMachineDynamicServiceImpl(dao, vmDao).spiceConnection(vm.id)
+		assertThat(result, CoreMatchers.containsString(vmDyn.displaySetting?.hostAddr))
+		assertThat(result, CoreMatchers.containsString(vmDyn.displaySetting?.port?.toString()))
+		assertThat(result, CoreMatchers.containsString(vmDyn.displaySetting?.password))
+
+		verify(dao)[vm.id]
+		verify(vmDao)[vm.id]
 	}
 }
