@@ -69,7 +69,7 @@ class FreeBSD : Distribution {
 
 	override fun handlesVersion(version: Version): Boolean = version.major >= "10"
 
-	override fun detect(session: ClientSession): Boolean = session.execute("uname -s").trim() == "FreeBSD"
+	override fun detect(session: ClientSession): Boolean = session.executeOrDie("uname -s").trim() == "FreeBSD"
 
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
