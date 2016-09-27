@@ -68,6 +68,42 @@ Feature: storage management
 	  | 10      | 2GB        | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 0MB         | disk1,disk2,disk3       |
 	  | 10      | 2GB        | 2GB         | 0MB         | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | disk2,disk3,disk4       |
 
+  # In this story, host-1 can allocate the storage on only two disks, while host-2 needs at least 3
+  # since with the number of disks the risk of data loss rises, the allocation on host-1 is more favorable
+  Scenario: Creating concatenated disk on gvinum disks - less disks is better then more in the concatenated config
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Dist. Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | BSD              | FreeBSD      | 10            |
+	  | host-2.example.com | 2 GB | 2     | 4       | x86_64       | BSD              | FreeBSD      | 10            |
+	And host host-1.example.com gvinum disks are:
+	  | name  | device     | size |
+	  | disk1 | /dev/disk1 | 2GB  |
+	  | disk2 | /dev/disk2 | 2GB  |
+	  | disk3 | /dev/disk3 | 2GB  |
+	  | disk4 | /dev/disk4 | 2GB  |
+	And host host-2.example.com gvinum disks are:
+	  | name  | device     | size |
+	  | disk1 | /dev/disk1 | 2GB  |
+	  | disk2 | /dev/disk2 | 2GB  |
+	  | disk3 | /dev/disk3 | 2GB  |
+	  | disk4 | /dev/disk4 | 2GB  |
+	And host host-1.example.com is Up
+	And host host-2.example.com is Up
+	And gvinum disk disk1 on host host-1.example.com has 2GB free capacity
+	And gvinum disk disk2 on host host-1.example.com has 2GB free capacity
+	And gvinum disk disk3 on host host-1.example.com has 0GB free capacity
+	And gvinum disk disk4 on host host-1.example.com has 0GB free capacity
+	And gvinum disk disk1 on host host-2.example.com has 1GB free capacity
+	And gvinum disk disk2 on host host-2.example.com has 1GB free capacity
+	And gvinum disk disk3 on host host-2.example.com has 1GB free capacity
+	And gvinum disk disk4 on host host-2.example.com has 1GB free capacity
+	And virtual storage devices:
+	  | name          | size | ro    |
+	  | system-disk-1 | 3GB  | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then the virtual disk system-disk-1 must be allocated on host-1.example.com under on the gvinum disks: disk1,disk2
+
+
   Scenario Outline: Share an existing disk with ISCSI on a BSD to start the VM on Linux
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Dist. Version |
