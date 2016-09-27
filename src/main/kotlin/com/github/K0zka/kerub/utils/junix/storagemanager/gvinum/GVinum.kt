@@ -103,7 +103,7 @@ object GVinum {
 					""")
 			disks.forEach {
 				disk ->
-				append("sd length ").append(roundUpKb(disk.value)).append("")
+				append("sd length ").append(roundUpKb(disk.value)).append(" drive ").append(disk.key).append("\n")
 			}
 		}, session = session, volName = volName)
 	}
