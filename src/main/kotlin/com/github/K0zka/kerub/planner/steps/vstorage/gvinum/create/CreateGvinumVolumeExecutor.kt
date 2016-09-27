@@ -4,9 +4,10 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.GvinumStorageCapability
-import com.github.K0zka.kerub.model.dynamic.SimpleGvinumConfiguration
+import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
+import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
@@ -28,6 +29,9 @@ class CreateGvinumVolumeExecutor(
 				)
 		)
 		when(step.config) {
+			is ConcatenatedGvinumConfiguration -> {
+
+			}
 			is SimpleGvinumConfiguration -> {
 				hostDynamicDao.update(step.host.id) {
 					dyn ->
@@ -53,6 +57,13 @@ class CreateGvinumVolumeExecutor(
 		hostCommandExecutor.execute(step.host) {
 			session ->
 			when (step.config) {
+				is ConcatenatedGvinumConfiguration -> {
+					GVinum.createConcatenatedVolume(
+							session = session,
+							volName = step.disk.id.toString(),
+							disks = step.config.disks
+					)
+				}
 				is SimpleGvinumConfiguration -> {
 					val storage = step.host.capabilities?.storageCapabilities?.firstOrNull {
 						it is GvinumStorageCapability && it.id == step.config.diskId

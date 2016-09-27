@@ -22,6 +22,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
@@ -75,6 +76,7 @@ import org.junit.Assert
 import org.mockito.Matchers
 import java.math.BigInteger
 import java.util.UUID
+import kotlin.test.assertTrue
 
 class PlannerDefs {
 
@@ -466,6 +468,18 @@ class PlannerDefs {
 			&& it.volumeGroupName == volumeGroup
 		})
 	}
+
+	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the gvinum disks: (\\S+)")
+	fun checkGvinumConcatenated(storageName: String, hostAddr: String, diskNames: List<String>) {
+		assertTrue { executedPlans.first().steps.any {
+			it is CreateGvinumVolume
+				&& it.disk.name == storageName
+				&& it.host.address == hostAddr
+				&& it.config is ConcatenatedGvinumConfiguration
+		}
+		}
+	}
+
 
 	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the gvinum disk (\\S+)")
 	fun verifyVirtualStorageCreatedOnGvinum(storageName: String, hostAddr: String, diskName: String) {

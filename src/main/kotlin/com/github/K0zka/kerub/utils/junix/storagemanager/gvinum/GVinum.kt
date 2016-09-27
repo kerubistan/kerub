@@ -9,6 +9,7 @@ import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
+import com.github.K0zka.kerub.utils.buildString
 
 object GVinum {
 
@@ -78,19 +79,33 @@ object GVinum {
 		)
 	}
 
-	fun roundUpKb(size: BigInteger) : BigInteger {
+	fun roundUpKb(size: BigInteger): BigInteger {
 		val kbs = size / KB.toBigInteger()
 		return (kbs + BigInteger.ONE)
 	}
 
 	fun createSimpleVolume(session: ClientSession, volName: String, disk: String, size: BigInteger) {
-		val config =
-				createVolume(config =
-				"""
-					volume $volName
-					  plex org concat
-						sd length ${roundUpKb(size)}kb drive $disk
-				""", session = session, volName = volName)
+		createVolume(config =
+		"""
+		volume $volName
+			  plex org concat
+				sd length ${roundUpKb(size)}kb drive $disk
+		""", session = session, volName = volName)
+	}
+
+	fun createConcatenatedVolume(session: ClientSession, volName: String, disks: Map<String, BigInteger>) {
+		createVolume(config =
+		buildString(128 + (disks.size * 64)) {
+			append(
+					"""
+			volume $volName
+			  plex org concat
+					""")
+			disks.forEach {
+				disk ->
+				append("sd length ").append(roundUpKb(disk.value)).append("")
+			}
+		}, session = session, volName = volName)
 	}
 
 	private fun createVolume(config: String, session: ClientSession, volName: String) {

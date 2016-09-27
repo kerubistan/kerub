@@ -10,3 +10,11 @@ fun Collection<BigInteger>.sum(): BigInteger {
 	this.forEach { sum += it }
 	return sum
 }
+
+inline fun <T> Iterable<T>.sumBy(selector: (T) -> BigInteger): BigInteger {
+	var sum = BigInteger.ZERO
+	for (element in this) {
+		sum += selector(element)
+	}
+	return sum
+}

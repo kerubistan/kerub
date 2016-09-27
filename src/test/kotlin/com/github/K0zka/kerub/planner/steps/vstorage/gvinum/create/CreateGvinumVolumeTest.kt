@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.model.dynamic.SimpleGvinumConfiguration
+import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.testHostCapabilities

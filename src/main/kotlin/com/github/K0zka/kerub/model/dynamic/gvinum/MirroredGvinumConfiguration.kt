@@ -1,4 +1,4 @@
-package com.github.K0zka.kerub.model.dynamic
+package com.github.K0zka.kerub.model.dynamic.gvinum
 
 import com.fasterxml.jackson.annotation.JsonTypeName
 

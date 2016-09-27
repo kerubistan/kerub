@@ -40,6 +40,34 @@ Feature: storage management
 	  | Linux | Debian GNU/Linux | 8.6     | tgt                  |
 	  | Linux | Ubuntu           | 14.0.4  | tgt                  |
 
+  Scenario Outline: Create a large disk on multiple gvinum partitions
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Dist. Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | BSD              | FreeBSD      | <version>     |
+	And host host-1.example.com gvinum disks are:
+	  | name  | device     | size          |
+	  | disk1 | /dev/disk1 | <disk-1-size> |
+	  | disk2 | /dev/disk2 | <disk-2-size> |
+	  | disk3 | /dev/disk3 | <disk-3-size> |
+	  | disk4 | /dev/disk4 | <disk-4-size> |
+	And host host-1.example.com is Up
+	And gvinum disk disk1 on host host-1.example.com has <disk-1-free> free capacity
+	And gvinum disk disk2 on host host-1.example.com has <disk-2-free> free capacity
+	And gvinum disk disk3 on host host-1.example.com has <disk-3-free> free capacity
+	And gvinum disk disk4 on host host-1.example.com has <disk-4-free> free capacity
+	And virtual storage devices:
+	  | name          | size         | ro    |
+	  | system-disk-1 | <vdisk-size> | false |
+	When virtual disk system-disk-1 gets an availability expectation
+	Then the virtual disk system-disk-1 must be allocated on host-1.example.com under on the gvinum disks: <disks-csv>
+
+	Examples:
+	  | version | vdisk-size | disk-1-size | disk-1-free | disk-2-size | disk-2-free | disk-3-size | disk-3-free | disk-4-size | disk-4-free | disks-csv               |
+	  | 10      | 7GB        | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | disk1,disk2,disk3,disk4 |
+	  | 10      | 2GB        | 2GB         | 600MB       | 2GB         | 600MB       | 2GB         | 600MB       | 2GB         | 600MB       | disk1,disk2,disk3,disk4 |
+	  | 10      | 2GB        | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 0MB         | disk1,disk2,disk3       |
+	  | 10      | 2GB        | 2GB         | 0MB         | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | disk2,disk3,disk4       |
+
   Scenario Outline: Share an existing disk with ISCSI on a BSD to start the VM on Linux
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Dist. Version |
