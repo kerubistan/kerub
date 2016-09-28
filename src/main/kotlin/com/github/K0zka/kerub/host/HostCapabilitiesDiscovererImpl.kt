@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Fedora
 import com.github.K0zka.kerub.host.distros.Fedora23Plus
 import com.github.K0zka.kerub.host.distros.FreeBSD
+import com.github.K0zka.kerub.host.distros.OpenIndiana
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
@@ -47,6 +48,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				// The BSD's
 				FreeBSD(),
 				UbuntuBSD(),
+				//'UNIX'es
+				OpenIndiana(),
 				//Windows
 				Cygwin())
 	}
