@@ -19,6 +19,12 @@ class SizeTest {
 
 		Assert.assertEquals(1024 * 1024, parseStorageSize("1 mB").toInt())
 		Assert.assertEquals(1024 * 1024, parseStorageSize("1 MB").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1 M").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1M").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1.0M").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1 m").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1m").toInt())
+		Assert.assertEquals(1024 * 1024, parseStorageSize("1.0m").toInt())
 		Assert.assertEquals(1024 * 1024, parseStorageSize("1.0 MB").toInt())
 		Assert.assertEquals(1024 * 1024, parseStorageSize("1.00 MB").toInt())
 		Assert.assertEquals(1024 * 1024, parseStorageSize("1.0 mB").toInt())
@@ -26,6 +32,7 @@ class SizeTest {
 
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1 gB").toInt())
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1 GB").toInt())
+		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1G").toInt())
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1.0 GB").toInt())
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1.00 GB").toInt())
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1.0 GB").toInt())

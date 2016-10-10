@@ -16,9 +16,13 @@ val sizePostfixes = mapOf<String, (BigDecimal) -> BigDecimal>(
 		"BYTE" to { l: BigDecimal -> l },
 		"B" to { l: BigDecimal -> l },
 		"KB" to { l: BigDecimal -> l * KB },
+		"M" to { l: BigDecimal -> l * MB },
 		"MB" to { l: BigDecimal -> l * MB },
+		"G" to { l: BigDecimal -> l * GB },
 		"GB" to { l: BigDecimal -> l * GB },
+		"T" to { l: BigDecimal -> l * TB },
 		"TB" to { l: BigDecimal -> l * TB },
+		"P" to { l: BigDecimal -> l * PB },
 		"PB" to { l: BigDecimal -> l * PB })
 
 val numberRegex = "\\d+(\\.\\d+)?".toRegex()
