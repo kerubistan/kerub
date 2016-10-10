@@ -1,0 +1,3 @@
+NAME   RDONLY  ALLOC    CAP  DEDUP   GUID
+test      off  1.35M     0%  1.00x  14561816953702211935
+zroot     off  1.10G    55%  1.00x  8301913217258522231
