@@ -5,7 +5,7 @@ kerubApp.controller('ExpectationMini', function($scope, $log, size, expectations
 
 	var expLevelToStyle = function(expectationLevel) {
 		switch(expectationLevel) {
-			case 'Hint':
+			case 'Wish':
 				return 'success';
 			case 'Want':
 				return 'info';
