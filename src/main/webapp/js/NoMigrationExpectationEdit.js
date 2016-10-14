@@ -1,5 +1,16 @@
-kerubApp.controller('NoMIgrationExpectationEdit', function($scope, $log) {
+kerubApp.controller('NoMigrationExpectationEdit', function($scope, $log) {
+
+	$scope.expectation = {
+		'@type':'no-migration',
+		'level': 'Wish',
+		'userTimeoutMinutes': 120
+	};
+
+	$scope.init = function(entity) {
+		$scope.entity = entity;
+	}
+
 	$scope.addExpectation = function() {
-		$log.info('add expectation')
+		$scope.entity.expectations.push($scope.expectation);
 	}
 });

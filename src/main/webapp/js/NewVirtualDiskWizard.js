@@ -81,10 +81,6 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		$scope.storageExpectationsOpen = false;
 		$scope.storageExpectationFormOpen = true;
 		$scope.newExpectation = expType;
-	}
-
-	$scope.addExpectation = function() {
-		$log.info('add expectation')
-	}
+	};
 
 }

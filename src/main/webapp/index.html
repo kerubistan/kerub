@@ -38,6 +38,7 @@
 	<script src="js/SearchController.js"></script>
 	<script src="js/VirtualNetworkTab.js"></script>
 	<script src="js/NoMigrationExpectationEdit.js"></script>
+	<script src="js/StorageRedundancyMigrationExpectationEdit.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="css/kerub.css" rel="stylesheet"/>
@@ -221,23 +222,67 @@
 </script>
 
 <script type="text/ng-template" id="expectation-edit-template-buttons">
-	<button type="button" class="btn btn-primary glyphicon glyphicon-ok-sign"
+	<div class="btn-group">
+		<label class="btn {{expectation.level == 'Wish' ? 'btn-success' : 'btn-default'}} fa fa-heart"
+		       ng-model="expectation.level"
+		       uib-btn-radio="'Wish'"></label>
+		<label class="btn {{expectation.level == 'Want' ? 'btn-info' : 'btn-default'}} fa fa-legal"
+		       ng-model="expectation.level"
+		       uib-btn-radio="'Want'"></label>
+		<label class="btn {{expectation.level == 'DealBreaker' ? 'btn-warning' : 'btn-default'}} fa fa-power-off"
+		       ng-model="expectation.level"
+		       uib-btn-radio="'DealBreaker'"></label>
+	</div>
+	<button type="button"
+	        role="button"
+	        class="btn btn-primary glyphicon glyphicon-ok-sign"
+	        ng-click="addExpectation()"
 	        uib-tooltip="Add this expectation"></button>
 	<button type="button" class="btn btn-default glyphicon glyphicon-remove-sign"
 	        uib-tooltip="Scrap this expectation"></button>
 </script>
 
+<script type="text/ng-template" id="storage-redundancy-edit-template">
+	<div class="media" ng-controller="StorageRedundancyMigrationExpectationEdit" ng-init="init(disk)">
+		<div class="media-left">
+			<span class="fa fa-copy expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<p>
+					<div class="input-group">
+						<div class="input-group-addon"><span class="fa fa-copy"></span></div>
+						<input class="form-control input-lg"
+						       placeholder="number of copies"
+						       autofocus
+						       maxlength="1"
+						       width="1"
+						       max="4"
+						       min="2"
+						       tooltip-placement="right"
+						       uib-tooltip="Number of copies"
+						       ng-model="expectation.nrOfCopies"
+						       type="number">
+					</div>
+
+					<span ng-include="'expectation-edit-template-buttons'"></span>
+
+			</div>
+		</div>
+	</div>
+
+</script>
+
 <script type="text/ng-template" id="no-migration-edit-template">
 
-	<div class="media" ng-controller="NoMigrationExpectationEdit">
+	<div class="media" ng-controller="NoMigrationExpectationEdit" ng-init="init(disk)">
 		<div class="media-left">
 			<span class="glyphicon glyphicon-pushpin expectation-big-icon"></span>
 		</div>
 		<div class="media-body">
 			<div class="caption">
 				<p>Please do not migrate this resource!
-					<a href="#" class="btn btn-primary glyphicon glyphicon-ok" ng-click="parent.addExpectation" role="button"></a>
-					<a href="#" class="btn btn-default glyphicon glyphicon-remove" ng-click="" role="button"></a></p>
+					<span ng-include="'expectation-edit-template-buttons'"></span>
 			</div>
 		</div>
 	</div>

@@ -44,7 +44,8 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr" : function(expectation) {
 				return expectation.nrOfCopies;
 			},
-			"virtTypes" : ["virtual-storage"]
+			"virtTypes" : ["virtual-storage"],
+			"template" : "storage-redundancy-edit-template"
 		},
 		"storage-read-perf" : {
 			"icon": 'glyphicon glyphicon-arrow-up',
