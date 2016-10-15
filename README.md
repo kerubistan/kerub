@@ -4,6 +4,7 @@
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-14+-red.svg)](http://freebsd.org)
 [![OpenSUSE](https://img.shields.io/badge/OpenSUSE-13+-green.svg)](http://freebsd.org)
 
+[![build](https://img.shields.io/travis/kerubistan/kerub.svg)](https://travis-ci.org/kerubistan/kerub)
 
 kerub
 =====
