@@ -242,6 +242,37 @@
 	        uib-tooltip="Scrap this expectation"></button>
 </script>
 
+<script type="text/ng-template" id="not-same-host-edit-template">
+	<div class="media" ng-controller="NotSameHostExpectationEdit" ng-init="init(disk)">
+		<div class="media-left">
+			<span class="fa fa-ban expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<p>
+				<div class="input-group">
+					<div class="input-group-addon"><span class="fa fa-cubes"></span></div>
+					<input class="form-control input-lg"
+					       placeholder="virtual machines"
+					       autofocus
+					       maxlength="1"
+					       width="1"
+					       max="4"
+					       min="2"
+					       tooltip-placement="right"
+					       uib-tooltip="Number of copies"
+					       ng-model="otherServer"
+					       type="number">
+				</div>
+
+				<span ng-include="'expectation-edit-template-buttons'"></span>
+
+			</div>
+		</div>
+	</div>
+
+</script>
+
 <script type="text/ng-template" id="storage-redundancy-edit-template">
 	<div class="media" ng-controller="StorageRedundancyMigrationExpectationEdit" ng-init="init(disk)">
 		<div class="media-left">
@@ -501,8 +532,7 @@
                     </div>
 
                 </span>
-                <span ng-if="storageExpectationFormOpen" ng-include="{{newExpectation.template}}">
-
+                <span ng-if="vmExpectationFormOpen" ng-include="newExpectation.template">
                 </span>
 
 

@@ -90,7 +90,8 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr": function(expectation) {
 				return ' TODO ';
 			},
-			"virtTypes" : ["vm"]
+			"virtTypes" : ["vm"],
+			"template" : "not-same-host-edit-template"
 		},
 		"host-system-manufacturer": {
 			"icon": 'fa fa-industry',

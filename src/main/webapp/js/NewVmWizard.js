@@ -37,8 +37,14 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
     	$scope.vm.virtualStorageLinks.push(link);
     };
 
-	$scope.storageExpectationsOpen = false;
-	$scope.storageExpectationFormOpen = false;
+	$scope.openExpectationForm = function(expType) {
+		$scope.vmExpectationsOpen = false;
+		$scope.vmExpectationFormOpen = true;
+		$scope.newExpectation = expType;
+	};
+
+	$scope.vmExpectationsOpen = false;
+	$scope.vmExpectationFormOpen = false;
 	$scope.vmExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vm") } );
 
 }
