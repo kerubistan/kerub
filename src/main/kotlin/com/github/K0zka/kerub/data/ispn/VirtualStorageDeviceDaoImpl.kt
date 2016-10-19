@@ -15,16 +15,8 @@ class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, even
 			field: String,
 			value: String,
 			start: Long,
-			limit: Long): List<VirtualStorageDevice> {
-
-		return Search.getQueryFactory(cache)
-				.from(VirtualStorageDevice::class.java)
-				.startOffset(start)
-				.having(field).like("%${value}%").toBuilder<Query>()
-				.maxResults(limit.toInt()).build()
-				.list<VirtualStorageDevice>() as List<VirtualStorageDevice>
-
-	}
+			limit: Long): List<VirtualStorageDevice> =
+			cache.fieldSearch(VirtualStorageDevice::class, field, value, start, limit)
 
 	override fun getEntityClass(): Class<VirtualStorageDevice> =
 			VirtualStorageDevice::class.java

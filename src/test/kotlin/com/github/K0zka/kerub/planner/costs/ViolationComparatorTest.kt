@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.util.UUID
 import kotlin.test.assertTrue
 
 class ViolationComparatorTest {
@@ -15,7 +16,7 @@ class ViolationComparatorTest {
 		assertTrue {
 			ViolationComparator.compare(
 					Violation(VirtualMachineAvailabilityExpectation(level = ExpectationLevel.DealBreaker)),
-					Violation(NotSameHostExpectation(level = ExpectationLevel.Want, otherVmIds = listOf()))) > 0
+					Violation(NotSameHostExpectation(level = ExpectationLevel.Want, otherVmId = UUID.randomUUID()))) > 0
 		}
 		assertTrue {
 			ViolationComparator.compare(

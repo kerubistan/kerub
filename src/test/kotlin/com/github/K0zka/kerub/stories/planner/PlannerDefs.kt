@@ -73,7 +73,6 @@ import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.Assert
-import org.mockito.Matchers
 import java.math.BigInteger
 import java.util.UUID
 import kotlin.test.assertTrue
@@ -227,7 +226,7 @@ class PlannerDefs {
 			row ->
 			LvmStorageCapability(
 					id = UUID.randomUUID(),
-					physicalVolumes = row[2].split(",").map { it.toSize() },
+					physicalVolumes = row[2].split(",").map(String::toSize),
 					size = row[1].toSize(),
 					volumeGroupName = row[0]
 			)
@@ -634,7 +633,7 @@ class PlannerDefs {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + NotSameHostExpectation(
-							otherVmIds = listOf(otherVm.id)
+							otherVmId = otherVm.id
 					)
 			)
 		})

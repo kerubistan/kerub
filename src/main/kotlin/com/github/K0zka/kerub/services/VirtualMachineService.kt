@@ -15,7 +15,8 @@ import javax.ws.rs.core.MediaType
 @Path("/vm")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@RequiresAuthentication interface VirtualMachineService : RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine> {
+@RequiresAuthentication interface VirtualMachineService
+: RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine>, RestOperations.SimpleSearch<VirtualMachine> {
 	@Path("{id}/start")
 	@POST
 	fun startVm(@PathParam("id") id: UUID)

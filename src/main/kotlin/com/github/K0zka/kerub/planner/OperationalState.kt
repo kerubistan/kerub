@@ -199,8 +199,8 @@ data class OperationalState(
 				return if (host == null) {
 					true
 				} else {
-					val otherVmHosts = expectation.otherVmIds.map { vmHost(it)?.id }
-					!otherVmHosts.contains(host.id)
+					val otherVmHosts =  vmHost(expectation.otherVmId)?.id
+					otherVmHosts != host.id
 				}
 			}
 			is ChassisManufacturerExpectation -> {

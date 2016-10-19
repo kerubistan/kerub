@@ -42,7 +42,7 @@ data class KvmMigrateVirtualMachine(
 				is NoMigrationExpectation ->
 					vmViolations.add(expectation)
 				is NotSameHostExpectation ->
-					if (state.vmsOnHost(target.id).any { expectation.otherVmIds.contains(it.id) }) {
+					if (state.vmsOnHost(target.id).any { expectation.otherVmId == it.id }) {
 						vmViolations.add(expectation)
 					}
 			//TODO: and so on
