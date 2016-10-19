@@ -27,21 +27,22 @@ kerubApp.controller('ExpectationMini', function($scope, $log, size, expectations
 		}
 	};
 
-	var expToDesc = function(expectation) {
-		$log.info('expToDescr');
-		var type = expectation['@type'];
-		if(expectations.hasOwnProperty(type) && expectations[type].hasOwnProperty('shortDescr')) {
-			return expectations[type].shortDescr(expectation);
-		} else {
-			$log.warn('Unknown expectation type', expectation['@type']);
-			return '?';
-		}
-		$log.info('expToDescr -->');
-	};
-
 	$scope.init = function(expectation) {
 		$scope.style = expLevelToStyle(expectation.level)
 		$scope.icon = expToIcon(expectation);
-		$scope.description = expToDesc(expectation);
+		var type = expectation['@type'];
+		if(expectations.hasOwnProperty(type) && expectations[type].hasOwnProperty('shortDescr')) {
+			var descr = expectations[type].shortDescr(expectation);
+			if(typeof descr == 'string') {
+				$scope.description = descr;
+			} else {
+				descr.then(function(result){
+					$scope.description = result;
+				});
+			}
+		} else {
+			$log.warn('Unknown expectation type', expectation['@type']);
+			$scope.description = '?';
+		}
 	}
 });

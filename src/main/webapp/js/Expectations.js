@@ -1,4 +1,4 @@
-kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, size) {
+kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log, $sce, size, $http) {
 	return {
 		"cache-size" : {
 			"icon" : "fa fa-expand",
@@ -88,7 +88,9 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"displayName" : "Not same host",
 			"tooltip" : $sce.trustAsHtml("Run on a <strong>different host</strong> than a set of given VM's"),
 			"shortDescr": function(expectation) {
-				return ' TODO ';
+				return $http.get('s/r/vm/' + expectation.otherVmId).then(function(result) {
+					return result.data.name;
+				});
 			},
 			"virtTypes" : ["vm"],
 			"template" : "not-same-host-edit-template"
@@ -118,7 +120,8 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', function($log, $sce, s
 			"shortDescr": function(expectation) {
 				return expectation.minPowerCords;
 			},
-			"virtTypes" : ["vm"]
+			"virtTypes" : ["vm"],
+			"template" : "site-features-expectation-edit-template"
 		}
 	}
 }]);

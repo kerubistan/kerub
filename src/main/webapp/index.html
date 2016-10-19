@@ -38,6 +38,7 @@
 	<script src="js/SearchController.js"></script>
 	<script src="js/VirtualNetworkTab.js"></script>
 	<script src="js/NoMigrationExpectationEdit.js"></script>
+	<script src="js/NotSameHostExpectationEdit.js"></script>
 	<script src="js/StorageRedundancyMigrationExpectationEdit.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
@@ -242,8 +243,24 @@
 	        uib-tooltip="Scrap this expectation"></button>
 </script>
 
+<script type="text/ng-template" id="site-features-expectation-edit-template">
+	<div class="media" ng-controller="SiteFeaturesExpectationEdit" ng-init="init(vm)">
+		<div class="media-left">
+			<span class="fa fa-ban expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+
+				<span ng-include="'expectation-edit-template-buttons'"></span>
+
+			</div>
+		</div>
+	</div>
+
+</script>
+
 <script type="text/ng-template" id="not-same-host-edit-template">
-	<div class="media" ng-controller="NotSameHostExpectationEdit" ng-init="init(disk)">
+	<div class="media" ng-controller="NotSameHostExpectationEdit" ng-init="init(vm)">
 		<div class="media-left">
 			<span class="fa fa-ban expectation-big-icon"></span>
 		</div>
@@ -252,17 +269,19 @@
 				<p>
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-cubes"></span></div>
-					<input class="form-control input-lg"
-					       placeholder="virtual machines"
-					       autofocus
-					       maxlength="1"
-					       width="1"
-					       max="4"
-					       min="2"
-					       tooltip-placement="right"
-					       uib-tooltip="Number of copies"
-					       ng-model="otherServer"
-					       type="number">
+				<input class="form-control input-lg"
+				       placeholder="virtual machine"
+				       uib-typeahead="result as result.name for result in listVms($viewValue)"
+				       typeahead-template-url="VmSelection.html"
+				       typeahead-editable="false"
+				       typeahead-min-length="2"
+				       typeahead-wait-ms="200"
+				       typeahead-on-select="selectVm()"
+				       ng-model="otherVm"
+				       autofocus
+				       autocomplete="off"
+				       tooltip-placement="right"
+				       uib-tooltip="Number of copies">
 				</div>
 
 				<span ng-include="'expectation-edit-template-buttons'"></span>
@@ -333,6 +352,13 @@
             </span>
 	</a>
 </script>
+
+<script type="text/ng-template" id="VmSelection.html">
+	<span>
+		{{match.model.name}}
+	</span>
+</script>
+
 
 <script type="text/ng-template" id="NewVmWizard.html">
 	<div class="modal-header">
