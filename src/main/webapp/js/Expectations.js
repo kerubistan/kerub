@@ -95,14 +95,15 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"virtTypes" : ["vm"],
 			"template" : "not-same-host-edit-template"
 		},
-		"host-system-manufacturer": {
+		"host-chassis-manufacturer": {
 			"icon": 'fa fa-industry',
 			"displayName" : "Manufacturer expectation",
 			"tooltip" : $sce.trustAsHtml("Run on a host built by <strong>a given manufacturer</strong>"),
 			"shortDescr": function(expectation) {
 				return expectation.manufacturer;
 			},
-			"virtTypes" : ["vm"]
+			"virtTypes" : ["vm"],
+			"template" : "host-chassis-manufacturer-edit-template"
 		},
 		"power-redundancy": {
 			"icon": 'fa fa-plug',
