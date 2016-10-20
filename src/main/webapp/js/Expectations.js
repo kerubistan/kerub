@@ -70,9 +70,10 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"displayName" : "CPU clock frequency",
 			"tooltip" : $sce.trustAsHtml("Expect the VM to run on a host that has at least the given <strong>CPU clock frequency</strong>"),
 			"shortDescr": function(expectation) {
-				return expectation.min + ' Mhz +'
+				return expectation.minimalClockFrequency + ' Mhz +'
 			},
-			"virtTypes" : ["vm"]
+			"virtTypes" : ["vm"],
+			"template" : "cpu-clock-freq-edit-template"
 		},
 		"ram-clock-freq": {
 			"icon": 'glyphicon glyphicon-dashboard',

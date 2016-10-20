@@ -41,6 +41,7 @@
 	<script src="js/NotSameHostExpectationEdit.js"></script>
 	<script src="js/StorageRedundancyMigrationExpectationEdit.js"></script>
 	<script src="js/HostChassisManufacturerExpectationEdit.js"></script>
+	<script src="js/CpuClockFreqExpectationEdit.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="css/kerub.css" rel="stylesheet"/>
@@ -291,6 +292,32 @@
 		</div>
 	</div>
 
+</script>
+
+<script type="text/ng-template" id="cpu-clock-freq-edit-template">
+	<div class="media" ng-controller="CpuClockFreqExpectationEdit" ng-init="init(vm)">
+		<div class="media-left">
+			<span class="glyphicon glyphicon-flash expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<p>
+				<div class="input-group">
+					<div class="input-group-addon"><span class="glyphicon glyphicon-flash"></span></div>
+					<input class="form-control input-lg"
+					       placeholder="Minimal Clock Frequency"
+					       ng-model="expectation.minimalClockFrequency"
+					       autofocus
+					       autocomplete="off">
+
+				</div>
+
+				<span ng-include="'expectation-edit-template-buttons'"></span>
+
+			</div>
+		</div>
+
+	</div>
 </script>
 
 <script type="text/ng-template" id="host-chassis-manufacturer-edit-template">
