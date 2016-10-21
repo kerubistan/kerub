@@ -42,6 +42,7 @@
 	<script src="js/StorageRedundancyMigrationExpectationEdit.js"></script>
 	<script src="js/HostChassisManufacturerExpectationEdit.js"></script>
 	<script src="js/CpuClockFreqExpectationEdit.js"></script>
+	<script src="js/CacheSizeExpectationEdit.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="css/kerub.css" rel="stylesheet"/>
@@ -292,6 +293,31 @@
 		</div>
 	</div>
 
+</script>
+
+<script type="text/ng-template" id="cache-size-edit-template">
+	<div class="media" ng-controller="CacheSizeExpectationEdit" ng-init="init(vm)">
+		<div class="media-left">
+			<span class="glyphicon glyphicon-flash expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<p>
+				<div class="input-group">
+					<div class="input-group-addon"><span class="glyphicon glyphicon-flash"></span></div>
+					<input class="form-control input-lg"
+					       placeholder="Minimal Cache Size"
+					       ng-model="expectation.minL1"
+					       autofocus
+					       autocomplete="off">
+
+				</div>
+
+				<span ng-include="'expectation-edit-template-buttons'"></span>
+
+			</div>
+		</div>
+	</div>
 </script>
 
 <script type="text/ng-template" id="cpu-clock-freq-edit-template">

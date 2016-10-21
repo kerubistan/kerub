@@ -5,9 +5,10 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"displayName" : "Cache size",
 			"tooltip" : $sce.trustAsHtml("Run on a host with at least the given amount of cache in the CPU"),
 			"shortDescr": function(expectation) {
-				return size.humanFriendlySize(expectation.minl1 * 1024) + '+';
+				return size.humanFriendlySize(expectation.minL1) + '+';
 			},
-			"virtTypes" : ["vm"]
+			"virtTypes" : ["vm"],
+			"template" : "cache-size-edit-template"
 		},
 		"ecc-memory" : {
 			"icon" : "fa fa-certificate",
