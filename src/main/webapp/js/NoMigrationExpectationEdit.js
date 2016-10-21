@@ -12,5 +12,6 @@ kerubApp.controller('NoMigrationExpectationEdit', function($scope, $log) {
 
 	$scope.addExpectation = function() {
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 });

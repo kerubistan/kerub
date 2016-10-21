@@ -43,7 +43,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"displayName" : "Redundancy",
 			"tooltip" : $sce.trustAsHtml("Expects that this virtual storage is located on a <strong>redundant storage</strong> for safety"),
 			"shortDescr" : function(expectation) {
-				return expectation.nrOfCopies;
+				return expectation.nrOfCopies + '';
 			},
 			"virtTypes" : ["virtual-storage"],
 			"template" : "storage-redundancy-edit-template"
@@ -112,7 +112,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"displayName" : "Power redundancy",
 			"tooltip" : $sce.trustAsHtml("Run on a host that has <strong>N times redundant power supply</strong>"),
 			"shortDescr": function(expectation) {
-				return expectation.minPowerCords;
+				return expectation.minPowerCords + '';
 			},
 			"virtTypes" : ["vm"]
 		},
@@ -121,7 +121,7 @@ kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log
 			"displayName" : "Site features",
 			"tooltip" : $sce.trustAsHtml("Operate on resources only at <strong>sites with the given features</strong>"),
 			"shortDescr": function(expectation) {
-				return expectation.minPowerCords;
+				return 'TODO';
 			},
 			"virtTypes" : ["vm"],
 			"template" : "site-features-expectation-edit-template"

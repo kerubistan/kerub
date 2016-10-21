@@ -631,6 +631,17 @@
 	                            ng-click='vmExpectationsOpen=!vmExpectationsOpen'>
 		                    <span class="caret"></span>
 	                    </button>
+
+					   <span ng-repeat="expectation in vm.expectations"
+					         ng-controller="ExpectationMini"
+					         ng-init="init(expectation)">
+		                        <span class="label label-{{style}}">
+		                                <span class="{{icon}}"></span>
+		                                {{description}}
+		                        </span>
+		                </span>
+
+
 	                    <ul class="dropdown-menu">
 		                    <li ng-repeat="expType in vmExpectations">
 			                    <a ng-click="openExpectationForm(expType)"
