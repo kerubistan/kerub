@@ -43,6 +43,12 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
 		$scope.newExpectation = expType;
 	};
 
+	$scope.closeExpectationForm = function() {
+		$scope.vmExpectationsOpen = true;
+		$scope.vmExpectationFormOpen = false;
+		$scope.newExpectation = null;
+	};
+
 	$scope.vmExpectationsOpen = false;
 	$scope.vmExpectationFormOpen = false;
 	$scope.vmExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vm") } );

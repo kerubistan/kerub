@@ -14,5 +14,6 @@ kerubApp.controller('StorageRedundancyMigrationExpectationEdit', function($scope
 	$scope.addExpectation = function() {
 		$log.info('add storage-redundancy expectation', $scope.expectation)
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 });

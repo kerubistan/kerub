@@ -23,6 +23,7 @@ kerubApp.controller('HostChassisManufacturerExpectationEdit', function($scope, $
 
 	$scope.addExpectation = function() {
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 
 });

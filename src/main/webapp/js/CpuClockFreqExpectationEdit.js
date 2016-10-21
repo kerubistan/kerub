@@ -12,6 +12,7 @@ kerubApp.controller('CpuClockFreqExpectationEdit', function($scope, $log, $http)
 
 	$scope.addExpectation = function() {
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 
 });

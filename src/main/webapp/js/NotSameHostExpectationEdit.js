@@ -24,6 +24,7 @@ kerubApp.controller('NotSameHostExpectationEdit', function($scope, $log, $http) 
 
 	$scope.addExpectation = function() {
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 
 	$scope.modelOptions = {

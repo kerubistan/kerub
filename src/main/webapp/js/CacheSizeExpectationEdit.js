@@ -13,6 +13,7 @@ kerubApp.controller('CacheSizeExpectationEdit', function($scope, $log, $http, si
 	$scope.addExpectation = function() {
 		$scope.expectation.minL1 = size.toSize($scope.expectation.minL1);
 		$scope.entity.expectations.push($scope.expectation);
+		$scope.closeExpectationForm();
 	}
 
 });

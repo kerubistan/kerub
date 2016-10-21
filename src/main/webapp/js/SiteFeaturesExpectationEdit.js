@@ -13,5 +13,6 @@ kerubApp.controller('SiteFeaturesExpectationEdit', function($scope, $log) {
 	$scope.addExpectation = function() {
 		$log.info('add storage-redundancy expectation', $scope.expectation)
 		$scope.entity.expectations.push($scope.expectation);
-	}
+		$scope.closeExpectationForm();
+	};
 });
