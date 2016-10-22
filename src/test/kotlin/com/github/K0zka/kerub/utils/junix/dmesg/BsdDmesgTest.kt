@@ -31,4 +31,18 @@ class BsdDmesgTest {
 		assertTrue(flags.contains("sse"))
 		assertTrue(flags.contains("sse2"))
 	}
+
+	@Test
+	fun listCpuFlagsWithAmd() {
+		whenever(session.createExecChannel(any())).thenReturn(channelExec)
+		whenever(channelExec.open()).thenReturn(openFuture)
+
+		whenever(channelExec.invertedErr).thenReturn(NullInputStream(0))
+		whenever(channelExec.invertedOut).thenReturn(resource("com/github/K0zka/kerub/utils/junix/dmesg/bsd-dmesg-freebsd10-amd.txt"))
+
+		val flags = BsdDmesg.listCpuFlags(session)
+
+		assertTrue(flags.contains("svm"))
+	}
+
 }
