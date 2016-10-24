@@ -30,6 +30,7 @@ class BsdDmesgTest {
 
 		assertTrue(flags.contains("sse"))
 		assertTrue(flags.contains("sse2"))
+		assertTrue(flags.contains("vmx"))
 	}
 
 	@Test
