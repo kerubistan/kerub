@@ -24,6 +24,12 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
 	return result
 }
 
+fun <T> Collection<T>.containsAny(vararg elems : T) =
+	elems.any {
+		this.contains(it)
+	}
+
+
 fun <K, V> Collection<V>.toMap(key: (V) -> K): Map<K, V> =
 		this.map { key(it) to it }.toMap()
 

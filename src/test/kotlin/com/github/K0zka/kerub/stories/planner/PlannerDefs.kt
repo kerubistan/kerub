@@ -825,4 +825,27 @@ class PlannerDefs {
 		}
 
 	}
+
+	@Given("host (\\S+) CPUs are (\\S+):")
+	fun setHostCpus(addr : String, nrOfCpus : Int, cpuData : DataTable) {
+		val cpus = (1..nrOfCpus).map {
+			ProcessorInformation(
+					manufacturer = cpuData.raw()[1][0],
+					maxSpeedMhz = cpuData.raw()[1][1].toInt(),
+					flags = cpuData.raw()[1][3].split(","),
+					socket = "",
+					version = ""
+			)
+		}
+		hosts = hosts.replace(
+				{it.address == addr},
+				{
+					it.copy(
+							capabilities = it.capabilities!!.copy(
+									cpus = cpus
+							)
+					)
+				}
+		)
+	}
 }

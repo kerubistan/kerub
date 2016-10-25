@@ -11,6 +11,9 @@ Feature: basic planner features
 	  | package  | version |
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host 127.0.0.5 is Up
 	When VM vm1 is started
 	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
@@ -26,6 +29,9 @@ Feature: basic planner features
 	  | package    | version |
 	  | VirtualBox | 2.4.1   |
 	And host 127.0.0.5 is Up
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	When VM vm1 is started
 	Then VM vm1 gets scheduled on host 127.0.0.5 with virtualbox hypervisor
 
@@ -45,6 +51,12 @@ Feature: basic planner features
 	  | package  | version |
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host 127.0.0.6 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	When VM vm1 is started
@@ -66,6 +78,12 @@ Feature: basic planner features
 	  | package  | version |
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host 127.0.0.6 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	When VM vm1 is started
@@ -89,6 +107,12 @@ Feature: basic planner features
 	  | package  | version |
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host 127.0.0.6 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	When VM vm1 is started
 	Then VM vm1 gets scheduled on host 127.0.0.5 with kvm hypervisor
 
@@ -111,6 +135,12 @@ Feature: basic planner features
 	  | libvirt  | 1.2.18  |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host 127.0.0.6 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And vm1 is running on 127.0.0.6
 	When VM vm2 is started
 	Then vm1 will be migrated to 127.0.0.5 as step 1
@@ -127,6 +157,9 @@ Feature: basic planner features
 	  | package  | version |
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host 127.0.0.5 has wake-on-lan power management
 	And host 127.0.0.5 is Down
 	When VM vm1 is started
@@ -148,6 +181,9 @@ Feature: basic planner features
 	  | qemu-kvm | 2.4.1   |
 	  | libvirt  | 1.2.18  |
 	And host 127.0.0.5 is Up
+	And host 127.0.0.5 CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And system-disk-1 is attached to vm1
 	And the virtual disk system-disk-1 is created on 127.0.0.5
 	When VM vm1 is started

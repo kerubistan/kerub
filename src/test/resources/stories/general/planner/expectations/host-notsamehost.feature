@@ -5,6 +5,12 @@ Feature: support not-same-host expectation
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
@@ -24,11 +30,19 @@ Feature: support not-same-host expectation
 	When VM vm1 is started
 	Then VM vm1 gets scheduled on host host1.example.com with kvm hypervisor
 
+
+
   Scenario: the other vm must be migrated to another host to be able to start
 	Given hosts:
 	  | address            | ram    | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host-s.example.com | 2 GB   | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host-b.example.com | 4.5 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host-s.example.com CPUs are 2:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host-b.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm-s | 1 GB   | 1 GB   | 2    | x86_64       |

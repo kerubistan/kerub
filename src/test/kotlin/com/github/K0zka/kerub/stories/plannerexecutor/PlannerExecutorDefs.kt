@@ -77,7 +77,8 @@ class PlannerExecutorDefs {
 									socket = "",
 									version = "",
 									maxSpeedMhz = 3000,
-									voltage = BigDecimal.ZERO
+									voltage = BigDecimal.ZERO,
+									flags = listOf("vmx")
 							)
 					),
 					storageCapabilities = listOf(

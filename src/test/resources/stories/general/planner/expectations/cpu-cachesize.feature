@@ -5,6 +5,12 @@ Feature: support for host cpu cache-size expectation
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host1.example.com manufaturer has 512 KB L1 cache
 	And host1.example.com manufaturer has 1024 KB L2 cache
 	And host2.example.com manufaturer has NO L1 cache
@@ -32,6 +38,15 @@ Feature: support for host cpu cache-size expectation
 	  | host0.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host0.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
  #too few cache
 	And host0.example.com manufaturer has 128 KB L1 cache
 	And host0.example.com manufaturer has 256 KB L2 cache

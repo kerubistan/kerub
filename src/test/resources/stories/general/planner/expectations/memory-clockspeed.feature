@@ -5,6 +5,12 @@ Feature: support for memory clock speed expectation
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
@@ -29,6 +35,12 @@ Feature: support for memory clock speed expectation
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |

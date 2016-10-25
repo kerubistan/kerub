@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vm.start
 
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.collection.HostDataCollection
@@ -8,6 +9,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.K0zka.kerub.utils.containsAny
 
 abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
@@ -49,5 +51,11 @@ abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOpe
 				state.vStorage[link.virtualStorageId]?.dynamic != null
 
 			}
+
+	fun isHwVirtualizationSupported(host: Host) =
+			host.capabilities?.cpus?.all {
+				it.flags.containsAny("svm", "vmx")
+			} ?: false
+
 
 }

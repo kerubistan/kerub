@@ -11,6 +11,12 @@ Feature: storage management
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And host host-1.example.com is Up
 	And host host-2.example.com is Up
+	And host host-1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host-2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And software installed on host host-2.example.com:
 	  | package                | version |
 	  | qemu-kvm               | 2.4.1   |
@@ -44,6 +50,9 @@ Feature: storage management
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Dist. Version |
 	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | BSD              | FreeBSD      | <version>     |
+	And host host-1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host host-1.example.com gvinum disks are:
 	  | name  | device     | size          |
 	  | disk1 | /dev/disk1 | <disk-1-size> |
@@ -114,6 +123,12 @@ Feature: storage management
 	  | test | /dev/test | 1 TB |
 	And host host-1.example.com is Up
 	And host host-2.example.com is Up
+	And host host-1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host-2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And software installed on host host-2.example.com:
 	  | package                | version |
 	  | qemu-kvm               | 2.4.1   |
@@ -152,6 +167,12 @@ Feature: storage management
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And host host-1.example.com is Up
 	And host host-2.example.com is Up
+	And host host-1.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host-2.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And software installed on host host-1.example.com:
 	  | package                | version |
 	  | qemu-kvm               | 2.4.1   |

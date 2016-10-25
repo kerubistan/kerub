@@ -10,7 +10,11 @@ import com.github.K0zka.kerub.utils.times
 
 object VirtualBoxStartVirtualMachineFactory : AbstractStartVmFactory<VirtualBoxStartVirtualMachine>() {
 	override fun produce(state: OperationalState): List<VirtualBoxStartVirtualMachine> =
-			(getVmsToStart(state) * getWorkingHosts(state) { hostData -> isVirtualBoxInstalled(hostData.stat) }.toList()).filter {
+			(getVmsToStart(state) * getWorkingHosts(state) {
+				hostData ->
+					isVirtualBoxInstalled(hostData.stat)
+					&& isHwVirtualizationSupported(hostData.stat)
+			}.toList()).filter {
 				val vm = it.first
 				val host = it.second.stat
 				match(

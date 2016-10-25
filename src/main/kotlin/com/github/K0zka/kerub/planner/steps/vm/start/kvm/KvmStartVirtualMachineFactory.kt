@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vm.match
 import com.github.K0zka.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
+import com.github.K0zka.kerub.utils.containsAny
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 
@@ -18,6 +19,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 				getWorkingHosts(state) {
 					hostData ->
 					hostData.stat.capabilities?.os == OperatingSystem.Linux
+							&& isHwVirtualizationSupported(hostData.stat)
 							&& isKvmInstalled(hostData.stat)
 							&& match(hostData.stat, hostData.dynamic, vm, storageAllocationMap(state, vm.virtualStorageLinks))
 				}.map {

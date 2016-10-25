@@ -36,7 +36,7 @@ class KvmStartVirtualMachineFactoryTest {
 					        coreCount = 2,
 			                threadCount = 4,
 			                maxSpeedMhz = 3000,
-			                flags = listOf(),
+			                flags = listOf("vmx"),
 			                manufacturer = "TEST",
 			                version = "TEST CPU",
 			                socket = "",

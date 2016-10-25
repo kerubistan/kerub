@@ -11,6 +11,12 @@ Feature: "No migration" expectation
 	  | address                | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
 	  | host-big.example.com   | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host-small.example.com | 3 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	And host host-big.example.com CPUs are 4:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
+	And host host-small.example.com CPUs are 1:
+	  | Manufacturer | Mhz  | Name       | Flags       |
+	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And VMs:
 	  | name      | MinRam | MaxRam | CPUs | Architecture |
 	  | vm-sticky | 2 GB   | 2 GB   | 1    | x86_64       |
