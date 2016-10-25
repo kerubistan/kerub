@@ -19,6 +19,7 @@ import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
+import com.github.K0zka.kerub.utils.junix.dmesg.BsdDmesg
 import com.github.K0zka.kerub.utils.junix.ifconfig.IfConfig
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.K0zka.kerub.utils.junix.vmstat.BsdVmStat
@@ -128,6 +129,9 @@ class FreeBSD : Distribution {
 		val cpuType = cpuTypeByOS(session)
 		return cpuTypeMap[cpuType] ?: cpuType
 	}
+
+	override fun detectHostCpuFlags(session: ClientSession): List<String>
+			= BsdDmesg.listCpuFlags(session)
 
 	private fun cpuTypeByOS(session: ClientSession): String {
 		val processorType = session.execute("uname -p").trim()

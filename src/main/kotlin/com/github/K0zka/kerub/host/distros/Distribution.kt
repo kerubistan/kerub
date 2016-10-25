@@ -66,6 +66,8 @@ interface Distribution {
 
 	fun detectHostCpuType(session: ClientSession) : String
 
+	fun detectHostCpuFlags(session: ClientSession) : List<String> = listOf()
+
 	fun getTotalMemory(session: ClientSession) : BigInteger
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {

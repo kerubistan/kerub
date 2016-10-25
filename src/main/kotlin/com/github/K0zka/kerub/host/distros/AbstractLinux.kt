@@ -24,6 +24,7 @@ import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.junix.mpstat.MPStat
+import com.github.K0zka.kerub.utils.junix.procfs.CpuInfo
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
@@ -186,6 +187,9 @@ abstract class AbstractLinux : Distribution {
 			return processorType
 		}
 	}
+
+	override fun detectHostCpuFlags(session: ClientSession): List<String>
+			= CpuInfo.list(session).first().flags
 
 	override fun getHostOs() : OperatingSystem = OperatingSystem.Linux
 }

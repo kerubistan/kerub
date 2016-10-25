@@ -66,6 +66,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
+		val osDetectedFlags = distro.detectHostCpuFlags(session)
 		val hardwareInfo = systemInfo.values
 		return HostCapabilities(
 				os = distro.getHostOs(),
@@ -75,7 +76,11 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				totalMemory = distro.getTotalMemory(session) ?: BigInteger.ZERO,
 				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
-				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class),
+				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class).map {
+					it.copy(
+							flags = (it.flags + osDetectedFlags).toSet().toList()
+					)
+				},
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
