@@ -8,6 +8,6 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class VirtualNetworkDaoImpl(cache: Cache<UUID, VirtualNetwork>, eventListener: EventListener, auditManager: AuditManager)
-: ListableIspnDaoBase<VirtualNetwork, UUID>(cache, eventListener, auditManager), VirtualNetworkDao {
+: AbstractAssetDao<VirtualNetwork>(cache, eventListener, auditManager), VirtualNetworkDao {
 	override fun getEntityClass(): Class<VirtualNetwork> = VirtualNetwork::class.java
 }

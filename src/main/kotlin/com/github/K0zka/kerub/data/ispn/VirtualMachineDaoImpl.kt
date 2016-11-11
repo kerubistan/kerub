@@ -8,7 +8,7 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class VirtualMachineDaoImpl(cache: Cache<UUID, VirtualMachine>, eventListener: EventListener, auditManager: AuditManager)
-: VirtualMachineDao, ListableIspnDaoBase<VirtualMachine, UUID>(cache, eventListener, auditManager) {
+: VirtualMachineDao, AbstractAssetDao<VirtualMachine>(cache, eventListener, auditManager) {
 
 	override fun fieldSearch(field: String, value: String, start: Long, limit: Long): List<VirtualMachine> =
 			cache.fieldSearch(VirtualMachine::class, field, value, start, limit)

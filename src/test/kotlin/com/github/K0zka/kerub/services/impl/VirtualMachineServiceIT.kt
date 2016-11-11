@@ -23,10 +23,10 @@ class VirtualMachineServiceIT {
 		val loginService = createServiceClient(LoginService::class, client)
 		loginService.login(LoginService.UsernamePassword(
 				username = "admin",
-		        password = "password"
-		                                                                                    ))
+				password = "password"
+		))
 
-		val vmService = createServiceClient( VirtualMachineService::class, client )
+		val vmService = createServiceClient(VirtualMachineService::class, client)
 
 		val vmToSave = VirtualMachine(
 				id = UUID.randomUUID(),
@@ -34,34 +34,34 @@ class VirtualMachineServiceIT {
 				memory = Range<BigInteger>(
 						min = BigInteger("1024"),
 						max = BigInteger("2048")
-				                     ),
+				),
 				nrOfCpus = 1,
 				expectations = listOf(
 						ClockFrequencyExpectation(
 								level = ExpectationLevel.DealBreaker,
 								minimalClockFrequency = 1700
-						                         ),
+						),
 						MemoryClockFrequencyExpectation(
 
 								level = ExpectationLevel.Want,
 								min = 1700
-						                               ),
+						),
 						CacheSizeExpectation(
 								level = ExpectationLevel.Wish,
 								minL1 = "1024 KB".toSize().toLong()
-						                    )
-				                     )
-		                                   )
+						)
+				)
+		)
 		vmService.add(
 				vmToSave
-		             )
+		)
 
 		val saved = vmService.getById(vmToSave.id)
 		Assert.assertEquals(vmToSave, saved)
 
 		val update = vmToSave.copy(
 				nrOfCpus = 2
-		                           )
+		)
 		vmService.update(update.id, update)
 		val updated = vmService.getById(update.id)
 		Assert.assertEquals(update, updated)

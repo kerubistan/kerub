@@ -35,11 +35,6 @@ class ControllerServiceSecurityIT {
 	}
 
 	@Test
-	fun checkPowerUser() {
-		check("poweruser", false)
-	}
-
-	@Test
 	fun checkUser() {
 		check("user", false)
 	}

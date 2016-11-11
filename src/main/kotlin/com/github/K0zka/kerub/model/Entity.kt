@@ -11,6 +11,7 @@ import java.io.Serializable
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
+		JsonSubTypes.Type(Account::class),
 		JsonSubTypes.Type(Host::class),
 		JsonSubTypes.Type(HostDynamic::class),
 		JsonSubTypes.Type(VirtualMachine::class),

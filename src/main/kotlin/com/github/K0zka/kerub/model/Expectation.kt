@@ -23,6 +23,7 @@ import com.github.K0zka.kerub.model.expectations.StorageRedundancyExpectation
 import com.github.K0zka.kerub.model.expectations.StorageWritePerformanceExpectation
 import com.github.K0zka.kerub.model.expectations.SystemManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.model.expectations.VmDependency
 import java.io.Serializable
 
 /**
@@ -51,7 +52,8 @@ import java.io.Serializable
 		JsonSubTypes.Type(CacheSizeExpectation::class),
 		JsonSubTypes.Type(SystemManufacturerExpectation::class),
 		JsonSubTypes.Type(SiteFeaturesExpectation::class),
-		JsonSubTypes.Type(StorageAvailabilityExpectation::class)
+		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
+		JsonSubTypes.Type(VmDependency::class)
 )
 interface Expectation : Serializable {
 	val level: ExpectationLevel

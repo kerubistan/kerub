@@ -3,6 +3,7 @@ package com.github.K0zka.kerub
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.github.K0zka.kerub.exceptions.mappers.RestError
+import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
@@ -18,7 +19,6 @@ val testWsUrl = "ws://localhost:${System.getProperty("kerub.it.port") ?: "8080"}
 
 val testUsers = mapOf(
 		"admin" to ("admin" to "password"),
-		"poweruser" to ("poweruser" to "password"),
 		"user" to ("enduser" to "password")
 		)
 
@@ -30,6 +30,18 @@ class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionM
 		throw RestException(entity.message!!,entity.code!!, r.status, r)
 	}
 }
+
+fun WebClient.login(username: String = "admin", password: String = "password") {
+	this.runRestAction(LoginService::class) {
+		it.login(
+				LoginService.UsernamePassword(username, password)
+		)
+	}
+}
+
+fun <X : Any, Y : Any> WebClient.runRestAction(clientClass: KClass<X>, action: (X) -> Y) =
+	action(JAXRSClientFactory.fromClient(this, clientClass.java))
+
 
 fun createClient() : WebClient {
 	val objectMapper = createObjectMapper()

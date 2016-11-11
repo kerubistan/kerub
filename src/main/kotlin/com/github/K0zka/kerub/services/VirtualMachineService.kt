@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.services
 
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.wordnik.swagger.annotations.Api
+import com.wordnik.swagger.annotations.ApiOperation
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
 import javax.ws.rs.Consumes
@@ -17,10 +18,13 @@ import javax.ws.rs.core.MediaType
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication interface VirtualMachineService
 : RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine>, RestOperations.SimpleSearch<VirtualMachine> {
+
+	@ApiOperation(value = "start a virtual machine", notes = "Changes vm-availability expectation to ON on the VM")
 	@Path("{id}/start")
 	@POST
 	fun startVm(@PathParam("id") id: UUID)
 
+	@ApiOperation(value = "stop a virtual machine", notes = "Changes vm-availability expectation to OFF on the VM")
 	@Path("{id}/stop")
 	@POST
 	fun stopVm(@PathParam("id") id: UUID)

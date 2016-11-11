@@ -13,9 +13,7 @@ import java.util.UUID
 interface AuditEntry : Entity<UUID> {
 	val date: Long
 	val user: String?
-	@Field(analyze = Analyze.NO)
-	@JsonIgnore
-	fun getIdStr() : String
+	val idStr: String
 }
 
 

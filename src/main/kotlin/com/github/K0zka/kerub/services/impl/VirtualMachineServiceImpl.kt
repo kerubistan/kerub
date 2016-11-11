@@ -4,13 +4,16 @@ import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualMachineService
 import java.util.UUID
 
 class VirtualMachineServiceImpl(
-		dao: VirtualMachineDao
-) : ListableBaseService<VirtualMachine>(dao, "vm"),
+		dao: VirtualMachineDao,
+		accessController: AccessController
+) : AbstractAssetService<VirtualMachine>(accessController, dao, "vm"),
 		VirtualMachineService {
+
 
 	override fun startVm(id: UUID) {
 		doWithVm(id, {

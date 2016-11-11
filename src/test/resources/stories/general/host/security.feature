@@ -14,10 +14,6 @@ Feature: Host Management Security
         | list   | enduser    | 403    |
         | remove | enduser    | 403    |
         | update | enduser    | 403    |
-        | join   | poweruser  | 403    |
-        | list   | poweruser  | 403    |
-        | remove | poweruser  | 403    |
-        | update | poweruser  | 403    |
 
     #well, some were removed and checked in actual integration tests
     Examples: Legal actions

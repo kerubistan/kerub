@@ -28,7 +28,7 @@ class AuditEntryDaoImpl(protected val cache: AdvancedCache<UUID, AuditEntry>) : 
 
 	private fun criteria(builder: QueryBuilder<*>, id: UUID): List<AuditEntry> =
 			builder
-					.having("idStr").eq(id.toString()).toBuilder<Query>()
+					.having(AuditEntry::idStr.name).eq(id.toString()).toBuilder<Query>()
 					.build()!!
 					.list<AuditEntry>()
 }

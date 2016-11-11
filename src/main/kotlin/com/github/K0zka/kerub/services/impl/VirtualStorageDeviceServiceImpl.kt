@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.scp.ScpTimestamp
@@ -20,11 +21,18 @@ import javax.ws.rs.container.AsyncResponse
 
 class VirtualStorageDeviceServiceImpl(
 		dao: VirtualStorageDeviceDao,
+		accessController: AccessController,
 		private val dynDao: VirtualStorageDeviceDynamicDao,
 		private val hostDao: HostDao,
 		private val executor: HostCommandExecutor
 ) : VirtualStorageDeviceService,
-		ListableBaseService<VirtualStorageDevice>(dao, "virtual disk") {
+		AbstractAssetService<VirtualStorageDevice>(accessController, dao, "virtual disk") {
+
+	override fun add(entity: VirtualStorageDevice): VirtualStorageDevice {
+		return accessController.checkAndDo(asset = entity) {
+			super.add(entity)
+		} ?: entity
+	}
 
 	override fun load(id: UUID, async: AsyncResponse, data: InputStream) {
 		val device = getById(id)

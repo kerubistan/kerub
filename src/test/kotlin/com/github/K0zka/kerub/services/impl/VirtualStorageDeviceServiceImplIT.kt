@@ -18,6 +18,7 @@ class VirtualStorageDeviceServiceImplIT {
 	@Test
 	fun crud() {
 		val client = createClient()
+		setAccountsRequired(false)
 		val vsd = createServiceClient(VirtualStorageDeviceService::class, client)
 		val loginClient = createServiceClient(LoginService::class, client)
 		loginClient.login(LoginService.UsernamePassword(username = "admin", password = "password"))

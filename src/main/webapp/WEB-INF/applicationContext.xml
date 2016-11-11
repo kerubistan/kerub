@@ -26,6 +26,18 @@
 
 	<bean id="cache" abstract="true" factory-bean="cacheManager" factory-method="getCache"/>
 
+	<bean id="controllerConfigCache" parent="cache">
+		<constructor-arg value="controllerConfigCache"/>
+	</bean>
+
+	<bean id="accountCache" parent="cache">
+		<constructor-arg value="accountCache"/>
+	</bean>
+
+	<bean id="accountMembershipCache" parent="cache">
+		<constructor-arg value="accountMembershipCache"/>
+	</bean>
+
 	<bean id="vmCache" parent="cache">
 		<constructor-arg value="vmCache"/>
 	</bean>
@@ -83,6 +95,29 @@
 	-->
 
 	<bean id="daoBase" abstract="true">
+	</bean>
+
+	<bean id="controllerConfigDao" class="com.github.K0zka.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">
+		<constructor-arg ref="controllerConfigCache"/>
+		<constructor-arg ref="auditManager"/>
+	</bean>
+
+	<bean id="accountDao" class="com.github.K0zka.kerub.data.ispn.AccountDaoImpl" parent="daoBase">
+		<constructor-arg ref="accountCache"/>
+		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
+	</bean>
+
+	<bean id="accountMembershipDao" class="com.github.K0zka.kerub.data.ispn.AccountMembershipDaoImpl" parent="daoBase">
+		<constructor-arg ref="accountMembershipCache"/>
+		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
+	</bean>
+
+	<bean id="projectMembershipDao" class="com.github.K0zka.kerub.data.ispn.ProjectMembershipDaoImpl" parent="daoBase">
+		<constructor-arg ref="accountMembershipCache"/>
+		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
 	</bean>
 
 	<bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
@@ -162,6 +197,19 @@
 	<!--
 	Managers
 	-->
+
+	<bean id="assetValidator" class="com.github.K0zka.kerub.security.ValidatorImpl">
+		<constructor-arg ref="vmDao"/>
+		<constructor-arg ref="vNetDao"/>
+		<constructor-arg ref="virtualStorageDeviceDao"/>
+	</bean>
+
+	<bean id="accessController" class="com.github.K0zka.kerub.security.AccessControllerImpl">
+		<constructor-arg ref="controllerConfigDao"/>
+		<constructor-arg ref="accountMembershipDao"/>
+		<constructor-arg ref="projectMembershipDao"/>
+		<constructor-arg ref="assetValidator"/>
+	</bean>
 
 	<bean
 			id="auditManager"
@@ -420,10 +468,22 @@
 			<bean class="com.github.K0zka.kerub.exceptions.mappers.DefaultExceptionMapper"/>
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
+			<bean id="controllerConfig" class="com.github.K0zka.kerub.services.impl.ControllerConfigServiceImpl">
+				<constructor-arg ref="controllerConfigDao"/>
+			</bean>
+			<bean id="accounts" class="com.github.K0zka.kerub.services.impl.AccountServiceImpl">
+				<constructor-arg ref="accountDao"/>
+				<constructor-arg ref="accessController"/>
+			</bean>
+			<bean id="accountMemberships" class="com.github.K0zka.kerub.services.impl.AccountMembershipServiceImpl">
+				<constructor-arg ref="accountMembershipDao"/>
+			</bean>
 			<bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
 				<constructor-arg ref="vmDao"/>
+				<constructor-arg ref="accessController"/>
 			</bean>
 			<bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
+				<constructor-arg ref="accessController"/>
 				<constructor-arg ref="vNetDao"/>
 			</bean>
 			<bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
@@ -432,6 +492,7 @@
 			</bean>
 			<bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
 				<constructor-arg ref="virtualStorageDeviceDao"/>
+				<constructor-arg ref="accessController"/>
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 				<constructor-arg ref="hostDao"/>
 				<constructor-arg ref="hostManager"/>
@@ -481,7 +542,6 @@ This instance seems to be running in dev/eval mode.
 You can log in with the following users (see **shiro.ini**):
 
 * admin/password
-* poweruser/password
 * enduser/password
 
 You can edit the 'motd' of kerub in the configuration.

@@ -1,14 +1,18 @@
 package com.github.K0zka.kerub.services.impl
 
 import com.github.K0zka.kerub.data.VirtualMachineDao
+import com.github.K0zka.kerub.model.Asset
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.K0zka.kerub.security.AccessController
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.assertEquals
+import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.invocation.InvocationOnMock
@@ -20,6 +24,7 @@ class VirtualMachineServiceImplTest {
 	val notExistingId = UUID.randomUUID()
 
 	val dao: VirtualMachineDao = mock()
+	val accessController: AccessController = mock()
 
 	@Test
 	fun startVm() {
@@ -34,11 +39,13 @@ class VirtualMachineServiceImplTest {
 	}
 
 	private fun checkStartVm(vm: VirtualMachine) {
+		whenever(accessController.doAndCheck(any<() -> Asset>())).then { (it.arguments[0] as () -> Asset).invoke() }
+		whenever(accessController.checkAndDo(any(), any<() -> Asset?>())).then { (it.arguments[1] as () -> Asset).invoke() }
 		whenever(dao.get(eq(existingId))).thenReturn(vm)
 		doAnswer {
 			checkExpectation(it, true)
 		}.whenever(dao).update(Mockito.any<VirtualMachine>() ?: vm)
-		VirtualMachineServiceImpl(dao).startVm(existingId)
+		VirtualMachineServiceImpl(dao, accessController).startVm(existingId)
 	}
 
 	private fun checkExpectation(invocation: InvocationOnMock, expected: Boolean) {
@@ -53,11 +60,13 @@ class VirtualMachineServiceImplTest {
 	}
 
 	private fun checkStopVm(vm: VirtualMachine) {
+		whenever(accessController.doAndCheck(any<() -> Asset>())).then { (it.arguments[0] as () -> Asset).invoke() }
+		whenever(accessController.checkAndDo(any(), any<() -> Asset?>())).then { (it.arguments[1] as () -> Asset).invoke() }
 		whenever(dao.get(eq(existingId) ?: existingId)).thenReturn(vm)
 		doAnswer {
 			checkExpectation(it, true)
 		}.`when`(dao).update(Mockito.any<VirtualMachine>() ?: vm)
-		VirtualMachineServiceImpl(dao).startVm(existingId)
+		VirtualMachineServiceImpl(dao, accessController).startVm(existingId)
 	}
 
 	@Test

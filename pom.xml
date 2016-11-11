@@ -80,6 +80,11 @@
 			<version>${angularjs.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-bootstrap-nav-tree-gildo</artifactId>
+			<version>0.1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>angular-ui-bootstrap</artifactId>
 			<version>${angular-bootstrap.version}</version>

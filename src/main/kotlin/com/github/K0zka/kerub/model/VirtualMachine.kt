@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.K0zka.kerub.model.expectations.VirtualMachineExpectation
+import com.github.K0zka.kerub.model.expectations.VirtualMachineReference
 import com.github.K0zka.kerub.model.views.Detailed
 import com.github.K0zka.kerub.model.views.Simple
+import com.github.K0zka.kerub.utils.join
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
 import java.math.BigInteger
 import java.util.UUID
+import kotlin.reflect.KClass
 
 /**
  * A virtual machine.
@@ -29,7 +32,7 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Simple::class)
 		@JsonProperty("name")
-		val name: String,
+		override val name: String,
 		/**
 		 * The number of vCPUs of the VM.
 		 */
@@ -58,7 +61,21 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Detailed::class)
 		@JsonProperty("virtualStorageLinks")
-		val virtualStorageLinks: List<VirtualStorageLink> = listOf()
+		val virtualStorageLinks: List<VirtualStorageLink> = listOf(),
+
+		@Field
+		@JsonView(Simple::class)
+		@JsonProperty("owner")
+		override val owner: AssetOwner? = null
 )
-: Entity<UUID>, Constrained<VirtualMachineExpectation>
+: Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
+	override fun references(): Map<KClass<*>, List<UUID>> =
+			mapOf(
+					VirtualMachine::class to expectations
+							.filter { it is VirtualMachineReference }
+							.map { (it as VirtualMachineReference).referredVmIds }
+							.join(),
+					VirtualStorageDevice::class to virtualStorageLinks.map { it.virtualStorageId }
+			)
+}
 

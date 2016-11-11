@@ -17,6 +17,33 @@
 		<distributed-cache name="default" statistics="true">
 			<indexing auto-config="true"/>
 		</distributed-cache>
+
+		<replicated-cache name="controllerConfigCache" statistics="true">
+			<persistence>
+				<file-store path="${store.dir}/store/controller/cfg"/>
+			</persistence>
+		</replicated-cache>
+
+		<distributed-cache name="accountCache" statistics="true" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/accounts"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="accountMembershipCache" statistics="true" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/account-memberships"/>
+			</persistence>
+			<indexing auto-config="true" index="LOCAL"/>
+		</distributed-cache>
+
+		<distributed-cache name="projectMembershipCache" statistics="true" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/base/project-memberships"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+
 		<distributed-cache name="hostCache" statistics="true" owners="${stat.owners}">
 			<persistence>
 				<file-store path="${store.dir}/store/base/hosts"/>

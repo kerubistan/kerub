@@ -44,5 +44,4 @@ Feature: Authentication and authorization on the rest api
     Examples:
       | user      | password   |
       | admin     | password   |
-      | poweruser | password   |
       | enduser   | password   |

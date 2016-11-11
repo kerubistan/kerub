@@ -24,6 +24,9 @@ import java.util.UUID
 		override
 		@Field
 		@JsonProperty("expectations")
-		val expectations: List<Expectation> = listOf()
+		val expectations: List<Expectation> = listOf(),
+		@Field
+		@JsonProperty("quota")
+		val quota : Quota? = null
 )
 : Entity<UUID>, Named, Constrained<Expectation>
