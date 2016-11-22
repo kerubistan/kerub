@@ -46,7 +46,7 @@ Feature: Accounts
 	And user enduser is able to create virtual network under account EugeneCuckoo Inc
 	And user enduser is able to create virtual disk under account EugeneCuckoo Inc
 
-  Scenario: Accounts
+  Scenario: Users in different accounts
 	Given accounts:
 	  | name              |
 	  | EugeneCuckoo Inc  |

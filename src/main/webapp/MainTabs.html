@@ -156,7 +156,7 @@
 			   <ul uib-pagination total-items="virtualDisks.total" ng-model="currentPage" ng-change="refresh()" previous-text="&laquo;" next-text="&raquo;"></ul>
 			</span>
 		</uib-tab>
-		<uib-tab>
+		<uib-tab ng-if="isAdmin()">
 			<uib-tab-heading>
 				<i class="fa fa-server"></i> Hosts
 			</uib-tab-heading>
