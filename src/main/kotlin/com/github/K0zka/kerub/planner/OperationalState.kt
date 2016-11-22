@@ -124,7 +124,7 @@ data class OperationalState(
 			}
 			is NotSameStorageExpectation -> {
 				val diskDyn = vStorage[virtualStorage.id]?.dynamic
-				return diskDyn == null || expectation.otherDiskIds.any {
+				return diskDyn == null || expectation.otherDiskId.let {
 					otherVdiskId ->
 					val otherDiskDyn = vStorage[otherVdiskId]?.dynamic
 					if (otherDiskDyn == null) {

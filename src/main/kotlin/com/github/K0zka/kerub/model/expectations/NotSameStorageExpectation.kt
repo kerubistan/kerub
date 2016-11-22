@@ -8,9 +8,9 @@ import java.util.UUID
 @JsonTypeName("not-same-storage")
 data class NotSameStorageExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
-		val otherDiskIds: List<UUID>
+		val otherDiskId: UUID
 ) : VirtualStorageExpectation, VirtualStorageDeviceReference {
 	override val virtualStorageDeviceReferences: List<UUID>
 		@JsonIgnore
-		get() = otherDiskIds
+		get() = listOf(otherDiskId)
 }

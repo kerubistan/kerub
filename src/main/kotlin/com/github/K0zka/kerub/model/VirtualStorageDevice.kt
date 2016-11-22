@@ -38,11 +38,13 @@ VirtualStorageDevice(
 
 )
 : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset {
-	override fun references(): Map<KClass<*>, List<UUID>> =
-			mapOf(
-					VirtualStorageDevice::class to expectations
-							.filter { it is VirtualStorageDeviceReference }
-							.map { (it as VirtualStorageDeviceReference).virtualStorageDeviceReferences }
-							.join()
-			)
+	override fun references(): Map<KClass<*>, List<UUID>> {
+		val mapOf: Map<KClass<*>, List<UUID>> = mapOf(
+				VirtualStorageDevice::class to expectations
+						.filter { it is VirtualStorageDeviceReference }
+						.map { (it as VirtualStorageDeviceReference).virtualStorageDeviceReferences }
+						.join()
+		)
+		return mapOf.filter { it.value.isNotEmpty() }
+	}
 }

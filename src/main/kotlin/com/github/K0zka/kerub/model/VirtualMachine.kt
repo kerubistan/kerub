@@ -76,6 +76,6 @@ data class VirtualMachine constructor(
 							.map { (it as VirtualMachineReference).referredVmIds }
 							.join(),
 					VirtualStorageDevice::class to virtualStorageLinks.map { it.virtualStorageId }
-			)
+			).filter { it.value.isNotEmpty() }
 }
 

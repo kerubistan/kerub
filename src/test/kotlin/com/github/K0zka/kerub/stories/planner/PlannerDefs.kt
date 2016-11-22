@@ -734,7 +734,7 @@ class PlannerDefs {
 			vdisk.copy(
 					expectations = vdisk.expectations + NotSameStorageExpectation(
 							level = ExpectationLevel.DealBreaker,
-							otherDiskIds = listOf(againstDisk.id)
+							otherDiskId = againstDisk.id
 					)
 			)
 		})
