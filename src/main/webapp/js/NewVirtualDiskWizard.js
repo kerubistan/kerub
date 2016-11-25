@@ -1,6 +1,4 @@
 var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession, uuid4, size, expectations, FileUploader) {
-	$log.info('file uploader', FileUploader);
-
 	var id = uuid4.generate();
 
 	$scope.uploader = new FileUploader( {
@@ -16,7 +14,6 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		size : size.toSize('16 GB'),
 		readOnly : false,
 		userFriendlySize : function(newSize) {
-			$log.debug(newSize);
 			if(newSize) {
 				$scope.disk.size = size.toSize(newSize);
 			}
@@ -30,7 +27,6 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 	};
 
 	$scope.uploader.onAfterAddingFile = function(item) {
-		$log.info('file added', item.file.name, item.file.size);
 		if($scope.autoname) {
 			$scope.disk.name = item.file.name
 		}

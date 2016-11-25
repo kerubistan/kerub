@@ -29,6 +29,7 @@
 	<script src="js/NewVirtualDiskWizard.js"></script>
 	<script src="js/NewVirtualNetworkWizard.js"></script>
 	<script src="js/NewVmWizard.js"></script>
+	<script src="js/NewAccountWizard.js"></script>
 	<script src="js/HostDetails.js"></script>
 	<script src="js/HostRowController.js"></script>
 	<script src="js/MainTabs.js"></script>
@@ -45,6 +46,7 @@
 	<script src="js/CpuClockFreqExpectationEdit.js"></script>
 	<script src="js/CacheSizeExpectationEdit.js"></script>
 	<script src="js/Settings.js"></script>
+	<script src="js/AccountsAdmin.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="webjars/angular-bootstrap-toggle-switch/0.5.6/style/bootstrap3/angular-toggle-switch-bootstrap-3.css" rel="stylesheet"/>
@@ -821,6 +823,62 @@
 	</div>
 
 </script>
+
+<script type="text/ng-template" id="CreateAccount.html">
+	<div class="modal-header">
+		<h3 class="modal-title">
+			<span class="fa fa-credit-card"></span> New Account</h3>
+	</div>
+
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-barcode"></span>
+		</div>
+		<input
+				ng-model="account.id"
+				readonly
+				disabled
+				class="form-control"
+				placeholder="ID">
+	</div>
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-tag"></span>
+		</div>
+		<input
+				ng-model="account.name"
+				class="form-control"
+				placeholder="Name">
+	</div>
+
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-code"></span> Projects
+		</div>
+		<toggle-switch ng-model="account.requireProjects" on-label="required" off-label="optional"></toggle-switch>
+	</div>
+
+	<div class="modal-footer">
+		<button
+				type="button"
+				ng-click="addAccount()"
+				class="btn btn-primary glyphicon glyphicon-ok-sign"
+				uib-tooltip="Create the account"
+				tooltip-placement="top">
+		</button>
+		<button
+				type="button"
+				class="btn btn-primary glyphicon glyphicon-remove"
+				ng-click="close()"
+				ng-disabled="inprg"
+				uib-tooltip="Cancel"
+				tooltip-placement="top">
+		</button>
+	</div>
+
+</script>
+
+
 <script type="text/ng-template" id="HostDetails.html">
 	<div class="modal-header">
 		<h3 class="modal-title">
