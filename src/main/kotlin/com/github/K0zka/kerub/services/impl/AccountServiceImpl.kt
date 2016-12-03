@@ -2,16 +2,20 @@ package com.github.K0zka.kerub.services.impl
 
 import com.github.K0zka.kerub.data.AccountDao
 import com.github.K0zka.kerub.model.Account
+import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.AccountService
 import java.util.UUID
 
 class AccountServiceImpl(
-		dao: AccountDao,
+		override val dao: AccountDao,
 		private val accessController: AccessController
-) : ListableBaseService<Account>(dao, "account"), AccountService {
+) : ListableBaseService<Account>("account"), AccountService {
 
-	override fun getById(id: UUID): Account {
-		return accessController.doAsAccountMember(id) { super.getById(id) }
+	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<Account> {
+		TODO()
 	}
+
+	override fun getById(id: UUID): Account =
+		accessController.doAsAccountMember(id) { super.getById(id) }
 }

@@ -1,0 +1,74 @@
+package com.github.K0zka.kerub.services
+
+import com.github.K0zka.kerub.model.Asset
+import com.github.K0zka.kerub.model.AssetOwnerType
+import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.model.paging.SortResultPage
+import com.wordnik.swagger.annotations.ApiOperation
+import com.wordnik.swagger.annotations.ApiParam
+import org.apache.shiro.authz.annotation.RequiresAuthentication
+import java.util.UUID
+import javax.ws.rs.DefaultValue
+import javax.ws.rs.GET
+import javax.ws.rs.Path
+import javax.ws.rs.QueryParam
+
+interface AssetService<T : Asset> {
+	@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
+	@GET
+	@Path("/{ownerType}/ownerId/")
+	@RequiresAuthentication
+	fun listByOwner(@ApiParam("First returned entity", defaultValue = "0", required = false)
+					 @QueryParam("start")
+					 @DefaultValue("0") start: Long,
+
+					@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
+					 @QueryParam("limit")
+					 @DefaultValue("20") limit: Int,
+
+					@ApiParam("Property name to sort by", defaultValue = "id", required = false)
+					 @QueryParam("sort")
+					 @DefaultValue("id") sort: String,
+
+					@ApiParam("Type of the owner (account/project)", required = false)
+					 @QueryParam("ownerType")
+					 ownerType: AssetOwnerType,
+
+					@ApiParam("ID of the owner", defaultValue = "id", required = false)
+					 @QueryParam("ownerType")
+					 ownerId: UUID
+
+	): SortResultPage<T>
+
+	@ApiOperation("Search objects within the account/project", notes = "The actual list will be filtered by security")
+	@GET
+	@Path("/search/{ownerType}/{ownerId}")
+	@RequiresAuthentication
+	fun search(
+			@ApiParam("Name of the field to search by", defaultValue = "0", required = false)
+			@QueryParam("field")
+			field: String,
+
+			@ApiParam("Value of the field to search for", defaultValue = "0", required = false)
+			@QueryParam("value")
+			value: String,
+
+			@ApiParam("First returned entity", defaultValue = "0", required = false)
+			@QueryParam("start")
+			@DefaultValue("0") start: Long = 0,
+
+			@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
+			@QueryParam("limit")
+			@DefaultValue("20") limit: Int = 20,
+
+			@ApiParam("Type of the owner (account/project)", required = false)
+			@QueryParam("ownerType")
+			ownerType: AssetOwnerType,
+
+			@ApiParam("ID of the owner", defaultValue = "id", required = false)
+			@QueryParam("ownerType")
+			ownerId: UUID
+
+	): SearchResultPage<T>
+
+}

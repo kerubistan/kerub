@@ -99,7 +99,7 @@ interface RestOperations {
 					@DefaultValue("0") start: Long,
 					@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
 					@QueryParam("limit")
-					@DefaultValue("20") limit: Long,
+					@DefaultValue("20") limit: Int,
 					@ApiParam("Property name to sort by", defaultValue = "id", required = false)
 					@QueryParam("sort")
 					@DefaultValue("id") sort: String
@@ -107,7 +107,7 @@ interface RestOperations {
 	}
 
 	interface SimpleSearch<T> {
-		@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
+		@ApiOperation("Search objects based on a field name and a value", notes = "The actual result is filterd by security")
 		@GET
 		@Path("/search")
 		@RequiresAuthentication
@@ -127,7 +127,7 @@ interface RestOperations {
 
 				@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
 				@QueryParam("limit")
-				@DefaultValue("20") limit: Long = 20
+				@DefaultValue("20") limit: Int = 20
 		): SearchResultPage<T>
 	}
 }

@@ -51,7 +51,7 @@ interface DaoOperations {
 		 */
 		fun list(
 				start: Long = 0,
-				limit: Long = java.lang.Long.MAX_VALUE,
+				limit: Int = Int.MAX_VALUE,
 				sort: String = "id"): List<T>
 	}
 
@@ -68,7 +68,7 @@ interface DaoOperations {
 				field: String,
 				value: String,
 				start: Long = 0,
-				limit: Long = java.lang.Long.MAX_VALUE
+				limit: Int = Int.MAX_VALUE
 		): List<T>
 	}
 

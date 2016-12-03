@@ -10,10 +10,10 @@ import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.services.HostService
 
 class HostServiceImpl(
-		dao: HostDao,
+		override val dao: HostDao,
 		private val manager: HostManager,
 		private val sshClientService: SshClientService)
-: ListableBaseService<Host>(dao, "host"), HostService {
+: ListableBaseService<Host>("host"), HostService {
 
 	override fun getPubkey(): String
 			= sshClientService.getPublicKey()

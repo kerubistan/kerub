@@ -11,9 +11,6 @@ import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 import kotlin.test.assertEquals
 
@@ -64,4 +61,5 @@ class VirtualMachineDynamicDaoImplTest {
 		assertEquals(dao!!.findByHostId(host1Id), listOf(dyn1))
 		assertEquals(dao!!.findByHostId(host2Id), listOf(dyn2))
 	}
+
 }

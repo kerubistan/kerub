@@ -1,6 +1,9 @@
 package com.github.K0zka.kerub.security
 
+import com.github.K0zka.kerub.data.AssetDao
 import com.github.K0zka.kerub.model.Asset
+import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.model.paging.SortResultPage
 import java.util.UUID
 
 interface AccessController {
@@ -19,4 +22,23 @@ interface AccessController {
 	 * Use for reading records by ID, etc.
 	 */
 	fun <T : Asset> doAndCheck(action: () -> T?): T?
+
+	/**
+	 *
+	 */
+	fun <T : Asset> listWithFilter(dao: AssetDao<T>,
+								   start: Long = 0,
+								   limit: Int = Int.MAX_VALUE,
+								   sort: String = "id"): SortResultPage<T>
+
+	/**
+	 *
+	 */
+	fun <T : Asset> searchWithFilter(
+			dao : AssetDao<T>,
+			field: String,
+			value: String,
+			start: Long = 0,
+			limit: Int = Int.MAX_VALUE
+	) : SearchResultPage<T>
 }

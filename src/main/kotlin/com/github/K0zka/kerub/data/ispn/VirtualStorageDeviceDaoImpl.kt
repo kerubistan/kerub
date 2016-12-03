@@ -9,14 +9,6 @@ import java.util.UUID
 
 class VirtualStorageDeviceDaoImpl(cache: Cache<UUID, VirtualStorageDevice>, eventListener: EventListener, auditManager: AuditManager)
 : VirtualStorageDeviceDao, AbstractAssetDao<VirtualStorageDevice>(cache, eventListener, auditManager) {
-
-	override fun fieldSearch(
-			field: String,
-			value: String,
-			start: Long,
-			limit: Long): List<VirtualStorageDevice> =
-			cache.fieldSearch(VirtualStorageDevice::class, field, value, start, limit)
-
 	override fun getEntityClass(): Class<VirtualStorageDevice> =
 			VirtualStorageDevice::class.java
 }

@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
+import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualMachineService
 import java.util.UUID
@@ -42,10 +43,10 @@ class VirtualMachineServiceImpl(
 		update(id, action(getById(id)))
 	}
 
-	override fun search(field: String, value: String, start: Long, limit: Long): SearchResultPage<VirtualMachine> {
+	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<VirtualMachine> {
 		val list = (dao as VirtualMachineDao).fieldSearch(field, value, start, limit)
 		return SearchResultPage(
-				start = start,
+				start = start.toLong(),
 				count = list.size.toLong(),
 				result = list,
 				total = dao.count().toLong(),

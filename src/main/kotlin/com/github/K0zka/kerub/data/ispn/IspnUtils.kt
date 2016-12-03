@@ -12,6 +12,11 @@ fun <T> FilterConditionContext.list(): List<T> =
 				.build()
 				.list<T>()
 
+fun <T> QueryBuilder<*>.list(): List<T> =
+		this
+				.build()
+				.list<T>()
+
 fun <T : Any, K, V> Cache<K, V>.queryBuilder(clazz : KClass<T>) :QueryBuilder<Query> =
 		Search.getQueryFactory(this)
 				.from(clazz.java)
@@ -21,11 +26,10 @@ fun <K, V : Any> Cache<K, V>.fieldSearch(
 		field: String,
 		value: String,
 		start: Long,
-		limit: Long): List<V> =
+		limit: Int): List<V> =
 
 		this.queryBuilder(type)
 				.startOffset(start)
-				.having(field).like("%${value}%").toBuilder<Query>()
-				.maxResults(limit.toInt()).build()
-				.list<V>() as List<V>
-
+				.maxResults(limit)
+				.having(field).like("%${value}%")
+				.list()

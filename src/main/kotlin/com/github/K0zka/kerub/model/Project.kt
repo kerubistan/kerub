@@ -20,7 +20,7 @@ import java.util.UUID
 		val description: String,
 		@Field
 		@JsonProperty("created")
-		val created: Date,
+		val created: Long = System.currentTimeMillis(),
 		override
 		@Field
 		@JsonProperty("expectations")

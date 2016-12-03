@@ -231,7 +231,12 @@
 					<tbody>
 						<tr>
 							<td><span class="fa fa-briefcase"></span> Accounts required</td>
-							<td><toggle-switch ng-model="config.accountsRequired"></toggle-switch></td>
+							<td><toggle-switch
+									ng-model="config.accountsRequired"
+									html="true"
+									knob-label="<i class='fa fa-briefcase'></i>"
+									on-label="<i class='fa fa-lock'></i>"
+									off-label="<i class='fa fa-unlock'></i>"></toggle-switch></td>
 						</tr>
 						<tr>
 							<td><span class="fa fa-plug"></span> Power management enabled</td>

@@ -25,7 +25,7 @@ class InterControllerImplTest {
 		val message = EntityAddMessage(
 				obj = Project(
 						id = UUID.randomUUID(),
-						created = Date(),
+						created = System.currentTimeMillis(),
 						description = "",
 						expectations = listOf(),
 						name = "test"
@@ -44,7 +44,7 @@ class InterControllerImplTest {
 		interControllerImpl!!.broadcast(EntityAddMessage(
 				obj = Project(
 						id = UUID.randomUUID(),
-						created = Date(),
+						created = System.currentTimeMillis(),
 						description = "",
 						expectations = listOf(),
 						name = "test"

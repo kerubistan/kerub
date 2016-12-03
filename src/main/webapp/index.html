@@ -30,6 +30,7 @@
 	<script src="js/NewVirtualNetworkWizard.js"></script>
 	<script src="js/NewVmWizard.js"></script>
 	<script src="js/NewAccountWizard.js"></script>
+	<script src="js/NewProjectWizard.js"></script>
 	<script src="js/HostDetails.js"></script>
 	<script src="js/HostRowController.js"></script>
 	<script src="js/MainTabs.js"></script>
@@ -855,7 +856,77 @@
 		<div class="input-group-addon">
 			<span class="fa fa-code"></span> Projects
 		</div>
-		<toggle-switch ng-model="account.requireProjects" on-label="required" off-label="optional"></toggle-switch>
+		<toggle-switch ng-model="account.requireProjects" html="true" on-label="<i class='fa fa-lock'></i>" off-label="<i class='fa fa-unlock'></i>"></toggle-switch>
+	</div>
+
+	<div class="modal-footer">
+		<button
+				type="button"
+				ng-click="addAccount()"
+				class="btn btn-primary glyphicon glyphicon-ok-sign"
+				uib-tooltip="Create the account"
+				tooltip-placement="top">
+		</button>
+		<button
+				type="button"
+				class="btn btn-primary glyphicon glyphicon-remove"
+				ng-click="close()"
+				ng-disabled="inprg"
+				uib-tooltip="Cancel"
+				tooltip-placement="top">
+		</button>
+	</div>
+
+</script>
+
+<script type="text/ng-template" id="CreateProject.html">
+	<div class="modal-header">
+		<h3 class="modal-title">
+			<span class="fa fa-code"></span> New Project</h3>
+	</div>
+
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-barcode"></span>
+		</div>
+		<input
+				ng-model="project.id"
+				readonly
+				disabled
+				class="form-control"
+				placeholder="ID">
+	</div>
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-tag"></span>
+		</div>
+		<input
+				ng-model="project.name"
+				class="form-control"
+				placeholder="Name">
+	</div>
+
+	<div class="input-group">
+		<div class="input-group-addon">
+			<span class="fa fa-credit-card"></span>
+		</div>
+		<input class="form-control input-lg"
+		       placeholder="account"
+		       uib-typeahead="result as result.name for result in listAccounts($viewValue)"
+		       typeahead-template-url="AccountSelection.html"
+		       typeahead-editable="false"
+		       typeahead-min-length="2"
+		       typeahead-wait-ms="200"
+		       typeahead-on-select="selectVm()"
+		       ng-model="otherVm"
+		       autofocus
+		       autocomplete="off"
+		       tooltip-placement="right"
+		       uib-tooltip="Number of copies">
+	</div>
+
+	<div class="input-group">
+		<textarea ng-bind="project.description"></textarea>
 	</div>
 
 	<div class="modal-footer">

@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
 class VirtualNetwork(
 		override val id: UUID,
 		override val expectations: List<VirtualNetworkExpectation> = listOf(),
-		val name: String,
+		override val name: String,
 
 		@Field
 		@JsonView(Simple::class)

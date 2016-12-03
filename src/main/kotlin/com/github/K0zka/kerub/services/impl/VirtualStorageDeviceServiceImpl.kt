@@ -81,12 +81,12 @@ class VirtualStorageDeviceServiceImpl(
 		)
 	}
 
-	override fun search(field: String, value: String, start: Long, limit: Long): SearchResultPage<VirtualStorageDevice> {
+	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<VirtualStorageDevice> {
 		val list = (dao as VirtualStorageDeviceDao).fieldSearch(
 				field = field,
 				value = value,
 				start = start,
-				limit = limit
+				limit = limit.toInt()
 		)
 		return SearchResultPage(
 				start = start,

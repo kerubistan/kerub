@@ -1,19 +1,52 @@
 package com.github.K0zka.kerub.services.impl
 
-import com.github.K0zka.kerub.data.ListableCrudDao
+import com.github.K0zka.kerub.data.AssetDao
 import com.github.K0zka.kerub.model.Asset
-import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.AssetOwner
+import com.github.K0zka.kerub.model.AssetOwnerType
+import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.security.AccessController
-import com.github.K0zka.kerub.security.admin
-import org.apache.shiro.SecurityUtils.getSubject
+import com.github.K0zka.kerub.services.AssetService
 import java.util.UUID
 
 abstract class AbstractAssetService<T : Asset>(
 		val accessController: AccessController,
-		dao: ListableCrudDao<T, UUID>,
+		override val dao: AssetDao<T>,
 		entityType: String
-) : ListableBaseService<T>(dao, entityType) {
+) : ListableBaseService<T>(entityType), AssetService<T> {
+
+	override fun listByOwner(start: Long, limit: Int, sort: String, ownerType: AssetOwnerType, ownerId: UUID): SortResultPage<T> {
+		val list = dao.listByOwner(
+				owner = AssetOwner(ownerId, ownerType),
+				start = start,
+				limit = limit,
+				sort = sort
+		)
+		return SortResultPage(
+				start = start,
+				count = list.size.toLong(),
+				result = list,
+				sortBy = sort,
+				total = list.size.toLong() //TODO
+		)
+	}
+
+	override fun search(field: String, value: String, start: Long, limit: Int, ownerType: AssetOwnerType, ownerId: UUID): SearchResultPage<T> {
+		val list = dao.fieldSearch(
+				setOf(AssetOwner(ownerId, ownerType)),
+				field,
+				value
+		)
+		return SearchResultPage(
+				start = start,
+				count = list.size.toLong(),
+				result = list,
+				total = list.size.toLong(), //TODO
+				searchby = field
+		)
+	}
+
 
 	override fun getById(id: UUID): T =
 			assertExist(entityType, accessController.doAndCheck() {
@@ -37,10 +70,7 @@ abstract class AbstractAssetService<T : Asset>(
 		} ?: entity
 	}
 
-	override fun listAll(start: Long, limit: Long, sort: String): SortResultPage<T> {
-		if (getSubject().hasRole(admin)) {
-
-		}
-		return super.listAll(start, limit, sort)
+	override fun listAll(start: Long, limit: Int, sort: String): SortResultPage<T> {
+		return accessController.listWithFilter(dao, start, limit, sort)
 	}
 }

@@ -10,6 +10,12 @@ import java.util.UUID
 class ProjectMembershipDaoImpl(cache: Cache<UUID, ProjectMembership>,
 							   eventListener: EventListener,
 							   auditManager: AuditManager) : ProjectmembershipDao, ListableIspnDaoBase<ProjectMembership, UUID>(cache, eventListener, auditManager) {
+
+	override fun listByUsername(userName: String): List<ProjectMembership> =
+			cache.queryBuilder(ProjectMembership::class)
+					.having(ProjectMembership::user.name).eq(userName)
+					.list<ProjectMembership>()
+
 	override fun getEntityClass(): Class<ProjectMembership> =
 			ProjectMembership::class.java
 }

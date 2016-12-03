@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.data.DaoOperations
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.Entity
 import org.infinispan.Cache
-import org.infinispan.query.Search
 import org.infinispan.query.dsl.SortOrder
 
 abstract class ListableIspnDaoBase<T : Entity<I>, I>(
@@ -26,14 +25,14 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 
 	override fun remove(id: I) {
 		val entity = get(id)
-		if(entity != null) {
+		if (entity != null) {
 			remove(entity)
 		}
 	}
 
 	override fun update(entity: T) {
 		val old = get(entity.id)
-		if(old != null) {
+		if (old != null) {
 			auditManager.auditUpdate(old, entity)
 		} else {
 			auditManager.auditAdd(entity)
@@ -56,13 +55,11 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 
 	abstract fun getEntityClass(): Class<T>
 
-	override fun list(start: Long, limit: Long, sort: String): List<T> {
-		return Search.getQueryFactory(cache)
-				.from(getEntityClass())
-				.orderBy(sort, SortOrder.DESC)
-				.maxResults(limit.toInt())
+	override fun list(start: Long, limit: Int, sort: String): List<T> {
+		return cache.queryBuilder(getEntityClass().kotlin)
+				.maxResults(limit)
 				.startOffset(start)
-				.build()
-				.list<T>() as List<T>
+				.orderBy(sort, SortOrder.DESC)
+				.list()
 	}
 }

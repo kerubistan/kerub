@@ -4,10 +4,12 @@ import com.github.K0zka.kerub.data.AccountMembershipDao
 import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.data.ProjectmembershipDao
 import com.github.K0zka.kerub.expect
+import com.github.K0zka.kerub.model.AccountMembership
 import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.ProjectMembership
 import com.github.K0zka.kerub.model.VirtualNetwork
 import com.github.K0zka.kerub.testVm
 import com.nhaarman.mockito_kotlin.any
@@ -22,11 +24,11 @@ import org.apache.shiro.subject.Subject
 import org.apache.shiro.util.ThreadContext
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class AccessControllerImplTest {
 
@@ -204,4 +206,24 @@ class AccessControllerImplTest {
 		verify(callback).invoke()
 	}
 
+	@Test
+	fun memberships() {
+		val accountMembership = AccountMembership(user = "test", groupId = UUID.randomUUID(), id = UUID.randomUUID())
+		whenever(accountMembershipDao.listByUsername(eq("test")))
+				.thenReturn(listOf(
+						accountMembership
+				))
+		val projectMembership = ProjectMembership(user = "test", groupId = UUID.randomUUID(), id = UUID.randomUUID(), quota = null)
+		whenever(projectmembershipDao.listByUsername(eq("test")))
+				.thenReturn(listOf(
+						projectMembership
+				))
+
+		val memberships = AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator)
+				.memberships("test")
+
+		assertEquals(2, memberships.size)
+		assertTrue(memberships.any { it.ownerId == accountMembership.groupId && it.ownerType == AssetOwnerType.account })
+		assertTrue(memberships.any { it.ownerId == projectMembership.groupId && it.ownerType == AssetOwnerType.project })
+	}
 }

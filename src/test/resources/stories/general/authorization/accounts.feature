@@ -1,6 +1,6 @@
 Feature: Accounts
 
-  Scenario: Accounts required feature enabled
+  Scenario: Accounts required feature enabled, user is not member
 	Given accounts:
 	  | name             |
 	  | EugeneCuckoo Inc |
@@ -34,6 +34,53 @@ Feature: Accounts
 	And User enduser is not able to see virtual network net-1
 	And User enduser is not able to see virtual network net-1
 	And User enduser is not able to see virtual network net-1
+	And User enduser is not able to subscribe vm vm-1
+	And User enduser is not able to subscribe virtual disk disk-1
+	And User enduser is not able to subscribe virtual network net-1
+	And User enduser is not able to search vm vm-1
+	And User enduser is not able to search virtual disk disk-1
+	And User enduser is not able to search virtual network net-1
+
+  Scenario: Accounts required feature enabled, user is member
+	Given accounts:
+	  | name             |
+	  | EugeneCuckoo Inc |
+	And Accounts are required
+	And User enduser is member of EugeneCuckoo Inc
+	And There are VMs defined:
+	  | name | account          |
+	  | vm-1 | EugeneCuckoo Inc |
+	And There are disks defined:
+	  | name   | account          |
+	  | disk-1 | EugeneCuckoo Inc |
+	And There are networks defined:
+	  | name  | account          |
+	  | net-1 | EugeneCuckoo Inc |
+	Then User enduser is able to see the account EugeneCuckoo Inc
+	And User enduser is not able to create vm outside of accounts
+	And User enduser is able to see vm vm-1
+	And User enduser is able to list vm vm-1
+	And User enduser is able to update vm vm-1
+	And User enduser is able to start vm vm-1
+	And User enduser is able to stop vm vm-1
+	And User enduser is able to remove vm vm-1
+	And User enduser is not able to create virtual disk outside of accounts
+	And User enduser is able to see virtual disk disk-1
+	And User enduser is able to list virtual disk disk-1
+	And User enduser is able to update virtual disk disk-1
+	#And User enduser is able to upload virtual disk disk-1
+	And User enduser is able to remove virtual disk disk-1
+	And User enduser is not able to create virtual network outside of accounts
+	And User enduser is able to see virtual network net-1
+	And User enduser is able to list virtual network net-1
+	And User enduser is able to update virtual network net-1
+	And User enduser is able to remove virtual network net-1
+	And User enduser is able to subscribe vm vm-1
+	And User enduser is able to subscribe virtual disk disk-1
+	And User enduser is able to subscribe virtual network net-1
+	And User enduser is able to search vm vm-1
+	And User enduser is able to search virtual disk disk-1
+	And User enduser is able to search virtual network net-1
 
   Scenario: Accounts required feature enabled, user can create vms in the account he is member of
 	Given accounts:

@@ -19,9 +19,9 @@ class GlobalOperationalStateBuilderImpl(
 
 ) : OperationalStateBuilder {
 	override fun buildState(): OperationalState {
-		val hosts = hostDao.list(start = 0, limit = Int.MAX_VALUE.toLong())
-		val vms = vmDao.list(start = 0, limit = Int.MAX_VALUE.toLong())
-		val vDisks = virtualStorageDao.list(start = 0, limit = Int.MAX_VALUE.toLong())
+		val hosts = hostDao.list(start = 0, limit = Int.MAX_VALUE)
+		val vms = vmDao.list(start = 0, limit = Int.MAX_VALUE)
+		val vDisks = virtualStorageDao.list(start = 0, limit = Int.MAX_VALUE)
 		return OperationalState.fromLists(
 				hosts = hosts,
 				hostDyns = hosts.map { hostDyn[it.id] }.filterNotNull(),

@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/accounts")
 @RequiresAuthentication
-interface AccountService : RestCrud<Account>, RestOperations.List<Account> {
+interface AccountService : RestCrud<Account>, RestOperations.List<Account>, RestOperations.SimpleSearch<Account> {
 
 	@ApiOperation(value = "Create account")
 	@PUT

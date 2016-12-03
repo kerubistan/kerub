@@ -8,6 +8,13 @@ kerubApp.controller('AccountsAdmin', function($scope, appsession, $uibModal) {
 		});
 	};
 
+	$scope.openNewProjectDialog = function() {
+		$uibModal.open({
+			templateUrl : 'CreateProject.html',
+			controller : NewProjectWizard
+		});
+	};
+
 	$scope.refresh = function() {
 		appsession.get('s/r/accounts').success(function(result) {
 			$scope.accounts = result;

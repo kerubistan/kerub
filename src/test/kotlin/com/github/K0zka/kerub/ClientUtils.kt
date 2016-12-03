@@ -31,13 +31,13 @@ class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionM
 	}
 }
 
-fun WebClient.login(username: String = "admin", password: String = "password") {
+fun WebClient.login(username: String = "admin", password: String = "password") : Response =
 	this.runRestAction(LoginService::class) {
 		it.login(
 				LoginService.UsernamePassword(username, password)
 		)
+		WebClient.client(it).response
 	}
-}
 
 fun <X : Any, Y : Any> WebClient.runRestAction(clientClass: KClass<X>, action: (X) -> Y) =
 	action(JAXRSClientFactory.fromClient(this, clientClass.java))
@@ -48,7 +48,7 @@ fun createClient() : WebClient {
 	val client = WebClient.create(getServiceBaseUrl(), listOf(JacksonJsonProvider(objectMapper), RestExceptionHandler(objectMapper)), true)
 	WebClient.getConfig(client).requestContext.put(
 			org.apache.cxf.message.Message.MAINTAIN_SESSION, true)
-	return client;
+	return client
 }
 
 fun <T : Any> createServiceClient(serviceClass : KClass<T>, client : WebClient = createClient()) : T =
