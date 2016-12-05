@@ -7,7 +7,9 @@ import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.testVm
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -17,6 +19,7 @@ import org.junit.Before
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertFalse
+import kotlin.test.assertNull
 
 class VirtualMachineDaoImplTest {
 
@@ -38,6 +41,21 @@ class VirtualMachineDaoImplTest {
 
 	@After fun cleanup() {
 		cacheManager?.stop()
+	}
+
+	@Test
+	fun remove() {
+		val vm1 = testVm.copy(
+				name = "test-vm-1",
+				id = UUID.randomUUID()
+		)
+		dao!!.add(
+				vm1
+		)
+		dao!!.remove(vm1.id)
+
+		assertNull(dao!![vm1.id])
+		verify(auditManager).auditDelete(any())
 	}
 
 	@Test
