@@ -16,6 +16,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertFalse
 
 class VirtualMachineDaoImplTest {
 
@@ -37,6 +38,46 @@ class VirtualMachineDaoImplTest {
 
 	@After fun cleanup() {
 		cacheManager?.stop()
+	}
+
+	@Test
+	fun fieldSearchWithOwners() {
+		val owner1 = AssetOwner(
+				ownerId = UUID.randomUUID(),
+				ownerType = AssetOwnerType.account
+		)
+		val owner2 = AssetOwner(
+				ownerId = UUID.randomUUID(),
+				ownerType = AssetOwnerType.account
+		)
+		val vm1 = testVm.copy(
+				name = "test-vm-1",
+				id = UUID.randomUUID(),
+				owner = owner1
+		)
+		val vm2 = testVm.copy(
+				name = "test-vm-2",
+				id = UUID.randomUUID(),
+				owner = owner2
+		)
+		dao!!.add(
+				vm1
+		)
+		dao!!.add(
+				vm2
+		)
+
+		val listBoth = dao!!.fieldSearch(setOf(owner1, owner2), "name", "test-vm", 0, Int.MAX_VALUE)
+		assertEquals(2, listBoth.size)
+		assertTrue(listBoth.contains(vm1))
+		assertTrue(listBoth.contains(vm2))
+
+		val listOne = dao!!.fieldSearch(setOf(owner1), "name", "test-vm", 0, Int.MAX_VALUE)
+		assertEquals(1, listOne.size)
+		assertTrue(listOne.contains(vm1))
+		assertFalse(listOne.contains(vm2))
+
+		assertTrue(dao!!.fieldSearch(setOf(), "name", "test-vm", 0, Int.MAX_VALUE).isEmpty())
 	}
 
 	@Test
