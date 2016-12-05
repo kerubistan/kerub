@@ -44,6 +44,36 @@ class VirtualMachineDaoImplTest {
 	}
 
 	@Test
+	fun listWithSort() {
+		val vm1 = testVm.copy(
+				name = "test-vm-1",
+				id = UUID.randomUUID()
+		)
+		val vm2 = testVm.copy(
+				name = "test-vm-2",
+				id = UUID.randomUUID()
+		)
+		dao!!.add(vm1)
+		dao!!.add(vm2)
+		assertEquals(listOf(vm1, vm2), dao!!.list(0, Int.MAX_VALUE, "name"))
+	}
+
+	@Test
+	fun listWithLimit() {
+		val vm1 = testVm.copy(
+				name = "test-vm-1",
+				id = UUID.randomUUID()
+		)
+		val vm2 = testVm.copy(
+				name = "test-vm-2",
+				id = UUID.randomUUID()
+		)
+		dao!!.add(vm1)
+		dao!!.add(vm2)
+		assertEquals(listOf(vm1), dao!!.list(0, 1, "name"))
+	}
+
+	@Test
 	fun remove() {
 		val vm1 = testVm.copy(
 				name = "test-vm-1",

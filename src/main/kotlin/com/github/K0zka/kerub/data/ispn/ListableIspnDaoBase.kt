@@ -59,7 +59,7 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		return cache.queryBuilder(getEntityClass().kotlin)
 				.maxResults(limit)
 				.startOffset(start)
-				.orderBy(sort, SortOrder.DESC)
+				.orderBy(sort, SortOrder.ASC)
 				.list()
 	}
 }
