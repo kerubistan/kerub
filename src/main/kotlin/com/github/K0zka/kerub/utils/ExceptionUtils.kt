@@ -14,18 +14,7 @@ fun Throwable.getStackTraceAsString(): String =
 			it.toString()
 		}
 
-fun <T> silent(body: () -> T): T? = silent(body, "")
-
-fun <T> silent(body: () -> T, actionName: String): T? {
-	try {
-		return body()
-	} catch(exc: Exception) {
-		logger.debug("Exception occured during execution: $actionName", exc)
-		return null
-	}
-}
-
-fun <T> silent(actionName: String, body: () -> T): T? {
+fun <T> silent(actionName: String = "", body: () -> T): T? {
 	try {
 		return body()
 	} catch(exc: Exception) {

@@ -38,6 +38,12 @@ class SizeTest {
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1.0 GB").toInt())
 		Assert.assertEquals(1024 * 1024 * 1024, parseStorageSize("1 gb").toInt())
 
+		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024, parseStorageSize("1 T").toLong())
+		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024, parseStorageSize("1 TB").toLong())
+
+		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024 * 1024, parseStorageSize("1 P").toLong())
+		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024 * 1024, parseStorageSize("1 PB").toLong())
+
 	}
 
 }
