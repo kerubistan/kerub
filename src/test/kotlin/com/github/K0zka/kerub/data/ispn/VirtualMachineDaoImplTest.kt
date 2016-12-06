@@ -136,6 +136,7 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		dao.add(
 				vm
 		)
+		assertEquals(listOf<VirtualMachine>(), dao.listByOwners(setOf()))
 		assertEquals(listOf(vm), dao.listByOwners(setOf(vm.owner!!)))
 		assertEquals(listOf<VirtualMachine>(), dao.listByOwners(setOf(
 				AssetOwner(ownerId = UUID.randomUUID(), ownerType = AssetOwnerType.account)
@@ -156,9 +157,7 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		dao.add(
 				vm
 		)
-		val list = dao.listByOwner(vm.owner!!)
-
-		assertEquals(listOf(vm), list)
+		assertEquals(listOf(vm), dao.listByOwner(vm.owner!!))
 	}
 
 	@Test
@@ -200,5 +199,43 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 				vm3
 		)
 		assertEquals("Since vm3 has same owner as vm1, should be 2", 2, dao.count(setOf(vm1.owner!!)))
+		assertEquals("Since vm3 has same owner as vm1, should be 2", 0, dao.count(setOf()))
 	}
+
+	@Test
+	fun getByIds() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+		val vm1 = testVm.copy(
+				name = "vm-1",
+				id = UUID.randomUUID(),
+				owner = AssetOwner(
+						ownerId = UUID.randomUUID(),
+						ownerType = AssetOwnerType.account
+				)
+		)
+		dao.add(
+				vm1
+		)
+
+		val vm2 = testVm.copy(
+				name = "vm-2",
+				id = UUID.randomUUID(),
+				owner = AssetOwner(
+						ownerId = UUID.randomUUID(),
+						ownerType = AssetOwnerType.account
+				)
+		)
+		dao.add(
+				vm2
+		)
+
+		assertEquals(listOf(vm1), dao.get(listOf(vm1.id)))
+		assertEquals(listOf<VirtualMachine>(), dao.get(listOf()))
+
+		val both = dao.get(listOf(vm1.id, vm2.id))
+		assertEquals(2, both.size)
+		assertTrue(both.contains(vm1))
+		assertTrue(both.contains(vm2))
+	}
+
 }

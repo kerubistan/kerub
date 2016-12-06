@@ -23,9 +23,9 @@ import org.infinispan.notifications.cachelistener.filter.EventType
 abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 											 protected val eventListener: EventListener) : CrudDao<T, I> {
 	override fun add(entity: T): I {
-		cache.put(entity.id!!, entity)
+		cache.put(entity.id, entity)
 		eventListener.send(EntityAddMessage(entity, System.currentTimeMillis()))
-		return entity.id!!
+		return entity.id
 	}
 
 	override fun get(id: I): T? {
