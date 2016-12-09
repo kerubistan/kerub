@@ -429,6 +429,17 @@
 
 </script>
 
+<script type="text/ng-template" id="AccountSelection.html">
+	<div>
+		<span class="fa fa-credit-card">
+		</span>
+		{{match.model.name}}
+		<span ng-if="match.model.quota" class="label label-default">
+			TODO: quota here
+		</span>
+	</div>
+</script>
+
 <script type="text/ng-template" id="DiskSelection.html">
 	<a ng-controller="DiskSelectionElem">
 		<span ng-if="!match.model.readonly" class="fa fa-database"></span>
@@ -908,6 +919,14 @@
 
 	<div class="input-group">
 		<div class="input-group-addon">
+			<span class="glyphicon glyphicon-pencil"></span>
+		</div>
+		<input class="form-control" ng-model="project.description"/>
+	</div>
+
+
+	<div class="input-group">
+		<div class="input-group-addon">
 			<span class="fa fa-credit-card"></span>
 		</div>
 		<input class="form-control input-lg"
@@ -917,22 +936,18 @@
 		       typeahead-editable="false"
 		       typeahead-min-length="2"
 		       typeahead-wait-ms="200"
-		       typeahead-on-select="selectVm()"
-		       ng-model="otherVm"
+		       typeahead-on-select="selectAccount()"
+		       ng-model="account"
 		       autofocus
 		       autocomplete="off"
 		       tooltip-placement="right"
 		       uib-tooltip="Number of copies">
 	</div>
 
-	<div class="input-group">
-		<textarea ng-bind="project.description"></textarea>
-	</div>
-
 	<div class="modal-footer">
 		<button
 				type="button"
-				ng-click="addAccount()"
+				ng-click="addProject()"
 				class="btn btn-primary glyphicon glyphicon-ok-sign"
 				uib-tooltip="Create the account"
 				tooltip-placement="top">

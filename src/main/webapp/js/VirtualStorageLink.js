@@ -15,10 +15,8 @@ kerubApp.controller('VirtualStorageLink', function($scope, $uibModal, $log, $htt
 	$scope.existingStorageDevice = null;
 
 	$scope.listDisksByName = function(deviceName) {
-		$log.info('search', deviceName);
 		return $http.get('s/r/virtual-storage/search?field=name&value='+deviceName)
 			.then(function(result) {
-				$log.debug(result.data.result);
 				return result.data.result;
 			});
 	};

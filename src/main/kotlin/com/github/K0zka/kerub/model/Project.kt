@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
-import java.util.Date
 import java.util.UUID
+import kotlin.reflect.KClass
 
 @JsonTypeName("project") class Project @JsonCreator constructor(
 		@DocumentId
@@ -17,7 +17,7 @@ import java.util.UUID
 		override val name: String,
 		@Field
 		@JsonProperty("description")
-		val description: String,
+		val description: String? = null,
 		@Field
 		@JsonProperty("created")
 		val created: Long = System.currentTimeMillis(),
@@ -27,6 +27,9 @@ import java.util.UUID
 		val expectations: List<Expectation> = listOf(),
 		@Field
 		@JsonProperty("quota")
-		val quota : Quota? = null
+		val quota: Quota? = null,
+		override val owner: AssetOwner? = null
 )
-: Entity<UUID>, Named, Constrained<Expectation>
+: Entity<UUID>, Named, Constrained<Expectation>, Asset {
+	override fun references(): Map<KClass<*>, List<UUID>> = mapOf()
+}
