@@ -1,5 +1,7 @@
 package com.github.K0zka.kerub.stories.planner
 
+import com.github.K0zka.kerub.data.ControllerConfigDao
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.GvinumStorageCapability
@@ -88,6 +90,7 @@ class PlannerDefs {
 	var vstorageDyns = listOf<VirtualStorageDeviceDynamic>()
 
 	var hostConfigs = listOf<HostConfiguration>()
+	var controllerConfig = ControllerConfig()
 
 	val backtrack: BacktrackService = BacktrackService(1)
 	val executor: PlanExecutor = mock()
@@ -111,7 +114,8 @@ class PlannerDefs {
 					vms = vms,
 					vmDyns = vmDyns,
 					vStorage = vdisks,
-					vStorageDyns = vstorageDyns
+					vStorageDyns = vstorageDyns,
+					config = controllerConfig
 			)
 		}
 		doAnswer({
@@ -182,7 +186,7 @@ class PlannerDefs {
 	}
 
 	@Given("host (\\S+) filesystem is:")
-	fun setHostFilesystemCapabilities(hostAddr : String, mounts : DataTable) {
+	fun setHostFilesystemCapabilities(hostAddr: String, mounts: DataTable) {
 		val fsCapabilities = mounts.raw().skip().map {
 			row ->
 			FsStorageCapability(
@@ -190,18 +194,18 @@ class PlannerDefs {
 					mountPoint = row[0]
 			)
 		}
-		hosts = hosts.replace( {it.address == hostAddr}, {
+		hosts = hosts.replace({ it.address == hostAddr }, {
 			host ->
 			host.copy(
 					capabilities = requireNotNull(host.capabilities).copy(
 							storageCapabilities = requireNotNull(host.capabilities).storageCapabilities + fsCapabilities
 					)
 			)
-		} )
+		})
 	}
 
 	@Given("host (\\S+) gvinum disks are:")
-	fun setHostGvinumCapabilities(hostAddr : String, disks : DataTable) {
+	fun setHostGvinumCapabilities(hostAddr: String, disks: DataTable) {
 		val diskCapabilities = disks.raw().skip().map {
 			row ->
 			GvinumStorageCapability(
@@ -210,18 +214,18 @@ class PlannerDefs {
 					size = row[2].toSize()
 			)
 		}
-		hosts = hosts.replace( {it.address == hostAddr}, {
+		hosts = hosts.replace({ it.address == hostAddr }, {
 			host ->
 			host.copy(
 					capabilities = host.capabilities!!.copy(
 							storageCapabilities = requireNotNull(host.capabilities?.storageCapabilities) + diskCapabilities
 					)
 			)
-		} )
+		})
 	}
 
 	@Given("host (\\S+) volume groups are:")
-	fun setHostLvmCapabilities(hostAddr : String, vgs : DataTable) {
+	fun setHostLvmCapabilities(hostAddr: String, vgs: DataTable) {
 		val lvmCapabilities = vgs.raw().skip().map {
 			row ->
 			LvmStorageCapability(
@@ -231,7 +235,7 @@ class PlannerDefs {
 					volumeGroupName = row[0]
 			)
 		}
-		hosts = hosts.replace( {it.address == hostAddr} , {
+		hosts = hosts.replace({ it.address == hostAddr }, {
 			host ->
 			host.copy(
 					capabilities = requireNotNull(host.capabilities).copy(
@@ -354,17 +358,17 @@ class PlannerDefs {
 	}
 
 	@Given("software installed on host (\\S+):")
-	fun setHostInstalledSoftware(hostAddr : String , software: DataTable) {
+	fun setHostInstalledSoftware(hostAddr: String, software: DataTable) {
 		hosts = hosts.replace(
-				{it.address ==hostAddr},
+				{ it.address == hostAddr },
 				{
 					host ->
 					val caps = requireNotNull(host.capabilities)
 					host.copy(
 							capabilities = caps.copy(
-								installedSoftware = software.raw().skip().map {
-									SoftwarePackage(name = it[0], version = Version.fromVersionString(it[1]))
-								}
+									installedSoftware = software.raw().skip().map {
+										SoftwarePackage(name = it[0], version = Version.fromVersionString(it[1]))
+									}
 							)
 					)
 				}
@@ -447,7 +451,7 @@ class PlannerDefs {
 	}
 
 	@Then("^the virtual disk (\\S+) must be allocated on (\\S+) under (\\S+)$")
-	fun verifyVirtualStorageCreatedOnFs(storageName: String, hostAddr: String, mountPoint : String) {
+	fun verifyVirtualStorageCreatedOnFs(storageName: String, hostAddr: String, mountPoint: String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
 		Assert.assertTrue(executedPlans.first().steps.any {
@@ -462,20 +466,21 @@ class PlannerDefs {
 	fun verifyVirtualStorageCreatedOnLvm(storageName: String, hostAddr: String, volumeGroup: String) {
 		Assert.assertTrue(executedPlans.first().steps.any {
 			it is CreateLv
-			&& it.disk.name == storageName
-			&& it.host.address == hostAddr
-			&& it.volumeGroupName == volumeGroup
+					&& it.disk.name == storageName
+					&& it.host.address == hostAddr
+					&& it.volumeGroupName == volumeGroup
 		})
 	}
 
 	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the gvinum disks: (\\S+)")
 	fun checkGvinumConcatenated(storageName: String, hostAddr: String, diskNames: List<String>) {
-		assertTrue { executedPlans.first().steps.any {
-			it is CreateGvinumVolume
-				&& it.disk.name == storageName
-				&& it.host.address == hostAddr
-				&& it.config is ConcatenatedGvinumConfiguration
-		}
+		assertTrue {
+			executedPlans.first().steps.any {
+				it is CreateGvinumVolume
+						&& it.disk.name == storageName
+						&& it.host.address == hostAddr
+						&& it.config is ConcatenatedGvinumConfiguration
+			}
 		}
 	}
 
@@ -487,13 +492,13 @@ class PlannerDefs {
 			it is CreateGvinumVolume
 					&& it.disk.name == storageName
 					&& it.host.address == hostAddr
-					// TODO: verify disk name
+			// TODO: verify disk name
 		})
 
 	}
 
 	@Given("volume group (\\S+) on host (\\S+) has (\\S+) free capacity")
-	fun setVolumeGroupFreeCapacity(volumeGroupName : String, hostAddr : String, capacity : String) {
+	fun setVolumeGroupFreeCapacity(volumeGroupName: String, hostAddr: String, capacity: String) {
 		val host = hosts.first { it.address == hostAddr }
 		val volumeGroup = requireNotNull(
 				host
@@ -508,9 +513,9 @@ class PlannerDefs {
 	}
 
 	@Given("gvinum disk (\\S+) on host (\\S+) has (\\S+) free capacity")
-	fun setGvinumDiskFreeCapacity(diskName : String, hostAddr : String, capacity : String) {
+	fun setGvinumDiskFreeCapacity(diskName: String, hostAddr: String, capacity: String) {
 		val host = hosts.first { it.address == hostAddr }
-		val disk = requireNotNull(host.capabilities?.storageCapabilities?.first { it is GvinumStorageCapability && it.name == diskName})
+		val disk = requireNotNull(host.capabilities?.storageCapabilities?.first { it is GvinumStorageCapability && it.name == diskName })
 		setStorageCapabilityFreeCapacity(capacity, disk.id, host)
 	}
 
@@ -615,8 +620,8 @@ class PlannerDefs {
 	}
 
 	@Given("^VM (\\S+) requires manufacturer (\\S+)$")
-	fun setVmHostManufacturerInformation(vmName : String, manufacturer : String) {
-		vms = vms.replace( {it.name == vmName} , {
+	fun setVmHostManufacturerInformation(vmName: String, manufacturer: String) {
+		vms = vms.replace({ it.name == vmName }, {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + ChassisManufacturerExpectation(
@@ -627,9 +632,9 @@ class PlannerDefs {
 	}
 
 	@Given("^(\\S+) has notsame host expectation against (\\S+)$")
-	fun addNotSameHostExpectation(vmName : String, otherVmName: String) {
+	fun addNotSameHostExpectation(vmName: String, otherVmName: String) {
 		val otherVm = vms.first { it.name == otherVmName }
-		vms = vms.replace({it.name == vmName}, {
+		vms = vms.replace({ it.name == vmName }, {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + NotSameHostExpectation(
@@ -641,8 +646,8 @@ class PlannerDefs {
 	}
 
 	@Given("^(\\S+) has cpu clock speed expectation (\\S+) Mhz$")
-	fun addCpuClockSpeedExpectation(vmName : String, freq : Int) {
-		vms = vms.replace( {it.name == vmName}, {
+	fun addCpuClockSpeedExpectation(vmName: String, freq: Int) {
+		vms = vms.replace({ it.name == vmName }, {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + ClockFrequencyExpectation(
@@ -650,18 +655,20 @@ class PlannerDefs {
 							level = ExpectationLevel.Want
 					)
 			)
-		} )
+		})
 	}
 
 	@Given("^(\\S+) cpu clockspeed is (\\S+) Mhz$")
-	fun setHostCpuSpeed(hostAddr : String, freq : Int) {
-		hosts = hosts.replace({it.address == hostAddr}, {
+	fun setHostCpuSpeed(hostAddr: String, freq: Int) {
+		hosts = hosts.replace({ it.address == hostAddr }, {
 			host ->
 			host.copy(
 					capabilities = host.capabilities?.copy(
-							cpus = host.capabilities?.cpus?.map { it.copy(
-									maxSpeedMhz = freq
-							) } ?: listOf()
+							cpus = host.capabilities?.cpus?.map {
+								it.copy(
+										maxSpeedMhz = freq
+								)
+							} ?: listOf()
 					)
 			)
 		})
@@ -678,58 +685,58 @@ class PlannerDefs {
 	}
 
 	@Given("(\\S+) has memory clock speed expectation (\\d+) Mhz")
-	fun addVmMemoryClockSpeedExpectation(vmName : String, speedMhz : Int) {
-        vms = vms.replace({it.name == vmName}, {
-            vm ->
-            vm.copy(
-                    expectations = vm.expectations
-                            + MemoryClockFrequencyExpectation(level = ExpectationLevel.DealBreaker, min = speedMhz)
-            )
-        })
+	fun addVmMemoryClockSpeedExpectation(vmName: String, speedMhz: Int) {
+		vms = vms.replace({ it.name == vmName }, {
+			vm ->
+			vm.copy(
+					expectations = vm.expectations
+							+ MemoryClockFrequencyExpectation(level = ExpectationLevel.DealBreaker, min = speedMhz)
+			)
+		})
 	}
 
-    @Given("(\\S+) memory information is not known")
-    fun clearHostMemoryInformation(hostAddr: String) {
-        hosts = hosts.replace( {it.address == hostAddr}, {
-            host ->
-            host.copy(
-                    capabilities = host.capabilities?.copy(
-                            memoryDevices = listOf()
-                    )
-            )
-        } )
-    }
+	@Given("(\\S+) memory information is not known")
+	fun clearHostMemoryInformation(hostAddr: String) {
+		hosts = hosts.replace({ it.address == hostAddr }, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities?.copy(
+							memoryDevices = listOf()
+					)
+			)
+		})
+	}
 
-    @Given("(\\S+) memory clockspeed is (\\d+) Mhz")
-    fun setHostMemoryClockSpeed(hostAddr: String, speedMhz: Int) {
-        hosts = hosts.replace({ it.address == hostAddr }, {
-            host ->
-            host.copy(
-                    capabilities = host.capabilities!!.copy(
-                            memoryDevices = listOf(
-                                    host.capabilities!!.memoryDevices.firstOrNull()
-                                            ?: MemoryInformation(
-                                            size = "8 GB".toSize(),
-                                            type = "",
-                                            formFactor = "SODIMM",
-                                            locator = "BANK-A",
-                                            speedMhz = speedMhz,
-                                            manufacturer = "DUCT TAPE INC",
-                                            partNumber = "",
-                                            configuredSpeedMhz =speedMhz,
-                                            serialNumber = "",
-                                            bankLocator = ""
-                                    )
-                            )
-                    )
-            )
-        })
-    }
+	@Given("(\\S+) memory clockspeed is (\\d+) Mhz")
+	fun setHostMemoryClockSpeed(hostAddr: String, speedMhz: Int) {
+		hosts = hosts.replace({ it.address == hostAddr }, {
+			host ->
+			host.copy(
+					capabilities = host.capabilities!!.copy(
+							memoryDevices = listOf(
+									host.capabilities!!.memoryDevices.firstOrNull()
+											?: MemoryInformation(
+											size = "8 GB".toSize(),
+											type = "",
+											formFactor = "SODIMM",
+											locator = "BANK-A",
+											speedMhz = speedMhz,
+											manufacturer = "DUCT TAPE INC",
+											partNumber = "",
+											configuredSpeedMhz = speedMhz,
+											serialNumber = "",
+											bankLocator = ""
+									)
+							)
+					)
+			)
+		})
+	}
 
 	@Given("virtual disk (\\S+) has not-same-storage expectation against (\\S+)")
-	fun addNotSameStorageExpectation(diskName : String, againstDiskName : String) {
+	fun addNotSameStorageExpectation(diskName: String, againstDiskName: String) {
 		val againstDisk = vdisks.first { it.name == againstDiskName }
-		vdisks = vdisks.replace( {it.name == diskName } , {
+		vdisks = vdisks.replace({ it.name == diskName }, {
 			vdisk ->
 			vdisk.copy(
 					expectations = vdisk.expectations + NotSameStorageExpectation(
@@ -741,8 +748,8 @@ class PlannerDefs {
 	}
 
 	@Given("(\\S+) has no-migrate expectation")
-	fun addNoMigrateExpectation(vmName : String) {
-		vms = vms.replace( {it.name == vmName} , {
+	fun addNoMigrateExpectation(vmName: String) {
+		vms = vms.replace({ it.name == vmName }, {
 			vm ->
 			vm.copy(
 					expectations = vm.expectations + NoMigrationExpectation(userTimeoutMinutes = 60)
@@ -751,9 +758,9 @@ class PlannerDefs {
 	}
 
 	@Given("host (\\S+) has (\\S+) power management")
-	fun setPowerManagement(hostAddr: String, powerManagementType : String) {
-		val host = hosts.first { it.address == hostAddr}
-		val pm = when(powerManagementType) {
+	fun setPowerManagement(hostAddr: String, powerManagementType: String) {
+		val host = hosts.first { it.address == hostAddr }
+		val pm = when (powerManagementType) {
 			"wake-on-lan" -> WakeOnLanInfo()
 			"ipmi" -> IpmiInfo(
 					address = "",
@@ -762,7 +769,7 @@ class PlannerDefs {
 			)
 			else -> throw IllegalArgumentException("typo? " + powerManagementType)
 		}
-		hosts = hosts.replace( {it.address == host.address}, {
+		hosts = hosts.replace({ it.address == host.address }, {
 			host.copy(
 					capabilities = host.capabilities?.copy(
 							powerManagment = listOf(
@@ -770,15 +777,17 @@ class PlannerDefs {
 							)
 					)
 			)
-		} )
+		})
 	}
 
 	@When("virtual disk (\\S+) gets an availability expectation")
 	fun createVirtualStorageAvailabilityExpectation(diskName: String) {
 
-		vdisks = vdisks.replace({ it.name == diskName }, { it.copy(
-				expectations = it.expectations + StorageAvailabilityExpectation()
-		) })
+		vdisks = vdisks.replace({ it.name == diskName }, {
+			it.copy(
+					expectations = it.expectations + StorageAvailabilityExpectation()
+			)
+		})
 		val virtualStorage = vdisks.first { it.name == diskName }
 
 		planner.onEvent(EntityUpdateMessage(
@@ -788,17 +797,17 @@ class PlannerDefs {
 	}
 
 	@Given("(\\S+) is allocated on host (\\S+) volume group (\\S+)")
-	fun createLvmAllocation(diskName : String, hostName : String, volumeGroup: String) {
+	fun createLvmAllocation(diskName: String, hostName: String, volumeGroup: String) {
 
 		val host = hosts.first { it.address == hostName }
 		val disk = vdisks.first { it.name == diskName }
 		val diskDyn = vstorageDyns.firstOrNull { it.id == disk.id }
-		if(diskDyn == null) {
+		if (diskDyn == null) {
 			vstorageDyns += VirtualStorageDeviceDynamic(
 					id = disk.id,
 					allocation = VirtualStorageLvmAllocation(
 							hostId = host.id,
-							path = "/dev/test/"+disk.id
+							path = "/dev/test/" + disk.id
 					),
 					actualSize = disk.size,
 					lastUpdated = System.currentTimeMillis()
@@ -807,16 +816,18 @@ class PlannerDefs {
 	}
 
 	@Given("(\\S+) is shared with iscsi on host (\\S+)")
-	fun createIscsiShare(diskName : String, hostName : String) {
+	fun createIscsiShare(diskName: String, hostName: String) {
 		val host = hosts.first { it.address == hostName }
 		val disk = vdisks.first { it.name == diskName }
 		val service = IscsiService(
 				vstorageId = disk.id
 		)
-		if(hostConfigs.any { it.id == host.id }) {
-			hostConfigs = hostConfigs.replace( {it.id == host.id}, {it.copy(
-					services = it.services + service
-			)})
+		if (hostConfigs.any { it.id == host.id }) {
+			hostConfigs = hostConfigs.replace({ it.id == host.id }, {
+				it.copy(
+						services = it.services + service
+				)
+			})
 		} else {
 			hostConfigs += HostConfiguration(
 					id = host.id,
@@ -827,7 +838,7 @@ class PlannerDefs {
 	}
 
 	@Given("host (\\S+) CPUs are (\\S+):")
-	fun setHostCpus(addr : String, nrOfCpus : Int, cpuData : DataTable) {
+	fun setHostCpus(addr: String, nrOfCpus: Int, cpuData: DataTable) {
 		val cpus = (1..nrOfCpus).map {
 			ProcessorInformation(
 					manufacturer = cpuData.raw()[1][0],
@@ -838,7 +849,7 @@ class PlannerDefs {
 			)
 		}
 		hosts = hosts.replace(
-				{it.address == addr},
+				{ it.address == addr },
 				{
 					it.copy(
 							capabilities = it.capabilities!!.copy(
@@ -848,4 +859,18 @@ class PlannerDefs {
 				}
 		)
 	}
+
+	val configs = mapOf<String, (Boolean, ControllerConfig) -> ControllerConfig>(
+			"accounts required" to { enabled, config -> config.copy(accountsRequired = enabled) },
+			"power management enabled" to { enabled, config -> config.copy(powerManagementEnabled = enabled) },
+			"lvm create volume enabled" to { enabled, config -> config.copy(lvmCreateVolumeEnabled = enabled) },
+			"gvinum create volume enabled" to { enabled, config -> config.copy(lvmCreateVolumeEnabled = enabled) }
+	)
+
+	@Given("Controller configuration '(.*)' is (enabled|disabled)")
+	fun setConfigurationBoolean(configName: String, enabled: String) {
+		this.controllerConfig = requireNotNull(configs[configName])
+				.invoke("enabled" == enabled, this.controllerConfig)
+	}
+
 }

@@ -240,7 +240,28 @@
 						</tr>
 						<tr>
 							<td><span class="fa fa-plug"></span> Power management enabled</td>
-							<td><toggle-switch ng-model="blah"></toggle-switch></td>
+							<td><toggle-switch ng-model="config.powerManagementEnabled"></toggle-switch></td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-linux"></span> Linux LVM create volume enabled
+							</td>
+							<td><toggle-switch ng-model="config.lvmCreateVolumeEnabled"></toggle-switch></td>
+						</tr>
+						<tr>
+							<!-- TODO: G stands for Gvinum and not for google, need a better icon -->
+							<td><span class="fa fa-google"></span> Create FreeBSD Gvinum volumes
+							</td>
+							<td><toggle-switch ng-model="config.gvinumCreateVolumeEnabled"></toggle-switch></td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-copy"></span> KSM enabled
+							</td>
+							<td><toggle-switch ng-model="config.ksmEnabled"></toggle-switch></td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-copy"></span> Controller can install new software on the host
+							</td>
+							<td><toggle-switch ng-model="config.installSoftwareEnabled"></toggle-switch></td>
 						</tr>
 					</tbody>
 				</table>

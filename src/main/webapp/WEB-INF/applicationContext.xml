@@ -320,6 +320,7 @@
 		<constructor-arg ref="virtualStorageDeviceDynDao"/>
 		<constructor-arg ref="vmDao"/>
 		<constructor-arg ref="vmDynDao"/>
+		<constructor-arg ref="controllerConfigDao"/>
 	</bean>
 
 

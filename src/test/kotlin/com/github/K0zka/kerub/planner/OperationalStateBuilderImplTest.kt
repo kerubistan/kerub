@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner
 
 import com.github.K0zka.kerub.data.AssignmentDao
+import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
@@ -19,23 +20,22 @@ import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class) class OperationalStateBuilderImplTest {
+class OperationalStateBuilderImplTest {
 
 	val controllerManager: ControllerManager = mock()
 	val assignmentDao: AssignmentDao = mock()
 	val hostDyn: HostDynamicDao = mock()
 	val hostCfg: HostConfigurationDao = mock()
 	val hostDao: HostDao = mock()
-	var vmDao : VirtualMachineDao = mock()
-	var vmDynDao : VirtualMachineDynamicDao = mock()
-	var vStorageDao : VirtualStorageDeviceDao = mock()
-	var vStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
+	val vmDao : VirtualMachineDao = mock()
+	val vmDynDao : VirtualMachineDynamicDao = mock()
+	val vStorageDao : VirtualStorageDeviceDao = mock()
+	val vStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
+	val configDao : ControllerConfigDao = mock()
 
 	val host = Host(
 			address = "host-1.example.com",
@@ -84,7 +84,8 @@ import java.util.UUID
 				vStorageDao,
 				vStorageDynDao,
 				vmDao,
-				vmDynDao).buildState()
+				vmDynDao,
+				configDao).buildState()
 
 		Assert.assertTrue(state.hosts.isNotEmpty())
 		Assert.assertTrue(state.vms.isNotEmpty())

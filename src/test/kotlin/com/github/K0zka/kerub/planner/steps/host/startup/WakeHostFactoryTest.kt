@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.host.startup
 
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
@@ -57,21 +58,37 @@ class WakeHostFactoryTest {
 			publicKey = "test"
 	)
 
+	@Test
+	fun produceDisabled() {
+		assertTrue(WakeHostFactory.produce(OperationalState.fromLists(
+				hosts = listOf(host1, host2),
+				hostDyns = listOf(HostDynamic(id = host2.id, status = HostStatus.Up)),
+				config = ControllerConfig(powerManagementEnabled = false)
+		)).isEmpty())
+	}
 
 	@Test
 	fun produceNoLom() {
 		assertTrue {
-			WakeHostFactory.produce(OperationalState.fromLists(hosts = listOf(host3))).isEmpty()
+			WakeHostFactory.produce(OperationalState.fromLists(
+					hosts = listOf(host3),
+					config = ControllerConfig(powerManagementEnabled = true))).isEmpty()
 		}
 		assertTrue {
-			WakeHostFactory.produce(OperationalState.fromLists(hosts = listOf(host4))).isEmpty()
+			WakeHostFactory.produce(OperationalState.fromLists(
+					hosts = listOf(host4),
+					config = ControllerConfig(powerManagementEnabled = true)
+			)).isEmpty()
 		}
 	}
 
 
 	@Test
 	fun produceSingleHostNorecord() {
-		val steps = WakeHostFactory.produce(OperationalState.fromLists(hosts = listOf(host1)))
+		val steps = WakeHostFactory.produce(OperationalState.fromLists(
+				hosts = listOf(host1),
+				config = ControllerConfig(powerManagementEnabled = true)
+		))
 		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
 	}
@@ -80,7 +97,8 @@ class WakeHostFactoryTest {
 	fun produceSingleHostDown() {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host1),
-				hostDyns = listOf(HostDynamic(id = host1.id, status = HostStatus.Down))
+				hostDyns = listOf(HostDynamic(id = host1.id, status = HostStatus.Down)),
+				config = ControllerConfig(powerManagementEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
@@ -90,7 +108,8 @@ class WakeHostFactoryTest {
 	fun produceOneUpOneDown() {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host1, host2),
-				hostDyns = listOf(HostDynamic(id = host2.id, status = HostStatus.Up))
+				hostDyns = listOf(HostDynamic(id = host2.id, status = HostStatus.Up)),
+				config = ControllerConfig(powerManagementEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
 		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })

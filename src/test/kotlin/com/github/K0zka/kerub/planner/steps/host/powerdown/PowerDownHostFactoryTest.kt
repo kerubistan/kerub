@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.host.powerdown
 
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.VirtualMachine
@@ -10,19 +11,20 @@ import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
+import kotlin.test.assertTrue
 
 class PowerDownHostFactoryTest {
 
 	val vm = VirtualMachine(
 			name = "vm-1",
-	        nrOfCpus = 1
-	                       )
+			nrOfCpus = 1
+	)
 
 	val host = Host(
 			address = "host-1.example.com",
 			dedicated = true,
 			publicKey = ""
-	               )
+	)
 
 	val hostWithPowerManagement = host.copy(
 			capabilities = HostCapabilities(
@@ -48,14 +50,30 @@ class PowerDownHostFactoryTest {
 	}
 
 	@Test
+	fun produceWithDisabled() {
+		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
+				hosts = listOf(hostWithPowerManagement),
+				hostDyns = listOf(HostDynamic(
+						id = host.id,
+						status = HostStatus.Up
+				)),
+				config = ControllerConfig(
+						powerManagementEnabled = false
+				)
+		))
+		assertTrue(steps.isEmpty())
+	}
+
+
+	@Test
 	fun produceWithNoPowerManagement() {
 		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host),
 				hostDyns = listOf(HostDynamic(
 						id = host.id,
 						status = HostStatus.Up
-				                             ))
-		                                                                   ))
+				))
+		))
 		Assert.assertEquals(0, steps.size)
 		Assert.assertTrue(steps.all { it.host == host })
 	}
@@ -67,8 +85,8 @@ class PowerDownHostFactoryTest {
 				hostDyns = listOf(HostDynamic(
 						id = host.id,
 						status = HostStatus.Down
-				                             ))
-		                                                                   ))
+				))
+		))
 		Assert.assertTrue(steps.isEmpty())
 	}
 
@@ -77,7 +95,7 @@ class PowerDownHostFactoryTest {
 		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(hostWithPowerManagement),
 				hostDyns = listOf()
-		                                                                   ))
+		))
 		Assert.assertTrue(steps.isEmpty())
 	}
 
@@ -85,13 +103,13 @@ class PowerDownHostFactoryTest {
 	fun produceWithHostNotDedicated() {
 		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host.copy(
-							dedicated = false
-				                        )),
+						dedicated = false
+				)),
 				hostDyns = listOf(HostDynamic(
 						id = host.id,
 						status = HostStatus.Up
-				                             ))
-		                                                                   ))
+				))
+		))
 		Assert.assertTrue(steps.isEmpty())
 	}
 

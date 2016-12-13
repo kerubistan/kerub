@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.LvmStorageCapability
@@ -64,6 +65,31 @@ class CreateLvFactoryTest {
 			expectations = listOf(VirtualMachineAvailabilityExpectation(up = true)),
 			name = "test-vm"
 	)
+
+	@Test
+	fun produceWithDisabled() {
+		val steps = CreateLvFactory.produce(OperationalState.fromLists(
+				hosts = listOf(host),
+				hostDyns = listOf(HostDynamic(
+						id = host.id,
+						status = HostStatus.Up,
+						storageStatus = listOf(
+								StorageDeviceDynamic(
+										id = volumeGroup.id,
+										freeCapacity = "1 TB".toSize()
+								)
+						)
+				)),
+				vms = listOf(vm),
+				vStorage = listOf(vDisk),
+				vStorageDyns = listOf(),
+				config = ControllerConfig(
+						lvmCreateVolumeEnabled = false
+				)
+		))
+
+		assertTrue(steps.isEmpty())
+	}
 
 	@Test
 	fun testProduce() {

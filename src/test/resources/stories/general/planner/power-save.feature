@@ -4,6 +4,7 @@ Feature: Power-Save
 	Given hosts:
 	  | address   | ram  | Cores | Threads | Architecture | Operating System |
 	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            |
+	And Controller configuration 'power management enabled' is enabled
 	And no virtual machines
 	And host 127.0.0.5 is Up
 	When optimization is triggered
@@ -14,6 +15,7 @@ Feature: Power-Save
 	  | address   | ram  | Cores | Threads | Architecture | Operating System |
 	  | 127.0.0.2 | 6 GB | 2     | 4       | x86_64       | Linux            |
 	  | 127.0.0.3 | 6 GB | 2     | 4       | x86_64       | Linux            |
+	And Controller configuration 'power management enabled' is enabled
 	Given VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |

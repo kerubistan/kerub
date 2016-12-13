@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner
 
 import com.github.K0zka.kerub.data.AssignmentDao
+import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.data.DaoOperations
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualMachineDao
@@ -24,7 +25,8 @@ class OperationalStateBuilderImpl(
 		private val virtualStorageDao: VirtualStorageDeviceDao,
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
 		private val vmDao: VirtualMachineDao,
-		private val vmDynDao: VirtualMachineDynamicDao
+		private val vmDynDao: VirtualMachineDynamicDao,
+		private val configDao : ControllerConfigDao
 ) : OperationalStateBuilder {
 
 	companion object {

@@ -1,5 +1,12 @@
 package com.github.K0zka.kerub.planner.steps
 
+fun <T> factoryFeature(enabled: Boolean, producer: () -> List<T>): List<T> =
+		if (enabled) {
+			producer()
+		} else {
+			listOf<T>()
+		}
+
 /*
  * TODO: issue #120 - move this whole thing to utils package
  */

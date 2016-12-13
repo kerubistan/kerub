@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner
 
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
@@ -37,7 +38,8 @@ data class OperationalState(
 		val hosts: Map<UUID, HostDataCollection> = mapOf(),
 		val vms: Map<UUID, VirtualMachineDataCollection> = mapOf(),
 		val vStorage: Map<UUID, VirtualStorageDataCollection> = mapOf(),
-		val reservations: List<Reservation<*>> = listOf()
+		val reservations: List<Reservation<*>> = listOf(),
+		val controllerConfig : ControllerConfig = ControllerConfig()
 ) : State {
 
 	companion object {
@@ -66,13 +68,15 @@ data class OperationalState(
 					  vmDyns: List<VirtualMachineDynamic> = listOf(),
 					  vStorage: List<VirtualStorageDevice> = listOf(),
 					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
-					  reservations: List<Reservation<*>> = listOf()
+					  reservations: List<Reservation<*>> = listOf(),
+					  config : ControllerConfig = ControllerConfig()
 		) =
 				OperationalState(
 						hosts = mapHostData(hosts, hostDyns, hostCfgs),
 						vms = mapToCollection(vms, vmDyns) { stat, dyn -> VirtualMachineDataCollection(stat, dyn) },
 						vStorage = mapToCollection(vStorage, vStorageDyns) { stat, dyn -> VirtualStorageDataCollection(stat, dyn) },
-						reservations = reservations
+						reservations = reservations,
+						controllerConfig = config
 				)
 	}
 

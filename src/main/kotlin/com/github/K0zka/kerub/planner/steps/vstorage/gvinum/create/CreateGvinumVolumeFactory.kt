@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.collection.HostDataCollection
 import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.planner.OperationalState
+import com.github.K0zka.kerub.planner.steps.factoryFeature
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorageFactory
 import com.github.K0zka.kerub.utils.join
 import java.math.BigInteger
@@ -15,17 +16,20 @@ import java.math.BigInteger
 object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvinumVolume>() {
 
 	override fun produce(state: OperationalState): List<CreateGvinumVolume> =
-			listStorageNotAllocated(state).map {
-				virtualStorage ->
+			factoryFeature(state.controllerConfig.gvinumCreateVolumeEnabled) {
+				listStorageNotAllocated(state).map {
+					virtualStorage ->
 
-				hostsWithGvinumCapabilities(state).map {
-					host ->
+					hostsWithGvinumCapabilities(state).map {
+						host ->
 
-					simpleGvinumAllocations(host, virtualStorage) +
-							concatenatedGvinumAllocations(host, virtualStorage)
+						simpleGvinumAllocations(host, virtualStorage) +
+								concatenatedGvinumAllocations(host, virtualStorage)
 
+					}.join()
 				}.join()
-			}.join()
+			}
+
 
 	internal fun concatenatedGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> {
 		return combineConcatenations(

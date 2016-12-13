@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create
 
+import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
@@ -10,9 +11,7 @@ import com.github.K0zka.kerub.testFreeBsdHost
 import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.testVirtualDisk
 import com.github.K0zka.kerub.utils.toSize
-import org.junit.Assert.assertFalse
 import org.junit.Test
-import java.util.UUID
 import kotlin.test.assertTrue
 
 class CreateGvinumVolumeFactoryTest {
@@ -115,6 +114,44 @@ class CreateGvinumVolumeFactoryTest {
 						vStorageDyns = listOf()
 				)
 		).isNotEmpty(), "all should be given for an allocation")
+
+		assertTrue(CreateGvinumVolumeFactory.produce(
+				OperationalState.fromLists(
+						hosts = listOf(
+								testHost,
+								testFreeBsdHost.copy(
+										capabilities = testFreeBsdHost.capabilities?.copy(
+												storageCapabilities = listOf(
+														gvinum1
+												)
+										)
+								)
+						),
+						hostDyns = listOf(
+								HostDynamic(
+										id = testHost.id,
+										status = HostStatus.Up
+								),
+								HostDynamic(
+										id = testFreeBsdHost.id,
+										status = HostStatus.Up,
+										storageStatus = listOf(
+												StorageDeviceDynamic(
+														id = gvinum1.id,
+														freeCapacity = "20 GB".toSize()
+												)
+										)
+								)
+						),
+						vStorage = listOf(testVirtualDisk.copy(
+								expectations = listOf(StorageAvailabilityExpectation())
+						)),
+						vStorageDyns = listOf(),
+						config = ControllerConfig(
+								gvinumCreateVolumeEnabled =  false
+						)
+				)
+		).isEmpty(), "Disabled factory should not generate anything")
 
 		assertTrue(CreateGvinumVolumeFactory.produce(
 				OperationalState.fromLists(
