@@ -441,9 +441,14 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml"/>
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
+	<bean id="objectMapperFactory"
+	      class="com.github.K0zka.kerub.utils.ObjectMapperFactory">
+		<constructor-arg name="prettyPrint" index="0" value="true"/>
+	</bean>
+
 	<bean id="objectMapper"
-	      class="com.github.K0zka.kerub.utils.ObjectMapperUtilsKt"
-	      factory-method="createObjectMapper">
+	      factory-bean="objectMapperFactory"
+	      factory-method="create">
 	</bean>
 
 	<jaxrs:server address="/r" serviceName="r">
