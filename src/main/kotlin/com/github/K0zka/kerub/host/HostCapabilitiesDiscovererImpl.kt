@@ -13,6 +13,7 @@ import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
 import com.github.K0zka.kerub.host.distros.Ubuntu
 import com.github.K0zka.kerub.host.distros.UbuntuBSD
+import com.github.K0zka.kerub.host.distros.XenServer7
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
@@ -42,6 +43,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				Centos6(),
 				Centos7(),
 				OpenSuse(),
+				XenServer7(),
 				// Debian-family
 				Ubuntu(),
 				Raspbian(),
