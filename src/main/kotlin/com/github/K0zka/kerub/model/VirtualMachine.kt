@@ -77,5 +77,9 @@ data class VirtualMachine constructor(
 							.join(),
 					VirtualStorageDevice::class to virtualStorageLinks.map { it.virtualStorageId }
 			).filter { it.value.isNotEmpty() }
+
+	val virtualStorageIdStr : List<String>
+		@Field
+		get() = virtualStorageLinks.map { it.virtualStorageId.toString() }
 }
 

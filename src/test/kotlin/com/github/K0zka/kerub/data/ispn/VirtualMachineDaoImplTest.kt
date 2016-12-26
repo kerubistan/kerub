@@ -3,6 +3,9 @@ package com.github.K0zka.kerub.data.ispn
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.io.BusType
+import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.testVm
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
@@ -236,6 +239,30 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		assertEquals(2, both.size)
 		assertTrue(both.contains(vm1))
 		assertTrue(both.contains(vm2))
+	}
+
+	@Test
+	fun listByAttachedStorage() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+		val storageId = UUID.randomUUID();
+		val vm1 = testVm.copy(
+				name = "vm-1",
+				id = UUID.randomUUID(),
+				virtualStorageLinks = listOf(
+						VirtualStorageLink(
+								virtualStorageId = storageId,
+								bus = BusType.sata,
+								device = DeviceType.cdrom,
+								readOnly = true
+						)
+				)
+		)
+		dao.add(
+				vm1
+		)
+
+		assertEquals(listOf(vm1), dao.listByAttachedStorage(storageId))
+		assertEquals(listOf<VirtualMachine>(), dao.listByAttachedStorage(UUID.randomUUID()))
 	}
 
 }
