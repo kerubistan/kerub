@@ -12,11 +12,10 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class CreateLvTest {
@@ -71,8 +70,8 @@ class CreateLvTest {
 				)
 		)
 
-		assertEquals(vDisk.size, transformed.vStorage.values.only().dynamic?.actualSize)
-		assertEquals("100 GB".toSize(), transformed.hosts.values.only().dynamic?.storageStatus?.only()?.freeCapacity)
+		assertEquals(vDisk.size, transformed.vStorage.values.single().dynamic?.actualSize)
+		assertEquals("100 GB".toSize(), transformed.hosts.values.single().dynamic?.storageStatus?.single()?.freeCapacity)
 	}
 
 	@Test

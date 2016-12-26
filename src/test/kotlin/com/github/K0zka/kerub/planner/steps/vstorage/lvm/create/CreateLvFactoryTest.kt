@@ -17,12 +17,10 @@ import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.utils.only
 import com.github.K0zka.kerub.utils.toSize
-import org.infinispan.partitionhandling.AvailabilityException
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class CreateLvFactoryTest {
@@ -108,7 +106,7 @@ class CreateLvFactoryTest {
 				vms = listOf(vm),
 				vStorage = listOf(vDisk),
 				vStorageDyns = listOf()
-		)).only()
+		)).single()
 
 		assertEquals(vDisk, step.disk)
 		assertEquals(host, step.host)

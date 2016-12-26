@@ -8,7 +8,6 @@ import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.insist
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
-import com.github.K0zka.kerub.utils.only
 
 class CreateLvExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
@@ -54,7 +53,7 @@ class CreateLvExecutor(
 
 				//once created succesfully, take some effort to retrieve the data
 				insist(3) {
-					LvmLv.list(session, volGroupName = step.volumeGroupName, volName = step.disk.id.toString()).only()
+					LvmLv.list(session, volGroupName = step.volumeGroupName, volName = step.disk.id.toString()).single()
 				}
 			})
 }

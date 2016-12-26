@@ -2,11 +2,6 @@ package com.github.K0zka.kerub.utils
 
 import com.github.K0zka.kerub.model.Entity
 
-fun <T> Collection<T>.only(): T {
-	require(this.size == 1) { "List size (${size}) is not 1" }
-	return first()
-}
-
 operator fun <X, Y> Collection<X>.times(other : Collection<Y>): List<Pair<X, Y>> {
 	return this.map { x -> other.map { y -> x to y } }.join()
 }
