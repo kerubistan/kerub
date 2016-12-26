@@ -33,7 +33,7 @@
 	</repositories>
 
 	<properties>
-		<kotlin.version>1.0.5-2</kotlin.version>
+		<kotlin.version>1.0.5-3</kotlin.version>
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<cxf.version>3.1.6</cxf.version>
 		<infinispan.version>8.2.5.Final</infinispan.version>
