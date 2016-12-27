@@ -19,7 +19,8 @@ import javax.ws.rs.core.MediaType
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
 interface VirtualMachineService
-: RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine>, RestOperations.SimpleSearch<VirtualMachine> {
+: RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine>, RestOperations.SimpleSearch<VirtualMachine>,
+		AssetService<VirtualMachine> {
 
 	@ApiOperation(value = "start a virtual machine", notes = "Changes vm-availability expectation to ON on the VM")
 	@Path("{id}/start")
