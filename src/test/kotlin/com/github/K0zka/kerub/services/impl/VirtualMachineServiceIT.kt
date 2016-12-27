@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.services.impl
 
+import com.github.K0zka.kerub.RestException
 import com.github.K0zka.kerub.createClient
 import com.github.K0zka.kerub.createServiceClient
+import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
@@ -15,6 +17,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.math.BigInteger
 import java.util.UUID
+import kotlin.test.assertEquals
 
 class VirtualMachineServiceIT {
 	@Test
@@ -67,5 +70,27 @@ class VirtualMachineServiceIT {
 		Assert.assertEquals(update, updated)
 
 		vmService.delete(updated.id)
+	}
+
+	@Test
+	fun security() {
+		val client = createClient()
+		val vmService = createServiceClient(VirtualMachineService::class, client)
+
+		expect(RestException::class,
+				action = { vmService.startVm(UUID.randomUUID()) },
+				check = { assertEquals("AUTH1", it.code) }
+		)
+
+		expect(RestException::class,
+				action = { vmService.stopVm(UUID.randomUUID()) },
+				check = { assertEquals("AUTH1", it.code) }
+		)
+
+		expect(RestException::class,
+				action = { vmService.listByVirtualDisk(UUID.randomUUID()) },
+				check = { assertEquals("AUTH1", it.code) }
+		)
+
 	}
 }

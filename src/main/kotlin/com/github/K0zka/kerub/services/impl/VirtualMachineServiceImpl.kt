@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualMachineService
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
 
 class VirtualMachineServiceImpl(
@@ -30,6 +31,8 @@ class VirtualMachineServiceImpl(
 		})
 	}
 
+	override fun listByVirtualDisk(virtualDiskId: UUID): List<VirtualMachine> =
+			accessController.filter((dao as VirtualMachineDao).listByAttachedStorage(virtualDiskId).map { accessController.checkAndDo(it) { it }!! })
 
 	private fun alterAvailabilityExpectations(newExpectation: VirtualMachineAvailabilityExpectation, vm: VirtualMachine): VirtualMachine {
 		return vm.copy(

@@ -22,6 +22,22 @@ class AccessControllerImpl(
 		private val validator: Validator
 ) : AccessController {
 
+	override fun <T : Asset> filter(items: List<T>): List<T> {
+		return if (controllerConfigDao.get().accountsRequired) {
+			val memberships = memberships(getSubject().principal.toString())
+			items.filter {
+				item ->
+				memberships.any {
+					membership ->
+					item.owner?.ownerId == membership.ownerId
+							&& item.owner?.ownerType == membership.ownerType
+				}
+			}
+		} else {
+			items
+		}
+	}
+
 	override fun <T : Asset> listWithFilter(dao: AssetDao<T>, start: Long, limit: Int, sort: String): SortResultPage<T> {
 		return if (filterNotRequired()) {
 			val list = dao.list(start, limit, sort)

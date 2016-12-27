@@ -41,4 +41,6 @@ interface AccessController {
 			start: Long = 0,
 			limit: Int = Int.MAX_VALUE
 	) : SearchResultPage<T>
+
+	fun <T: Asset> filter(items: List<T>): List<T>
 }
