@@ -24,19 +24,16 @@ interface VirtualMachineService
 	@ApiOperation(value = "start a virtual machine", notes = "Changes vm-availability expectation to ON on the VM")
 	@Path("{id}/start")
 	@POST
-	@RequiresAuthentication
 	fun startVm(@PathParam("id") id: UUID)
 
 	@ApiOperation(value = "stop a virtual machine", notes = "Changes vm-availability expectation to OFF on the VM")
 	@Path("{id}/stop")
 	@POST
-	@RequiresAuthentication
 	fun stopVm(@PathParam("id") id: UUID)
 
 	@ApiOperation(value = "list VMs connected to a virtual disk")
 	@Path("connected-to/{virtualDiskId}")
 	@GET
-	@RequiresAuthentication
 	fun listByVirtualDisk(@PathParam("virtualDiskId") virtualDiskId: UUID): List<VirtualMachine>
 
 }
