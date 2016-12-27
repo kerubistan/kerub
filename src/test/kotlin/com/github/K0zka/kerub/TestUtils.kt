@@ -1,9 +1,12 @@
 package com.github.K0zka.kerub
 
+import com.github.K0zka.kerub.utils.getLogger
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
+
+val logger = getLogger("test-utils")
 
 fun expect(clazz: KClass<out Exception>, action: () -> Unit) {
 	expect(clazz = clazz, action = action, check = {
@@ -19,6 +22,7 @@ fun <T : Exception> expect(clazz: KClass<T>, action: () -> Unit, check: (T) -> U
 		if (clazz == e.javaClass.kotlin) {
 			check(e as T)
 		} else {
+			logger.error(e.message, e)
 			fail("expected $clazz got $e")
 		}
 	}
