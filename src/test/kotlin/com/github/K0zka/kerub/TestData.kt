@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.VirtualNetwork
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.utils.toSize
 import java.util.UUID
@@ -52,4 +53,9 @@ val testVirtualDisk = VirtualStorageDevice(
 		name = "test-disk",
 		readOnly = false,
 		size = "1 GB".toSize()
+)
+
+val testVirtualNetwork = VirtualNetwork(
+		id = UUID.randomUUID(),
+		name = "test network"
 )
