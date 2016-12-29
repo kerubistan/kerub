@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.services
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.wordnik.swagger.annotations.Api
 import org.apache.cxf.jaxrs.ext.multipart.Multipart
+import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.io.InputStream
 import java.util.UUID
 import javax.ws.rs.Consumes
@@ -13,6 +14,7 @@ import javax.ws.rs.container.AsyncResponse
 import javax.ws.rs.container.Suspended
 import javax.ws.rs.core.MediaType
 
+@RequiresAuthentication
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
 @Path("/virtual-storage") interface VirtualStorageDeviceService :
 		RestCrud<VirtualStorageDevice>,
