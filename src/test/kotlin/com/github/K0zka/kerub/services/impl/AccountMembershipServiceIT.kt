@@ -13,6 +13,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertEquals
 
 class AccountMembershipServiceIT {
 
@@ -65,6 +66,35 @@ class AccountMembershipServiceIT {
 			expect(RestException::class) {
 				it.remove(accountId, UUID.randomUUID())
 			}
+		}
+	}
+
+	@Test
+	fun security() {
+		createClient().runRestAction(AccountMembershipService::class) {
+
+			expect(RestException::class,
+					action = { it.list(UUID.randomUUID()) },
+					check = { assertEquals("AUTH1", it.code) }
+			)
+
+			expect(RestException::class,
+					action = { it.remove(UUID.randomUUID(), UUID.randomUUID()) },
+					check = { assertEquals("AUTH1", it.code) }
+			)
+
+			expect(RestException::class,
+					action = { it.listUserAccounts("admin") },
+					check = { assertEquals("AUTH1", it.code) }
+			)
+
+			expect(RestException::class,
+					action = {
+						it.add(UUID.randomUUID(), UUID.randomUUID(), AccountMembership("foo", UUID.randomUUID(), null))
+					},
+					check = { assertEquals("AUTH1", it.code) }
+			)
+
 		}
 	}
 }
