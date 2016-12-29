@@ -12,9 +12,10 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Path("/controllers/")
-@RequiresAuthentication interface ControllerService {
+@RequiresRoles(admin)
+@RequiresAuthentication
+interface ControllerService {
 	@GET
 	@Path("/")
-	@RequiresRoles(admin)
 	fun list(): List<String>
 }
