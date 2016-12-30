@@ -66,7 +66,13 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Simple::class)
 		@JsonProperty("owner")
-		override val owner: AssetOwner? = null
+		override val owner: AssetOwner? = null,
+
+		@Field
+		@JsonView(Detailed::class)
+		@JsonProperty("devices")
+		val devices : List<VirtualDevice> = listOf()
+
 )
 : Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
 	override fun references(): Map<KClass<*>, List<UUID>> =
