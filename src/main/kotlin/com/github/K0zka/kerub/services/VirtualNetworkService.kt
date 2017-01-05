@@ -13,4 +13,7 @@ import javax.ws.rs.core.MediaType
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
-interface VirtualNetworkService : RestCrud<VirtualNetwork>, RestOperations.List<VirtualNetwork>
+interface VirtualNetworkService :
+		RestCrud<VirtualNetwork>,
+		RestOperations.List<VirtualNetwork>,
+		AssetService<VirtualNetwork>

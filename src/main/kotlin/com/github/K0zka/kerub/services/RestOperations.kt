@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.services
 
+import com.github.K0zka.kerub.model.Named
 import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.wordnik.swagger.annotations.ApiOperation
@@ -35,6 +36,22 @@ interface RestOperations {
 		@Path("/{id}")
 		@RequiresAuthentication
 		fun getById(@ApiParam(value = "ID of the object", name = "id", required = true) @PathParam("id") id: UUID): T
+	}
+
+	/**
+	 * Only for named objects: retrieve by name.
+	 */
+	interface ByName<T : Named> {
+		@ApiOperation("Get the object by it's name.")
+		@ApiResponses(
+				ApiResponse(code = 200, message = "OK"),
+				ApiResponse(code = 403, message = "Security error"),
+				ApiResponse(code = 404, message = "Not found")
+		)
+		@GET
+		@Path("byname/{name}")
+		@RequiresAuthentication
+		fun getByName(name : String) : kotlin.collections.List<T>
 	}
 
 	/**

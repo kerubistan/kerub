@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.data
 
 import com.github.K0zka.kerub.model.Entity
+import com.github.K0zka.kerub.model.Named
 
 /**
  * Collection of common DAO operations to pick from when building DAO interfaces.
@@ -35,6 +36,10 @@ interface DaoOperations {
 	interface Read<T : Entity<I>, I> {
 		operator fun get(id: I): T?
 		operator fun get(ids: Collection<I>) : List<T>
+	}
+
+	interface ByName<T : Named> {
+		fun getByName(name : String) : List<T>
 	}
 
 	/**

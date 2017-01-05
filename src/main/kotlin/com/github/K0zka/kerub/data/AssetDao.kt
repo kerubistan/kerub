@@ -2,13 +2,15 @@ package com.github.K0zka.kerub.data
 
 import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.AssetOwner
-import java.security.acl.Owner
 import java.util.UUID
 
 /**
  *
  */
-interface AssetDao<T : Asset> : DaoOperations.SimpleSearch<T>, ListableCrudDao<T, UUID> {
+interface AssetDao<T : Asset> :
+		DaoOperations.SimpleSearch<T>,
+		ListableCrudDao<T, UUID>,
+		DaoOperations.ByName<Asset> {
 
 	/**
 	 * Count the entities where the owner is one of the given
@@ -36,5 +38,9 @@ interface AssetDao<T : Asset> : DaoOperations.SimpleSearch<T>, ListableCrudDao<T
 			limit: Int = Int.MAX_VALUE
 	): List<T>
 
+	fun getByName(
+			owner: AssetOwner,
+			name: String
+	): List<T>
 
 }

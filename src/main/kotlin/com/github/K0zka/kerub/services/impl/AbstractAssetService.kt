@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.AssetService
+import com.github.K0zka.kerub.services.RestOperations
 import java.util.UUID
 
 abstract class AbstractAssetService<T : Asset>(
@@ -73,4 +74,10 @@ abstract class AbstractAssetService<T : Asset>(
 	override fun listAll(start: Long, limit: Int, sort: String): SortResultPage<T> {
 		return accessController.listWithFilter(dao, start, limit, sort)
 	}
+
+	override fun getByName(name: String): List<T> = TODO("https://github.com/kerubistan/kerub/issues/173")
+
+	override fun getByName(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
+			= TODO("https://github.com/kerubistan/kerub/issues/173")
+
 }

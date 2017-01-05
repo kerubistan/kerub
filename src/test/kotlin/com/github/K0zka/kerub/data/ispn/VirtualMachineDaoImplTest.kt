@@ -265,4 +265,62 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		assertEquals(listOf<VirtualMachine>(), dao.listByAttachedStorage(UUID.randomUUID()))
 	}
 
+	@Test
+	fun getByName() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+
+		val vm1 = testVm.copy(
+				name = "vm-1",
+				id = UUID.randomUUID()
+		)
+
+		val vm2 = testVm.copy(
+				name = "vm-2",
+				id = UUID.randomUUID()
+		)
+
+		dao.add(vm1)
+		dao.add(vm2)
+
+		assertEquals(listOf(vm1), dao.getByName(vm1.name))
+		assertEquals(listOf(vm2), dao.getByName(vm2.name))
+		assertEquals(listOf<VirtualMachine>(), dao.getByName("NOTEXISTING-${UUID.randomUUID()}"))
+	}
+
+	@Test
+	fun getByNameWithOwner() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+
+		val owner1 = AssetOwner(
+				ownerId = UUID.randomUUID(),
+				ownerType = AssetOwnerType.account
+		)
+		val owner2 = AssetOwner(
+				ownerId = UUID.randomUUID(),
+				ownerType = AssetOwnerType.account
+		)
+		val owner3 = AssetOwner(
+				ownerId = UUID.randomUUID(),
+				ownerType = AssetOwnerType.account
+		)
+
+		val vm1 = testVm.copy(
+				name = "test-vm",
+				id = UUID.randomUUID(),
+				owner = owner1
+		)
+
+		val vm2 = vm1.copy(
+				id = UUID.randomUUID(),
+				owner = owner2
+		)
+
+		dao.add(vm1)
+		dao.add(vm2)
+
+		assertEquals(listOf(vm1), dao.getByName(owner1, vm1.name))
+		assertEquals(listOf(vm2), dao.getByName(owner2, vm1.name))
+		assertEquals(listOf<VirtualMachine>(), dao.getByName(owner3, vm1.name))
+	}
+
 }

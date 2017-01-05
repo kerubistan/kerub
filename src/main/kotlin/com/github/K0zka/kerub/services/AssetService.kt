@@ -13,11 +13,11 @@ import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.QueryParam
 
-interface AssetService<T : Asset> {
+@RequiresAuthentication
+interface AssetService<T : Asset> : RestOperations.ByName<T> {
 	@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
 	@GET
 	@Path("/{ownerType}/ownerId/")
-	@RequiresAuthentication
 	fun listByOwner(@ApiParam("First returned entity", defaultValue = "0", required = false)
 					 @QueryParam("start")
 					 @DefaultValue("0") start: Long,
@@ -43,7 +43,6 @@ interface AssetService<T : Asset> {
 	@ApiOperation("Search objects within the account/project", notes = "The actual list will be filtered by security")
 	@GET
 	@Path("/search/{ownerType}/{ownerId}")
-	@RequiresAuthentication
 	fun search(
 			@ApiParam("Name of the field to search by", defaultValue = "0", required = false)
 			@QueryParam("field")
@@ -70,5 +69,10 @@ interface AssetService<T : Asset> {
 			ownerId: UUID
 
 	): SearchResultPage<T>
+
+	@ApiOperation("Search objects within the account/project", notes = "The actual list will be filtered by security")
+	@GET
+	@Path("/byname/{ownerType}/{ownerId}/{name}")
+	fun getByName(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
 
 }

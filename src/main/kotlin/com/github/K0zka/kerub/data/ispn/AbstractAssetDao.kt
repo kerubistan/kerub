@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.data.AssetDao
 import com.github.K0zka.kerub.data.EventListener
 import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.AssetOwner
+import com.github.K0zka.kerub.model.Named
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Expression
 import java.util.UUID
@@ -59,5 +60,16 @@ abstract class AbstractAssetDao<T : Asset>(
 						.list<Asset>().first() as Array<*>
 				(count.first() as Number).toInt()
 			}
+
+	override fun getByName(name: String): List<Asset> =
+			cache.queryBuilder(getEntityClass().kotlin)
+					.having(Named::name.name).eq(name)
+					.list()
+
+	override fun getByName(owner: AssetOwner, name: String) =
+			cache.queryBuilder(getEntityClass().kotlin)
+					.having(Named::name.name).eq(name)
+					.and().having(Asset::ownerIdStr.name).eq(owner.ownerIdStr)
+					.list<T>()
 
 }
