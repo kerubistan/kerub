@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.exceptions.mappers.RestError
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
+import com.github.K0zka.kerub.utils.silent
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper
 import org.apache.cxf.jaxrs.client.WebClient
@@ -25,9 +26,9 @@ val testUsers = mapOf(
 class RestException(val msg : String, val code : String, val status : Int, val response : Response) : RuntimeException()
 
 class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
-	override fun fromResponse(r: Response?): Exception? {
-		val entity = objectMapper.readValue(r!!.entity as InputStream, RestError::class.java)
-		throw RestException(entity.message!!,entity.code!!, r.status, r)
+	override fun fromResponse(r: Response): Exception {
+		val entity = silent { objectMapper.readValue(r.entity as InputStream, RestError::class.java) }
+		return RestException(entity?.message ?: "" ,entity?.code ?: "", r.status, r)
 	}
 }
 
