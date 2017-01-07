@@ -11,6 +11,7 @@ import java.util.UUID
 import javax.ws.rs.DefaultValue
 import javax.ws.rs.GET
 import javax.ws.rs.Path
+import javax.ws.rs.PathParam
 import javax.ws.rs.QueryParam
 
 @RequiresAuthentication
@@ -73,6 +74,8 @@ interface AssetService<T : Asset> : RestOperations.ByName<T> {
 	@ApiOperation("Search objects within the account/project", notes = "The actual list will be filtered by security")
 	@GET
 	@Path("/byname/{ownerType}/{ownerId}/{name}")
-	fun getByName(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
+	fun getByNameAndOwner(@PathParam("ownerType") ownerType: AssetOwnerType,
+						  @PathParam("ownerId") ownerId: UUID,
+						  @PathParam("name") name: String): List<T>
 
 }

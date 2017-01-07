@@ -42,7 +42,7 @@ interface RestOperations {
 	 * Only for named objects: retrieve by name.
 	 */
 	interface ByName<T : Named> {
-		@ApiOperation("Get the object by it's name.")
+		@ApiOperation("Get the object by its name.")
 		@ApiResponses(
 				ApiResponse(code = 200, message = "OK"),
 				ApiResponse(code = 403, message = "Security error"),
@@ -51,7 +51,7 @@ interface RestOperations {
 		@GET
 		@Path("byname/{name}")
 		@RequiresAuthentication
-		fun getByName(name : String) : kotlin.collections.List<T>
+		fun getByName(@PathParam("name") name : String) : kotlin.collections.List<T>
 	}
 
 	/**

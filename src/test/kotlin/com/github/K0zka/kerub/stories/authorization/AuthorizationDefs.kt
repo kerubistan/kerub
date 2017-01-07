@@ -5,13 +5,14 @@ import com.github.K0zka.kerub.createClient
 import com.github.K0zka.kerub.login
 import com.github.K0zka.kerub.model.Account
 import com.github.K0zka.kerub.model.AccountMembership
-import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Named
+import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualNetwork
+import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.DeviceType
@@ -19,6 +20,7 @@ import com.github.K0zka.kerub.model.messages.SubscribeMessage
 import com.github.K0zka.kerub.runRestAction
 import com.github.K0zka.kerub.services.AccountMembershipService
 import com.github.K0zka.kerub.services.AccountService
+import com.github.K0zka.kerub.services.AssetService
 import com.github.K0zka.kerub.services.ControllerConfigService
 import com.github.K0zka.kerub.services.RestCrud
 import com.github.K0zka.kerub.services.RestOperations
@@ -31,6 +33,7 @@ import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.testWsUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.substringBetween
 import com.nhaarman.mockito_kotlin.mock
@@ -353,14 +356,23 @@ class AuthorizationDefs {
 				}
 			},
 			"update" to { x, obj -> x.update(obj.id, obj) },
-			"remove" to { x, obj -> x.delete(obj.id) },
+			"remove" to { x, obj ->
+				x.delete(obj.id)
+				val removedEntities = this.entities.entries.filter { it.value.id == obj.id }.map { it.key }
+				removedEntities.forEach {
+					entityName ->
+					logger.debug("clearing $entityName from the list")
+					this.entities = this.entities.filterNot { it.key == entityName }
+				}
+			},
 			"start" to { x, obj ->
 				(x as VirtualMachineService).startVm(obj.id)
 			},
 			"stop" to { x, obj -> (x as VirtualMachineService).stopVm(obj.id) },
 			"upload" to {
-				x, obj -> (x as VirtualStorageDeviceService)
-					.load(id = obj.id, data = NullInputStream(0), async = mock())
+				x, obj ->
+				(x as VirtualStorageDeviceService)
+						.load(id = obj.id, data = NullInputStream(0), async = mock())
 			},
 			"search" to {
 				x, obj ->
@@ -379,6 +391,25 @@ class AuthorizationDefs {
 			"virtual network" to VirtualNetworkService::class as KClass<RestCrud<Entity<UUID>>>
 	)
 
+	@Then("User (\\S+) is (not)?\\s?able to find (vm|virtual network|virtual disk) (\\S+) by name")
+	fun checkFindByName(userName: String, able: String?, entityType: String, entityName: String) {
+		val shouldFind = able?.trim() != "not"
+		val client = createClient()
+		client.login(userName, "password")
+		val serviceClient = client.runRestAction(requireNotNull(clients[entityType])) {
+			val list = (it as AssetService<*>).getByName(entityName)
+			if (shouldFind) {
+				list.single {
+					it.id == requireNotNull(entities[entityName]).id
+				}
+			} else {
+				list.none {
+					it.id == requireNotNull(entities[entityName]).id
+				}
+			}
+		}
+	}
+
 	@Then("User (\\S+) is (not)?\\s?able to (see|list|update|remove|start|stop|upload|search) (vm|virtual disk|virtual network) (\\S+)")
 	fun checkAccess(userName: String, able: String?, actionName: String, objectType: String, objectName: String) {
 		val shouldFail = able == "not"
@@ -386,7 +417,9 @@ class AuthorizationDefs {
 		client.login(username = userName, password = "password")
 
 		val clientClass = requireNotNull(clients[objectType]) { "client class not found for '$objectType'" }
-		val obj = requireNotNull(entities[objectName]) { "object $objectName not found" }
+		val obj = requireNotNull(entities[objectName]) {
+			"object $objectName not found, known objects at this point: ${ entities.keys }"
+		}
 		val action = requireNotNull(actions[actionName]) { "action not found for name '$actionName'" }
 		client.runRestAction(clientClass) {
 			try {
@@ -405,16 +438,16 @@ class AuthorizationDefs {
 	}
 
 	@Then("User (\\S+) is (not)?\\s+able to subscribe (vm|virtual disk|virtual network) (\\S+)")
-	fun checkSocketAccess(userName: String, able : String, type: String, objectName : String) {
+	fun checkSocketAccess(userName: String, able: String, type: String, objectName: String) {
 		val client = createClient()
 		val resp = client.login(userName, "password")
 		val wsClient = WebSocketClient()
 		wsClient.start()
-		val cookieStore : CookieStore = HttpCookieStore()
+		val cookieStore: CookieStore = HttpCookieStore()
 		wsClient.cookieStore = cookieStore
 		resp.metadata["Set-Cookie"]?.forEach {
 			val cookie = it.toString()
-			wsClient.cookieStore.add( URI(testWsUrl), HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")) )
+			wsClient.cookieStore.add(URI(testWsUrl), HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")))
 		}
 
 		@WebSocket
@@ -424,17 +457,20 @@ class AuthorizationDefs {
 			var inbox = listOf<String>()
 
 			@OnWebSocketConnect
-			fun connect(session : Session) {
+			fun connect(session: Session) {
 				WebSocketSecurityIT.logger.info("connected: ${session.isOpen}")
 			}
+
 			@OnWebSocketClose
-			fun close(code: Int, msg : String?) {
+			fun close(code: Int, msg: String?) {
 				WebSocketSecurityIT.logger.info("connection closed {} {}", code, msg)
 			}
+
 			@OnWebSocketMessage
-			fun message(session : Session, input : String) {
+			fun message(session: Session, input: String) {
 				WebSocketSecurityIT.logger.info("message: {}", input)
 			}
+
 			@OnWebSocketError
 			fun error(error: Throwable) {
 				WebSocketSecurityIT.logger.info("socket error", error)
@@ -503,6 +539,19 @@ class AuthorizationDefs {
 			accountService ->
 			accounts.forEach {
 				accountService.delete(it.value.id)
+			}
+		}
+		entities.values.forEach {
+			entity ->
+			silent {
+				when (entity) {
+					is VirtualMachine ->
+						client.runRestAction(VirtualMachineService::class) { it.delete(entity.id) }
+					is VirtualNetwork ->
+						client.runRestAction(VirtualNetworkService::class) { it.delete(entity.id) }
+					is VirtualStorageDevice ->
+						client.runRestAction(VirtualStorageDeviceService::class) { it.delete(entity.id) }
+				}
 			}
 		}
 	}

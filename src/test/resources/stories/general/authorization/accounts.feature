@@ -18,6 +18,7 @@ Feature: Accounts
 	Then User enduser is not able to see the account EugeneCuckoo Inc
 	And User enduser is not able to create vm outside of accounts
 	And User enduser is not able to see vm vm-1
+	And User enduser is not able to find vm vm-1 by name
 	And User enduser is not able to list vm vm-1
 	And User enduser is not able to update vm vm-1
 	And User enduser is not able to remove vm vm-1
@@ -59,6 +60,7 @@ Feature: Accounts
 	Then User enduser is able to see the account EugeneCuckoo Inc
 	And User enduser is not able to create vm outside of accounts
 	And User enduser is able to see vm vm-1
+	And User enduser is able to find vm vm-1 by name
 	And User enduser is able to list vm vm-1
 	And User enduser is able to update vm vm-1
 	And User enduser is able to start vm vm-1

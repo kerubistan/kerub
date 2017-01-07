@@ -73,9 +73,9 @@ abstract class AbstractAssetService<T : Asset>(
 			accessController.listWithFilter(dao, start, limit, sort)
 
 	override fun getByName(name: String): List<T>
-			= TODO("https://github.com/kerubistan/kerub/issues/173")
+			= accessController.filter( dao.getByName(name) as List<T> )
 
-	override fun getByName(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
+	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
 			= TODO("https://github.com/kerubistan/kerub/issues/173")
 
 }
