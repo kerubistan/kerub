@@ -169,7 +169,7 @@ abstract class AbstractLinux : Distribution {
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
 		//TODO: filter out the ones not connected and not wal-enabled
-		val macAdddresses = Net.listDevices(session).map { Net.getMacAddress(session, it) }
+		val macAdddresses = Net.listDevices(session).map { silent { Net.getMacAddress(session, it) } }.filterNotNull()
 
 		if(macAdddresses.isEmpty()) {
 			return listOf()
