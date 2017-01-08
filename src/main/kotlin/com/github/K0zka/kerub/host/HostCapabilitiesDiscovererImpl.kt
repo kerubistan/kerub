@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Fedora
 import com.github.K0zka.kerub.host.distros.Fedora23Plus
 import com.github.K0zka.kerub.host.distros.FreeBSD
+import com.github.K0zka.kerub.host.distros.Gentoo
 import com.github.K0zka.kerub.host.distros.OpenIndiana
 import com.github.K0zka.kerub.host.distros.OpenSuse
 import com.github.K0zka.kerub.host.distros.Raspbian
@@ -40,6 +41,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				//RPM-based distros
 				Fedora(),
 				Fedora23Plus(),
+				Gentoo(),
 				Centos6(),
 				Centos7(),
 				OpenSuse(),
