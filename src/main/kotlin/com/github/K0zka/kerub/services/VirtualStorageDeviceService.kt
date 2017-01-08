@@ -19,7 +19,8 @@ import javax.ws.rs.core.MediaType
 @Path("/virtual-storage") interface VirtualStorageDeviceService :
 		RestCrud<VirtualStorageDevice>,
 		RestOperations.List<VirtualStorageDevice>,
-		RestOperations.SimpleSearch<VirtualStorageDevice> {
+		RestOperations.SimpleSearch<VirtualStorageDevice>,
+		AssetService<VirtualStorageDevice>{
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
