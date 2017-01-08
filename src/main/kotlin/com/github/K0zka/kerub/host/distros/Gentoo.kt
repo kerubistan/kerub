@@ -6,23 +6,23 @@ import org.apache.sshd.client.session.ClientSession
 
 class Gentoo : AbstractLinux() {
 	override fun getPackageManager(session: ClientSession): PackageManager {
-		throw UnsupportedOperationException()
+		throw TODO("https://github.com/kerubistan/kerub/issues/20")
 	}
 
 	override fun getVersion(session: ClientSession): Version {
-		throw UnsupportedOperationException()
+		throw TODO("https://github.com/kerubistan/kerub/issues/20")
 	}
 
 	override fun name(): String {
-		throw UnsupportedOperationException()
+		throw TODO("https://github.com/kerubistan/kerub/issues/20")
 	}
 
 	override fun handlesVersion(version: Version): Boolean {
-		throw UnsupportedOperationException()
+		throw TODO("https://github.com/kerubistan/kerub/issues/20")
 	}
 
 	override fun detect(session: ClientSession): Boolean {
-		throw UnsupportedOperationException()
+		throw TODO("https://github.com/kerubistan/kerub/issues/20")
 	}
 
 
