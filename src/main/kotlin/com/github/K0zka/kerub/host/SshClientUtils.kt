@@ -123,7 +123,7 @@ fun ClientSession.getFileContents(file: String): String {
  */
 fun SftpClient.getFileContents(file: String): String {
 	return this.read(file).use {
-		logger.debugAndReturn("Contents of file ${file}: ", it.reader(charset("ASCII")).readText())
+		logger.debugAndReturn("Contents of file ${file}: ", it.reader(Charsets.US_ASCII).readText())
 	}
 }
 
