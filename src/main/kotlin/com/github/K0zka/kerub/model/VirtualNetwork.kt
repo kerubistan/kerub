@@ -10,7 +10,7 @@ import java.util.UUID
 import kotlin.reflect.KClass
 
 @JsonTypeName("vnet")
-class VirtualNetwork(
+data class VirtualNetwork(
 		override val id: UUID,
 		override val expectations: List<VirtualNetworkExpectation> = listOf(),
 		override val name: String,
