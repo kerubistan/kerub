@@ -1,4 +1,4 @@
-[![Kotlin](https://img.shields.io/badge/kotlin-1.0.5-blue.svg)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.0.6-blue.svg)](http://kotlinlang.org)
 [![FreeBSD](https://img.shields.io/badge/FreeBSD-10+-red.svg)](http://freebsd.org)
 [![Fedora](https://img.shields.io/badge/Fedora-20+-blue.svg)](https://getfedora.org/)
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-14+-red.svg)](http://ubuntu.com)
