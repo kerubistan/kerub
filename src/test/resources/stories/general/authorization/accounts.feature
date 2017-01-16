@@ -28,6 +28,7 @@ Feature: Accounts
 	And User enduser is not able to see virtual disk disk-1
 	And User enduser is not able to list virtual disk disk-1
 	And User enduser is not able to update virtual disk disk-1
+	And User enduser is not able to find virtual disk disk-1 by name
 	And User enduser is not able to remove virtual disk disk-1
 	And User enduser is not able to upload virtual disk disk-1
 	And User enduser is not able to create virtual network outside of accounts
@@ -35,6 +36,7 @@ Feature: Accounts
 	And User enduser is not able to see virtual network net-1
 	And User enduser is not able to see virtual network net-1
 	And User enduser is not able to see virtual network net-1
+	And User enduser is not able to find virtual network net-1 by name
 	And User enduser is not able to subscribe vm vm-1
 	And User enduser is not able to subscribe virtual disk disk-1
 	And User enduser is not able to subscribe virtual network net-1
@@ -68,6 +70,7 @@ Feature: Accounts
 	And User enduser is able to remove vm vm-1
 	And User enduser is not able to create virtual disk outside of accounts
 	And User enduser is able to see virtual disk disk-1
+	And User enduser is able to find virtual disk disk-1 by name
 	And User enduser is able to list virtual disk disk-1
 	And User enduser is able to update virtual disk disk-1
 	#And User enduser is able to upload virtual disk disk-1
@@ -75,6 +78,7 @@ Feature: Accounts
 	And User enduser is not able to create virtual network outside of accounts
 	And User enduser is able to see virtual network net-1
 	And User enduser is able to list virtual network net-1
+	And User enduser is able to find virtual network net-1 by name
 	And User enduser is able to update virtual network net-1
 	And User enduser is able to remove virtual network net-1
 	And User enduser is able to subscribe vm vm-1

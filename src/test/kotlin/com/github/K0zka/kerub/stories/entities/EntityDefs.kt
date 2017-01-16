@@ -17,6 +17,7 @@ import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import com.github.K0zka.kerub.testDisk
 import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
 import cucumber.api.DataTable
 import cucumber.api.java.After
@@ -37,6 +38,10 @@ class EntityDefs {
 
 		val instance: EntityDefs
 			get() = insanceTl.get()
+	}
+
+	fun entityDropped(entity : Entity<*>) {
+		entities = entities.filterValues { it.id != entity.id }
 	}
 
 	val entityTypes = mapOf<KClass<out Any>, KClass<out RestCrud<*>>>(

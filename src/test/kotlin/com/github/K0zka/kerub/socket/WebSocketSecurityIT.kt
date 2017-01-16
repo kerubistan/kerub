@@ -63,10 +63,14 @@ class WebSocketSecurityIT {
 			}
 		}
 		val session = socketClient!!.connect(Listener(), URI(testWsUrl)).get()
-		session.use {
-			session.remote.sendPing(ByteBuffer.wrap("hello".toByteArray(charset("UTF-8"))))
-
+		try {
+			session.use {
+				session.remote.sendPing(ByteBuffer.wrap("hello".toByteArray(charset("UTF-8"))))
+			}
+		} catch (e : Exception) {
+			//tolerated
 		}
+		Assert.assertFalse(session.isOpen())
 		Assert.assertFalse(messageReceived.get())
 	}
 }
