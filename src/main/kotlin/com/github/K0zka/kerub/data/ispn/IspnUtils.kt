@@ -33,3 +33,6 @@ fun <K, V : Any> Cache<K, V>.fieldSearch(
 				.maxResults(limit)
 				.having(field).like("%${value}%")
 				.list()
+
+fun <K, V : Any> Cache<K, V>.parallelStream()
+		= this.advancedCache.cacheEntrySet().parallelStream()

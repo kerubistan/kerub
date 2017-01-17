@@ -8,6 +8,7 @@ import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
 
 class StatisticsInfo(
 		val upTime: Long,
@@ -16,22 +17,21 @@ class StatisticsInfo(
 		val misses: Long,
 		val avgReadTime: Long,
 		val avgWriteTime: Long,
-		val avgRemoveTime: Long) {
-}
+		val avgRemoveTime: Long)
 
-@Produces("application/json")
-@Consumes("application/json")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("/stats/controller/db")
-@RequiresAuthentication interface StatisticsService {
+@RequiresAuthentication
+@RequiresRoles(admin)
+interface StatisticsService {
 
-	@RequiresRoles(admin)
 	@GET
 	@Path("/")
 	fun listCaches() : List<String>
 
-
-	@RequiresRoles(admin)
 	@GET
-	@Path("/{name}")
+	@Path("/cache/{name}")
 	fun getStatisticsInfo(@PathParam("name") cacheName: String): StatisticsInfo
+
 }

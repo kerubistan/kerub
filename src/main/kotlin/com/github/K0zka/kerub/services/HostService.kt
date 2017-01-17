@@ -10,7 +10,6 @@ import com.wordnik.swagger.annotations.ApiResponse
 import com.wordnik.swagger.annotations.ApiResponses
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles
-import java.util.UUID
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.PUT
@@ -26,12 +25,6 @@ import javax.ws.rs.core.MediaType
 @RequiresAuthentication
 @RequiresRoles(admin)
 interface HostService : RestCrud<Host>, RestOperations.List<Host> {
-
-//	override fun getById(id: UUID): Host
-//
-//	override fun delete(id: UUID)
-//
-//	override fun update(id: UUID, entity: Host): Host
 
 	@ApiOperation("Add new object")
 	@ApiResponses(

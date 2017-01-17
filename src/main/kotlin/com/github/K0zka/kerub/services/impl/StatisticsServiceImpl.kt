@@ -5,7 +5,10 @@ import com.github.K0zka.kerub.services.StatisticsService
 import org.infinispan.AdvancedCache
 import org.infinispan.manager.EmbeddedCacheManager
 
-class StatisticsServiceImpl(private val cacheManager: EmbeddedCacheManager) : StatisticsService {
+class StatisticsServiceImpl(
+		private val cacheManager: EmbeddedCacheManager
+) : StatisticsService {
+
 	override fun listCaches(): List<String> =
 		cacheManager.cacheNames.toList().sorted()
 

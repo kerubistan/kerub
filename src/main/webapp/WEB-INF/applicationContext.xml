@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
             http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
@@ -95,6 +95,13 @@
 	-->
 
 	<bean id="daoBase" abstract="true">
+	</bean>
+
+	<bean id="statisticsDao" class="com.github.K0zka.kerub.data.ispn.StatisticsDaoImpl">
+		<constructor-arg name="hostCache" ref="hostCache"/>
+		<constructor-arg name="vmCache" ref="vmCache"/>
+		<constructor-arg name="vdiskCache" ref="virtualStorageDeviceCache"/>
+		<constructor-arg name="vdiskDynDao" ref="virtualStorageDeviceDynamicCache"/>
 	</bean>
 
 	<bean id="controllerConfigDao" class="com.github.K0zka.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">
@@ -517,6 +524,9 @@
 			</bean>
 			<bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
 				<constructor-arg ref="cacheManager"/>
+			</bean>
+			<bean id="usageStats" class="com.github.K0zka.kerub.services.impl.UsageStatisticsServiceImpl">
+				<constructor-arg ref="statisticsDao"/>
 			</bean>
 			<bean id="controllers" class="com.github.K0zka.kerub.services.impl.ControllerServiceImpl">
 				<constructor-arg ref="controllerDao"/>

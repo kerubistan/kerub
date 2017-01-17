@@ -9,8 +9,18 @@ import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualNetwork
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.utils.toSize
 import java.util.UUID
+
+val testCpu = ProcessorInformation(
+		manufacturer = "Test Corporation",
+		coreCount = 1,
+		threadCount = 2,
+		socket = "Socket-A",
+		flags = listOf("vtx", "vtd"),
+		version = "latest-greatest"
+)
 
 val testHost = Host(
 		id = UUID.randomUUID(),
