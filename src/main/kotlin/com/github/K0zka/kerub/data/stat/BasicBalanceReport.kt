@@ -4,6 +4,7 @@ import java.math.BigInteger
 
 data class BasicBalanceReport(
 		//systems
+		// @formatter:off
 		val totalHosts: Int, // number of hosts
 		val totalVms: Int, // number of virtual machines
 		// memory
@@ -17,5 +18,6 @@ data class BasicBalanceReport(
 		// storage
 		val totalHostStorage: BigInteger, // sum of all storage capabilities in all hosts
 		val totalDiskStorageRequested: BigInteger, // sum of all virtual disk size
-		val totalDiskStorageActual: BigInteger                // sum of the actual disk space taken by virtual disks
+		val totalDiskStorageActual: BigInteger        // sum of the actual disk space taken by virtual disks
+		// @formatter:on
 )

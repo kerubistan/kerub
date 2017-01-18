@@ -230,6 +230,48 @@
 			<uib-tab-heading>
 				<i class="fa fa-balance-scale"></i> Status
 			</uib-tab-heading>
+			<div ng-controller="StatusTab" ng-init="refresh()">
+				<div class="panel panel-default">
+					<div class="panel-heading"><span class="fa fa-balance-scale"></span> Overview
+						<button class="btn btn-success fa fa-refresh"
+						        ng-click="refresh()"></button>
+					</div>
+					<div class="panel-body">
+						<ul>
+							<li>hosts: {{basicBalanceReport.totalHosts}}</li>
+							<li>vms: {{basicBalanceReport.totalVms}}</li>
+							<li>total host memory:
+								{{humanFriendlySize(basicBalanceReport.totalHostMemory)}}
+							</li>
+							<li>min vm memory:
+								{{humanFriendlySize(basicBalanceReport.totalMinVmMemory)}}
+							</li>
+							<li>max vm memory:
+								{{humanFriendlySize(basicBalanceReport.totalMaxVmMemory)}}
+							</li>
+							<li>host cpus:
+								{{basicBalanceReport.totalHostCpus}}
+							</li>
+							<li>vm cpus:
+								{{basicBalanceReport.totalVmCpus}}
+							</li>
+							<li>dedicated vm cpus:
+								{{basicBalanceReport.totalDedicatedVmCpus}}
+							</li>
+							<li>host storage capacity:
+								{{humanFriendlySize(basicBalanceReport.totalHostStorage)}}
+							</li>
+							<li>storage requested by vms:
+								{{humanFriendlySize(basicBalanceReport.totalDiskStorageRequested)}}
+							</li>
+							<li>storage used by vms:
+								{{humanFriendlySize(basicBalanceReport.totalDiskStorageActual)}}
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
 		</uib-tab>
 		<uib-tab ng-if="isAdmin()">
 			<uib-tab-heading>
