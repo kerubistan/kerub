@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.services.socket
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.K0zka.kerub.model.messages.EntityAddMessage
+import com.github.K0zka.kerub.model.messages.EntityRemoveMessage
 import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.model.messages.Message
 import com.github.K0zka.kerub.model.messages.PingMessage
@@ -22,12 +24,13 @@ class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWeb
 	protected companion object {
 		private fun init(): ObjectMapper {
 			val mapper = createObjectMapper()
-			mapper.enableDefaultTyping()
 			mapper.registerSubtypes(
 					Message::class.java,
 					SubscribeMessage::class.java,
 					UnsubscribeMessage::class.java,
 					EntityUpdateMessage::class.java,
+					EntityAddMessage::class.java,
+					EntityRemoveMessage::class.java,
 					PingMessage::class.java,
 					PongMessage::class.java)
 			return mapper
