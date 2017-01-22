@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.socket
 
+import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.testWsUrl
+import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
@@ -10,12 +12,13 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import java.net.URI
-import java.nio.ByteBuffer
-import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 class WebSocketSecurityIT {
 
@@ -23,7 +26,7 @@ class WebSocketSecurityIT {
 		val logger = getLogger(WebSocketSecurityIT::class)
 	}
 
-	var socketClient : WebSocketClient? = null
+	var socketClient: WebSocketClient? = null
 
 	@Before
 	fun setup() {
@@ -39,38 +42,48 @@ class WebSocketSecurityIT {
 	@Test
 	fun unauthenticatedUser() {
 
-		val messageReceived = AtomicBoolean(false)
+		val queue: BlockingQueue<String> = ArrayBlockingQueue<String>(1024)
 
 		@WebSocket
 		class Listener {
 
 			@OnWebSocketConnect
-			fun connect(session : Session) {
+			fun connect(session: Session) {
 				logger.info("connected: ${session.isOpen}")
+				session.remote.sendString(
+						createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
+				)
+				queue.put("connected")
 			}
+
 			@OnWebSocketClose
-			fun close(code: Int, msg : String?) {
+			fun close(code: Int, msg: String?) {
 				logger.info("connection closed {} {}", code, msg)
+				queue.put("closed")
 			}
+
 			@OnWebSocketMessage
-			fun message(session : Session, input : String) {
+			fun message(session: Session, input: String) {
 				logger.info("message: {}", input)
-				messageReceived.set(true)
+				queue.put("message")
 			}
+
 			@OnWebSocketError
 			fun error(error: Throwable) {
 				logger.info("socket error", error)
+				queue.put("error")
 			}
 		}
-		val session = socketClient!!.connect(Listener(), URI(testWsUrl)).get()
-		try {
-			session.use {
-				session.remote.sendPing(ByteBuffer.wrap("hello".toByteArray(charset("UTF-8"))))
-			}
-		} catch (e : Exception) {
-			//tolerated
+
+		socketClient!!.connect(Listener(), URI(testWsUrl)).get()
+
+		var messages = listOf<String>()
+		var msg = queue.poll(1, TimeUnit.SECONDS)
+		while (msg != null) {
+			messages += msg
+			msg = queue.poll(1, TimeUnit.SECONDS)
 		}
-		Assert.assertFalse(session.isOpen())
-		Assert.assertFalse(messageReceived.get())
+
+		assertEquals(listOf("connected", "closed"), messages)
 	}
 }
