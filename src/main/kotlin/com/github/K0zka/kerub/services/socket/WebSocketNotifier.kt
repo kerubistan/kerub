@@ -1,9 +1,5 @@
 package com.github.K0zka.kerub.services.socket
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.K0zka.kerub.model.messages.EntityAddMessage
-import com.github.K0zka.kerub.model.messages.EntityRemoveMessage
-import com.github.K0zka.kerub.model.messages.EntityUpdateMessage
 import com.github.K0zka.kerub.model.messages.Message
 import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.model.messages.PongMessage
@@ -17,26 +13,10 @@ import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.io.StringWriter
-import java.util.HashSet
-import javax.websocket.Session
 
 class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWebSocketHandler() {
-	protected companion object {
-		private fun init(): ObjectMapper {
-			val mapper = createObjectMapper()
-			mapper.registerSubtypes(
-					Message::class.java,
-					SubscribeMessage::class.java,
-					UnsubscribeMessage::class.java,
-					EntityUpdateMessage::class.java,
-					EntityAddMessage::class.java,
-					EntityRemoveMessage::class.java,
-					PingMessage::class.java,
-					PongMessage::class.java)
-			return mapper
-		}
-
-		val objectMapper = init()
+	companion object {
+		private val objectMapper = createObjectMapper()
 		private val logger: Logger = getLogger(WebSocketNotifier::class)
 	}
 
@@ -86,8 +66,5 @@ class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWeb
 		internalListener.removeSocketListener(session.id)
 		logger.info("connection closed, {}", status)
 	}
-
-	private var session: Session? = null
-	private val clients: MutableSet<ClientConnection> = HashSet()
 
 }
