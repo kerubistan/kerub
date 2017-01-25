@@ -720,10 +720,16 @@
 				</div>
 				<input type="text"
 				       ng-model="vnet.name"
+				       ng-change="checkVirtualNetworkName()"
 				       class="form-control"
 				       placeholder="Virtual Network Name"
 				       autocomplete="off"
 				/>
+				<div class="input-group-addon">
+					<span ng-if="validating" class="fa fa-refresh fa-spin"></span>
+					<span ng-if="!validating && !valid" class="fa fa-thumbs-down"></span>
+					<span ng-if="!validating && valid" class="fa fa-thumbs-up"></span>
+				</div>
 			</div>
 		</div>
 
