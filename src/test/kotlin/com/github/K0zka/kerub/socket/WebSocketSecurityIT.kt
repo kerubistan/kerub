@@ -89,8 +89,6 @@ class WebSocketSecurityIT {
 				createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
 		)
 
-		client.logout()
-
 		var messages = listOf<String>()
 		var msg = queue.poll(1, TimeUnit.SECONDS)
 		while (msg != null) {
@@ -99,8 +97,17 @@ class WebSocketSecurityIT {
 		}
 
 		assertTrue(messages.first() == "connected")
-		assertTrue(messages.last() == "closed")
 		assertTrue(messages.contains("message"))
+
+		client.logout()
+
+		msg = queue.poll(1, TimeUnit.SECONDS)
+		while (msg != null) {
+			messages += msg
+			msg = queue.poll(1, TimeUnit.SECONDS)
+		}
+
+		assertTrue(messages.last() == "closed")
 
 	}
 
