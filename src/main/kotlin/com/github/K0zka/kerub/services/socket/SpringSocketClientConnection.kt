@@ -14,6 +14,10 @@ class SpringSocketClientConnection(
 		private val session: WebSocketSession,
 		private val mapper: ObjectMapper) : ClientConnection {
 
+	override fun close() {
+		session.close()
+	}
+
 	var subscriptions: Map<KClass<*>, List<ChannelSubscription>> = services.map { it.key to listOf<ChannelSubscription>() }.toMap()
 
 	private companion object {

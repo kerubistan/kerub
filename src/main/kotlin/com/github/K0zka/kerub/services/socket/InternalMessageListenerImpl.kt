@@ -29,7 +29,8 @@ open class InternalMessageListenerImpl(private val planner: Planner) : MessageLi
 	}
 
 	override fun removeSocketListener(id: String) {
-		channels.remove(id)
+		val connection = channels.remove(id)
+		connection?.close()
 	}
 
 	override fun onMessage(message: Message?) {

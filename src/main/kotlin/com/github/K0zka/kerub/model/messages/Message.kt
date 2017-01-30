@@ -12,6 +12,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(PingMessage::class),
 		JsonSubTypes.Type(PongMessage::class),
 		JsonSubTypes.Type(SubscribeMessage::class),
-		JsonSubTypes.Type(UnsubscribeMessage::class)
+		JsonSubTypes.Type(UnsubscribeMessage::class),
+		JsonSubTypes.Type(SessionEventMessage::class)
 )
 interface Message : Serializable

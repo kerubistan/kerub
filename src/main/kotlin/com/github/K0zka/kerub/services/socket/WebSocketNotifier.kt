@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.messages.SubscribeMessage
 import com.github.K0zka.kerub.model.messages.UnsubscribeMessage
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.servletSessionId
 import org.slf4j.Logger
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -37,12 +38,12 @@ class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWeb
 				send(session, PongMessage())
 			}
 			is SubscribeMessage -> {
-				logger.info("subscribe to {}", msg.channel)
-				internalListener.subscribe(session.id, msg.channel)
+				logger.info("{} subscribe to {}", session.servletSessionId, msg.channel)
+				internalListener.subscribe(session.servletSessionId, msg.channel)
 			}
 			is UnsubscribeMessage -> {
-				logger.info("unsubscribe from {}", msg.channel)
-				internalListener.unsubscribe(session.id, msg.channel)
+				logger.info("{} unsubscribe from {}", session.servletSessionId, msg.channel)
+				internalListener.unsubscribe(session.servletSessionId, msg.channel)
 			}
 		}
 	}
@@ -56,14 +57,14 @@ class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWeb
 			logger.info("unauthenticated attempt")
 			session.close(CloseStatus.NORMAL)
 		} else {
-			logger.info("connection opened by {}", session.principal)
-			internalListener.addSocketListener(session.id, SpringSocketClientConnection(session, objectMapper))
+			logger.info("connection opened by {}, {}", session.principal, session.servletSessionId)
+			internalListener.addSocketListener(session.servletSessionId, SpringSocketClientConnection(session, objectMapper))
 			super.afterConnectionEstablished(session)
 		}
 	}
 
 	override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus?) {
-		internalListener.removeSocketListener(session.id)
+		internalListener.removeSocketListener(session.servletSessionId)
 		logger.info("connection closed, {}", status)
 	}
 

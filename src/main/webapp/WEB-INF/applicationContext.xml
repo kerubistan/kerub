@@ -269,6 +269,7 @@
 	<bean id="interControllerListener" class="com.github.K0zka.kerub.controller.impl.InterControllerListener">
 		<constructor-arg ref="hostManager"/>
 		<constructor-arg ref="hostDao"/>
+		<constructor-arg ref="messageListener"/>
 	</bean>
 
 	<bean id="sshClientFactory" class="com.github.K0zka.kerub.host.SshClientFactory"/>
@@ -418,6 +419,17 @@
 		<property name="messageListener" ref="interControllerListener"/>
 	</bean>
 
+	<bean id="broadcastEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
+		<constructor-arg value="jms.topic.kerub-broadcast"/>
+	</bean>
+
+
+	<bean id="broadcastMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="artemisCF"/>
+		<property name="concurrency" value="1-2"/>
+		<property name="destination" ref="broadcastEvents"/>
+		<property name="messageListener" ref="interControllerListener"/>
+	</bean>
 
 	<!--
 	Asynchronous invocations

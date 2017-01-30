@@ -2,15 +2,14 @@ package com.github.K0zka.kerub.services.socket
 
 import com.github.K0zka.kerub.planner.Planner
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
+import org.springframework.http.HttpHeaders
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import java.security.Principal
@@ -20,14 +19,16 @@ class WebSocketNotifierTest {
 	val planner: Planner = mock()
 	val internal: InternalMessageListener = mock()
 	val session: WebSocketSession = mock()
-	val connection: ClientConnection = mock()
-	var principal: Principal = mock()
+	val headers: HttpHeaders = mock()
+	val principal: Principal = mock()
 
 	var notifier: WebSocketNotifier? = null
 
 	@Before
 	fun setup() {
 		notifier = WebSocketNotifier(internal)
+		whenever(session.handshakeHeaders).thenReturn(headers)
+		whenever(headers.get(eq("COOKIE"))).thenReturn(listOf("JSESSIONID=test-session-id"))
 	}
 
 	@Test

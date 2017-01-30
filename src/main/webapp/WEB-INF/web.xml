@@ -14,6 +14,10 @@
         </param-value>
     </context-param>
 
+    <listener>
+        <listener-class>com.github.K0zka.kerub.security.UserSessionListener</listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>CXFServlet</servlet-name>
         <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>

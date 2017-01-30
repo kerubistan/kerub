@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.controller.HostAssignedMessage
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.services.socket.InternalMessageListener
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -21,11 +22,13 @@ class InterControllerListenerTest {
 
 	val message : ObjectMessage = mock()
 
+	val listener : InternalMessageListener = mock()
+
 	var impl : InterControllerListener? = null
 
 	@Before
 	fun setup() {
-		impl = InterControllerListener(hostManager, hostDao)
+		impl = InterControllerListener(hostManager, hostDao, listener)
 	}
 
 	@Test

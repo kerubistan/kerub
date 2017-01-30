@@ -38,7 +38,7 @@ class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController {
 	}
 
 	override fun broadcast(msg: Serializable) {
-		jmsTemplate.send("kerub-broadcast", {
+		jmsTemplate.send("jms.topic.kerub-broadcast", {
 			createObjectMessage(it, msg)
 		})
 	}
