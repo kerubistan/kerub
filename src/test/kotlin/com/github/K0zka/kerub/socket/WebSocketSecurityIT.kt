@@ -1,5 +1,9 @@
 package com.github.K0zka.kerub.socket
 
+import com.github.K0zka.kerub.createClient
+import com.github.K0zka.kerub.createSocketClient
+import com.github.K0zka.kerub.login
+import com.github.K0zka.kerub.logout
 import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.testWsUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
@@ -19,6 +23,7 @@ import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class WebSocketSecurityIT {
 
@@ -39,43 +44,72 @@ class WebSocketSecurityIT {
 		socketClient?.stop()
 	}
 
+
+	@WebSocket
+	class Listener(private val queue: BlockingQueue<String>) {
+
+		@OnWebSocketConnect
+		fun connect(session: Session) {
+			logger.info("connected: ${session.isOpen}")
+			session.remote.sendString(
+					createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
+			)
+			queue.put("connected")
+		}
+
+		@OnWebSocketClose
+		fun close(code: Int, msg: String?) {
+			logger.info("connection closed {} {}", code, msg)
+			queue.put("closed")
+		}
+
+		@OnWebSocketMessage
+		fun message(session: Session, input: String) {
+			logger.info("message: {}", input)
+			queue.put("message")
+		}
+
+		@OnWebSocketError
+		fun error(error: Throwable) {
+			logger.info("socket error", error)
+			queue.put("error")
+		}
+	}
+
+	@Test
+	fun authenticatedUser() {
+		val client = createClient()
+		val rep = client.login("admin", "password")
+		val socketClient = createSocketClient(rep)
+		val queue: BlockingQueue<String> = ArrayBlockingQueue<String>(1024)
+
+		val session = socketClient.connect(Listener(queue), URI(testWsUrl)).get()
+
+		session.remote.sendString(
+				createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
+		)
+
+		client.logout()
+
+		var messages = listOf<String>()
+		var msg = queue.poll(1, TimeUnit.SECONDS)
+		while (msg != null) {
+			messages += msg
+			msg = queue.poll(1, TimeUnit.SECONDS)
+		}
+
+		assertTrue(messages.first() == "connected")
+		assertTrue(messages.last() == "closed")
+		assertTrue(messages.contains("message"))
+
+	}
+
 	@Test
 	fun unauthenticatedUser() {
 
 		val queue: BlockingQueue<String> = ArrayBlockingQueue<String>(1024)
 
-		@WebSocket
-		class Listener {
-
-			@OnWebSocketConnect
-			fun connect(session: Session) {
-				logger.info("connected: ${session.isOpen}")
-				session.remote.sendString(
-						createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
-				)
-				queue.put("connected")
-			}
-
-			@OnWebSocketClose
-			fun close(code: Int, msg: String?) {
-				logger.info("connection closed {} {}", code, msg)
-				queue.put("closed")
-			}
-
-			@OnWebSocketMessage
-			fun message(session: Session, input: String) {
-				logger.info("message: {}", input)
-				queue.put("message")
-			}
-
-			@OnWebSocketError
-			fun error(error: Throwable) {
-				logger.info("socket error", error)
-				queue.put("error")
-			}
-		}
-
-		socketClient!!.connect(Listener(), URI(testWsUrl)).get()
+		socketClient!!.connect(Listener(queue), URI(testWsUrl)).get()
 
 		var messages = listOf<String>()
 		var msg = queue.poll(1, TimeUnit.SECONDS)

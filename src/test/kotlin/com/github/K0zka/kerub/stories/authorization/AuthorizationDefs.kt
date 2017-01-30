@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.stories.authorization
 
 import com.github.K0zka.kerub.RestException
 import com.github.K0zka.kerub.createClient
+import com.github.K0zka.kerub.createSocketClient
 import com.github.K0zka.kerub.login
 import com.github.K0zka.kerub.model.Account
 import com.github.K0zka.kerub.model.AccountMembership
@@ -57,6 +58,7 @@ import java.net.CookieStore
 import java.net.HttpCookie
 import java.net.URI
 import java.util.UUID
+import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -441,14 +443,7 @@ class AuthorizationDefs {
 	fun checkSocketAccess(userName: String, able: String, type: String, objectName: String) {
 		val client = createClient()
 		val resp = client.login(userName, "password")
-		val wsClient = WebSocketClient()
-		wsClient.start()
-		val cookieStore: CookieStore = HttpCookieStore()
-		wsClient.cookieStore = cookieStore
-		resp.metadata["Set-Cookie"]?.forEach {
-			val cookie = it.toString()
-			wsClient.cookieStore.add(URI(testWsUrl), HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")))
-		}
+		val wsClient = createSocketClient(resp)
 
 		@WebSocket
 		class Listener {

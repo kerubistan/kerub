@@ -7,10 +7,16 @@ import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.getServiceBaseUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.silent
+import com.github.K0zka.kerub.utils.substringBetween
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper
 import org.apache.cxf.jaxrs.client.WebClient
+import org.eclipse.jetty.util.HttpCookieStore
+import org.eclipse.jetty.websocket.client.WebSocketClient
 import java.io.InputStream
+import java.net.CookieStore
+import java.net.HttpCookie
+import java.net.URI
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 
@@ -40,8 +46,27 @@ fun WebClient.login(username: String = "admin", password: String = "password") :
 		WebClient.client(it).response
 	}
 
+fun WebClient.logout(): Response =
+		this.runRestAction(LoginService::class) {
+			it.logout()
+			WebClient.client(it).response
+		}
+
 fun <X : Any, Y : Any> WebClient.runRestAction(clientClass: KClass<X>, action: (X) -> Y) =
 	action(JAXRSClientFactory.fromClient(this, clientClass.java))
+
+
+fun createSocketClient(resp: Response): WebSocketClient {
+	val wsClient = WebSocketClient()
+	wsClient.start()
+	val cookieStore: CookieStore = HttpCookieStore()
+	wsClient.cookieStore = cookieStore
+	resp.metadata["Set-Cookie"]?.forEach {
+		val cookie = it.toString()
+		wsClient.cookieStore.add(URI(testWsUrl), HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")))
+	}
+	return wsClient
+}
 
 
 fun createClient() : WebClient {
