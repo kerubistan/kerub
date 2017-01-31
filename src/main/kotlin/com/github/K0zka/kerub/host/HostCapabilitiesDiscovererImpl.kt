@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.exc.UnknownHostOperatingSystemException
 import com.github.K0zka.kerub.host.distros.Centos6
 import com.github.K0zka.kerub.host.distros.Centos7
 import com.github.K0zka.kerub.host.distros.Cygwin
+import com.github.K0zka.kerub.host.distros.Debian
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.host.distros.Fedora
 import com.github.K0zka.kerub.host.distros.Fedora23Plus
@@ -47,6 +48,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				OpenSuse(),
 				XenServer7(),
 				// Debian-family
+				Debian(),
 				Ubuntu(),
 				Raspbian(),
 				// The BSD's
