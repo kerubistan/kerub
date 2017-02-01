@@ -353,8 +353,8 @@ x11-misc/shared-mime-info-1.4
 		val list = Emerge.listPackages(session)
 
 		assertEquals(output.lines().size, list.size)
-		assertTrue { list.contains(SoftwarePackage("virtual/ssh", Version("0", null, null))) }
-		assertTrue { list.contains(SoftwarePackage("x11-libs/libpciaccess", Version("0", "13", "4"))) }
+		assertTrue { list.contains(SoftwarePackage("ssh", Version("0", null, null))) }
+		assertTrue { list.contains(SoftwarePackage("libpciaccess", Version("0", "13", "4"))) }
 	}
 
 }

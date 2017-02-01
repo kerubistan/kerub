@@ -14,12 +14,12 @@ object Emerge {
 				if (it.substringAfterLast("-").matches(releasePattern)) {
 					val name = it.substringBeforeLast("-").substringBeforeLast("-")
 					SoftwarePackage(
-							name = name,
+							name = name.substringAfter("/"),
 							version = Version.fromVersionString(it.substringAfter(name).substringAfter("-"))
 					)
 				} else {
 					SoftwarePackage(
-							name = it.substringBeforeLast("-"),
+							name = it.substringAfter("/").substringBeforeLast("-"),
 							version = Version.fromVersionString(it.substringAfterLast("-"))
 					)
 				}
