@@ -1,4 +1,4 @@
-var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, appsession, uuid4) {
+var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsession, uuid4) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.inprg = false;
@@ -36,14 +36,12 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
     	}
         $scope.host.publicKey = '';
         $scope.pubkeyUpdating = true;
-        $log.debug('change in hostname: '+$scope.host.address);
         if($scope.updateTimeout != null) {
             $timeout.cancel($scope.updateTimeout);
             $scope.pubkeyUptoDate = false;
         }
         appsession.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
             .success(function(pubkey) {
-                $log.debug(pubkey);
                 $scope.pubkeyUptoDate = true;
                 $scope.pubkey = pubkey;
                 $scope.host.publicKey = pubkey.fingerprint;
@@ -56,7 +54,6 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
             });
     };
     $scope.close = function() {
-        $log.info('close window');
         $uibModalInstance.dismiss('cancel');
     };
 	$scope.onKeyPress = function(event) {
@@ -69,7 +66,6 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
 	};
     $scope.addHost = function () {
     	var onHostAdded = function() {
-			$log.debug('host add finished');
 			$uibModalInstance.close();
 		};
 		var hostAddError = function(error) {
@@ -77,16 +73,12 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
 			$scope.inprg = false;
 		};
 
-		$log.info('password',$scope.password);
-		$log.info('host',$scope.host);
 		$scope.inprg = true;
     	if($scope.usepubkey) {
-    	    $log.debug('add host with public key');
-			appsession.put('s/r/host/join-pubkey',$scope.host)
+    	    appsession.put('s/r/host/join-pubkey',$scope.host)
 				.success(onHostAdded)
 				.error(hostAddError);
     	} else {
-			$log.debug('add host with password');
 			appsession.put('s/r/host/join',
 				{
 					host : $scope.host,
@@ -98,7 +90,6 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $log, $timeout, a
     };
 
     appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
-    	$log.debug('retrieved ssh public key of the controller:'+result);
     	$scope.controllerKey = result;
     });
 };
