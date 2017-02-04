@@ -1,0 +1,2 @@
+_uuid,bond_active_slave,bond_downdelay,bond_fake_iface,bond_mode,bond_updelay,external_ids,fake_bridge,interfaces,lacp,mac,name,other_config,qos,rstp_statistics,rstp_status,statistics,status,tag,trunks,vlan_mode
+6046a873-824c-4df3-8aad-cb05b1c8248f,[],0,false,[],0,{},false,[7f615289-94a5-4166-8289-3d0b17829e8b],[],[],br-int,{},[],{},{},{},{},[],[],[]

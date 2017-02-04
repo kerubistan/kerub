@@ -1,0 +1,2 @@
+_uuid,auto_attach,controller,datapath_id,datapath_type,datapath_version,external_ids,fail_mode,flood_vlans,flow_tables,ipfix,mcast_snooping_enable,mirrors,name,netflow,other_config,ports,protocols,rstp_enable,rstp_status,sflow,status,stp_enable
+a487a1c1-a88e-43b1-bf61-b84c30c919a8,[],[],"""0000c2a187a4b143""","""""","""<unknown>""",{},[],[],{},[],false,[],br-int,[],{},[6046a873-824c-4df3-8aad-cb05b1c8248f],[],false,{},[],{},false
