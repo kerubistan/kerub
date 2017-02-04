@@ -1,12 +1,22 @@
 package com.github.K0zka.kerub.utils
 
+import com.github.K0zka.kerub.expect
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class MapUtilsTest {
+
+	@Test
+	fun want() {
+		assertEquals("value", mapOf("key" to "value").want("key"))
+		expect(IllegalArgumentException::class) {
+			mapOf("key-1" to "value-1").want("key-2")
+		}
+	}
+
 	@Test
 	fun toPairList() {
-		assertEquals( listOf(1 to 2), listOf(1 to 2) )
+		assertEquals(listOf(1 to 2), listOf(1 to 2))
 	}
 
 	@Test
@@ -34,7 +44,7 @@ class MapUtilsTest {
 						1 to "one",
 						2 to "two",
 						3 to "drei"
-				).update(3, {"three"}, {""})
+				).update(3, { "three" }, { "" })
 		)
 		assertEquals(
 				mapOf(
@@ -47,7 +57,7 @@ class MapUtilsTest {
 						1 to "one",
 						2 to "two",
 						3 to "three"
-				).update(4, {""}, {"four"})
+				).update(4, { "" }, { "four" })
 		)
 
 	}
