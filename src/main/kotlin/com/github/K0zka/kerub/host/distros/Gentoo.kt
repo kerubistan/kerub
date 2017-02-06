@@ -14,5 +14,8 @@ class Gentoo : LsbDistribution("Gentoo") {
 
 	override fun handlesVersion(version: Version): Boolean = true // since gentoo does not really have releases
 
+	override fun installMonitorPackages(session: ClientSession) {
+		//do nothing, at the moment it is not possible to install monitoring packages on gentoo
+	}
 
 }
