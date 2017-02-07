@@ -51,6 +51,7 @@
 	<script src="js/AccountsAdmin.js"></script>
 	<script src="js/AttachedVms.js"></script>
 	<script src="js/StorageLink.js"></script>
+	<script src="js/VmDeviceMini.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="webjars/angular-bootstrap-toggle-switch/0.5.6/style/bootstrap3/angular-toggle-switch-bootstrap-3.css" rel="stylesheet"/>
@@ -635,7 +636,47 @@
 				</uib-tabset>
 			</uib-tab>
 			<uib-tab>
-				<uib-tab-heading>Network</uib-tab-heading>
+				<uib-tab-heading>Devices</uib-tab-heading>
+				<div class="btn-group" ng-class='{open: vmDevicesOpen}' ng-show="devicesMode == 'overview'">
+					<button type="button"
+					        class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
+					        data-toggle="dropdown"
+					        aria-haspopup="true"
+					        aria-expanded="false"
+					        uib-tooltip="Add a device to this virtual machine"
+					        ng-click='vmDevicesOpen=!vmDevicesOpen'>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<a ng-click="openWatchdogDeviceForm()"
+							   uib-tooltip-html="'Watchdog'"
+							   tooltip-placement="right"><span class="fa fa-video-camera"></span>
+								Watchdog</a>
+							<a ng-click="openNICDeviceForm()"
+							   uib-tooltip-html="'Network device'"
+							   tooltip-placement="right"><span class="fa fa-sitemap"></span>
+								NIC</a>
+						</li>
+					</ul>
+					<div ng-repeat="dev in vm.devices">
+					<span class="label label-info" ng-controller="VmDeviceMini" ng-init="init(dev, vm.devices)">
+						<span ng-show="device['@type'] == 'watchdog'">
+							<span class="fa fa-video-camera"></span>
+							{{device.type}} {{device.action}}
+						</span>
+						<span class="fa fa-close clickable" ng-click="remove()"></span>
+					</span>
+					</div>
+				</div>
+				<div ng-repeat="device in vm.devices"></div>
+				<div ng-show="devicesMode == 'add-watchdog'">
+					watchdog
+				</div>
+				<div ng-show="devicesMode == 'add-nic'">
+					nic
+				</div>
+
 			</uib-tab>
 			<uib-tab>
 				<uib-tab-heading>Expectations</uib-tab-heading>

@@ -21,6 +21,13 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
     			return size.humanFriendlySize($scope.vm.memory.max);
     		}
     	},
+    	devices  : [
+    		{
+    			'@type':'watchdog',
+    			'type' : 'i6300esb',
+    			'action' : 'reset'
+    		}
+    	],
     	expectations : [],
     	virtualStorageLinks : []
 	};
@@ -36,6 +43,16 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
     $scope.addStorageLink = function(link) {
     	$scope.vm.virtualStorageLinks.push(link);
     };
+
+	$scope.devicesMode = 'overview';
+
+	$scope.openWatchdogDeviceForm = function() {
+		$scope.devicesMode = 'add-watchdog';
+	};
+
+	$scope.openNICDeviceForm = function() {
+		$scope.devicesMode = 'add-nic';
+	};
 
 	$scope.openExpectationForm = function(expType) {
 		$scope.vmExpectationsOpen = false;
