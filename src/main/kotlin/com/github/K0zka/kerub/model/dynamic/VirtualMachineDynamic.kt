@@ -22,7 +22,8 @@ data class VirtualMachineDynamic(
 		val status: VirtualMachineStatus = VirtualMachineStatus.Down,
 		val memoryUsed: BigInteger,
 		val cpuUsage: List<CpuStat> = listOf(),
-		val displaySetting : DisplaySettings? = null
+		val displaySetting: DisplaySettings? = null,
+		val cpuAffinity: List<Int>? = null
 ) : DynamicEntity {
 	//TODO: issue #125 - workaround to allow infinispan query hostId
 	@Field(analyze = noAnalyze)
