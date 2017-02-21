@@ -9,19 +9,19 @@ import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.planner.steps.vm.base.HostStep
 import com.github.K0zka.kerub.utils.update
 
-class SetCpuAffinity(val vm: VirtualMachine, val cpus: List<Int>, override val host: Host) : HostStep {
-
-	override fun reservations(): List<Reservation<*>>
-			= listOf(VmReservation(vm), UseHostReservation(host))
-
-	override fun take(state: OperationalState)
-			= state.copy(
-			vms = state.vms.update(vm.id, {
+class ClearCpuAffinity(val vm: VirtualMachine, override val host: Host) : HostStep {
+	override fun take(state: OperationalState): OperationalState = state.copy(
+			vms = state.vms.update(vm.id) {
 				vmData ->
-				val dynamic = requireNotNull(vmData.dynamic)
-				vmData.copy(dynamic = dynamic.copy(
-						cpuAffinity = cpus
-				))
-			})
+				vmData.copy(
+						dynamic = requireNotNull(vmData.dynamic).copy(
+								cpuAffinity = null
+						)
+				)
+			}
+	)
+
+	override fun reservations(): List<Reservation<*>> = listOf(
+			VmReservation(vm), UseHostReservation(host)
 	)
 }
