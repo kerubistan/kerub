@@ -6,8 +6,11 @@ import org.junit.runner.RunWith
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
-		plugin = arrayOf("pretty", "html:target/test-reports/auth"),
+		plugin = arrayOf(
+				"pretty",
+				"html:target/test-reports/auth",
+				"json:target/test-reports/auth/cucuber.json"
+		),
 		features = arrayOf("classpath:stories/rest/authentication.feature"),
 		glue = arrayOf("com.github.K0zka.kerub.stories.rest.auth")
-               ) class AuthenticationStoriesIT {
-}
+) class AuthenticationStoriesIT
