@@ -14,6 +14,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession, socket)
     	$log.info($scope.motd);
     });
     $scope.onKeyPress = function(event) {
+        $scope.error = false;
         if(event.keyCode == 13) {
             $scope.login();
         }
@@ -21,6 +22,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession, socket)
     $scope.login = function() {
         $log.info('Login user ', $scope.username);
         $scope.inprg = true;
+        $scope.error = false;
         $http.post('s/r/auth/login', {
             username : $scope.username,
             password : $scope.password
@@ -33,6 +35,7 @@ var Login = function($scope, $log, $http, $uibModalInstance, appsession, socket)
         }).error(function(error){
             $log.info("error",error);
         	$scope.inprg = false;
+	        $scope.error = true;
         });
     };
 };

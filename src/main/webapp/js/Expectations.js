@@ -1,5 +1,15 @@
 kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log, $sce, size, $http) {
 	return {
+		"cpu-dedication" : {
+			"icon" : "fa fa-heart",
+			"displayName" : "Dedicated CPU",
+			"tooltip" : $sce.trustAsHtml("Do not schedule other VM's and other tasks on the CPUs serving this VM"),
+			"shortDescr": function(expectation) {
+				return "";
+			},
+			"virtTypes" : ["vm"],
+			"template" : "dedicated-cpu-edit-template"
+		},
 		"cache-size" : {
 			"icon" : "fa fa-expand",
 			"displayName" : "Cache size",

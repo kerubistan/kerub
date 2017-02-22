@@ -22,11 +22,6 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
     		}
     	},
     	devices  : [
-    		{
-    			'@type':'watchdog',
-    			'type' : 'i6300esb',
-    			'action' : 'reset'
-    		}
     	],
     	expectations : [],
     	virtualStorageLinks : []
@@ -46,12 +41,36 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
 
 	$scope.devicesMode = 'overview';
 
+	$scope.anyDevicesOfType = function(type) {
+		var found = false;
+		angular.forEach($scope.vm.devices, function(it) {
+			if(it['@type'] == type) {
+				found = true;
+			}
+		});
+		$log.info('devices of type ', type, found);
+	};
+
 	$scope.openWatchdogDeviceForm = function() {
+		if($scope.anyDevicesOfType('watchdog')) {
+			return;
+		}
 		$scope.devicesMode = 'add-watchdog';
+		$scope.device = {
+			'@type' : 'watchdog',
+			'type' : 'i6300esb',
+			'action' : 'reset'
+		};
 	};
 
 	$scope.openNICDeviceForm = function() {
+		$log.info('openNICDeviceForm');
 		$scope.devicesMode = 'add-nic';
+		$scope.device = {
+			'@type' : 'nic',
+			'adapterType' : 'e1000',
+			'networkId' : null
+		};
 	};
 
 	$scope.openExpectationForm = function(expType) {

@@ -43,6 +43,7 @@
 	<script src="js/VirtualNetworkTab.js"></script>
 	<script src="js/NoMigrationExpectationEdit.js"></script>
 	<script src="js/NotSameHostExpectationEdit.js"></script>
+	<script src="js/DedicatedCpuExpectationEdit.js"></script>
 	<script src="js/StorageRedundancyMigrationExpectationEdit.js"></script>
 	<script src="js/HostChassisManufacturerExpectationEdit.js"></script>
 	<script src="js/CpuClockFreqExpectationEdit.js"></script>
@@ -92,9 +93,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="input-group">
+						<div class="input-group {{error ? 'has-error' : ''}}">
 							<div class="input-group-addon"><span class="fa fa-key"></span></div>
-							<input ng-model="password" class="form-control input-lg" type="password"
+							<input ng-model="password" class="form-control input-lg input-warning" type="password"
 							       placeholder="password" ng-keypress="onKeyPress($event)">
 						</div>
 					</div>
@@ -303,6 +304,19 @@
 		</div>
 	</div>
 
+</script>
+
+<script type="text/ng-template" id="dedicated-cpu-edit-template">
+	<div class="media" ng-controller="DedicatedCpuExpectationEdit" ng-init="init(vm)">
+		<div class="media-left">
+			<span class="glyphicon glyphicon-flash expectation-big-icon"></span>
+		</div>
+		<div class="media-body">
+			<div class="caption">
+				<span ng-include="'expectation-edit-template-buttons'"></span>
+			</div>
+		</div>
+	</div>
 </script>
 
 <script type="text/ng-template" id="cache-size-edit-template">
@@ -648,33 +662,84 @@
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
-						<li>
+						<li ng-if="!anyDevicesOfType('watchdog')">
 							<a ng-click="openWatchdogDeviceForm()"
 							   uib-tooltip-html="'Watchdog'"
 							   tooltip-placement="right"><span class="fa fa-video-camera"></span>
 								Watchdog</a>
+						</li>
+						<li>
 							<a ng-click="openNICDeviceForm()"
 							   uib-tooltip-html="'Network device'"
 							   tooltip-placement="right"><span class="fa fa-sitemap"></span>
 								NIC</a>
 						</li>
 					</ul>
-					<div ng-repeat="dev in vm.devices">
+				</div>
+				<div ng-repeat="dev in vm.devices">
 					<span class="label label-info" ng-controller="VmDeviceMini" ng-init="init(dev, vm.devices)">
 						<span ng-show="device['@type'] == 'watchdog'">
 							<span class="fa fa-video-camera"></span>
 							{{device.type}} {{device.action}}
 						</span>
+						<span ng-show="device['@type'] == 'nic'">
+							<span class="fa fa-sitemap"></span>
+							{{device.adapterType}}
+						</span>
 						<span class="fa fa-close clickable" ng-click="remove()"></span>
 					</span>
-					</div>
 				</div>
-				<div ng-repeat="device in vm.devices"></div>
 				<div ng-show="devicesMode == 'add-watchdog'">
-					watchdog
+					<span class="input-group">
+						<div class="btn-group" uib-dropdown>
+							<button type="button" class="btn btn-default" uib-dropdown-toggle>
+								{{device.type}} <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+								<li role="menuitem"><a href="#" ng-click="device.type = 'i6300esb'">i6300esb</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.type = 'ib700'">ib700</a></li>
+							</ul>
+						</div>
+						<div class="btn-group" uib-dropdown>
+							<button type="button" class="btn btn-default" uib-dropdown-toggle>
+								{{device.action}} <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+								<li role="menuitem"><a href="#" ng-click="device.action = 'reset'">reset</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.action = 'shutdown'">shutdown</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.action = 'poweroff'">poweroff</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.action = 'pause'">pause</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.action = 'none'">none</a></li>
+								<li role="menuitem"><a href="#" ng-click="device.action = 'dump'">dump</a></li>
+							</ul>
+						</div>
+					</span>
+					<button type="button"
+					        class="btn btn-primary fa fa-check"
+					        ng-click="vm.devices.push(device);devicesMode = 'overview';vmDevicesOpen=false;"></button>
+					<button type="button"
+					        class="btn btn-danger fa fa-close"
+					        ng-click="devicesMode = 'overview'"></button>
 				</div>
 				<div ng-show="devicesMode == 'add-nic'">
 					nic
+					{{device.adapterType}} {{device.network}}
+					<div class="btn-group" uib-dropdown>
+						<button type="button" class="btn btn-default" uib-dropdown-toggle>
+							{{device.adapterType}} <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+							<li role="menuitem"><a href="#" ng-click="device.adapterType = 'ne2k_pci'">ne2k_pci</a></li>
+							<li role="menuitem"><a href="#" ng-click="device.adapterType = 'rtl8139'">rtl8139</a></li>
+							<li role="menuitem"><a href="#" ng-click="device.adapterType = 'e1000'">e1000</a></li>
+							<li role="menuitem"><a href="#" ng-click="device.adapterType = 'virtio'">virtio</a></li>
+						</ul>
+					</div>
+
+					<button type="button" class="btn btn-primary fa fa-check"
+					        ng-click="vm.devices.push(device);devicesMode = 'overview'"></button>
+					<button type="button" class="btn btn-danger fa fa-close"
+					        ng-click="devicesMode = 'overview'"></button>
 				</div>
 
 			</uib-tab>
