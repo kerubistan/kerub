@@ -4,10 +4,10 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.GvinumStorageCapability
-import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
+import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.utils.junix.storagemanager.gvinum.GVinum

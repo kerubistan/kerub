@@ -7,7 +7,6 @@ import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Index
 import org.hibernate.search.annotations.Indexed
-import org.hibernate.search.annotations.IndexedEmbedded
 import org.hibernate.search.annotations.Store
 import java.util.UUID
 

@@ -3,11 +3,7 @@ package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
-import com.github.K0zka.kerub.model.config.HostConfiguration
-import com.github.K0zka.kerub.model.services.IscsiService
-import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiExecutor
-import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
 class TgtdIscsiShareExecutor(

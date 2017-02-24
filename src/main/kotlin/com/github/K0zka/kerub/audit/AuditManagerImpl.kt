@@ -7,7 +7,6 @@ import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.UpdateEntry
 import com.github.K0zka.kerub.utils.currentUser
 import com.github.K0zka.kerub.utils.silent
-import org.apache.shiro.SecurityUtils
 
 open class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditManager {
 	override fun auditUpdate(old: Entity<*>, new: Entity<*>) {

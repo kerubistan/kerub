@@ -17,7 +17,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.services.PasswordProtected
 import com.github.K0zka.kerub.model.services.StorageService
 import com.github.K0zka.kerub.utils.KB
-import com.github.K0zka.kerub.utils.base64
 import com.github.K0zka.kerub.utils.genPassword
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.ssh.openssh.OpenSsh

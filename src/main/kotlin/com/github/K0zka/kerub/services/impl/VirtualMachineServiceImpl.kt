@@ -4,10 +4,8 @@ import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.paging.SearchResultPage
-import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualMachineService
-import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.util.UUID
 
 class VirtualMachineServiceImpl(

@@ -1,8 +1,6 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
-import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
-import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.utils.unsharedDisks

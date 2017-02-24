@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.model.config.HostConfiguration
 import com.github.K0zka.kerub.security.admin
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles
-import java.util.UUID
 import javax.ws.rs.Consumes
 import javax.ws.rs.Path
 import javax.ws.rs.Produces

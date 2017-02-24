@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
-import com.github.K0zka.kerub.model.expectations.VirtualMachineReference
 import com.github.K0zka.kerub.model.expectations.VirtualStorageDeviceReference
 import com.github.K0zka.kerub.model.expectations.VirtualStorageExpectation
 import com.github.K0zka.kerub.model.views.Simple

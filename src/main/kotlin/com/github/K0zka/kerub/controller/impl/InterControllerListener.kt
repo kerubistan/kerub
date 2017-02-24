@@ -6,7 +6,6 @@ import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.messages.SessionEventMessage
 import com.github.K0zka.kerub.services.socket.InternalMessageListener
-import com.github.K0zka.kerub.services.socket.WebSocketNotifier
 import com.github.K0zka.kerub.utils.getLogger
 import javax.jms.Message
 import javax.jms.MessageListener

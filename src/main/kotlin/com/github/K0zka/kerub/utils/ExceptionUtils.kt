@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.utils
 
-import java.io.PrintStream
 import java.io.PrintWriter
 import java.io.StringWriter
 

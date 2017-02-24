@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.utils.junix.iscsi.ctld
 import com.github.K0zka.kerub.host.appendToFile
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.OperatingSystem
-import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession

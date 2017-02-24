@@ -3,10 +3,10 @@ package com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.model.dynamic.gvinum.GvinumConfiguration
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
+import com.github.K0zka.kerub.model.dynamic.gvinum.GvinumConfiguration
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.costs.Risk
