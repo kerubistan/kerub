@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
-import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.EccMemoryExpectation
 import com.github.K0zka.kerub.model.expectations.HostOperatingSystemExpectation
 import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
@@ -40,7 +40,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(StorageWritePerformanceExpectation::class),
 		JsonSubTypes.Type(VirtualMachineAvailabilityExpectation::class),
 		JsonSubTypes.Type(EccMemoryExpectation::class),
-		JsonSubTypes.Type(CpuDedicationExpectation::class),
+		JsonSubTypes.Type(CoreDedicationExpectation::class),
 		JsonSubTypes.Type(ChassisManufacturerExpectation::class),
 		JsonSubTypes.Type(NotSameHostExpectation::class),
 		JsonSubTypes.Type(PowerRedundancyExpectation::class),

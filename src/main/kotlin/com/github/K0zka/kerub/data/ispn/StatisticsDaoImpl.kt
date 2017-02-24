@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.utils.equalsAnyOf
 import com.github.K0zka.kerub.utils.sumBy
 import nl.komponents.kovenant.task
@@ -68,7 +68,7 @@ class StatisticsDaoImpl(
 			vmCache.parallelStream()
 					.filter {
 						it.value.expectations.any {
-							it is CpuDedicationExpectation && it.level.equalsAnyOf(ExpectationLevel.DealBreaker, ExpectationLevel.Want)
+							it is CoreDedicationExpectation && it.level.equalsAnyOf(ExpectationLevel.DealBreaker, ExpectationLevel.Want)
 						}
 					}
 					.map { it.value.nrOfCpus }

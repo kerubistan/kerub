@@ -2,13 +2,10 @@ package com.github.K0zka.kerub.planner.steps.vm.start.kvm
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vm.match
 import com.github.K0zka.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.K0zka.kerub.planner.steps.vm.storageAllocationMap
-import com.github.K0zka.kerub.utils.containsAny
-import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {

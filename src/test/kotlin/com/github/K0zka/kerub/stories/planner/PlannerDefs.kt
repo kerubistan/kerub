@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.stories.planner
 
-import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.model.ControllerConfig
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.FsStorageCapability
@@ -28,6 +27,7 @@ import com.github.K0zka.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfigurati
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
@@ -747,6 +747,15 @@ class PlannerDefs {
 		})
 	}
 
+	@Given("(\\S+) requires dedicated cores")
+	fun addCoreDedicationExpectation(vmName: String) {
+		vms = vms.replace({ it.name == vmName }, {
+			it.copy(
+					expectations = it.expectations + CoreDedicationExpectation()
+			)
+		})
+	}
+
 	@Given("(\\S+) has no-migrate expectation")
 	fun addNoMigrateExpectation(vmName: String) {
 		vms = vms.replace({ it.name == vmName }, {
@@ -844,6 +853,8 @@ class PlannerDefs {
 					manufacturer = cpuData.raw()[1][0],
 					maxSpeedMhz = cpuData.raw()[1][1].toInt(),
 					flags = cpuData.raw()[1][3].split(","),
+					coreCount = cpuData.raw()[1].getOrNull(4)?.toInt(),
+					threadCount = cpuData.raw()[1].getOrNull(5)?.toInt(),
 					socket = "",
 					version = ""
 			)

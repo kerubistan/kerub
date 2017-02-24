@@ -10,7 +10,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
-import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.testCpu
 import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.testHostCapabilities
@@ -103,7 +103,7 @@ class StatisticsDaoImplTest {
 			nrOfCpus = 1,
 			memory = Range("1 GB".toSize(), "1 GB".toSize()),
 			expectations = listOf(
-					CpuDedicationExpectation(level = ExpectationLevel.DealBreaker)
+					CoreDedicationExpectation(level = ExpectationLevel.DealBreaker)
 			)
 	)
 

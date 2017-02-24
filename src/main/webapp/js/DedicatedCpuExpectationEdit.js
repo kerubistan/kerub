@@ -1,7 +1,7 @@
 kerubApp.controller('DedicatedCpuExpectationEdit', function($scope, $log, $http, size) {
 
 	$scope.expectation = {
-		'@type':'cpu-dedication',
+		'@type':'core-dedication',
 		'level': 'Want'
 	};
 

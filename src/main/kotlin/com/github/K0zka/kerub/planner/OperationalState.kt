@@ -20,8 +20,8 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
-import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
@@ -222,11 +222,14 @@ data class OperationalState(
 					host.capabilities?.chassis?.manufacturer == expectation.manufacturer
 				}
 			}
-			is CpuDedicationExpectation -> {
+			is CoreDedicationExpectation -> {
 				return vmHost(vm)?.let {
 					host ->
-					val vmsOnHost = vmDataOnHost(host.id)
+					val vmsOnHost = lazy { vmDataOnHost(host.id) }
 					val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
+					val coredDedicated: (VirtualMachineDataCollection) -> Boolean
+							= { it.stat.expectations.any { it is CoreDedicationExpectation } }
+					val vmNrOfCpus: (VirtualMachineDataCollection) -> Int = { it.stat.nrOfCpus }
 
 					// if this vm has CPU affinity to a smaller nr of cores, than the number of vcpus, that
 					// means this expectation is not met... however I would say that may be true even with
@@ -237,16 +240,16 @@ data class OperationalState(
 							//first case: under-utilization
 							//the total of vcpus on the server is less (or equal if this is the only vm on host)
 							//to the cores in the host -> no further enforcement needed, it is fine
-							vmsOnHost.sumBy { it.stat.nrOfCpus } <= hostCoreCnt.value
+							vmsOnHost.value.sumBy(vmNrOfCpus) <= hostCoreCnt.value
 							||
 							//second case: over-allocation
-							// the vm's without cpu-dedication are stick to a number of cores
-							// so that the ones with cpu-dedication have enough cores left
-							vmsOnHost.filterNot { it.stat.expectations.any { it is CpuDedicationExpectation } }
+							// the vm's without core-dedication are stick to a number of cores
+							// so that the ones with core-dedication have enough cores left
+							vmsOnHost.value.filterNot(coredDedicated)
 									.map { it.dynamic?.coreAffinity ?: listOf() }
 									.join().toSet().size +
-									vmsOnHost.filter { it.stat.expectations.any { it is CpuDedicationExpectation } }
-											.sumBy { it.stat.nrOfCpus } < hostCoreCnt.value
+									vmsOnHost.value.filter(coredDedicated)
+											.sumBy(vmNrOfCpus) < hostCoreCnt.value
 				} ?: false
 			}
 			is CacheSizeExpectation -> {

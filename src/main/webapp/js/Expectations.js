@@ -1,8 +1,8 @@
 kerubApp.factory('expectations', ['$log', '$sce', 'size', '$http', function($log, $sce, size, $http) {
 	return {
-		"cpu-dedication" : {
+		"core-dedication" : {
 			"icon" : "fa fa-heart",
-			"displayName" : "Dedicated CPU",
+			"displayName" : "Dedicated CPU core",
 			"tooltip" : $sce.trustAsHtml("Do not schedule other VM's and other tasks on the CPUs serving this VM"),
 			"shortDescr": function(expectation) {
 				return "";

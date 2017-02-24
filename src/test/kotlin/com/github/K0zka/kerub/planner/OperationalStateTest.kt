@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
-import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
+import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.testHost
@@ -79,7 +79,7 @@ class OperationalStateTest {
 	fun isExpectationSatisfiedWithCpuDedicationExpectation() {
 		//under-utilization
 		assertTrue {
-			val exp = CpuDedicationExpectation()
+			val exp = CoreDedicationExpectation()
 			val vm = testVm.copy(
 					expectations = listOf(exp),
 					nrOfCpus = 1
@@ -106,7 +106,7 @@ class OperationalStateTest {
 			).isExpectationSatisfied(expectation = exp, vm = vm)
 		}
 		assertFalse {
-			val exp = CpuDedicationExpectation()
+			val exp = CoreDedicationExpectation()
 			val vm = testVm.copy(
 					expectations = listOf(exp),
 					nrOfCpus = 4 // more vcpu allocated...
@@ -133,7 +133,7 @@ class OperationalStateTest {
 			).isExpectationSatisfied(expectation = exp, vm = vm)
 		}
 		assertFalse {
-			val exp = CpuDedicationExpectation()
+			val exp = CoreDedicationExpectation()
 			val vm = testVm.copy(
 					id = UUID.randomUUID(),
 					expectations = listOf(exp),
