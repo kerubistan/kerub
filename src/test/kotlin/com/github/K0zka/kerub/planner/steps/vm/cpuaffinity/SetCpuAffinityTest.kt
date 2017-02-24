@@ -28,7 +28,7 @@ class SetCpuAffinityTest {
 						hostId = testHost.id
 				))
 		))
-		assertEquals(listOf(1, 2), state.vms[testVm.id]?.dynamic?.cpuAffinity)
+		assertEquals(listOf(1, 2), state.vms[testVm.id]?.dynamic?.coreAffinity)
 		assertEquals(testHost.id, state.vms[testVm.id]?.dynamic?.hostId, "cpu pinning should not change host id")
 	}
 

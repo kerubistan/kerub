@@ -23,7 +23,13 @@ data class VirtualMachineDynamic(
 		val memoryUsed: BigInteger,
 		val cpuUsage: List<CpuStat> = listOf(),
 		val displaySetting: DisplaySettings? = null,
-		val cpuAffinity: List<Int>? = null
+		/**
+		 * Note: instead of the unix/linux standard, where one can stick to a
+		 * thread of a core, we will stick to a core only. The permission to
+		 * run on a core should be translated by the executorsM to run on any
+		 * threads of the core.
+		 */
+		val coreAffinity: List<Int>? = null
 ) : DynamicEntity {
 	//TODO: issue #125 - workaround to allow infinispan query hostId
 	@Field(analyze = noAnalyze)

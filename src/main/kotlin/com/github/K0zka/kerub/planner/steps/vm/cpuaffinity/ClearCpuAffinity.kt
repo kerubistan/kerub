@@ -15,7 +15,7 @@ class ClearCpuAffinity(val vm: VirtualMachine, override val host: Host) : HostSt
 				vmData ->
 				vmData.copy(
 						dynamic = requireNotNull(vmData.dynamic).copy(
-								cpuAffinity = null
+								coreAffinity = null
 						)
 				)
 			}

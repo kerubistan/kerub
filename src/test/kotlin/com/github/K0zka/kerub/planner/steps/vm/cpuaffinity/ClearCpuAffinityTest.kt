@@ -32,7 +32,7 @@ class ClearCpuAffinityTest {
 				))
 		))
 
-		assertNull(requireNotNull(state.vms[testVm.id]?.dynamic).cpuAffinity)
+		assertNull(requireNotNull(state.vms[testVm.id]?.dynamic).coreAffinity)
 		assertEquals(testHost.id, requireNotNull(state.vms[testVm.id]?.dynamic).hostId)
 	}
 

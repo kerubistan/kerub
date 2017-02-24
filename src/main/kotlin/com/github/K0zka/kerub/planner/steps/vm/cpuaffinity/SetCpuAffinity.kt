@@ -20,7 +20,7 @@ class SetCpuAffinity(val vm: VirtualMachine, val cpus: List<Int>, override val h
 				vmData ->
 				val dynamic = requireNotNull(vmData.dynamic)
 				vmData.copy(dynamic = dynamic.copy(
-						cpuAffinity = cpus
+						coreAffinity = cpus
 				))
 			})
 	)

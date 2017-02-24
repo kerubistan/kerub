@@ -5,5 +5,5 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 
 @JsonTypeName("cpu-dedication")
 data class CpuDedicationExpectation constructor(
-		override val level: ExpectationLevel
+		override val level: ExpectationLevel = ExpectationLevel.Want
 ) : VirtualMachineExpectation

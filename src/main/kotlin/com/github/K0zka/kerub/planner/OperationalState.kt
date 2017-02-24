@@ -21,6 +21,7 @@ import com.github.K0zka.kerub.model.expectations.CacheSizeExpectation
 import com.github.K0zka.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
+import com.github.K0zka.kerub.model.expectations.CpuDedicationExpectation
 import com.github.K0zka.kerub.model.expectations.MemoryClockFrequencyExpectation
 import com.github.K0zka.kerub.model.expectations.NoMigrationExpectation
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
@@ -31,6 +32,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualStorageExpectation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
+import com.github.K0zka.kerub.utils.join
 import com.github.k0zka.finder4j.backtrack.State
 import java.util.UUID
 
@@ -39,7 +41,7 @@ data class OperationalState(
 		val vms: Map<UUID, VirtualMachineDataCollection> = mapOf(),
 		val vStorage: Map<UUID, VirtualStorageDataCollection> = mapOf(),
 		val reservations: List<Reservation<*>> = listOf(),
-		val controllerConfig : ControllerConfig = ControllerConfig()
+		val controllerConfig: ControllerConfig = ControllerConfig()
 ) : State {
 
 	companion object {
@@ -69,7 +71,7 @@ data class OperationalState(
 					  vStorage: List<VirtualStorageDevice> = listOf(),
 					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
 					  reservations: List<Reservation<*>> = listOf(),
-					  config : ControllerConfig = ControllerConfig()
+					  config: ControllerConfig = ControllerConfig()
 		) =
 				OperationalState(
 						hosts = mapHostData(hosts, hostDyns, hostCfgs),
@@ -78,6 +80,11 @@ data class OperationalState(
 						reservations = reservations,
 						controllerConfig = config
 				)
+	}
+
+	fun vmDataOnHost(hostId: UUID): List<VirtualMachineDataCollection> {
+		return vms.values
+				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic?.hostId == hostId }
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
@@ -188,7 +195,7 @@ data class OperationalState(
 				}.map { it.stat }
 	}
 
-	private fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {
+	internal fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {
 		when (expectation) {
 			is ClockFrequencyExpectation -> {
 				val host = vmHost(vm)
@@ -203,7 +210,7 @@ data class OperationalState(
 				return if (host == null) {
 					true
 				} else {
-					val otherVmHosts =  vmHost(expectation.otherVmId)?.id
+					val otherVmHosts = vmHost(expectation.otherVmId)?.id
 					otherVmHosts != host.id
 				}
 			}
@@ -214,6 +221,33 @@ data class OperationalState(
 				} else {
 					host.capabilities?.chassis?.manufacturer == expectation.manufacturer
 				}
+			}
+			is CpuDedicationExpectation -> {
+				return vmHost(vm)?.let {
+					host ->
+					val vmsOnHost = vmDataOnHost(host.id)
+					val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
+
+					// if this vm has CPU affinity to a smaller nr of cores, than the number of vcpus, that
+					// means this expectation is not met... however I would say that may be true even with
+					// non-dedicated vcpus
+					// to be on the safe side, let's check and break this expectation if so
+					vm.nrOfCpus <= requireNotNull(vms[vm.id]).dynamic?.coreAffinity?.size ?: hostCoreCnt.value
+							&&
+							//first case: under-utilization
+							//the total of vcpus on the server is less (or equal if this is the only vm on host)
+							//to the cores in the host -> no further enforcement needed, it is fine
+							vmsOnHost.sumBy { it.stat.nrOfCpus } <= hostCoreCnt.value
+							||
+							//second case: over-allocation
+							// the vm's without cpu-dedication are stick to a number of cores
+							// so that the ones with cpu-dedication have enough cores left
+							vmsOnHost.filterNot { it.stat.expectations.any { it is CpuDedicationExpectation } }
+									.map { it.dynamic?.coreAffinity ?: listOf() }
+									.join().toSet().size +
+									vmsOnHost.filter { it.stat.expectations.any { it is CpuDedicationExpectation } }
+											.sumBy { it.stat.nrOfCpus } < hostCoreCnt.value
+				} ?: false
 			}
 			is CacheSizeExpectation -> {
 				val host = vmHost(vm)

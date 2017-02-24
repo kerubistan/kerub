@@ -69,3 +69,12 @@ val testVirtualNetwork = VirtualNetwork(
 		id = UUID.randomUUID(),
 		name = "test network"
 )
+
+val testProcessor = ProcessorInformation(
+		manufacturer = "TEST CORP",
+		coreCount = 8,
+		threadCount = 16,
+		flags = listOf(),
+		socket = "TEST-SOCKET",
+		version = "1.0"
+)
