@@ -18,6 +18,7 @@ import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.messages.SubscribeMessage
+import com.github.K0zka.kerub.model.paging.SortResultPage
 import com.github.K0zka.kerub.runRestAction
 import com.github.K0zka.kerub.services.AccountMembershipService
 import com.github.K0zka.kerub.services.AccountService
@@ -36,7 +37,6 @@ import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
-import com.github.K0zka.kerub.utils.substringBetween
 import com.nhaarman.mockito_kotlin.mock
 import cucumber.api.DataTable
 import cucumber.api.java.After
@@ -46,19 +46,14 @@ import cucumber.api.java.en.When
 import org.apache.commons.io.input.NullInputStream
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.WebClient
-import org.eclipse.jetty.util.HttpCookieStore
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage
 import org.eclipse.jetty.websocket.api.annotations.WebSocket
-import org.eclipse.jetty.websocket.client.WebSocketClient
-import java.net.CookieStore
-import java.net.HttpCookie
 import java.net.URI
 import java.util.UUID
-import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -214,7 +209,7 @@ class AuthorizationDefs {
 
 	@When("Accounts are required")
 	fun setAccountsRequired() {
-		updateConfig() {
+		updateConfig {
 			it.copy(accountsRequired = true)
 		}
 	}
@@ -420,7 +415,7 @@ class AuthorizationDefs {
 
 		val clientClass = requireNotNull(clients[objectType]) { "client class not found for '$objectType'" }
 		val obj = requireNotNull(entities[objectName]) {
-			"object $objectName not found, known objects at this point: ${ entities.keys }"
+			"object $objectName not found, known objects at this point: ${entities.keys}"
 		}
 		val action = requireNotNull(actions[actionName]) { "action not found for name '$actionName'" }
 		client.runRestAction(clientClass) {
@@ -551,4 +546,33 @@ class AuthorizationDefs {
 		}
 	}
 
+	val listFnMap = mapOf<String, (WebClient) -> SortResultPage<*>>(
+			"vm" to {
+				client ->
+				client.runRestAction(VirtualMachineService::class) { it.listAll(0, 10, Named::name.name) }
+			},
+			"disk" to {
+				client ->
+				client.runRestAction(VirtualStorageDeviceService::class) {
+					it.listAll(0, 10, Named::name.name)
+				}
+			},
+			"network" to {
+				client ->
+				client.runRestAction(VirtualNetworkService::class) { it.listAll(0, 10, Named::name.name) }
+			}
+	)
+
+	@Then("user (\\S+) should see only (\\S+|,) in (vm|disk|network) list")
+	fun checlkEntitiesInList(userName: String, entityNamesStr: String, entityType: String) {
+		val entityNames = entityNamesStr.split(",")
+		val client = createClient()
+		client.login(username = userName)
+		val list = requireNotNull(listFnMap[entityType])(client)
+		assertEquals(
+				list.result.map { requireNotNull((it as Map<*, *>)[Named::name.name]).toString() }.sorted(),
+				entityNames.sorted()
+		)
+		assertEquals(list.total, entityNames.size.toLong())
+	}
 }

@@ -46,11 +46,12 @@ class AccessControllerImpl(
 					count = list.size.toLong(),
 					result = list,
 					sortBy = sort,
-					total = list.size.toLong() // TODO
+					total = dao.count().toLong()
 			)
 		} else {
+			val owners = memberships(getSubject().principal.toString())
 			val list = dao.listByOwners(
-					owners = memberships(getSubject().principal.toString()),
+					owners = owners,
 					limit = limit,
 					sort = sort,
 					start = start
@@ -60,19 +61,19 @@ class AccessControllerImpl(
 					count = list.size.toLong(),
 					result = list,
 					sortBy = sort,
-					total = list.size.toLong() // TODO
+					total = dao.count(owners = owners.toSet()).toLong()
 			)
 		}
 	}
 
 	internal fun memberships(userName: String)
 			= listOf(
-			task() {
+			task {
 				accountMembershipDao.listByUsername(userName).map {
 					AssetOwner(ownerId = it.groupId, ownerType = AssetOwnerType.account)
 				}
 			},
-			task() {
+			task {
 				projectmembershipDao.listByUsername(userName).map {
 					AssetOwner(ownerId = it.groupId, ownerType = AssetOwnerType.project)
 				}

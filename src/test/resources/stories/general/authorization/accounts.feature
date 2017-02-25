@@ -121,4 +121,10 @@ Feature: Accounts
 	  | jd-net-1 | JohnDoe & Co Corp |
 	Then testuser-1 is not able to create vm with disk ec-disk-1 in account JohnDoe & Co Corp
 	And testuser-2 is not able to create vm with disk jd-disk-1 in account EugeneCuckoo Inc
+	And user testuser-1 should see only ec-1 in vm list
+	And user testuser-2 should see only jd-1 in vm list
+	And user testuser-1 should see only ec-disk-1 in disk list
+	And user testuser-2 should see only jd-disk-1 in disk list
+	And user testuser-1 should see only ec-net-1 in network list
+	And user testuser-2 should see only jd-net-1 in network list
 
