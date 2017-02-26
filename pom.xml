@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.K0zka</groupId>
 	<artifactId>kerub</artifactId>
@@ -18,8 +19,8 @@
 		<connection>scm:git:ssh://github.com/kerubistan/kerub</connection>
 		<developerConnection>scm:git:https://github.com/kerubistan/kerub</developerConnection>
 		<url>https://github.com/kerubistan/kerub</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 	<organization>
 		<name>Duct Tape Solutions LTD</name>
 		<url>https://github.com/kerubistan/kerub</url>
@@ -30,10 +31,20 @@
 			<id>jcenter</id>
 			<url>http://jcenter.bintray.com/</url>
 		</repository>
+		<repository>
+			<id>kotlin-1.1</id>
+			<url>http://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
+		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>kotlin-1.1</id>
+			<url>http://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
-		<kotlin.version>1.0.6</kotlin.version>
+		<kotlin.version>1.1.0-rc-91</kotlin.version>
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<cxf.version>3.1.9</cxf.version>
 		<infinispan.version>8.2.6.Final</infinispan.version>
