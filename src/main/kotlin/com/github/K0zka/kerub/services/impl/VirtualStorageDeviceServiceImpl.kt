@@ -9,7 +9,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
-import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.security.AccessController
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import org.apache.sshd.client.session.ClientSession
@@ -78,22 +77,6 @@ class VirtualStorageDeviceServiceImpl(
 				device.size.toLong(),
 				listOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE),
 				ScpTimestamp(System.currentTimeMillis(), System.currentTimeMillis())
-		)
-	}
-
-	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<VirtualStorageDevice> {
-		val list = (dao as VirtualStorageDeviceDao).fieldSearch(
-				field = field,
-				value = value,
-				start = start,
-				limit = limit.toInt()
-		)
-		return SearchResultPage(
-				start = start,
-				count = list.size.toLong(),
-				result = list,
-				total = dao.count().toLong(),
-				searchby = field
 		)
 	}
 }

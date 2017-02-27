@@ -15,7 +15,7 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.QueryParam
 
 @RequiresAuthentication
-interface AssetService<T : Asset> : RestOperations.ByName<T> {
+interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.SimpleSearch<T> {
 	@ApiOperation("List all objects", notes = "The actual list you get will be filtered by security")
 	@GET
 	@Path("/{ownerType}/ownerId/")
