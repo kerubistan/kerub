@@ -75,16 +75,8 @@ abstract class AbstractAssetService<T : Asset>(
 	override fun getByName(name: String): List<T>
 			= accessController.filter( dao.getByName(name) as List<T> )
 
-	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<T> {
-		val list = (dao).fieldSearch(field, value, start, limit)
-		return SearchResultPage(
-				start = start,
-				count = list.size.toLong(),
-				result = list,
-				total = dao.count().toLong(),
-				searchby = field
-		)
-	}
+	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<T> =
+			accessController.searchWithFilter(dao, field, value, start, limit)
 
 	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
 			= TODO("https://github.com/kerubistan/kerub/issues/173")

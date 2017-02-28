@@ -67,6 +67,8 @@ Feature: Accounts
 	And User enduser is able to update vm vm-1
 	And User enduser is able to start vm vm-1
 	And User enduser is able to stop vm vm-1
+	And User enduser is able to search vm vm-1
+#	And User enduser is able to subscribe vm vm-1
 	And User enduser is able to remove vm vm-1
 	And User enduser is not able to create virtual disk outside of accounts
 	And User enduser is able to see virtual disk disk-1
@@ -74,19 +76,17 @@ Feature: Accounts
 	And User enduser is able to list virtual disk disk-1
 	And User enduser is able to update virtual disk disk-1
 	#And User enduser is able to upload virtual disk disk-1
+	And User enduser is able to search virtual disk disk-1
+#	And User enduser is able to subscribe virtual disk disk-1
 	And User enduser is able to remove virtual disk disk-1
 	And User enduser is not able to create virtual network outside of accounts
 	And User enduser is able to see virtual network net-1
 	And User enduser is able to list virtual network net-1
 	And User enduser is able to find virtual network net-1 by name
 	And User enduser is able to update virtual network net-1
-	And User enduser is able to remove virtual network net-1
-	And User enduser is able to subscribe vm vm-1
-	And User enduser is able to subscribe virtual disk disk-1
-	And User enduser is able to subscribe virtual network net-1
-	And User enduser is able to search vm vm-1
-	And User enduser is able to search virtual disk disk-1
 	And User enduser is able to search virtual network net-1
+#	And User enduser is able to subscribe virtual network net-1
+	And User enduser is able to remove virtual network net-1
 
   Scenario: Accounts required feature enabled, user can create vms in the account he is member of
 	Given accounts:
@@ -127,4 +127,16 @@ Feature: Accounts
 	And user testuser-2 should see only jd-disk-1 in disk list
 	And user testuser-1 should see only ec-net-1 in network list
 	And user testuser-2 should see only jd-net-1 in network list
+	And User testuser-1 is able to search vm ec-1
+	And User testuser-1 is able to search virtual disk ec-disk-1
+	And User testuser-1 is able to search virtual network ec-net-1
+	And User testuser-2 is not able to search vm ec-1
+	And User testuser-2 is not able to search virtual disk ec-disk-1
+	And User testuser-2 is not able to search virtual network ec-net-1
+	And User testuser-2 is able to search vm jd-1
+	And User testuser-2 is able to search virtual disk jd-disk-1
+	And User testuser-2 is able to search virtual network jd-net-1
+	And User testuser-1 is not able to search vm jd-1
+	And User testuser-1 is not able to search virtual disk jd-disk-1
+	And User testuser-1 is not able to search virtual network jd-net-1
 

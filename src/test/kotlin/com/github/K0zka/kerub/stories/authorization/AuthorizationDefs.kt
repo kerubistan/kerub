@@ -374,11 +374,13 @@ class AuthorizationDefs {
 			"search" to {
 				x, obj ->
 				require(
-						(x as RestOperations.SimpleSearch<Entity<UUID>>).search(
+						(x as RestOperations.SimpleSearch<*>).search(
 								field = "name",
 								value = (obj as Named).name
-						).result.any { it.id == obj.id }
-				)
+						).result.any { (it as Map<String, Any>)["id"]?.toString() == obj.id.toString() }
+				) {
+					"Object not found in search response \n - object:$obj"
+				}
 			}
 	)
 
@@ -434,7 +436,7 @@ class AuthorizationDefs {
 
 	}
 
-	@Then("User (\\S+) is (not)?\\s+able to subscribe (vm|virtual disk|virtual network) (\\S+)")
+	@Then("User (\\S+) is( not)? able to subscribe (vm|virtual disk|virtual network) (\\S+)")
 	fun checkSocketAccess(userName: String, able: String, type: String, objectName: String) {
 		val client = createClient()
 		val resp = client.login(userName, "password")
