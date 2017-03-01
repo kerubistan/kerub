@@ -79,7 +79,7 @@ class PlanExecutorImpl(
 
 	override fun
 			execute(plan: Plan, callback: (Plan) -> Unit) {
-		task() {
+		task {
 			logger.debug("Executing plan {}", plan)
 			for (step in plan.steps) {
 				logger.debug("Executing step {}", step.javaClass.simpleName)
