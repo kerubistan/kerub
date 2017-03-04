@@ -28,7 +28,6 @@ import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
-import java.math.BigInteger
 import kotlin.reflect.KClass
 
 /**
@@ -79,7 +78,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				cpuArchitecture = distro.detectHostCpuType(session),
 				distribution = SoftwarePackage(distro.name(), distro.getVersion(session)),
 				installedSoftware = packages,
-				totalMemory = distro.getTotalMemory(session) ?: BigInteger.ZERO,
+				totalMemory = distro.getTotalMemory(session),
 				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
 				system = valuesOfType(hardwareInfo, SystemInformation::class).firstOrNull(),
 				cpus = valuesOfType(hardwareInfo, ProcessorInformation::class).map {

@@ -7,7 +7,9 @@ import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito
 import java.io.OutputStream
 import java.util.UUID
@@ -21,7 +23,7 @@ class JsonMarshallerTest {
 	val testObject = VirtualMachine(
 			id = UUID.randomUUID(),
 			name = "foo"
-	                               )
+	)
 
 	@Before
 	fun setup() {
@@ -32,41 +34,41 @@ class JsonMarshallerTest {
 	fun objectToByteBuffer() {
 		marshaller!!.objectToByteBuffer(testObject)
 
-		Mockito.verify(mapper)!!.writeValue(Matchers.any(OutputStream::class.java), Matchers.eq(testObject))
+		Mockito.verify(mapper)!!.writeValue(any(OutputStream::class.java), eq(testObject))
 	}
 
 	@Test
 	fun objectFromByteBuffer() {
 		Mockito.`when`(mapper.readValue(
-				Matchers.any(ByteArray::class.java),
-				Matchers.anyInt(),
-				Matchers.anyInt(),
-				Matchers.eq(Entity::class.java))).thenReturn(testObject)
+				any(ByteArray::class.java),
+				anyInt(),
+				anyInt(),
+				eq(Entity::class.java))).thenReturn(testObject)
 
 		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0)))
 
 		Mockito.verify(mapper).readValue(
-				Matchers.any(ByteArray::class.java),
-				Matchers.anyInt(),
-				Matchers.anyInt(),
-				Matchers.eq(Entity::class.java))
+				any(ByteArray::class.java),
+				anyInt(),
+				anyInt(),
+				eq(Entity::class.java))
 	}
 
 	@Test
 	fun objectFromByteBufferWithLimits() {
 		Mockito.`when`(mapper.readValue(
-				Matchers.any(ByteArray::class.java),
-				Matchers.anyInt(),
-				Matchers.anyInt(),
-				Matchers.eq(Entity::class.java))).thenReturn(testObject)
+				any(ByteArray::class.java),
+				anyInt(),
+				anyInt(),
+				eq(Entity::class.java))).thenReturn(testObject)
 
 		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0), 0, 0))
 
 		Mockito.verify(mapper).readValue(
-				Matchers.any(ByteArray::class.java),
-				Matchers.anyInt(),
-				Matchers.anyInt(),
-				Matchers.eq(Entity::class.java))
+				any(ByteArray::class.java),
+				anyInt(),
+				anyInt(),
+				eq(Entity::class.java))
 	}
 
 	@Test

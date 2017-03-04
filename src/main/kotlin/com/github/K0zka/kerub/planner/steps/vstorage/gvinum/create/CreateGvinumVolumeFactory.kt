@@ -123,11 +123,11 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 			// filter for FreeBSD servers
 			// which have gvinum storage
 			host.stat.capabilities?.os == OperatingSystem.BSD
-					&& host.stat.capabilities?.distribution?.name == "FreeBSD"
-					&& host.stat.capabilities?.storageCapabilities?.any {
+					&& host.stat.capabilities.distribution?.name == "FreeBSD"
+					&& host.stat.capabilities.storageCapabilities.any {
 				storage ->
 				storage is GvinumStorageCapability
-			} ?: false
+			}
 		}
 	}
 }

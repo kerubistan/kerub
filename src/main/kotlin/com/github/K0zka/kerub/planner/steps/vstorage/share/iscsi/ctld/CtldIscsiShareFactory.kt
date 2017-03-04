@@ -16,7 +16,7 @@ object CtldIscsiShareFactory : AbstractOperationalStepFactory<CtldIscsiShare>() 
 				allocation is VirtualStorageBlockDeviceAllocation && state.hosts[hostId]?.let {
 					val capabilities = it.stat.capabilities
 					capabilities?.os == OperatingSystem.BSD
-							&& capabilities?.distribution?.name == "FreeBSD"
+							&& capabilities.distribution?.name == "FreeBSD"
 							&& Ctld.available(capabilities)
 				} ?: false
 			}.map {

@@ -57,7 +57,7 @@ class FreeBSD : Distribution {
 		//TODO issue #57
 	}
 
-	override fun getRequiredPackages(utility: OsCommand): List<String> {
+	override fun getRequiredPackages(osCommand: OsCommand): List<String> {
 		//TODO issue #57
 		return listOf()
 	}

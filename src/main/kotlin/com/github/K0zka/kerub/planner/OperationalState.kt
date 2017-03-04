@@ -84,12 +84,12 @@ data class OperationalState(
 
 	fun vmDataOnHost(hostId: UUID): List<VirtualMachineDataCollection> {
 		return vms.values
-				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic?.hostId == hostId }
+				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
 	}
 
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
 		return vms.values
-				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic?.hostId == hostId }
+				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
 				.map { vms[it.dynamic!!.id]?.stat }.filterNotNull()
 	}
 

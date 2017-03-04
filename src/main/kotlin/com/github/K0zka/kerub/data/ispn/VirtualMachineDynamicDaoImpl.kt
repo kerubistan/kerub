@@ -17,5 +17,5 @@ class VirtualMachineDynamicDaoImpl(cache: Cache<UUID, VirtualMachineDynamic>,
 					.having("hostIdStr").eq(hostId.toString())
 					.toBuilder<Query>()
 					.build()
-					.list<VirtualMachineDynamic>() as List<VirtualMachineDynamic>
+					.list<VirtualMachineDynamic>()
 }

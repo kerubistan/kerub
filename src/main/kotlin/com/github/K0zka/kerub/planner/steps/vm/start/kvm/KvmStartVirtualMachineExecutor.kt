@@ -33,7 +33,7 @@ class KvmStartVirtualMachineExecutor(hostManager: HostManager, private val vmDyn
 		val consolePwd = genPassword(length = 16)
 		hypervisor.startVm(step.vm, consolePwd)
 		val protoAndPort = getHypervisor(step).getDisplay(step.vm)
-		val fw = hostManager.getFireWall(step.host).open(protoAndPort.second, "tcp")
+		hostManager.getFireWall(step.host).open(protoAndPort.second, "tcp")
 
 		return DisplaySettings(
 				hostAddr = step.host.address,
