@@ -234,7 +234,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading"><span class="fa fa-balance-scale"></span> Overview
 						<button class="btn btn-success pull-right fa fa-refresh"
-						        ng-click="refresh()"></button>
+						        ng-click="refreshBalanceReport()"></button>
 					</div>
 					<div class="panel-body">
 						<ul>
@@ -269,6 +269,29 @@
 							</li>
 
 						</ul>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><span class="fa fa-archive"></span> Cache health
+						<button class="btn btn-success pull-right fa fa-refresh"
+						        ng-click="refreshCacheUsage()"></button>
+					</div>
+					<div class="panel-body">
+						<div ng-repeat="_cache in caches">
+							<div ng-controller="CacheStatistics"
+							     ng-init="init(_cache)"
+							     class="panel panel-info">
+								<div class="panel-heading"><span class="fa fa-folder"></span> {{cache}}
+								</div>
+								<ul>
+									<li>entries: {{stat.nrEntries}}</li>
+									<li>hits: {{stat.hits}}</li>
+									<li>misses: {{stat.misses}}</li>
+									<li>avg read: {{stat.avgReadTime}}</li>
+									<li>avg write: {{stat.avgWriteTime}}</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
