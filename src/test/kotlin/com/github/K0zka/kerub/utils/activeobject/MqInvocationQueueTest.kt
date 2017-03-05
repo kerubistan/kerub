@@ -5,11 +5,6 @@ import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import org.springframework.jms.core.JmsTemplate
 import org.springframework.jms.core.MessageCreator
 import javax.jms.Session
@@ -23,7 +18,7 @@ class MqInvocationQueueTest {
 		doAnswer({ (it.arguments!![0] as MessageCreator).createMessage(session) })
 				.`when`(template)!!.send(any<MessageCreator>())
 		queue.send(AsyncInvocation("", "", listOf(), listOf()))
-		verify(template).send(any<MessageCreator>());
+		verify(template).send(any<MessageCreator>())
 		verify(session).createObjectMessage(any<AsyncInvocation>())
 	}
 }

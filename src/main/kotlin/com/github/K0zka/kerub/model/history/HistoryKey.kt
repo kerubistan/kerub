@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 
-final class HistoryKey<out T>(val key: T, val time: Long = System.currentTimeMillis()) : Serializable {
+class HistoryKey<out T>(val key: T, val time: Long = System.currentTimeMillis()) : Serializable {
 
 	override fun hashCode(): Int {
 		return key?.hashCode() ?: 0 + time.hashCode()

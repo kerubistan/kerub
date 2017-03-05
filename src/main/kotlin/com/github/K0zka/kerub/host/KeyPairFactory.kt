@@ -19,7 +19,7 @@ class KeyPairFactory {
 			}
 			keyStore.load(it, keyStorePassword.toCharArray())
 		}
-		val key = keyStore.getKey(alias, certificatePassword.toCharArray());
+		val key = keyStore.getKey(alias, certificatePassword.toCharArray())
 		val cert = keyStore.getCertificate(alias)
 		return KeyPair(cert.publicKey, key as PrivateKey)
 	}

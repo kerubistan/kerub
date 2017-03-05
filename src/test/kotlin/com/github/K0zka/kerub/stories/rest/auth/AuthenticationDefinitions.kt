@@ -11,7 +11,6 @@ import com.github.K0zka.kerub.services.MotdService
 import com.github.K0zka.kerub.services.VersionService
 import com.github.K0zka.kerub.services.VirtualMachineService
 import com.github.K0zka.kerub.utils.toSize
-import cucumber.api.PendingException
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -37,7 +36,7 @@ class AuthenticationDefinitions {
 
 	@Before
 	fun reset() {
-		client?.reset()
+		client.reset()
 	}
 
 	@Given("^user (\\S+) with password (\\S+)$")
@@ -139,7 +138,7 @@ class AuthenticationDefinitions {
 			service = serviceClient
 			action(serviceClient)
 		} catch (re: RestException) {
-			exception = re;
+			exception = re
 		}
 	}
 

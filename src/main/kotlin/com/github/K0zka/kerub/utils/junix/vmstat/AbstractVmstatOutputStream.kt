@@ -22,5 +22,5 @@ abstract class AbstractVmstatOutputStream : OutputStream() {
 		}
 	}
 
-	abstract protected fun handleInput(split: List<String>);
+	abstract protected fun handleInput(split: List<String>)
 }

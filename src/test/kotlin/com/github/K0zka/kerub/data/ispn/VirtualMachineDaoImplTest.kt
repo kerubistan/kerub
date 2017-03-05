@@ -244,7 +244,7 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 	@Test
 	fun listByAttachedStorage() {
 		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
-		val storageId = UUID.randomUUID();
+		val storageId = UUID.randomUUID()
 		val vm1 = testVm.copy(
 				name = "vm-1",
 				id = UUID.randomUUID(),

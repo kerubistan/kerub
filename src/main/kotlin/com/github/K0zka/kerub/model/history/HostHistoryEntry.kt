@@ -6,5 +6,4 @@ class HostHistoryEntry(
 		val key: HistoryKey<UUID>,
 		var cpuLoad: Int = 0,
 		var memFree: Long = 0
-) {
-}
+)

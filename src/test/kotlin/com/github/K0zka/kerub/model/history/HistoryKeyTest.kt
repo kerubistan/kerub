@@ -21,6 +21,6 @@ class HistoryKeyTest {
 
 	@Test
 	fun testHashCode() {
-		Assert.assertEquals(HistoryKey<String>("foo", 0).hashCode(), HistoryKey<String>("foo", 0).hashCode());
+		Assert.assertEquals(HistoryKey<String>("foo", 0).hashCode(), HistoryKey<String>("foo", 0).hashCode())
 	}
 }

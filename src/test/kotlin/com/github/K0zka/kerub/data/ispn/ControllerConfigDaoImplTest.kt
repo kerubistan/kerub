@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.data.ispn
 
-import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.model.ControllerConfig
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -10,7 +9,7 @@ class ControllerConfigDaoImplTest : AbstractIspnDaoTest<String, ControllerConfig
 
 	@Test
 	fun get() {
-		val dao = ControllerConfigDaoImpl(cache!!, auditManager);
+		val dao = ControllerConfigDaoImpl(cache!!, auditManager)
 		assertNotNull(dao.get(), "default value expected")
 		val newConfig = ControllerConfig(
 				accountsRequired = true

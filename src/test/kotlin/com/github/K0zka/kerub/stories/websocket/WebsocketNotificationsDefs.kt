@@ -105,7 +105,7 @@ class WebsocketNotificationsDefs {
 
 		socketClient = WebSocketClient()
 
-		socketClient!!.cookieStore = CookieManager().cookieStore;
+		socketClient!!.cookieStore = CookieManager().cookieStore
 		response.cookies.forEach {
 			socketClient!!.cookieStore.add(URI(getServiceBaseUrl()), HttpCookie(it.value.name, it.value.value))
 		}

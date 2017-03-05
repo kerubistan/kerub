@@ -29,7 +29,7 @@ interface AbstractOperationalStep : Step<Plan> {
 	 * Default implementation returns an empty list, meaning negligible
 	 * costs.
 	 */
-	fun getCost(): List<Cost> = listOf();
+	fun getCost(): List<Cost> = listOf()
 
 	/**
 	 * Returns a map of violated resources.

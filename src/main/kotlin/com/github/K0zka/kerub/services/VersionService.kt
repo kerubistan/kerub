@@ -24,8 +24,7 @@ class VersionInfo @JsonCreator constructor(
 		val vendor: String,
 		@JsonProperty("title")
 		@ApiModelProperty(required = true, value = "Title")
-		val title: String) {
-}
+		val title: String)
 
 @Api(description = "Version information", value = "s/r/meta/version")
 @Produces("application/json")

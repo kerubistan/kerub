@@ -10,5 +10,4 @@ import javax.ws.rs.Path
 @Api("s/r/projects", description = "Project service")
 @RequiresAuthentication
 @RequiresRoles(admin)
-@Path("/projects") interface ProjectService : RestCrud<Project> {
-}
+@Path("/projects") interface ProjectService : RestCrud<Project>

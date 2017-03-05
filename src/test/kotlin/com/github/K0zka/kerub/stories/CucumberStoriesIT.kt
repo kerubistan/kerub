@@ -15,5 +15,4 @@ import org.junit.runner.RunWith
 		                   "classpath:stories/general/power/*"
 		                  ),
         glue = arrayOf("com.github.K0zka.kerub.stories.host")
-               ) class CucumberStoriesIT {
-}
+) class CucumberStoriesIT

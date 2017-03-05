@@ -10,7 +10,7 @@ import java.math.BigInteger
 object KsmFactory : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 
 	private fun totalMemoryUsedByVms(state: OperationalState, host: Host): BigInteger =
-			state.vms.values.map { if (it.dynamic?.hostId == host.id) it.dynamic?.memoryUsed else null }
+			state.vms.values.map { if (it.dynamic?.hostId == host.id) it.dynamic.memoryUsed else null }
 					.filterNotNull()
 					.sum()
 

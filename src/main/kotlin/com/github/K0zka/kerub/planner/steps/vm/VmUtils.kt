@@ -59,7 +59,7 @@ fun match(
 
 	return dyn.status == HostStatus.Up &&
 			(cpuArchitectureExpectation?.cpuArchitecture == null
-					|| host.capabilities?.cpuArchitecture == cpuArchitectureExpectation?.cpuArchitecture)
+					|| host.capabilities?.cpuArchitecture == cpuArchitectureExpectation.cpuArchitecture)
 
 }
 

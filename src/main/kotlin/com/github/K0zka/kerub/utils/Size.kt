@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils
 import java.math.BigDecimal
 import java.math.BigInteger
 
-val sizeMultiplier = BigDecimal("1024");
+val sizeMultiplier = BigDecimal("1024")
 
 val KB = sizeMultiplier
 val MB = KB * sizeMultiplier
