@@ -11,7 +11,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers.eq
 import java.math.BigInteger
 import java.util.UUID
 
@@ -44,6 +44,6 @@ class StopVirtualMachineExecutorTest {
 
 		StopVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
 
-		verify(hypervisor).stopVm(Matchers.eq(vm) ?: vm)
+		verify(hypervisor).stopVm(eq(vm) ?: vm)
 	}
 }

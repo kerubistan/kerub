@@ -10,7 +10,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 
 class KvmMigrateVirtualMachineExecutorTest {
 	val hostManager: HostManager = mock()
@@ -39,7 +39,7 @@ class KvmMigrateVirtualMachineExecutorTest {
 		                                                                          ))
 
 		verify(hypervisor).migrate(
-				vm = Matchers.eq(vm) ?: vm,
+				vm = ArgumentMatchers.eq(vm) ?: vm,
 				source = eq(source),
 		        target = eq(target)
 		                                   )

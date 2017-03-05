@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.iscsi.tgtd
 
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -9,7 +10,6 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers
 import org.mockito.Mockito
 import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayOutputStream
@@ -26,7 +26,7 @@ class TgtAdminTest {
 
 	val sftpClient: SftpClient = mock()
 
-	val id = UUID.randomUUID()
+	val id: UUID = UUID.randomUUID()
 
 	@Test
 	fun shareBlockDevice() {
@@ -35,12 +35,12 @@ class TgtAdminTest {
 		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		Mockito.`when`(session.createExecChannel(any())).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(any())).thenReturn(out)
 		TgtAdmin.shareBlockDevice(session, id, "/dev/mapper/bla-bla")
 
 		val config = out.toByteArray().toString(Charsets.US_ASCII)
-		Assert.assertTrue(config.length > 0)
+		Assert.assertTrue(config.isNotEmpty())
 		Assert.assertFalse(config.contains("incominguser"))
 		Assert.assertFalse(config.contains("readonly 1"))
 	}
@@ -52,17 +52,17 @@ class TgtAdminTest {
 		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		Mockito.`when`(session.createExecChannel(any())).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(any())).thenReturn(out)
 		TgtAdmin.shareBlockDevice(
 				session = session,
-				id =  id,
+				id = id,
 				path = "/dev/mapper/bla-bla",
 				password = "TEST-PASSWORD"
 		)
 
 		val config = out.toByteArray().toString(Charsets.US_ASCII)
-		Assert.assertTrue(config.length > 0)
+		Assert.assertTrue(config.isNotEmpty())
 		Assert.assertTrue(config.contains("TEST-PASSWORD"))
 		Assert.assertFalse(config.contains("readonly 1"))
 	}
@@ -74,11 +74,11 @@ class TgtAdminTest {
 		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(sftpClient.write(Matchers.anyString() ?: "")).thenReturn(out)
+		Mockito.`when`(session.createExecChannel(any())).thenReturn(execChannel)
+		Mockito.`when`(sftpClient.write(any())).thenReturn(out)
 		TgtAdmin.shareBlockDevice(
 				session = session,
-				id =  id,
+				id = id,
 				path = "/dev/mapper/bla-bla",
 				readOnly = true
 		)
@@ -93,10 +93,10 @@ class TgtAdminTest {
 		Mockito.`when`(execChannel.open()).thenReturn(openFuture)
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Mockito.`when`(execChannel.invertedOut).thenReturn(NullInputStream(0))
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
+		Mockito.`when`(session.createExecChannel(any())).thenReturn(execChannel)
 
 		TgtAdmin.unshareBlockDevice(session, id)
 
-		Mockito.verify(sftpClient)!!.remove(Matchers.anyString() ?: "")
+		Mockito.verify(sftpClient)!!.remove(any())
 	}
 }
