@@ -18,9 +18,11 @@ import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito
 import java.util.UUID
 
@@ -69,11 +71,11 @@ class OperationalStateBuilderImplTest {
 						type = AssignmentType.host
 				)
 		)
-		Mockito.`when`(controllerManager.getControllerId() ?: 0).thenReturn("TEST-CONTROLLER")
-		Mockito.`when`(assignmentDao.listByController(Matchers.eq("TEST-CONTROLLER") ?: "")).thenReturn(assignments)
-		Mockito.`when`(hostDao.get(Matchers.any(UUID::class.java) ?: host.id)).thenReturn(host)
-		Mockito.`when`(vmDao.get(Matchers.any(UUID::class.java) ?: vm.id)).thenReturn(vm)
-		Mockito.`when`(vmDynDao.get(Matchers.any(UUID::class.java) ?: vm.id)).thenReturn(vmDyn)
+		whenever(controllerManager.getControllerId()).thenReturn("TEST-CONTROLLER")
+		whenever(assignmentDao.listByController(eq("TEST-CONTROLLER") ?: "")).thenReturn(assignments)
+		whenever(hostDao.get(any(UUID::class.java) ?: host.id)).thenReturn(host)
+		whenever(vmDao.get(any(UUID::class.java) ?: vm.id)).thenReturn(vm)
+		whenever(vmDynDao.get(any(UUID::class.java) ?: vm.id)).thenReturn(vmDyn)
 
 		val state = OperationalStateBuilderImpl(
 				controllerManager,
@@ -92,6 +94,6 @@ class OperationalStateBuilderImplTest {
 		Assert.assertTrue(state.vms.any { it.value.dynamic != null })
 
 		Mockito.verify(controllerManager).getControllerId()
-		Mockito.verify(assignmentDao).listByController(Matchers.eq("TEST-CONTROLLER") ?: "")
+		Mockito.verify(assignmentDao).listByController(eq("TEST-CONTROLLER") ?: "")
 	}
 }

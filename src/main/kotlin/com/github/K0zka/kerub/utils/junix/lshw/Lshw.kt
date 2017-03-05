@@ -13,7 +13,7 @@ object Lshw : OsCommand {
 	//unfortunately lshw is for linux only
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.os == OperatingSystem.Linux
-			&& hostCapabilities?.installedSoftware?.any { it.name == "lshw" } ?: false
+			&& hostCapabilities.installedSoftware.any { it.name == "lshw" }
 
 	private val mapper
 			= createObjectMapper()

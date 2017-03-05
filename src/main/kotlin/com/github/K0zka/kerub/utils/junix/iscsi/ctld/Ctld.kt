@@ -15,7 +15,7 @@ object Ctld : OsCommand {
 
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.os == OperatingSystem.BSD &&
-			hostCapabilities?.distribution?.name == "FreeBSD"
+			hostCapabilities.distribution?.name == "FreeBSD"
 
 	internal fun begin(id: UUID) = "#cfg-begin $id"
 	internal fun end(id: UUID) = "#cfg-end $id"
