@@ -35,10 +35,9 @@ VirtualStorageDevice(
 		@JsonProperty("owner")
 		override val owner: AssetOwner? = null
 
-)
-: Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset {
-	override fun references(): Map<KClass<*>, List<UUID>> {
-		val mapOf: Map<KClass<*>, List<UUID>> = mapOf(
+) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset {
+	override fun references(): Map<KClass<out Asset>, List<UUID>> {
+		val mapOf: Map<KClass<out Asset>, List<UUID>> = mapOf(
 				VirtualStorageDevice::class to expectations
 						.filter { it is VirtualStorageDeviceReference }
 						.map { (it as VirtualStorageDeviceReference).virtualStorageDeviceReferences }

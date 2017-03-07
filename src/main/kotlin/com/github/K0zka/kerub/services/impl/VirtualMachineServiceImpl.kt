@@ -3,13 +3,13 @@ package com.github.K0zka.kerub.services.impl
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
-import com.github.K0zka.kerub.security.AccessController
+import com.github.K0zka.kerub.security.AssetAccessController
 import com.github.K0zka.kerub.services.VirtualMachineService
 import java.util.UUID
 
 class VirtualMachineServiceImpl(
 		dao: VirtualMachineDao,
-		accessController: AccessController
+		accessController: AssetAccessController
 ) : AbstractAssetService<VirtualMachine>(accessController, dao, "vm"),
 		VirtualMachineService {
 

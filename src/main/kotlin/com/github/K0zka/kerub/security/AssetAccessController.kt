@@ -6,14 +6,15 @@ import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
 import java.util.UUID
 
-interface AccessController {
+interface AssetAccessController {
 	fun <T> doAsAccountMember(accountId: UUID, action: () -> T): T
 	/**
-	 * Pre-check the permission before
+	 * Pre-check the permission before action
 	 *
 	 * Use for insert operations
 	 */
 	fun <T> checkAndDo(asset: Asset, action: () -> T?): T?
+
 	/**
 	 * Perform the action and check if the result is readable by the current user.
 	 * If user does not have permission, SecurityException should be thrown
@@ -35,12 +36,12 @@ interface AccessController {
 	 *
 	 */
 	fun <T : Asset> searchWithFilter(
-			dao : AssetDao<T>,
+			dao: AssetDao<T>,
 			field: String,
 			value: String,
 			start: Long = 0,
 			limit: Int = Int.MAX_VALUE
-	) : SearchResultPage<T>
+	): SearchResultPage<T>
 
-	fun <T: Asset> filter(items: List<T>): List<T>
+	fun <T : Asset> filter(items: List<T>): List<T>
 }

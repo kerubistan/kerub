@@ -21,6 +21,6 @@ data class VirtualNetwork(
 		override val owner: AssetOwner? = null
 
 ) : Entity<UUID>, Constrained<VirtualNetworkExpectation>, Asset {
-	override fun references(): Map<KClass<*>, List<UUID>> =
+	override fun references(): Map<KClass<out Asset>, List<UUID>> =
 			mapOf()
 }

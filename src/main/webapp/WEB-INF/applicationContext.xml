@@ -201,21 +201,30 @@
 		<constructor-arg ref="controllerDynamicCache"/>
 	</bean>
 
-	<!--
-	Managers
-	-->
-
-	<bean id="assetValidator" class="com.github.K0zka.kerub.security.ValidatorImpl">
+	<bean id="anyAssetDao" class="com.github.K0zka.kerub.data.hub.AnyAssetDaoImpl">
 		<constructor-arg ref="vmDao"/>
 		<constructor-arg ref="vNetDao"/>
 		<constructor-arg ref="virtualStorageDeviceDao"/>
 	</bean>
 
-	<bean id="accessController" class="com.github.K0zka.kerub.security.AccessControllerImpl">
+	<!--
+	Managers
+	-->
+
+	<bean id="assetValidator" class="com.github.K0zka.kerub.security.ValidatorImpl">
+		<constructor-arg ref="anyAssetDao"/>
+	</bean>
+
+	<bean id="assetAccessController" class="com.github.K0zka.kerub.security.AssetAccessControllerImpl">
 		<constructor-arg ref="controllerConfigDao"/>
 		<constructor-arg ref="accountMembershipDao"/>
 		<constructor-arg ref="projectMembershipDao"/>
 		<constructor-arg ref="assetValidator"/>
+	</bean>
+
+	<bean id="entityAccessController" class="com.github.K0zka.kerub.security.EntityAccessControllerImpl">
+		<constructor-arg ref="assetAccessController"/>
+		<constructor-arg ref="anyAssetDao"/>
 	</bean>
 
 	<bean
@@ -498,17 +507,17 @@
 			</bean>
 			<bean id="accounts" class="com.github.K0zka.kerub.services.impl.AccountServiceImpl">
 				<constructor-arg ref="accountDao"/>
-				<constructor-arg ref="accessController"/>
+				<constructor-arg ref="assetAccessController"/>
 			</bean>
 			<bean id="accountMemberships" class="com.github.K0zka.kerub.services.impl.AccountMembershipServiceImpl">
 				<constructor-arg ref="accountMembershipDao"/>
 			</bean>
 			<bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
 				<constructor-arg ref="vmDao"/>
-				<constructor-arg ref="accessController"/>
+				<constructor-arg ref="assetAccessController"/>
 			</bean>
 			<bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
-				<constructor-arg ref="accessController"/>
+				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="vNetDao"/>
 			</bean>
 			<bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
@@ -517,7 +526,7 @@
 			</bean>
 			<bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
 				<constructor-arg ref="virtualStorageDeviceDao"/>
-				<constructor-arg ref="accessController"/>
+				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 				<constructor-arg ref="hostDao"/>
 				<constructor-arg ref="hostManager"/>

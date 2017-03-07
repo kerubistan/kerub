@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.model.messages.PongMessage
 import com.github.K0zka.kerub.model.messages.SubscribeMessage
 import com.github.K0zka.kerub.model.messages.UnsubscribeMessage
+import com.github.K0zka.kerub.security.EntityAccessController
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.servletSessionId
@@ -15,7 +16,10 @@ import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
 import java.io.StringWriter
 
-class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWebSocketHandler() {
+class WebSocketNotifier(
+		private val internalListener: InternalMessageListener,
+		private val entityAccessController: EntityAccessController
+) : TextWebSocketHandler() {
 	companion object {
 		private val objectMapper = createObjectMapper()
 		private val logger: Logger = getLogger(WebSocketNotifier::class)
@@ -58,7 +62,10 @@ class WebSocketNotifier(val internalListener: InternalMessageListener) : TextWeb
 			session.close(CloseStatus.NORMAL)
 		} else {
 			logger.info("connection opened by {}, {}", session.principal, session.servletSessionId)
-			internalListener.addSocketListener(session.servletSessionId, SpringSocketClientConnection(session, objectMapper))
+			internalListener.addSocketListener(
+					session.servletSessionId,
+					SpringSocketClientConnection(session, objectMapper, entityAccessController)
+			)
 			super.afterConnectionEstablished(session)
 		}
 	}

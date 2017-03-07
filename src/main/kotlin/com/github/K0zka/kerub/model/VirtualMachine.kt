@@ -75,8 +75,8 @@ data class VirtualMachine constructor(
 
 )
 : Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
-	override fun references(): Map<KClass<*>, List<UUID>> =
-			mapOf(
+	override fun references(): Map<KClass<out Asset>, List<UUID>> =
+			mapOf<KClass<out Asset>, List<UUID>>(
 					VirtualMachine::class to expectations
 							.filter { it is VirtualMachineReference }
 							.map { (it as VirtualMachineReference).referredVmIds }

@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
-import com.github.K0zka.kerub.security.AccessController
+import com.github.K0zka.kerub.security.AssetAccessController
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.scp.ScpTimestamp
@@ -20,7 +20,7 @@ import javax.ws.rs.container.AsyncResponse
 
 class VirtualStorageDeviceServiceImpl(
 		dao: VirtualStorageDeviceDao,
-		accessController: AccessController,
+		accessController: AssetAccessController,
 		private val dynDao: VirtualStorageDeviceDynamicDao,
 		private val hostDao: HostDao,
 		private val executor: HostCommandExecutor

@@ -31,5 +31,5 @@ import kotlin.reflect.KClass
 		override val owner: AssetOwner? = null
 )
 : Entity<UUID>, Named, Constrained<Expectation>, Asset {
-	override fun references(): Map<KClass<*>, List<UUID>> = mapOf()
+	override fun references(): Map<KClass<out Asset>, List<UUID>> = mapOf()
 }

@@ -2,6 +2,8 @@ package com.github.K0zka.kerub.model.dynamic
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.annotations.Dynamic
 import org.hibernate.search.annotations.DocumentId
 import java.math.BigInteger
 import java.util.UUID
@@ -10,6 +12,7 @@ import java.util.UUID
  * Dynamic general information about the status of a host.
  */
 @JsonTypeName("host-dyn")
+@Dynamic(Host::class)
 data class HostDynamic(
 		@DocumentId
 		@JsonProperty("id")

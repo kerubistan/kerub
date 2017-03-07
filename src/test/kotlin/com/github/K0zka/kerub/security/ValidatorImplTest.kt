@@ -1,12 +1,12 @@
 package com.github.K0zka.kerub.security
 
-import com.github.K0zka.kerub.data.VirtualMachineDao
-import com.github.K0zka.kerub.data.VirtualNetworkDao
-import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
+import com.github.K0zka.kerub.data.hub.AnyAssetDao
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.ExpectationLevel
+import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualNetwork
+import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.io.BusType
@@ -14,6 +14,7 @@ import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.testDisk
 import com.github.K0zka.kerub.testVm
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.assertFalse
@@ -23,9 +24,7 @@ import java.util.UUID
 
 class ValidatorImplTest {
 
-	val vmDao = mock<VirtualMachineDao>()
-	val vnetDao = mock<VirtualNetworkDao>()
-	val vdiskDao = mock<VirtualStorageDeviceDao>()
+	val anyAssetDao: AnyAssetDao = mock()
 
 	val account1 = UUID.randomUUID()
 	val account2 = UUID.randomUUID()
@@ -40,10 +39,9 @@ class ValidatorImplTest {
 						ownerType = AssetOwnerType.account
 				)
 		)
-		whenever(vdiskDao.get(any<List<UUID>>())).thenReturn(listOf(
-				linkedDisk
-		))
-		whenever(vnetDao.get(any<List<UUID>>())).thenReturn(
+		whenever(anyAssetDao.getAll(eq(VirtualStorageDevice::class), any<List<UUID>>()))
+				.thenReturn(listOf(linkedDisk))
+		whenever(anyAssetDao.getAll(eq(VirtualNetwork::class), any<List<UUID>>())).thenReturn(
 				listOf(
 						VirtualNetwork(
 								id = UUID.randomUUID(),
@@ -62,12 +60,12 @@ class ValidatorImplTest {
 						ownerType = AssetOwnerType.account
 				)
 		)
-		whenever(vmDao.get(any<List<UUID>>())).thenReturn(
+		whenever(anyAssetDao.getAll(eq(VirtualMachine::class), any<List<UUID>>())).thenReturn(
 				listOf(
 						otherVm
 				)
 		)
-		ValidatorImpl(vmDao, vnetDao, vdiskDao).validate(testVm.copy(
+		ValidatorImpl(anyAssetDao).validate(testVm.copy(
 				id = UUID.randomUUID(),
 				owner = AssetOwner(
 						ownerId = account1,
@@ -99,10 +97,9 @@ class ValidatorImplTest {
 						ownerType = AssetOwnerType.account
 				)
 		)
-		whenever(vdiskDao.get(any<List<UUID>>())).thenReturn(listOf(
-				linkedDisk
-		))
-		whenever(vnetDao.get(any<List<UUID>>())).thenReturn(
+		whenever(anyAssetDao.getAll(eq(VirtualStorageDevice::class), any<List<UUID>>()))
+				.thenReturn(listOf(linkedDisk))
+		whenever(anyAssetDao.getAll(eq(VirtualNetwork::class), any<List<UUID>>())).thenReturn(
 				listOf(
 						VirtualNetwork(
 								id = UUID.randomUUID(),
@@ -121,13 +118,10 @@ class ValidatorImplTest {
 						ownerType = AssetOwnerType.account
 				)
 		)
-		whenever(vmDao.get(any<List<UUID>>())).thenReturn(
-				listOf(
-						otherVm
-				)
-		)
+		whenever(anyAssetDao.getAll(eq(VirtualMachine::class), any<List<UUID>>()))
+				.thenReturn(listOf(otherVm))
 		try {
-			ValidatorImpl(vmDao, vnetDao, vdiskDao).validate(testVm.copy(
+			ValidatorImpl(anyAssetDao).validate(testVm.copy(
 					id = UUID.randomUUID(),
 					owner = AssetOwner(
 							ownerId = account1,

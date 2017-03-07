@@ -15,13 +15,12 @@ import nl.komponents.kovenant.task
 import org.apache.shiro.SecurityUtils.getSubject
 import java.util.UUID
 
-class AccessControllerImpl(
+class AssetAccessControllerImpl(
 		private val controllerConfigDao: ControllerConfigDao,
 		private val accountMembershipDao: AccountMembershipDao,
 		private val projectmembershipDao: ProjectmembershipDao,
 		private val validator: Validator
-) : AccessController {
-
+) : AssetAccessController {
 	override fun <T : Asset> filter(items: List<T>): List<T> {
 		return if (controllerConfigDao.get().accountsRequired) {
 			val memberships = memberships(getSubject().principal.toString())

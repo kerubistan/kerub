@@ -2,17 +2,15 @@ package com.github.K0zka.kerub.services.impl
 
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.model.Asset
-import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
-import com.github.K0zka.kerub.security.AccessController
+import com.github.K0zka.kerub.security.AssetAccessController
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.invocation.InvocationOnMock
@@ -24,7 +22,7 @@ class VirtualMachineServiceImplTest {
 	val notExistingId = UUID.randomUUID()
 
 	val dao: VirtualMachineDao = mock()
-	val accessController: AccessController = mock()
+	val accessController: AssetAccessController = mock()
 
 	@Test
 	fun startVm() {

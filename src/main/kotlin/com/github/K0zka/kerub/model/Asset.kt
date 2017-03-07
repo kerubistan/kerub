@@ -18,7 +18,7 @@ import kotlin.reflect.KClass
 		)
 interface Asset : Entity<UUID>, Named {
 	val owner: AssetOwner?
-	fun references(): Map<KClass<*>, List<UUID>>
+	fun references(): Map<KClass<out Asset>, List<UUID>>
 
 	val ownerIdStr: String?
 		@Field

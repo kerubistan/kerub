@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.services.socket
 
 import com.github.K0zka.kerub.planner.Planner
+import com.github.K0zka.kerub.security.EntityAccessController
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -21,12 +22,13 @@ class WebSocketNotifierTest {
 	val session: WebSocketSession = mock()
 	val headers: HttpHeaders = mock()
 	val principal: Principal = mock()
+	val entityAccessController: EntityAccessController = mock()
 
 	var notifier: WebSocketNotifier? = null
 
 	@Before
 	fun setup() {
-		notifier = WebSocketNotifier(internal)
+		notifier = WebSocketNotifier(internal, entityAccessController)
 		whenever(session.handshakeHeaders).thenReturn(headers)
 		whenever(headers.get(eq("COOKIE"))).thenReturn(listOf("JSESSIONID=test-session-id"))
 	}

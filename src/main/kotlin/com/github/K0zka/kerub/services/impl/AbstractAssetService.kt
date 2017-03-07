@@ -6,12 +6,12 @@ import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
 import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.model.paging.SortResultPage
-import com.github.K0zka.kerub.security.AccessController
+import com.github.K0zka.kerub.security.AssetAccessController
 import com.github.K0zka.kerub.services.AssetService
 import java.util.UUID
 
 abstract class AbstractAssetService<T : Asset>(
-		val accessController: AccessController,
+		val accessController: AssetAccessController,
 		override val dao: AssetDao<T>,
 		entityType: String
 ) : ListableBaseService<T>(entityType), AssetService<T> {

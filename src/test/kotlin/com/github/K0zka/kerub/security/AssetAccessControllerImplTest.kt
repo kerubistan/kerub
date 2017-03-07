@@ -30,7 +30,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class AccessControllerImplTest {
+class AssetAccessControllerImplTest {
 
 	val controllerConfigDao: ControllerConfigDao = mock()
 	val accountMembershipDao: AccountMembershipDao = mock()
@@ -62,13 +62,13 @@ class AccessControllerImplTest {
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(myAccountId))).thenReturn(true)
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(otherAccountId))).thenReturn(true)
 
-		assertEquals(noOWnerVm, AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
+		assertEquals(noOWnerVm, AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
 			noOWnerVm
 		})
-		assertEquals(ownedVm, AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
+		assertEquals(ownedVm, AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
 			ownedVm
 		})
-		assertNull(AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
+		assertNull(AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAndCheck {
 			null
 		})
 	}
@@ -78,7 +78,7 @@ class AccessControllerImplTest {
 		whenever(subject.hasRole(admin)).thenReturn(true)
 		val action = mock<() -> Asset>()
 		val accountId = UUID.randomUUID()
-		AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
+		AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
 				accountId = accountId,
 				action = action
 		)
@@ -92,7 +92,7 @@ class AccessControllerImplTest {
 		val accountId = UUID.randomUUID()
 		whenever(subject.hasRole(admin)).thenReturn(false)
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(accountId))).thenReturn(true)
-		AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
+		AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
 				accountId = accountId,
 				action = action
 		)
@@ -107,7 +107,7 @@ class AccessControllerImplTest {
 		whenever(subject.hasRole(admin)).thenReturn(false)
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(accountId))).thenReturn(false)
 		expect(SecurityException::class) {
-			AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
+			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
 					accountId = accountId,
 					action = action
 			)
@@ -133,7 +133,7 @@ class AccessControllerImplTest {
 		setAccountRequired(true)
 		val callback = mock<() -> Asset>()
 		expect(IllegalArgumentException::class) {
-			AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
+			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 					VirtualNetwork(
 							id = UUID.randomUUID(),
 							name = "blah",
@@ -152,7 +152,7 @@ class AccessControllerImplTest {
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(ownerId))).thenReturn(false)
 
 		expect(SecurityException::class) {
-			AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
+			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 					VirtualNetwork(
 							id = UUID.randomUUID(),
 							name = "blah",
@@ -173,7 +173,7 @@ class AccessControllerImplTest {
 		val ownerId = UUID.randomUUID()
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(ownerId))).thenReturn(true)
 
-		AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
+		AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 				VirtualNetwork(
 						id = UUID.randomUUID(),
 						name = "blah",
@@ -196,7 +196,7 @@ class AccessControllerImplTest {
 	fun checkAndDoWithOutNonnrequiredAccount() {
 		setAccountRequired(false)
 		val callback = mock<() -> Asset>()
-		AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
+		AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 				VirtualNetwork(
 						id = UUID.randomUUID(),
 						name = "blah",
@@ -219,7 +219,7 @@ class AccessControllerImplTest {
 						projectMembership
 				))
 
-		val memberships = AccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator)
+		val memberships = AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator)
 				.memberships("test")
 
 		assertEquals(2, memberships.size)
