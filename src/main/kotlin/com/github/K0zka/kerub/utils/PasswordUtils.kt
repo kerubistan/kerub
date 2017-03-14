@@ -15,9 +15,6 @@ private fun charsBetween(start : Char, end : Char) : List<Char> {
 	return CharArray(end - start, {start + it}).toList()
 }
 
-//TODO: candidate to contribution to kotlin - https://github.com/kerubistan/kerub/issues/137
-inline fun buildString(length : Int, builderAction: StringBuilder.() -> Unit): String = StringBuilder(length).apply(builderAction).toString()
-
 fun genPassword(length : Int = 16) : String {
 	return buildString(length) {
 		for(i in 1 .. length) {

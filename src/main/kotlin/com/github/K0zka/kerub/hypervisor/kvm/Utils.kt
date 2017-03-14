@@ -5,7 +5,6 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
-import com.github.K0zka.kerub.utils.buildString
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import com.github.K0zka.kerub.utils.storage.iscsiDefaultUser as iscsiUser
 

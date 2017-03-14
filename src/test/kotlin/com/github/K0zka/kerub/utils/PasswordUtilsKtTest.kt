@@ -1,17 +1,10 @@
 package com.github.K0zka.kerub.utils
 
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class PasswordUtilsKtTest {
-
-	@Test
-	fun testBuildString() {
-		buildString(1) {
-			assertEquals(1, capacity())
-		}
-	}
 
 	@Test
 	fun testGenPassword() {
