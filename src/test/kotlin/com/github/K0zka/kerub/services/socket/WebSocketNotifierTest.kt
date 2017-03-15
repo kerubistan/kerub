@@ -7,8 +7,10 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import org.apache.shiro.subject.Subject
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.springframework.http.HttpHeaders
 import org.springframework.web.socket.TextMessage
@@ -35,16 +37,16 @@ class WebSocketNotifierTest {
 
 	@Test
 	fun afterConnectionEstablished() {
-		Mockito.`when`(session.id).thenReturn("session-id")
-		Mockito.`when`(session.principal).thenReturn(principal)
+		whenever(session.id).thenReturn("session-id")
+		whenever(session.principal).thenReturn(principal)
+		whenever(session.attributes).thenReturn(mapOf("subject" to mock<Subject>()))
 
 		notifier!!.afterConnectionEstablished(session)
 
-		val conn = Mockito.mock(ClientConnection::class.java)
-		//		verify(internal)!!.addSocketListener(
-		//				anyString(),
-		//				Matchers.any(ClientConnection::class.java) ?: conn
-		//		)
+		verify(internal).addSocketListener(
+				anyString(),
+				any<ClientConnection>()
+		)
 	}
 
 	@Test

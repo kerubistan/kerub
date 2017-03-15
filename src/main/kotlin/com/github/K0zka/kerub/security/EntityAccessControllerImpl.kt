@@ -1,16 +1,17 @@
 package com.github.K0zka.kerub.security
 
-import com.github.K0zka.kerub.data.hub.AnyAssetDao
+import com.github.K0zka.kerub.data.hub.AnyEntityDao
 import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.annotations.Dynamic
 import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import org.apache.shiro.SecurityUtils
+import java.util.UUID
 import kotlin.reflect.KClass
 
 class EntityAccessControllerImpl(
 		private val assetAccessController: AssetAccessController,
-		private val anyAssetDao: AnyAssetDao
+		private val anyEntityDao: AnyEntityDao
 ) : EntityAccessController {
 
 	companion object {
@@ -18,10 +19,10 @@ class EntityAccessControllerImpl(
 				clazz.java.getAnnotation(Dynamic::class.java)?.value
 	}
 
-	internal fun statFromDynamic(obj: DynamicEntity): Any?
+	internal fun statFromDynamic(obj: DynamicEntity): Entity<UUID>?
 			= statClassOf(obj.javaClass.kotlin)?.let {
 		clazz ->
-		anyAssetDao.get(clazz as KClass<out Asset>, obj.id)
+		anyEntityDao.get(clazz, obj.id)
 	}
 
 	override fun <T> checkAndDo(obj: Entity<*>, action: () -> T?): T? {
@@ -35,15 +36,19 @@ class EntityAccessControllerImpl(
 					stat ->
 					if (stat is Asset) {
 						assetAccessController.checkAndDo(stat, action)
-					} else null
+					} else handleNonAssetChanges(action)
 				}
 			else ->
 				// any other case: only if the user is admin and has access to everything (hosts, network)
 				// and not only virtual assets
-				if (SecurityUtils.getSubject().hasRole(admin)) {
-					action()
-				} else null
+				handleNonAssetChanges(action)
 		}
 
+	}
+
+	private fun <T> handleNonAssetChanges(action: () -> T?): T? {
+		return if (SecurityUtils.getSubject().hasRole(admin)) {
+			action()
+		} else null
 	}
 }

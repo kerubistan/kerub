@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.messages.Message
 import com.github.K0zka.kerub.security.EntityAccessController
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.update
+import org.apache.shiro.subject.Subject
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import kotlin.reflect.KClass
@@ -14,7 +15,8 @@ import kotlin.reflect.KClass
 class SpringSocketClientConnection(
 		private val session: WebSocketSession,
 		private val mapper: ObjectMapper,
-		private val entityAccessController: EntityAccessController) : ClientConnection {
+		private val entityAccessController: EntityAccessController,
+		private val subject: Subject) : ClientConnection {
 
 	override fun close() {
 		session.close()
@@ -53,18 +55,20 @@ class SpringSocketClientConnection(
 	override fun filterAndSend(msg: Message) {
 		if (msg is EntityMessage) {
 			val entity = msg.obj
-			entityAccessController.checkAndDo(entity) {
-				val entityClass = entity.javaClass.kotlin as KClass<out Entity<out Any>>
-				val classChannel = channels.get(entityClass)
-				if (classChannel == null) {
-					logger.warn("Entity type not handled: {}", entityClass)
-				} else {
-					synchronized(subscriptions) {
-						if (subscriptions[entityClass]?.any { it.interested(msg) } ?: false)
-							session.sendMessage(TextMessage(mapper.writeValueAsString(msg)))
+			subject.associateWith {
+				entityAccessController.checkAndDo(entity) {
+					val entityClass = entity.javaClass.kotlin as KClass<out Entity<out Any>>
+					val classChannel = channels.get(entityClass)
+					if (classChannel == null) {
+						logger.warn("Entity type not handled: {}", entityClass)
+					} else {
+						synchronized(subscriptions) {
+							if (subscriptions[entityClass]?.any { it.interested(msg) } ?: false)
+								session.sendMessage(TextMessage(mapper.writeValueAsString(msg)))
+						}
 					}
 				}
-			}
+			}.run()
 		}
 	}
 }

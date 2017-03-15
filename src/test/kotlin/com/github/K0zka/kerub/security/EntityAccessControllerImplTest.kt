@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.security
 
-import com.github.K0zka.kerub.data.hub.AnyAssetDao
+import com.github.K0zka.kerub.data.hub.AnyEntityDao
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
@@ -26,7 +26,7 @@ import kotlin.test.assertNull
 class EntityAccessControllerImplTest {
 
 	val assetAccessController: AssetAccessController = mock()
-	val anyAssetDao: AnyAssetDao = mock()
+	val anyEntityDao: AnyEntityDao = mock()
 
 	@Test
 	fun statClassOf() {
@@ -51,14 +51,14 @@ class EntityAccessControllerImplTest {
 				status = VirtualMachineStatus.Up,
 				hostId = testHost.id
 		)
-		whenever(anyAssetDao.get(eq(VirtualMachine::class), eq(testVm.id))).thenReturn(testVm)
-		assertEquals(testVm, EntityAccessControllerImpl(assetAccessController, anyAssetDao).statFromDynamic(dyn))
+		whenever(anyEntityDao.get(eq(VirtualMachine::class), eq(testVm.id))).thenReturn(testVm)
+		assertEquals(testVm, EntityAccessControllerImpl(assetAccessController, anyEntityDao).statFromDynamic(dyn))
 	}
 
 	@Test
 	fun checkAndDoWithAsset() {
 		val action = mock<() -> VirtualNetwork>()
-		EntityAccessControllerImpl(assetAccessController, anyAssetDao).checkAndDo(testVirtualNetwork, action)
+		EntityAccessControllerImpl(assetAccessController, anyEntityDao).checkAndDo(testVirtualNetwork, action)
 		verify(assetAccessController).checkAndDo(eq(testVirtualNetwork), eq(action))
 		verify(action, never()).invoke()
 	}
@@ -66,7 +66,7 @@ class EntityAccessControllerImplTest {
 	@Test
 	fun checkAndDoWithDyn() {
 		val action = mock<() -> VirtualStorageDeviceDynamic>()
-		EntityAccessControllerImpl(assetAccessController, anyAssetDao).checkAndDo(testVirtualDisk, action)
+		EntityAccessControllerImpl(assetAccessController, anyEntityDao).checkAndDo(testVirtualDisk, action)
 		verify(assetAccessController).checkAndDo(eq(testVirtualDisk), eq(action))
 		verify(action, never()).invoke()
 	}

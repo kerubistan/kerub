@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.testWsUrl
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
 import org.eclipse.jetty.websocket.api.Session
+import org.eclipse.jetty.websocket.api.UpgradeException
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError
@@ -21,8 +22,8 @@ import org.junit.Test
 import java.net.URI
 import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.BlockingQueue
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class WebSocketSecurityIT {
@@ -116,15 +117,9 @@ class WebSocketSecurityIT {
 
 		val queue: BlockingQueue<String> = ArrayBlockingQueue<String>(1024)
 
-		socketClient!!.connect(Listener(queue), URI(testWsUrl)).get()
+		com.github.K0zka.kerub.expect(ExecutionException::class, {
+			socketClient!!.connect(Listener(queue), URI(testWsUrl)).get()
+		}, { it.cause is UpgradeException })
 
-		var messages = listOf<String>()
-		var msg = queue.poll(1, TimeUnit.SECONDS)
-		while (msg != null) {
-			messages += msg
-			msg = queue.poll(1, TimeUnit.SECONDS)
-		}
-
-		assertEquals(listOf("connected", "closed"), messages)
 	}
 }

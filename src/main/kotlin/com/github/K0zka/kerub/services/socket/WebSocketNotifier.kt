@@ -9,6 +9,7 @@ import com.github.K0zka.kerub.security.EntityAccessController
 import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.servletSessionId
+import org.apache.shiro.subject.Subject
 import org.slf4j.Logger
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -57,17 +58,17 @@ class WebSocketNotifier(
 	}
 
 	override fun afterConnectionEstablished(session: WebSocketSession) {
-		if (session.principal == null) {
-			logger.info("unauthenticated attempt")
-			session.close(CloseStatus.NORMAL)
-		} else {
-			logger.info("connection opened by {}, {}", session.principal, session.servletSessionId)
-			internalListener.addSocketListener(
-					session.servletSessionId,
-					SpringSocketClientConnection(session, objectMapper, entityAccessController)
-			)
-			super.afterConnectionEstablished(session)
-		}
+		logger.info("connection opened by {}, {}", session.principal, session.servletSessionId)
+		internalListener.addSocketListener(
+				session.servletSessionId,
+				SpringSocketClientConnection(
+						session,
+						objectMapper,
+						entityAccessController,
+						session.attributes["subject"] as Subject
+				)
+		)
+		super.afterConnectionEstablished(session)
 	}
 
 	override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus?) {

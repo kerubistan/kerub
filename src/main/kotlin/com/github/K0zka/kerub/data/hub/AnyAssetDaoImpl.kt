@@ -33,5 +33,5 @@ class AnyAssetDaoImpl(
 			getDao(clazz).get(ids)
 
 	internal fun <T : Asset> getDao(clazz: KClass<T>) = requireNotNull(
-			daos[clazz] as DaoOperations.Read<T, UUID>) { "dao not found for $clazz" }
+			requireNotNull(daos[clazz]) { "dao not found for $clazz" } as DaoOperations.Read<T, UUID>)
 }

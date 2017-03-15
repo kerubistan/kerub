@@ -207,6 +207,15 @@
 		<constructor-arg ref="virtualStorageDeviceDao"/>
 	</bean>
 
+	<bean id="anyEntityDao" class="com.github.K0zka.kerub.data.hub.AnyEntityDaoImpl">
+		<constructor-arg ref="anyAssetDao"/>
+		<constructor-arg>
+			<map>
+				<entry key="com.github.K0zka.kerub.model.Host" value-ref="hostDao"/>
+			</map>
+		</constructor-arg>
+	</bean>
+
 	<!--
 	Managers
 	-->
@@ -224,7 +233,7 @@
 
 	<bean id="entityAccessController" class="com.github.K0zka.kerub.security.EntityAccessControllerImpl">
 		<constructor-arg ref="assetAccessController"/>
-		<constructor-arg ref="anyAssetDao"/>
+		<constructor-arg ref="anyEntityDao"/>
 	</bean>
 
 	<bean
@@ -606,6 +615,10 @@ Remember, that the motd is readable by anyone!
 			id="securityManager"
 			class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="kerubRealm"/>
+	</bean>
+
+	<bean class="com.github.K0zka.kerub.security.SecurityManagerSetup">
+		<property name="securityManager" ref="securityManager"/>
 	</bean>
 
 	<bean
