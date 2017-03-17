@@ -11,6 +11,7 @@ import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
@@ -93,7 +94,7 @@ abstract class AbstractLinux : Distribution {
 								+ volGroups.map {
 							volGroup ->
 							val storageDevice = lvmVgsByName?.get(volGroup.name)
-							if(storageDevice == null) {
+							if (storageDevice == null) {
 								null
 							} else {
 								StorageDeviceDynamic(
@@ -135,24 +136,21 @@ abstract class AbstractLinux : Distribution {
 	override fun getRequiredPackages(osCommand: OsCommand): List<String> =
 			packages[osCommand] ?: listOf()
 
-	override fun getFireWall(session: ClientSession): FireWall  = IptablesFireWall(session)
+	override fun getFireWall(session: ClientSession): FireWall = IptablesFireWall(session)
 
 	override fun getServiceManager(session: ClientSession): ServiceManager {
 		return SystemdServiceManager(session)
 	}
 
-	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> {
-		val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
-		return (silent {LvmVg.list(session)} ?: listOf<VolumeGroup>()) .map {
-			vg ->
-			LvmStorageCapability(
-					volumeGroupName = vg.name,
-					size = vg.size,
-					physicalVolumes = pvs.filter {
-						pv ->
-						pv.volumeGroupId == vg.id
-					}.map { it.size })
-		} + DF.df(session).map {
+	override fun detectStorageCapabilities(
+			session: ClientSession,
+			osVersion: SoftwarePackage,
+			packages: List<SoftwarePackage>): List<StorageCapability> {
+		return listLvmVolumes(session, osVersion, packages) + listFilesystems(session)
+	}
+
+	internal fun listFilesystems(session: ClientSession): List<FsStorageCapability> {
+		return DF.df(session).map {
 			mount ->
 			FsStorageCapability(
 					size = mount.free + mount.used,
@@ -160,6 +158,26 @@ abstract class AbstractLinux : Distribution {
 			)
 		}
 	}
+
+	internal fun listLvmVolumes(session: ClientSession,
+								osVersion: SoftwarePackage,
+								packages: List<SoftwarePackage>): List<LvmStorageCapability> =
+			if (LvmLv.available(osVersion, packages)) {
+				val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
+				(silent { LvmVg.list(session) } ?: listOf<VolumeGroup>()).map {
+					vg ->
+					LvmStorageCapability(
+							volumeGroupName = vg.name,
+							size = vg.size,
+							physicalVolumes = pvs.filter {
+								pv ->
+								pv.volumeGroupId == vg.id
+							}.map { it.size })
+				}
+
+			} else {
+				listOf<LvmStorageCapability>()
+			}
 
 	override fun getTotalMemory(session: ClientSession): BigInteger {
 		return session
@@ -171,10 +189,10 @@ abstract class AbstractLinux : Distribution {
 		//TODO: filter out the ones not connected and not wal-enabled
 		val macAdddresses = Net.listDevices(session).map { silent { Net.getMacAddress(session, it) } }.filterNotNull()
 
-		if(macAdddresses.isEmpty()) {
+		if (macAdddresses.isEmpty()) {
 			return listOf()
 		} else {
-			return listOf( WakeOnLanInfo(macAdddresses) )
+			return listOf(WakeOnLanInfo(macAdddresses))
 		}
 
 	}
@@ -191,5 +209,5 @@ abstract class AbstractLinux : Distribution {
 	override fun detectHostCpuFlags(session: ClientSession): List<String>
 			= CpuInfo.list(session).first().flags
 
-	override fun getHostOs() : OperatingSystem = OperatingSystem.Linux
+	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
 }

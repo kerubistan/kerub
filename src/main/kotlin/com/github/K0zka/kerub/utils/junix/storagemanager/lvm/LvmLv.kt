@@ -10,7 +10,7 @@ import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
 
-object LvmLv {
+object LvmLv : Lvm() {
 
 	val minimalSize = "4 MB".toSize()
 	val logger = getLogger(LvmLv::class)

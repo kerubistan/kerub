@@ -7,7 +7,7 @@ import org.apache.sshd.client.session.ClientSession
 /**
  * Utility to handle LVM Physical Volumes
  */
-object LvmPv {
+object LvmPv : Lvm() {
 	fun list(session: ClientSession): List<PhysicalVolume>
 			= session.executeOrDie("lvm pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions")
 			.lines()

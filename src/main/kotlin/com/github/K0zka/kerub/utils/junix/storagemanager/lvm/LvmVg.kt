@@ -7,7 +7,7 @@ import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
-object LvmVg {
+object LvmVg : Lvm() {
 
 	class LvmVgMonitorOutputStream(
 			private val callback: (List<VolumeGroup>) -> Unit
@@ -16,9 +16,9 @@ object LvmVg {
 		private var vgs = listOf<VolumeGroup>()
 
 		override fun write(data: Int) {
-			if(data == 10) {
+			if (data == 10) {
 				val row = buffer.toString()
-				if(row.trim() == separator) {
+				if (row.trim() == separator) {
 					callback(vgs)
 					vgs = listOf()
 				} else {

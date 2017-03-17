@@ -5,6 +5,7 @@ import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.packman.RaspbianPackageManager
 import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.dynamic.HostStatus
@@ -26,7 +27,7 @@ class UbuntuBSD : AbstractDebian("ubuntuBSD") {
 			= RaspbianPackageManager(session)
 
 	//only ZFS "volume manager" in ubuntuBSD https://github.com/kerubistan/kerub/issues/174
-	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> =
+	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> =
 			DF.df(session).map {
 				mount ->
 				FsStorageCapability(

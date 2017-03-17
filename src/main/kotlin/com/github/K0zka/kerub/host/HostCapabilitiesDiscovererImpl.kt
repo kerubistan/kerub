@@ -73,10 +73,12 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 		val osDetectedFlags = distro.detectHostCpuFlags(session)
 		val hardwareInfo = systemInfo.values
+		val hostOs = distro.getHostOs()
+		val distribution = SoftwarePackage(distro.name(), distro.getVersion(session))
 		return HostCapabilities(
-				os = distro.getHostOs(),
+				os = hostOs,
 				cpuArchitecture = distro.detectHostCpuType(session),
-				distribution = SoftwarePackage(distro.name(), distro.getVersion(session)),
+				distribution = distribution,
 				installedSoftware = packages,
 				totalMemory = distro.getTotalMemory(session),
 				memoryDevices = valuesOfType(hardwareInfo, MemoryInformation::class),
@@ -89,7 +91,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
-				storageCapabilities = distro.detectStorageCapabilities(session)
+				storageCapabilities = distro.detectStorageCapabilities(session, distribution, packages)
 		)
 	}
 

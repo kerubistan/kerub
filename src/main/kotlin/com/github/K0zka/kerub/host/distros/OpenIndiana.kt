@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
@@ -42,7 +43,7 @@ class OpenIndiana : Distribution {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 
-	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> {
+	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 

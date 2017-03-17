@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.packman.CygwinPackageManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.dynamic.HostStatus
@@ -62,7 +63,7 @@ class Cygwin : Distribution {
 
 	override fun getRequiredPackages(osCommand: OsCommand): List<String> = listOf()
 
-	override fun detectStorageCapabilities(session: ClientSession): List<StorageCapability> = listOf()
+	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> = listOf()
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> = listOf() // TODO
 
