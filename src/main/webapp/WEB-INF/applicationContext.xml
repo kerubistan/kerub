@@ -617,10 +617,6 @@ Remember, that the motd is readable by anyone!
 		<property name="realm" ref="kerubRealm"/>
 	</bean>
 
-	<bean class="com.github.K0zka.kerub.security.SecurityManagerSetup">
-		<property name="securityManager" ref="securityManager"/>
-	</bean>
-
 	<bean
 			id="lifecycleBeanPostProcessor"
 			class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
