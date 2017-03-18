@@ -15,6 +15,9 @@
 	<script src="js/utils.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/socket.js"></script>
+
+	<script src="js/Motd.js"></script>
+
 	<script src="js/SizeUtil.js"></script>
 	<script src="js/Session.js"></script>
 	<script src="js/Login.js"></script>
@@ -80,7 +83,7 @@
 							<span ng-bind="version.version"></span>
 						</div>
 					</div>
-					<div class="media-body">
+					<div class="media-body" ng-controller="Motd">
                             <span ng-bind-html="motd">
                             </span>
 					</div>

@@ -369,12 +369,35 @@
 			<uib-tab-heading>
 				<i class="glyphicon glyphicon-info-sign"></i> About
 			</uib-tab-heading>
-			<div ng-controller="VersionInfo" class="versioninfobox">
-				<img src="img/kerub.png"><br>
-				<span>title: {{versionInfo.title}}</span><br>
-				<span>vendor: {{versionInfo.vendor}}</span><br>
-				<span>version: {{versionInfo.version}}</span><br>
-				<span><a href="apidoc/">api documentation</a></span><br>
+			<div class="panel panel-default">
+				<div class="panel-heading" ng-controller="VersionInfo">
+					version info
+				</div>
+				<div class="panel-body">
+					<img src="img/kerub.png"><br>
+					<span>title: {{versionInfo.title}}</span><br>
+					<span>vendor: {{versionInfo.vendor}}</span><br>
+					<span>version: {{versionInfo.version}}</span><br>
+					<span><a href="apidoc/">api documentation</a></span><br>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					User info
+				</div>
+				<div class="panel-body">
+					user name : {{user.name}}<br>
+					roles : <span ng-repeat="role in user.roles">{{role}}<span ng-show="!$last">,</span></span>
+				</div>
+			</div>
+			<div class="panel panel-default" ng-controller="Motd">
+				<div class="panel-heading">
+					motd
+				</div>
+				<div class="panel-body">
+                    <span ng-bind-html="motd">
+                    </span>
+				</div>
 			</div>
 		</uib-tab>
 		<uib-tab-heading ng-controller="SearchController">
