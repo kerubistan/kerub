@@ -24,6 +24,17 @@ class LoginServiceIT {
 	}
 
 	@Test
+	fun loginWithUser() {
+		val client = createClient()
+		val login = JAXRSClientFactory.fromClient(client, LoginService::class.java, true)
+		login.login(LoginService.UsernamePassword(username = "user", password = "password"))
+		val user = login.getUser()
+
+		assertEquals("user", user.name)
+		assertEquals(listOf(Roles.User), user.roles)
+	}
+
+	@Test
 	fun getUserWithoutLogin() {
 		val client = createClient()
 		val login = JAXRSClientFactory.fromClient(client, LoginService::class.java, true)
