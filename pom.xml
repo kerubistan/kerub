@@ -44,7 +44,7 @@
 	</pluginRepositories>
 
 	<properties>
-		<kotlin.version>1.1.0</kotlin.version>
+		<kotlin.version>1.1.1</kotlin.version>
 		<spring.version>4.2.9.RELEASE</spring.version>
 		<cxf.version>3.1.9</cxf.version>
 		<infinispan.version>8.2.6.Final</infinispan.version>
