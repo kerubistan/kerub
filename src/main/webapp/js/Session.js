@@ -40,7 +40,6 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
         };
         this.runSuccessCallbacks = function(response) {
             for(var idx = 0; idx < this.onSuccess.length; idx++) {
-                $log.debug('calling onsuccess method', idx);
                 this.onSuccess[idx](response);
             }
         }
