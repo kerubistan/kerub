@@ -384,6 +384,12 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					User info
+					<span class="pull-right">
+						<button
+								class="btn btn-warning fa fa-sign-out"
+								ng-click="logout()"
+								uib-tooltip="log out"></button>
+					</span>
 				</div>
 				<div class="panel-body">
 					user name : {{user.name}}<br>

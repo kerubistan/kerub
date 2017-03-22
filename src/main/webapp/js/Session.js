@@ -86,6 +86,7 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
         },
         restartRequest : function(bReq) {
                 $log.info('restart request',bReq.getUrl());
+                session.loginWindow = null;
                 var resp = session._sendNewRequest(bReq);
                 resp.success(function(result) {
                     $log.info('result', bReq.nr, bReq.getUrl());
