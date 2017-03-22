@@ -804,7 +804,7 @@
 <script type="text/ng-template" id="NewVirtualNetworkWizard.html">
 
 	<div class="modal-header">
-		<h3 class="modal-title">New Virtual Network</h3>
+		<h3 class="modal-title"><span class="fa fa-sitemap"></span> New Virtual Network</h3>
 	</div>
 	<div class="modal-body">
 
@@ -824,7 +824,7 @@
 		</div>
 
 		<div class="form-group">
-			<div class="input-group">
+			<div class="input-group {{!validating && !valid ? 'has-warning' : ''}}">
 				<div class="input-group-addon">
 					<span class="fa fa-tag"></span>
 				</div>

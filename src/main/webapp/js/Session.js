@@ -70,7 +70,6 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
         _sendNewRequest : function(bReq) {
         	var method = bReq.getMethod();
         	var url = bReq.getUrl();
-        	$log.debug('Sending ' + method + ' url: ' + url)
             switch(method) {
                 case "GET":
                     return $http.get(url);
@@ -84,11 +83,9 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
             throw "Unhandled method: " + bReq.method;
         },
         restartRequest : function(bReq) {
-                $log.info('restart request',bReq.getUrl());
                 session.loginWindow = null;
                 var resp = session._sendNewRequest(bReq);
                 resp.success(function(result) {
-                    $log.info('result', bReq.nr, bReq.getUrl());
                     bReq.runSuccessCallbacks(result);
                 });
                 resp.error(function() {
@@ -96,7 +93,6 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
                 });
         },
         restartRequests : function() {
-            $log.info("restarting requests", session);
             for(var i = 0; i < session._blockedRequests.length; i++) {
             	this.restartRequest(this._blockedRequests[i]);
             }
@@ -132,7 +128,6 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
         		$log.debug("login window already open");
         		return;
         	}
-            $log.info("opening login window");
             session.loginWindow = $uibModal.open({
                 templateUrl : 'Login.html',
                 controller : Login,

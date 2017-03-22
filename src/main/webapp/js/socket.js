@@ -23,7 +23,6 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
         + ':' + location.port
         + (location.pathname === "/" ? "/" : location.pathname)
         + "ws";
-    $log.debug("socket addr:"+socketAddr);
     var sock = {};
     sock.queue = [];
     sock.listeners = {};
@@ -41,7 +40,6 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
 					|| channel == '/' + entityType + '/' + entityId + '/') {
 
 					angular.forEach(callbacks, function(callback, clientId) {
-						$log.debug('channel: '+channel, msg);
 						callback(msg);
 					});
 
