@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.services
 
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.security.admin
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles

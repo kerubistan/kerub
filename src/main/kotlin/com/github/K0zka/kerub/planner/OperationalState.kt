@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.planner
 
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel

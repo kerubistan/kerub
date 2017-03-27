@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.data.ispn
 
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

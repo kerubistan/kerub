@@ -1,7 +1,8 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create
 
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.GvinumStorageCapability
+import com.github.K0zka.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
@@ -148,7 +149,7 @@ class CreateGvinumVolumeFactoryTest {
 						)),
 						vStorageDyns = listOf(),
 						config = ControllerConfig(
-								gvinumCreateVolumeEnabled =  false
+								storageTechnologies = StorageTechnologiesConfig(gvinumCreateVolumeEnabled =  false)
 						)
 				)
 		).isEmpty(), "Disabled factory should not generate anything")

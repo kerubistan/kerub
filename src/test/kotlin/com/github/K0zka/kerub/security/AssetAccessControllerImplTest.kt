@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.AccountMembership
 import com.github.K0zka.kerub.model.Asset
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.ProjectMembership
 import com.github.K0zka.kerub.model.VirtualNetwork
 import com.github.K0zka.kerub.testVm

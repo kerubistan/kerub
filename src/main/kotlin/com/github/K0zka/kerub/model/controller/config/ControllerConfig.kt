@@ -1,7 +1,8 @@
-package com.github.K0zka.kerub.model
+package com.github.K0zka.kerub.model.controller.config
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.utils.emptyString
 
 /**
@@ -20,26 +21,21 @@ data class ControllerConfig(
 		 */
 		val powerManagementEnabled : Boolean = true,
 		/**
-		 * List of paths the controllers can use as file storage.
-		 */
-		val fsPathEnabled : List<String> = listOf(),
-		/**
-		 * The controllers can create logical volumes on vgs.
-		 */
-		val lvmCreateVolumeEnabled : Boolean = true,
-		/**
-		 * The controllers can create gvinum volumes.
-		 */
-		val gvinumCreateVolumeEnabled : Boolean = true,
-		/**
 		 * The controllers can enable/disable KSM.
 		 */
 		val ksmEnabled : Boolean = true,
 		/**
 		 * The controller can install software (monitoring, hypervisor, storage, etc) on the host as needed.
 		 */
-		val installSoftwareEnabled : Boolean = false
-
+		val installSoftwareEnabled : Boolean = false,
+		/**
+		 * Storage-related technologies all here
+		 */
+		val storageTechnologies: StorageTechnologiesConfig = StorageTechnologiesConfig(),
+		/**
+		 * All hypervisor-related here.
+		 */
+		val hypervisorTechnologies: HypervisorTechnologies = HypervisorTechnologies()
 ) : Entity<String> {
 	@JsonIgnore
 	override val id: String = emptyString

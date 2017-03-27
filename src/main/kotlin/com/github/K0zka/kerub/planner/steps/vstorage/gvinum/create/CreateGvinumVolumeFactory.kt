@@ -16,7 +16,7 @@ import java.math.BigInteger
 object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvinumVolume>() {
 
 	override fun produce(state: OperationalState): List<CreateGvinumVolume> =
-			factoryFeature(state.controllerConfig.gvinumCreateVolumeEnabled) {
+			factoryFeature(state.controllerConfig.storageTechnologies.gvinumCreateVolumeEnabled) {
 				listStorageNotAllocated(state).map {
 					virtualStorage ->
 

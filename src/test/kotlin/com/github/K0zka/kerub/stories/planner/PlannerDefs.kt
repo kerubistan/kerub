@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.stories.planner
 
-import com.github.K0zka.kerub.model.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.GvinumStorageCapability
@@ -60,6 +60,7 @@ import com.github.K0zka.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
+import com.github.K0zka.kerub.stories.config.ControllerConfigDefs
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
@@ -871,16 +872,9 @@ class PlannerDefs {
 		)
 	}
 
-	val configs = mapOf<String, (Boolean, ControllerConfig) -> ControllerConfig>(
-			"accounts required" to { enabled, config -> config.copy(accountsRequired = enabled) },
-			"power management enabled" to { enabled, config -> config.copy(powerManagementEnabled = enabled) },
-			"lvm create volume enabled" to { enabled, config -> config.copy(lvmCreateVolumeEnabled = enabled) },
-			"gvinum create volume enabled" to { enabled, config -> config.copy(lvmCreateVolumeEnabled = enabled) }
-	)
-
 	@Given("Controller configuration '(.*)' is (enabled|disabled)")
 	fun setConfigurationBoolean(configName: String, enabled: String) {
-		this.controllerConfig = requireNotNull(configs[configName])
+		this.controllerConfig = requireNotNull(ControllerConfigDefs.configs[configName])
 				.invoke("enabled" == enabled, this.controllerConfig)
 	}
 
