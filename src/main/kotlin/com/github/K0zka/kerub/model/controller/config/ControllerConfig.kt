@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.utils.emptyString
 /**
  * Global configuration shared across the kerub cluster.
  */
-@JsonTypeName("controller-config")
+@JsonTypeName("config")
 data class ControllerConfig(
 		/**
 		 * If accounts are required, the controller allows creating virtual resources only in accounts

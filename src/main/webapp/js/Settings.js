@@ -1,8 +1,11 @@
-kerubApp.controller('Settings', function($scope, appsession) {
+kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 	$scope.config = {};
 	$scope.refresh = function() {
 		appsession.get('s/r/config').success(function(result) {
 			$scope.config = result;
+			socket.subscribe('/config', function() {
+				$log.debug('controller configuration changed');
+			});
 		});
 	};
 

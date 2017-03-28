@@ -107,6 +107,7 @@
 	<bean id="controllerConfigDao" class="com.github.K0zka.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">
 		<constructor-arg ref="controllerConfigCache"/>
 		<constructor-arg ref="auditManager"/>
+		<constructor-arg ref="eventListener"/>
 	</bean>
 
 	<bean id="accountDao" class="com.github.K0zka.kerub.data.ispn.AccountDaoImpl" parent="daoBase">

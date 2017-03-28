@@ -8,8 +8,8 @@ import kotlin.reflect.KClass
 data class ChannelSubscription(val entityClass: KClass<out Entity<out Any>>, val id: Any?) {
 	companion object {
 		fun fromChannel(channel: String): ChannelSubscription {
-			val channelFormated = addSlashPrefix(addSlashPostFix(channel))
-			val split = channelFormated.split(slash).filter { it.isNotBlank() }
+			val channelFormatted = addSlashPrefix(addSlashPostFix(channel))
+			val split = channelFormatted.split(slash).filter { it.isNotBlank() }
 			val entityServiceAddress = addSlashPrefix(addSlashPostFix(split[0]))
 			val entityId = split.elementAtOrNull(1)?.toUUID()
 			return ChannelSubscription(requireNotNull(addressToEntity[entityServiceAddress]), entityId)
