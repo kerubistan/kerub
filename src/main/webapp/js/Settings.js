@@ -1,13 +1,19 @@
 kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 	$scope.config = {};
+	$scope.outdated = true;
 	$scope.refresh = function() {
 		appsession.get('s/r/config').success(function(result) {
 			$scope.config = result;
-			socket.subscribe('/config', function() {
-				$log.debug('controller configuration changed');
-			});
+			$scope.outdated = false;
 		});
 	};
+	socket.subscribe('/config', function(event) {
+		$scope.$apply(function() {
+			if(!angular.equals($scope.config, event.obj)) {
+				$scope.outdated = true;
+			}
+		});
+	});
 
 	$scope.save = function() {
 		appsession.put('s/r/config',$scope.config).success(function() {

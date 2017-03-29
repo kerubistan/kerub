@@ -301,8 +301,15 @@
 				<i class="fa fa-sliders"></i> Settings
 			</uib-tab-heading>
 			<div ng-controller="Settings">
-				<button type="button" class="btn btn-default fa fa-check" ng-click="save()" uib-tooltip="Save configuration" tooltip-placement="right"></button>
-				<button type="button" class="btn btn-default fa fa-refresh" ng-click="refresh()" uib-tooltip="Reload configuration" tooltip-placement="right"></button>
+				<button type="button" class="btn btn-default" ng-click="save()" uib-tooltip="Save configuration" tooltip-placement="right">
+					<span class="fa fa-check"></span>
+				</button>
+				<button type="button"
+				        class="btn {{outdated ? 'btn-warning' : 'btn-default'}}"
+				        ng-click="refresh()"
+				        uib-tooltip="Reload configuration" tooltip-placement="right">
+					<span class="{{outdated ? 'fa-spin' : ''}} fa fa-refresh "></span>
+				</button>
 				<table class="table table-striped table-hover">
 					<tbody>
 						<tr>
