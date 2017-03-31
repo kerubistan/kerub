@@ -1,6 +1,8 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.utils.createObjectMapper
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.ispn.InfinispanJsonExternalizer
 import org.infinispan.configuration.cache.Configuration
 import org.infinispan.configuration.global.GlobalConfiguration
 import org.infinispan.configuration.parsing.ParserRegistry
@@ -13,6 +15,7 @@ class IspnConfiguration {
 	var clusterName = "kerub"
 	var rackId = "default-rack"
 	var siteId = "default-site"
+	var json = false
 
 	companion object {
 		val logger = getLogger(IspnConfiguration::class)
@@ -29,7 +32,7 @@ class IspnConfiguration {
 		logger.info("storage directory: {}", baseDir)
 		logger.info("static owners: {}", staticOwners)
 		logger.info("dynamic owners: {}", dynamicOwners)
-
+		logger.info("json: {}", json)
 
 
 		//TODO: setting system property to configure ISPN is highly unfriendly
@@ -42,6 +45,10 @@ class IspnConfiguration {
 		val globalConfigBuilder = template.globalConfigurationBuilder
 
 		globalConfigBuilder.transport().clusterName(clusterName).rackId(rackId).siteId(siteId)
+		if (json) {
+			globalConfigBuilder.serialization().addAdvancedExternalizer(6665, InfinispanJsonExternalizer())
+			globalConfigBuilder.serialization().marshaller(JsonMarshaller(createObjectMapper(prettyPrint = false)))
+		}
 
 		val configBuilder = template.currentConfigurationBuilder
 		globalConfig = globalConfigBuilder.build()
