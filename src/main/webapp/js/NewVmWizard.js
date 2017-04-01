@@ -51,6 +51,23 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
 		$log.info('devices of type ', type, found);
 	};
 
+	$scope.checkVMName = function() {
+		var name = $scope.vm.name;
+		if(name.length > 0) {
+			$scope.validating = true;
+			appsession.get('s/r/vm/byname/' + name).success(function(results) {
+				if(name == $scope.vm.name) {
+					$scope.valid = results.length == 0;
+					$scope.validating = false;
+				}
+			});
+		} else {
+			$scope.valid = false;
+			$scope.validating = false;
+		}
+	};
+	$scope.checkVMName();
+
 	$scope.openWatchdogDeviceForm = function() {
 		if($scope.anyDevicesOfType('watchdog')) {
 			return;
