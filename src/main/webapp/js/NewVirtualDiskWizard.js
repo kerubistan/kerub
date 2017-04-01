@@ -22,6 +22,23 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		expectations : []
 	};
 
+	$scope.checkVDiskName = function() {
+		var name = $scope.disk.name;
+		if(name.length > 0) {
+			$scope.validating = true;
+			appsession.get('s/r/virtual-storage/byname/' + name).success(function(results) {
+				if(name == $scope.disk.name) {
+					$scope.valid = results.length == 0;
+					$scope.validating = false;
+				}
+			});
+		} else {
+			$scope.valid = false;
+			$scope.validating = false;
+		}
+	};
+	$scope.checkVDiskName();
+
 	$scope.isIso = function(item) {
 		return item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4;
 	};
