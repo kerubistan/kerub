@@ -30,3 +30,9 @@ fun <K, V> Collection<V>.toMap(key: (V) -> K): Map<K, V> =
 
 fun <K, V : Entity<K>> Collection<V>.toMap(): Map<K, V> =
 		this.map { it.id to it }.toMap()
+
+fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
+	var sum: Int = 0
+	this.forEach { sum += fn(it) }
+	return sum.toDouble() / this.size
+}
