@@ -16,7 +16,7 @@
  * subscribe message sent to the server.
  *
  */
-kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
+kerubApp.factory('socket', ['$interval', '$log', 'appsession', function($interval, $log, appsession) {
     //TODO: it would be great to get rid of this sophisticated calculation of the websocket URL
     var socketAddr = (location.protocol === "http:" ? "ws:" : "wss:")
         + '//' + location.hostname
@@ -63,8 +63,14 @@ kerubApp.factory('socket', ['$interval', '$log', function($interval, $log) {
 			sock.queue = [];
 		};
 		socket.onclose = function() {
-			$log.debug('socket closed');
+			socket._onclose();
 		};
+    };
+    sock._onclose = function() {
+		$log.debug('socket closed');
+		appsession.get('s/r/auth/user', function() {
+			sock.start();
+		});
     };
     sock.send = function(msg) {
         if(sock.socket != null && sock.socket.readyState === WebSocket.OPEN) {
