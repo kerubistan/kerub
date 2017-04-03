@@ -48,8 +48,8 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
 		        $scope.pubkeyUpdating = false;
 		        $scope.errors = [];
             })
-            .error(function() {
-            	$scope.errorHandler();
+            .error(function(error) {
+            	$scope.errorHandler(error);
             	$scope.pubkeyUpdating = false;
             });
     };
