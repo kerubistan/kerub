@@ -1,11 +1,14 @@
 package com.github.K0zka.kerub.planner.execution
 
+import com.github.K0zka.kerub.data.ExecutionResultDao
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
+import com.github.K0zka.kerub.host.ControllerManager
 import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
+import com.github.K0zka.kerub.model.ExecutionResult
 import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.StepExecutor
@@ -40,6 +43,8 @@ import com.github.K0zka.kerub.utils.getLogger
 import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(
+		private val executionResultDao: ExecutionResultDao,
+		private val controllerManager: ControllerManager,
 		hostCommandExecutor: HostCommandExecutor,
 		hostManager: HostManager,
 		hostDynamicDao: HostDynamicDao,
@@ -79,17 +84,26 @@ class PlanExecutorImpl(
 
 	override fun
 			execute(plan: Plan, callback: (Plan) -> Unit) {
+		val started = System.currentTimeMillis()
 		task {
 			logger.debug("Executing plan {}", plan)
 			for (step in plan.steps) {
 				logger.debug("Executing step {}", step.javaClass.simpleName)
 				execute(step)
 			}
+		} fail {
+			exc ->
+			logger.warn("plan execution failed", exc)
 		} always {
 			logger.debug("Plan execution finished: {}", plan)
+			executionResultDao.add(
+					ExecutionResult(
+							started = started,
+							controllerId = controllerManager.getControllerId()
+							//TODO: actual useful payload will come here
+					)
+			)
 			callback(plan)
-		} fail {
-			logger.warn("plan execution failed", it)
 		}
 	}
 }

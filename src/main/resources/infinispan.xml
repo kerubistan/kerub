@@ -122,5 +122,12 @@
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>
+		<distributed-cache name="executionResultCache" mode="ASYNC" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/dyn/controller"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+
 	</cache-container>
 </infinispan>

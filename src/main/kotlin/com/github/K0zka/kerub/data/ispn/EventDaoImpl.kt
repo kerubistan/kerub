@@ -30,7 +30,7 @@ class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
 		return Search.getQueryFactory(cache)
 				.from(Event::class.java)
 				.orderBy(sort, SortOrder.DESC)
-				.maxResults(limit.toInt())
+				.maxResults(limit)
 				.startOffset(start)
 				.list()
 	}

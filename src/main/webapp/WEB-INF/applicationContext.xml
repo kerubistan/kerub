@@ -90,6 +90,10 @@
 		<constructor-arg value="virtualStorageDeviceCache"/>
 	</bean>
 
+	<bean id="executionResultCache" parent="cache">
+		<constructor-arg value="executionResultCache"/>
+	</bean>
+
 	<!--
 	DAO
 	-->
@@ -200,6 +204,10 @@
 
 	<bean id="controllerDynamicDao" class="com.github.K0zka.kerub.data.ispn.ControllerDynamicDaoImpl">
 		<constructor-arg ref="controllerDynamicCache"/>
+	</bean>
+
+	<bean id="executionResultDao" class="com.github.K0zka.kerub.data.ispn.ExecutionResultDaoImpl">
+		<constructor-arg ref="executionResultCache"/>
 	</bean>
 
 	<bean id="anyAssetDao" class="com.github.K0zka.kerub.data.hub.AnyAssetDaoImpl">
@@ -360,6 +368,8 @@
 	</bean>
 
 	<bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
+		<constructor-arg ref="executionResultDao"/>
+		<constructor-arg ref="controllerManager"/>
 		<constructor-arg ref="hostManager"/>
 		<constructor-arg ref="hostManager"/>
 		<constructor-arg ref="hostDynamicDao"/>
