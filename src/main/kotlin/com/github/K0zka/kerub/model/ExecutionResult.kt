@@ -8,5 +8,6 @@ data class ExecutionResult (
 		override val id: UUID = UUID.randomUUID(),
 		val timestamp : Long = System.currentTimeMillis(),
 		val started : Long,
-		val controllerId : String
+		val controllerId : String,
+		val steps : List<StepExecutionResult>
 ) : Entity<UUID>

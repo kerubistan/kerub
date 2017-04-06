@@ -12,7 +12,8 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		ExecutionResultDaoImpl(cache!!).add(
 				ExecutionResult(
 						controllerId = "test",
-						started = System.currentTimeMillis()
+						started = System.currentTimeMillis(),
+						steps = listOf()
 				)
 		)
 	}
@@ -22,7 +23,8 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		val executionResultDaoImpl = ExecutionResultDaoImpl(cache!!)
 		val error = ExecutionResult(
 				controllerId = "test",
-				started = System.currentTimeMillis()
+				started = System.currentTimeMillis(),
+				steps = listOf()
 		)
 		executionResultDaoImpl.add(error)
 		val list = executionResultDaoImpl.fieldSearch(field = ExecutionResult::controllerId.name, value = "test")
@@ -34,7 +36,8 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		val executionResultDaoImpl = ExecutionResultDaoImpl(cache!!)
 		val error = ExecutionResult(
 				controllerId = "test",
-				started = System.currentTimeMillis()
+				started = System.currentTimeMillis(),
+				steps = listOf()
 		)
 		executionResultDaoImpl.add(error)
 		assertEquals(executionResultDaoImpl.count(), 1)

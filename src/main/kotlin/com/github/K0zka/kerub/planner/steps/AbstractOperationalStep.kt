@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.steps
 
 import com.github.K0zka.kerub.model.Constrained
+import com.github.K0zka.kerub.model.ExecutionStep
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.Plan
@@ -8,7 +9,7 @@ import com.github.K0zka.kerub.planner.costs.Cost
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.k0zka.finder4j.backtrack.Step
 
-interface AbstractOperationalStep : Step<Plan> {
+interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 
 	/**
 	 * Take an operational state transformation step
