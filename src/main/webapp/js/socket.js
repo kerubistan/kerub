@@ -63,14 +63,12 @@ kerubApp.factory('socket', ['$interval', '$log', 'appsession', function($interva
 			sock.queue = [];
 		};
 		socket.onclose = function() {
-			socket._onclose();
+			sock._onclose();
 		};
     };
     sock._onclose = function() {
 		$log.debug('socket closed');
-		appsession.get('s/r/auth/user', function() {
-			sock.start();
-		});
+		appsession.get('s/r/auth/user');
     };
     sock.send = function(msg) {
         if(sock.socket != null && sock.socket.readyState === WebSocket.OPEN) {
