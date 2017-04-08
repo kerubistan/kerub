@@ -103,9 +103,11 @@
 
 	<bean id="statisticsDao" class="com.github.K0zka.kerub.data.ispn.StatisticsDaoImpl">
 		<constructor-arg name="hostCache" ref="hostCache"/>
+		<constructor-arg name="hostDynamicCache" ref="hostDynamicCache"/>
 		<constructor-arg name="vmCache" ref="vmCache"/>
 		<constructor-arg name="vdiskCache" ref="virtualStorageDeviceCache"/>
 		<constructor-arg name="vdiskDynDao" ref="virtualStorageDeviceDynamicCache"/>
+		<constructor-arg name="configDao" ref="controllerConfigDao"/>
 	</bean>
 
 	<bean id="controllerConfigDao" class="com.github.K0zka.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">

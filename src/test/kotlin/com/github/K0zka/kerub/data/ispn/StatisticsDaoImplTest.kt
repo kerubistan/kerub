@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.Host
@@ -7,6 +8,7 @@ import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
@@ -17,6 +19,7 @@ import com.github.K0zka.kerub.testHostCapabilities
 import com.github.K0zka.kerub.testVirtualDisk
 import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -30,8 +33,10 @@ class StatisticsDaoImplTest {
 	protected var cacheManager: DefaultCacheManager? = null
 	protected var vmCache: Cache<UUID, VirtualMachine>? = null
 	protected var hostCache: Cache<UUID, Host>? = null
+	protected var hostDynCache: Cache<UUID, HostDynamic>? = null
 	protected var vdiskCache: Cache<UUID, VirtualStorageDevice>? = null
 	protected var vdiskDynCache: Cache<UUID, VirtualStorageDeviceDynamic>? = null
+	protected var controllerConfigDao : ControllerConfigDao = mock()
 
 	@Before
 	fun setUp() {
@@ -39,6 +44,7 @@ class StatisticsDaoImplTest {
 		cacheManager!!.start()
 		vmCache = getCleanCache("vmCache")
 		hostCache = getCleanCache("hostCache")
+		hostDynCache = getCleanCache("hostDynCache")
 		vdiskCache = getCleanCache("vdiskCache")
 		vdiskDynCache = getCleanCache("vdiskDynCache")
 	}
@@ -134,7 +140,14 @@ class StatisticsDaoImplTest {
 				)
 		))
 
-		val report = StatisticsDaoImpl(hostCache!!, vmCache!!, vdiskCache!!, vdiskDynCache!!).basicBalanceReport()
+		val report = StatisticsDaoImpl(
+				hostCache!!,
+				hostDynCache!!,
+				vmCache!!,
+				vdiskCache!!,
+				vdiskDynCache!!,
+				controllerConfigDao
+		).basicBalanceReport()
 
 		assertEquals(2, report.totalHosts)
 		assertEquals("256 GB".toSize() + "512 GB".toSize(), report.totalHostMemory)
@@ -152,7 +165,14 @@ class StatisticsDaoImplTest {
 
 	@Test
 	fun basicBalanceReportWithEmpty() {
-		val report = StatisticsDaoImpl(hostCache!!, vmCache!!, vdiskCache!!, vdiskDynCache!!).basicBalanceReport()
+		val report = StatisticsDaoImpl(
+				hostCache!!,
+				hostDynCache!!,
+				vmCache!!,
+				vdiskCache!!,
+				vdiskDynCache!!,
+				controllerConfigDao
+		).basicBalanceReport()
 
 		assertEquals(0, report.totalHosts)
 		assertEquals("0 GB".toSize(), report.totalHostMemory)

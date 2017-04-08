@@ -16,6 +16,7 @@ class UsageStatisticsServiceImplTest {
 	fun basicBalanceReport() {
 		val report = BasicBalanceReport(
 				totalHosts = 1,
+				hostsOnline = 1,
 				totalVms = 1,
 				totalDedicatedVmCpus = 0,
 				totalVmCpus = 1,

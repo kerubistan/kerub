@@ -1,11 +1,14 @@
 package com.github.K0zka.kerub.data.ispn
 
+import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.data.stat.BasicBalanceReport
 import com.github.K0zka.kerub.data.stat.StatisticsDao
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.expectations.CoreDedicationExpectation
 import com.github.K0zka.kerub.utils.equalsAnyOf
@@ -17,9 +20,11 @@ import java.util.UUID
 
 class StatisticsDaoImpl(
 		private val hostCache: Cache<UUID, Host>,
+		private val hostDynamicCache: Cache<UUID, HostDynamic>,
 		private val vmCache: Cache<UUID, VirtualMachine>,
 		private val vdiskCache: Cache<UUID, VirtualStorageDevice>,
-		private val vdiskDynDao: Cache<UUID, VirtualStorageDeviceDynamic>
+		private val vdiskDynDao: Cache<UUID, VirtualStorageDeviceDynamic>,
+		private val configDao: ControllerConfigDao
 ) : StatisticsDao {
 
 	companion object {
@@ -29,6 +34,8 @@ class StatisticsDaoImpl(
 
 	override fun basicBalanceReport(): BasicBalanceReport {
 
+		val config = configDao.get()
+
 		val totalMemory = task {
 			hostCache.parallelStream().map { it.value.capabilities?.totalMemory ?: BigInteger.ZERO }
 					.reduce(bigIntSum).orElse(BigInteger.ZERO)
@@ -36,6 +43,17 @@ class StatisticsDaoImpl(
 
 		val totalHosts = task {
 			hostCache.parallelStream().map { 1 }
+					.reduce(intSum).orElse(0)
+		}
+
+		val hostsOnline = task {
+			hostDynamicCache.parallelStream().map {
+				if (it.value.status == HostStatus.Up) {
+					1
+				} else {
+					0
+				}
+			}
 					.reduce(intSum).orElse(0)
 		}
 
@@ -95,6 +113,7 @@ class StatisticsDaoImpl(
 
 		return BasicBalanceReport(
 				totalHosts = totalHosts.get(),
+				hostsOnline = hostsOnline.get(),
 				totalVms = totalVms.get(),
 				totalHostMemory = totalMemory.get(),
 				totalMinVmMemory = totalVmMinMemory.get(),
