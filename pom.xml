@@ -551,12 +551,6 @@
 						<version>2.1.0</version>
 						<executions>
 							<execution>
-								<phase>verify</phase>
-								<goals>
-									<goal>jmeter</goal>
-								</goals>
-							</execution>
-							<execution>
 								<id>jmeter-tests</id>
 								<goals>
 									<goal>jmeter</goal>
