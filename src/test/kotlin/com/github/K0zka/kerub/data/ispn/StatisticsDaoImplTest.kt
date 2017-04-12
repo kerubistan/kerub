@@ -8,6 +8,8 @@ import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
+import com.github.K0zka.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
@@ -20,6 +22,7 @@ import com.github.K0zka.kerub.testVirtualDisk
 import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
@@ -139,6 +142,9 @@ class StatisticsDaoImplTest {
 						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
 				)
 		))
+		whenever(controllerConfigDao.get()).thenReturn(
+				ControllerConfig()
+		)
 
 		val report = StatisticsDaoImpl(
 				hostCache!!,
@@ -159,6 +165,50 @@ class StatisticsDaoImplTest {
 		assertEquals(vm2.nrOfCpus, report.totalDedicatedVmCpus)
 
 		assertEquals("512 GB".toSize(), report.totalHostStorage)
+		assertEquals(vDisk1.size + vDisk2.size, report.totalDiskStorageRequested)
+		assertEquals("64 GB".toSize(), report.totalDiskStorageActual)
+	}
+
+	@Test
+	fun basicBalanceReportWithGvinumDisabled() {
+		hostCache!!.put(host1.id, host1)
+		hostCache!!.put(host2.id, host2)
+		vmCache!!.put(vm1.id, vm1)
+		vmCache!!.put(vm2.id, vm2)
+		vdiskCache!!.put(vDisk1.id, vDisk1)
+		vdiskCache!!.put(vDisk2.id, vDisk2)
+		vdiskDynCache!!.put(vDisk1.id, VirtualStorageDeviceDynamic(
+				id = vDisk1.id,
+				actualSize = "64 GB".toSize(),
+				allocation = VirtualStorageGvinumAllocation(
+						hostId = host2.id,
+						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
+				)
+		))
+
+		whenever(controllerConfigDao.get()).thenReturn(
+				ControllerConfig(storageTechnologies = StorageTechnologiesConfig(gvinumCreateVolumeEnabled = false))
+		)
+
+		val report = StatisticsDaoImpl(
+				hostCache!!,
+				hostDynCache!!,
+				vmCache!!,
+				vdiskCache!!,
+				vdiskDynCache!!,
+				controllerConfigDao
+		).basicBalanceReport()
+
+		assertEquals(2, report.totalHosts)
+		assertEquals("256 GB".toSize() + "512 GB".toSize(), report.totalHostMemory)
+		assertEquals("512 MB".toSize() + "1 GB".toSize(), report.totalMinVmMemory)
+		assertEquals("2 GB".toSize() + "1 GB".toSize(), report.totalMaxVmMemory)
+
+		assertEquals(6, report.totalHostCpus)
+		assertEquals(vm1.nrOfCpus + vm2.nrOfCpus, report.totalVmCpus)
+		assertEquals(vm2.nrOfCpus, report.totalDedicatedVmCpus)
+
+		assertEquals("256 GB".toSize(), report.totalHostStorage)
 		assertEquals(vDisk1.size + vDisk2.size, report.totalDiskStorageRequested)
 		assertEquals("64 GB".toSize(), report.totalDiskStorageActual)
 	}
