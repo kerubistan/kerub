@@ -3,6 +3,10 @@ package com.github.K0zka.kerub.model.controller.config
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.Entity
+import com.github.K0zka.kerub.model.FsStorageCapability
+import com.github.K0zka.kerub.model.GvinumStorageCapability
+import com.github.K0zka.kerub.model.LvmStorageCapability
+import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.utils.emptyString
 
 /**

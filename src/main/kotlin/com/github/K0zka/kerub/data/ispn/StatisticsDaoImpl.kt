@@ -4,10 +4,7 @@ import com.github.K0zka.kerub.data.ControllerConfigDao
 import com.github.K0zka.kerub.data.stat.BasicBalanceReport
 import com.github.K0zka.kerub.data.stat.StatisticsDao
 import com.github.K0zka.kerub.model.ExpectationLevel
-import com.github.K0zka.kerub.model.FsStorageCapability
-import com.github.K0zka.kerub.model.GvinumStorageCapability
 import com.github.K0zka.kerub.model.Host
-import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
@@ -98,20 +95,8 @@ class StatisticsDaoImpl(
 
 		val totalHostStorage = task {
 			hostCache.parallelStream().map {
-				it.value.capabilities?.storageCapabilities
-						?.filter {
-							when(it) {
-								is GvinumStorageCapability ->
-									config.storageTechnologies.gvinumCreateVolumeEnabled
-								is LvmStorageCapability ->
-										config.storageTechnologies.lvmCreateVolumeEnabled
-								is FsStorageCapability ->
-										it.mountPoint in config.storageTechnologies.fsPathEnabled
-								else ->
-										false
-							}
-						}
-						?.sumBy { it.size } ?: BigInteger.ZERO
+				config.storageTechnologies.enabledCapabilities(it.value.capabilities?.storageCapabilities ?: listOf())
+						.sumBy { it.size }
 			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
 		}
 
