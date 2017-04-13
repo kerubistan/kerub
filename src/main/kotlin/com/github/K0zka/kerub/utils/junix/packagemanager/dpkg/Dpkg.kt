@@ -18,7 +18,7 @@ object Dpkg {
 
 	fun listPackages(session: ClientSession): List<SoftwarePackage> {
 		return session.execute(
-				"dpkg-query -W --showformat \"$\\{Package\\}\t$\\{Version\\}\"")
+				"dpkg-query -W --showformat '\${Package}\\t\${Version}\\n'")
 				.trim()
 				.lines().map {
 			parseDpkgOutputLine(it)
