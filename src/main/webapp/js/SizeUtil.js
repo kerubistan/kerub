@@ -31,7 +31,7 @@ kerubApp.factory('size', ['$log', function($log) {
 
         humanFriendlySize : function(size) {
         	if(!size) {
-        		return;
+        		return "0 KB";
         	}
         	if(size < kb) {
         		return size + ' B';
