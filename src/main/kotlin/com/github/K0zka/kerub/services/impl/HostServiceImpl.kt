@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.host.SshClientService
 import com.github.K0zka.kerub.host.getSshFingerPrint
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostPubKey
+import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.services.HostService
 
@@ -14,6 +15,18 @@ class HostServiceImpl(
 		private val manager: HostManager,
 		private val sshClientService: SshClientService)
 : ListableBaseService<Host>("host"), HostService {
+	override fun getByAddress(address: String): List<Host> = dao.byAddress(address)
+
+	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<Host> =
+		dao.fieldSearch(field, value, start, limit).let {
+			SearchResultPage(
+					start = start,
+					count = it.size.toLong(),
+					result = it,
+					searchby = field,
+					total = it.size.toLong()
+			)
+		}
 
 	override fun getPubkey(): String
 			= sshClientService.getPublicKey()

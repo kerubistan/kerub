@@ -6,18 +6,22 @@ import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.SshClientService
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.github.K0zka.kerub.testHost
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers.anyString
-import org.mockito.Matchers.eq
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import java.security.PublicKey
 import java.util.UUID
+import kotlin.test.assertEquals
 
-class hostserviceimpltest {
+class HostServiceImplTest {
 	val dao: HostDao = mock()
 	val manager: HostManager = mock()
 	val sshClientService: SshClientService = mock()
@@ -45,6 +49,14 @@ class hostserviceimpltest {
 		)
 		service!!.join(hostAndPwd)
 		Mockito.verify(manager)!!.join(eq(hostAndPwd.host) ?: hostAndPwd.host, eq(hostAndPwd.password) ?: hostAndPwd.password)
+	}
+
+	@Test
+	fun getByAddress() {
+		whenever(dao.byAddress(eq("test.example.com") ?: "")).thenReturn(listOf(testHost))
+		val byAddress = service!!.getByAddress("test.example.com")
+		assertEquals(listOf(testHost), byAddress)
+		verify(dao).byAddress(eq("test.example.com"))
 	}
 
 	@Test

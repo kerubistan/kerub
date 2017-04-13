@@ -34,6 +34,18 @@ class HostServiceIT {
 	private fun checkNoAccess(service: HostService) {
 		expect(
 				clazz = RestException::class,
+				action = { service.search(Host::address.name, "any", 0, Int.MAX_VALUE) },
+				check = { it.code == "AUTH1" }
+		)
+
+		expect(
+				clazz = RestException::class,
+				action = { service.getByAddress("example.com") },
+				check = { it.code == "AUTH1" }
+		)
+
+		expect(
+				clazz = RestException::class,
 				action = { service.joinWithoutPassword(testHost) },
 				check = { it.code == "AUTH1" }
 		)

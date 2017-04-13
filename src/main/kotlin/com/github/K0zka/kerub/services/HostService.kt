@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.PUT
 import javax.ws.rs.Path
+import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.QueryParam
 import javax.ws.rs.core.MediaType
@@ -24,7 +25,7 @@ import javax.ws.rs.core.MediaType
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiresAuthentication
 @RequiresRoles(admin)
-interface HostService : RestCrud<Host>, RestOperations.List<Host> {
+interface HostService : RestCrud<Host>, RestOperations.List<Host>, RestOperations.SimpleSearch<Host> {
 
 	@ApiOperation("Add new object")
 	@ApiResponses(
@@ -43,6 +44,11 @@ interface HostService : RestCrud<Host>, RestOperations.List<Host> {
 	@GET
 	@Path("/helpers/pubkey")
 	fun getHostPubkey(@QueryParam("address") address: String): HostPubKey
+
+	@ApiOperation("Find host by address", httpMethod = "GET")
+	@GET
+	@Path("/byaddress/{address}")
+	fun getByAddress(@PathParam("address") address: String): List<Host>
 
 	@ApiOperation("Get the public key of kerub", httpMethod = "GET", produces = MediaType.TEXT_PLAIN)
 	@GET

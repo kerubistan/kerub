@@ -22,6 +22,25 @@ fun <T : Any, K, V> Cache<K, V>.queryBuilder(clazz : KClass<T>) :QueryBuilder<Qu
 		Search.getQueryFactory(this)
 				.from(clazz.java)
 
+inline fun <reified K, reified V : Any> Cache<K, V>.fieldEq(
+		field: String,
+		value: String,
+		start: Long,
+		limit: Int): List<V> =
+		this.fieldEq(V::class, field, value, start, limit)
+
+fun <K, V : Any> Cache<K, V>.fieldEq(
+		type : KClass<out V>,
+		field: String,
+		value: Any,
+		start: Long,
+		limit: Int): List<V> =
+		this.queryBuilder(type)
+				.startOffset(start)
+				.maxResults(limit)
+				.having(field).eq(value)
+				.list()
+
 inline fun <reified K, reified V : Any> Cache<K, V>.fieldSearch(
 		field: String,
 		value: String,

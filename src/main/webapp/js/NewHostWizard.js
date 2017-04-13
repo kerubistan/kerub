@@ -28,7 +28,7 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
         $scope.host.publicKey = '';
     }
     $scope.errorHandler = function(error, responseCode) {
-		$scope.errors = [error];
+		$scope.errors.push(error);
     };
     $scope.updatePubkey = function () {
     	if($scope.host.address == '') {
@@ -40,18 +40,26 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
             $timeout.cancel($scope.updateTimeout);
             $scope.pubkeyUptoDate = false;
         }
+		$scope.errors = [];
         appsession.get('s/r/host/helpers/pubkey?address='+$scope.host.address)
             .success(function(pubkey) {
                 $scope.pubkeyUptoDate = true;
                 $scope.pubkey = pubkey;
                 $scope.host.publicKey = pubkey.fingerprint;
 		        $scope.pubkeyUpdating = false;
-		        $scope.errors = [];
             })
             .error(function(error) {
             	$scope.errorHandler(error);
             	$scope.pubkeyUpdating = false;
             });
+    };
+    $scope.checkHostAddress = function() {
+		appsession.get('s/r/host/byaddress/'+$scope.host.address)
+			.success(function(data) {
+				if(data.length > 0) {
+					$scope.errorHandler({'code':'UNIQ',message : 'Host with this address already registered'});
+				}
+			});
     };
     $scope.close = function() {
         $uibModalInstance.dismiss('cancel');
@@ -69,7 +77,7 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
 			$uibModalInstance.close();
 		};
 		var hostAddError = function(error) {
-			$scope.errorHandler();
+			$scope.errorHandler(error);
 			$scope.inprg = false;
 		};
 
