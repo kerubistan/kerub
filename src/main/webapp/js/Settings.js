@@ -1,6 +1,7 @@
 kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 	$scope.config = {};
 	$scope.outdated = true;
+	$scope.newFsPathAdd = false;
 	$scope.refresh = function() {
 		appsession.get('s/r/config').success(function(result) {
 			$scope.config = result;

@@ -341,6 +341,21 @@
 							<td><toggle-switch ng-model="config.storageTechnologies.lvmCreateVolumeEnabled"></toggle-switch></td>
 						</tr>
 						<tr>
+							<td><span class="fa fa-folder"></span> Storage filesystem path
+							</td>
+							<td>
+								<span ng-repeat="_path in config.storageTechnologies.fsPathEnabled">
+									<span class="label label-info fa fa-folder-o">{{_path}}</span>
+								</span>
+								<input class="form-control" type="text"
+								       ng-model="newFsPath"
+								       ng-blur="config.storageTechnologies.fsPathEnabled.push(newFsPath); newFsPathAdd = false; newFsPath = null;"
+								       ng-show="newFsPathAdd"
+								/>
+								<button ng-show="!newFsPathAdd" class="btn btn-primary fa fa-plus" type="button" ng-click="newFsPathAdd = true;"></button>
+							</td>
+						</tr>
+						<tr>
 							<!-- TODO: G stands for Gvinum and not for google, need a better icon -->
 							<td><span class="fa fa-google"></span> Create FreeBSD Gvinum volumes
 							</td>
