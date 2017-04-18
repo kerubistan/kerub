@@ -10,7 +10,7 @@ data class StorageTechnologiesConfig(
 		/**
 		 * List of paths the controllers can use as file storage.
 		 */
-		val fsPathEnabled: List<String> = listOf(),
+		val fsPathEnabled: List<String> = listOf("/kerub", "/storage"),
 		/**
 		 * The controllers can create logical volumes on vgs.
 		 */
