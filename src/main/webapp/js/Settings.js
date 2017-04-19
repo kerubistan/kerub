@@ -16,6 +16,16 @@ kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 		});
 	});
 
+	$scope.removeFsTypeEnabled = function(type) {
+		var storageCfg = $scope.config.storageTechnologies;
+		var idx = storageCfg.fsTypeEnabled.indexOf(type)
+		var len = storageCfg.fsTypeEnabled.length;
+		storageCfg.fsTypeEnabled
+			= storageCfg.fsTypeEnabled.slice(0, idx).concat(
+					storageCfg.fsTypeEnabled.slice(idx + 1, len)
+				)
+	};
+
 	$scope.removeFsPathEnabled = function(path) {
 		var storageCfg = $scope.config.storageTechnologies;
 		var idx = storageCfg.fsPathEnabled.indexOf(path)
@@ -24,7 +34,7 @@ kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 			= storageCfg.fsPathEnabled.slice(0, idx).concat(
 					storageCfg.fsPathEnabled.slice(idx + 1, len)
 				)
-	}
+	};
 
 	$scope.save = function() {
 		appsession.put('s/r/config',$scope.config).success(function() {

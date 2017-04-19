@@ -355,7 +355,30 @@
 								       ng-blur="config.storageTechnologies.fsPathEnabled.push(newFsPath); newFsPathAdd = false; newFsPath = null;"
 								       ng-show="newFsPathAdd"
 								/>
-								<button ng-show="!newFsPathAdd" class="btn btn-primary fa fa-plus" type="button" ng-click="newFsPathAdd = true;"></button>
+								<button ng-show="!newFsPathAdd"
+								        class="btn btn-primary fa fa-plus"
+								        type="button" ng-click="newFsPathAdd = true;"></button>
+							</td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-archive"></span> Filesystem types
+							</td>
+							<td>
+								<span ng-repeat="_type in config.storageTechnologies.fsTypeEnabled">
+									<span class="label label-info">
+										<span class="fa fa-archive"></span> {{_type}}
+										<span class="clickable fa fa-close" ng-click="removeFsTypeEnabled(_type)"></span>
+									</span><br>
+								</span>
+								<input class="form-control" type="text"
+								       ng-model="newFsType"
+								       ng-blur="config.storageTechnologies.fsTypeEnabled.push(newFsType); newFsTypeAdd = false; newFsType = null;"
+								       ng-show="newFsTypeAdd"
+								/>
+								<button ng-show="!newFsTypeAdd"
+								        class="btn btn-primary fa fa-plus"
+								        type="button"
+								        ng-click="newFsTypeAdd = true;"></button>
 							</td>
 						</tr>
 						<tr>

@@ -12,6 +12,10 @@ data class StorageTechnologiesConfig(
 		 */
 		val fsPathEnabled: List<String> = listOf("/kerub", "/storage"),
 		/**
+		 * List of filesystem types where the controller is allowed to allocate storage
+		 */
+		val fsTypeEnabled: List<String> = listOf("ext4", "ext3", "zfs", "btrfs"),
+		/**
 		 * The controllers can create logical volumes on vgs.
 		 */
 		val lvmCreateVolumeEnabled: Boolean = true,
