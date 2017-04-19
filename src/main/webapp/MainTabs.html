@@ -345,7 +345,10 @@
 							</td>
 							<td>
 								<span ng-repeat="_path in config.storageTechnologies.fsPathEnabled">
-									<span class="label label-info fa fa-folder-o">{{_path}}</span>
+									<span class="label label-info">
+										<span class="fa fa-folder-o"></span> {{_path}}
+										<span class="clickable fa fa-close" ng-click="removeFsPathEnabled(_path)"></span>
+									</span><br>
 								</span>
 								<input class="form-control" type="text"
 								       ng-model="newFsPath"

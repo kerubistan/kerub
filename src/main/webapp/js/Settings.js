@@ -16,6 +16,16 @@ kerubApp.controller('Settings', function($scope, appsession, socket, $log) {
 		});
 	});
 
+	$scope.removeFsPathEnabled = function(path) {
+		var storageCfg = $scope.config.storageTechnologies;
+		var idx = storageCfg.fsPathEnabled.indexOf(path)
+		var len = storageCfg.fsPathEnabled.length;
+		storageCfg.fsPathEnabled
+			= storageCfg.fsPathEnabled.slice(0, idx).concat(
+					storageCfg.fsPathEnabled.slice(idx + 1, len)
+				)
+	}
+
 	$scope.save = function() {
 		appsession.put('s/r/config',$scope.config).success(function() {
 			$scope.refresh();
