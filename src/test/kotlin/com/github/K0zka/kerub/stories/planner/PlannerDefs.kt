@@ -192,7 +192,8 @@ class PlannerDefs {
 			row ->
 			FsStorageCapability(
 					size = row[1].toSize(),
-					mountPoint = row[0]
+					mountPoint = row[0],
+					fsType = row[3]
 			)
 		}
 		hosts = hosts.replace({ it.address == hostAddr }, {

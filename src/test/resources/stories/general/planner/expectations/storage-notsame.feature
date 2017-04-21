@@ -6,11 +6,11 @@ Feature: support for not-same-storage expectation
 	  | host1.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	  | host2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
 	And host host1.example.com filesystem is:
-	  | mount point | size   | free   |
-	  | /var        | 128 GB | 128 GB |
+	  | mount point | size   | free   | fstype |
+	  | /var        | 128 GB | 128 GB | ext4   |
 	And host host2.example.com filesystem is:
-	  | mount point | size   | free   |
-	  | /var        | 128 GB | 128 GB |
+	  | mount point | size   | free   | fstype |
+	  | /var        | 128 GB | 128 GB | ext4   |
 	And virtual storage devices:
 	  | name     | size | ro    |
 	  | vm1-disk | 2 GB | false |

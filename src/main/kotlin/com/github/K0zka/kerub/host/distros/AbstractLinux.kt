@@ -24,6 +24,7 @@ import com.github.K0zka.kerub.utils.junix.df.DF
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
+import com.github.K0zka.kerub.utils.junix.mount.Mount
 import com.github.K0zka.kerub.utils.junix.mpstat.MPStat
 import com.github.K0zka.kerub.utils.junix.procfs.CpuInfo
 import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
@@ -60,6 +61,7 @@ abstract class AbstractLinux : Distribution {
 				VmStat to listOf("procps"),
 				Net to listOf()
 		)
+		private val nonStorageFilesystems = listOf("proc", "devtmpfs", "tmpfs", "cgroup", "debugfs", "pstore")
 	}
 
 	override fun installMonitorPackages(session: ClientSession) {
@@ -149,15 +151,12 @@ abstract class AbstractLinux : Distribution {
 		return listLvmVolumes(session, osVersion, packages) + listFilesystems(session)
 	}
 
-	internal fun listFilesystems(session: ClientSession): List<FsStorageCapability> {
-		return DF.df(session).map {
-			mount ->
-			FsStorageCapability(
-					size = mount.free + mount.used,
-					mountPoint = mount.mountPoint
-			)
-		}
-	}
+	internal fun listFilesystems(session: ClientSession): List<FsStorageCapability> =
+		joinMountsAndDF(
+				DF.df(session),
+				Mount.listMounts(session).filterNot { nonStorageFilesystems.contains(it.type) }
+		)
+
 
 	internal fun listLvmVolumes(session: ClientSession,
 								osVersion: SoftwarePackage,

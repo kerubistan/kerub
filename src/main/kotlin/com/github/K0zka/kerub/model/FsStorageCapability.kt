@@ -8,5 +8,6 @@ import java.util.UUID
 data class FsStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
-		val mountPoint: String
+		val mountPoint: String,
+		val fsType: String
 ) : StorageCapability
