@@ -41,7 +41,7 @@ data class StorageTechnologiesConfig(
 					is LvmStorageCapability ->
 						lvmCreateVolumeEnabled
 					is FsStorageCapability ->
-						it.mountPoint in fsPathEnabled
+						it.mountPoint in fsPathEnabled && it.fsType in fsTypeEnabled
 					else ->
 						false
 				}
