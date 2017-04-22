@@ -12,12 +12,15 @@ object CreateImageFactory : AbstractCreateVirtualStorageFactory<CreateImage>() {
 
 		var steps = listOf<CreateImage>()
 
+		val storageTechnologies = state.controllerConfig.storageTechnologies
 		runningHosts.forEach {
 			hostData ->
 			hostData.stat.capabilities?.storageCapabilities?.filter {
 				capability
 				->
-				capability is FsStorageCapability && capability.mountPoint.startsWith("/var")
+				capability is FsStorageCapability
+						&& capability.mountPoint in storageTechnologies.fsPathEnabled
+						&& capability.fsType in storageTechnologies.fsTypeEnabled
 			}?.forEach {
 				mount ->
 				steps += storageNotAllocated.map {

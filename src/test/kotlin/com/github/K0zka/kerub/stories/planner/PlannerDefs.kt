@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.stories.planner
 
-import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.FsStorageCapability
 import com.github.K0zka.kerub.model.GvinumStorageCapability
@@ -16,6 +15,7 @@ import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
 import com.github.K0zka.kerub.model.config.HostConfiguration
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
@@ -870,6 +870,28 @@ class PlannerDefs {
 							)
 					)
 				}
+		)
+	}
+
+	@Given("Controller config enabled storage mounts are")
+	fun setConfigurationFsType(data : DataTable) {
+		this.controllerConfig = this.controllerConfig.copy(
+				storageTechnologies = this.controllerConfig.storageTechnologies.copy(
+						fsPathEnabled = data.raw().skip().map { it[0] }
+				)
+		)
+	}
+
+	@Given("Controller config filesystem type '(.*)' is (enabled|disabled)")
+	fun setConfigurationFsType(fstype: String, enabled: String) {
+		this.controllerConfig = this.controllerConfig.copy(
+				storageTechnologies = this.controllerConfig.storageTechnologies.copy(
+						fsTypeEnabled = if (enabled == "enabled") {
+							this.controllerConfig.storageTechnologies.fsTypeEnabled + fstype
+						} else {
+							this.controllerConfig.storageTechnologies.fsTypeEnabled.filter { it != fstype }
+						}
+				)
 		)
 	}
 

@@ -11,6 +11,10 @@ Feature: support for not-same-storage expectation
 	And host host2.example.com filesystem is:
 	  | mount point | size   | free   | fstype |
 	  | /var        | 128 GB | 128 GB | ext4   |
+	And Controller config filesystem type 'ext4' is enabled
+	And Controller config enabled storage mounts are
+	  | mount |
+	  | /var  |
 	And virtual storage devices:
 	  | name     | size | ro    |
 	  | vm1-disk | 2 GB | false |
