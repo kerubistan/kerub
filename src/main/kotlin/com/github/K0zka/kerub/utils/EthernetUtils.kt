@@ -13,6 +13,8 @@ fun stringToMac(strMac: String): ByteArray {
 			.toByteArray()
 }
 
+val hexaDigits = arrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
+
 fun macToString(mac: ByteArray): String {
 	require(mac.size == Net.macAddressSize, { "The MAC address must be 6 bytes" })
 	return buildString(17) {
@@ -20,11 +22,9 @@ fun macToString(mac: ByteArray): String {
 			if (length != 0) {
 				append(':')
 			}
-			val hexString = Integer.toHexString(b.toInt())
-			if (hexString.length == 1) {
-				append('0')
-			}
-			append(hexString)
+			java.lang.Byte.toUnsignedInt(b)
+			append(hexaDigits[java.lang.Byte.toUnsignedInt(b) and 0xF0 ushr 4])
+			append(hexaDigits[java.lang.Byte.toUnsignedInt(b) and 0x0F])
 		}
 	}
 }
