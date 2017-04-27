@@ -45,13 +45,6 @@ data class HostCapabilities(
 		@JsonView(Detailed::class)
 		@Field
 		val chassis: ChassisInformation? = null,
-//		/**
-//		 * Used by wake on lan - however a more precise and detailed
-//		 * network discovery should move it to it's correct place
-//		 */
-//		@Field
-//		@JsonView(Detailed::class)
-//		val macAddresses: List<ByteArray> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
 		val powerManagment: List<PowerManagementInfo> = listOf(),
