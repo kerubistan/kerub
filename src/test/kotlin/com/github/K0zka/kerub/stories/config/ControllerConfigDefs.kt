@@ -18,6 +18,7 @@ class ControllerConfigDefs {
 		val configs = mapOf<String, (Boolean, ControllerConfig) -> ControllerConfig>(
 				"accounts required" to { enabled, config -> config.copy(accountsRequired = enabled) },
 				"power management enabled" to { enabled, config -> config.copy(powerManagementEnabled = enabled) },
+				"wake on lan enabled" to { enabled, config -> config.copy(wakeOnLanEnabled = enabled) },
 				"lvm create volume enabled" to { enabled, config -> config.copy(
 						storageTechnologies = config.storageTechnologies.copy(lvmCreateVolumeEnabled = enabled)
 				) },

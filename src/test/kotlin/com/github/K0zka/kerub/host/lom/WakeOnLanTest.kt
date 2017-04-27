@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.lom
 
-import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
@@ -11,13 +10,9 @@ import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
 
 class WakeOnLanTest {
 
-	val executor: HostCommandExecutor = mock()
 	val hostManager: HostManager = mock()
 	val host = Host(
 			address = "host-1.example.com",
@@ -39,12 +34,12 @@ class WakeOnLanTest {
 	@Ignore
 	@Test
 	fun on() {
-		WakeOnLan(host, executor, hostManager).on()
+		WakeOnLan(host).on()
 	}
 
 	@Test(expected = IllegalArgumentException::class)
 	fun onWithoutMacAddress() {
-		WakeOnLan(host.copy(capabilities = null), executor, hostManager).on()
+		WakeOnLan(host.copy(capabilities = null)).on()
 	}
 
 	@Test
@@ -62,8 +57,4 @@ class WakeOnLanTest {
 		Assert.assertEquals(magicPocket.size, 102)
 	}
 
-	@Test
-	fun off() {
-		WakeOnLan(host, executor, hostManager).off()
-	}
 }

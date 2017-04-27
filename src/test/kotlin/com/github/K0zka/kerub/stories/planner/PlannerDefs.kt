@@ -51,7 +51,7 @@ import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.planner.PlannerImpl
-import com.github.K0zka.kerub.planner.steps.host.startup.WakeHost
+import com.github.K0zka.kerub.planner.steps.host.startup.AbstractWakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
@@ -402,8 +402,8 @@ class PlannerDefs {
 	@Then("^(\\S+) will be started as step (\\d+)$")
 	fun verifyHostStartedUp(hostAddr: String, stepNo: Int) {
 		val startStep = executedPlans.first().steps[stepNo - 1]
-		Assert.assertTrue(startStep is WakeHost)
-		Assert.assertEquals((startStep as WakeHost).host.address, hostAddr)
+		Assert.assertTrue(startStep is AbstractWakeHost)
+		Assert.assertEquals((startStep as AbstractWakeHost).host.address, hostAddr)
 	}
 
 	@Given("^virtual storage devices:$")

@@ -20,10 +20,10 @@ interface HostManager {
 	fun connectHost(host: Host)
 
 	fun disconnectHost(host: Host)
+	fun powerDown(host: Host)
 	fun join(host: Host, password: String): Host
 	fun join(host: Host): Host
 	fun getHypervisor(host: Host): Hypervisor?
-	fun getPowerManager(host: Host): PowerManager
 	fun getFireWall(host : Host) : FireWall
 	fun getServiceManager(host: Host) : ServiceManager
 }

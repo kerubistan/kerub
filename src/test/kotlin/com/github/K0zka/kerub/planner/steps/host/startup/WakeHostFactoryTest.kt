@@ -72,12 +72,12 @@ class WakeHostFactoryTest {
 		assertTrue {
 			WakeHostFactory.produce(OperationalState.fromLists(
 					hosts = listOf(host3),
-					config = ControllerConfig(powerManagementEnabled = true))).isEmpty()
+					config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true))).isEmpty()
 		}
 		assertTrue {
 			WakeHostFactory.produce(OperationalState.fromLists(
 					hosts = listOf(host4),
-					config = ControllerConfig(powerManagementEnabled = true)
+					config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 			)).isEmpty()
 		}
 	}
@@ -87,10 +87,10 @@ class WakeHostFactoryTest {
 	fun produceSingleHostNorecord() {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host1),
-				config = ControllerConfig(powerManagementEnabled = true)
+				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
-		Assert.assertEquals(steps.size, 1)
-		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
+		Assert.assertEquals(1, steps.size)
+		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
 	}
 
 	@Test
@@ -98,10 +98,10 @@ class WakeHostFactoryTest {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host1),
 				hostDyns = listOf(HostDynamic(id = host1.id, status = HostStatus.Down)),
-				config = ControllerConfig(powerManagementEnabled = true)
+				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
-		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
+		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
 	}
 
 	@Test
@@ -109,10 +109,10 @@ class WakeHostFactoryTest {
 		val steps = WakeHostFactory.produce(OperationalState.fromLists(
 				hosts = listOf(host1, host2),
 				hostDyns = listOf(HostDynamic(id = host2.id, status = HostStatus.Up)),
-				config = ControllerConfig(powerManagementEnabled = true)
+				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
-		Assert.assertTrue(steps.all { it is WakeHost && it.host == host1 })
+		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
 	}
 
 }

@@ -1,9 +1,5 @@
 package com.github.K0zka.kerub.host.lom
 
-import com.github.K0zka.kerub.host.HostCommandExecutor
-import com.github.K0zka.kerub.host.HostManager
-import com.github.K0zka.kerub.host.PowerManager
-import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import java.net.DatagramPacket
@@ -14,10 +10,7 @@ import java.net.InetAddress
  * Uses wake-on-lan magic cookie to wake up the host
  * and the ssh connection to power it off.
  */
-class WakeOnLan(
-		private val host: Host,
-		private val executor: HostCommandExecutor,
-		private val hostManager: HostManager) : PowerManager {
+class WakeOnLan(private val host: Host) {
 
 	companion object {
 		val wolUdpPort = 9
@@ -46,9 +39,9 @@ class WakeOnLan(
 		}
 	}
 
-	override fun on() {
+	fun on() {
 		val info = host.capabilities?.powerManagment?.first { it is WakeOnLanInfo } as WakeOnLanInfo?
-		require( info != null, { "mac address list needed to wake up host" })
+		require(info != null, { "mac address list needed to wake up host" })
 		require(info!!.macAddresses.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
 		for (mac in info.macAddresses) {
 			val bytes = buildMagicPocket(mac)
@@ -57,14 +50,6 @@ class WakeOnLan(
 				it.send(DatagramPacket(bytes, bytes.size, InetAddress.getByName("255.255.255.255"), wolUdpPort))
 			}
 		}
-	}
-
-	override fun off() {
-		require(host.dedicated, { "Can not power off a non-dedicated host" })
-		executor.execute(host, {
-			it.execute("poweroff")
-		})
-		hostManager.disconnectHost(host)
 	}
 
 }

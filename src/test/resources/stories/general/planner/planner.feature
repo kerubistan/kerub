@@ -150,6 +150,8 @@ Feature: basic planner features
 	Given VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
+	And Controller configuration 'power management enabled' is enabled
+	And Controller configuration 'wake on lan enabled' is enabled
 	And hosts:
 	  | address   | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro version |
 	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |

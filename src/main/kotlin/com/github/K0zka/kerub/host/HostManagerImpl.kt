@@ -50,6 +50,14 @@ open class HostManagerImpl(
 		}
 	}
 
+	override fun powerDown(host: Host) {
+		require(host.dedicated, { "Can not power off a non-dedicated host" })
+		execute(host, {
+			it.execute("poweroff")
+		})
+		disconnectHost(host)
+	}
+
 	override fun disconnectHost(host: Host) {
 		val session = connections.remove(host.id)
 		session?.first?.close(true)
@@ -63,12 +71,6 @@ open class HostManagerImpl(
 			//TODO: not connected: throw exception?
 			return null
 		}
-	}
-
-	override fun getPowerManager(host: Host): PowerManager {
-		require(host.dedicated, { "If host is not dedicated, it can not be power-managed" })
-		//TODO issue #126 - host power management
-		return WakeOnLan(host, this, this)
 	}
 
 	override fun getFireWall(host: Host): FireWall {

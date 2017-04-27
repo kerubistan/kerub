@@ -12,7 +12,9 @@ import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 import com.github.K0zka.kerub.utils.update
 import java.math.BigInteger
 
-class WakeHost(val host: Host) : AbstractOperationalStep {
+abstract class AbstractWakeHost : AbstractOperationalStep {
+	abstract val host: Host
+
 	override fun reservations(): List<Reservation<Host>>
 			= listOf(FullHostReservation(host))
 
