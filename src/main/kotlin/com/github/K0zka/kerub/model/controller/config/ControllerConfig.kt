@@ -25,6 +25,10 @@ data class ControllerConfig(
 		 */
 		val powerManagementEnabled : Boolean = true,
 		/**
+		 * Can use wake-on-lan + ssh to power on/off hosts.
+		 */
+		val wakeOnLanEnabled : Boolean = false,
+		/**
 		 * The controllers can enable/disable KSM.
 		 */
 		val ksmEnabled : Boolean = true,
