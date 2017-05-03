@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import java.io.Serializable
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
@@ -9,6 +10,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 		JsonSubTypes.Type(StepExecutionSkip::class),
 		JsonSubTypes.Type(StepExecutionError::class)
 		)
-interface StepExecutionResult {
+interface StepExecutionResult : Serializable {
 	val executionStep : ExecutionStep
 }
