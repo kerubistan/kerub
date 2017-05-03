@@ -124,7 +124,7 @@
 		</distributed-cache>
 		<distributed-cache name="executionResultCache" mode="ASYNC" owners="${dyn.owners}">
 			<persistence>
-				<file-store path="${store.dir}/store/dyn/controller"/>
+				<file-store path="${store.dir}/store/dyn/executions"/>
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>
