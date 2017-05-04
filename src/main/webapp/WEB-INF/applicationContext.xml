@@ -363,7 +363,7 @@
 
 	<bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
 
-	<bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl">
+	<bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl" init-method="start" destroy-method="stop">
 		<constructor-arg ref="backtrack"/>
 		<constructor-arg ref="planExecutor"/>
 		<constructor-arg ref="stateBuilder"/>

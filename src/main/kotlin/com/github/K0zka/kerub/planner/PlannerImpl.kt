@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner
 
-import com.github.K0zka.kerub.model.messages.EntityMessage
+import com.github.K0zka.kerub.model.messages.Message
+import com.github.K0zka.kerub.model.messages.PingMessage
 import com.github.K0zka.kerub.planner.reservations.FullHostReservation
 import com.github.K0zka.kerub.planner.reservations.HostMemoryReservation
 import com.github.K0zka.kerub.planner.reservations.HostReservation
@@ -16,7 +17,10 @@ import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
 import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
 import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
+import java.util.Timer
+import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.concurrent.scheduleAtFixedRate
 
 /**
  * Implementation of planner.
@@ -27,6 +31,12 @@ class PlannerImpl(
 		private val executor: PlanExecutor,
 		private val builder: OperationalStateBuilder
 ) : Planner {
+
+	private val timer = Timer()
+	var timerTask: TimerTask? = null
+	private val reservations = ConcurrentHashMap<Plan, List<Reservation<*>>>()
+	@Volatile var inProgress: Boolean = false
+	@Volatile var lastRun: Long? = null
 
 	companion object {
 		fun checkReservations(planReservations: Collection<Reservation<*>>, reservations: List<Reservation<*>>): Boolean =
@@ -64,12 +74,33 @@ class PlannerImpl(
 		private val logger = getLogger(PlannerImpl::class)
 	}
 
-	private val reservations = ConcurrentHashMap<Plan, List<Reservation<*>>>()
+	fun start() {
+		val delay = 1000L
+		synchronized(this) {
+			timerTask = timer.scheduleAtFixedRate(delay, delay) {
+				val now = System.currentTimeMillis()
+				if (!inProgress && lastRun ?: 0 < (now - delay)) {
+					onEvent(PingMessage(now))
+				}
+			}
+		}
+	}
 
-	override fun onEvent(msg: EntityMessage) {
+	fun stop() {
+		synchronized(this) {
+			timerTask?.cancel()
+		}
+	}
 
+	override fun onEvent(msg: Message) {
 		val state = buildState()
-		plan(state)
+		try {
+			inProgress = true
+			lastRun = System.currentTimeMillis()
+			plan(state)
+		} finally {
+			inProgress = false
+		}
 
 	}
 
@@ -102,7 +133,7 @@ class PlannerImpl(
 			logger.debug("No plan generated.")
 		} else {
 			val planReservations = plan.reservations()
-			if(checkReservations(planReservations, reservations.values.join())) {
+			if (checkReservations(planReservations, reservations.values.join())) {
 				reservations.put(plan, planReservations.toList())
 				executor.execute(plan, {
 					reservations.remove(plan)
