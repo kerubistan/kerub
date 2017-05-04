@@ -23,7 +23,9 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.K0zka.kerub.planner.steps.host.startup.AbstractWakeHost
+import com.github.K0zka.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
+import com.github.K0zka.kerub.planner.steps.host.startup.WolWakeHost
 import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
 import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
 import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
@@ -71,7 +73,9 @@ class PlanExecutorImpl(
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
-			AbstractWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
+			//TODO: handle both with just one (unless you want to maintain a long list)
+			IpmiWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
+			WolWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
 			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
 			CtldIscsiShare::class to CtldIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager)
