@@ -50,14 +50,14 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 		val unsatisfiedExpectations = state.state.getUnsatisfiedExpectations()
-		logger.info("unsatisfied expectations: {}", unsatisfiedExpectations)
+		logger.debug("unsatisfied expectations: {}", unsatisfiedExpectations)
 		val stepFactories = unsatisfiedExpectations
 				.map {
 					factories[it.javaClass.kotlin] ?: defaultFactories
 				}.join().toSet()
 
 		val steps = sort(stepFactories.map { it.produce(state.state) }.join(), state)
-		logger.info("steps generated: {}", steps)
+		logger.debug("steps generated: {}", steps)
 		return steps
 	}
 
