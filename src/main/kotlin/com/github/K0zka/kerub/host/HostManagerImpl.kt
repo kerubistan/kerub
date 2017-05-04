@@ -214,6 +214,7 @@ open class HostManagerImpl(
 					connectHost(host)
 				} catch (e: Exception) {
 					logger.error("Could not connect host {} at {}", host.id, host.address, e)
+					hostDynamicDao.remove(host.id)
 				}
 			} else {
 				logger.warn("Host {} assigned to {} but not found in host records, removing assignment", it.entityId, it.controller)
