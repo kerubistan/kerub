@@ -21,6 +21,7 @@ class WakeHostExecutor(
 	}
 
 	override fun perform(step: AbstractWakeHost) {
+		var lastException : Exception? = null
 		for (nr in 0..tries) {
 			if(hostDynDao.get(step.host.id)?.status == HostStatus.Up) {
 				//host connected
@@ -42,9 +43,10 @@ class WakeHostExecutor(
 				logger.debug("attempt {} - connecting {} {}: failed - waiting {} ms before retry",
 						nr, step.host.address, step.host.id, wait)
 				Thread.sleep(wait)
+				lastException = e
 			}
 		}
-		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts")
+		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts", lastException)
 	}
 
 	override fun update(step: AbstractWakeHost, updates: Unit) {
