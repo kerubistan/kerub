@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
+import com.github.K0zka.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -314,5 +315,17 @@ Domain: 'kerub.hosts.fedora20'
 
 		assertEquals(RemoteConsoleProtocol.spice, display.first)
 		assertEquals(5902, display.second)
+	}
+
+	@Test
+	fun capabilities() {
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).then {
+			resource("com/github/K0zka/kerub/utils/junix/virsh/capabilities-ubuntu16-i7.xml")
+		}
+
+		val capabilities = Virsh.capabilities(session)
+
+		assertEquals(26, capabilities.guests.size)
 	}
 }

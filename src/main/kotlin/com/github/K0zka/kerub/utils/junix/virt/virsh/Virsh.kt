@@ -14,6 +14,7 @@ import java.io.OutputStream
 import java.io.StringReader
 import java.util.Properties
 import java.util.UUID
+import javax.xml.bind.JAXBContext
 
 object Virsh : OsCommand {
 
@@ -184,6 +185,22 @@ object Virsh : OsCommand {
 					state = VcpuState.running,
 					time = props["vcpu.$id.time"]?.toLong()
 			)
+
+	fun capabilities(session: ClientSession) : LibvirtCapabilities {
+		val capabilities = session.executeOrDie("virsh capabilities")
+		val jaxbContext = JAXBContext.newInstance(LibvirtXmlArch::class.java, LibvirtXmlCapabilities::class.java, LibvirtXmlGuest::class.java)
+		return StringReader(capabilities).use {
+			val xmlCapabilities = jaxbContext.createUnmarshaller().unmarshal(it) as LibvirtXmlCapabilities
+			LibvirtCapabilities(xmlCapabilities.guests.map {
+				xmlGuest ->
+				val arch = requireNotNull(xmlGuest.arch)
+				LibvirtGuest(
+						osType = requireNotNull(xmlGuest.osType),
+						arch = LibvirtArch(name = arch.name, emulator = arch.emulator, wordsize = arch.wordsize)
+				)
+			})
+		}
+	}
 
 }
 
