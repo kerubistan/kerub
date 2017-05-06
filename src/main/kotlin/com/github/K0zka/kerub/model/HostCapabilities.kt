@@ -50,6 +50,9 @@ data class HostCapabilities(
 		val powerManagment: List<PowerManagementInfo> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
-		val storageCapabilities: List<StorageCapability> = listOf()
+		val storageCapabilities: List<StorageCapability> = listOf(),
+		@Field
+		@JsonView(Detailed::class)
+		val hypervisorCapabilities : List<Any> = listOf()
 )
 : Serializable

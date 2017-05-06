@@ -26,6 +26,7 @@ import com.github.K0zka.kerub.model.hardware.SystemInformation
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.dmi.DmiDecoder
 import com.github.K0zka.kerub.utils.junix.lspci.LsPci
+import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
 import kotlin.reflect.KClass
@@ -75,6 +76,13 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		val hardwareInfo = systemInfo.values
 		val hostOs = distro.getHostOs()
 		val distribution = SoftwarePackage(distro.name(), distro.getVersion(session))
+
+		val hypervisorCapabilities =
+				if (Virsh.available(distribution, packages))
+					silent { listOf(Virsh.capabilities(session)) } ?: listOf<Any>()
+				else
+					listOf<Any>()
+
 		return HostCapabilities(
 				os = hostOs,
 				cpuArchitecture = distro.detectHostCpuType(session),
@@ -91,7 +99,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
-				storageCapabilities = distro.detectStorageCapabilities(session, distribution, packages)
+				storageCapabilities = distro.detectStorageCapabilities(session, distribution, packages),
+				hypervisorCapabilities = hypervisorCapabilities
 		)
 	}
 
