@@ -1,8 +1,10 @@
 package com.github.K0zka.kerub.utils.junix.virt.virsh
 
 import com.github.K0zka.kerub.host.executeOrDie
+import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.utils.base64
+import com.github.K0zka.kerub.utils.equalsAnyOf
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.silent
@@ -21,7 +23,13 @@ object Virsh : OsCommand {
 	val logger = getLogger(Virsh::class)
 	val utf8 = charset("UTF-8")
 
-	fun setSecret(session: ClientSession, id : UUID, type : SecretType, value : String) {
+	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
+			= listOf(
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Centos Linux", "Fedora") } to listOf("libvirt-client"),
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Ubuntu", "Debian") } to listOf("libvirt-clients")
+	)
+
+	fun setSecret(session: ClientSession, id: UUID, type: SecretType, value: String) {
 		val secretDefFile = "/tmp/$id-secret.xml"
 		val secretDef = """<?xml version="1.0" encoding="UTF-8"?>
 <secret ephemeral='no' private='yes'>
@@ -46,7 +54,7 @@ object Virsh : OsCommand {
 
 	}
 
-	fun clearSecret(session: ClientSession, id : UUID) {
+	fun clearSecret(session: ClientSession, id: UUID) {
 		session.executeOrDie("virsh secret-undefine $id")
 	}
 
@@ -186,7 +194,7 @@ object Virsh : OsCommand {
 					time = props["vcpu.$id.time"]?.toLong()
 			)
 
-	fun capabilities(session: ClientSession) : LibvirtCapabilities {
+	fun capabilities(session: ClientSession): LibvirtCapabilities {
 		val capabilities = session.executeOrDie("virsh capabilities")
 		val jaxbContext = JAXBContext.newInstance(LibvirtXmlArch::class.java, LibvirtXmlCapabilities::class.java, LibvirtXmlGuest::class.java)
 		return StringReader(capabilities).use {
