@@ -26,7 +26,8 @@ object Virsh : OsCommand {
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
 			= listOf(
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Centos Linux", "Fedora") } to listOf("libvirt-client"),
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Ubuntu", "Debian") } to listOf("libvirt-clients")
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Debian") } to listOf("libvirt-clients", "libvirt-daemon"),
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Ubuntu") } to listOf("libvirt-bin")
 	)
 
 	fun setSecret(session: ClientSession, id: UUID, type: SecretType, value: String) {
