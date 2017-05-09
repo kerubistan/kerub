@@ -81,4 +81,7 @@ abstract class AbstractAssetService<T : Asset>(
 	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
 			= TODO("https://github.com/kerubistan/kerub/issues/173")
 
+	override fun autoName(): String =
+			"$entityType-${dao.count() + 1}"
+
 }

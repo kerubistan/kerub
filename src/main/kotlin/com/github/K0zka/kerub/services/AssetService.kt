@@ -12,7 +12,9 @@ import javax.ws.rs.DefaultValue
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
+import javax.ws.rs.Produces
 import javax.ws.rs.QueryParam
+import javax.ws.rs.core.MediaType
 
 @RequiresAuthentication
 interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.SimpleSearch<T> {
@@ -77,5 +79,10 @@ interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.Sim
 	fun getByNameAndOwner(@PathParam("ownerType") ownerType: AssetOwnerType,
 						  @PathParam("ownerId") ownerId: UUID,
 						  @PathParam("name") name: String): List<T>
+
+	@GET
+	@Path("/autoname")
+	@Produces(MediaType.TEXT_PLAIN)
+	fun autoName() : String
 
 }

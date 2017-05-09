@@ -31,6 +31,13 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
         	$uibModalInstance.close();
 		});
 	};
+	$scope.autoName = function() {
+		appsession.get('s/r/vm/autoname').then(function(result) {
+			$scope.vm.name = result;
+			$scope.checkVMName();
+		});
+	};
+
     $scope.close = function() {
         $log.info('closed new vm dialog');
         $uibModalInstance.dismiss('cancel');
@@ -66,7 +73,6 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
 			$scope.validating = false;
 		}
 	};
-	$scope.checkVMName();
 
 	$scope.openWatchdogDeviceForm = function() {
 		if($scope.anyDevicesOfType('watchdog')) {
@@ -102,6 +108,8 @@ var NewVmWizard = function($scope, $uibModalInstance, $http, $log, $timeout, app
 		$scope.newExpectation = null;
 	};
 
+
+	$scope.autoName();
 	$scope.vmExpectationsOpen = false;
 	$scope.vmExpectationFormOpen = false;
 	$scope.vmExpectations = filterValues(expectations, function(exp) { return exp.virtTypes.includes("vm") } );

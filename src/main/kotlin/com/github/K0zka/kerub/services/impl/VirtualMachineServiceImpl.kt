@@ -13,7 +13,6 @@ class VirtualMachineServiceImpl(
 ) : AbstractAssetService<VirtualMachine>(accessController, dao, "vm"),
 		VirtualMachineService {
 
-
 	override fun startVm(id: UUID) {
 		doWithVm(id, {
 			vm ->

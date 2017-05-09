@@ -18,6 +18,7 @@ import org.junit.Test
 import java.math.BigInteger
 import java.util.UUID
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class VirtualMachineServiceIT {
 	@Test
@@ -92,5 +93,21 @@ class VirtualMachineServiceIT {
 				check = { assertEquals("AUTH1", it.code) }
 		)
 
+	}
+
+	@Test
+	fun autoName() {
+		val client = createClient()
+		val loginService = createServiceClient(LoginService::class, client)
+		loginService.login(LoginService.UsernamePassword(
+				username = "admin",
+				password = "password"
+		))
+
+		val vmService = createServiceClient(VirtualMachineService::class, client)
+
+		val name = vmService.autoName()
+
+		assertTrue { name.matches("vm-.*".toRegex()) }
 	}
 }
