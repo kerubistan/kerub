@@ -10,9 +10,6 @@ import javax.ws.rs.NotFoundException
  * @param value the entity object
  * @param id    the ID of the entity
  */
-fun <T> assertExist(entityType: String, value: T?, id: Any): T =
-		value ?: notExisting(entityType, id)
+fun <T> assertExist(entityType: String, value: T?, id: Any): T = value ?: throw NotFoundException(
+		"$entityType $id not found")
 
-private fun notExisting(entityType: String, id: Any): Nothing {
-	throw NotFoundException("${entityType} ${id} not found")
-}

@@ -2,9 +2,9 @@ Feature: support for host cpu cache-size expectation
 
   Scenario: host selection with cache information
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
 	And host host1.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -16,13 +16,13 @@ Feature: support for host cpu cache-size expectation
 	And host2.example.com manufaturer has NO L1 cache
 	And host2.example.com manufaturer has NO L2 cache
 	And software installed on host host2.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host1.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And host host1.example.com is Up
 	And host host2.example.com is Up
 	And VMs:
@@ -34,10 +34,10 @@ Feature: support for host cpu cache-size expectation
 
   Scenario: host selection with cache information, one host with too few cache, one with just enough
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host0.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host0.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
 	And host host0.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -57,17 +57,17 @@ Feature: support for host cpu cache-size expectation
 	And host2.example.com manufaturer has NO L1 cache
 	And host2.example.com manufaturer has NO L2 cache
 	And software installed on host host9.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host1.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host2.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And host host0.example.com is Up
 	And host host1.example.com is Up
 	And host host2.example.com is Up

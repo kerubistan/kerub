@@ -67,6 +67,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
+import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
@@ -412,8 +413,11 @@ class PlannerDefs {
 					host.copy(
 							capabilities = caps.copy(
 									installedSoftware = software.raw().skip().map {
-										SoftwarePackage(name = it[0], version = Version.fromVersionString(it[1]))
-									}
+										row ->
+										row[0].split(",").map {
+											SoftwarePackage(name = it, version = Version.fromVersionString(row[1]))
+										}
+									}.join()
 							)
 					)
 				}

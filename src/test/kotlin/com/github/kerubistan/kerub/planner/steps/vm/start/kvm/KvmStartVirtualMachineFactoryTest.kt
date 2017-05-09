@@ -44,13 +44,13 @@ class KvmStartVirtualMachineFactoryTest {
 					totalMemory = "8 GB".toSize(),
 					installedSoftware = listOf(
 							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
-							SoftwarePackage(name = "libvirt", version = Version.fromVersionString("1.2.18"))
+							SoftwarePackage(name = "libvirt-bin", version = Version.fromVersionString("1.2.18"))
 					),
 					devices = listOf(),
 					os = OperatingSystem.Linux,
+					distribution = SoftwarePackage("Ubuntu", version = Version.fromVersionString("17.04")),
 					system = null,
-					chassis = null,
-					distribution = null
+					chassis = null
 			)
 	)
 

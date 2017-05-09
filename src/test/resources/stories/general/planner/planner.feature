@@ -8,9 +8,10 @@ Feature: basic planner features
 	  | address   | ram | Cores | Threads | Architecture | Operating System | Distro | Distro version |
 	  | 127.0.0.5 | 2GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -44,13 +45,15 @@ Feature: basic planner features
 	  | 127.0.0.5 | 2GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	  | 127.0.0.6 | 2GB | 2     | 2       | ARM          | Linux            | Ubuntu | 14.0.4         |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And software installed on host 127.0.0.6:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -71,13 +74,15 @@ Feature: basic planner features
 	  | 127.0.0.5 | 2 GB | 2     | 4       | x86_64       | Linux            | Fedora       | 23           |
 	  | 127.0.0.6 | 2 GB | 1     | 2       | x86_64       | Linux            | Fedora       | 23           |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt        | 1.2.18  |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host 127.0.0.6:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt        | 1.2.18  |
+	  | libvirt-client | 1.2.18  |
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -100,13 +105,15 @@ Feature: basic planner features
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And software installed on host 127.0.0.6:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -126,13 +133,15 @@ Feature: basic planner features
 	  | 127.0.0.5 | 6 GB  | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	  | 127.0.0.6 | 10 GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And software installed on host 127.0.0.6:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.6 is Up
 	And host 127.0.0.5 CPUs are 4:
@@ -156,9 +165,10 @@ Feature: basic planner features
 	  | address   | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro version |
 	  | 127.0.0.5 | 6 GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -179,9 +189,10 @@ Feature: basic planner features
 	  | name          | size | ro    |
 	  | system-disk-1 | 2 GB | false |
 	And software installed on host 127.0.0.5:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt     | 1.2.18  |
+	  | libvirt-bin | 1.2.18  |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |

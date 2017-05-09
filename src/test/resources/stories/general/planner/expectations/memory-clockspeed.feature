@@ -2,9 +2,9 @@ Feature: support for memory clock speed expectation
 
   Scenario: Start a virtual machine memory clock speed expectation on it
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
 	And host host1.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -16,13 +16,13 @@ Feature: support for memory clock speed expectation
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
 	And vm1 has memory clock speed expectation 1700 Mhz
 	And software installed on host host1.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host2.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And host host1.example.com is Up
 	And host host2.example.com is Up
 	And host1.example.com memory clockspeed is 1300 Mhz
@@ -32,9 +32,9 @@ Feature: support for memory clock speed expectation
 
   Scenario: Start a virtual machine memory clock speed expectation on it, some host does not have known mem clock freq
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
 	And host host1.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -46,13 +46,13 @@ Feature: support for memory clock speed expectation
 	  | vm1  | 1 GB   | 1 GB   | 2    | x86_64       |
 	And vm1 has memory clock speed expectation 1700 Mhz
 	And software installed on host host1.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host2.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And host host1.example.com is Up
 	And host host2.example.com is Up
 	And host1.example.com memory information is not known

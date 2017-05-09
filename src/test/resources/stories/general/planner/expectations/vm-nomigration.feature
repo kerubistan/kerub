@@ -8,9 +8,9 @@ Feature: "No migration" expectation
   # expectation was selected
   Scenario: vm without "No migration" expectation is preferred when selecting for migration
 	Given hosts:
-	  | address                | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host-big.example.com   | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host-small.example.com | 3 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address                | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host-big.example.com   | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host-small.example.com | 3 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
 	And host host-big.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -23,13 +23,13 @@ Feature: "No migration" expectation
 	  | vm-free   | 2 GB   | 2 GB   | 1    | x86_64       |
 	  | vm-fat    | 4 GB   | 4 GB   | 1    | x86_64       |
 	And software installed on host host-big.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And software installed on host host-small.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package        | version |
+	  | qemu-kvm       | 2.4.1   |
+	  | libvirt-client | 1.2.18  |
 	And host host-big.example.com is Up
 	And host host-small.example.com is Up
 	And vm-sticky is running on host-big.example.com

@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.kerubistan.kerub.planner.steps.vm.storageAllocationMap
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {
 
@@ -25,7 +26,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 			}.join()
 
 	fun isKvmInstalled(host: Host)
-			= host.capabilities?.installedSoftware?.any { it.name == "libvirt" } ?: false
+			= Virsh.available(host.capabilities)
 			&& host.capabilities?.installedSoftware?.any { it.name == "qemu-kvm" } ?: false
 
 }
