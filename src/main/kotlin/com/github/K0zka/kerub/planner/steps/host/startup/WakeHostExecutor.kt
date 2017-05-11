@@ -3,11 +3,12 @@ package com.github.K0zka.kerub.planner.steps.host.startup
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.lom.WakeOnLan
+import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.execution.AbstractStepExecutor
 import com.github.K0zka.kerub.utils.getLogger
 
-class WakeHostExecutor(
+open class WakeHostExecutor(
 		private val hostManager: HostManager,
 		private val hostDynDao: HostDynamicDao,
 		private val tries : Int = defaulMaxRetries,
@@ -31,7 +32,7 @@ class WakeHostExecutor(
 				logger.debug("attempt {} - waking host {} {}", nr, step.host.address, step.host.id)
 				when(step) {
 					is WolWakeHost -> {
-						WakeOnLan(step.host).on()
+						wakeOnLoan(step.host)
 					}
 					else -> TODO()
 				}
@@ -47,6 +48,10 @@ class WakeHostExecutor(
 			}
 		}
 		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts", lastException)
+	}
+
+	open internal fun wakeOnLoan(host : Host) {
+		WakeOnLan(host).on()
 	}
 
 	override fun update(step: AbstractWakeHost, updates: Unit) {

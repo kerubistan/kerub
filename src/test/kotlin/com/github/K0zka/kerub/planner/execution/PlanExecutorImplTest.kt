@@ -22,6 +22,8 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.locks.Lock
 
 class PlanExecutorImplTest {
 	val executionResultDao: ExecutionResultDao = mock()
@@ -61,6 +63,10 @@ class PlanExecutorImplTest {
 				)
 		)
 		val callback = mock<(Plan) -> Unit>()
+		val called = AtomicBoolean(false)
+		whenever(callback.invoke(any())).then {
+			called.set(true)
+		}
 		PlanExecutorImpl(
 				executionResultDao,
 				controllerManager,
@@ -72,6 +78,10 @@ class PlanExecutorImplTest {
 				hostConfigDao
 		).execute(plan, callback)
 
+		var cntr = 1
+		while(!called.get() && cntr++ < 10) {
+			Thread.sleep(100)
+		}
 		verify(callback).invoke(eq(plan))
 		verify(executionResultDao).add(any())
 	}

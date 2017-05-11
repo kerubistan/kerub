@@ -6,13 +6,14 @@ import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
 import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doNothing
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.spy
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class WakeHostExecutorTest {
 	val hostManager : HostManager = mock()
 
@@ -28,8 +29,10 @@ class WakeHostExecutorTest {
 
 	@Test
 	fun execute() {
-
-		WakeHostExecutor(hostManager, hostDynDao).execute(WolWakeHost(host))
+		val executor = spy(WakeHostExecutor(hostManager, hostDynDao))
+		val step = WolWakeHost(host)
+		doNothing().whenever(executor).wakeOnLoan(eq(host))
+		executor.execute(step)
 
 		Mockito.verify(hostDynDao).update(any(), any())
 	}

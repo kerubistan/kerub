@@ -16,6 +16,9 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
@@ -147,7 +150,7 @@ class HostManagerImplTest {
 		whenever(address.isLoopbackAddress).thenReturn(false)
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
-		whenever(hostManager!!.resolve(any())).thenReturn(address)
+		whenever(hostManager!!.resolve(eq("localhost"))).thenReturn(address)
 		val publicKey = hostManager!!.getHostPublicKey("localhost")
 		assertEquals(getTestKey().public, publicKey)
 	}
@@ -163,7 +166,7 @@ class HostManagerImplTest {
 		whenever(address.isLoopbackAddress).thenReturn(false)
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
-		whenever(hostManager!!.resolve(any())).thenReturn(address)
+		doReturn(address).whenever(hostManager)!!.resolve(eq("host1.example.com"))
 		whenever(sshClientService.loginWithPublicKey(
 				address = any(),
 				hostPublicKey = any(),
@@ -179,7 +182,7 @@ class HostManagerImplTest {
 				capabilities = null,
 				dedicated = false,
 				publicKey = "")
-		whenever(hostManager!!.resolve(any())).then { throw UnknownHostException("TEST") }
+		doAnswer { throw UnknownHostException("TEST") }.whenever(hostManager)!!.resolve(eq("host1.example.com"))
 		whenever(sshClientService.loginWithPublicKey(
 				address = any(),
 				hostPublicKey = any(),
@@ -205,7 +208,7 @@ class HostManagerImplTest {
 		whenever(address.isLoopbackAddress).thenReturn(false)
 		whenever(address.isLinkLocalAddress).thenReturn(false)
 		whenever(address.isAnyLocalAddress).thenReturn(false)
-		whenever(hostManager!!.resolve(any())).thenReturn(address)
+		doReturn(address).whenever(hostManager)!!.resolve(eq("host.example.com"))
 		whenever(sshClientService.loginWithPublicKey(any(), any(), any())).thenReturn(clientSession)
 
 		hostManager!!.start()
