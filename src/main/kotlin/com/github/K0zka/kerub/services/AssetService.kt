@@ -85,4 +85,9 @@ interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.Sim
 	@Produces(MediaType.TEXT_PLAIN)
 	fun autoName() : String
 
+	@GET
+	@Path("/autoname/{ownerType}/{ownerId}")
+	@Produces(MediaType.TEXT_PLAIN)
+	fun autoName(ownerType: AssetOwnerType, ownerId: UUID) : String
+
 }

@@ -81,7 +81,18 @@ abstract class AbstractAssetService<T : Asset>(
 	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
 			= TODO("https://github.com/kerubistan/kerub/issues/173")
 
-	override fun autoName(): String =
-			"$entityType-${dao.count() + 1}"
+	override fun autoName(): String {
+		//TODO: this is checking globally, it should only be allowed when accounts are not mandatory
+		var nr = dao.count() + 1
+		var name = "$entityType-$nr"
+		while(dao.existsByName(name)) {
+			nr++
+			name = "$entityType-$nr"
+		}
+		return name
+	}
 
+	override fun autoName(ownerType: AssetOwnerType, ownerId: UUID): String {
+		TODO()
+	}
 }

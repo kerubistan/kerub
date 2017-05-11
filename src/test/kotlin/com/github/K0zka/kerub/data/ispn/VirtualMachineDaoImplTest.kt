@@ -287,6 +287,28 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		assertEquals(listOf<VirtualMachine>(), dao.getByName("NOTEXISTING-${UUID.randomUUID()}"))
 	}
 
+	@Test()
+	fun existsByName() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+
+		val vm1 = testVm.copy(
+				name = "vm-1",
+				id = UUID.randomUUID()
+		)
+
+		val vm2 = testVm.copy(
+				name = "vm-2",
+				id = UUID.randomUUID()
+		)
+
+		dao.add(vm1)
+		dao.add(vm2)
+
+		assertTrue(dao.existsByName(vm1.name))
+		assertTrue(dao.existsByName(vm2.name))
+		assertFalse { dao.existsByName("not-existing-vm-${System.currentTimeMillis()}") }
+	}
+
 	@Test
 	fun getByNameWithOwner() {
 		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)

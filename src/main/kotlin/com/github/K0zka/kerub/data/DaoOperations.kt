@@ -39,7 +39,8 @@ interface DaoOperations {
 	}
 
 	interface ByName<T : Named> {
-		fun getByName(name : String) : List<T>
+		fun getByName(name : String, max : Int? = null) : List<T>
+		fun existsByName(name : String) = getByName(name, 1).isNotEmpty()
 	}
 
 	/**
