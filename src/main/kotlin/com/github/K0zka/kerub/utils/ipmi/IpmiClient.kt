@@ -1,33 +1,25 @@
 package com.github.K0zka.kerub.utils.ipmi
 
-import com.github.K0zka.kerub.host.toBase64
+import nl.komponents.kovenant.task
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
-import java.net.SocketTimeoutException
 
 open class IpmiClient {
 
-	fun sendPing(address: String, timeOutMs: Int = 1000, onPong: () -> Unit, onTimeout: () -> Unit = {}) {
-		val inetAddress = InetAddress.getByName(address)
-		try {
-			DatagramSocket().use {
-				socket ->
-				socket.connect(inetAddress, rmcpPort)
-				val nr = 0x42.toByte()
-				socket.soTimeout = timeOutMs
-				socket.send(DatagramPacket(makeRmcpHeader(rmcpClassAsf.toByte()) + makeAsfPingMessage(nr), 12))
-				val response = ByteArray(24)
-				socket.receive(DatagramPacket(response, 24))
-				println(response.toBase64())
-				onPong()
+	fun sendPing(address: String, timeOutMs: Int = 1000) =
+			task {
+				val inetAddress = InetAddress.getByName(address)
+				DatagramSocket().use {
+					socket ->
+					socket.connect(inetAddress, rmcpPort)
+					val nr = 0x42.toByte()
+					socket.soTimeout = timeOutMs
+					socket.send(DatagramPacket(makeRmcpHeader(rmcpClassAsf.toByte()) + makeAsfPingMessage(nr), 12))
+					val response = ByteArray(24)
+					socket.receive(DatagramPacket(response, 24))
+				}
 			}
-		} catch (st: SocketTimeoutException) {
-			onTimeout()
-		}
-
-		//TODO()
-	}
 
 	private fun makeAsfPingMessage(nr: Byte): ByteArray =
 			ByteArray(8) {
