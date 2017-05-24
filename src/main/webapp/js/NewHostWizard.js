@@ -54,6 +54,9 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
             });
     };
     $scope.checkHostAddress = function() {
+    	if($scope.host.address.length == 0) {
+    		return;
+    	}
 		appsession.get('s/r/host/byaddress/'+$scope.host.address)
 			.success(function(data) {
 				if(data.length > 0) {
