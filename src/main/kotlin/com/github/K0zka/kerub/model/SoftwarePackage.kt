@@ -11,6 +11,6 @@ data class SoftwarePackage(
 		@Field val version: Version) : Serializable {
 	override
 	fun toString(): String {
-		return "${name}-${version}"
+		return "$name-$version"
 	}
 }
