@@ -43,7 +43,7 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 			val assignments = HashMap<Host, String>(state.assignments)
 			assignments.put(host, controller)
 
-			val oldControllerState = state.controllerStates.get(controller) ?: ControllerDynamic(
+			val oldControllerState = state.controllerStates[controller] ?: ControllerDynamic(
 					controllerId = controller,
 					addresses = listOf(),
 					maxHosts = 128,
@@ -72,7 +72,7 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 						.map { ControllerAssignmentStep(host, it) }
 						.sortedBy({
 							step: ControllerAssignmentStep ->
-							controllerScore(state.controllerStates.get(step.controller))
+							controllerScore(state.controllerStates[step.controller])
 						})
 			}
 		}
