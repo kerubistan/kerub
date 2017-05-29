@@ -23,10 +23,10 @@ object BsdVmStat {
 
 	}
 
-	fun vmstat(session: ClientSession, handler: (BsdVmStatEvent) -> Unit, delay: Int = 1): Unit {
+	fun vmstat(session: ClientSession, handler: (BsdVmStatEvent) -> Unit, interval: Int = 1): Unit {
 		commonVmStat(
 				session = session,
-				delay = delay,
+				interval = interval,
 				out = BsdVmstatOutputStream(handler)
 		)
 	}

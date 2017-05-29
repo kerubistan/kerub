@@ -35,10 +35,10 @@ object VmStat : OsCommand {
 
 	}
 
-	fun vmstat(session: ClientSession, handler: (VmStatEvent) -> Unit, delay: Int = 1): Unit {
+	fun vmstat(session: ClientSession, handler: (VmStatEvent) -> Unit, interval: Int = 1): Unit {
 		commonVmStat(
 				session = session,
-				delay = delay,
+				interval = interval,
 				out = VmstatOutputStream(handler)
 		)
 	}
