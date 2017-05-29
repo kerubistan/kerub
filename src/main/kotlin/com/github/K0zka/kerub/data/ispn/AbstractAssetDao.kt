@@ -26,7 +26,7 @@ abstract class AbstractAssetDao<T : Asset>(
 				cache.queryBuilder(getEntityClass().kotlin)
 						.startOffset(start.toLong())
 						.maxResults(limit)
-						.having(field).like("%${value}%")
+						.having(field).like("%$value%")
 						.and()
 						.having(Asset::ownerIdStr.name).`in`(owners.map { it.ownerIdStr })
 						.list()
