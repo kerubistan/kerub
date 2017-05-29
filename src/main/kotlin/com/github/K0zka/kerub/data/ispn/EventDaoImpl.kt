@@ -7,31 +7,26 @@ import org.infinispan.query.Search
 import org.infinispan.query.dsl.SortOrder
 import java.util.UUID
 
-class EventDaoImpl(val cache: AdvancedCache<UUID, Event>) : EventDao {
+class EventDaoImpl(private val cache: AdvancedCache<UUID, Event>) : EventDao {
 
 	override fun get(ids: Collection<UUID>): List<Event>
 			= cache.advancedCache.getAll(ids.toHashSet()).values.toList()
 
-	override fun count(): Int {
-		return cache.count()
-	}
+	override fun count() = cache.count()
 
-	override fun add(entity: Event): UUID {
-		val id = UUID.randomUUID()
-		cache.putAsync(id, entity.copy(id = id))
-		return id
-	}
+	override fun add(entity: Event): UUID =
+			UUID.randomUUID().let {
+				cache.putAsync(it, entity.copy(id = it))
+				it
+			}
 
-	override fun get(id: UUID): Event? {
-		return cache.get(id)
-	}
+	override fun get(id: UUID): Event? = cache[id]
 
-	override fun list(start: Long, limit: Int, sort: String): List<Event> {
-		return Search.getQueryFactory(cache)
-				.from(Event::class.java)
-				.orderBy(sort, SortOrder.DESC)
-				.maxResults(limit)
-				.startOffset(start)
-				.list()
-	}
+	override fun list(start: Long, limit: Int, sort: String): List<Event> =
+			Search.getQueryFactory(cache)
+					.from(Event::class.java)
+					.orderBy(sort, SortOrder.DESC)
+					.maxResults(limit)
+					.startOffset(start)
+					.list()
 }
