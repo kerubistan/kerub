@@ -9,7 +9,6 @@ import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.host.distros.Distribution
-import com.github.K0zka.kerub.host.lom.WakeOnLan
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
