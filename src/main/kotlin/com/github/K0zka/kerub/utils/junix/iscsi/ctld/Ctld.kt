@@ -24,13 +24,13 @@ object Ctld : OsCommand {
 		val config = """
 ${begin(id)}
 
-     auth-group ag-${id} {
+     auth-group ag-$id {
      	#TODO
      	auth-type none
      }
 
 	target ${iscsiStorageId(id)} {
-	auth-group ag-${id}
+	auth-group ag-$id
 	portal-group $iscsiUser
 
 		lun 0 {
