@@ -21,6 +21,6 @@ enum class AppCommand(val code: Int) {
 	companion object {
 		private val commandsByCode = AppCommand.values().map { it.code to it }.toMap()
 		fun getByCode(code: Int): AppCommand =
-				commandsByCode.get(code) ?: throw IllegalArgumentException("Code not known: $code")
+				commandsByCode[code] ?: throw IllegalArgumentException("Code not known: $code")
 	}
 }
