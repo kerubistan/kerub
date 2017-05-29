@@ -204,7 +204,7 @@ open class HostManagerImpl(
 			connections.containsKey(it.entityId)
 		}.forEach {
 			logger.info("connecting assigned host {}", it.entityId)
-			val host = hostDao.get(it.entityId)
+			val host = hostDao[it.entityId]
 			if (host != null) {
 				//TODO: this try-catch should be temporary, refactor to a threadpool
 				//anyway it would be a bad idea to wait for 100+ hosts to be connected
