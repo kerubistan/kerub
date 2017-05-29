@@ -18,7 +18,7 @@ object MqInit {
 	fun init(controllerManager: ControllerManager, artemis: EmbeddedJMS, factory: ConnectionFactory): ConnectionFactory {
 		val controllerId = controllerManager.getControllerId()
 		val server = artemis.activeMQServer
-		val mqName = "kerub-mq-${controllerId}"
+		val mqName = "kerub-mq-$controllerId"
 		server.deployQueue(SimpleString(mqName), SimpleString(mqName), null, true, false)
 		factory.createConnection().use {
 			it.createSession().use {
