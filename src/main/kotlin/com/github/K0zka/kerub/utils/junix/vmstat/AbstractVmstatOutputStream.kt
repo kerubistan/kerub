@@ -4,7 +4,11 @@ import java.io.OutputStream
 
 abstract class AbstractVmstatOutputStream : OutputStream() {
 
-	val buff: StringBuilder = StringBuilder(128)
+	companion object {
+		private val someSpaces = Regex.fromLiteral("\\s+")
+	}
+
+	private val buff: StringBuilder = StringBuilder(128)
 
 	override fun write(data: Int) {
 		if (data == 10) {
@@ -14,7 +18,7 @@ abstract class AbstractVmstatOutputStream : OutputStream() {
 			if (line.startsWith("procs") || line.startsWith("r")) {
 				return
 			}
-			val split = line.split(VmStat.someSpaces)
+			val split = line.split(someSpaces)
 
 			handleInput(split)
 		} else {

@@ -3,11 +3,8 @@ package com.github.K0zka.kerub.utils.junix.vmstat
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
-import java.util.regex.Pattern
 
 object VmStat : OsCommand {
-
-	val someSpaces = Pattern.compile("\\s+")
 
 	class VmstatOutputStream(val handler: (VmStatEvent) -> Unit) : AbstractVmstatOutputStream() {
 
