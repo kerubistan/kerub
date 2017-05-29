@@ -18,7 +18,7 @@ private val logger = getLogger(ClientSession::class)
 
 private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 	if(this.isDebugEnabled) {
-		this.debug("${msg} ${x}")
+		this.debug("$msg $x")
 	}
 	return x
 }
@@ -37,7 +37,7 @@ fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 fun ClientSession.execute(command: String): String {
 	return this.createExecChannel(command).use {
 		it.invertedOut.reader(Charset.forName("ASCII")).use {
-			logger.debugAndReturn("result of command ${command}: ", it.readText())
+			logger.debugAndReturn("result of command $command: ", it.readText())
 		}
 	}
 }
@@ -57,7 +57,7 @@ fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs
 			logger.warn("Error output ignored by command {} : {}", command, error)
 		}
 		it.invertedOut.reader(cs).use {
-			logger.debugAndReturn("result of command ${command}: ", it.readText())
+			logger.debugAndReturn("result of command $command: ", it.readText())
 		}
 	}
 }
@@ -123,7 +123,7 @@ fun ClientSession.getFileContents(file: String): String {
  */
 fun SftpClient.getFileContents(file: String): String {
 	return this.read(file).use {
-		logger.debugAndReturn("Contents of file ${file}: ", it.reader(Charsets.US_ASCII).readText())
+		logger.debugAndReturn("Contents of file $file: ", it.reader(Charsets.US_ASCII).readText())
 	}
 }
 
