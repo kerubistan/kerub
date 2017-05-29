@@ -16,7 +16,7 @@ data class Version(@Field val major: String,
 
 		private val empty = ""
 
-		private val versionSplitter = Pattern.compile("\\.|_|\\-")
+		private val versionSplitter = Pattern.compile("[._\\-]")
 
 		fun fromVersionString(versionStr: String): Version {
 			val split = versionSplitter.split(versionStr)
@@ -28,7 +28,7 @@ data class Version(@Field val major: String,
 		if (component == null) {
 			return empty
 		} else {
-			return ".${component}"
+			return ".$component"
 		}
 	}
 
