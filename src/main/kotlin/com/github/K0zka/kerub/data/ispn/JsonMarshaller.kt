@@ -28,7 +28,7 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 				}
 
 		override fun recordSize(previousSize: Int) {
-			logger.debug("size: ${previousSize}")
+			logger.debug("size: $previousSize")
 		}
 	}
 
