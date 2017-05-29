@@ -13,7 +13,7 @@ object Mount : OsCommand {
 			hostCapabilities?.os == OperatingSystem.Linux
 					|| (
 							hostCapabilities?.os == OperatingSystem.BSD
-									&& hostCapabilities?.distribution?.name == "NetBSD"
+									&& hostCapabilities.distribution?.name == "NetBSD"
 							)
 
 	fun listMounts(session: ClientSession): List<FsMount> =
