@@ -12,6 +12,6 @@ data class AssetOwner(
 	val ownerIdStr: String?
 		@Field
 		@JsonIgnore
-		get() = "${ownerType}:${ownerId}"
+		get() = "$ownerType:$ownerId"
 
 }
