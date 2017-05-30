@@ -104,7 +104,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	private fun listen(listener: Any, id: I) {
-		cache.advancedCache.addListener(listener, IdFilter<I>(id), Converter<I, T>())
+		cache.advancedCache.addListener(listener, IdFilter(id), Converter<I, T>())
 	}
 
 	override fun listenCreate(action: (T) -> Boolean) {
@@ -116,7 +116,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	override fun listenUpdate(action: (T) -> Boolean) {
-		listen(ChangeListener<I, T>(cache, action))
+		listen(ChangeListener(cache, action))
 	}
 
 	override fun listenUpdate(id: I, action: (T) -> Boolean) {
@@ -124,7 +124,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	override fun listenDelete(action: (T) -> Boolean) {
-		listen(RemoveListener<I, T>(cache, action))
+		listen(RemoveListener(cache, action))
 	}
 
 	override fun listenDelete(id: I, action: (T) -> Boolean) {
