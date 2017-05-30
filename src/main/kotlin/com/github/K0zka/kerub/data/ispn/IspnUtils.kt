@@ -57,7 +57,7 @@ fun <K, V : Any> Cache<K, V>.fieldSearch(
 		this.queryBuilder(type)
 				.startOffset(start)
 				.maxResults(limit)
-				.having(field).like("%${value}%")
+				.having(field).like("%$value%")
 				.list()
 
 
