@@ -9,7 +9,7 @@ import org.apache.sshd.client.session.ClientSession
 
 class SystemdServiceManager(private val client: ClientSession) : ServiceManager {
 
-	private val services = mapOf<OsCommand, String>(
+	private val services = mapOf(
 			TgtAdmin to "tgtd",
 			Virsh to "libvirtd"
 	)
