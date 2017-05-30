@@ -35,7 +35,7 @@ class VirtualMachineServiceIT {
 		val vmToSave = VirtualMachine(
 				id = UUID.randomUUID(),
 				name = "test",
-				memory = Range<BigInteger>(
+				memory = Range(
 						min = BigInteger("1024"),
 						max = BigInteger("2048")
 				),
