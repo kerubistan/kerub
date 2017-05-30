@@ -8,13 +8,13 @@ import com.github.K0zka.kerub.model.Account
 import com.github.K0zka.kerub.model.AccountMembership
 import com.github.K0zka.kerub.model.AssetOwner
 import com.github.K0zka.kerub.model.AssetOwnerType
-import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Named
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualNetwork
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.messages.SubscribeMessage
@@ -141,7 +141,7 @@ class AuthorizationDefs {
 								ownerType = AssetOwnerType.account
 						)
 				))
-				entities = entities + (vmName to vm)
+				entities += (vmName to vm)
 			}
 		}
 	}
@@ -179,7 +179,7 @@ class AuthorizationDefs {
 						)
 				)
 				)
-				entities = entities + (diskName to disk)
+				entities += (diskName to disk)
 			}
 		}
 	}
@@ -202,7 +202,7 @@ class AuthorizationDefs {
 								)
 						)
 				)
-				entities = entities + (network.name to network)
+				entities += (network.name to network)
 			}
 		}
 	}
