@@ -67,7 +67,7 @@ abstract class AbstractLinux : Distribution {
 	override fun installMonitorPackages(session: ClientSession) {
 		//TODO: filter what is already installed, do not install if the list is empty
 		val packsNeeded =
-				arrayOf<OsCommand>(VmStat, MPStat)
+				arrayOf(VmStat, MPStat)
 						.map { util -> getRequiredPackages(util) }
 						.join()
 		getPackageManager(session).install(*packsNeeded.toTypedArray())
