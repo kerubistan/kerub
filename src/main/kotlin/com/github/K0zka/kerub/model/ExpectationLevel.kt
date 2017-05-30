@@ -21,7 +21,7 @@ enum class ExpectationLevel {
 
 	object comparator : Comparator<ExpectationLevel> {
 
-		private val values = mapOf<ExpectationLevel, Int>(
+		private val values = mapOf(
 				Wish to 1,
 				Want to 2,
 				DealBreaker to 3
