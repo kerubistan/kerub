@@ -25,5 +25,5 @@ fun <K, V> Map<K, V>.update(key: K, mapper: (V) -> V, init: () -> V): Map<K, V> 
 }
 
 fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> {
-	return this + (key to mapper(requireNotNull<V>(this[key])))
+	return this + (key to mapper(requireNotNull(this[key])))
 }
