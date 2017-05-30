@@ -11,7 +11,7 @@ val GB = MB * sizeMultiplier
 val TB = GB * sizeMultiplier
 val PB = TB * sizeMultiplier
 
-val sizePostfixes = mapOf<String, (BigDecimal) -> BigDecimal>(
+val sizePostfixes = mapOf(
 		"BYTES" to { l: BigDecimal -> l },
 		"BYTE" to { l: BigDecimal -> l },
 		"B" to { l: BigDecimal -> l },
