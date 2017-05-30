@@ -38,7 +38,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 	private companion object {
 		val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
-		internal val distributions = listOf<Distribution>(
+		internal val distributions = listOf(
 				//RPM-based distros
 				Fedora(),
 				Fedora23Plus(),
