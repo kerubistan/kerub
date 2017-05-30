@@ -14,6 +14,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertEquals
 
 class HostServiceIT {
 
@@ -21,33 +22,33 @@ class HostServiceIT {
 	fun security() {
 		//unauthenticated
 		checkNoAccess(JAXRSClientFactory.fromClient(createClient(),
-				HostService::class.java, true))
+				HostService::class.java, true), { assertEquals("AUTH1", it.code) })
 
 		//end user has nothing to do with hosts
 		val endUserClient = createClient()
 		endUserClient.login("enduser","password")
 		checkNoAccess(JAXRSClientFactory.fromClient(endUserClient,
-				HostService::class.java, true))
+				HostService::class.java, true), { assertEquals("SEC1", it.code) })
 
 	}
 
-	private fun checkNoAccess(service: HostService) {
+	private fun checkNoAccess(service: HostService, check: (RestException) -> Unit) {
 		expect(
 				clazz = RestException::class,
 				action = { service.search(Host::address.name, "any", 0, Int.MAX_VALUE) },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
 				clazz = RestException::class,
 				action = { service.getByAddress("example.com") },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
 				clazz = RestException::class,
 				action = { service.joinWithoutPassword(testHost) },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
@@ -57,25 +58,25 @@ class HostServiceIT {
 							HostAndPassword(host = testHost, password = "secret")
 					)
 				},
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
 				clazz = RestException::class,
 				action = { service.getById(UUID.randomUUID()) },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
 				clazz = RestException::class,
 				action = { service.delete(testHost.id) },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 
 		expect(
 				clazz = RestException::class,
 				action = { service.listAll(start = 0, limit = 100, sort = Host::address.name) },
-				check = { it.code == "AUTH1" }
+				check = check
 		)
 	}
 
