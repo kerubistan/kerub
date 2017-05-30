@@ -21,7 +21,7 @@ import java.math.BigInteger
 data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) : AbstractOperationalStep, HostStep {
 
 	companion object {
-		val scores = mapOf<ExpectationLevel, Int>(
+		val scores = mapOf(
 				ExpectationLevel.Wish to 1,
 				ExpectationLevel.Want to 15,
 				ExpectationLevel.DealBreaker to 100
