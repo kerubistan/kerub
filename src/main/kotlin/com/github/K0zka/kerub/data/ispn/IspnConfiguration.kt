@@ -63,7 +63,7 @@ class IspnConfiguration {
 		return globalConfig!!
 	}
 
-	fun loadTemplate() =
+	internal fun loadTemplate() =
 			Thread.currentThread().contextClassLoader.getResourceAsStream(template).use {
 				ParserRegistry().parse(it)
 			}
