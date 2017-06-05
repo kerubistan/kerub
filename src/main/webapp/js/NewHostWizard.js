@@ -1,4 +1,4 @@
-var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsession, uuid4) {
+var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsession, uuid4, $log) {
     $scope.pubkeyUptoDate = false;
     $scope.pubkeyUpdating = false;
     $scope.inprg = false;
@@ -10,7 +10,12 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
         id : uuid4.generate(),
         address : '',
         publicKey : '',
-        dedicated : true
+        dedicated : true,
+        capabilities : {
+        	powerManagment : [
+
+        	]
+        }
     };
     $scope.password = {
     	password: ''
@@ -99,6 +104,28 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
 				.error(hostAddError);
     	}
     };
+
+	$scope.anyPmOfType = function(type) {
+		for(var i = 0; i < $scope.host.capabilities.powerManagment.length; i++) {
+			if($scope.host.capabilities.powerManagment[i]["@type"] === type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	$scope.removePmOfType = function(type) {
+		//TODO
+	}
+
+	$scope.addIpmi = function() {
+		$scope.host.capabilities.powerManagment.push({
+			"@type" : "ipmi",
+			"address" : null,
+			"username" : null,
+			"password" : null
+		});
+	};
 
     appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
     	$scope.controllerKey = result;
