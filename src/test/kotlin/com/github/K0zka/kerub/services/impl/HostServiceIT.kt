@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.expect
 import com.github.K0zka.kerub.login
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.github.K0zka.kerub.services.HostJoinDetails
 import com.github.K0zka.kerub.services.HostService
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.testHost
@@ -47,7 +48,7 @@ class HostServiceIT {
 
 		expect(
 				clazz = RestException::class,
-				action = { service.joinWithoutPassword(testHost) },
+				action = { service.joinWithoutPassword(HostJoinDetails(host = testHost) ) },
 				check = check
 		)
 

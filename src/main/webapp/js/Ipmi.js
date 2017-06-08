@@ -7,24 +7,27 @@ kerubApp.controller('Ipmi', function($scope, appsession) {
 		"password" : null
 	}
 
-	$scope.container = [];
-
 	$scope.validationError = null;
 
-	$scope.init = function(config, container) {
-		$scope.config = config;
-		$scope.container = container;
-	};
+	$scope.addressValidationRunning = false;
 
-	$scope.remove = function() {
-		$scope.container
-	}
+	$scope.init = function(config) {
+		console.log("init!", config);
+		$scope.config = config;
+	};
 
 	$scope.validate = function() {
-		appsession.get('s/r/helpers/power/ipmi/ping', {address : $scope.config.address})
+		$scope.validationError = null;
+		$scope.addressValidationRunning = true;
+		appsession.get('s/r/helpers/power/ipmi/ping?address='+$scope.config.address)
 			.success(function(data) {
 				$scope.validationError = null;
-
+				$scope.addressValidationRunning = false;
+			})
+			.error(function(error) {
+				$scope.validationError = error;
+				$scope.addressValidationRunning = false;
 			})
 	};
+
 });

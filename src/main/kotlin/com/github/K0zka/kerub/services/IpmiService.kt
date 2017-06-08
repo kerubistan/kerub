@@ -1,7 +1,9 @@
 package com.github.K0zka.kerub.services
 
+import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.utils.ipmi.IpmiClient
 import nl.komponents.kovenant.then
+import java.net.UnknownHostException
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
@@ -22,7 +24,12 @@ class IpmiService(private val ipmiClient: IpmiClient = IpmiClient()) {
 		ipmiClient.sendPing(address, timeOut) then {
 			async.resume(it)
 		} fail {
-			async.resume(it)
+			async.resume(
+					when(it) {
+						is UnknownHostException -> HostAddressException(address)
+						else -> it
+					}
+			)
 		}
 	}
 }

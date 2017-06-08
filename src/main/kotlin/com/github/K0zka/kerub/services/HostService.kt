@@ -38,7 +38,7 @@ interface HostService : RestCrud<Host>, RestOperations.List<Host>, RestOperation
 
 	@PUT
 	@Path("/join-pubkey")
-	fun joinWithoutPassword(@ApiParam(value = "New host", required = true) host: Host): Host
+	fun joinWithoutPassword(details: HostJoinDetails): Host
 
 	@ApiOperation("Get the public key of the server", httpMethod = "GET")
 	@GET

@@ -57,6 +57,7 @@
 	<script src="js/AttachedVms.js"></script>
 	<script src="js/StorageLink.js"></script>
 	<script src="js/VmDeviceMini.js"></script>
+	<script src="js/Ipmi.js"></script>
 	<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="webjars/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="webjars/angular-bootstrap-toggle-switch/0.5.6/style/bootstrap3/angular-toggle-switch-bootstrap-3.css" rel="stylesheet"/>
@@ -956,10 +957,52 @@
 				</uib-tab-heading>
 
 				<div class="btn-group">
-					<label class="btn {{$scope.host.capabilities.powerManagment.length >0 ? 'btn-default' : 'btn-default'}}" >Clear</label>
+					<label class="btn {{powerManagment.length >0 ? 'btn-default' : 'btn-default'}}" >Clear</label>
 					<label class="btn {{anyPmOfType('ipmi') ? 'btn-success' : 'btn-default'}}" ng-click="toggleIpmi()">IPMI</label>
 					<label class="btn {{anyPmOfType('redfish') ? 'btn-success' : 'btn-default'}}" ng-click="toggleRedfish()">Redfish</label>
 				</div>
+
+				<uib-tabset>
+					<uib-tab ng-repeat="pm in powerManagment">
+						<span ng-if="pm['@type'] === 'ipmi'" ng-controller="Ipmi" ng-init="init(pm)">
+							<uib-tab-heading>IPMI</uib-tab-heading>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-map-marker"></span>
+								</div>
+								<input type="text"
+								       class="form-control"
+								       placeholder="ipmi address"
+								       ng-model="config.address"
+								       ng-blur="validate()"
+								       uib-tooltip="ipmi address">
+								<div class="input-group-addon">
+									<span ng-class="addressValidationRunning ? 'fa fa-refresh fa-spin' : (validationError === null) ? 'fa fa-check' : 'fa fa-ban' "></span>
+								</div>
+							</div>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="fa fa-user"></span>
+								</div>
+								<input type="text"
+								       class="form-control"
+								       placeholder="username address"
+								       ng-model="config.username"
+								       uib-tooltip="IPMI username">
+							</div>
+							<div class="input-group">
+								<div class="input-group-addon">
+									<span class="fa fa-key"></span>
+								</div>
+								<input type="password"
+								       class="form-control"
+								       placeholder="username address"
+								       ng-model="config.password"
+								       uib-tooltip="IPMI password">
+							</div>
+						</span>
+					</uib-tab>
+				</uib-tabset>
 
 			</uib-tab>
 		</uib-tabset>

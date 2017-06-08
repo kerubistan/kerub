@@ -2,14 +2,15 @@ package com.github.K0zka.kerub.stories.rest.auth
 
 import com.github.K0zka.kerub.RestException
 import com.github.K0zka.kerub.createClient
-import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.services.HostJoinDetails
 import com.github.K0zka.kerub.services.HostService
 import com.github.K0zka.kerub.services.LoginService
 import com.github.K0zka.kerub.services.MotdService
 import com.github.K0zka.kerub.services.VersionService
 import com.github.K0zka.kerub.services.VirtualMachineService
+import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.utils.toSize
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
@@ -150,11 +151,7 @@ class AuthenticationDefinitions {
 	@When("^user tries to join new host$")
 	fun tryJoinNewHost() {
 		tryRunRestAction(HostService::class, {
-			it.joinWithoutPassword(Host(
-					address = "example.com",
-			        dedicated = true,
-			        publicKey = ""
-					))
+			it.joinWithoutPassword(HostJoinDetails(host = testHost))
 		})
 	}
 

@@ -5,7 +5,9 @@ import com.github.K0zka.kerub.getTestKey
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.SshClientService
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.github.K0zka.kerub.services.HostJoinDetails
 import com.github.K0zka.kerub.testHost
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -48,7 +50,7 @@ class HostServiceImplTest {
 				)
 		)
 		service!!.join(hostAndPwd)
-		Mockito.verify(manager)!!.join(eq(hostAndPwd.host) ?: hostAndPwd.host, eq(hostAndPwd.password) ?: hostAndPwd.password)
+		verify(manager).join(eq(hostAndPwd.host), eq(hostAndPwd.password), eq(listOf()))
 	}
 
 	@Test
@@ -68,8 +70,8 @@ class HostServiceImplTest {
 				dedicated = true,
 				capabilities = null
 		)
-		service!!.joinWithoutPassword(host)
-		Mockito.verify(manager)!!.join(eq(host) ?: host)
+		service!!.joinWithoutPassword(HostJoinDetails(host = host) )
+		verify(manager).join(eq(host), eq(listOf<PowerManagementInfo>()))
 	}
 
 	@Test

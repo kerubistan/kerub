@@ -13,6 +13,7 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
 import org.apache.sshd.client.SshClient
@@ -168,7 +169,7 @@ open class HostManagerImpl(
 
 	open internal fun resolve(address: String) = InetAddress.getByName(address)
 
-	override fun join(host: Host, password: String): Host {
+	override fun join(host: Host, password: String, powerManagers : List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPassword(
 				address = host.address,
 				userName = "root",
@@ -176,22 +177,24 @@ open class HostManagerImpl(
 				hostPublicKey = host.publicKey)
 		sshClientService.installPublicKey(session)
 
-		return joinConnectedHost(host, session)
+		return joinConnectedHost(host, session, powerManagers)
 	}
 
-	override fun join(host: Host): Host {
+	override fun join(host: Host, powerManagers : List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				userName = "root",
 				hostPublicKey = host.publicKey
 		)
-		return joinConnectedHost(host, session)
+		return joinConnectedHost(host, session, powerManagers)
 	}
 
-	internal fun joinConnectedHost(host: Host, session: ClientSession): Host {
+	internal fun joinConnectedHost(host: Host, session: ClientSession, powerManagers : List<PowerManagementInfo>): Host {
 		val capabilities = discoverer.discoverHost(session)
 
-		val internalHost = host.copy(capabilities = capabilities)
+		val internalHost = host.copy(capabilities = capabilities.copy(
+				powerManagment = capabilities.powerManagment + powerManagers
+		))
 
 		hostDao.add(internalHost)
 		hostAssigner.assignController(host)

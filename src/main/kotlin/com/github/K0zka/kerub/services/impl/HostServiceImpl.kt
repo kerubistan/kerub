@@ -8,6 +8,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostPubKey
 import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.services.HostAndPassword
+import com.github.K0zka.kerub.services.HostJoinDetails
 import com.github.K0zka.kerub.services.HostService
 
 class HostServiceImpl(
@@ -31,8 +32,8 @@ class HostServiceImpl(
 	override fun getPubkey(): String
 			= sshClientService.getPublicKey()
 
-	override fun joinWithoutPassword(host: Host): Host
-			= manager.join(host)
+	override fun joinWithoutPassword(details: HostJoinDetails): Host
+			= manager.join(details.host, details.powerManagement)
 
 	override fun join(hostPwd: HostAndPassword): Host
 			= manager.join(hostPwd.host, hostPwd.password)

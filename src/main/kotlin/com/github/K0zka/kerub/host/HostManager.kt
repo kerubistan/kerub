@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import java.security.PublicKey
 
 /**
@@ -21,8 +22,8 @@ interface HostManager {
 
 	fun disconnectHost(host: Host)
 	fun powerDown(host: Host)
-	fun join(host: Host, password: String): Host
-	fun join(host: Host): Host
+	fun join(host: Host, password: String, powerManagers : List<PowerManagementInfo> = listOf()): Host
+	fun join(host: Host, powerManagers : List<PowerManagementInfo> = listOf()): Host
 	fun getHypervisor(host: Host): Hypervisor?
 	fun getFireWall(host : Host) : FireWall
 	fun getServiceManager(host: Host) : ServiceManager

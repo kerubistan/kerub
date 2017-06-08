@@ -11,12 +11,10 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
         address : '',
         publicKey : '',
         dedicated : true,
-        capabilities : {
-        	powerManagment : [
-
-        	]
-        }
     };
+
+    $scope.powerManagment = [];
+
     $scope.password = {
     	password: ''
     };
@@ -91,23 +89,28 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
 
 		$scope.inprg = true;
     	if($scope.usepubkey) {
-    	    appsession.put('s/r/host/join-pubkey',$scope.host)
+    		var hostInfo = {
+				host : $scope.host,
+				powerManagement : $scope.powerManagment
+			};
+    	    appsession.put('s/r/host/join-pubkey',hostInfo)
 				.success(onHostAdded)
 				.error(hostAddError);
     	} else {
-			appsession.put('s/r/host/join',
-				{
-					host : $scope.host,
-					password : $scope.password.password
-				})
+    		var hostInfo = {
+				host : $scope.host,
+				powerManagement : $scope.powerManagment,
+				password : $scope.password.password
+			};
+			appsession.put('s/r/host/join',hostInfo)
 				.success(onHostAdded)
 				.error(hostAddError);
     	}
     };
 
 	$scope.anyPmOfType = function(type) {
-		for(var i = 0; i < $scope.host.capabilities.powerManagment.length; i++) {
-			if($scope.host.capabilities.powerManagment[i]["@type"] === type) {
+		for(var i = 0; i < $scope.powerManagment.length; i++) {
+			if($scope.powerManagment[i]["@type"] === type) {
 				return true;
 			}
 		}
@@ -115,16 +118,26 @@ var NewHostWizard = function($scope, $uibModalInstance, $http, $timeout, appsess
 	}
 
 	$scope.removePmOfType = function(type) {
-		//TODO
+		var newPm = [];
+		angular.forEach($scope.powerManagment, function(item) {
+			if(item["@type"] !== type) {
+				newPm.push(item);
+			}
+		});
+		$scope.powerManagment = newPm;
 	}
 
-	$scope.addIpmi = function() {
-		$scope.host.capabilities.powerManagment.push({
-			"@type" : "ipmi",
-			"address" : null,
-			"username" : null,
-			"password" : null
-		});
+	$scope.toggleIpmi = function() {
+		if($scope.anyPmOfType('ipmi')) {
+			$scope.removePmOfType('ipmi')
+		} else {
+			$scope.powerManagment.push({
+				"@type" : "ipmi",
+				"address" : null,
+				"username" : null,
+				"password" : null
+			});
+		}
 	};
 
     appsession.get('s/r/host/helpers/controller-pubkey').success(function(result) {
