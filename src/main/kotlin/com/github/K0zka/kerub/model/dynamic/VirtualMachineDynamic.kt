@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.annotations.Dynamic
+import com.github.K0zka.kerub.model.history.IgnoreDiff
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -19,6 +20,7 @@ data class VirtualMachineDynamic(
 		@JsonProperty("id")
 		override
 		val id: UUID,
+		@IgnoreDiff
 		override val lastUpdated: Long = System.currentTimeMillis(),
 		val hostId: UUID,
 		@Field

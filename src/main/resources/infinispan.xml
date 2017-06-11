@@ -62,6 +62,15 @@
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>
+		<distributed-cache name="hostHistoryCache" statistics="true" owners="${dyn.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/history/hosts"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+
+
+
 		<distributed-cache name="virtualStorageDeviceDynamicCache" statistics="true" owners="${dyn.owners}">
 			<persistence>
 				<file-store path="${store.dir}/store/dyn/vstorage"/>
@@ -89,6 +98,12 @@
 		<distributed-cache name="vmDynCache" mode="ASYNC" owners="${stat.owners}">
 			<persistence>
 				<file-store path="${store.dir}/store/dyn/vm"/>
+			</persistence>
+			<indexing auto-config="true"/>
+		</distributed-cache>
+		<distributed-cache name="vmHistoryCache" mode="ASYNC" owners="${stat.owners}">
+			<persistence>
+				<file-store path="${store.dir}/store/history/vm"/>
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>

@@ -49,6 +49,9 @@
 	<bean id="vmDynCache" parent="cache">
 		<constructor-arg value="vmDynCache"/>
 	</bean>
+	<bean id="vmHistoryCache" parent="cache">
+		<constructor-arg value="vmHistoryCache"/>
+	</bean>
 
 	<bean id="hostCache" parent="cache">
 		<constructor-arg value="hostCache"/>
@@ -57,6 +60,10 @@
 	<bean id="hostDynamicCache" parent="cache">
 		<constructor-arg value="hostDynamicCache"/>
 	</bean>
+	<bean id="hostHistoryCache" parent="cache">
+		<constructor-arg value="hostHistoryCache"/>
+	</bean>
+
 
 	<bean id="hostConfigCache" parent="cache">
 		<constructor-arg value="hostConfigCache"/>
@@ -144,6 +151,10 @@
 		<constructor-arg ref="vmDynCache"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
+	<bean id="vmHistoryDao" class="com.github.K0zka.kerub.data.ispn.history.VirtualMachineDynamicHistoryDaoImpl">
+		<constructor-arg ref="vmHistoryCache"/>
+	</bean>
+
 
 	<bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl"
 	      parent="daoBase">
@@ -178,6 +189,10 @@
 	<bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostDynamicCache"/>
 		<constructor-arg ref="eventListener"/>
+	</bean>
+
+	<bean id="hostHistoryDao" class="com.github.K0zka.kerub.data.ispn.history.HostDynamicHistoryDao" parent="daoBase">
+		<constructor-arg ref="hostHistoryCache"/>
 	</bean>
 
 	<bean id="virtualStorageDeviceDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl"
