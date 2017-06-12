@@ -1,9 +1,11 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.data.CrudDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.ServiceManager
+import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
@@ -87,17 +89,21 @@ interface Distribution {
 	fun getHostOs() : OperatingSystem
 
 	companion object {
-		fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
-			val hostDyn = hostDynDao[id]
-			if (hostDyn == null) {
-				val newHostDyn = HostDynamic(
-						id = id,
-						status = HostStatus.Up
-				)
-				hostDynDao.add(action(newHostDyn))
+		inline fun <D : Entity<UUID>> doWithDyn(id: UUID, dynDao: CrudDao<D, UUID>, blank : () -> D, action: (D) -> D) {
+			val dyn = dynDao[id]
+			if (dyn == null) {
+				dynDao.add(action(blank()))
 			} else {
-				hostDynDao.update(action(hostDyn))
+				dynDao.update(action(dyn))
 			}
+		}
+
+		inline fun doWithHostDyn(id: UUID, dynDao: CrudDao<HostDynamic, UUID>, action: (HostDynamic) -> HostDynamic) {
+			doWithDyn(id = id,
+					dynDao = dynDao,
+					blank = { HostDynamic(id = id, status = HostStatus.Up) },
+					action = action
+			)
 		}
 	}
 

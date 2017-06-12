@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.host.distros
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
-import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithDyn
+import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithHostDyn
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.fw.IptablesFireWall
@@ -90,7 +90,7 @@ abstract class AbstractLinux : Distribution {
 
 		LvmVg.monitor(session, {
 			volGroups ->
-			doWithDyn(id, hostDynDao, {
+			doWithHostDyn(id, hostDynDao, {
 				it.copy(
 						storageStatus =
 						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
@@ -111,7 +111,7 @@ abstract class AbstractLinux : Distribution {
 		})
 		MPStat.monitor(session, {
 			stats ->
-			doWithDyn(id, hostDynDao, {
+			doWithHostDyn(id, hostDynDao, {
 				it.copy(
 						cpuStats = stats
 				)
@@ -119,7 +119,7 @@ abstract class AbstractLinux : Distribution {
 		})
 		//TODO: if mpstat is available, vmstat should only update the memory information
 		VmStat.vmstat(session, { event ->
-			doWithDyn(id, hostDynDao, {
+			doWithHostDyn(id, hostDynDao, {
 				val memFree = (event.freeMem
 						+ event.cacheMem
 						+ event.ioBuffMem)
