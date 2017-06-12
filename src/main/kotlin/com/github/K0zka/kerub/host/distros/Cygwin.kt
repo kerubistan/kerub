@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.ServiceManager
+import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithDyn
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.packman.CygwinPackageManager
 import com.github.K0zka.kerub.model.Host

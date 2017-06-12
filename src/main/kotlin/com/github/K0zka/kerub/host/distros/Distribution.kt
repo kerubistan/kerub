@@ -86,18 +86,19 @@ interface Distribution {
 
 	fun getHostOs() : OperatingSystem
 
-	fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
-		val hostDyn = hostDynDao[id]
-		if (hostDyn == null) {
-			val newHostDyn = HostDynamic(
-					id = id,
-					status = HostStatus.Up
-			)
-			hostDynDao.add(action(newHostDyn))
-		} else {
-			hostDynDao.update(action(hostDyn))
+	companion object {
+		fun doWithDyn(id: UUID, hostDynDao: HostDynamicDao, action: (HostDynamic) -> HostDynamic) {
+			val hostDyn = hostDynDao[id]
+			if (hostDyn == null) {
+				val newHostDyn = HostDynamic(
+						id = id,
+						status = HostStatus.Up
+				)
+				hostDynDao.add(action(newHostDyn))
+			} else {
+				hostDynDao.update(action(hostDyn))
+			}
 		}
 	}
-
 
 }
