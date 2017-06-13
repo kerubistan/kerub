@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.data.AssignmentDao
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
@@ -13,6 +14,7 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
@@ -32,6 +34,7 @@ import java.util.UUID
 open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
+		private val hostHistoryDao: HistoryDao<HostDynamic>,
 		private val hostCfgDao : HostConfigurationDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
 		private val virtualStorageDao: VirtualStorageDeviceDao,
@@ -144,7 +147,7 @@ open class HostManagerImpl(
 				distro.installMonitorPackages(session)
 				hostDao.update(host)
 			}
-			distro.startMonitorProcesses(session, host, hostDynamicDao)
+			distro.startMonitorProcesses(session, host, hostDynamicDao, hostHistoryDao)
 		}
 		val hypervisor = getHypervisor(host)
 		if (hypervisor != null) {

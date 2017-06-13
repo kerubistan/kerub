@@ -1,5 +1,6 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
@@ -12,6 +13,7 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.asPercentOf
@@ -40,7 +42,11 @@ class Cygwin : Distribution {
 		// do nothing, cygwin can not install, try to work with what is installed
 	}
 
-	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
+	override fun startMonitorProcesses(
+			session: ClientSession,
+			host: Host,
+			hostDynDao: HostDynamicDao,
+			hostHistoryDao: HistoryDao<HostDynamic>) {
 		Stat.cpuLoadMonitorIncremental(session) {
 			cpus ->
 
@@ -49,7 +55,7 @@ class Cygwin : Distribution {
 			val system = cpus["cpu"]?.system ?: 0
 			val sum = system + idle + user
 
-			doWithHostDyn(host.id, hostDynDao) {
+			doWithHostDyn(host.id, hostDynDao, hostHistoryDao) {
 				dyn ->
 				dyn.copy(
 						status = HostStatus.Up,

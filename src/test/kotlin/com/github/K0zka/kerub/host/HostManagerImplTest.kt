@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.data.AssignmentDao
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.VirtualStorageDeviceDao
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
@@ -15,6 +16,7 @@ import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.Assignment
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.doReturn
@@ -50,6 +52,8 @@ class HostManagerImplTest {
 	val hostCfgDao: HostConfigurationDao = mock()
 
 	val hostDynamicDao: HostDynamicDao = mock()
+
+	val hostHistoryDao: HistoryDao<HostDynamic> = mock()
 
 	val vmDynDao: VirtualMachineDynamicDao = mock()
 
@@ -118,6 +122,7 @@ class HostManagerImplTest {
 				HostManagerImpl(
 						hostDao,
 						hostDynamicDao,
+						hostHistoryDao,
 						hostCfgDao,
 						vmDynDao,
 						virtualStorageDao,

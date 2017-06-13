@@ -1,8 +1,10 @@
 package com.github.K0zka.kerub.host.distros
 
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
+import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithHostDyn
 import com.github.K0zka.kerub.host.execute
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.host.fw.IpfwFireWall
@@ -75,7 +77,11 @@ class FreeBSD : Distribution {
 
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
-	override fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao) {
+	override fun startMonitorProcesses(
+			session: ClientSession,
+			host: Host,
+			hostDynDao: HostDynamicDao,
+			hostHistoryDao: HistoryDao<HostDynamic>) {
 		BsdVmStat.vmstat(session, {
 			event ->
 			val dyn = hostDynDao[host.id] ?: HostDynamic(
@@ -92,25 +98,23 @@ class FreeBSD : Distribution {
 		})
 		GVinum.monitorDrives(session) {
 			disks ->
-			val dyn = hostDynDao[host.id] ?: HostDynamic(
-					id = host.id,
-					status = HostStatus.Up
-			)
 			val gvinumCapabilities = host.capabilities
 					?.storageCapabilities
 					?.filter { it is GvinumStorageCapability }
 					?: listOf()
 			val gvinumDiskIds = gvinumCapabilities.map { it.id }
-			hostDynDao.update(dyn.copy(
-					storageStatus = dyn
-							.storageStatus
-							.filterNot { storageStat -> gvinumDiskIds.contains(storageStat.id) }
-							+ disks.map {
-						disk ->
-						val cap = gvinumCapabilities.first { (it as GvinumStorageCapability).name == disk.name }
-						StorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
-					}
-			))
+			doWithHostDyn(host.id, hostDynDao, hostHistoryDao) {
+				it.copy(
+						storageStatus = it
+								.storageStatus
+								.filterNot { storageStat -> gvinumDiskIds.contains(storageStat.id) }
+								+ disks.map {
+							disk ->
+							val cap = gvinumCapabilities.first { (it as GvinumStorageCapability).name == disk.name }
+							StorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
+						}
+				)
+			}
 		}
 	}
 

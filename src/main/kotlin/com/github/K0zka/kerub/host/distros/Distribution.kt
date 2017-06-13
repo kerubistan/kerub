@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.CrudDao
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
@@ -11,6 +12,7 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
+import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
@@ -56,7 +58,11 @@ interface Distribution {
 	/**
 	 * Start monitoring processes
 	 */
-	fun startMonitorProcesses(session: ClientSession, host: Host, hostDynDao: HostDynamicDao)
+	fun startMonitorProcesses(
+			session: ClientSession,
+			host: Host,
+			hostDynDao: HostDynamicDao,
+			hostHistoryDao: HistoryDao<HostDynamic>)
 
 	/**
 	 * Get the list of packages to be installed for a given utility to work.
@@ -89,18 +95,30 @@ interface Distribution {
 	fun getHostOs() : OperatingSystem
 
 	companion object {
-		inline fun <D : Entity<UUID>> doWithDyn(id: UUID, dynDao: CrudDao<D, UUID>, blank : () -> D, action: (D) -> D) {
+		inline fun <D : DynamicEntity> doWithDyn(
+				id: UUID,
+				dynDao: CrudDao<D, UUID>,
+				historyDao: HistoryDao<D>,
+				blank : () -> D,
+				action: (D) -> D) {
 			val dyn = dynDao[id]
 			if (dyn == null) {
-				dynDao.add(action(blank()))
+				dynDao.add( action(blank()))
 			} else {
-				dynDao.update(action(dyn))
+				val updated = action(dyn)
+				dynDao.update(updated)
+				historyDao.log(dyn, updated)
 			}
 		}
 
-		inline fun doWithHostDyn(id: UUID, dynDao: CrudDao<HostDynamic, UUID>, action: (HostDynamic) -> HostDynamic) {
+		inline fun doWithHostDyn(
+				id: UUID,
+				dynDao: CrudDao<HostDynamic, UUID>,
+				historyDao: HistoryDao<HostDynamic>,
+				action: (HostDynamic) -> HostDynamic) {
 			doWithDyn(id = id,
 					dynDao = dynDao,
+					historyDao = historyDao,
 					blank = { HostDynamic(id = id, status = HostStatus.Up) },
 					action = action
 			)
