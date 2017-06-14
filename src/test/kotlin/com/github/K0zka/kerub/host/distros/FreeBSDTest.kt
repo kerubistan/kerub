@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
@@ -11,11 +10,10 @@ import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.io.ByteArrayInputStream
-import java.nio.charset.Charset
 
 class FreeBSDTest {
 

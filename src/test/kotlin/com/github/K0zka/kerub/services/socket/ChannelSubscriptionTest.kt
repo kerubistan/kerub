@@ -3,9 +3,8 @@ package com.github.K0zka.kerub.services.socket
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.utils.toUUID
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.UUID
 
 class ChannelSubscriptionTest {
 

@@ -17,13 +17,11 @@ import kotlin.test.assertTrue
 
 class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 
-	@Listener
-	class CreateEventListener(private val deferred : Deferred<Unit, Exception>) {
+	@Listener(observation = Listener.Observation.POST)
+	class CreateEventListener(private val deferred: Deferred<Unit, Exception>) {
 		@CacheEntryCreated
 		fun listen(event: CacheEntryCreatedEvent<UUID, HistoryEntry>) {
-			if(!event.isPre) {
-				deferred.resolve(Unit)
-			}
+			deferred.resolve(Unit)
 		}
 	}
 

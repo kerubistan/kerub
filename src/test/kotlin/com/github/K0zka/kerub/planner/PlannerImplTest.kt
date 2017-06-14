@@ -3,7 +3,6 @@ package com.github.K0zka.kerub.planner
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
-import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.UseHostReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
 import com.github.K0zka.kerub.utils.toSize

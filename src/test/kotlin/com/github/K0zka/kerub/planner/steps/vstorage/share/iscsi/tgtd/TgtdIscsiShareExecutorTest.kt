@@ -1,14 +1,11 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
-import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.HostManager
 import com.github.K0zka.kerub.host.ServiceManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualStorageDevice
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
-import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareExecutor
 import com.github.K0zka.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any

@@ -11,10 +11,8 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import org.mockito.Matchers
-import org.mockito.Mockito
 import java.io.OutputStream
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 class StatTest {
 

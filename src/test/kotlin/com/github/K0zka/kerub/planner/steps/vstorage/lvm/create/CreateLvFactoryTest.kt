@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.lvm.create
 
-import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.LvmStorageCapability
@@ -11,6 +10,7 @@ import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.VirtualStorageLink
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus

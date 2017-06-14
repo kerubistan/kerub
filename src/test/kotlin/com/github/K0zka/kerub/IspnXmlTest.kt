@@ -3,7 +3,6 @@ package com.github.K0zka.kerub
 import com.github.K0zka.kerub.utils.resource
 import com.github.K0zka.kerub.utils.substringBetween
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 class IspnXmlTest {

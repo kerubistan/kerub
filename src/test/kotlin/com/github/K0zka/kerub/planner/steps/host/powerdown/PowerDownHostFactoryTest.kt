@@ -1,9 +1,9 @@
 package com.github.K0zka.kerub.planner.steps.host.powerdown
 
-import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.VirtualMachine
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo

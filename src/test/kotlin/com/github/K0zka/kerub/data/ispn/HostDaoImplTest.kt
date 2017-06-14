@@ -2,9 +2,9 @@ package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.testHost
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class HostDaoImplTest :AbstractIspnDaoTest<UUID, Host>() {

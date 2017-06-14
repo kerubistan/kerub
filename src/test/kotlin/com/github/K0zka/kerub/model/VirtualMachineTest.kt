@@ -6,9 +6,9 @@ import com.github.K0zka.kerub.model.io.BusType
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.testDisk
 import com.github.K0zka.kerub.testVm
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class VirtualMachineTest {

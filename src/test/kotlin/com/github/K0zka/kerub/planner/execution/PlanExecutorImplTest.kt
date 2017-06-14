@@ -23,7 +23,6 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.locks.Lock
 
 class PlanExecutorImplTest {
 	val executionResultDao: ExecutionResultDao = mock()

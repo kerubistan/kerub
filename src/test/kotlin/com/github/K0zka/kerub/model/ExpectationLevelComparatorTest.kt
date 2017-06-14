@@ -2,8 +2,6 @@ package com.github.K0zka.kerub.model
 
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class ExpectationLevelComparatorTest {
 
 	@Test

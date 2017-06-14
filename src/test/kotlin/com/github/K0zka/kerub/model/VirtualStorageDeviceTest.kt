@@ -2,9 +2,8 @@ package com.github.K0zka.kerub.model
 
 import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
 import com.github.K0zka.kerub.testDisk
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 
 class VirtualStorageDeviceTest {

@@ -4,7 +4,6 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
-import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertTrue
 

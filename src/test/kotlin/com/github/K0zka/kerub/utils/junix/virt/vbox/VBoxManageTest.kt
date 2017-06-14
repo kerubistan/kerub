@@ -1,9 +1,8 @@
 package com.github.K0zka.kerub.utils.junix.virt.vbox
 
 import com.github.K0zka.kerub.utils.toSize
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class VBoxManageTest {
 

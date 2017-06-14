@@ -6,8 +6,6 @@ import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull

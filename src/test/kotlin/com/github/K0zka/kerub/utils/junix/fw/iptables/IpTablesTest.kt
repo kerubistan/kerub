@@ -6,13 +6,8 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.session.ClientSession
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Before
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.runners.MockitoJUnitRunner
+import org.junit.Test
 
 class IpTablesTest {
 

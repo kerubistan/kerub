@@ -1,11 +1,9 @@
 package com.github.K0zka.kerub.utils
 
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.testVm
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class ObjectMapperUtilsKtTest {
 	@Test

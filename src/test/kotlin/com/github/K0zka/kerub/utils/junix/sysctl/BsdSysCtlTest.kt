@@ -10,8 +10,6 @@ import org.apache.sshd.client.session.ClientSession
 import org.junit.Before
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class BsdSysCtlTest {
 
 	val session : ClientSession = mock()

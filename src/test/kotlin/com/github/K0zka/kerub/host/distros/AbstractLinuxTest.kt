@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.model.lom.WakeOnLanInfo
-import com.github.K0zka.kerub.utils.stringToMac
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq

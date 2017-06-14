@@ -9,11 +9,6 @@ import org.apache.sshd.client.session.ClientSession
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Matchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayInputStream
 
 class LsPciTest {

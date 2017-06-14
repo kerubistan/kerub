@@ -10,9 +10,7 @@ import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpec
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.costs.Risk
 import com.github.K0zka.kerub.utils.toSize
-import org.junit.Assert
 import org.junit.Test
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 

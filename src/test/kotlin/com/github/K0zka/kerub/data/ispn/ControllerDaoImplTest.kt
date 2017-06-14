@@ -6,10 +6,7 @@ import org.infinispan.manager.EmbeddedCacheManager
 import org.infinispan.remoting.transport.Address
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import kotlin.test.assertEquals
 
 class ControllerDaoImplTest {

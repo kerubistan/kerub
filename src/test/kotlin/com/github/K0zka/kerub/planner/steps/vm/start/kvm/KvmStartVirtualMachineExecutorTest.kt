@@ -10,8 +10,6 @@ import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock

@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.data.ispn
 
-import com.github.K0zka.kerub.data.AccountMembershipDao
 import com.github.K0zka.kerub.model.AccountMembership
 import org.junit.Test
 import java.util.UUID

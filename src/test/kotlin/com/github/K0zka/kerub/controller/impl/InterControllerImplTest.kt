@@ -7,7 +7,6 @@ import com.nhaarman.mockito_kotlin.mock
 import org.junit.Before
 import org.junit.Test
 import org.springframework.jms.core.JmsTemplate
-import java.util.Date
 import java.util.UUID
 
 class InterControllerImplTest {

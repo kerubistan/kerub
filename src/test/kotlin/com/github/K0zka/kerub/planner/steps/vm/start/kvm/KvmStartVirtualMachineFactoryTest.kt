@@ -14,8 +14,6 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.hardware.ProcessorInformation
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import com.github.K0zka.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineFactory
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test

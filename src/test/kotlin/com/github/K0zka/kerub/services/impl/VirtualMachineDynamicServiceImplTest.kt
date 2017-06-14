@@ -2,7 +2,6 @@ package com.github.K0zka.kerub.services.impl
 
 import com.github.K0zka.kerub.data.VirtualMachineDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
-import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.DisplaySettings
@@ -12,13 +11,8 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.hamcrest.CoreMatchers
+import org.junit.Assert.assertThat
 import org.junit.Test
-
-import org.junit.Assert.*
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
 class VirtualMachineDynamicServiceImplTest {

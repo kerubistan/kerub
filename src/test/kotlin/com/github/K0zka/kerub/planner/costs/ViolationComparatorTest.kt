@@ -4,8 +4,6 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.expectations.NotSameHostExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import org.junit.Test
-
-import org.junit.Assert.*
 import java.util.UUID
 import kotlin.test.assertTrue
 

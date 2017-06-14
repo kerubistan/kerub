@@ -4,10 +4,7 @@ import com.github.K0zka.kerub.planner.costs.Risk
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 
 class StepCostComparatorTest {
 

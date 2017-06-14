@@ -1,8 +1,7 @@
 package com.github.K0zka.kerub.utils
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class PercentsKtTest {
 
