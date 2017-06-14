@@ -21,7 +21,9 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 	class CreateEventListener(private val deferred : Deferred<Unit, Exception>) {
 		@CacheEntryCreated
 		fun listen(event: CacheEntryCreatedEvent<UUID, HistoryEntry>) {
-			deferred.resolve(Unit)
+			if(!event.isPre) {
+				deferred.resolve(Unit)
+			}
 		}
 	}
 
@@ -35,7 +37,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 		)
 		deferred.promise.then {
 			assertTrue(cache!!.isNotEmpty())
-		}
+		}.get()
 	}
 
 }
