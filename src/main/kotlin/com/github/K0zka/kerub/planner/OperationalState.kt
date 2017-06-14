@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.planner
 
-import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
@@ -13,6 +12,7 @@ import com.github.K0zka.kerub.model.collection.HostDataCollection
 import com.github.K0zka.kerub.model.collection.VirtualMachineDataCollection
 import com.github.K0zka.kerub.model.collection.VirtualStorageDataCollection
 import com.github.K0zka.kerub.model.config.HostConfiguration
+import com.github.K0zka.kerub.model.controller.config.ControllerConfig
 import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic

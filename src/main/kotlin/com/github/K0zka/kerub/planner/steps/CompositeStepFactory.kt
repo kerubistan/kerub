@@ -15,7 +15,6 @@ import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.IscsiShareFacto
 import com.github.K0zka.kerub.utils.getLogger
 import com.github.K0zka.kerub.utils.join
 import com.github.k0zka.finder4j.backtrack.StepFactory
-import kotlin.comparisons.thenComparator
 import kotlin.reflect.KClass
 
 object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {

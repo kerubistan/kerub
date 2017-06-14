@@ -22,7 +22,6 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
-import com.github.K0zka.kerub.planner.steps.host.startup.AbstractWakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.K0zka.kerub.planner.steps.host.startup.WolWakeHost

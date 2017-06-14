@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.services.ControllerConfigService
-import com.github.K0zka.kerub.services.ControllerService
 import com.github.K0zka.kerub.services.HostDynamicService
 import com.github.K0zka.kerub.services.HostService
 import com.github.K0zka.kerub.services.VirtualMachineDynamicService
