@@ -10,6 +10,14 @@ var NewVirtualNetworkWizard = function($scope, $uibModalInstance, $log, appsessi
 	$scope.validating = false;
 	$scope.valid = true;
 
+	$scope.autoName = function() {
+		appsession.get('s/r/vnet/autoname').then(function(name) {
+			$scope.vnet.name = name;
+		});
+	};
+
+	$scope.autoName();
+
 	$scope.addVirtualNetwork = function() {
 		$scope.inprg = true;
 		appsession.put('/s/r/vnet', $scope.vnet).then(function() {
