@@ -43,6 +43,15 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		return item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4;
 	};
 
+	$scope.findAutoName = function() {
+		appsession.get('s/r/virtual-storage/autoname').then(function(name) {
+			if($scope.autoname) {
+				$scope.disk.name = name;
+			}
+		});
+	};
+	$scope.findAutoName();
+
 	$scope.uploader.onAfterAddingFile = function(item) {
 		if($scope.autoname) {
 			$scope.disk.name = item.file.name
