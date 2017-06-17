@@ -6,6 +6,7 @@ import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.substringBetween
 import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
+import java.math.BigInteger
 
 object CpuInfo : OsCommand {
 
@@ -14,6 +15,31 @@ object CpuInfo : OsCommand {
 
 	internal fun value(properties : String, property : String) =
 			properties.substringBetween(property,"\n").substringAfter(":").trim()
+
+	fun listPpc(session: ClientSession): List<CpuInfoRecord> =
+			session.createSftpClient().use {
+				sftp ->
+				sftp.read("/proc/cpuinfo").reader(Charsets.US_ASCII).use {
+					reader ->
+					val text = reader.readText()
+					val sections = text.split("\n\n").filter { it.isNotBlank() }
+					val archInfo = sections.last()
+					val model = value(archInfo, "model")
+					sections.minus(archInfo).map {
+						CpuInfoRecord(
+								vendorId = model,
+								cacheSize = BigInteger.ZERO,
+								cpuFamily = 0,
+								mhz = value(it, "clock").substringBefore("MHz").toFloat(),
+								modelId = 0,
+								nr = value(it, "processor").toInt(),
+								modelName = value(it, "cpu"),
+								flags = listOf()
+						)
+					}
+				}
+			}
+
 
 	fun list(session: ClientSession): List<CpuInfoRecord> =
 			session.createSftpClient().use {

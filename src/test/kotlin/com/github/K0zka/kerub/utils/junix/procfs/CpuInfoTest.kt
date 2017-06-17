@@ -18,6 +18,17 @@ class CpuInfoTest {
 	val sftp: SftpClient = mock()
 
 	@Test
+	fun listOnPpc() {
+		whenever(session.createSftpClient()).thenReturn(sftp)
+		whenever(sftp.read(eq("/proc/cpuinfo"))).thenReturn(
+				resource("com/github/K0zka/kerub/utils/junix/procfs/cpuinfo-linux-power.txt")
+		)
+
+		val results = CpuInfo.listPpc(session)
+		assertEquals(2, results.size)
+	}
+
+	@Test
 	fun list() {
 		whenever(session.createSftpClient()).thenReturn(sftp)
 		whenever(sftp.read(eq("/proc/cpuinfo"))).thenReturn(
