@@ -1,8 +1,8 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
+import com.github.K0zka.kerub.data.dynamic.doWithDyn
 import com.github.K0zka.kerub.host.PackageManager
-import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithHostDyn
 import com.github.K0zka.kerub.host.packman.RaspbianPackageManager
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.SoftwarePackage
@@ -40,7 +40,7 @@ class UbuntuBSD : AbstractDebian("ubuntuBSD") {
 			host: Host,
 			hostDynDao: HostDynamicDao) {
 		VmStat.vmstat(session, { event ->
-			doWithHostDyn(host.id, hostDynDao) {
+			hostDynDao.doWithDyn(host.id) {
 				val memFree = (event.freeMem
 						+ event.cacheMem
 						+ event.ioBuffMem)

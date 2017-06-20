@@ -92,24 +92,6 @@ interface Distribution {
 	fun getHostOs() : OperatingSystem
 
 	companion object {
-		inline fun <D : DynamicEntity> doWithDyn(
-				id: UUID,
-				dynDao: CrudDao<D, UUID>,
-				crossinline blank : () -> D,
-				crossinline action: (D) -> D) {
-			dynDao.update(id, retrieve = { dynDao[it] ?: blank() }, change = { action(it) })
-		}
-
-		inline fun doWithHostDyn(
-				id: UUID,
-				dynDao: CrudDao<HostDynamic, UUID>,
-				crossinline action: (HostDynamic) -> HostDynamic) {
-			doWithDyn(id = id,
-					dynDao = dynDao,
-					blank = { HostDynamic(id = id, status = HostStatus.Up) },
-					action = action
-			)
-		}
 	}
 
 }
