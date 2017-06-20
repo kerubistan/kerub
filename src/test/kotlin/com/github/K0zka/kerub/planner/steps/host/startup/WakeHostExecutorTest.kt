@@ -34,6 +34,6 @@ class WakeHostExecutorTest {
 		doNothing().whenever(executor).wakeOnLoan(eq(host))
 		executor.execute(step)
 
-		Mockito.verify(hostDynDao).update(any(), any())
+		Mockito.verify(hostDynDao).update(any(), any(), any())
 	}
 }

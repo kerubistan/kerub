@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.PackageManager
 import com.github.K0zka.kerub.host.distros.Distribution.Companion.doWithHostDyn
@@ -9,7 +8,6 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.df.DF
@@ -40,10 +38,9 @@ class UbuntuBSD : AbstractDebian("ubuntuBSD") {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao,
-			hostHistoryDao: HistoryDao<HostDynamic>) {
+			hostDynDao: HostDynamicDao) {
 		VmStat.vmstat(session, { event ->
-			doWithHostDyn(host.id, hostDynDao, hostHistoryDao) {
+			doWithHostDyn(host.id, hostDynDao) {
 				val memFree = (event.freeMem
 						+ event.cacheMem
 						+ event.ioBuffMem)

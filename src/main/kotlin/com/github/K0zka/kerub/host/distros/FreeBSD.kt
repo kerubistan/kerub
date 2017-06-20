@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
@@ -80,8 +79,7 @@ class FreeBSD : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao,
-			hostHistoryDao: HistoryDao<HostDynamic>) {
+			hostDynDao: HostDynamicDao) {
 		BsdVmStat.vmstat(session, {
 			event ->
 			val dyn = hostDynDao[host.id] ?: HostDynamic(
@@ -103,7 +101,7 @@ class FreeBSD : Distribution {
 					?.filter { it is GvinumStorageCapability }
 					?: listOf()
 			val gvinumDiskIds = gvinumCapabilities.map { it.id }
-			doWithHostDyn(host.id, hostDynDao, hostHistoryDao) {
+			doWithHostDyn(host.id, hostDynDao) {
 				it.copy(
 						storageStatus = it
 								.storageStatus

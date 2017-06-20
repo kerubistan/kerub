@@ -52,8 +52,6 @@ class HostManagerImplTest {
 
 	val hostDynamicDao: HostDynamicDao = mock()
 
-	val hostHistoryDao: HistoryDao<HostDynamic> = mock()
-
 	val vmDynDao: VirtualMachineDynamicDao = mock()
 
 	val sshClientService: SshClientService = mock()
@@ -121,7 +119,6 @@ class HostManagerImplTest {
 				HostManagerImpl(
 						hostDao,
 						hostDynamicDao,
-						hostHistoryDao,
 						hostCfgDao,
 						vmDynDao,
 						virtualStorageDao,

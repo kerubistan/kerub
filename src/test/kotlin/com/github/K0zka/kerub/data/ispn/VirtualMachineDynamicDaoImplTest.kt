@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.data.ispn
 
 import com.github.K0zka.kerub.data.EventListener
+import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
@@ -20,6 +21,7 @@ class VirtualMachineDynamicDaoImplTest {
 
 	var cacheManager: DefaultCacheManager? = null
 	var cache: Cache<UUID, VirtualMachineDynamic>? = null
+	var historyDao = mock<HistoryDao<VirtualMachineDynamic>>()
 	var dao: VirtualMachineDynamicDao? = null
 
 	@Before
@@ -28,7 +30,7 @@ class VirtualMachineDynamicDaoImplTest {
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()
-		dao = VirtualMachineDynamicDaoImpl(cache!!, eventListener)
+		dao = VirtualMachineDynamicDaoImpl(cache!!, historyDao, eventListener)
 	}
 
 	@After fun cleanup() {

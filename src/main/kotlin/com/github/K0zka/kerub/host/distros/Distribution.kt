@@ -1,7 +1,6 @@
 package com.github.K0zka.kerub.host.distros
 
 import com.github.K0zka.kerub.data.CrudDao
-import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
@@ -60,8 +59,7 @@ interface Distribution {
 	fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao,
-			hostHistoryDao: HistoryDao<HostDynamic>)
+			hostDynDao: HostDynamicDao)
 
 	/**
 	 * Get the list of packages to be installed for a given utility to work.
@@ -97,27 +95,17 @@ interface Distribution {
 		inline fun <D : DynamicEntity> doWithDyn(
 				id: UUID,
 				dynDao: CrudDao<D, UUID>,
-				historyDao: HistoryDao<D>,
-				blank : () -> D,
-				action: (D) -> D) {
-			val dyn = dynDao[id]
-			if (dyn == null) {
-				dynDao.add( action(blank()))
-			} else {
-				val updated = action(dyn)
-				dynDao.update(updated)
-				historyDao.log(dyn, updated)
-			}
+				crossinline blank : () -> D,
+				crossinline action: (D) -> D) {
+			dynDao.update(id, retrieve = { dynDao[it] ?: blank() }, change = { action(it) })
 		}
 
 		inline fun doWithHostDyn(
 				id: UUID,
 				dynDao: CrudDao<HostDynamic, UUID>,
-				historyDao: HistoryDao<HostDynamic>,
-				action: (HostDynamic) -> HostDynamic) {
+				crossinline action: (HostDynamic) -> HostDynamic) {
 			doWithDyn(id = id,
 					dynDao = dynDao,
-					historyDao = historyDao,
 					blank = { HostDynamic(id = id, status = HostStatus.Up) },
 					action = action
 			)

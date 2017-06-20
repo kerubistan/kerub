@@ -149,6 +149,7 @@
 
 	<bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
 		<constructor-arg ref="vmDynCache"/>
+		<constructor-arg ref="vmHistoryDao"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 	<bean id="vmHistoryDao" class="com.github.K0zka.kerub.data.ispn.history.VirtualMachineDynamicHistoryDaoImpl">
@@ -188,6 +189,7 @@
 
 	<bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostDynamicCache"/>
+		<constructor-arg ref="hostHistoryDao"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 
@@ -286,7 +288,6 @@
 			destroy-method="stop">
 		<constructor-arg ref="hostDao"/>
 		<constructor-arg ref="hostDynamicDao"/>
-		<constructor-arg ref="hostHistoryDao"/>
 		<constructor-arg ref="hostConfigDao"/>
 		<constructor-arg ref="vmDynDao"/>
 		<constructor-arg ref="virtualStorageDeviceDao"/>

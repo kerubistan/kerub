@@ -11,12 +11,12 @@ class PauseVirtualMachineExecutor(
 		private val vmDynDao: VirtualMachineDynamicDao
 ) : HypervisorStepExcecutor<PauseVirtualMachine, Unit>(hostManager) {
 	override fun update(step: PauseVirtualMachine, updates: Unit) {
-		vmDynDao.update(step.vm.id, {
+		vmDynDao.update(step.vm.id) {
 			dyn ->
 			dyn.copy(
 					status = VirtualMachineStatus.Paused
 			)
-		})
+		}
 	}
 
 	override fun execute(hypervisor: Hypervisor, step: PauseVirtualMachine) {

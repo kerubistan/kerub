@@ -40,8 +40,8 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		super.update(entity)
 	}
 
-	override fun update(id: I, change: (T) -> T) {
-		super.update(id) {
+	override fun update(id: I, retrieve: (I) -> T, change: (T) -> T) {
+		super.update(id, retrieve) {
 			old ->
 			val new = change(old)
 			auditManager.auditUpdate(old, new)

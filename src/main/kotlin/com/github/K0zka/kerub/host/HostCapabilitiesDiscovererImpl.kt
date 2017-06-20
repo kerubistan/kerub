@@ -68,6 +68,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 	fun discoverHost(session: ClientSession, dedicated: Boolean): HostCapabilities {
 
 		val distro = detectDistro(session)
+		val cpuArchitecture = distro.detectHostCpuType(session)
 		val packages = silent { distro.getPackageManager(session).list() } ?: listOf<SoftwarePackage>()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
@@ -85,7 +86,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 		return HostCapabilities(
 				os = hostOs,
-				cpuArchitecture = distro.detectHostCpuType(session),
+				cpuArchitecture = cpuArchitecture,
 				distribution = distribution,
 				installedSoftware = packages,
 				totalMemory = distro.getTotalMemory(session),

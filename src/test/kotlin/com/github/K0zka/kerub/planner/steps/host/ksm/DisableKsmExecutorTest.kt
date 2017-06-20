@@ -14,24 +14,28 @@ import java.util.UUID
 
 class DisableKsmExecutorTest {
 
-    val exec: HostCommandExecutor = mock()
-    val hostDynDao: HostDynamicDao = mock()
+	val exec: HostCommandExecutor = mock()
+	val hostDynDao: HostDynamicDao = mock()
 
-    val host = Host(
-            id = UUID.randomUUID(),
-            address = "host-1.example.com",
-            dedicated = true,
-            publicKey = ""
-    )
+	val host = Host(
+			id = UUID.randomUUID(),
+			address = "host-1.example.com",
+			dedicated = true,
+			publicKey = ""
+	)
 
-    @Test
-    fun execute() {
-        DisableKsmExecutor(exec, hostDynDao).execute(DisableKsm(
-                host = host
-        ))
+	@Test
+	fun execute() {
+		DisableKsmExecutor(exec, hostDynDao).execute(DisableKsm(
+				host = host
+		))
 
-        Mockito.verify(exec).execute(Mockito.eq(host) ?: host, any<(ClientSession) -> Unit>())
-        Mockito.verify(hostDynDao).update(eq(host.id), any<(HostDynamic) -> HostDynamic>())
+		Mockito.verify(exec).execute(Mockito.eq(host) ?: host, any<(ClientSession) -> Unit>())
+		Mockito.verify(hostDynDao).update(
+				eq(host.id),
+				any<(UUID) -> HostDynamic>(),
+				any<(HostDynamic) -> HostDynamic>()
+		)
 
-    }
+	}
 }

@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
@@ -11,7 +10,6 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
@@ -40,8 +38,7 @@ class OpenIndiana : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao,
-			hostHistoryDao: HistoryDao<HostDynamic>) {
+			hostDynDao: HostDynamicDao) {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 

@@ -55,12 +55,12 @@ open class WakeHostExecutor(
 	}
 
 	override fun update(step: AbstractWakeHost, updates: Unit) {
-		hostDynDao.update(step.host.id, {
+		hostDynDao.update(step.host.id) {
 			dyn ->
 			dyn.copy(
 					status = HostStatus.Up
 			)
-		})
+		}
 	}
 
 }

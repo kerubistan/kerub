@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.data.HistoryDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.ServiceManager
@@ -15,7 +14,6 @@ import com.github.K0zka.kerub.model.LvmStorageCapability
 import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
@@ -79,8 +77,7 @@ abstract class AbstractLinux : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao,
-			hostHistoryDao: HistoryDao<HostDynamic>) {
+			hostDynDao: HostDynamicDao) {
 		val id = host.id
 
 		val lvmStorageCapabilities = host
@@ -96,7 +93,7 @@ abstract class AbstractLinux : Distribution {
 
 		LvmVg.monitor(session, {
 			volGroups ->
-			doWithHostDyn(id, hostDynDao, hostHistoryDao) {
+			doWithHostDyn(id, hostDynDao) {
 				it.copy(
 						storageStatus =
 						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
@@ -117,7 +114,7 @@ abstract class AbstractLinux : Distribution {
 		})
 		MPStat.monitor(session, {
 			stats ->
-			doWithHostDyn(id, hostDynDao, hostHistoryDao) {
+			doWithHostDyn(id, hostDynDao) {
 				it.copy(
 						cpuStats = stats
 				)
@@ -125,7 +122,7 @@ abstract class AbstractLinux : Distribution {
 		})
 		//TODO: if mpstat is available, vmstat should only update the memory information
 		VmStat.vmstat(session, { event ->
-			doWithHostDyn(id, hostDynDao, hostHistoryDao) {
+			doWithHostDyn(id, hostDynDao) {
 				val memFree = (event.freeMem
 						+ event.cacheMem
 						+ event.ioBuffMem)
@@ -213,7 +210,11 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	override fun detectHostCpuFlags(session: ClientSession): List<String>
-			= CpuInfo.list(session).first().flags
+			= (if (detectHostCpuType(session) == "x86_64") {
+		CpuInfo.list(session)
+	} else {
+		CpuInfo.listPpc(session)
+	}).first().flags
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
 }
