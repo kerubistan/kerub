@@ -27,7 +27,6 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
     	$scope.vm = vm;
     	socket.subscribe('/vm-dyn/'+$scope.vm.id, function(event) {
     		$scope.$apply(function() {
-				$log.info('updated vm state', event);
 				if(event['@type'] == 'entity-update' && event.obj['@type'] == 'vm-dyn') {
 					$scope.vmdyn = event.obj;
 				}

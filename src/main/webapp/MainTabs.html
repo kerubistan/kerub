@@ -21,18 +21,27 @@
 					<tr ng-repeat="_vm in vms.result" ng-controller="VmRow" ng-init="init(_vm)">
 						<td>{{vm.name}}</td>
 						<td>{{vm.nrOfCpus}}</td>
-						<td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}</td>
+						<td>{{humanFriendlySize(vm.memory.min)}} - {{humanFriendlySize(vm.memory.max)}}
+						</td>
 						<td>
-							<div class="progress" ng-if="vmdyn.status == 'Up'">
-								<div class="progress-bar" role="progressbar" aria-valuenow="{{vmdyn.memoryUsed}}" aria-valuemin="0" aria-valuemax="{{vm.memory.max}}">
-										{{humanFriendlySize(vmdyn.memoryUsed)}}
-								</div>
-							</div>
-							<div class="progress" ng-if="vmdyn.status == 'Up'">
-								<div class="progress-bar" role="progressbar" aria-valuenow="{{cpuSum()}}" aria-valuemin="0" aria-valuemax="{{vm.nrOfCpus * 100}}">
-									{{}}
-								</div>
-							</div>
+							<span ng-if="vmdyn.status == 'Up'">
+								<uib-progress
+								     animate="false"
+								     min="0"
+								     max="vm.memory.max">
+										<uib-bar value="vmdyn.memoryUsed">
+											{{humanFriendlySize(vmdyn.memoryUsed)}} / {{humanFriendlySize(vm.memory.max)}}
+										</uib-bar>
+								</uib-progress>
+								<uib-progress
+										animate="false"
+										min="0"
+										max="vm.nrOfCpus * 100">
+									<uib-bar
+											value="cpuSum()">
+									</uib-bar>
+								</uib-progress>
+							</span>
 						</td>
 						<td>
 								<span ng-repeat="storageLink in _vm.virtualStorageLinks">
