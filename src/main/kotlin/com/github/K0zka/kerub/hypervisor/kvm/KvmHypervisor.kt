@@ -57,24 +57,26 @@ class KvmHypervisor(private val client: ClientSession,
 				stat ->
 				silent {
 					val runningVmId = stat.name.toUUID()
-					val dyn = vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(
-							id = runningVmId,
-							status = VirtualMachineStatus.Up,
-							memoryUsed = BigInteger.ZERO,
-							hostId = host.id
-					)
-					val updated = dyn.copy(
-							cpuUsage = stat.cpuStats.mapIndexed {
-								i, vcpuStat ->
-								CpuStat.zero.copy(
-										user = vcpuStat.time?.toFloat() ?: 0f
-								)
-							},
-							lastUpdated = System.currentTimeMillis(),
-							hostId = host.id,
-							memoryUsed = stat.balloonSize?.times(kb) ?: BigInteger.ZERO
-					)
-					vmDynDao.update(updated)
+					vmDynDao.update(runningVmId, retrieve = {
+						vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(
+								id = runningVmId,
+								status = VirtualMachineStatus.Up,
+								memoryUsed = BigInteger.ZERO,
+								hostId = host.id
+						)
+					}, change = {
+						it.copy(
+								cpuUsage = stat.cpuStats.mapIndexed {
+									i, vcpuStat ->
+									CpuStat.zero.copy(
+											user = vcpuStat.time?.toFloat() ?: 0f
+									)
+								},
+								lastUpdated = System.currentTimeMillis(),
+								hostId = host.id,
+								memoryUsed = stat.balloonSize?.times(kb) ?: BigInteger.ZERO
+						)
+					})
 				}
 			}
 
