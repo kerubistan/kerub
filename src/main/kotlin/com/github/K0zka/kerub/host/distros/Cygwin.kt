@@ -29,7 +29,7 @@ class Cygwin : Distribution {
 			"Cygwin"
 
 	override fun handlesVersion(version: Version): Boolean
-		= version.major.toInt() >= 2
+			= version.major.toInt() >= 2
 
 	override fun detect(session: ClientSession): Boolean
 			= session.executeOrDie("uname -o").trim() == "Cygwin"
@@ -74,7 +74,7 @@ class Cygwin : Distribution {
 	override fun detectHostCpuType(session: ClientSession): String = session.executeOrDie("uname -p").toUpperCase()
 
 	override fun getTotalMemory(session: ClientSession): BigInteger =
-		MemInfo.total(session)
+			MemInfo.total(session)
 
 	override fun getFireWall(session: ClientSession): FireWall {
 		TODO()

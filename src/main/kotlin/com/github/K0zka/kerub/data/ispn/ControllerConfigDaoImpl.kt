@@ -10,8 +10,8 @@ import org.infinispan.Cache
 
 class ControllerConfigDaoImpl(private val cache: Cache<String, ControllerConfig>,
 							  private val auditManager: AuditManager,
-							  private val eventListener : EventListener)
-: ControllerConfigDao {
+							  private val eventListener: EventListener)
+	: ControllerConfigDao {
 	override fun get(): ControllerConfig
 			= cache[emptyString] ?: ControllerConfig()
 

@@ -39,7 +39,7 @@ class CygwinPackageManager(private val session: ClientSession) : PackageManager 
 			val pattern = packageMatchers.keys.firstOrNull {
 				winSoftware.name.matches(it)
 			}
-			if(pattern == null) {
+			if (pattern == null) {
 				winSoftware
 			} else {
 				SoftwarePackage(name = requireNotNull(packageMatchers[pattern]), version = winSoftware.version)

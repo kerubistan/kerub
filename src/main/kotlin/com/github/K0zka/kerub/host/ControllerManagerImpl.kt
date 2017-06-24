@@ -8,8 +8,8 @@ import java.io.IOException
 import java.net.InetAddress
 
 class ControllerManagerImpl(val dao: ControllerDynamicDao,
-								   val cacheManager: EmbeddedCacheManager)
-: ControllerManager {
+							val cacheManager: EmbeddedCacheManager)
+	: ControllerManager {
 
 	var id: String? = null
 

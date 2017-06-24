@@ -15,4 +15,4 @@ data class Event(
 		var date: Long,
 		var messageType: EventType
 )
-: Entity<UUID>
+	: Entity<UUID>

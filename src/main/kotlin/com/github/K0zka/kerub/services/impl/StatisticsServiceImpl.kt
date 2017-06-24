@@ -10,7 +10,7 @@ class StatisticsServiceImpl(
 ) : StatisticsService {
 
 	override fun listCaches(): List<String> =
-		cacheManager.cacheNames.toList().sorted()
+			cacheManager.cacheNames.toList().sorted()
 
 	override fun getStatisticsInfo(cacheName: String): CacheStatisticsInfo {
 		val stats = (cacheManager.getCache<Any, Any>(cacheName) as AdvancedCache<Any, Any>).stats

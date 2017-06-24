@@ -21,4 +21,4 @@ data class Assignment @JsonCreator constructor(
 		@Field
 		val entityId: UUID
 )
-: Entity<UUID>
+	: Entity<UUID>

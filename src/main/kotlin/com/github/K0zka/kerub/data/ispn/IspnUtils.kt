@@ -18,7 +18,7 @@ fun <T> QueryBuilder<*>.list(): List<T> =
 				.build()
 				.list<T>()
 
-fun <T : Any, K, V> Cache<K, V>.queryBuilder(clazz : KClass<T>) :QueryBuilder<Query> =
+fun <T : Any, K, V> Cache<K, V>.queryBuilder(clazz: KClass<T>): QueryBuilder<Query> =
 		Search.getQueryFactory(this)
 				.from(clazz.java)
 
@@ -30,7 +30,7 @@ inline fun <reified K, reified V : Any> Cache<K, V>.fieldEq(
 		this.fieldEq(V::class, field, value, start, limit)
 
 fun <K, V : Any> Cache<K, V>.fieldEq(
-		type : KClass<out V>,
+		type: KClass<out V>,
 		field: String,
 		value: Any,
 		start: Long,
@@ -49,7 +49,7 @@ inline fun <reified K, reified V : Any> Cache<K, V>.fieldSearch(
 		this.fieldSearch(V::class, field, value, start, limit)
 
 fun <K, V : Any> Cache<K, V>.fieldSearch(
-		type : KClass<out V>,
+		type: KClass<out V>,
 		field: String,
 		value: String,
 		start: Long,
@@ -65,10 +65,10 @@ fun <K, V : Any> Cache<K, V>.parallelStream()
 		= this.advancedCache.cacheEntrySet().parallelStream()
 
 inline fun <reified K, reified V> Cache<K, V>.search(
-		start : Long = 0,
-		limit : Int,
-		order : SortOrder = SortOrder.DESC,
-		sortProp : String) : List<V> =
+		start: Long = 0,
+		limit: Int,
+		order: SortOrder = SortOrder.DESC,
+		sortProp: String): List<V> =
 		Search.getQueryFactory(this)
 				.from(V::class.java)
 				.orderBy(sortProp, order)

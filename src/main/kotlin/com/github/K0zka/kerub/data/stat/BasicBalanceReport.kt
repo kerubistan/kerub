@@ -6,7 +6,7 @@ data class BasicBalanceReport(
 		//systems
 		// @formatter:off
 		val totalHosts: Int, // number of hosts
-		val hostsOnline : Int, //hosts in Up state
+		val hostsOnline: Int, //hosts in Up state
 		val totalVms: Int, // number of virtual machines
 		// memory
 		val totalHostMemory: BigInteger, // sum of all the memory in hosts

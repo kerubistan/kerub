@@ -10,7 +10,7 @@ object Wmic {
 
 	private val spaces = "\\s+".toRegex()
 
-	fun list(session : ClientSession) : List<SoftwarePackage> {
+	fun list(session: ClientSession): List<SoftwarePackage> {
 		val output = session.executeOrDie("wmic product list", { false }, charset("UTF-16")).lines()
 		val header = output.first()
 		val data = output.skip().filter { it.isNotEmpty() }

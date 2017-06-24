@@ -9,5 +9,5 @@ import java.util.UUID
 class HostConfigurationDaoImpl(
 		cache: Cache<UUID, HostConfiguration>,
 		eventListener: EventListener)
-: HostConfigurationDao,
+	: HostConfigurationDao,
 		IspnDaoBase<HostConfiguration, UUID>(cache, eventListener)

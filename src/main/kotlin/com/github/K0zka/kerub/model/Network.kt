@@ -9,4 +9,4 @@ data class Network(
 		@JsonProperty("id")
 		override val id: UUID
 )
-: Entity<UUID>
+	: Entity<UUID>

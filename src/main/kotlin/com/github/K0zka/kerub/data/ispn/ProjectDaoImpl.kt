@@ -8,7 +8,7 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class ProjectDaoImpl(cache: Cache<UUID, Project>, eventListener: EventListener, auditManager: AuditManager)
-: ListableIspnDaoBase<Project, UUID>(cache, eventListener, auditManager), ProjectDao {
+	: ListableIspnDaoBase<Project, UUID>(cache, eventListener, auditManager), ProjectDao {
 	override fun getEntityClass(): Class<Project> {
 		return Project::class.java
 	}

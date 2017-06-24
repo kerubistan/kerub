@@ -8,7 +8,7 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class AccountDaoImpl(cache: Cache<UUID, Account>, eventListener: EventListener, auditManager: AuditManager)
-: AccountDao, ListableIspnDaoBase<Account, UUID>(cache, eventListener, auditManager) {
+	: AccountDao, ListableIspnDaoBase<Account, UUID>(cache, eventListener, auditManager) {
 	override fun fieldSearch(field: String, value: String, start: Long, limit: Int): List<Account> =
 			cache.fieldSearch(field = field, value = value, start = start, limit = limit)
 

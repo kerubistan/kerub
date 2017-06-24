@@ -32,7 +32,7 @@ import java.util.UUID
 open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
-		private val hostCfgDao : HostConfigurationDao,
+		private val hostCfgDao: HostConfigurationDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
 		private val virtualStorageDao: VirtualStorageDeviceDao,
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
@@ -83,15 +83,15 @@ open class HostManagerImpl(
 		return conn.second.getServiceManager(conn.first)
 	}
 
-	override fun <T> execute(host: Host, closure: (ClientSession) -> T) : T {
-		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}"  })
+	override fun <T> execute(host: Host, closure: (ClientSession) -> T): T {
+		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}" })
 		return closure(session.first)
 	}
 
 	override fun <T> dataConnection(host: Host, action: (ClientSession) -> T): T {
 
 		val controllConnection = connections[host.id]?.first
-		if(controllConnection == null) {
+		if (controllConnection == null) {
 			return sshClientService.loginWithPublicKey(
 					address = host.address,
 					userName = "root",
@@ -161,7 +161,7 @@ open class HostManagerImpl(
 			if (addr.isLoopbackAddress || addr.isLinkLocalAddress || addr.isAnyLocalAddress) {
 				throw HostAddressException("$address is local")
 			}
-		} catch (hnf : UnknownHostException) {
+		} catch (hnf: UnknownHostException) {
 			logger.info("$address host address resolution failed", hnf)
 			throw HostAddressException("$address can't be resolved")
 		}
@@ -169,7 +169,7 @@ open class HostManagerImpl(
 
 	open internal fun resolve(address: String) = InetAddress.getByName(address)
 
-	override fun join(host: Host, password: String, powerManagers : List<PowerManagementInfo>): Host {
+	override fun join(host: Host, password: String, powerManagers: List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPassword(
 				address = host.address,
 				userName = "root",
@@ -180,7 +180,7 @@ open class HostManagerImpl(
 		return joinConnectedHost(host, session, powerManagers)
 	}
 
-	override fun join(host: Host, powerManagers : List<PowerManagementInfo>): Host {
+	override fun join(host: Host, powerManagers: List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPublicKey(
 				address = host.address,
 				userName = "root",
@@ -189,7 +189,7 @@ open class HostManagerImpl(
 		return joinConnectedHost(host, session, powerManagers)
 	}
 
-	internal fun joinConnectedHost(host: Host, session: ClientSession, powerManagers : List<PowerManagementInfo>): Host {
+	internal fun joinConnectedHost(host: Host, session: ClientSession, powerManagers: List<PowerManagementInfo>): Host {
 		val capabilities = discoverer.discoverHost(session)
 
 		val internalHost = host.copy(capabilities = capabilities.copy(

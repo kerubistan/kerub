@@ -37,4 +37,4 @@ data class Host constructor(
 		@JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null
 )
-: Entity<UUID>
+	: Entity<UUID>

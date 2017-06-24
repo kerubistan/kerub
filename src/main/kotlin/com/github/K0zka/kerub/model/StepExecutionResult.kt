@@ -9,7 +9,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(StepExecutionPass::class),
 		JsonSubTypes.Type(StepExecutionSkip::class),
 		JsonSubTypes.Type(StepExecutionError::class)
-		)
+)
 interface StepExecutionResult : Serializable {
-	val executionStep : ExecutionStep
+	val executionStep: ExecutionStep
 }

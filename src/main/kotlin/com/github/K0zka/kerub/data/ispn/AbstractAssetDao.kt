@@ -64,7 +64,7 @@ abstract class AbstractAssetDao<T : Asset>(
 	override fun getByName(name: String, max: Int?): List<Asset> =
 			cache.queryBuilder(getEntityClass().kotlin)
 					.let {
-						if(max != null) {
+						if (max != null) {
 							it.maxResults(max)
 						}
 						it

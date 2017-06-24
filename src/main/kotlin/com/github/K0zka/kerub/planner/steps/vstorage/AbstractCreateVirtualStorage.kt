@@ -8,8 +8,8 @@ import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.steps.AbstractOperationalStep
 
 interface AbstractCreateVirtualStorage : AbstractOperationalStep {
-	val host : Host
-	val disk : VirtualStorageDevice
+	val host: Host
+	val disk: VirtualStorageDevice
 	override fun reservations(): List<Reservation<*>>
 			= listOf(
 			VirtualStorageReservation(disk),

@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import com.github.K0zka.kerub.utils.storage.iscsiDefaultUser as iscsiUser
 
-fun storagesToXml(disks: List<VirtualStorageLinkInfo>, targetHost:Host): String {
+fun storagesToXml(disks: List<VirtualStorageLinkInfo>, targetHost: Host): String {
 	return buildString(disks.size * 256) {
 		var targetDev = 'a'
 		for (link in disks) {
@@ -19,7 +19,7 @@ fun storagesToXml(disks: List<VirtualStorageLinkInfo>, targetHost:Host): String 
 }
 
 val allocationTypeToDiskType = mapOf(
-		VirtualStorageFsAllocation:: class to "file",
+		VirtualStorageFsAllocation::class to "file",
 		VirtualStorageLvmAllocation::class to "block"
 )
 
@@ -29,15 +29,15 @@ private fun storageToXml(
 	return """
 			<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
 				<driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
-				${if(linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
+				${if (linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
 				${allocationToXml(linkInfo, targetHost)}
 				<target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
 			</disk>
 """
 }
 
-private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host) : String {
-	if(remoteHost(linkInfo, targetHost)) {
+private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String {
+	if (remoteHost(linkInfo, targetHost)) {
 		return "network"
 	} else {
 		return allocationTypeToDiskType[requireNotNull(linkInfo.device.dynamic).allocation.javaClass.kotlin] ?: TODO()
@@ -45,15 +45,15 @@ private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host) : 
 }
 
 fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
-	return when(deviceDyn.allocation) {
+	return when (deviceDyn.allocation) {
 		is VirtualStorageLvmAllocation -> "raw"
 		is VirtualStorageFsAllocation -> deviceDyn.allocation.type.name.toLowerCase()
 		else -> TODO("")
 	}
 }
 
-fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String {
-	return if(remoteHost(linkInfo, targetHost)) {
+fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String {
+	return if (remoteHost(linkInfo, targetHost)) {
 		"""
 		<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
 			<host name='${linkInfo.storageHost.stat.address}' port='3260' />
@@ -64,7 +64,7 @@ fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String
 		"""
 	} else {
 		val allocation = requireNotNull(linkInfo.device.dynamic).allocation
-		when(allocation) {
+		when (allocation) {
 			is VirtualStorageFsAllocation ->
 				"<source file='${allocation.mountPoint}/${linkInfo.device.stat.id}'/>"
 			is VirtualStorageLvmAllocation ->
@@ -76,7 +76,7 @@ fun allocationToXml(linkInfo : VirtualStorageLinkInfo, targetHost: Host): String
 
 private fun remoteHost(linkInfo: VirtualStorageLinkInfo, targetHost: Host) = linkInfo.device.dynamic?.allocation?.hostId != targetHost.id
 
-fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password : String, targetHost : Host): String {
+fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password: String, targetHost: Host): String {
 	return """
 <domain type='kvm'>
     <name>${vm.id}</name>

@@ -9,4 +9,4 @@ data class HostJoinDetails(
 		val host: Host,
 		@JsonProperty("powerManagement")
 		val powerManagement: List<PowerManagementInfo> = listOf()
-		)
+)

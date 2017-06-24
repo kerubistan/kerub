@@ -33,7 +33,7 @@ class DmiDecoder : OsCommand {
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							family = input.substringBetween("Family: ", "\n"),
 							version = input.substringBetween("Version: ", "\n"),
-							uuid = UUID.fromString (input.substringBetween("UUID: ", "\n"))
+							uuid = UUID.fromString(input.substringBetween("UUID: ", "\n"))
 					)
 				},
 				3 to { input, dependencies ->

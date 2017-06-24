@@ -10,7 +10,7 @@ import org.infinispan.query.Search
 import java.util.UUID
 
 class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener, auditManager: AuditManager)
-: AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener, auditManager) {
+	: AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener, auditManager) {
 
 	override fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment> {
 		return basicSearch()

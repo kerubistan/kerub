@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement
 
 @XmlRootElement(name = "capabilities")
 class LibvirtXmlCapabilities {
-		@get:XmlElement(name = "guest")
-		var guests : MutableList<LibvirtXmlGuest> = mutableListOf()
+	@get:XmlElement(name = "guest")
+	var guests: MutableList<LibvirtXmlGuest> = mutableListOf()
 }
 

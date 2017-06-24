@@ -6,7 +6,7 @@ import java.util.UUID
 
 @JsonTypeName("vm-dependency")
 data class VmDependency(override val level: ExpectationLevel = ExpectationLevel.DealBreaker, val otherVm: UUID)
-: VirtualMachineExpectation, VirtualMachineReference {
+	: VirtualMachineExpectation, VirtualMachineReference {
 	override val referredVmIds: List<UUID>
 		get() = listOf(otherVm)
 }

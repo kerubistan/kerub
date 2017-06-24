@@ -10,7 +10,7 @@ import org.apache.sshd.common.PropertyResolverUtils
  */
 object SshClientFactory {
 
-	fun build(params : Map<String, Long>) : SshClient {
+	fun build(params: Map<String, Long>): SshClient {
 		val client = SshClient.setUpDefaultClient()
 		params.forEach {
 			PropertyResolverUtils.updateProperty(client, it.key, it.value)

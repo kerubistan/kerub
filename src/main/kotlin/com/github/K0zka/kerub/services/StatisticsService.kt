@@ -20,7 +20,7 @@ interface StatisticsService {
 
 	@GET
 	@Path("/")
-	fun listCaches() : List<String>
+	fun listCaches(): List<String>
 
 	@GET
 	@Path("/cache/{name}")

@@ -29,7 +29,7 @@ class KvmStartVirtualMachineExecutor(hostManager: HostManager, private val vmDyn
 		vmDynDao.update(dyn)
 	}
 
-	override fun execute(hypervisor: Hypervisor, step: KvmStartVirtualMachine) : DisplaySettings {
+	override fun execute(hypervisor: Hypervisor, step: KvmStartVirtualMachine): DisplaySettings {
 		val consolePwd = genPassword(length = 16)
 		hypervisor.startVm(step.vm, consolePwd)
 		val protoAndPort = getHypervisor(step).getDisplay(step.vm)

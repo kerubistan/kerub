@@ -35,12 +35,12 @@ interface DaoOperations {
 	 */
 	interface Read<T : Entity<I>, I> {
 		operator fun get(id: I): T?
-		operator fun get(ids: Collection<I>) : List<T>
+		operator fun get(ids: Collection<I>): List<T>
 	}
 
 	interface ByName<T : Named> {
-		fun getByName(name : String, max : Int? = null) : List<T>
-		fun existsByName(name : String) = getByName(name, 1).isNotEmpty()
+		fun getByName(name: String, max: Int? = null): List<T>
+		fun existsByName(name: String) = getByName(name, 1).isNotEmpty()
 	}
 
 	/**
@@ -78,7 +78,7 @@ interface DaoOperations {
 		): List<T>
 	}
 
-	interface Listen<I, T: Entity<I>> {
+	interface Listen<I, T : Entity<I>> {
 		fun listenCreate(action: (T) -> Boolean)
 		fun listenCreate(id: I, action: (T) -> Boolean)
 		fun listenUpdate(action: (T) -> Boolean)

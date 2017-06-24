@@ -10,8 +10,8 @@ import com.github.K0zka.kerub.model.display.RemoteConsoleProtocol
  * should have connection to the host.
  */
 interface Hypervisor {
-	fun startVm(vm: VirtualMachine, consolePwd : String)
-	fun getDisplay(vm : VirtualMachine): Pair<RemoteConsoleProtocol, Int>
+	fun startVm(vm: VirtualMachine, consolePwd: String)
+	fun getDisplay(vm: VirtualMachine): Pair<RemoteConsoleProtocol, Int>
 	fun stopVm(vm: VirtualMachine)
 	fun migrate(vm: VirtualMachine, source: Host, target: Host)
 	fun suspend(vm: VirtualMachine)

@@ -9,7 +9,7 @@ data class HostAndPassword @JsonCreator constructor(
 		@JsonProperty("host")
 		val host: Host,
 		@JsonProperty("powerManagement")
-		val powerManagement : List<PowerManagementInfo> = listOf(),
+		val powerManagement: List<PowerManagementInfo> = listOf(),
 		@JsonProperty("password")
 		val password: String
 )

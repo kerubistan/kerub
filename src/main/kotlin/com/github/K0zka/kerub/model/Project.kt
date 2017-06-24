@@ -30,6 +30,6 @@ import kotlin.reflect.KClass
 		val quota: Quota? = null,
 		override val owner: AssetOwner? = null
 )
-: Entity<UUID>, Named, Constrained<Expectation>, Asset {
+	: Entity<UUID>, Named, Constrained<Expectation>, Asset {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> = mapOf()
 }

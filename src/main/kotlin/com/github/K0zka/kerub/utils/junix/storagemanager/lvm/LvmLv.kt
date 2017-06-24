@@ -15,8 +15,8 @@ object LvmLv : Lvm() {
 	val minimalSize = "4 MB".toSize()
 	val logger = getLogger(LvmLv::class)
 
-	fun roundUp(size : BigInteger) : BigInteger {
-		if(size.mod(minimalSize) == BigInteger.ZERO && size != BigInteger.ZERO) {
+	fun roundUp(size: BigInteger): BigInteger {
+		if (size.mod(minimalSize) == BigInteger.ZERO && size != BigInteger.ZERO) {
 			return size
 		} else {
 			val newSize = (size.div(minimalSize) + BigInteger.ONE) * minimalSize
@@ -54,7 +54,7 @@ object LvmLv : Lvm() {
 
 	private fun parseRow(row: String): LogicalVolume {
 		val fields = row.trim().split(fieldSeparator)
-		require(fields.size == 8, { "This row does not look any good: \n$row\n"})
+		require(fields.size == 8, { "This row does not look any good: \n$row\n" })
 		return LogicalVolume(
 				id = fields[0],
 				name = fields[1],

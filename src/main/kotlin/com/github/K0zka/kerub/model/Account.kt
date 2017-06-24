@@ -9,6 +9,6 @@ data class Account(
 		override val id: UUID,
 		@Field
 		val name: String,
-		val requireProjects : Boolean = false,
-		val quota : Quota? = null
+		val requireProjects: Boolean = false,
+		val quota: Quota? = null
 ) : Entity<UUID>

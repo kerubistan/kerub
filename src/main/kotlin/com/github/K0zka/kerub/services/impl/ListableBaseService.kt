@@ -9,7 +9,7 @@ import com.github.K0zka.kerub.services.RestOperations
 import java.util.UUID
 
 abstract class ListableBaseService<T : Entity<UUID>>(entityType: String)
-: BaseServiceImpl<T>(entityType), RestOperations.List<T> {
+	: BaseServiceImpl<T>(entityType), RestOperations.List<T> {
 	@JsonView(Detailed::class)
 	override fun listAll(start: Long, limit: Int, sort: String): SortResultPage<T> =
 			SortResultPage(

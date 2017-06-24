@@ -9,7 +9,7 @@ import java.util.UUID
 
 class VirtualMachineDynamicServiceImpl(
 		dao: VirtualMachineDynamicDao,
-		private val vmDao : VirtualMachineDao
+		private val vmDao: VirtualMachineDao
 ) : AbstractDynamicServiceImpl<VirtualMachineDynamic>(dao, "vm-dynamic"),
 		VirtualMachineDynamicService {
 	override fun spiceConnection(id: UUID): String {

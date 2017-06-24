@@ -2,7 +2,7 @@ package com.github.K0zka.kerub.utils
 
 import com.github.K0zka.kerub.model.Entity
 
-operator fun <X, Y> Collection<X>.times(other : Collection<Y>): List<Pair<X, Y>> {
+operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> {
 	return this.map { x -> other.map { y -> x to y } }.join()
 }
 
@@ -19,10 +19,10 @@ fun <T> Collection<Collection<T>>.join(): List<T> {
 	return result
 }
 
-fun <T> Collection<T>.containsAny(vararg elems : T) =
-	elems.any {
-		this.contains(it)
-	}
+fun <T> Collection<T>.containsAny(vararg elems: T) =
+		elems.any {
+			this.contains(it)
+		}
 
 
 fun <K, V> Collection<V>.toMap(key: (V) -> K): Map<K, V> =

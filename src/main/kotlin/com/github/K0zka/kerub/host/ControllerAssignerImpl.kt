@@ -23,10 +23,10 @@ import java.util.HashMap
  * host capabilities and the workload of the controller
  */
 class ControllerAssignerImpl(private val backtrack: BacktrackService,
-									private val controllerDao: ControllerDao,
-									private val controllerDynamicDao: ControllerDynamicDao,
-									private val hostAssignmentDao: AssignmentDao,
-									private val interController: InterController) : ControllerAssigner {
+							 private val controllerDao: ControllerDao,
+							 private val controllerDynamicDao: ControllerDynamicDao,
+							 private val hostAssignmentDao: AssignmentDao,
+							 private val interController: InterController) : ControllerAssigner {
 
 	data class ControllerAssignmentState(
 			val hostsToAssign: List<Host>,

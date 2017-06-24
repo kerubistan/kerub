@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.utils.ipmi
 
-enum class CompletionCodes(val code : Int) {
+enum class CompletionCodes(val code: Int) {
 	CompletedNormally(0x00),
 	NodeBusy(0xC0),
 	InvalidCommand(0xC1),

@@ -26,7 +26,7 @@ class OperationalStateBuilderImpl(
 		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
 		private val vmDao: VirtualMachineDao,
 		private val vmDynDao: VirtualMachineDynamicDao,
-		private val configDao : ControllerConfigDao
+		private val configDao: ControllerConfigDao
 ) : OperationalStateBuilder {
 
 	companion object {

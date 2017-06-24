@@ -35,7 +35,7 @@ object CompositeStepFactory : StepFactory<AbstractOperationalStep, Plan> {
 					WakeHostFactory,
 					IscsiShareFactory
 			),
-			NotSameStorageExpectation:: class to setOf(
+			NotSameStorageExpectation::class to setOf(
 					MigrateVirtualStorageDeviceFactory,
 					WakeHostFactory,
 					KvmMigrateVirtualMachineFactory

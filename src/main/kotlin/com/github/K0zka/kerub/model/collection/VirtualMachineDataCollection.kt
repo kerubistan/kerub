@@ -6,4 +6,4 @@ import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
 data class VirtualMachineDataCollection(
 		override val stat: VirtualMachine,
 		override val dynamic: VirtualMachineDynamic?)
-: DataCollection<VirtualMachine, VirtualMachineDynamic>
+	: DataCollection<VirtualMachine, VirtualMachineDynamic>

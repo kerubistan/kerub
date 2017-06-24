@@ -51,7 +51,7 @@ interface RestOperations {
 		@GET
 		@Path("byname/{name}")
 		@RequiresAuthentication
-		fun getByName(@PathParam("name") name : String) : kotlin.collections.List<T>
+		fun getByName(@PathParam("name") name: String): kotlin.collections.List<T>
 	}
 
 	/**

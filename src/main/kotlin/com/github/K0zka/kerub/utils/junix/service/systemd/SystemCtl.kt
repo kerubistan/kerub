@@ -6,19 +6,19 @@ import org.apache.sshd.client.session.ClientSession
 
 object SystemCtl : OsCommand {
 
-	fun enable(client: ClientSession, serviceName : String) {
+	fun enable(client: ClientSession, serviceName: String) {
 		client.executeOrDie("systemctl enable $serviceName")
 	}
 
-	fun disable(client: ClientSession, serviceName : String) {
+	fun disable(client: ClientSession, serviceName: String) {
 		client.executeOrDie("systemctl disable $serviceName")
 	}
 
-	fun start(client: ClientSession, serviceName : String) {
+	fun start(client: ClientSession, serviceName: String) {
 		client.executeOrDie("systemctl start $serviceName")
 	}
 
-	fun stop(client: ClientSession, serviceName : String) {
+	fun stop(client: ClientSession, serviceName: String) {
 		client.executeOrDie("systemctl stop $serviceName")
 	}
 

@@ -11,7 +11,7 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		cache: Cache<I, T>,
 		eventListener: EventListener,
 		private val auditManager: AuditManager)
-: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.PagedList<T, I> {
+	: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.PagedList<T, I> {
 
 	override fun add(entity: T): I {
 		auditManager.auditAdd(entity)

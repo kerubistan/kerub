@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.model.history.PropertyChange
 import org.infinispan.Cache
 import java.util.UUID
 
-abstract class GenericHistoryDaoImpl<T : DynamicEntity>(private val cache : Cache<UUID, HistoryEntry>) : HistoryDao<T> {
+abstract class GenericHistoryDaoImpl<T : DynamicEntity>(private val cache: Cache<UUID, HistoryEntry>) : HistoryDao<T> {
 	override fun log(oldEntry: T, newEntry: T) {
 		val change = HistoryEntry(
 				entityKey = oldEntry.id,
@@ -16,5 +16,6 @@ abstract class GenericHistoryDaoImpl<T : DynamicEntity>(private val cache : Cach
 		)
 		cache.putAsync(change.id, change)
 	}
-	abstract fun changes(oldEntry: T, newEntry: T) : List<PropertyChange>
+
+	abstract fun changes(oldEntry: T, newEntry: T): List<PropertyChange>
 }

@@ -28,7 +28,7 @@ class CreateGvinumVolumeExecutor(
 						)
 				)
 		)
-		when(step.config) {
+		when (step.config) {
 			is ConcatenatedGvinumConfiguration -> {
 
 			}
@@ -68,7 +68,7 @@ class CreateGvinumVolumeExecutor(
 					val storage = step.host.capabilities?.storageCapabilities?.firstOrNull {
 						it is GvinumStorageCapability && it.id == step.config.diskId
 					} as GvinumStorageCapability
-					GVinum.createSimpleVolume(session = session, volName =  step.disk.id.toString(), disk = storage.name, size = step.disk.size)
+					GVinum.createSimpleVolume(session = session, volName = step.disk.id.toString(), disk = storage.name, size = step.disk.size)
 				}
 				else -> {
 					TODO("gvinum configuration not implemented by executor: ${step.config}")

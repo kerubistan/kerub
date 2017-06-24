@@ -50,7 +50,7 @@ data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) :
 	override fun getCost(): List<Cost> {
 		val availablityExpectation = vm.expectations.firstOrNull { it is VirtualMachineAvailabilityExpectation && it.up }
 				as VirtualMachineAvailabilityExpectation?
-		if (availablityExpectation == null ) {
+		if (availablityExpectation == null) {
 			return listOf()
 		} else {
 			return listOf(Risk(score = score(availablityExpectation.level), comment = ""))

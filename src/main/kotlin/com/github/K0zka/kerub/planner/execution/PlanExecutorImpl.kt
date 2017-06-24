@@ -93,7 +93,7 @@ class PlanExecutorImpl(
 			execute(plan: Plan, callback: (Plan) -> Unit) {
 		val started = System.currentTimeMillis()
 		//TODO: check synchronization need for this
-		var stepOnExec : AbstractOperationalStep? = null
+		var stepOnExec: AbstractOperationalStep? = null
 		var results = listOf<StepExecutionResult>()
 		task {
 			logger.debug("Executing plan {}", plan)

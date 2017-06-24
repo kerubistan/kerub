@@ -10,9 +10,9 @@ import org.infinispan.query.dsl.Query
 import java.util.UUID
 
 class VirtualMachineDynamicDaoImpl(cache: Cache<UUID, VirtualMachineDynamic>,
-								   historyDao : HistoryDao<VirtualMachineDynamic>,
+								   historyDao: HistoryDao<VirtualMachineDynamic>,
 								   eventListener: EventListener)
-: AbtractDynamicEntityDao<VirtualMachineDynamic>(cache, historyDao, eventListener), VirtualMachineDynamicDao {
+	: AbtractDynamicEntityDao<VirtualMachineDynamic>(cache, historyDao, eventListener), VirtualMachineDynamicDao {
 
 	override fun findByHostId(hostId: UUID): List<VirtualMachineDynamic> =
 			Search.getQueryFactory(cache)

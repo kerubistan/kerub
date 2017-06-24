@@ -21,9 +21,9 @@ object WakeHostFactory : AbstractOperationalStepFactory<AbstractWakeHost>() {
 					(stat) ->
 					stat.capabilities?.powerManagment?.map {
 						lom ->
-						when(lom) {
+						when (lom) {
 							is WakeOnLanInfo -> {
-								if(state.controllerConfig.wakeOnLanEnabled) {
+								if (state.controllerConfig.wakeOnLanEnabled) {
 									WolWakeHost(stat)
 								} else null
 							}

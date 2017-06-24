@@ -17,7 +17,7 @@ import java.util.EnumSet
 private val logger = getLogger(ClientSession::class)
 
 private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
-	if(this.isDebugEnabled) {
+	if (this.isDebugEnabled) {
 		this.debug("$msg $x")
 	}
 	return x
@@ -43,15 +43,15 @@ fun ClientSession.execute(command: String): String {
 }
 
 fun ClientSession.executeOrDie(command: String): String {
-	return this.executeOrDie(command, {it.isNotBlank()})
+	return this.executeOrDie(command, { it.isNotBlank() })
 }
 
-fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs : Charset = charset("ASCII") ): String {
+fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
 	val execChannel = this.createExecChannel(command)
 	logger.debug("executing command: {}", command)
 	return execChannel.use {
 		val error = it.invertedErr.reader(cs).readText()
-		if(isError(error)) {
+		if (isError(error)) {
 			throw IOException(error)
 		} else if (error.isNotBlank()) {
 			logger.warn("Error output ignored by command {} : {}", command, error)
@@ -127,7 +127,7 @@ fun SftpClient.getFileContents(file: String): String {
 	}
 }
 
-fun <T, S : Session> S.use(action : (S) -> T) : T {
+fun <T, S : Session> S.use(action: (S) -> T): T {
 	try {
 		return action(this)
 	} finally {
@@ -135,9 +135,9 @@ fun <T, S : Session> S.use(action : (S) -> T) : T {
 	}
 }
 
-val digest : Digest = BuiltinDigests.md5.create()
+val digest: Digest = BuiltinDigests.md5.create()
 
 /**
- * 
+ *
  */
-fun getSshFingerPrint(key : PublicKey) = KeyUtils.getFingerPrint(digest, key).substringAfter("MD5:")
+fun getSshFingerPrint(key: PublicKey) = KeyUtils.getFingerPrint(digest, key).substringAfter("MD5:")

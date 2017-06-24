@@ -19,7 +19,7 @@ abstract class AbstractStepExecutor<T : AbstractOperationalStep, U> : StepExecut
 	/**
 	 * Perform the step.
 	 */
-	abstract fun perform(step: T) : U
+	abstract fun perform(step: T): U
 
 	/**
 	 * Verify the execution of the step.

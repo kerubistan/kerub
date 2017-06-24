@@ -7,4 +7,4 @@ import org.infinispan.Cache
 import java.util.UUID
 
 class VirtualStorageDeviceDynamicDaoImpl(cache: Cache<UUID, VirtualStorageDeviceDynamic>, eventListener: EventListener)
-: IspnDaoBase<VirtualStorageDeviceDynamic, UUID>(cache, eventListener), VirtualStorageDeviceDynamicDao
+	: IspnDaoBase<VirtualStorageDeviceDynamic, UUID>(cache, eventListener), VirtualStorageDeviceDynamicDao

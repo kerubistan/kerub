@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class LibvirtGuest(
 		val osType: String,
-		val arch : LibvirtArch
-): Serializable
+		val arch: LibvirtArch
+) : Serializable

@@ -8,7 +8,7 @@ import com.github.K0zka.kerub.services.RestCrud
 import java.util.UUID
 
 abstract class BaseServiceImpl<T : Entity<UUID>>(protected val entityType: String)
-: RestCrud<T> {
+	: RestCrud<T> {
 
 	abstract protected val dao: CrudDao<T, UUID>
 

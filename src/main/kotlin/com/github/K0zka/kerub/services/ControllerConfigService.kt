@@ -17,8 +17,9 @@ import javax.ws.rs.core.MediaType
 @RequiresAuthentication
 interface ControllerConfigService {
 	@GET
-	fun get() : ControllerConfig
+	fun get(): ControllerConfig
+
 	@PUT
 	@RequiresRoles(admin)
-	fun set(config : ControllerConfig) : ControllerConfig
+	fun set(config: ControllerConfig): ControllerConfig
 }

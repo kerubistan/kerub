@@ -22,9 +22,9 @@ interface HostManager {
 
 	fun disconnectHost(host: Host)
 	fun powerDown(host: Host)
-	fun join(host: Host, password: String, powerManagers : List<PowerManagementInfo> = listOf()): Host
-	fun join(host: Host, powerManagers : List<PowerManagementInfo> = listOf()): Host
+	fun join(host: Host, password: String, powerManagers: List<PowerManagementInfo> = listOf()): Host
+	fun join(host: Host, powerManagers: List<PowerManagementInfo> = listOf()): Host
 	fun getHypervisor(host: Host): Hypervisor?
-	fun getFireWall(host : Host) : FireWall
-	fun getServiceManager(host: Host) : ServiceManager
+	fun getFireWall(host: Host): FireWall
+	fun getServiceManager(host: Host): ServiceManager
 }

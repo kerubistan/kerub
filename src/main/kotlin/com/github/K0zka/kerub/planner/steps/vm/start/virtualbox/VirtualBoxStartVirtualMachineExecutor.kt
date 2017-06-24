@@ -10,7 +10,7 @@ import com.github.K0zka.kerub.utils.junix.virt.vbox.VBoxManage
 class VirtualBoxStartVirtualMachineExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val vmDynDao: VirtualMachineDynamicDao)
-: AbstractStepExecutor<VirtualBoxStartVirtualMachine, Unit>() {
+	: AbstractStepExecutor<VirtualBoxStartVirtualMachine, Unit>() {
 	override fun update(step: VirtualBoxStartVirtualMachine, updates: Unit) {
 		val dyn = vmDynDao.get(step.vm.id) ?: VirtualMachineDynamic(
 				id = step.vm.id,

@@ -20,14 +20,14 @@ import javax.ws.rs.core.MediaType
 		RestCrud<VirtualStorageDevice>,
 		RestOperations.List<VirtualStorageDevice>,
 		RestOperations.SimpleSearch<VirtualStorageDevice>,
-		AssetService<VirtualStorageDevice>{
+		AssetService<VirtualStorageDevice> {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/load/{id}")
 	fun load(
 			@PathParam("id") id: UUID,
-			@Suspended async : AsyncResponse,
+			@Suspended async: AsyncResponse,
 			@Multipart(value = "file", required = true) data: InputStream
 	)
 

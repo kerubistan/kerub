@@ -10,7 +10,7 @@ object LsPci {
 	@JvmStatic val doublequote = "\""
 
 	fun execute(session: ClientSession): List<PciDevice> {
-		return parse (session.execute("lspci -mm"))
+		return parse(session.execute("lspci -mm"))
 	}
 
 	@JvmStatic fun parse(output: String): List<PciDevice> =

@@ -8,7 +8,7 @@ data class CpuInfoRecord(
 		val vendorId: String,
 		val cpuFamily: Int,
 		val modelId: Int,
-		val modelName : String,
+		val modelName: String,
 		val mhz: Float,
 		val cacheSize: BigInteger,
 		val flags: List<String>

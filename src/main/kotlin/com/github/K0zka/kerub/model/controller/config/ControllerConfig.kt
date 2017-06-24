@@ -19,19 +19,19 @@ data class ControllerConfig(
 		 * If power management is enabled, the controllers may power off or on hosts as needed
 		 * in order to save power.
 		 */
-		val powerManagementEnabled : Boolean = true,
+		val powerManagementEnabled: Boolean = true,
 		/**
 		 * Can use wake-on-lan + ssh to power on/off hosts.
 		 */
-		val wakeOnLanEnabled : Boolean = false,
+		val wakeOnLanEnabled: Boolean = false,
 		/**
 		 * The controllers can enable/disable KSM.
 		 */
-		val ksmEnabled : Boolean = true,
+		val ksmEnabled: Boolean = true,
 		/**
 		 * The controller can install software (monitoring, hypervisor, storage, etc) on the host as needed.
 		 */
-		val installSoftwareEnabled : Boolean = false,
+		val installSoftwareEnabled: Boolean = false,
 		/**
 		 * Storage-related technologies all here
 		 */

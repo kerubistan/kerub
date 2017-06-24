@@ -10,7 +10,7 @@ class StopVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao:
 		hypervisor.stopVm(step.vm)
 	}
 
-	override fun update(step: StopVirtualMachine, updates : Unit) {
+	override fun update(step: StopVirtualMachine, updates: Unit) {
 		vmDynDao.remove(step.vm.id)
 	}
 

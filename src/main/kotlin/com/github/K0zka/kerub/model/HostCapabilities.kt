@@ -53,6 +53,6 @@ data class HostCapabilities(
 		val storageCapabilities: List<StorageCapability> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
-		val hypervisorCapabilities : List<Any> = listOf()
+		val hypervisorCapabilities: List<Any> = listOf()
 )
-: Serializable
+	: Serializable

@@ -15,19 +15,19 @@ class HostServiceImpl(
 		override val dao: HostDao,
 		private val manager: HostManager,
 		private val sshClientService: SshClientService)
-: ListableBaseService<Host>("host"), HostService {
+	: ListableBaseService<Host>("host"), HostService {
 	override fun getByAddress(address: String): List<Host> = dao.byAddress(address)
 
 	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<Host> =
-		dao.fieldSearch(field, value, start, limit).let {
-			SearchResultPage(
-					start = start,
-					count = it.size.toLong(),
-					result = it,
-					searchby = field,
-					total = it.size.toLong()
-			)
-		}
+			dao.fieldSearch(field, value, start, limit).let {
+				SearchResultPage(
+						start = start,
+						count = it.size.toLong(),
+						result = it,
+						searchby = field,
+						total = it.size.toLong()
+				)
+			}
 
 	override fun getPubkey(): String
 			= sshClientService.getPublicKey()

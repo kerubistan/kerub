@@ -4,7 +4,7 @@ import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.utils.junix.fw.iptables.IpTables
 import org.apache.sshd.client.session.ClientSession
 
-class IptablesFireWall(private val session : ClientSession) : FireWall {
+class IptablesFireWall(private val session: ClientSession) : FireWall {
 	override fun open(port: Int, proto: String) {
 		IpTables.open(session, port, proto)
 	}

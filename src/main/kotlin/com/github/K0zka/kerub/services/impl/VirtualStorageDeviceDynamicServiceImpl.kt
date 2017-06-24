@@ -5,5 +5,5 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.services.VirtualStorageDeviceDynamicService
 
 class VirtualStorageDeviceDynamicServiceImpl(dao: VirtualStorageDeviceDynamicDao)
-: AbstractDynamicServiceImpl<VirtualStorageDeviceDynamic>(dao, "vstorage-dynamic"),
+	: AbstractDynamicServiceImpl<VirtualStorageDeviceDynamic>(dao, "vstorage-dynamic"),
 		VirtualStorageDeviceDynamicService

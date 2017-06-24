@@ -5,9 +5,9 @@ import java.math.BigInteger
 
 data class ZfsObject(
 		val type: ZfsObjectType,
-		val name : String,
-		val used : BigInteger,
-		val usedByDataset : BigInteger,
-		val usedbychildren : BigInteger
+		val name: String,
+		val used: BigInteger,
+		val usedByDataset: BigInteger,
+		val usedbychildren: BigInteger
 
 ) : Serializable

@@ -6,5 +6,5 @@ import java.util.UUID
 @JsonTypeName("lvm-allocation")
 data class VirtualStorageLvmAllocation(
 		override val hostId: UUID,
-		val path : String
+		val path: String
 ) : VirtualStorageBlockDeviceAllocation

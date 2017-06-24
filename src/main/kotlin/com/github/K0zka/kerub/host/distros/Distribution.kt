@@ -1,6 +1,5 @@
 package com.github.K0zka.kerub.host.distros
 
-import com.github.K0zka.kerub.data.CrudDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.host.FireWall
 import com.github.K0zka.kerub.host.PackageManager
@@ -10,14 +9,10 @@ import com.github.K0zka.kerub.model.OperatingSystem
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.StorageCapability
 import com.github.K0zka.kerub.model.Version
-import com.github.K0zka.kerub.model.dynamic.DynamicEntity
-import com.github.K0zka.kerub.model.dynamic.HostDynamic
-import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
-import java.util.UUID
 
 /**
  * Interface to hide the details of some distribution-specific operations.
@@ -68,13 +63,13 @@ interface Distribution {
 
 	fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability>
 
-	fun detectPowerManagement(session: ClientSession) : List<PowerManagementInfo>
+	fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo>
 
-	fun detectHostCpuType(session: ClientSession) : String
+	fun detectHostCpuType(session: ClientSession): String
 
-	fun detectHostCpuFlags(session: ClientSession) : List<String> = listOf()
+	fun detectHostCpuFlags(session: ClientSession): List<String> = listOf()
 
-	fun getTotalMemory(session: ClientSession) : BigInteger
+	fun getTotalMemory(session: ClientSession): BigInteger
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
 		return getRequiredPackages(osCommand).all {
@@ -85,11 +80,11 @@ interface Distribution {
 		}
 	}
 
-	fun getFireWall(session: ClientSession) : FireWall
+	fun getFireWall(session: ClientSession): FireWall
 
-	fun getServiceManager(session: ClientSession) : ServiceManager
+	fun getServiceManager(session: ClientSession): ServiceManager
 
-	fun getHostOs() : OperatingSystem
+	fun getHostOs(): OperatingSystem
 
 	companion object {
 	}

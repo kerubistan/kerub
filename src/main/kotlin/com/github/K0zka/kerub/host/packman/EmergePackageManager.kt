@@ -5,7 +5,7 @@ import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.utils.junix.packagemanager.emerge.Emerge
 import org.apache.sshd.client.session.ClientSession
 
-class EmergePackageManager(private val session : ClientSession) : PackageManager{
+class EmergePackageManager(private val session: ClientSession) : PackageManager {
 	override fun install(vararg pack: String) {
 		//since gentoo software installation is both sophisticated, time consuming and CPU instensive on the host,
 		// this should not be done, but needs a cleanup
@@ -19,5 +19,5 @@ class EmergePackageManager(private val session : ClientSession) : PackageManager
 	}
 
 	override fun list(): List<SoftwarePackage> =
-		Emerge.listPackages(session)
+			Emerge.listPackages(session)
 }

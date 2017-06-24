@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 
 @JsonTypeName("wake-on-lan")
 data class WakeOnLanInfo(
-		val macAddresses : List<ByteArray> = listOf()
+		val macAddresses: List<ByteArray> = listOf()
 ) : PowerManagementInfo

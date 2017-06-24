@@ -156,10 +156,10 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	internal fun listFilesystems(session: ClientSession): List<FsStorageCapability> =
-		joinMountsAndDF(
-				DF.df(session),
-				Mount.listMounts(session).filterNot { nonStorageFilesystems.contains(it.type) }
-		)
+			joinMountsAndDF(
+					DF.df(session),
+					Mount.listMounts(session).filterNot { nonStorageFilesystems.contains(it.type) }
+			)
 
 
 	internal fun listLvmVolumes(session: ClientSession,

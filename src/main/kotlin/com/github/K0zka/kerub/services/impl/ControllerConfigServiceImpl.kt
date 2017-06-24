@@ -7,7 +7,7 @@ import com.github.K0zka.kerub.services.ControllerConfigService
 class ControllerConfigServiceImpl(private val configDao: ControllerConfigDao) : ControllerConfigService {
 	override fun get() = configDao.get()
 
-	override fun set(config: ControllerConfig) : ControllerConfig {
+	override fun set(config: ControllerConfig): ControllerConfig {
 		configDao.set(config)
 		return config
 	}

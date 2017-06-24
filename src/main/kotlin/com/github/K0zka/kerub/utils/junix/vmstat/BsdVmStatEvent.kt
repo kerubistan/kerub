@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.utils.junix.vmstat
 import java.io.Serializable
 import java.math.BigInteger
 
-data class BsdVmStatEvent (
+data class BsdVmStatEvent(
 		val userCpu: Byte,
 		val systemCpu: Byte,
 		val idleCpu: Byte,

@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
 		JsonSubTypes.Type(VirtualMachine::class),
 		JsonSubTypes.Type(VirtualNetwork::class),
 		JsonSubTypes.Type(VirtualStorageDevice::class)
-		)
+)
 interface Asset : Entity<UUID>, Named {
 	val owner: AssetOwner?
 	fun references(): Map<KClass<out Asset>, List<UUID>>

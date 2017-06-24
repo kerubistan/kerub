@@ -5,6 +5,6 @@ import java.util.UUID
 
 @JsonTypeName("iscsi")
 data class IscsiService(
-		override val vstorageId : UUID,
-		override val password : String? = null
+		override val vstorageId: UUID,
+		override val password: String? = null
 ) : HostService, PasswordProtected, StorageService

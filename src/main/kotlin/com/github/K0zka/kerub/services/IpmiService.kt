@@ -25,7 +25,7 @@ class IpmiService(private val ipmiClient: IpmiClient = IpmiClient()) {
 			async.resume(it)
 		} fail {
 			async.resume(
-					when(it) {
+					when (it) {
 						is UnknownHostException -> HostAddressException(address)
 						else -> it
 					}

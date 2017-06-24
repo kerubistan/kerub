@@ -13,7 +13,7 @@ class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>)
 	}
 
 	override fun fieldSearch(field: String, value: String, start: Long, limit: Int): List<ExecutionResult> =
-		cache.fieldSearch(field, value, start, limit)
+			cache.fieldSearch(field, value, start, limit)
 
 	override fun count(): Int = cache.count()
 

@@ -9,7 +9,7 @@ import org.infinispan.query.dsl.Expression
 import java.util.UUID
 
 class VirtualMachineDaoImpl(cache: Cache<UUID, VirtualMachine>, eventListener: EventListener, auditManager: AuditManager)
-: VirtualMachineDao, AbstractAssetDao<VirtualMachine>(cache, eventListener, auditManager) {
+	: VirtualMachineDao, AbstractAssetDao<VirtualMachine>(cache, eventListener, auditManager) {
 
 	override fun getEntityClass(): Class<VirtualMachine> =
 			VirtualMachine::class.java

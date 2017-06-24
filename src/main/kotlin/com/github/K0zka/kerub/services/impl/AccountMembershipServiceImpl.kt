@@ -7,7 +7,7 @@ import java.util.UUID
 
 class AccountMembershipServiceImpl(private val dao: AccountMembershipDao) : AccountMembershipService {
 	override fun listUserAccounts(userName: String) =
-		dao.listByUsername(userName)
+			dao.listByUsername(userName)
 
 	override fun add(accountId: UUID, membershipId: UUID, accountMembership: AccountMembership) {
 		dao.add(accountMembership.copy(

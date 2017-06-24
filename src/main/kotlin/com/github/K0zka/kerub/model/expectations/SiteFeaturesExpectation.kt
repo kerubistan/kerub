@@ -7,6 +7,6 @@ import com.github.K0zka.kerub.model.site.SiteFeature
 @JsonTypeName("site-features")
 data class SiteFeaturesExpectation(
 		override val level: ExpectationLevel,
-		val features : List<SiteFeature>
+		val features: List<SiteFeature>
 ) : VirtualMachineExpectation, VirtualStorageExpectation, VirtualNetworkExpectation
 

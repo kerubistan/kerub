@@ -27,7 +27,7 @@ object VBoxManage {
 			DeviceType.floppy to "floppy"
 	)
 
-	fun startVm(session: ClientSession, vm : VirtualMachine, targetHost: Host, storageMap : Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>) {
+	fun startVm(session: ClientSession, vm: VirtualMachine, targetHost: Host, storageMap: Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>) {
 		var success = false
 		try {
 			session.executeOrDie("VBoxManage createvm --name ${vm.id} --uuid ${vm.id} --register")
@@ -50,7 +50,7 @@ object VBoxManage {
 			session.executeOrDie("VBoxManage startvm ${vm.id} --type headless")
 			success = true
 		} finally {
-			if(!success) {
+			if (!success) {
 				silent {
 					session.executeOrDie("VBoxManage unregistervm ${vm.id} --delete")
 				}
@@ -61,36 +61,43 @@ object VBoxManage {
 	/**
 	 * Round to MB
 	 */
-	internal fun round(amount: BigInteger) : String {
+	internal fun round(amount: BigInteger): String {
 		val accurate = BigDecimal(amount).divide(MB)
 		val round = accurate.toBigInteger()
-		if(accurate > BigDecimal(round)) {
+		if (accurate > BigDecimal(round)) {
 			return (round + BigInteger.ONE).toString()
 		} else {
 			return round.toString()
 		}
 	}
 
-	private fun medium(dyn: VirtualStorageDeviceDynamic, storageHost: Host, targetHost : Host): String {
-		if(targetHost.id == storageHost.id) {
+	private fun medium(dyn: VirtualStorageDeviceDynamic, storageHost: Host, targetHost: Host): String {
+		if (targetHost.id == storageHost.id) {
 			val allocation = dyn.allocation
-			return when(allocation) {
-				is VirtualStorageLvmAllocation -> { allocation.path }
-				is VirtualStorageGvinumAllocation -> { "/dev/gvinum/${dyn.id}" }
-				is VirtualStorageFsAllocation -> { "${allocation.mountPoint}/${dyn.id}" }
+			return when (allocation) {
+				is VirtualStorageLvmAllocation -> {
+					allocation.path
+				}
+				is VirtualStorageGvinumAllocation -> {
+					"/dev/gvinum/${dyn.id}"
+				}
+				is VirtualStorageFsAllocation -> {
+					"${allocation.mountPoint}/${dyn.id}"
+				}
 				else -> {
 					TODO("Unknown allocation type: ${allocation}")
 				}
 			}
 		} else {
-			return "iscsi --server ${storageHost.address} --target ${iscsiStorageId(dyn.id) }"
+			return "iscsi --server ${storageHost.address} --target ${iscsiStorageId(dyn.id)}"
 		}
 	}
 
-	fun stopVm(session: ClientSession, vm : VirtualMachine) {
+	fun stopVm(session: ClientSession, vm: VirtualMachine) {
 		session.executeOrDie("VBoxManage controlvm ${vm.id} poweroff")
 	}
-	fun createMedium(session: ClientSession, path : String, size : BigInteger, type: DeviceType, format: VirtualDiskFormat) {
+
+	fun createMedium(session: ClientSession, path: String, size: BigInteger, type: DeviceType, format: VirtualDiskFormat) {
 		session.executeOrDie("VBoxManage create $type --filename $path --format $format")
 	}
 

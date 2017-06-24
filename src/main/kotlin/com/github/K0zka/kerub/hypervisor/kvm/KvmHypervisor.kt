@@ -31,7 +31,7 @@ import java.math.BigInteger
 class KvmHypervisor(private val client: ClientSession,
 					private val host: Host,
 					private val hostDao: HostDao,
-					private val hostCfgDao : HostConfigurationDao,
+					private val hostCfgDao: HostConfigurationDao,
 					private val hostDynamicDao: HostDynamicDao,
 					private val vmDynDao: VirtualMachineDynamicDao,
 					private val virtualStorageDao: VirtualStorageDeviceDao,
@@ -120,12 +120,12 @@ class KvmHypervisor(private val client: ClientSession,
 			)
 		}
 
-		storageMap.filter { it.storageHost.stat.id != host.id } .forEach {
+		storageMap.filter { it.storageHost.stat.id != host.id }.forEach {
 			remoteDevice ->
 			val cfg = remoteDevice.storageHost.config
 			val service = cfg?.services?.firstOrNull { it is StorageService && it.vstorageId == remoteDevice.device.stat.id }
 
-			if(service is PasswordProtected) {
+			if (service is PasswordProtected) {
 				Virsh.setSecret(
 						session = client,
 						id = remoteDevice.device.stat.id,

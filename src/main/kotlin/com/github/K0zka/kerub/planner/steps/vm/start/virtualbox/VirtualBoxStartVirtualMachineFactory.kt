@@ -12,8 +12,8 @@ object VirtualBoxStartVirtualMachineFactory : AbstractStartVmFactory<VirtualBoxS
 	override fun produce(state: OperationalState): List<VirtualBoxStartVirtualMachine> =
 			(getVmsToStart(state) * getWorkingHosts(state) {
 				hostData ->
-					isVirtualBoxInstalled(hostData.stat)
-					&& isHwVirtualizationSupported(hostData.stat)
+				isVirtualBoxInstalled(hostData.stat)
+						&& isHwVirtualizationSupported(hostData.stat)
 			}.toList()).filter {
 				val vm = it.first
 				val host = it.second.stat

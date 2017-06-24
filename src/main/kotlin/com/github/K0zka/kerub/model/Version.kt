@@ -6,8 +6,8 @@ import java.io.Serializable
 import java.util.regex.Pattern
 
 data class Version(@Field val major: String,
-						  @Field val minor: String?,
-						  @Field val build: String?) : Serializable, Comparable<Version> {
+				   @Field val minor: String?,
+				   @Field val build: String?) : Serializable, Comparable<Version> {
 	override fun compareTo(other: Version): Int {
 		return -1
 	}

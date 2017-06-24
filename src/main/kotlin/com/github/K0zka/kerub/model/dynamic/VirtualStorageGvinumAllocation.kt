@@ -7,5 +7,5 @@ import java.util.UUID
 @JsonTypeName("gvinum-allocation")
 data class VirtualStorageGvinumAllocation(
 		override val hostId: UUID,
-		val configuration : GvinumConfiguration
+		val configuration: GvinumConfiguration
 ) : VirtualStorageBlockDeviceAllocation

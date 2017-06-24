@@ -21,7 +21,7 @@ class AddEntry(
 		override val user: String?,
 		@Field
 		@JsonProperty("new")
-		val new : Entity<*>
+		val new: Entity<*>
 ) : AuditEntry {
 	override val idStr: String
 		@Field(analyze = Analyze.NO)

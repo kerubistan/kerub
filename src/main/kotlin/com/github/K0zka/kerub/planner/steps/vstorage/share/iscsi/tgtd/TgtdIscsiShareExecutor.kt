@@ -10,7 +10,7 @@ class TgtdIscsiShareExecutor(
 		hostConfigDao: HostConfigurationDao,
 		hostExecutor: HostCommandExecutor,
 		hostManager: HostManager)
-: AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
+	: AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
 
 	override fun perform(step: TgtdIscsiShare, password: String) {
 		hostExecutor.execute(step.host) {

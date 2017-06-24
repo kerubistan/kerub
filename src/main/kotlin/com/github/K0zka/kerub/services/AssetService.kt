@@ -22,24 +22,24 @@ interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.Sim
 	@GET
 	@Path("/{ownerType}/ownerId/")
 	fun listByOwner(@ApiParam("First returned entity", defaultValue = "0", required = false)
-					 @QueryParam("start")
-					 @DefaultValue("0") start: Long,
+					@QueryParam("start")
+					@DefaultValue("0") start: Long,
 
 					@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
-					 @QueryParam("limit")
-					 @DefaultValue("20") limit: Int,
+					@QueryParam("limit")
+					@DefaultValue("20") limit: Int,
 
 					@ApiParam("Property name to sort by", defaultValue = "id", required = false)
-					 @QueryParam("sort")
-					 @DefaultValue("id") sort: String,
+					@QueryParam("sort")
+					@DefaultValue("id") sort: String,
 
 					@ApiParam("Type of the owner (account/project)", required = false)
-					 @QueryParam("ownerType")
-					 ownerType: AssetOwnerType,
+					@QueryParam("ownerType")
+					ownerType: AssetOwnerType,
 
 					@ApiParam("ID of the owner", defaultValue = "id", required = false)
-					 @QueryParam("ownerType")
-					 ownerId: UUID
+					@QueryParam("ownerType")
+					ownerId: UUID
 
 	): SortResultPage<T>
 
@@ -83,11 +83,11 @@ interface AssetService<T : Asset> : RestOperations.ByName<T>, RestOperations.Sim
 	@GET
 	@Path("/autoname")
 	@Produces(MediaType.TEXT_PLAIN)
-	fun autoName() : String
+	fun autoName(): String
 
 	@GET
 	@Path("/autoname/{ownerType}/{ownerId}")
 	@Produces(MediaType.TEXT_PLAIN)
-	fun autoName(ownerType: AssetOwnerType, ownerId: UUID) : String
+	fun autoName(ownerType: AssetOwnerType, ownerId: UUID): String
 
 }

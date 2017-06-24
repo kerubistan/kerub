@@ -12,13 +12,13 @@ import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
 import java.math.BigInteger
 
-fun storageAllocationMap(state: OperationalState, links : List<VirtualStorageLink>): Map<VirtualStorageDataCollection, HostDataCollection?> =
+fun storageAllocationMap(state: OperationalState, links: List<VirtualStorageLink>): Map<VirtualStorageDataCollection, HostDataCollection?> =
 		links.map {
 			link ->
 			val vStorage = requireNotNull(state.vStorage[link.virtualStorageId])
 			val dynamic = state.vStorage[vStorage.stat.id]?.dynamic
 			val hostId = dynamic?.allocation?.hostId
-			val hostData = if (hostId == null ) null else state.hosts[hostId]
+			val hostData = if (hostId == null) null else state.hosts[hostId]
 			vStorage to hostData
 		}.toMap()
 
@@ -76,7 +76,7 @@ fun storageAvailable(
 
 		//either it is on the same host
 		storage.dynamic?.allocation?.hostId == host.id ||
-		//or another host, but it is shared
-		storageHost?.config?.services?.contains( IscsiService(storage.stat.id) ) ?: false
+				//or another host, but it is shared
+				storageHost?.config?.services?.contains(IscsiService(storage.stat.id)) ?: false
 	}
 }

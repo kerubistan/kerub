@@ -13,8 +13,8 @@ object CpuInfo : OsCommand {
 	override fun available(hostCapabilities: HostCapabilities?): Boolean =
 			hostCapabilities?.os == OperatingSystem.Linux
 
-	internal fun value(properties : String, property : String) =
-			properties.substringBetween(property,"\n").substringAfter(":").trim()
+	internal fun value(properties: String, property: String) =
+			properties.substringBetween(property, "\n").substringAfter(":").trim()
 
 	fun listPpc(session: ClientSession): List<CpuInfoRecord> =
 			session.createSftpClient().use {

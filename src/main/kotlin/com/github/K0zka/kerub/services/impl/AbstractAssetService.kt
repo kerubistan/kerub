@@ -73,7 +73,7 @@ abstract class AbstractAssetService<T : Asset>(
 			accessController.listWithFilter(dao, start, limit, sort)
 
 	override fun getByName(name: String): List<T>
-			= accessController.filter( dao.getByName(name) as List<T> )
+			= accessController.filter(dao.getByName(name) as List<T>)
 
 	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<T> =
 			accessController.searchWithFilter(dao, field, value, start, limit)
@@ -85,7 +85,7 @@ abstract class AbstractAssetService<T : Asset>(
 		//TODO: this is checking globally, it should only be allowed when accounts are not mandatory
 		var nr = dao.count() + 1
 		var name = "$entityType-$nr"
-		while(dao.existsByName(name)) {
+		while (dao.existsByName(name)) {
 			nr++
 			name = "$entityType-$nr"
 		}

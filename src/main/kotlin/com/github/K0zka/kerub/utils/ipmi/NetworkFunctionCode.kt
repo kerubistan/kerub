@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.utils.ipmi
 
-enum class NetworkFunctionCode(val code : Int) {
+enum class NetworkFunctionCode(val code: Int) {
 	ChassisRequest(0x00),
 	ChassisResponse(0x01),
 	BridgeRequest(0x02),

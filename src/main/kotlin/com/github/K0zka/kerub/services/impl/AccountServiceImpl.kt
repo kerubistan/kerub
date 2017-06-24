@@ -15,7 +15,7 @@ class AccountServiceImpl(
 ) : ListableBaseService<Account>("account"), AccountService {
 
 	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<Account> {
-		return if(SecurityUtils.getSubject().hasRole(admin) ) {
+		return if (SecurityUtils.getSubject().hasRole(admin)) {
 			val list = dao.fieldSearch(field, value, start, limit)
 			SearchResultPage(
 					start = start,
@@ -30,5 +30,5 @@ class AccountServiceImpl(
 	}
 
 	override fun getById(id: UUID): Account =
-		accessController.doAsAccountMember(id) { super.getById(id) }
+			accessController.doAsAccountMember(id) { super.getById(id) }
 }

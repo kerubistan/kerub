@@ -71,10 +71,10 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Detailed::class)
 		@JsonProperty("devices")
-		val devices : List<VirtualDevice> = listOf()
+		val devices: List<VirtualDevice> = listOf()
 
 )
-: Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
+	: Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> =
 			mapOf<KClass<out Asset>, List<UUID>>(
 					VirtualMachine::class to expectations
@@ -84,7 +84,7 @@ data class VirtualMachine constructor(
 					VirtualStorageDevice::class to virtualStorageLinks.map { it.virtualStorageId }
 			).filter { it.value.isNotEmpty() }
 
-	val virtualStorageIdStr : List<String>
+	val virtualStorageIdStr: List<String>
 		@Field
 		get() = virtualStorageLinks.map { it.virtualStorageId.toString() }
 }

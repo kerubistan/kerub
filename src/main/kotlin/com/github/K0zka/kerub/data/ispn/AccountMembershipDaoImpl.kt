@@ -10,7 +10,7 @@ import java.util.UUID
 class AccountMembershipDaoImpl(cache: Cache<UUID, AccountMembership>,
 							   eventListener: EventListener,
 							   auditManager: AuditManager)
-: ListableIspnDaoBase<AccountMembership, UUID>(cache, eventListener, auditManager), AccountMembershipDao {
+	: ListableIspnDaoBase<AccountMembership, UUID>(cache, eventListener, auditManager), AccountMembershipDao {
 	override fun isAccountMember(userName: String, accountId: UUID): Boolean {
 		val builder = cache.queryBuilder(AccountMembership::class)
 		builder

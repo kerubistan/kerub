@@ -7,7 +7,7 @@ object BsdSysCtl {
 
 	private val splitter = Regex.fromLiteral("\$kern\\.")
 
-	fun getCpuFlags(session : ClientSession) : List<String> {
+	fun getCpuFlags(session: ClientSession): List<String> {
 
 		val output = session.executeOrDie("sysctl -a")
 		val props = output.split(splitter)
