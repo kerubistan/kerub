@@ -796,7 +796,7 @@ class PlannerDefs {
 
 		vdisks = vdisks.replace({ it.name == diskName }, {
 			it.copy(
-					expectations = it.expectations + StorageAvailabilityExpectation()
+					expectations = it.expectations + StorageAvailabilityExpectation(format = VirtualDiskFormat.raw)
 			)
 		})
 		val virtualStorage = vdisks.first { it.name == diskName }

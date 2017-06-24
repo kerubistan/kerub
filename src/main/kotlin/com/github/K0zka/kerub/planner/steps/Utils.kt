@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.planner.steps
 
-fun <T> factoryFeature(enabled: Boolean, producer: () -> List<T>): List<T> =
+inline fun <T> factoryFeature(enabled: Boolean, producer: () -> List<T>): List<T> =
 		if (enabled) {
 			producer()
 		} else {

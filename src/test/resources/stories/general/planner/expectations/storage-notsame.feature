@@ -21,6 +21,16 @@ Feature: support for not-same-storage expectation
 	  | vm2-disk | 2 GB | false |
 	And vm1-disk is not yet created
 	And the virtual disk vm2-disk is created on host2.example.com
+	And software installed on host host1.example.com:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
+	  | qemu-img | 2.4.1   |
+	And software installed on host host2.example.com:
+	  | package  | version |
+	  | qemu-kvm | 2.4.1   |
+	  | libvirt  | 1.2.18  |
+	  | qemu-img | 2.4.1   |
 	And host host1.example.com is Up
 	And host host2.example.com is Up
 	And virtual disk vm1-disk has not-same-storage expectation against vm2-disk

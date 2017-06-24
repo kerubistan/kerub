@@ -10,6 +10,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
+import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.security.AssetAccessController
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
 import org.apache.sshd.client.session.ClientSession
@@ -34,7 +35,7 @@ class VirtualStorageDeviceServiceImpl(
 		} ?: entity
 	}
 
-	override fun load(id: UUID, async: AsyncResponse, data: InputStream) {
+	override fun load(id: UUID, type: VirtualDiskFormat, async: AsyncResponse, data: InputStream) {
 		val device = getById(id)
 		dynDao.waitFor(id) {
 			dyn ->
@@ -52,9 +53,12 @@ class VirtualStorageDeviceServiceImpl(
 		}
 
 		dao.update(device.copy(
-				expectations = device.expectations + StorageAvailabilityExpectation()
+				expectations = device.expectations + StorageAvailabilityExpectation(format = type)
 		))
+	}
 
+	override fun load(id: UUID, async: AsyncResponse, data: InputStream) {
+		load(id, VirtualDiskFormat.raw, async, data)
 	}
 
 	private fun pump(data: InputStream, device: VirtualStorageDevice, dyn: VirtualStorageDeviceDynamic, session: ClientSession) {

@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.services
 
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.wordnik.swagger.annotations.Api
 import org.apache.cxf.jaxrs.ext.multipart.Multipart
 import org.apache.shiro.authz.annotation.RequiresAuthentication
@@ -27,6 +28,16 @@ import javax.ws.rs.core.MediaType
 	@Path("/load/{id}")
 	fun load(
 			@PathParam("id") id: UUID,
+			@Suspended async: AsyncResponse,
+			@Multipart(value = "file", required = true) data: InputStream
+	)
+
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/load/{type}/{id}")
+	fun load(
+			@PathParam("id") id: UUID,
+			@PathParam("type") type: VirtualDiskFormat,
 			@Suspended async: AsyncResponse,
 			@Multipart(value = "file", required = true) data: InputStream
 	)

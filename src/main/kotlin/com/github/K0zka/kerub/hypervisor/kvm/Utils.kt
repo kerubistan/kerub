@@ -82,6 +82,12 @@ fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, p
     <name>${vm.id}</name>
     <uuid>${vm.id}</uuid>
     <memory unit='B'>${vm.memory.min}</memory>
+	<memtune>
+		<hard_limit unit='B'>${vm.memory.min}</hard_limit>
+	</memtune>
+	<memoryBacking>
+		<allocation mode="ondemand"/>
+	</memoryBacking>
     <vcpu>${vm.nrOfCpus}</vcpu>
     <os>
     	<type arch='x86_64'>hvm</type>

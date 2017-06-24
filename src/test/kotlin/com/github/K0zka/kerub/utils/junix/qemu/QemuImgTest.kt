@@ -1,6 +1,9 @@
 package com.github.K0zka.kerub.utils.junix.qemu
 
+import com.github.K0zka.kerub.model.SoftwarePackage
+import com.github.K0zka.kerub.model.Version
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
+import com.github.K0zka.kerub.testHostCapabilities
 import com.github.K0zka.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -15,6 +18,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 import java.io.ByteArrayInputStream
+import kotlin.test.assertTrue
 
 class QemuImgTest {
 	val session: ClientSession = mock()
@@ -25,6 +29,34 @@ class QemuImgTest {
 	fun setup() {
 		whenever(session.createExecChannel(any<String>())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(channelOpenFuture)
+	}
+
+	@Test
+	fun available() {
+		assertTrue(QemuImg.available(testHostCapabilities.copy(
+				distribution = SoftwarePackage("CentOS", Version.fromVersionString("7.0")),
+				installedSoftware = listOf(
+						SoftwarePackage("qemu-img", version = Version.fromVersionString("2.1.5"))
+				)
+		)))
+		assertTrue(QemuImg.available(testHostCapabilities.copy(
+				distribution = SoftwarePackage("Fedora", Version.fromVersionString("25")),
+				installedSoftware = listOf(
+						SoftwarePackage("qemu-img", version = Version.fromVersionString("2.1.5"))
+				)
+		)))
+		assertTrue(QemuImg.available(testHostCapabilities.copy(
+				distribution = SoftwarePackage("Ubuntu", Version.fromVersionString("16.04")),
+				installedSoftware = listOf(
+						SoftwarePackage("qemu-util", version = Version.fromVersionString("2.1.5"))
+				)
+		)))
+		assertTrue(QemuImg.available(testHostCapabilities.copy(
+				distribution = SoftwarePackage("Debian", Version.fromVersionString("16.04")),
+				installedSoftware = listOf(
+						SoftwarePackage("qemu-util", version = Version.fromVersionString("2.1.5"))
+				)
+		)))
 	}
 
 	@Test
