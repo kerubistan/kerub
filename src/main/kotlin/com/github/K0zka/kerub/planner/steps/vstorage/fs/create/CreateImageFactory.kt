@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.steps.vstorage.fs.create
 
 import com.github.K0zka.kerub.model.FsStorageCapability
+import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.planner.OperationalState
 import com.github.K0zka.kerub.planner.steps.vstorage.AbstractCreateVirtualStorageFactory
@@ -27,10 +28,14 @@ object CreateImageFactory : AbstractCreateVirtualStorageFactory<CreateImage>() {
 						mount ->
 						steps += storageNotAllocated.map {
 							storage ->
+							val format =
+									(storage.expectations.firstOrNull { it is StorageAvailabilityExpectation }
+											as StorageAvailabilityExpectation?)?.format
+											?: VirtualDiskFormat.qcow2
 							CreateImage(
 									disk = storage,
 									host = hostData.stat,
-									format = VirtualDiskFormat.qcow2,
+									format = format,
 									path = (mount as FsStorageCapability).mountPoint
 							)
 						}
