@@ -87,7 +87,7 @@ class QemuImgTest {
 
 		val info = QemuImg.info(session, "/tmp/test.raw")
 
-		Mockito.verify(session).createExecChannel("qemu-img info /tmp/test.raw")
+		Mockito.verify(session).createExecChannel("qemu-img info --output=json /tmp/test.raw")
 		Assert.assertThat(info.virtualSize, CoreMatchers.equalTo(1073741824.toLong()))
 		Assert.assertThat(info.diskSize, CoreMatchers.equalTo(0.toLong()))
 		Assert.assertThat(info.fileName, CoreMatchers.`is`("tmp/test.raw"))

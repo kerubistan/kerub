@@ -14,5 +14,7 @@ data class ImageInfo(
 		@JsonProperty("virtual-size")
 		val virtualSize: Long,
 		@JsonProperty("actual-size")
-		val diskSize: Long
+		val diskSize: Long,
+		@JsonProperty("backing-filename")
+		val backingFile: String?
 ) : Serializable

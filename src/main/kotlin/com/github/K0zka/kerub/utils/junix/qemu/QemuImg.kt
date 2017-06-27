@@ -36,8 +36,20 @@ object QemuImg : OsCommand {
 		session.executeOrDie("qemu-img create -f $format $path $size")
 	}
 
+	fun check(session: ClientSession, path: String, format : VirtualDiskFormat) {
+		session.executeOrDie("qemu-img check -f $format $path")
+	}
+
+	fun rebase(session: ClientSession,
+			   path: String,
+			   format: VirtualDiskFormat,
+			   backingFile: String) {
+		assert(format.equalsAnyOf(VirtualDiskFormat.qed, VirtualDiskFormat.qcow2))
+		session.executeOrDie("qemu-img rebase -b $backingFile $path")
+	}
+
 	fun info(session: ClientSession, path: String): ImageInfo {
-		val ret = session.executeOrDie("qemu-img info $path")
+		val ret = session.executeOrDie("qemu-img info --output=json $path")
 		return objectMapper.readValue(ret, ImageInfo::class.java)
 	}
 
