@@ -39,8 +39,18 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 	};
 	$scope.checkVDiskName();
 
+	$scope.fileExtension = function(item) {
+		var name = item.file.name.toLowerCase().trim();
+		var lastDot = name.lastIndexOf('.');
+		if(lastDot < 0) {
+			return null;
+		} else {
+			return name.substring(lastDot + 1);
+		}
+	};
+
 	$scope.isIso = function(item) {
-		return item.file.name.toLowerCase().trim().indexOf(".iso") == item.file.name.length - 4;
+		return $scope.fileExtension(item) == "iso"
 	};
 
 	$scope.findAutoName = function() {
