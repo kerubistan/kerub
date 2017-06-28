@@ -1,16 +1,15 @@
 var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession, uuid4, size, expectations, FileUploader) {
-	var id = uuid4.generate();
+	$scope.id = uuid4.generate();
 
 	$scope.uploader = new FileUploader( {
-		url : 's/r/virtual-storage/load/' + id
 	} );
 
 	$scope.autoname = true;
 
 	$scope.disk = {
 		'@type' : 'virtual-storage',
-		id : id,
-		name : 'disk-'+id,
+		id : $scope.id,
+		name : 'disk-'+$scope.id,
 		size : size.toSize('16 GB'),
 		readOnly : false,
 		userFriendlySize : function(newSize) {
@@ -21,6 +20,8 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		},
 		expectations : []
 	};
+
+	$scope.fileFormat = 'raw';
 
 	$scope.checkVDiskName = function() {
 		var name = $scope.disk.name;
@@ -66,10 +67,27 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		if($scope.autoname) {
 			$scope.disk.name = item.file.name
 		}
-		if($scope.isIso(item)) {
-			$scope.disk.readOnly = true;
-		}
 		$scope.disk.size = item.file.size;
+		var fileExtension = $scope.fileExtension(item);
+		$scope.disk.readOnly = false;
+		switch(fileExtension) {
+			case 'qcow2':
+				$scope.fileFormat = 'qcow2';
+				break;
+			case 'vmdk':
+				$scope.fileFormat = 'vmdk';
+				break;
+			case 'vdi':
+				$scope.fileFormat = 'vdi';
+				break;
+			case 'iso':
+				$scope.fileFormat = 'raw';
+				$scope.disk.readOnly = true;
+			default:
+				$scope.fileFormat = 'raw';
+				break;
+		}
+		item.url = 's/r/virtual-storage/load/' + $scope.fileFormat + '/' + $scope.id;
 	};
 
 	$scope.nameChanged = function() {
@@ -89,7 +107,7 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 	$scope.addStorage = function() {
 		appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
 			if($scope.uploader.queue.length > 0) {
-				$scope.uploader.uploadAll();
+				$scope.uploader.uploadAll($scope.uploader.url);
 				$scope.uploader.onSuccessItem = function(fileItem, response, status, headers) {
 					$uibModalInstance.dismiss();
 				}
