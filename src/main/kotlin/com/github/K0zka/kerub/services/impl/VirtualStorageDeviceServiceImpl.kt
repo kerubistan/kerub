@@ -13,9 +13,11 @@ import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.security.AssetAccessController
 import com.github.K0zka.kerub.services.VirtualStorageDeviceService
+import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.scp.ScpTimestamp
 import java.io.InputStream
+import java.math.BigInteger
 import java.nio.file.attribute.PosixFilePermission
 import java.util.UUID
 import javax.ws.rs.container.AsyncResponse
@@ -44,8 +46,21 @@ class VirtualStorageDeviceServiceImpl(
 				session ->
 				pump(data, device, dyn, session)
 
+				val virtualSize = if(type != VirtualDiskFormat.raw) {
+					val size : Long = QemuImg.info(
+							session,
+							"${(dyn.allocation as VirtualStorageFsAllocation).mountPoint}/${device.id}"
+					).virtualSize
+					BigInteger(
+							"$size"
+					)
+				} else {
+					device.size
+				}
+
 				dao.update(device.copy(
-						expectations = device.expectations.filterNot { it is StorageAvailabilityExpectation }
+						expectations = device.expectations.filterNot { it is StorageAvailabilityExpectation },
+						size = virtualSize
 				))
 				async.resume(null)
 			})
