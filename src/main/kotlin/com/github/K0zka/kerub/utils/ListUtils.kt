@@ -24,10 +24,6 @@ fun <T> Collection<T>.containsAny(vararg elems: T) =
 			this.contains(it)
 		}
 
-
-fun <K, V> Collection<V>.toMap(key: (V) -> K): Map<K, V> =
-		this.map { key(it) to it }.toMap()
-
 fun <K, V : Entity<K>> Collection<V>.toMap(): Map<K, V> =
 		this.map { it.id to it }.toMap()
 

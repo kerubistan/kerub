@@ -20,11 +20,6 @@ class ListUtilsTest {
 		assertEquals(listOf<String>(), listOf(listOf<String>(), listOf<String>()).join())
 	}
 
-	@Test
-	fun toMap() {
-		assertEquals(mapOf(1 to "1", 2 to "2", 3 to "3"), listOf("1", "2", "3").toMap { it.toInt() })
-	}
-
 	data class TestEntity(override val id: Int, val name: String) : Entity<Int>
 
 	@Test
