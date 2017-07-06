@@ -1,15 +1,5 @@
 package com.github.K0zka.kerub.utils
 
-import java.util.HashMap
-
-fun <K, V> Map<K, V>.toMutable(): MutableMap<K, V> {
-	return HashMap(this)
-}
-
-fun <K, V> Map<K, V>.toPairList(): List<Pair<K, V>> {
-	return this.entries.toList().map { it.toPair() }.toList()
-}
-
 fun <K : Any, V : Any> Map<K, V>.want(key: K): V = requireNotNull(this[key]) { "key $key not found" }
 
 fun <K, V> Map<K, V>.inverse() =
