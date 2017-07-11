@@ -1,8 +1,14 @@
 package com.github.K0zka.kerub.utils.junix.df
 
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
+import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
@@ -12,6 +18,8 @@ import org.junit.Test
 import org.mockito.Matchers
 import org.mockito.Mockito
 import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 class DFTest {
 
@@ -35,14 +43,14 @@ tmpfs                                                776644       24    776620  
 
 	@Before
 	fun setup() {
-		Mockito.`when`(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		Mockito.`when`(execChannel.open()).thenReturn(channelOpenFuture)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
+		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 	}
 
 	@Test
 	fun df() {
-		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
-		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		val mounts = DF.df(session)
 
@@ -50,5 +58,61 @@ tmpfs                                                776644       24    776620  
 		val libvirt = mounts.first { it.mountPoint == "/var/lib/libvirt" }
 		Assert.assertEquals("9732387840 B".toSize(), libvirt.free)
 		Assert.assertEquals("70496917504 B".toSize(), libvirt.used)
+	}
+
+	private val monitorOutput = """Filesystem                        1024-blocks      Used Available Capacity Mounted on
+udev                                  8150996         0   8150996       0% /dev
+tmpfs                                 1634472      9868   1624604       1% /run
+/dev/mapper/fedora_localshot-root    51475068   8868540  39968704      19% /
+tmpfs                                 8172360      1048   8171312       1% /dev/shm
+tmpfs                                    5120         4      5116       1% /run/lock
+tmpfs                                 8172360         0   8172360       0% /sys/fs/cgroup
+/dev/sda2                              487652    244317    213639      54% /boot
+/dev/sda1                              204580     13144    191436       7% /boot/efi
+/dev/mapper/fedora_localshot-home   154693604 142239536   4572956      97% /home
+/dev/mapper/fedora_localshot-var    206293688 180935332  14856212      93% /var
+cgmfs                                     100         0       100       0% /run/cgmanager/fs
+tmpfs                                 1634472        24   1634448       1% /run/user/1000
+--separator
+Filesystem                        1024-blocks      Used Available Capacity Mounted on
+udev                                  8150996         0   8150996       0% /dev
+tmpfs                                 1634472      9868   1624604       1% /run
+/dev/mapper/fedora_localshot-root    51475068   8868540  39968704      19% /
+tmpfs                                 8172360      1048   8171312       1% /dev/shm
+tmpfs                                    5120         4      5116       1% /run/lock
+tmpfs                                 8172360         0   8172360       0% /sys/fs/cgroup
+/dev/sda2                              487652    244317    213639      54% /boot
+/dev/sda1                              204580     13144    191436       7% /boot/efi
+/dev/mapper/fedora_localshot-home   154693604 142239568   4572924      97% /home
+/dev/mapper/fedora_localshot-var    206293688 180935332  14856212      93% /var
+cgmfs                                     100         0       100       0% /run/cgmanager/fs
+tmpfs                                 1634472        24   1634448       1% /run/user/1000
+--separator
+Filesystem                        1024-blocks      Used Available Capacity Mounted on
+udev                                  8150996         0   8150996       0% /dev
+tmpfs                                 1634472      9868   1624604       1% /run
+/dev/mapper/fedora_localshot-root    51475068   8868540  39968704      19% /
+tmpfs                                 8172360      1048   8171312       1% /dev/shm
+tmpfs                                    5120         4      5116       1% /run/lock
+tmpfs                                 8172360         0   8172360       0% /sys/fs/cgroup
+/dev/sda2                              487652    244317    213639      54% /boot
+/dev/sda1                              204580     13144    191436       7% /boot/efi
+/dev/mapper/fedora_localshot-home   154693604 142239572   4572920      97% /home
+/dev/mapper/fedora_localshot-var    206293688 180935332  14856212      93% /var
+cgmfs                                     100         0       100       0% /run/cgmanager/fs
+tmpfs                                 1634472        24   1634448       1% /run/user/1000
+--separator"""
+
+	@Test
+	fun monitor() {
+		doAnswer {
+			val str = it.arguments[0] as OutputStream
+			monitorOutput.chars().forEach { str.write(it) }
+		}.whenever(execChannel).`out` = any()
+		val callback = mock<(List<FilesystemInfo>) -> Unit>()
+
+		DF.monitor(session, callback = callback)
+
+		verify(callback, times(3)).invoke(any())
 	}
 }
