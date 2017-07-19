@@ -32,3 +32,44 @@ fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
 	this.forEach { sum += fn(it) }
 	return sum.toDouble() / this.size
 }
+
+/**
+ * Update a list with another, different type of items. Not updated items will remain the same, updates
+ * not matching a data will be ignored.
+ * @param updateList    a list of elements with which the list is to be updated
+ * @param selfKey       extract the join key from the original list
+ * @param upKey         extract the join key from the update list
+ * @param merge         creates an updated instance from the original
+ */
+inline fun <T : Any, U : Any, I : Any> List<T>.update(
+		updateList: List<U>,
+		selfKey: (T) -> I,
+		upKey: (U) -> I,
+		merge: (T, U) -> T
+): List<T> = this.update(updateList, selfKey, upKey, merge, { it }, { null })
+
+/**
+ * Update a list with another, different type of items
+ * @param updateList    a list of elements with which the list is to be updated
+ * @param selfKey       extract the join key from the original list
+ * @param upKey         extract the join key from the update list
+ * @param merge         creates an updated instance from the original
+ * @param updateMiss	handle items that did not get updated
+ * @param selfMiss		handle updates that do not match any data
+ */
+inline fun <T : Any, U : Any, I : Any> List<T>.update(
+		updateList: List<U>,
+		selfKey: (T) -> I,
+		upKey: (U) -> I,
+		merge: (T, U) -> T,
+		updateMiss: (T) -> T?,
+		selfMiss: (U) -> T?
+): List<T> {
+	val selfMap = this.associateBy(selfKey)
+	val updateMap = updateList.associateBy(upKey)
+	return selfMap.map { (key, value) ->
+		updateMap[key]?.let { merge(value, it) } ?: updateMiss(value)
+	}.filterNotNull() + updateMap.filterNot { selfMap.containsKey(it.key) }.map {
+		selfMiss(it.value)
+	}.filterNotNull()
+}

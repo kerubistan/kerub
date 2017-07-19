@@ -3,6 +3,7 @@ package com.github.K0zka.kerub.utils
 import com.github.K0zka.kerub.model.Entity
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ListUtilsTest {
 	@Test
@@ -41,5 +42,36 @@ class ListUtilsTest {
 		assertEquals(listOf(), listOf<String>() * listOf(1, 2))
 		assertEquals(listOf(), listOf("A", "B") * (listOf<Any>()))
 		assertEquals(listOf(), listOf<String>() * (listOf<Int>()))
+	}
+
+	@Test
+	fun update() {
+		data class Employee(val id: Int, val name: String, val role: String, val salary: Int)
+		data class Promotion(val name: String, val newRole: String, val raise: Int)
+
+		val results = listOf(
+				Employee(id = 1, name = "Bob", role = "Bloatware Engineer", salary = 100),
+				Employee(id = 2, name = "Mike", role = "Hardware Hammerer", salary = 110),
+				Employee(id = 3, name = "Jack", role = "Outlook Manager", salary = 600)
+		).update(
+				updateList = listOf(
+						Promotion(name = "Bob", newRole = "Senior Bloatware Engineer", raise = 10),
+						Promotion(name = "Jack", newRole = "Document Wizard", raise = -10),
+						Promotion(name = "Tronald Dump", newRole = "President", raise = 100000)
+				),
+				selfKey = { employee -> employee.name },
+				upKey = { (name) -> name },
+				merge = { employee, promotion ->
+					employee.copy(
+							role = promotion.newRole,
+							salary = employee.salary + promotion.raise
+					)
+				}
+		)
+
+		assertTrue(results.contains(Employee(id = 1, name = "Bob", role = "Senior Bloatware Engineer", salary = 110)))
+		assertTrue(results.contains(Employee(id = 2, name = "Mike", role = "Hardware Hammerer", salary = 110)))
+		assertTrue(results.contains(Employee(id = 3, name = "Jack", role = "Document Wizard", salary = 590)))
+		assertEquals(3, results.size)
 	}
 }
