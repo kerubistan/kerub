@@ -8,12 +8,15 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication
 import java.io.InputStream
 import java.util.UUID
 import javax.ws.rs.Consumes
+import javax.ws.rs.GET
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
+import javax.ws.rs.Produces
 import javax.ws.rs.container.AsyncResponse
 import javax.ws.rs.container.Suspended
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 @RequiresAuthentication
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
@@ -40,6 +43,15 @@ import javax.ws.rs.core.MediaType
 			@PathParam("type") type: VirtualDiskFormat,
 			@Suspended async: AsyncResponse,
 			@Multipart(value = "file", required = true) data: InputStream
+	)
+
+	@GET
+	@Path("/download/{type}/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	fun download(
+			@PathParam("id") id: UUID,
+			@PathParam("type") type: VirtualDiskFormat,
+			@Suspended async: AsyncResponse
 	)
 
 }

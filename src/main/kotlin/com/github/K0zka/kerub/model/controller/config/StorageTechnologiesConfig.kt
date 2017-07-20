@@ -33,18 +33,21 @@ data class StorageTechnologiesConfig(
 		val glusterEnabled: Boolean = false
 
 ) : Serializable {
-	fun enabledCapabilities(allCapabilities: List<StorageCapability>) =
-			allCapabilities.filter {
-				when (it) {
-					is GvinumStorageCapability ->
-						gvinumCreateVolumeEnabled
-					is LvmStorageCapability ->
-						lvmCreateVolumeEnabled
-					is FsStorageCapability ->
-						it.mountPoint in fsPathEnabled && it.fsType in fsTypeEnabled
-					else ->
-						false
-				}
+
+	fun isEnabled(storageCapability: StorageCapability) =
+			when (storageCapability) {
+				is GvinumStorageCapability ->
+					gvinumCreateVolumeEnabled
+				is LvmStorageCapability ->
+					lvmCreateVolumeEnabled
+				is FsStorageCapability ->
+					storageCapability.mountPoint in fsPathEnabled
+							&& storageCapability.fsType in fsTypeEnabled
+				else ->
+					false
 			}
+
+	fun enabledCapabilities(allCapabilities: List<StorageCapability>) =
+			allCapabilities.filter(this::isEnabled)
 
 }

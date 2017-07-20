@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.mpstat
 
 import com.github.K0zka.kerub.model.dynamic.CpuStat
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.channel.ChannelExec
@@ -34,13 +35,13 @@ class MPStatTest {
 	@Test
 	fun monitor() {
 		whenever(session.createExecChannel(any())).thenReturn( execChannel )
-		Mockito.doAnswer {
+		doAnswer {
 			val out = it.arguments[0] as OutputStream
 			testInput.forEach {
 				out.write( it.toInt() )
 			}
 			null
-		} .`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		} .whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
 		whenever(execChannel.open()).thenReturn(openFuture)
 
 		var stat = listOf<CpuStat>()

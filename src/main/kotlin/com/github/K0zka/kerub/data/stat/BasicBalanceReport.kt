@@ -18,6 +18,7 @@ data class BasicBalanceReport(
 		val totalDedicatedVmCpus: Int, // sum of vm cpus that are have dedicated requirement
 		// storage
 		val totalHostStorage: BigInteger, // sum of all storage capabilities in all hosts
+		val totalHostStorageFree: BigInteger, // sum of all storage capabilities in all hosts
 		val totalDiskStorageRequested: BigInteger, // sum of all virtual disk size
 		val totalDiskStorageActual: BigInteger        // sum of the actual disk space taken by virtual disks
 		// @formatter:on

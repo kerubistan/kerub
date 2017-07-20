@@ -30,6 +30,31 @@ class VirtualStorageDeviceServiceImpl(
 		private val executor: HostCommandExecutor
 ) : VirtualStorageDeviceService,
 		AbstractAssetService<VirtualStorageDevice>(accessController, dao, "virtual disk") {
+	override fun download(id: UUID, type: VirtualDiskFormat, async: AsyncResponse) {
+		dao.update(id) {
+			stat ->
+			stat.copy(
+					expectations =
+					stat.expectations.filterNot { it is StorageAvailabilityExpectation }
+							+ StorageAvailabilityExpectation(format = type)
+			)
+		}
+		dynDao.waitFor(id) {
+			dyn ->
+			val host = requireNotNull(hostDao[dyn.allocation.hostId])
+			executor.dataConnection(host) {
+				session ->
+				dump(session, dyn, async)
+			}
+		}
+	}
+
+	internal fun dump(session: ClientSession, dyn: VirtualStorageDeviceDynamic, async: AsyncResponse) {
+		session.createSftpClient().use {
+			sftp ->
+			sftp.open("/dev/lofasz")
+		}
+	}
 
 	override fun add(entity: VirtualStorageDevice): VirtualStorageDevice {
 		return accessController.checkAndDo(asset = entity) {

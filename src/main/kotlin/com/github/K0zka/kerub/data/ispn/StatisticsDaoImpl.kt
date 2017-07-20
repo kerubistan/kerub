@@ -100,6 +100,20 @@ class StatisticsDaoImpl(
 			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
 		}
 
+		val freeHostStorage = task {
+			val storageConfig = config.storageTechnologies
+			hostCache.parallelStream().parallel().map {
+				it.value to hostDynamicCache.getAsync(it.value.id)
+			}.map {
+				val dyn = it.second.get()
+				val stat = it.first
+				stat.capabilities?.storageCapabilities?.filter(storageConfig::isEnabled)?.map {
+					cap ->
+					dyn?.storageStatus?.firstOrNull { cap.id == it.id }
+				}?.filterNotNull()?.map { it.freeCapacity }?.sumBy { it } ?: BigInteger.ZERO
+			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
+		}
+
 		val totalDiskStorageRequested = task {
 			vdiskCache.parallelStream().map {
 				it.value.size
@@ -123,6 +137,7 @@ class StatisticsDaoImpl(
 				totalVmCpus = totalVmCpus.get(),
 				totalDedicatedVmCpus = totalDedicatedVmCpus.get(),
 				totalHostStorage = totalHostStorage.get(),
+				totalHostStorageFree = freeHostStorage.get(),
 				totalDiskStorageRequested = totalDiskStorageRequested.get(),
 				totalDiskStorageActual = totalDiskStorageActual.get()
 		)

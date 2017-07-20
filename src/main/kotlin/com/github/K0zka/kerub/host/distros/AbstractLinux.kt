@@ -39,6 +39,7 @@ import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.toSize
+import com.github.K0zka.kerub.utils.update
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -91,27 +92,62 @@ abstract class AbstractLinux : Distribution {
 				?.map { (it as LvmStorageCapability).volumeGroupName to it }
 				?.toMap()
 
-		LvmVg.monitor(session, {
-			volGroups ->
+		val storageIdToMount = host.capabilities?.storageCapabilities
+				?.filter { it is FsStorageCapability }
+				?.map { it.id to (it as FsStorageCapability).mountPoint }?.toMap() ?: mapOf()
+
+		val storageMountToId = storageIdToMount.map { it.value to it.key }.toMap()
+
+		DF.monitor(session) {
+			mounts ->
 			hostDynDao.doWithDyn(id) {
-				it.copy(
-						storageStatus =
-						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
-								+ volGroups.map {
-							volGroup ->
-							val storageDevice = lvmVgsByName?.get(volGroup.name)
-							if (storageDevice == null) {
-								null
-							} else {
-								StorageDeviceDynamic(
-										id = storageDevice.id,
-										freeCapacity = volGroup.freeSize
-								)
-							}
-						}.filterNotNull()
+				hostDyn ->
+				hostDyn.copy(
+						storageStatus = hostDyn.storageStatus.update(
+								updateList = mounts,
+								upKey = { it.mountPoint },
+								selfKey = { storageIdToMount[it.id] ?: "" },
+								updateMiss = { it },
+								selfMiss = {
+									up ->
+									val stat = storageMountToId[up.mountPoint]
+									stat?.let {
+										StorageDeviceDynamic(id = it, freeCapacity = up.free)
+									}
+								},
+								merge = {
+									devDyn: StorageDeviceDynamic, fsInfo ->
+									devDyn.copy(freeCapacity = fsInfo.free)
+								}
+						)
 				)
 			}
-		})
+		}
+
+		if (LvmVg.available(host.capabilities)) {
+			LvmVg.monitor(session, {
+				volGroups ->
+				hostDynDao.doWithDyn(id) {
+					it.copy(
+							storageStatus =
+							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
+									+ volGroups.map {
+								volGroup ->
+								val storageDevice = lvmVgsByName?.get(volGroup.name)
+								if (storageDevice == null) {
+									null
+								} else {
+									StorageDeviceDynamic(
+											id = storageDevice.id,
+											freeCapacity = volGroup.freeSize
+									)
+								}
+							}.filterNotNull()
+					)
+				}
+			})
+		}
+
 		MPStat.monitor(session, {
 			stats ->
 			hostDynDao.doWithDyn(id) {

@@ -25,6 +25,7 @@ class UsageStatisticsServiceImplTest {
 				totalDiskStorageActual = "1 GB".toSize(),
 				totalDiskStorageRequested = "1 GB".toSize(),
 				totalHostStorage = "1 GB".toSize(),
+				totalHostStorageFree = "500MB".toSize(),
 				totalMaxVmMemory = "1 GB".toSize(),
 				totalMinVmMemory = "1 GB".toSize()
 		)
