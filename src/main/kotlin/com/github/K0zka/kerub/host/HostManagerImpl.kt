@@ -16,10 +16,13 @@ import com.github.K0zka.kerub.model.controller.AssignmentType
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
+import com.github.K0zka.kerub.utils.silent
 import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.keyverifier.ServerKeyVerifier
 import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.session.Session
+import java.io.InputStream
 import java.net.InetAddress
 import java.net.SocketAddress
 import java.net.UnknownHostException
@@ -44,11 +47,6 @@ open class HostManagerImpl(
 
 	val timer = Timer("host-manager")
 
-	class ReconnectDisconnectedHosts(private val hostManager: HostManagerImpl) : TimerTask() {
-		override fun run() {
-			hostManager.connectHosts()
-		}
-	}
 
 	override fun powerDown(host: Host) {
 		require(host.dedicated, { "Can not power off a non-dedicated host" })
@@ -104,10 +102,69 @@ open class HostManagerImpl(
 		}
 	}
 
+	override fun readRemoteFile(host: Host, path: String): InputStream {
+		val controllConnection = connections[host.id]?.first
+		return if (controllConnection == null) {
+			val session = sshClientService.loginWithPublicKey(
+					address = host.address,
+					userName = "root",
+					hostPublicKey = host.publicKey)
+			val sftp = session.createSftpClient()
+			DataSessionInputStream(
+					session = session,
+					sftp = sftp,
+					stream = sftp.read(path)
+			)
+		} else {
+			val sftp = controllConnection.createSftpClient()
+			ControlSessionInputStream(
+					stream = sftp.read(path),
+					sftp = sftp
+			)
+		}
+	}
+
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
 		val defaultSshServerPort = 22
 		val defaultSshUserName = "root"
+
+		class ReconnectDisconnectedHosts(private val hostManager: HostManagerImpl) : TimerTask() {
+			override fun run() {
+				hostManager.connectHosts()
+			}
+		}
+
+		/**
+		 * InputStream proxy that closes the sftp client only
+		 * and can be used by controllers, that will leave the ssh
+		 * session open.
+		 */
+		open class ControlSessionInputStream(
+				private val stream: InputStream,
+				private val sftp: SftpClient
+		) : InputStream() {
+			final override fun read(): Int = stream.read()
+			override fun close() {
+				silent { stream.close() }
+				silent { sftp.close() }
+			}
+		}
+
+		/**
+		 * InputStream proxy that closes the session when closing the input stream
+		 * and therefore fit for data connections
+		 */
+		class DataSessionInputStream(
+				stream: InputStream,
+				sftp: SftpClient,
+				private val session: ClientSession) : ControlSessionInputStream(stream, sftp) {
+			override fun close() {
+				super.close()
+				session.close()
+			}
+		}
+
 	}
 
 	class SessionCloseListener(

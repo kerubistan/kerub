@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.host
 
 import com.github.K0zka.kerub.model.Host
 import org.apache.sshd.client.session.ClientSession
+import java.io.InputStream
 
 interface HostCommandExecutor {
 	/**
@@ -15,4 +16,5 @@ interface HostCommandExecutor {
 	 */
 	fun <T> dataConnection(host: Host, action: (session: ClientSession) -> T): T
 
+	fun readRemoteFile(host: Host, path: String): InputStream
 }
