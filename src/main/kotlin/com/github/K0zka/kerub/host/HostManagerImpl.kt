@@ -144,7 +144,27 @@ open class HostManagerImpl(
 				private val stream: InputStream,
 				private val sftp: SftpClient
 		) : InputStream() {
-			final override fun read(): Int = stream.read()
+
+			final override fun read(): Int {
+				return stream.read()
+			}
+
+			final override fun read(p0: ByteArray?): Int = stream.read(p0)
+			final override fun read(p0: ByteArray?, p1: Int, p2: Int): Int = stream.read(p0, p1, p2)
+			final override fun skip(p0: Long): Long = stream.skip(p0)
+
+			final override fun available(): Int = stream.available()
+
+			final override fun reset() {
+				stream.reset()
+			}
+
+			final override fun mark(p0: Int) {
+				stream.mark(p0)
+			}
+
+			final override fun markSupported(): Boolean = stream.markSupported()
+
 			override fun close() {
 				silent { stream.close() }
 				silent { sftp.close() }

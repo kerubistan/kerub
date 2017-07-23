@@ -21,6 +21,8 @@ import java.math.BigInteger
 import java.nio.file.attribute.PosixFilePermission
 import java.util.UUID
 import javax.ws.rs.container.AsyncResponse
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response.ok
 
 class VirtualStorageDeviceServiceImpl(
 		dao: VirtualStorageDeviceDao,
@@ -30,6 +32,7 @@ class VirtualStorageDeviceServiceImpl(
 		private val executor: HostCommandExecutor
 ) : VirtualStorageDeviceService,
 		AbstractAssetService<VirtualStorageDevice>(accessController, dao, "virtual disk") {
+
 	override fun download(id: UUID, type: VirtualDiskFormat, async: AsyncResponse) {
 		dao.update(id) {
 			stat ->
@@ -42,17 +45,9 @@ class VirtualStorageDeviceServiceImpl(
 		dynDao.waitFor(id) {
 			dyn ->
 			val host = requireNotNull(hostDao[dyn.allocation.hostId])
-			executor.dataConnection(host) {
-				session ->
-				dump(session, dyn, async)
-			}
-		}
-	}
-
-	internal fun dump(session: ClientSession, dyn: VirtualStorageDeviceDynamic, async: AsyncResponse) {
-		session.createSftpClient().use {
-			sftp ->
-			sftp.open("/dev/lofasz")
+			async.resume(
+					ok(executor.readRemoteFile(host, getPath(dyn)), MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
+			)
 		}
 	}
 
@@ -101,21 +96,25 @@ class VirtualStorageDeviceServiceImpl(
 		load(id, VirtualDiskFormat.raw, async, data)
 	}
 
+	private fun getPath(dyn: VirtualStorageDeviceDynamic) =
+			when (dyn.allocation) {
+				is VirtualStorageLvmAllocation -> {
+					dyn.allocation.path
+				}
+				is VirtualStorageGvinumAllocation -> {
+					"/dev/gvinum/${dyn.id}"
+				}
+				is VirtualStorageFsAllocation -> {
+					"${dyn.allocation.mountPoint}/${dyn.id}"
+				}
+				else -> {
+					TODO()
+				}
+
+			}
+
 	private fun pump(data: InputStream, device: VirtualStorageDevice, dyn: VirtualStorageDeviceDynamic, session: ClientSession) {
-		when (dyn.allocation) {
-			is VirtualStorageLvmAllocation -> {
-				uploadRaw(data, device, dyn.allocation.path, session)
-			}
-			is VirtualStorageGvinumAllocation -> {
-				uploadRaw(data, device, "/dev/gvinum/${device.id}", session)
-			}
-			is VirtualStorageFsAllocation -> {
-				uploadRaw(data, device, "${dyn.allocation.mountPoint}/${device.id}", session)
-			}
-			else -> {
-				TODO()
-			}
-		}
+		uploadRaw(data, device, getPath(dyn), session)
 	}
 
 	private fun uploadRaw(data: InputStream, device: VirtualStorageDevice, path: String, session: ClientSession) {
