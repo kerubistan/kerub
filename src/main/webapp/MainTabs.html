@@ -44,22 +44,22 @@
 							</span>
 						</td>
 						<td>
-								<span ng-repeat="storageLink in _vm.virtualStorageLinks">
-									<span ng-controller="StorageLink" ng-init="init(storageLink.virtualStorageId)">
-										<span ng-if="loading" class="fa fa-refresh fa-spin"></span>
-										<span ng-if="!loading" class="label label-info fa fa-database">
-											{{shortName(virtualStorage.name, 12)}}
-										</span>
+							<span ng-repeat="storageLink in _vm.virtualStorageLinks">
+								<span ng-controller="StorageLink" ng-init="init(storageLink.virtualStorageId)">
+									<span ng-if="loading" class="fa fa-refresh fa-spin"></span>
+									<span ng-if="!loading" class="label label-info fa fa-database">
+										{{shortName(virtualStorage.name, 12)}}
 									</span>
 								</span>
-								<span ng-repeat="expectation in _vm.expectations"
-									  ng-controller="ExpectationMini"
-									  ng-init="init(expectation)">
-									<span class="label label-{{style}}">
-										<span class="{{icon}}"></span>
-										{{description}}
-									</span>
+							</span>
+							<span ng-repeat="expectation in _vm.expectations"
+								  ng-controller="ExpectationMini"
+								  ng-init="init(expectation)">
+								<span class="label label-{{style}}">
+									<span class="{{icon}}"></span>
+									{{description}}
 								</span>
+							</span>
 						</td>
 						<td>
 							<button type="button"
