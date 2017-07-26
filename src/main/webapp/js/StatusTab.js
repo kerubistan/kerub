@@ -1,7 +1,7 @@
 kerubApp.controller('StatusTab', function($scope, $log, appsession, size) {
 
 	$scope.humanFriendlySize = size.humanFriendlySize;
-	$scope.basicBalanceReport = {};
+	$scope.basicBalanceReport = null;
 
 	$scope.refreshing = false;
 
@@ -30,4 +30,21 @@ kerubApp.controller('StatusTab', function($scope, $log, appsession, size) {
 			$scope.caches = result;
 		});
 	};
+
+	$scope.maxStorage = function(report) {
+		if(report == null) {
+			return 0;
+		} else {
+			return Math.max(
+				report.totalHostStorage,
+				report.totalHostStorageFree,
+				report.totalDiskStorageRequested,
+				report.totalDiskStorageActual
+				);
+		}
+	}
+
+	$scope.percent = function(nr, percOf) {
+		return Math.round( nr / (percOf / 100) * 100 ) / 100;
+	}
 });

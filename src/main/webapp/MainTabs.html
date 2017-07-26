@@ -267,20 +267,44 @@
 							<li>dedicated vm cpus:
 								{{basicBalanceReport.totalDedicatedVmCpus}}
 							</li>
-							<li>host storage capacity:
-								{{humanFriendlySize(basicBalanceReport.totalHostStorage)}}
-							</li>
-							<li>host storage free capacity:
-								{{humanFriendlySize(basicBalanceReport.totalHostStorageFree)}}
-							</li>
-							<li>storage requested by vms:
-								{{humanFriendlySize(basicBalanceReport.totalDiskStorageRequested)}}
-							</li>
-							<li>storage used by vms:
-								{{humanFriendlySize(basicBalanceReport.totalDiskStorageActual)}}
-							</li>
-
 						</ul>
+
+
+							<uib-progress>
+								<uib-bar value="percent(basicBalanceReport.totalDiskStorageRequested, maxStorage(basicBalanceReport))"
+								         max="100"
+								         type="info">
+									requested {{humanFriendlySize(basicBalanceReport.totalDiskStorageRequested)}}
+									<strong>{{ percent(basicBalanceReport.totalDiskStorageRequested, maxStorage(basicBalanceReport)) }} %</strong>
+								</uib-bar>
+							</uib-progress>
+							<uib-progress>
+								<uib-bar value="percent(basicBalanceReport.totalDiskStorageActual, maxStorage(basicBalanceReport))"
+								         max="100"
+								         type="info">
+									used {{humanFriendlySize(basicBalanceReport.totalDiskStorageActual)}}
+									<strong>{{ percent(basicBalanceReport.totalDiskStorageActual, maxStorage(basicBalanceReport)) }} %</strong>
+								</uib-bar>
+							</uib-progress>
+
+							<uib-progress>
+								<uib-bar value="percent(basicBalanceReport.totalHostStorage, maxStorage(basicBalanceReport))"
+								         max="100"
+								         type="info">
+									total physical {{humanFriendlySize(basicBalanceReport.totalHostStorage)}}
+									<strong>{{ percent(basicBalanceReport.totalHostStorage, maxStorage(basicBalanceReport)) }} %</strong>
+								</uib-bar>
+							</uib-progress>
+
+							<uib-progress>
+								<uib-bar value="percent(basicBalanceReport.totalHostStorageFree, maxStorage(basicBalanceReport))"
+								         max="100"
+								         type="info">
+									free {{humanFriendlySize(basicBalanceReport.totalHostStorageFree)}}
+									<strong>{{ percent(basicBalanceReport.totalHostStorageFree, maxStorage(basicBalanceReport)) }} %</strong>
+								</uib-bar>
+							</uib-progress>
+
 					</div>
 				</div>
 				<div class="panel panel-default">
