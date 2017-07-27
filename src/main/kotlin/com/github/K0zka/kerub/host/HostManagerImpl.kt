@@ -7,12 +7,14 @@ import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
+import com.github.K0zka.kerub.data.dynamic.doWithDyn
 import com.github.K0zka.kerub.exc.HostAddressException
 import com.github.K0zka.kerub.host.distros.Distribution
 import com.github.K0zka.kerub.hypervisor.Hypervisor
 import com.github.K0zka.kerub.hypervisor.kvm.KvmHypervisor
 import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.controller.AssignmentType
+import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.lom.PowerManagementInfo
 import com.github.K0zka.kerub.utils.DefaultSshEventListener
 import com.github.K0zka.kerub.utils.getLogger
@@ -194,9 +196,18 @@ open class HostManagerImpl(
 	) : DefaultSshEventListener() {
 		override fun sessionClosed(session: Session) {
 			logger.info("Session closed for host:\n addrs: {}\n id: {}", host.address, host.id)
-			// things to do here, this host is dead for some reason, to register that, the dynamic record is removed
-			// this also tells the planner to act on the event
-			hostDynamicDao.remove(host.id)
+			hostDynamicDao.doWithDyn(host.id) {
+				dyn ->
+				dyn.copy(
+						status = HostStatus.Down,
+						memFree = null,
+						memSwapped = null,
+						memUsed = null,
+						systemCpu = null,
+						userCpu = null,
+						idleCpu = null
+				)
+			}
 			//clean up: remove the host connection
 			connections.remove(host.id)
 		}
