@@ -31,6 +31,6 @@ class FallocateTest : AbstractJunixCommandVerification() {
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		Fallocate.dig(session, "/kerub/$randId")
 
-		verify(session).createExecChannel(eq("fallocate /kerub/$randId"))
+		verify(session).createExecChannel(eq("fallocate -d /kerub/$randId"))
 	}
 }
