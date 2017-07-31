@@ -8,5 +8,9 @@ import java.util.UUID
 data class VirtualStorageFsAllocation(
 		override val hostId: UUID,
 		val mountPoint: String,
-		val type: VirtualDiskFormat
-) : VirtualStorageAllocation
+		val type: VirtualDiskFormat,
+		val fileName : String
+) : VirtualStorageAllocation {
+	override fun getPath(id: UUID) =
+		"$mountPoint/$id"
+}

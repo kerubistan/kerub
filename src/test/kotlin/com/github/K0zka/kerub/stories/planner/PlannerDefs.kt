@@ -447,7 +447,8 @@ class PlannerDefs {
 				allocation = VirtualStorageFsAllocation(
 						hostId = host.id,
 						mountPoint = "/var",
-						type = VirtualDiskFormat.qcow2
+						type = VirtualDiskFormat.qcow2,
+						fileName = "/var/${storage.id}"
 				)
 		)
 	}

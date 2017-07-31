@@ -13,4 +13,5 @@ import java.util.UUID
 )
 interface VirtualStorageAllocation : Serializable {
 	val hostId: UUID
+	fun getPath(id : UUID) : String
 }

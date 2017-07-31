@@ -8,4 +8,6 @@ import java.util.UUID
 data class VirtualStorageGvinumAllocation(
 		override val hostId: UUID,
 		val configuration: GvinumConfiguration
-) : VirtualStorageBlockDeviceAllocation
+) : VirtualStorageBlockDeviceAllocation {
+	override fun getPath(id: UUID) = "/dev/gvinum/${id}"
+}

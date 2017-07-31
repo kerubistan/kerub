@@ -7,8 +7,6 @@ import com.github.K0zka.kerub.host.HostCommandExecutor
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageFsAllocation
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageGvinumAllocation
-import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.security.AssetAccessController
@@ -46,7 +44,7 @@ class VirtualStorageDeviceServiceImpl(
 			dyn ->
 			val host = requireNotNull(hostDao[dyn.allocation.hostId])
 			async.resume(
-					ok(executor.readRemoteFile(host, getPath(dyn)), MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
+					ok(executor.readRemoteFile(host, dyn.allocation.getPath(dyn.id)), MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
 			)
 		}
 	}
@@ -96,25 +94,8 @@ class VirtualStorageDeviceServiceImpl(
 		load(id, VirtualDiskFormat.raw, async, data)
 	}
 
-	private fun getPath(dyn: VirtualStorageDeviceDynamic) =
-			when (dyn.allocation) {
-				is VirtualStorageLvmAllocation -> {
-					dyn.allocation.path
-				}
-				is VirtualStorageGvinumAllocation -> {
-					"/dev/gvinum/${dyn.id}"
-				}
-				is VirtualStorageFsAllocation -> {
-					"${dyn.allocation.mountPoint}/${dyn.id}"
-				}
-				else -> {
-					TODO()
-				}
-
-			}
-
 	private fun pump(data: InputStream, device: VirtualStorageDevice, dyn: VirtualStorageDeviceDynamic, session: ClientSession) {
-		uploadRaw(data, device, getPath(dyn), session)
+		uploadRaw(data, device, dyn.allocation.getPath(dyn.id), session)
 	}
 
 	private fun uploadRaw(data: InputStream, device: VirtualStorageDevice, path: String, session: ClientSession) {
