@@ -27,11 +27,11 @@ class CreateLv(
 	override fun take(state: OperationalState): OperationalState {
 		val vStorageDyn = VirtualStorageDeviceDynamic(
 				id = disk.id,
-				allocation = VirtualStorageLvmAllocation(
+				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = host.id,
 						actualSize = disk.size,
 						path = ""
-				)
+				))
 		)
 		val originalHostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		val volGroup = requireNotNull(host.capabilities?.storageCapabilities?.first { it is LvmStorageCapability && it.volumeGroupName == volumeGroupName })

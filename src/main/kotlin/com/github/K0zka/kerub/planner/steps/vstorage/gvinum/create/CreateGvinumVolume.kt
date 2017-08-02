@@ -60,11 +60,11 @@ data class CreateGvinumVolume(
 							dynamic = VirtualStorageDeviceDynamic(
 									id = disk.id,
 									lastUpdated = System.currentTimeMillis(),
-									allocation = VirtualStorageGvinumAllocation(
+									allocations = listOf(VirtualStorageGvinumAllocation(
 											hostId = host.id,
 											actualSize = disk.size,
 											configuration = config
-									)
+									))
 							)
 					)
 				}

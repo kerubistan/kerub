@@ -21,11 +21,11 @@ class CreateGvinumVolumeExecutor(
 		virtualDiskDynDao.add(
 				VirtualStorageDeviceDynamic(
 						id = step.disk.id,
-						allocation = VirtualStorageGvinumAllocation(
+						allocations = listOf(VirtualStorageGvinumAllocation(
 								hostId = step.host.id,
 								actualSize = step.disk.size,
 								configuration = step.config
-						)
+						))
 				)
 		)
 		when (step.config) {

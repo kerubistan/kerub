@@ -32,13 +32,13 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 	override fun update(step: CreateImage, updates: ImageInfo) {
 		dynDao.add(VirtualStorageDeviceDynamic(
 				id = step.disk.id,
-				allocation = VirtualStorageFsAllocation(
+				allocations = listOf(VirtualStorageFsAllocation(
 						hostId = step.host.id,
 						actualSize = BigInteger.valueOf(updates.diskSize),
 						mountPoint = step.path,
 						type = step.format,
 						fileName = "${step.path}/${step.disk.id}"
-				)
+				))
 		))
 	}
 }

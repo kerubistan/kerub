@@ -48,11 +48,11 @@ class TgtdIscsiShareFactoryTest {
 
 	val vStorageDyn = VirtualStorageDeviceDynamic(
 			id = vStorage.id,
-			allocation = VirtualStorageLvmAllocation(
+			allocations = listOf(VirtualStorageLvmAllocation(
 					hostId = host.id,
 					actualSize = vStorage.size,
 					path = "/dev/test/" + vStorage.id
-			)
+			))
 	)
 
 	@Test

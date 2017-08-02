@@ -136,11 +136,11 @@ class StatisticsDaoImplTest {
 		vdiskCache!!.put(vDisk2.id, vDisk2)
 		vdiskDynCache!!.put(vDisk1.id, VirtualStorageDeviceDynamic(
 				id = vDisk1.id,
-				allocation = VirtualStorageGvinumAllocation(
+				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
 						actualSize = "64 GB".toSize(),
 						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
-				)
+				))
 		))
 		whenever(controllerConfigDao.get()).thenReturn(
 				ControllerConfig()
@@ -179,11 +179,11 @@ class StatisticsDaoImplTest {
 		vdiskCache!!.put(vDisk2.id, vDisk2)
 		vdiskDynCache!!.put(vDisk1.id, VirtualStorageDeviceDynamic(
 				id = vDisk1.id,
-				allocation = VirtualStorageGvinumAllocation(
+				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
 						actualSize = "64 GB".toSize(),
 						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
-				)
+				))
 		))
 
 		whenever(controllerConfigDao.get()).thenReturn(

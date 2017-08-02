@@ -20,7 +20,7 @@ data class ConvertImage(
 						virtualStorageDataCollection ->
 						virtualStorageDataCollection.copy(
 								dynamic = requireNotNull(virtualStorageDataCollection.dynamic).copy(
-										allocation = newAllocation
+										allocations = listOf(newAllocation)
 								)
 						)
 					}

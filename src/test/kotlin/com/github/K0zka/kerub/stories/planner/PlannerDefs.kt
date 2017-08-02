@@ -443,13 +443,13 @@ class PlannerDefs {
 		val host = hosts.first { it.address == hostAddr }
 		vstorageDyns += VirtualStorageDeviceDynamic(
 				id = storage.id,
-				allocation = VirtualStorageFsAllocation(
+				allocations = listOf(VirtualStorageFsAllocation(
 						hostId = host.id,
 						actualSize = storage.size,
 						mountPoint = "/var",
 						type = VirtualDiskFormat.qcow2,
 						fileName = "/var/${storage.id}"
-				)
+				))
 		)
 	}
 
@@ -817,11 +817,11 @@ class PlannerDefs {
 		if (diskDyn == null) {
 			vstorageDyns += VirtualStorageDeviceDynamic(
 					id = disk.id,
-					allocation = VirtualStorageLvmAllocation(
+					allocations = listOf(VirtualStorageLvmAllocation(
 							hostId = host.id,
 							actualSize = disk.size,
 							path = "/dev/test/" + disk.id
-					),
+					)),
 					lastUpdated = System.currentTimeMillis()
 			)
 		}

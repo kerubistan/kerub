@@ -23,7 +23,7 @@ class FallocateImageExecutor(
 	override fun update(step: FallocateImage, updates: BigInteger) {
 		dynDao.update(id = step.virtualStorage.id) {
 			it.copy(
-					allocation = it.allocation.resize(updates)
+					allocations = listOf(it.allocation.resize(updates))
 			)
 		}
 	}

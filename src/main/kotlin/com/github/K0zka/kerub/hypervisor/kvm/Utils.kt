@@ -45,10 +45,12 @@ private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): S
 }
 
 fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
-	return when (deviceDyn.allocation) {
-		is VirtualStorageLvmAllocation -> "raw"
-		is VirtualStorageFsAllocation -> deviceDyn.allocation.type.name.toLowerCase()
-		else -> TODO("")
+	return deviceDyn.allocation.let {
+		when (it) {
+			is VirtualStorageLvmAllocation -> "raw"
+			is VirtualStorageFsAllocation -> it.type.name.toLowerCase()
+			else -> TODO("")
+		}
 	}
 }
 

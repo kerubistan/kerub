@@ -76,11 +76,11 @@ class KvmHypervisorTest {
 		)
 		val virtualStorageDeviceDynamic = VirtualStorageDeviceDynamic(
 				id = vDisk.id,
-				allocation = VirtualStorageLvmAllocation(
+				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = host.id,
 						actualSize = "100 GB".toSize(),
 						path = "/dev/blah"
-				)
+				))
 		)
 		val vm = VirtualMachine(
 				id = UUID.randomUUID(),

@@ -28,13 +28,13 @@ data class CreateImage(
 								dynamic =
 								VirtualStorageDeviceDynamic(
 										id = disk.id,
-										allocation = VirtualStorageFsAllocation(
+										allocations = listOf(VirtualStorageFsAllocation(
 												hostId = host.id,
 												actualSize = disk.size, //TODO not true when thin provisioning
 												mountPoint = path,
 												type = format,
 												fileName = "$path/${disk.id}"
-										)
+										))
 								)
 						)
 					}

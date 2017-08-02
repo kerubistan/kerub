@@ -19,11 +19,11 @@ class IscsiUtilsKtTest {
 	fun unsharedDisks() {
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
-				allocation = VirtualStorageLvmAllocation(
+				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = testHost.id,
 						actualSize = testDisk.size,
 						path = "/dev/test/1234"
-				)
+				))
 		)
 		kotlin.test.assertEquals(
 				listOf(VirtualStorageDataCollection(stat = testDisk, dynamic = diskDyn)),
@@ -42,11 +42,11 @@ class IscsiUtilsKtTest {
 	fun unsharedDisksWithSharedDisk() {
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
-				allocation = VirtualStorageLvmAllocation(
+				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = testHost.id,
 						actualSize = testDisk.size,
 						path = "/dev/test/1234"
-				)
+				))
 		)
 		val hostDyn = HostDynamic(
 				id = testHost.id,
