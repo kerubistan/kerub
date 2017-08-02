@@ -8,17 +8,13 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
-import org.mockito.Mockito
 import java.io.ByteArrayInputStream
-import java.io.InputStream
 import java.io.OutputStream
 
 class DFTest {

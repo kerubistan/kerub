@@ -21,11 +21,9 @@ import com.github.K0zka.kerub.testHostCapabilities
 import com.github.K0zka.kerub.testVirtualDisk
 import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.toSize
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.infinispan.Cache
-import org.infinispan.commons.util.concurrent.NotifyingFuture
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
 import org.junit.Before

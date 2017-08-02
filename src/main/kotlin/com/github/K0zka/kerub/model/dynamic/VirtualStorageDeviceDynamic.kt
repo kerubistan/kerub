@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.annotations.Dynamic
 import org.hibernate.search.annotations.DocumentId
-import java.math.BigInteger
 import java.util.UUID
 
 @JsonTypeName("virtual-storage-dyn")

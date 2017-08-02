@@ -11,7 +11,6 @@ import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Matchers
-import org.mockito.Mockito
 import java.io.OutputStream
 
 class MPStatTest {

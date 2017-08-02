@@ -16,7 +16,6 @@ import javax.ws.rs.Produces
 import javax.ws.rs.container.AsyncResponse
 import javax.ws.rs.container.Suspended
 import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
 
 @RequiresAuthentication
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
