@@ -443,9 +443,9 @@ class PlannerDefs {
 		val host = hosts.first { it.address == hostAddr }
 		vstorageDyns += VirtualStorageDeviceDynamic(
 				id = storage.id,
-				actualSize = storage.size,
 				allocation = VirtualStorageFsAllocation(
 						hostId = host.id,
+						actualSize = storage.size,
 						mountPoint = "/var",
 						type = VirtualDiskFormat.qcow2,
 						fileName = "/var/${storage.id}"
@@ -819,9 +819,9 @@ class PlannerDefs {
 					id = disk.id,
 					allocation = VirtualStorageLvmAllocation(
 							hostId = host.id,
+							actualSize = disk.size,
 							path = "/dev/test/" + disk.id
 					),
-					actualSize = disk.size,
 					lastUpdated = System.currentTimeMillis()
 			)
 		}

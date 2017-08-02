@@ -30,11 +30,11 @@ data class CreateImage(
 										id = disk.id,
 										allocation = VirtualStorageFsAllocation(
 												hostId = host.id,
+												actualSize = disk.size, //TODO not true when thin provisioning
 												mountPoint = path,
 												type = format,
 												fileName = "$path/${disk.id}"
-										),
-										actualSize = disk.size //TODO not true when thin provisioning
+										)
 								)
 						)
 					}

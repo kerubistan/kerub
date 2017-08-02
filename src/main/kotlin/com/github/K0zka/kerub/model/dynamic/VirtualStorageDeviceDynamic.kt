@@ -15,6 +15,5 @@ data class VirtualStorageDeviceDynamic(
 		@JsonProperty("id")
 		override val id: UUID,
 		override val lastUpdated: Long = System.currentTimeMillis(),
-		val allocation: VirtualStorageAllocation,
-		val actualSize: BigInteger
+		val allocation: VirtualStorageAllocation
 ) : DynamicEntity

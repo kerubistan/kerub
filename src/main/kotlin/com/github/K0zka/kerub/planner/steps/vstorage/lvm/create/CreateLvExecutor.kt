@@ -33,9 +33,9 @@ class CreateLvExecutor(
 			virtualDiskDynDao.add(
 					VirtualStorageDeviceDynamic(
 							id = step.disk.id,
-							actualSize = step.disk.size,
 							allocation = VirtualStorageLvmAllocation(
 									hostId = step.host.id,
+									actualSize = step.disk.size,
 									path = updates.path
 							)
 					)

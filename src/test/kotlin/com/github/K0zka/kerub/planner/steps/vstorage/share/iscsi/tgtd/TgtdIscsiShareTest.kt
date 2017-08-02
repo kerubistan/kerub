@@ -35,9 +35,9 @@ class TgtdIscsiShareTest {
 
 	val vStorageDyn = VirtualStorageDeviceDynamic(
 			id = vStorage.id,
-			actualSize = vStorage.size,
 			allocation = VirtualStorageLvmAllocation(
 					hostId = host.id,
+					actualSize = vStorage.size,
 					path = "/dev/test/" + vStorage.id
 			)
 	)

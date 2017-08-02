@@ -78,9 +78,9 @@ class KvmHypervisorTest {
 				id = vDisk.id,
 				allocation = VirtualStorageLvmAllocation(
 						hostId = host.id,
+						actualSize = "100 GB".toSize(),
 						path = "/dev/blah"
-				),
-				actualSize = "100 GB".toSize()
+				)
 		)
 		val vm = VirtualMachine(
 				id = UUID.randomUUID(),

@@ -78,7 +78,7 @@ class CreateImageExecutorTest {
 
 		whenever(virtualStorageDynamicDao.add(any())).thenAnswer {
 			val value = it.arguments[0] as VirtualStorageDeviceDynamic
-			assertEquals(value.actualSize, BigInteger.valueOf(4984832))
+			assertEquals(value.allocation.actualSize, BigInteger.valueOf(4984832))
 			assertEquals(value.allocation.hostId, step.host.id)
 			assert(value.allocation is VirtualStorageFsAllocation)
 			assertEquals((value.allocation as VirtualStorageFsAllocation).type, step.format)

@@ -34,11 +34,11 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 				id = step.disk.id,
 				allocation = VirtualStorageFsAllocation(
 						hostId = step.host.id,
+						actualSize = BigInteger.valueOf(updates.diskSize),
 						mountPoint = step.path,
 						type = step.format,
 						fileName = "${step.path}/${step.disk.id}"
-				),
-				actualSize = BigInteger.valueOf(updates.diskSize)
+				)
 		))
 	}
 }

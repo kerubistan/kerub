@@ -29,9 +29,9 @@ class CreateLv(
 				id = disk.id,
 				allocation = VirtualStorageLvmAllocation(
 						hostId = host.id,
+						actualSize = disk.size,
 						path = ""
-				),
-				actualSize = disk.size
+				)
 		)
 		val originalHostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		val volGroup = requireNotNull(host.capabilities?.storageCapabilities?.first { it is LvmStorageCapability && it.volumeGroupName == volumeGroupName })
