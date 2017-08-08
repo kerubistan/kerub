@@ -1,5 +1,5 @@
 env:
-  - MVN_OPTS="-Xmx512m"
+  - MVN_OPTS="-Xmx1024m"
 language: java
 script: mvn clean verify
 jdk:
