@@ -1,6 +1,6 @@
 package com.github.K0zka.kerub.utils.junix.packagemanager.rpm
 
-import com.github.K0zka.kerub.host.execute
+import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.SoftwarePackage
 import com.github.K0zka.kerub.model.Version
 import org.apache.sshd.client.session.ClientSession
@@ -11,7 +11,7 @@ import org.apache.sshd.client.session.ClientSession
  */
 object RpmListPackages {
 	fun execute(session: ClientSession): List<SoftwarePackage> =
-			session.execute("rpm -qa --queryformat \"%{NAME}\\t%{VERSION}\\n\"")
+			session.executeOrDie("rpm -qa --queryformat \"%{NAME}\\t%{VERSION}\\n\"")
 					.trim()
 					.split("\n".toRegex()).toTypedArray()
 					.map {
