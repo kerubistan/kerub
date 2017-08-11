@@ -10,8 +10,10 @@ import com.wordnik.swagger.annotations.ApiResponse
 import com.wordnik.swagger.annotations.ApiResponses
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.shiro.authz.annotation.RequiresRoles
+import java.util.UUID
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
+import javax.ws.rs.POST
 import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
@@ -55,4 +57,23 @@ interface HostService : RestCrud<Host>, RestOperations.List<Host>, RestOperation
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/helpers/controller-pubkey")
 	fun getPubkey(): String
+
+	@POST
+	@ApiOperation(
+			"Ask the controller to remove the host. The host will be deleted once all service migrated to other hosts",
+			httpMethod = "POST", produces = MediaType.APPLICATION_JSON
+	)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/remove")
+	fun remove(@PathParam("id") id: UUID)
+
+	@POST
+	@ApiOperation(
+			"Tell the controller that a host crashed. Resources",
+			httpMethod = "POST", produces = MediaType.APPLICATION_JSON
+	)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/{id}/dead")
+	fun declareDead(@PathParam("id") id: UUID)
+
 }

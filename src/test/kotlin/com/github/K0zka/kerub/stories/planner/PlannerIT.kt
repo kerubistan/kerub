@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 		),
 		features = arrayOf(
 				"classpath:stories/general/planner/planner.feature",
+				"classpath:stories/general/planner/host-removal.feature",
 				"classpath:stories/general/planner/storage.feature",
 				"classpath:stories/general/planner/power-save.feature",
 				"classpath:stories/general/planner/host-failure.feature",

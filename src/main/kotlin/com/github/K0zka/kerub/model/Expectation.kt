@@ -53,6 +53,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(SystemManufacturerExpectation::class),
 		JsonSubTypes.Type(SiteFeaturesExpectation::class),
 		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
+		JsonSubTypes.Type(WorkingHostExpectation::class),
 		JsonSubTypes.Type(VmDependency::class)
 )
 interface Expectation : Serializable {

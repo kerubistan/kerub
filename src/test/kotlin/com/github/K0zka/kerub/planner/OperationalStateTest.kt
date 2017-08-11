@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.WorkingHostExpectation
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.dynamic.VirtualMachineDynamic
@@ -17,7 +18,7 @@ import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
-import java.util.UUID
+import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -35,7 +36,7 @@ class OperationalStateTest {
 		val state = OperationalState.fromLists(
 				vms = listOf(
 						VirtualMachine(
-								id = UUID.randomUUID(),
+								id = randomUUID(),
 								name = "test-vm",
 								expectations = listOf(
 										VirtualMachineAvailabilityExpectation(up = true, level = ExpectationLevel.DealBreaker)
@@ -54,12 +55,12 @@ class OperationalStateTest {
 	@Test
 	fun virtualStorageToCheck() {
 		val vDiskNotPlanned = VirtualStorageDevice(
-				id = UUID.randomUUID(),
+				id = randomUUID(),
 				name = "not-planned",
 				size = "20 GB".toSize()
 		)
 		val vDiskPlanned = VirtualStorageDevice(
-				id = UUID.randomUUID(),
+				id = randomUUID(),
 				name = "planned",
 				size = "20 GB".toSize()
 		)
@@ -135,13 +136,13 @@ class OperationalStateTest {
 		assertFalse {
 			val exp = CoreDedicationExpectation()
 			val vm = testVm.copy(
-					id = UUID.randomUUID(),
+					id = randomUUID(),
 					expectations = listOf(exp),
 					nrOfCpus = 2 // two dedicated
 			)
 
 			val nonDedicated = testVm.copy(
-					id = UUID.randomUUID(),
+					id = randomUUID(),
 					expectations = listOf(),
 					nrOfCpus = 2 // and two non-dedicated
 			)
@@ -171,6 +172,33 @@ class OperationalStateTest {
 							)
 					)
 			).isExpectationSatisfied(expectation = exp, vm = vm)
+		}
+	}
+
+	@Test
+	fun getUnsatisfiedExpectations() {
+		val host1id = randomUUID()
+		OperationalState.fromLists(
+				hosts = listOf(
+						testHost.copy(
+								id = host1id,
+								address = "trashcan.example.com",
+								recycling = true
+						)
+				),
+				vms = listOf(
+						testVm
+				),
+				vmDyns = listOf(
+						VirtualMachineDynamic(
+								id = testVm.id,
+								status = VirtualMachineStatus.Up,
+								hostId = host1id,
+								memoryUsed = "1 GB".toSize()
+						)
+				)
+		).let {
+			assertTrue(it.getUnsatisfiedExpectations().any { it is WorkingHostExpectation })
 		}
 	}
 

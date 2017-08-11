@@ -10,12 +10,28 @@ import com.github.K0zka.kerub.model.paging.SearchResultPage
 import com.github.K0zka.kerub.services.HostAndPassword
 import com.github.K0zka.kerub.services.HostJoinDetails
 import com.github.K0zka.kerub.services.HostService
+import java.util.UUID
 
 class HostServiceImpl(
 		override val dao: HostDao,
 		private val manager: HostManager,
 		private val sshClientService: SshClientService)
 	: ListableBaseService<Host>("host"), HostService {
+
+	override fun remove(id: UUID) =
+			dao.update(id) {
+				it.copy(
+						recycling = true
+				)
+			}
+
+	override fun declareDead(id: UUID) =
+			dao.update(id) {
+				it.copy(
+						dead = true
+				)
+			}
+
 	override fun getByAddress(address: String): List<Host> = dao.byAddress(address)
 
 	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<Host> =

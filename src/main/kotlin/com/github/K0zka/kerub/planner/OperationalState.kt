@@ -7,6 +7,7 @@ import com.github.K0zka.kerub.model.Host
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
+import com.github.K0zka.kerub.model.WorkingHostExpectation
 import com.github.K0zka.kerub.model.collection.DataCollection
 import com.github.K0zka.kerub.model.collection.HostDataCollection
 import com.github.K0zka.kerub.model.collection.VirtualMachineDataCollection
@@ -111,10 +112,10 @@ data class OperationalState(
 		//check that all virtual resources has all DealBreaker satisfied
 		return vmsToCheck().all {
 			vm ->
-			vm.expectations.all {
+			vm.stat.expectations.all {
 				expectation ->
 				expectation.level != ExpectationLevel.DealBreaker
-						|| isExpectationSatisfied(expectation, vm)
+						|| isExpectationSatisfied(expectation, vm.stat)
 			}
 		} && virtualStorageToCheck().all {
 			virtualStorageDevice ->
@@ -155,44 +156,39 @@ data class OperationalState(
 		}.map { it.stat }
 	}
 
-	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int {
-		return vmsToCheck().sumBy {
-			vm ->
-			vm.expectations.count {
-				expectation ->
-				expectation.level == level
-						&& !isExpectationSatisfied(expectation, vm)
-			}
-		}
-	}
+	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int =
+			getUnsatisfiedExpectations().count { it.level == level }
 
-	fun getUnsatisfiedExpectations(): List<Expectation> {
-		var unsatisfied = listOf<Expectation>()
-		vmsToCheck()
-				.forEach {
-					vm ->
-					unsatisfied +=
-							vm.expectations.filterNot {
-								expectation ->
-								isExpectationSatisfied(expectation, vm)
-							}
-				}
-		virtualStorageToCheck().forEach {
-			vdisk ->
-			unsatisfied +=
-					vdisk.expectations.filterNot {
-						expectation ->
-						isExpectationSatisfied(expectation, vdisk)
-					}
-		}
-		return unsatisfied
-	}
+	internal fun isVmOnRecyclingHost(vm: VirtualMachineDataCollection) =
+			hosts[vm.dynamic?.hostId]?.stat?.recycling ?: false
 
-	private fun vmsToCheck(): List<VirtualMachine> {
+	fun getUnsatisfiedExpectations(): List<Expectation> =
+			vmsToCheck()
+					.map {
+						vm ->
+
+						vm.stat.expectations.filterNot {
+							expectation ->
+							isExpectationSatisfied(expectation, vm.stat)
+						} + if (isVmOnRecyclingHost(vm)) {
+							listOf(WorkingHostExpectation())
+						} else {
+							listOf()
+						}
+					}.join() +
+					virtualStorageToCheck().map {
+						vdisk ->
+						vdisk.expectations.filterNot {
+							expectation ->
+							isExpectationSatisfied(expectation, vdisk)
+						}
+					}.join()
+
+	private fun vmsToCheck(): List<VirtualMachineDataCollection> {
 		return vms.values
 				.filterNot {
 					reservations.contains(VmReservation(it.stat))
-				}.map { it.stat }
+				}
 	}
 
 	internal fun isExpectationSatisfied(expectation: Expectation, vm: VirtualMachine): Boolean {

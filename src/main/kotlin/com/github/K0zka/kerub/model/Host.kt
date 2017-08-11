@@ -35,6 +35,8 @@ data class Host constructor(
 		@Field
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
-		val capabilities: HostCapabilities? = null
+		val capabilities: HostCapabilities? = null,
+		val recycling: Boolean = false,
+		val dead: Boolean = false
 )
 	: Entity<UUID>

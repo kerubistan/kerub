@@ -186,6 +186,13 @@ class PlannerDefs {
 		}
 	}
 
+	@Given("host (\\S+) is scheduled for recycling")
+	fun setHoostRecycle(address: String) {
+		hosts = hosts.replace({ it.address == address }, {
+			it.copy(recycling = true)
+		})
+	}
+
 	@Given("host (\\S+) filesystem is:")
 	fun setHostFilesystemCapabilities(hostAddr: String, mounts: DataTable) {
 		val fsCapabilities = mounts.raw().skip().map {
