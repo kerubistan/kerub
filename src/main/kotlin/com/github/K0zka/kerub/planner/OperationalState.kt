@@ -107,11 +107,11 @@ data class OperationalState(
 	override fun isComplete(): Boolean {
 		//check that all virtual resources has all DealBreaker satisfied
 		return vmsToCheck().all {
-			vm ->
-			vm.stat.expectations.all {
+			(stat) ->
+			stat.expectations.all {
 				expectation ->
 				expectation.level != ExpectationLevel.DealBreaker
-						|| isExpectationSatisfied(expectation, vm.stat)
+						|| isExpectationSatisfied(expectation, stat)
 			}
 		} && virtualStorageToCheck().all {
 			virtualStorageDevice ->
@@ -269,7 +269,7 @@ data class OperationalState(
 			}
 			is NoMigrationExpectation -> return true
 			else ->
-				throw IllegalArgumentException("Expectation ${expectation} can not be checked")
+				throw IllegalArgumentException("Expectation $expectation can not be checked")
 		}
 	}
 }
