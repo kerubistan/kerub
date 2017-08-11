@@ -83,25 +83,21 @@ data class OperationalState(
 				)
 	}
 
-	fun vmDataOnHost(hostId: UUID): List<VirtualMachineDataCollection> {
-		return vms.values
-				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
-	}
+	fun vmDataOnHost(hostId: UUID): List<VirtualMachineDataCollection> =
+			vms.values
+					.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
 
-	fun vmsOnHost(hostId: UUID): List<VirtualMachine> {
-		return vms.values
-				.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
-				.map { vms[it.dynamic!!.id]?.stat }.filterNotNull()
-	}
+	fun vmsOnHost(hostId: UUID): List<VirtualMachine> =
+			vms.values
+					.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
+					.map { vms[it.dynamic!!.id]?.stat }.filterNotNull()
 
 	fun isVmRunning(vm: VirtualMachine): Boolean {
 		val dyn = vms[vm.id]?.dynamic
 		return dyn != null && dyn.status == VirtualMachineStatus.Up
 	}
 
-	fun vmHost(vm: VirtualMachine): Host? {
-		return vmHost(vm.id)
-	}
+	fun vmHost(vm: VirtualMachine): Host? = vmHost(vm.id)
 
 	fun vmHost(vmId: UUID): Host? {
 		val dyn = vms[vmId]?.dynamic
@@ -150,11 +146,10 @@ data class OperationalState(
 		}
 	}
 
-	fun virtualStorageToCheck(): List<VirtualStorageDevice> {
-		return vStorage.values.filterNot {
+	fun virtualStorageToCheck(): List<VirtualStorageDevice> =
+			vStorage.values.filterNot {
 			reservations.contains(VirtualStorageReservation(it.stat))
 		}.map { it.stat }
-	}
 
 	fun getNrOfUnsatisfiedExpectations(level: ExpectationLevel): Int =
 			getUnsatisfiedExpectations().count { it.level == level }
