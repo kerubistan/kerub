@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.execution
 
 import com.github.K0zka.kerub.data.ExecutionResultDao
+import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -30,6 +31,7 @@ class PlanExecutorImplTest {
 	val executor: HostCommandExecutor = mock()
 	val hostConfigDao = mock<HostConfigurationDao>()
 	val hostManager: HostManager = mock()
+	val hostDao: HostDao = mock()
 	val hostDynamicDao: HostDynamicDao = mock()
 	val vmDynamicDao: VirtualMachineDynamicDao = mock()
 	val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao = mock()
@@ -71,6 +73,7 @@ class PlanExecutorImplTest {
 				controllerManager,
 				executor,
 				hostManager,
+				hostDao,
 				hostDynamicDao,
 				vmDynamicDao,
 				virtualStorageDeviceDynamicDao,

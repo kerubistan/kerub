@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.planner.execution
 
 import com.github.K0zka.kerub.data.ExecutionResultDao
+import com.github.K0zka.kerub.data.HostDao
 import com.github.K0zka.kerub.data.config.HostConfigurationDao
 import com.github.K0zka.kerub.data.dynamic.HostDynamicDao
 import com.github.K0zka.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -22,6 +23,8 @@ import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsm
 import com.github.K0zka.kerub.planner.steps.host.ksm.EnableKsmExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownExecutor
 import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
+import com.github.K0zka.kerub.planner.steps.host.recycle.RecycleHost
+import com.github.K0zka.kerub.planner.steps.host.recycle.RecycleHostExecutor
 import com.github.K0zka.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.K0zka.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.K0zka.kerub.planner.steps.host.startup.WolWakeHost
@@ -52,6 +55,7 @@ class PlanExecutorImpl(
 		private val controllerManager: ControllerManager,
 		hostCommandExecutor: HostCommandExecutor,
 		hostManager: HostManager,
+		hostDao: HostDao,
 		hostDynamicDao: HostDynamicDao,
 		vmDynamicDao: VirtualMachineDynamicDao,
 		virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
@@ -77,7 +81,8 @@ class PlanExecutorImpl(
 			WolWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
 			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
-			CtldIscsiShare::class to CtldIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager)
+			CtldIscsiShare::class to CtldIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
+			RecycleHost::class to RecycleHostExecutor(hostDao, hostDynamicDao)
 	)
 
 	fun execute(step: AbstractOperationalStep) {
