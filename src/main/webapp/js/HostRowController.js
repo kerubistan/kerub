@@ -13,4 +13,7 @@ kerubApp.controller('HostRowController', function($scope, socket, appsession, $l
 			});
 		});
 	};
+	$scope.removeHost = function() {
+		appsession.post('s/r/host/'+$scope.host.id+'/remove');
+	};
 });
