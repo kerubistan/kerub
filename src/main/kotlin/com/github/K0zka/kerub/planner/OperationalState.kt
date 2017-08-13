@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.model.Entity
 import com.github.K0zka.kerub.model.Expectation
 import com.github.K0zka.kerub.model.ExpectationLevel
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.InternalExpectation
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualMachineStatus
 import com.github.K0zka.kerub.model.VirtualStorageDevice
@@ -30,6 +31,7 @@ import com.github.K0zka.kerub.model.expectations.NotSameStorageExpectation
 import com.github.K0zka.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualStorageExpectation
+import com.github.K0zka.kerub.model.expectations.internals.NoGarbageExpectation
 import com.github.K0zka.kerub.planner.reservations.Reservation
 import com.github.K0zka.kerub.planner.reservations.VirtualStorageReservation
 import com.github.K0zka.kerub.planner.reservations.VmReservation
@@ -177,7 +179,11 @@ data class OperationalState(
 							expectation ->
 							isExpectationSatisfied(expectation, vdisk)
 						}
-					}.join()
+					}.join() +
+					unsatisfiedInternalExpectations()
+
+	private fun unsatisfiedInternalExpectations(): Iterable<InternalExpectation>
+			= hosts.filter { it.value.stat.recycling }.map { NoGarbageExpectation(host = it.value.stat) }
 
 	private fun vmsToCheck(): List<VirtualMachineDataCollection> {
 		return vms.values

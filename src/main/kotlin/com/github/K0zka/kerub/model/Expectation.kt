@@ -24,6 +24,7 @@ import com.github.K0zka.kerub.model.expectations.StorageWritePerformanceExpectat
 import com.github.K0zka.kerub.model.expectations.SystemManufacturerExpectation
 import com.github.K0zka.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.K0zka.kerub.model.expectations.VmDependency
+import com.github.K0zka.kerub.model.expectations.internals.NoGarbageExpectation
 import java.io.Serializable
 
 /**
@@ -54,6 +55,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(SiteFeaturesExpectation::class),
 		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
 		JsonSubTypes.Type(WorkingHostExpectation::class),
+		JsonSubTypes.Type(NoGarbageExpectation::class),
 		JsonSubTypes.Type(VmDependency::class)
 )
 interface Expectation : Serializable {

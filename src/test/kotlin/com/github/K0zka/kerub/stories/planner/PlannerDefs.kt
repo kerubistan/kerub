@@ -51,6 +51,8 @@ import com.github.K0zka.kerub.planner.Plan
 import com.github.K0zka.kerub.planner.PlanExecutor
 import com.github.K0zka.kerub.planner.Planner
 import com.github.K0zka.kerub.planner.PlannerImpl
+import com.github.K0zka.kerub.planner.steps.host.powerdown.PowerDownHost
+import com.github.K0zka.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.K0zka.kerub.planner.steps.host.startup.AbstractWakeHost
 import com.github.K0zka.kerub.planner.steps.replace
 import com.github.K0zka.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
@@ -61,6 +63,7 @@ import com.github.K0zka.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumV
 import com.github.K0zka.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.K0zka.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
 import com.github.K0zka.kerub.stories.config.ControllerConfigDefs
+import com.github.K0zka.kerub.testVm
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.skip
 import com.github.K0zka.kerub.utils.toSize
@@ -193,6 +196,13 @@ class PlannerDefs {
 		})
 	}
 
+	@Given("host (\\S+) is (not\\s+)?dedicated")
+	fun setDedicated(address: String, yesNo: String?) {
+		hosts = hosts.replace({ it.address == address }, {
+			it.copy(dedicated = yesNo?.trim() != "not")
+		})
+	}
+
 	@Given("host (\\S+) filesystem is:")
 	fun setHostFilesystemCapabilities(hostAddr: String, mounts: DataTable) {
 		val fsCapabilities = mounts.raw().skip().map {
@@ -303,6 +313,27 @@ class PlannerDefs {
 				obj = vms.filter { it.name == vm }.first(),
 				date = System.currentTimeMillis()
 		))
+	}
+
+	@Then("^host (\\S+) will be recycled$")
+	fun verifyHostRecycle(hostAddress: String) {
+		Assert.assertTrue(executedPlans.any {
+			it.steps.any {
+				it is RecycleHost &&
+						it.host.address == hostAddress
+			}
+		})
+	}
+
+	@Then("^host (\\S+) will (not\\s+)?be powered down")
+	fun verifyHostPowerDown(hostAddress: String, yesNo: String?) {
+		val shouldPowerDown = yesNo?.trim() != "not"
+		Assert.assertEquals(shouldPowerDown, executedPlans.any {
+			it.steps.any {
+				it is PowerDownHost &&
+						it.host.address == hostAddress
+			}
+		})
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) with kvm hypervisor$")
@@ -811,6 +842,14 @@ class PlannerDefs {
 
 		planner.onEvent(EntityUpdateMessage(
 				obj = virtualStorage,
+				date = System.currentTimeMillis()
+		))
+	}
+
+	@When("planner starts")
+	fun kickPlanner() {
+		planner.onEvent(EntityUpdateMessage(
+				obj = testVm,
 				date = System.currentTimeMillis()
 		))
 	}
