@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.history.ChangeEvent
+import com.github.K0zka.kerub.model.history.HistoryEntry
 import com.github.K0zka.kerub.testHost
 import nl.komponents.kovenant.Deferred
 import nl.komponents.kovenant.deferred
@@ -15,7 +16,7 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, ChangeEvent>() {
+class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 
 	@Listener(observation = Listener.Observation.POST)
 	class CreateEventListener(private val deferred: Deferred<Unit, Exception>) {
@@ -28,14 +29,16 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, ChangeEvent>() {
 	@Test
 	fun log() {
 		val deferred = deferred<Unit, Exception>()
+		cache!!.clear()
 		cache!!.addListener(CreateEventListener(deferred))
-		HostDynamicHistoryDao(cache!!).log(
+		val dao = HostDynamicHistoryDao(cache!!)
+		dao.log(
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false),
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true)
 		)
 		deferred.promise.then {
 			assertTrue(cache!!.isNotEmpty())
+			assertTrue(dao.list(testHost.id).isNotEmpty())
 		}.get()
 	}
-
 }
