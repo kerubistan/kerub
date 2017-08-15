@@ -42,6 +42,14 @@
 		<constructor-arg value="vmCache"/>
 	</bean>
 
+	<bean id="templateCache" parent="cache">
+		<constructor-arg value="templateCache"/>
+	</bean>
+
+	<bean id="poolCache" parent="cache">
+		<constructor-arg value="poolCache"/>
+	</bean>
+
 	<bean id="vNetCache" parent="cache">
 		<constructor-arg value="vNetCache"/>
 	</bean>
