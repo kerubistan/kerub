@@ -3,7 +3,7 @@ package com.github.K0zka.kerub.data.ispn.history
 import com.github.K0zka.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
-import com.github.K0zka.kerub.model.history.HistoryEntry
+import com.github.K0zka.kerub.model.history.ChangeEvent
 import com.github.K0zka.kerub.testHost
 import nl.komponents.kovenant.Deferred
 import nl.komponents.kovenant.deferred
@@ -15,12 +15,12 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
+class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, ChangeEvent>() {
 
 	@Listener(observation = Listener.Observation.POST)
 	class CreateEventListener(private val deferred: Deferred<Unit, Exception>) {
 		@CacheEntryCreated
-		fun listen(event: CacheEntryCreatedEvent<UUID, HistoryEntry>) {
+		fun listen(event: CacheEntryCreatedEvent<UUID, ChangeEvent>) {
 			deferred.resolve(Unit)
 		}
 	}
