@@ -9,5 +9,5 @@ data class HistorySummary(
 		override val entityKey: Any,
 		override val appVersion: String?,
 		val time: Range<Long>,
-		val changes: List<PropertyChange>
+		val changes: List<PropertyChangeSummary>
 ) : HistoryEntry, Serializable
