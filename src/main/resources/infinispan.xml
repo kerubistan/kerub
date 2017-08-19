@@ -16,6 +16,7 @@
 				mbean-server-lookup="org.infinispan.jmx.PlatformMBeanServerLookup"/>
 		<distributed-cache name="default" statistics="true">
 			<indexing auto-config="true"/>
+			<transaction mode="BATCH"/>
 		</distributed-cache>
 
 		<replicated-cache name="controllerConfigCache" statistics="true">
@@ -68,9 +69,6 @@
 			</persistence>
 			<indexing auto-config="true"/>
 		</distributed-cache>
-
-
-
 		<distributed-cache name="virtualStorageDeviceDynamicCache" statistics="true" owners="${dyn.owners}">
 			<persistence>
 				<file-store path="${store.dir}/store/dyn/vstorage"/>

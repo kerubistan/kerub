@@ -8,6 +8,7 @@ import java.util.UUID
 
 class VirtualMachineDynamicHistoryDaoImpl(cache: Cache<UUID, HistoryEntry>)
 	: GenericHistoryDaoImpl<VirtualMachineDynamic>(cache) {
+
 	override fun changes(oldEntry: VirtualMachineDynamic, newEntry: VirtualMachineDynamic): List<PropertyChange>
 			= diff(oldEntry, newEntry)
 }

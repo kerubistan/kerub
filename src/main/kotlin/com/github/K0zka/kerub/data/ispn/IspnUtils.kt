@@ -75,3 +75,15 @@ inline fun <reified K, reified V> Cache<K, V>.search(
 				.maxResults(limit)
 				.startOffset(start)
 				.list()
+
+inline fun <K, V : Any, T> Cache<K, V>.batch(action: () -> T): T {
+	var success = false
+	this.advancedCache.startBatch()
+	try {
+		val ret = action()
+		success = true
+		return ret
+	} finally {
+		this.advancedCache.endBatch(success)
+	}
+}

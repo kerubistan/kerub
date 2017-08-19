@@ -39,7 +39,11 @@ data class ControllerConfig(
 		/**
 		 * All hypervisor-related here.
 		 */
-		val hypervisorTechnologies: HypervisorTechnologies = HypervisorTechnologies()
+		val hypervisorTechnologies: HypervisorTechnologies = HypervisorTechnologies(),
+		/**
+		 * Configuration for the history archiver
+		 */
+		val archiverConfig: ArchiverConfig = ArchiverConfig()
 ) : Entity<String> {
 	@JsonIgnore
 	override val id: String = emptyString

@@ -4,6 +4,7 @@ import com.github.K0zka.kerub.audit.AuditManager
 import com.github.K0zka.kerub.data.EventListener
 import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
+import org.infinispan.configuration.cache.ConfigurationBuilder
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After
 import org.junit.Before
@@ -17,7 +18,8 @@ abstract class AbstractIspnDaoTest<K: Any, V : Any> {
 
 	@Before
 	fun setUp() {
-		cacheManager = DefaultCacheManager()
+		val configuration = ConfigurationBuilder().invocationBatching().enable().build()
+		cacheManager = DefaultCacheManager(configuration)
 		cacheManager!!.start()
 		cache = cacheManager!!.getCache("test")
 		cache!!.clear()

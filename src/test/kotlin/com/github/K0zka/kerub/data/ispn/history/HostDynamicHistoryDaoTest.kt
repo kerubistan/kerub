@@ -22,14 +22,15 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 	class CreateEventListener(private val deferred: Deferred<Unit, Exception>) {
 		@CacheEntryCreated
 		fun listen(event: CacheEntryCreatedEvent<UUID, ChangeEvent>) {
-			deferred.resolve(Unit)
+			if (!deferred.promise.isDone()) {
+				deferred.resolve(Unit)
+			}
 		}
 	}
 
 	@Test
 	fun log() {
 		val deferred = deferred<Unit, Exception>()
-		cache!!.clear()
 		cache!!.addListener(CreateEventListener(deferred))
 		val dao = HostDynamicHistoryDao(cache!!)
 		dao.log(
@@ -40,5 +41,22 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 			assertTrue(cache!!.isNotEmpty())
 			assertTrue(dao.list(testHost.id).isNotEmpty())
 		}.get()
+	}
+
+	@Test
+	fun compress() {
+		val deferred = deferred<Unit, Exception>()
+		cache!!.addListener(CreateEventListener(deferred))
+		val dao = HostDynamicHistoryDao(cache!!)
+		val startTime = System.currentTimeMillis()
+		dao.log(
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false),
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true)
+		)
+		deferred.promise.then {
+			val endTime = System.currentTimeMillis()
+			dao.compress(startTime, endTime, listOf(testHost.id))
+		}.get()
+
 	}
 }
