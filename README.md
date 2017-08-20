@@ -1,5 +1,5 @@
 
-[![Kotlin](https://img.shields.io/badge/kotlin-1.1.2-blue.svg)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/kotlin-1.1-blue.svg)](http://kotlinlang.org)
 [![FreeBSD](https://img.shields.io/badge/FreeBSD-10+-red.svg)](http://freebsd.org)
 [![Fedora](https://img.shields.io/badge/Fedora-20+-blue.svg)](https://getfedora.org/)
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-14+-red.svg)](http://ubuntu.com)
@@ -42,6 +42,7 @@ Kerub is in research/development phase, however you should be able to run and us
 How to get started
 =======
 
+
 ``` 
 git clone https://github.com/kerubistan/kerub/
 cd kerub
@@ -60,4 +61,13 @@ The host needs a few software to work with:
  * monitoring and hardware discovery software, typically the ones found in any linux distribution
 
 Kerub will find whatever is installed.
+
+OS Packages
+===========
+
+| OS / Distribution | packaging project 										 | status 	   |
+|-------------------|------------------------------------------------------------|-------------| 
+| Fedora			| [kerub-fedora](https://github.com/kerubistan/kerub-fedora) | maintained  |
+| CentOS			| [kerub-centos](https://github.com/kerubistan/kerub-centos) | maintained  |
+| ubuntu			| [kerub-ubuntu](https://github.com/kerubistan/kerub-ubuntu) | development |
 
