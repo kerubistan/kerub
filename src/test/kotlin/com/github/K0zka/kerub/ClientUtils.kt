@@ -31,7 +31,7 @@ val testUsers = mapOf(
 
 class RestException(val msg : String, val code : String, val status : Int, val response : Response) : RuntimeException()
 
-class RestExceptionHandler(val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
+class RestExceptionHandler(private val objectMapper : ObjectMapper) : ResponseExceptionMapper<Exception> {
 	override fun fromResponse(r: Response): Exception {
 		val entity = silent { objectMapper.readValue(r.entity as InputStream, RestError::class.java) }
 		return RestException(entity?.message ?: "" ,entity?.code ?: "", r.status, r)
