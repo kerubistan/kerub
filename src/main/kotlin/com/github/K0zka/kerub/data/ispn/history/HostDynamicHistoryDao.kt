@@ -9,6 +9,4 @@ import java.util.UUID
 class HostDynamicHistoryDao(cache: Cache<UUID, HistoryEntry>)
 	: GenericHistoryDaoImpl<HostDynamic>(cache) {
 	override fun changes(oldEntry: HostDynamic, newEntry: HostDynamic): List<PropertyChange> = diff(oldEntry, newEntry)
-
-
 }
