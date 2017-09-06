@@ -332,8 +332,8 @@
 		<plugins>
 			<plugin>
 				<groupId>com.github.K0zka</groupId>
-				<artifactId>maven-contentgzip-plugin</artifactId>
-				<version>0.0.7</version>
+				<artifactId>contentgzip-maven-plugin</artifactId>
+				<version>0.0.9</version>
 				<executions>
 					<execution>
 						<phase>prepare-package</phase>
