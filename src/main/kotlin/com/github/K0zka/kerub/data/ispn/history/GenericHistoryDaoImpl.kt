@@ -7,14 +7,20 @@ import com.github.K0zka.kerub.data.ispn.queryBuilder
 import com.github.K0zka.kerub.model.Range
 import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import com.github.K0zka.kerub.model.history.ChangeEvent
+import com.github.K0zka.kerub.model.history.DataPropertyChangeSummary
 import com.github.K0zka.kerub.model.history.HistoryEntry
 import com.github.K0zka.kerub.model.history.HistorySummary
+import com.github.K0zka.kerub.model.history.NumericPropertyChangeSummary
 import com.github.K0zka.kerub.model.history.PropertyChange
 import com.github.K0zka.kerub.model.history.PropertyChangeSummary
-import com.github.K0zka.kerub.utils.avgBy
+import com.github.K0zka.kerub.utils.bd
+import com.github.K0zka.kerub.utils.decimalAvgBy
+import com.github.K0zka.kerub.utils.equalsAnyOf
 import com.github.K0zka.kerub.utils.join
+import com.github.K0zka.kerub.utils.subLists
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Query
+import java.math.BigDecimal
 import java.util.UUID
 import kotlin.reflect.KClass
 
@@ -23,7 +29,26 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 ) : HistoryDao<T> {
 
 	companion object {
+
+		internal val minimumExtreme = 10
+
 		internal val appVersion = GenericHistoryDaoImpl::class.java.`package`.implementationVersion
+
+		internal fun getPropertyType(property: String, ofClazz: KClass<out Any>) =
+				ofClazz.java.declaredFields.firstOrNull { it.name == property }?.type
+
+		internal fun isNumber(clazz : Class<*>) =
+				if(clazz.isPrimitive) {
+					clazz.name.equalsAnyOf("double","float","byte","char","int", "long")
+				} else {
+					Number::class.java.isAssignableFrom(clazz)
+				}
+
+		internal fun isData(clazz : Class<*>): Boolean = clazz.kotlin.isData
+
+		internal fun isList(clazz: Class<*>): Boolean =
+				clazz.isAssignableFrom(List::class.java)
+
 
 		internal fun changedPropertyNames(changes: List<HistoryEntry>) =
 				changes.filterIsInstance(ChangeEvent::class.java).map {
@@ -43,6 +68,42 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 					}
 				}
 
+
+		private val nevValueAsNumber: (Pair<Long, PropertyChange>) -> BigDecimal = {
+			bd(it.second.newValue) ?: BigDecimal.ZERO
+		}
+
+		/**
+		 * TODO
+		 *
+		 * Some typical workload as a reminder for myself:
+		 *  - batch style: occurs regularly a static number of times a day
+		 *  - ad-hoc style:
+		 *
+		 *  An extreme is:
+		 *  A period of time when the values are higher than the average
+		 *
+		 *  Maximum number of extremes:
+		 *  There should be a maximum number of extremes, if there are more extremes than that,
+		 *  then maybe we should call it the normal behavior of the application.
+		 */
+		internal fun detectExtremes(changes: List<Pair<Long, PropertyChange>>) : List<List<PropertyChange>> {
+			val sortedChanges = changes.sortedBy(nevValueAsNumber)
+
+			val totalAvg = changes.decimalAvgBy(nevValueAsNumber)
+			val median = sortedChanges.minBy {
+				(nevValueAsNumber(it) - totalAvg).abs()
+			}
+			val medianPosition = sortedChanges.indexOf(median)
+
+			val upperHalf = sortedChanges.subList(medianPosition, sortedChanges.size)
+			val upperAvg = upperHalf.decimalAvgBy(nevValueAsNumber)
+
+
+			return changes.subLists(minimumExtreme) {
+				nevValueAsNumber(it) > upperAvg
+			}.map { it.map { it.second } }
+		}
 
 	}
 
@@ -103,18 +164,71 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 		}
 	}
 
+	internal abstract val dynClass : KClass<out DynamicEntity>
+
 	open fun sum(changes: List<HistoryEntry>): List<PropertyChangeSummary> =
 			changedPropertyNames(changes).map {
 
-				val propertyChanges = changesOfProperty(it, changes)
+				changedProperty ->
+				val propertyChanges = changesOfProperty(changedProperty, changes)
 
-				PropertyChangeSummary(
-						property = it,
-						average = propertyChanges.avgBy { 0 },
-						max = propertyChanges.maxBy { 0 },
-						min = propertyChanges.minBy { 0 },
-						extremes = listOf()
-				)
+				val propertyType = getPropertyType(changedProperty, dynClass)
+				if(propertyType == null) {
+					TODO()
+				} else if(isNumber(propertyType)) {
+					fun genericSelector(summarySelector : (HistorySummary) -> BigDecimal) : (HistoryEntry) -> BigDecimal =
+							{
+								when (it) {
+									is HistorySummary ->
+										summarySelector(it)
+									is ChangeEvent ->
+										bd(it.changes.single { it.property == changedProperty }.newValue)
+												?: BigDecimal.ZERO
+									else -> TODO()
+								}
+							}
+
+					val maxSelector: (HistoryEntry) -> BigDecimal
+							= genericSelector {
+						bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).max)
+								?: BigDecimal.ZERO
+					}
+					val minSelector: (HistoryEntry) -> BigDecimal
+							= genericSelector {
+						bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).min)
+								?: BigDecimal.ZERO
+					}
+
+					NumericPropertyChangeSummary(
+							property = changedProperty,
+							average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/},
+							max = requireNotNull(propertyChanges.map(maxSelector).max()), //there is at least one element, therefore there must be a maximum
+							min = requireNotNull(propertyChanges.map(minSelector).min()), //and same for minimums
+							extremes = listOf()
+					)
+
+				} else if (isData(propertyType)){
+					//TODO
+					DataPropertyChangeSummary(
+							property = changedProperty,
+							changes = mapOf()
+					)
+
+				} else if(isList(propertyType)) {
+					//TODO
+					DataPropertyChangeSummary(
+							property = changedProperty,
+							changes = mapOf()
+					)
+				} else {
+					//TODO
+					DataPropertyChangeSummary(
+							property = changedProperty,
+							changes = mapOf()
+					)
+
+				}
+
 			}
 
 

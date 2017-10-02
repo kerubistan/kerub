@@ -1,0 +1,14 @@
+{
+  "id" : "4716d630-ab9b-43f2-b5dd-c16f1893ef15",
+  "entityKey" : "4716d630-ab9b-43f2-b5dd-c16f1893ef15",
+  "appVersion" : "0.2",
+  "time" : {
+    "min" : 123456,
+    "max" : 45678990
+  },
+  "changes" : [
+    {
+      "property" : ""
+    }
+  ]
+}

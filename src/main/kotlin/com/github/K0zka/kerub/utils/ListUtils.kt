@@ -73,3 +73,27 @@ inline fun <T : Any, U : Any, I : Any> List<T>.update(
 		selfMiss(it.value)
 	}.filterNotNull()
 }
+
+fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<List<T>> {
+	var ret = listOf<List<T>>()
+
+	var start : Int? = null
+	for(idx in 0..(this.size - 1)) {
+		val match = selector(this[idx])
+		if(start != null) {
+			if(!match) {
+				if (idx - 1 - start > minLength) {
+					ret += listOf(this.subList(start, idx))
+				}
+				start = null
+			}
+		} else if(match) {
+			start = idx
+		}
+	}
+	if(start != null && this.size - 1 - start >= minLength) {
+		ret += listOf(this.subList(start, this.size + 1))
+	}
+
+	return ret
+}

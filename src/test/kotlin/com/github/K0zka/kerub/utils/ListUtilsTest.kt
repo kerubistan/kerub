@@ -74,4 +74,23 @@ class ListUtilsTest {
 		assertTrue(results.contains(Employee(id = 3, name = "Jack", role = "Document Wizard", salary = 590)))
 		assertEquals(3, results.size)
 	}
+
+	@Test
+	fun subLists() {
+		assertEquals(
+				listOf(listOf("spam egg", "spam spam", "spam")),
+				listOf("egg", "bacon", "foo", "spam egg", "spam spam", "spam", "egg", "bacon").subLists(1) {
+					it.contains("spam")
+				}
+		)
+
+		assertEquals(
+				listOf(listOf("spam egg", "spam spam", "spam")),
+				listOf("egg", "spam", "bacon", "foo", "spam egg", "spam spam", "spam", "egg", "bacon").subLists(1) {
+					it.contains("spam")
+				}
+		)
+
+	}
+
 }

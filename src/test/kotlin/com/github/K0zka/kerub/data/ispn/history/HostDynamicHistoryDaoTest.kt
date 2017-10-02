@@ -4,7 +4,9 @@ import com.github.K0zka.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.K0zka.kerub.data.ispn.utils.CountdownCreateEventListener
 import com.github.K0zka.kerub.model.dynamic.HostDynamic
 import com.github.K0zka.kerub.model.dynamic.HostStatus
+import com.github.K0zka.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.K0zka.kerub.model.history.HistoryEntry
+import com.github.K0zka.kerub.testDisk
 import com.github.K0zka.kerub.testHost
 import com.github.K0zka.kerub.utils.toSize
 import nl.komponents.kovenant.deferred
@@ -38,8 +40,30 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 		val dao = HostDynamicHistoryDao(cache!!)
 		val startTime = System.currentTimeMillis()
 		dao.log(
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = "129 MB".toSize()),
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = "128 MB".toSize())
+				HostDynamic(
+						id = testHost.id,
+						status = HostStatus.Up,
+						ksmEnabled = false,
+						memFree = "129 MB".toSize(),
+						storageStatus = listOf(
+								StorageDeviceDynamic(
+										id = testDisk.id,
+										freeCapacity = "600 GB".toSize()
+								)
+						)
+				),
+				HostDynamic(
+						id = testHost.id,
+						status = HostStatus.Up,
+						ksmEnabled = true,
+						memFree = "128 MB".toSize(),
+						storageStatus = listOf(
+								StorageDeviceDynamic(
+										id = testDisk.id,
+										freeCapacity = "580 GB".toSize()
+								)
+						)
+				)
 		)
 		dao.log(
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = "128 MB".toSize()),
