@@ -24,7 +24,7 @@ abstract class AbstractAssetDao<T : Asset>(
 				listOf()
 			} else {
 				cache.queryBuilder(getEntityClass().kotlin)
-						.startOffset(start.toLong())
+						.startOffset(start)
 						.maxResults(limit)
 						.having(field).like("%$value%")
 						.and()
