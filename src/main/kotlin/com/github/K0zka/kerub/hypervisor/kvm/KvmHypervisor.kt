@@ -66,10 +66,9 @@ class KvmHypervisor(private val client: ClientSession,
 						)
 					}, change = {
 						it.copy(
-								cpuUsage = stat.cpuStats.mapIndexed {
-									i, vcpuStat ->
+								cpuUsage = stat.cpuStats.map { vCpuStat ->
 									CpuStat.zero.copy(
-											user = vcpuStat.time?.toFloat() ?: 0f
+											user = vCpuStat.time?.toFloat() ?: 0f
 									)
 								},
 								lastUpdated = System.currentTimeMillis(),
