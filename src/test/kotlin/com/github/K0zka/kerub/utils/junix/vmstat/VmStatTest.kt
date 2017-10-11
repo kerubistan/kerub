@@ -6,21 +6,19 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
-import org.hamcrest.CoreMatchers
-import org.junit.Assert
 import org.junit.Test
-import org.mockito.Matchers
 import org.mockito.Mockito
 import java.io.OutputStream
 import java.util.ArrayList
 import java.util.Collections
+import kotlin.test.assertEquals
 
 class VmStatTest {
-	val clientSession: ClientSession = mock()
-	val execChannel: ChannelExec = mock()
-	val openFuture: OpenFuture = mock()
+	private val clientSession: ClientSession = mock()
+	private val execChannel: ChannelExec = mock()
+	private val openFuture: OpenFuture = mock()
 
-	val sample = """procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
+	private val sample = """procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
  1  0 162500 401208 1730444 1251504    0    0    52   118   33   40 39  9 51  1
  0  0 162500 401068 1730444 1251504    0    0     0    24 1398 2397 13  6 79  2
@@ -39,13 +37,13 @@ class VmStatTest {
 				out.write(it.toInt())
 			}
 			null
-		}.whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.whenever(execChannel)!!.out = any()
 		whenever(execChannel.open()).thenReturn(openFuture)
 
 		val results = Collections.synchronizedList(ArrayList<VmStatEvent>())
 		VmStat.vmstat(clientSession, { results.add(it) })
 
-		Assert.assertThat(results.size, CoreMatchers.`is`(6))
+		assertEquals(6, results.size)
 
 	}
 }
