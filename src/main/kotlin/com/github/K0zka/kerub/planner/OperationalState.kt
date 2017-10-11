@@ -157,7 +157,7 @@ data class OperationalState(
 			getUnsatisfiedExpectations().count { it.level == level }
 
 	internal fun isVmOnRecyclingHost(vm: VirtualMachineDataCollection) =
-			hosts[vm.dynamic?.hostId]?.stat?.recycling ?: false
+			hosts[vm.dynamic?.hostId]?.stat?.recycling == true
 
 	fun getUnsatisfiedExpectations(): List<Expectation> =
 			vmsToCheck()
@@ -220,8 +220,7 @@ data class OperationalState(
 				}
 			}
 			is CoreDedicationExpectation -> {
-				return vmHost(vm)?.let {
-					host ->
+				return vmHost(vm)?.let { host ->
 					val vmsOnHost = lazy { vmDataOnHost(host.id) }
 					val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
 					val coredDedicated: (VirtualMachineDataCollection) -> Boolean
@@ -247,7 +246,7 @@ data class OperationalState(
 									.join().toSet().size +
 									vmsOnHost.value.filter(coredDedicated)
 											.sumBy(vmNrOfCpus) < hostCoreCnt.value
-				} ?: false
+				} == true
 			}
 			is CacheSizeExpectation -> {
 				val host = vmHost(vm)
@@ -270,8 +269,8 @@ data class OperationalState(
 			is MemoryClockFrequencyExpectation -> {
 				val host = vmHost(vm)
 				val memoryDevices = host?.capabilities?.memoryDevices
-				return memoryDevices?.isNotEmpty() ?: false
-						&& memoryDevices?.all { it.speedMhz ?: 0 >= expectation.min } ?: false
+				return memoryDevices?.isNotEmpty() == true
+						&& memoryDevices.all { it.speedMhz ?: 0 >= expectation.min }
 			}
 			is NoMigrationExpectation -> return true
 			else ->
