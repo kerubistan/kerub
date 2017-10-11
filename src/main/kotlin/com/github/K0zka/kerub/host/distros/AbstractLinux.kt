@@ -32,8 +32,6 @@ import com.github.K0zka.kerub.utils.junix.qemu.QemuImg
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.LvmVg
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
-import com.github.K0zka.kerub.utils.junix.storagemanager.lvm.VolumeGroup
 import com.github.K0zka.kerub.utils.junix.sysfs.Net
 import com.github.K0zka.kerub.utils.junix.virt.virsh.Virsh
 import com.github.K0zka.kerub.utils.junix.vmstat.VmStat
@@ -130,7 +128,7 @@ abstract class AbstractLinux : Distribution {
 				hostDynDao.doWithDyn(id) {
 					it.copy(
 							storageStatus =
-							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) ?: true }
+							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
 									+ volGroups.map {
 								volGroup ->
 								val storageDevice = lvmVgsByName?.get(volGroup.name)
@@ -228,20 +226,20 @@ abstract class AbstractLinux : Distribution {
 		//TODO: filter out the ones not connected and not wal-enabled
 		val macAdddresses = Net.listDevices(session).map { silent { Net.getMacAddress(session, it) } }.filterNotNull()
 
-		if (macAdddresses.isEmpty()) {
-			return listOf()
+		return if (macAdddresses.isEmpty()) {
+			listOf()
 		} else {
-			return listOf(WakeOnLanInfo(macAdddresses))
+			listOf(WakeOnLanInfo(macAdddresses))
 		}
 
 	}
 
 	override fun detectHostCpuType(session: ClientSession): String {
 		val processorType = session.execute("uname -p").trim()
-		if (processorType == "unknown") {
-			return session.execute("uname -m").trim()
+		return if (processorType == "unknown") {
+			session.execute("uname -m").trim()
 		} else {
-			return processorType
+			processorType
 		}
 	}
 
