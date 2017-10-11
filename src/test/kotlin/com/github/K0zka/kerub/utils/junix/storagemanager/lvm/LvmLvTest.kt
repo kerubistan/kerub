@@ -1,6 +1,7 @@
 package com.github.K0zka.kerub.utils.junix.storagemanager.lvm
 
 import com.github.K0zka.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -8,9 +9,9 @@ import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
-import org.junit.Assert
 import org.junit.Test
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.ArgumentMatchers.startsWith
 import org.mockito.Mockito
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -28,7 +29,7 @@ class LvmLvTest {
 	val createExecChannel: ChannelExec = mock()
 	var openFuture: OpenFuture = mock()
 
-	val testListOutput =
+	private val testListOutput =
 			"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
   eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:
   U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:"""
@@ -37,7 +38,7 @@ class LvmLvTest {
 	@Test
 	fun list() {
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -54,7 +55,7 @@ class LvmLvTest {
 	@Test
 	fun listWithVgAndLv() {
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -67,7 +68,7 @@ class LvmLvTest {
 
 	@Test
 	fun exists() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -79,7 +80,7 @@ class LvmLvTest {
 
 	@Test
 	fun existsNotexisting() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -92,7 +93,7 @@ class LvmLvTest {
 	@Test
 	fun listWithVg() {
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -105,7 +106,7 @@ class LvmLvTest {
 
 	@Test
 	fun delete() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvremove"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -115,7 +116,7 @@ class LvmLvTest {
 
 	@Test(expected = IOException::class)
 	fun deleteAndFail() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvremove"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvremove"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedErr).thenReturn(ByteArrayInputStream(""" Volume group "test" not found
@@ -128,24 +129,24 @@ class LvmLvTest {
 
 	@Test
 	fun create() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
 		whenever(createExecChannel.open()).thenReturn(openFuture)
 		whenever(createExecChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
 		whenever(createExecChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
-		Assert.assertEquals("testlv2", volume.name)
+		assertEquals("testlv2", volume.name)
 	}
 
 	@Test
 	fun createWithWarning() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
 		whenever(createExecChannel.open()).thenReturn(openFuture)
 		whenever(createExecChannel.invertedOut)
 				.thenReturn(ByteArrayInputStream("  Logical volume \"test\" created.\n".toByteArray(charset("ASCII"))))
@@ -157,16 +158,16 @@ class LvmLvTest {
 				)
 		)
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm lvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(startsWith("lvm lvs"))).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
-		Assert.assertEquals("testlv2", volume.name)
+		assertEquals("testlv2", volume.name)
 	}
 
-	val monitorOutput =
+	private val monitorOutput =
 			"""  ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
   0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
   Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
@@ -203,7 +204,7 @@ class LvmLvTest {
 
 	@Test
 	fun monitor() {
-		whenever(session.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
+		whenever(session.createExecChannel(anyString())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		Mockito.doAnswer {
 			val out = it.arguments[0] as OutputStream
@@ -211,13 +212,12 @@ class LvmLvTest {
 				out.write(it.toInt())
 			}
 			null
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		val results = mutableListOf<List<LogicalVolume>>()
 
-		LvmLv.monitor(session, {
-			volumes ->
+		LvmLv.monitor(session, { volumes ->
 			results.add(volumes)
 		})
 
