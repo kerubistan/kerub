@@ -11,4 +11,4 @@ class HostDynamicDaoImpl(
 		cache: Cache<UUID, HostDynamic>,
 		historyDao: HistoryDao<HostDynamic>,
 		eventListener: EventListener)
-	: AbtractDynamicEntityDao<HostDynamic>(cache, historyDao, eventListener), HostDynamicDao
+	: AbstractDynamicEntityDao<HostDynamic>(cache, historyDao, eventListener), HostDynamicDao

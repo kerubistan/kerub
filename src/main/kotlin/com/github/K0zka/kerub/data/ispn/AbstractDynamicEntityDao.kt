@@ -6,7 +6,7 @@ import com.github.K0zka.kerub.model.dynamic.DynamicEntity
 import org.infinispan.Cache
 import java.util.UUID
 
-open abstract class AbtractDynamicEntityDao<T : DynamicEntity>(
+abstract class AbstractDynamicEntityDao<T : DynamicEntity>(
 		cache: Cache<UUID, T>,
 		private val historyDao: HistoryDao<T>,
 		eventListener: EventListener)
@@ -22,15 +22,4 @@ open abstract class AbtractDynamicEntityDao<T : DynamicEntity>(
 		)
 	}
 
-	override fun add(entity: T): UUID {
-		return super.add(entity)
-	}
-
-	override fun remove(entity: T) {
-		super.remove(entity)
-	}
-
-	override fun remove(id: UUID) {
-		super.remove(id)
-	}
 }
