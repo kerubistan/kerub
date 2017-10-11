@@ -14,7 +14,7 @@ class ProjectMembershipDaoImpl(cache: Cache<UUID, ProjectMembership>,
 	override fun listByUsername(userName: String): List<ProjectMembership> =
 			cache.queryBuilder(ProjectMembership::class)
 					.having(ProjectMembership::user.name).eq(userName)
-					.list<ProjectMembership>()
+					.list()
 
 	override fun getEntityClass(): Class<ProjectMembership> =
 			ProjectMembership::class.java

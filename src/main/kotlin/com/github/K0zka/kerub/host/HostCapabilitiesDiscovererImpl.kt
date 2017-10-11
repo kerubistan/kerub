@@ -69,7 +69,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 		val distro = detectDistro(session)
 		val cpuArchitecture = distro.detectHostCpuType(session)
-		val packages = silent { distro.getPackageManager(session).list() } ?: listOf<SoftwarePackage>()
+		val packages = silent { distro.getPackageManager(session).list() } ?: listOf()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 
@@ -80,9 +80,9 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 		val hypervisorCapabilities =
 				if (Virsh.available(distribution, packages))
-					silent { listOf(Virsh.capabilities(session)) } ?: listOf<Any>()
+					silent { listOf(Virsh.capabilities(session)) } ?: listOf()
 				else
-					listOf<Any>()
+					listOf()
 
 		return HostCapabilities(
 				os = hostOs,

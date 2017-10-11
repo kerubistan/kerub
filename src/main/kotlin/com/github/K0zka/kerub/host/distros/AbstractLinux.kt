@@ -202,8 +202,8 @@ abstract class AbstractLinux : Distribution {
 								osVersion: SoftwarePackage,
 								packages: List<SoftwarePackage>): List<LvmStorageCapability> =
 			if (LvmLv.available(osVersion, packages)) {
-				val pvs = silent { LvmPv.list(session) } ?: listOf<PhysicalVolume>()
-				(silent { LvmVg.list(session) } ?: listOf<VolumeGroup>()).map {
+				val pvs = silent { LvmPv.list(session) } ?: listOf()
+				(silent { LvmVg.list(session) } ?: listOf()).map {
 					vg ->
 					LvmStorageCapability(
 							volumeGroupName = vg.name,
@@ -215,7 +215,7 @@ abstract class AbstractLinux : Distribution {
 				}
 
 			} else {
-				listOf<LvmStorageCapability>()
+				listOf()
 			}
 
 	override fun getTotalMemory(session: ClientSession): BigInteger {

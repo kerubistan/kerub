@@ -151,7 +151,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 							appVersion = appVersion,
 							changes = sum(changes), //TODO
 							entityKey = changes.first().entityKey,
-							time = Range<Long>(from, to)
+							time = Range(from, to)
 					)
 
 					cache.putAsync(summary.id, summary)
