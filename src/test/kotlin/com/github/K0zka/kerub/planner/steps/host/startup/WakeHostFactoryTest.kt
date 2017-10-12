@@ -90,7 +90,7 @@ class WakeHostFactoryTest {
 				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
 		Assert.assertEquals(1, steps.size)
-		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
+		Assert.assertTrue(steps.all { it.host == host1 })
 	}
 
 	@Test
@@ -101,7 +101,7 @@ class WakeHostFactoryTest {
 				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
-		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
+		Assert.assertTrue(steps.all { it.host == host1 })
 	}
 
 	@Test
@@ -112,7 +112,7 @@ class WakeHostFactoryTest {
 				config = ControllerConfig(powerManagementEnabled = true, wakeOnLanEnabled = true)
 		))
 		Assert.assertEquals(steps.size, 1)
-		Assert.assertTrue(steps.all { it is AbstractWakeHost && it.host == host1 })
+		Assert.assertTrue(steps.all { it.host == host1 })
 	}
 
 }
