@@ -12,24 +12,18 @@ import java.util.UUID
 class AssignmentDaoImpl(cache: Cache<UUID, Assignment>, eventListener: EventListener, auditManager: AuditManager)
 	: AssignmentDao, ListableIspnDaoBase<Assignment, UUID>(cache, eventListener, auditManager) {
 
-	override fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment> {
-		return basicSearch()
-				.having("controller").eq(controller)
-				.and()
-				.having("type").eq(type)
-				.list()
-	}
+	override fun listByControllerAndType(controller: String, type: AssignmentType): List<Assignment> = basicSearch()
+			.having("controller").eq(controller)
+			.and()
+			.having("type").eq(type)
+			.list()
 
-	override fun listByController(controller: String): List<Assignment> {
-		return basicSearch()
-				.having("controller").eq(controller)
-				.list()
-	}
+	override fun listByController(controller: String): List<Assignment> = basicSearch()
+			.having("controller").eq(controller)
+			.list()
 
 	private fun basicSearch() = Search.getQueryFactory(cache)
 			.from(Assignment::class.java)
 
-	override fun getEntityClass(): Class<Assignment> {
-		return Assignment::class.java
-	}
+	override fun getEntityClass(): Class<Assignment> = Assignment::class.java
 }

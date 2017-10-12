@@ -28,9 +28,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 		return entity.id
 	}
 
-	override fun get(id: I): T? {
-		return cache[id]
-	}
+	override fun get(id: I): T? = cache[id]
 
 	override fun get(ids: Collection<I>): List<T> =
 			cache.advancedCache.getAll(ids.toHashSet()).values.toList()
@@ -63,23 +61,17 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 
 	class CreateListener<I, T>(cache: Cache<I, T>, action: (T) -> Boolean) : AbstractListener<I, T>(cache, action) {
 		@CacheEntryCreated
-		fun onCreate(event: CacheEntryCreatedEvent<I, T>) {
-			super.onEvent(event)
-		}
+		fun onCreate(event: CacheEntryCreatedEvent<I, T>) = super.onEvent(event)
 	}
 
 	class RemoveListener<I, T>(cache: Cache<I, T>, action: (T) -> Boolean) : AbstractListener<I, T>(cache, action) {
 		@CacheEntryRemoved
-		fun onRemove(event: CacheEntryRemovedEvent<I, T>) {
-			super.onEvent(event)
-		}
+		fun onRemove(event: CacheEntryRemovedEvent<I, T>) = super.onEvent(event)
 	}
 
 	class ChangeListener<I, T>(cache: Cache<I, T>, action: (T) -> Boolean) : AbstractListener<I, T>(cache, action) {
 		@CacheEntryModified
-		fun onChange(event: CacheEntryModifiedEvent<I, T>) {
-			super.onEvent(event)
-		}
+		fun onChange(event: CacheEntryModifiedEvent<I, T>) = super.onEvent(event)
 	}
 
 	class IdFilter<I>(private val id: I) : CacheEventFilter<I, Any> {
@@ -94,42 +86,25 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	class Converter<I, T> : CacheEventConverter<I, T, T> {
-		override fun convert(key: I, oldValue: T, oldMeta: Metadata?, newValue: T, newMeta: Metadata?, type: EventType?): T {
-			return newValue
-		}
+		override fun convert(key: I, oldValue: T, oldMeta: Metadata?, newValue: T, newMeta: Metadata?, type: EventType?): T =
+				newValue
 	}
 
-	private fun listen(listener: Any) {
-		cache.advancedCache.addListener(listener)
-	}
+	private fun listen(listener: Any) = cache.advancedCache.addListener(listener)
 
-	private fun listen(listener: Any, id: I) {
-		cache.advancedCache.addListener(listener, IdFilter(id), Converter<I, T>())
-	}
+	private fun listen(listener: Any, id: I) = cache.advancedCache.addListener(listener, IdFilter(id), Converter<I, T>())
 
-	override fun listenCreate(action: (T) -> Boolean) {
-		listen(CreateListener(cache, action))
-	}
+	override fun listenCreate(action: (T) -> Boolean) = listen(CreateListener(cache, action))
 
-	override fun listenCreate(id: I, action: (T) -> Boolean) {
-		listen(CreateListener(cache, action), id)
-	}
+	override fun listenCreate(id: I, action: (T) -> Boolean) = listen(CreateListener(cache, action), id)
 
-	override fun listenUpdate(action: (T) -> Boolean) {
-		listen(ChangeListener(cache, action))
-	}
+	override fun listenUpdate(action: (T) -> Boolean) = listen(ChangeListener(cache, action))
 
-	override fun listenUpdate(id: I, action: (T) -> Boolean) {
-		listen(ChangeListener(cache, action), id)
-	}
+	override fun listenUpdate(id: I, action: (T) -> Boolean) = listen(ChangeListener(cache, action), id)
 
-	override fun listenDelete(action: (T) -> Boolean) {
-		listen(RemoveListener(cache, action))
-	}
+	override fun listenDelete(action: (T) -> Boolean) = listen(RemoveListener(cache, action))
 
-	override fun listenDelete(id: I, action: (T) -> Boolean) {
-		listen(RemoveListener(cache, action), id)
-	}
+	override fun listenDelete(id: I, action: (T) -> Boolean) = listen(RemoveListener(cache, action), id)
 
 	override fun waitFor(id: I, action: (T) -> Unit) {
 		val value = get(id)

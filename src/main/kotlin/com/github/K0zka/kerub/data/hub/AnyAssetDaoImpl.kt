@@ -32,6 +32,6 @@ class AnyAssetDaoImpl(
 	override fun <T : Asset> getAll(clazz: KClass<T>, ids: Collection<UUID>): List<T> =
 			getDao(clazz)[ids]
 
-	internal fun <T : Asset> getDao(clazz: KClass<T>) = requireNotNull(
+	private fun <T : Asset> getDao(clazz: KClass<T>) = requireNotNull(
 			requireNotNull(daos[clazz]) { "dao not found for $clazz" } as DaoOperations.Read<T, UUID>)
 }
