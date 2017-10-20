@@ -13,13 +13,14 @@ import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.MB
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
+import com.github.K0zka.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
+import java.io.OutputStream
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.UUID
 
 object VBoxManage {
-
 
 	private val mediatype = mapOf(
 			DeviceType.disk to "hdd",
@@ -56,6 +57,67 @@ object VBoxManage {
 				}
 			}
 		}
+	}
+
+	private class VBoxMonitorInputStream(private val callback: (ts: Long, metrics: VBoxMetrics) -> Unit) : OutputStream() {
+		companion object {
+			private val spaces = "\\s+".toRegex()
+		}
+
+		private val buffer = StringBuilder()
+		override fun write(data: ByteArray?) {
+			buffer.append(data?.toString(Charsets.US_ASCII))
+			tryEval()
+		}
+
+		override fun write(data: Int) {
+			buffer.append(data.toChar())
+			tryEval()
+		}
+
+		private fun tryEval() {
+
+			fun String.percent() = this.substringBefore("%").trim().toFloat()
+
+			fun <T> Map<String, String>.metric(prefix: String, transform: (String?) -> T) =
+					VBoxMetric(
+							now = this[prefix].let(transform),
+							max = this["$prefix:max"].let(transform),
+							min = this["$prefix:min"].let(transform),
+							avg = this["$prefix:avg"].let(transform)
+					)
+
+			fun netRate(input: String?): Int
+					= input?.substringBefore("/s")?.toSize()?.toInt() ?: 0
+
+			fun size(input: String?): BigInteger = input?.toSize() ?: BigInteger.ZERO
+			fun percent(input: String?): Float = input?.percent() ?: 0.toFloat()
+
+			if (buffer.endsWith("---------\n")) {
+				val report = buffer.lines()
+						.filterNot { it.startsWith("--") || it.startsWith("Time") || it.isEmpty() }
+						.map {
+							it.split(spaces).let { it[2] to it.subList(3, it.size).joinToString(" ") }
+						}.toMap()
+				if (report.isNotEmpty()) {
+					val metrics = VBoxMetrics(
+							userCpu = report.metric("CPU/Load/User", ::percent),
+							kernelCpu = report.metric("CPU/Load/Kernel", ::percent),
+							ramUsed = report.metric("RAM/Usage/Used", ::size),
+							netRateRx = report.metric("Net/Rate/Rx", ::netRate),
+							netRateTx = report.metric("Net/Rate/Tx", ::netRate),
+							diskUsed = report.metric("Disk/Usage/Used", ::size)
+					)
+					callback(System.currentTimeMillis(), metrics)
+				}
+			}
+		}
+	}
+
+	fun monitorVm(session: ClientSession, vmName: String, callback: (ts: Long, metrics: VBoxMetrics) -> Unit) {
+		val channel = session.createExecChannel("VBoxManage metrics collect $vmName")
+		channel.out = VBoxMonitorInputStream(callback)
+		channel.open().await()
 	}
 
 	/**
