@@ -75,22 +75,3 @@ fun bd(something : Any?) =
 					BigDecimal(it.toString())
 			}
 		}
-
-/**
- * Syntax sugar to make minimum simple enough.
- */
-fun <T : Comparable<T>> T.orAtLeast(other: T): T = if (this < other) {
-	other
-} else {
-	this
-}
-
-/**
- * Syntax sugar to make minimum simple enough.
- */
-fun <T : Comparable<T>> T.orAtMost(other: T): T = if (this < other) {
-	this
-} else {
-	other
-}
-

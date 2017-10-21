@@ -51,19 +51,4 @@ class NumberUtilsTest {
 						.decimalAvgBy { it }
 		)
 	}
-
-	@Test
-	fun orAtLeast() {
-		assertEquals(2, 1.orAtLeast(2))
-		assertEquals(1, 1.orAtLeast(1))
-		assertEquals(2, 2.orAtLeast(1))
-	}
-
-	@Test
-	fun orAtMost() {
-		assertEquals(1, 2.orAtMost(1))
-		assertEquals(1, 1.orAtMost(1))
-		assertEquals(1, 1.orAtMost(2))
-	}
-
 }

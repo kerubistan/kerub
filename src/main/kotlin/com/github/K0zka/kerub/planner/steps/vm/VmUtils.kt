@@ -10,7 +10,6 @@ import com.github.K0zka.kerub.model.dynamic.HostStatus
 import com.github.K0zka.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.K0zka.kerub.model.services.IscsiService
 import com.github.K0zka.kerub.planner.OperationalState
-import com.github.K0zka.kerub.utils.orAtLeast
 import java.math.BigInteger
 
 fun storageAllocationMap(state: OperationalState, links: List<VirtualStorageLink>): Map<VirtualStorageDataCollection, HostDataCollection?> =
@@ -39,7 +38,7 @@ fun match(
 		return false
 	}
 
-	if (host.capabilities?.cpus?.map { it.coreCount ?: 1 }?.sum()?.orAtLeast(1) ?: 1 < vm.nrOfCpus) {
+	if (host.capabilities?.cpus?.map { it.coreCount ?: 1 }?.sum()?.coerceAtLeast(1) ?: 1 < vm.nrOfCpus) {
 		return false
 	}
 
