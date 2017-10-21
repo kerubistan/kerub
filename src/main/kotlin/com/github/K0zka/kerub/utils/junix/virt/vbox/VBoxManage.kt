@@ -2,6 +2,7 @@ package com.github.K0zka.kerub.utils.junix.virt.vbox
 
 import com.github.K0zka.kerub.host.executeOrDie
 import com.github.K0zka.kerub.model.Host
+import com.github.K0zka.kerub.model.HostCapabilities
 import com.github.K0zka.kerub.model.VirtualMachine
 import com.github.K0zka.kerub.model.VirtualStorageDevice
 import com.github.K0zka.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -11,6 +12,7 @@ import com.github.K0zka.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.K0zka.kerub.model.io.DeviceType
 import com.github.K0zka.kerub.model.io.VirtualDiskFormat
 import com.github.K0zka.kerub.utils.MB
+import com.github.K0zka.kerub.utils.junix.common.OsCommand
 import com.github.K0zka.kerub.utils.silent
 import com.github.K0zka.kerub.utils.storage.iscsiStorageId
 import com.github.K0zka.kerub.utils.toSize
@@ -20,7 +22,12 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.UUID
 
-object VBoxManage {
+object VBoxManage : OsCommand {
+
+	private val knownPackages = listOf("virtualbox", "virtualbox-ose")
+
+	override fun available(hostCapabilities: HostCapabilities?)
+			= hostCapabilities?.installedSoftware?.any { knownPackages.contains(it.name.toLowerCase()) } == true
 
 	private val mediatype = mapOf(
 			DeviceType.disk to "hdd",
