@@ -677,12 +677,12 @@ Remember, that the motd is readable by anyone!
 	Configuration, utilities
 	-->
 
-	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+	<bean class="com.github.K0zka.kerub.utils.spring.BeanOverrideConfigurer">
 		<property name="location" value="classpath:local/kerub.properties"/>
 		<property name="ignoreResourceNotFound" value="true"/>
 	</bean>
 
-	<bean class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+	<bean class="com.github.K0zka.kerub.utils.spring.BeanOverrideConfigurer">
 		<property name="location" value="classpath:cluster/kerub.properties"/>
 		<property name="ignoreResourceNotFound" value="true"/>
 	</bean>
