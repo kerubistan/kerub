@@ -20,9 +20,10 @@ class BeanOverrideConfigurer : PropertyOverrideConfigurer() {
 		props.filterByKeys(classOverrideFilter).forEach { key, value ->
 			val beanName = key.toString().substringBefore(classOverideSuffix)
 			beanFactory.getBeanDefinition(beanName).let { def ->
-				log.info("override class {} to {}", def.beanClassName, value)
+				log.info("override {} class from {} to {}", beanName, def.beanClassName, value)
 				def.beanClassName = value.toString()
 				//the old values no longer apply
+				log.info("{}: default properties cleared", beanName)
 				def.propertyValues.propertyValueList.clear()
 			}
 
