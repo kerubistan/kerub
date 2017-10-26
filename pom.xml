@@ -1,13 +1,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.K0zka</groupId>
+	<groupId>com.github.kerubistan</groupId>
 	<artifactId>kerub</artifactId>
 	<version>0.2.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Kerub</name>
 	<description>Infrastructure as a Service prototype app</description>
-	<url>https://github.com/K0zka/kerub</url>
+	<url>https://github.com/kerubistan/kerub</url>
 	<inceptionYear>2014</inceptionYear>
 	<licenses>
 		<license>
