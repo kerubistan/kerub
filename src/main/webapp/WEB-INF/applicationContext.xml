@@ -10,7 +10,7 @@
 	infinispan config
 	-->
 
-	<bean id="cacheConfigBuilder" class="com.github.K0zka.kerub.data.ispn.IspnConfiguration" init-method="init">
+	<bean id="cacheConfigBuilder" class="com.github.kerubistan.kerub.data.ispn.IspnConfiguration" init-method="init">
 		<property name="baseDir" value="target/kerub-store"/>
 		<property name="dynamicOwners" value="1"/>
 		<property name="staticOwners" value="1"/>
@@ -116,7 +116,7 @@
 	<bean id="daoBase" abstract="true">
 	</bean>
 
-	<bean id="statisticsDao" class="com.github.K0zka.kerub.data.ispn.StatisticsDaoImpl">
+	<bean id="statisticsDao" class="com.github.kerubistan.kerub.data.ispn.StatisticsDaoImpl">
 		<constructor-arg name="hostCache" ref="hostCache"/>
 		<constructor-arg name="hostDynamicCache" ref="hostDynamicCache"/>
 		<constructor-arg name="vmCache" ref="vmCache"/>
@@ -125,129 +125,129 @@
 		<constructor-arg name="configDao" ref="controllerConfigDao"/>
 	</bean>
 
-	<bean id="controllerConfigDao" class="com.github.K0zka.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">
+	<bean id="controllerConfigDao" class="com.github.kerubistan.kerub.data.ispn.ControllerConfigDaoImpl" parent="daoBase">
 		<constructor-arg ref="controllerConfigCache"/>
 		<constructor-arg ref="auditManager"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 
-	<bean id="accountDao" class="com.github.K0zka.kerub.data.ispn.AccountDaoImpl" parent="daoBase">
+	<bean id="accountDao" class="com.github.kerubistan.kerub.data.ispn.AccountDaoImpl" parent="daoBase">
 		<constructor-arg ref="accountCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="accountMembershipDao" class="com.github.K0zka.kerub.data.ispn.AccountMembershipDaoImpl" parent="daoBase">
+	<bean id="accountMembershipDao" class="com.github.kerubistan.kerub.data.ispn.AccountMembershipDaoImpl" parent="daoBase">
 		<constructor-arg ref="accountMembershipCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="projectMembershipDao" class="com.github.K0zka.kerub.data.ispn.ProjectMembershipDaoImpl" parent="daoBase">
+	<bean id="projectMembershipDao" class="com.github.kerubistan.kerub.data.ispn.ProjectMembershipDaoImpl" parent="daoBase">
 		<constructor-arg ref="accountMembershipCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="vmDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
+	<bean id="vmDao" class="com.github.kerubistan.kerub.data.ispn.VirtualMachineDaoImpl" parent="daoBase">
 		<constructor-arg ref="vmCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="vmDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
+	<bean id="vmDynDao" class="com.github.kerubistan.kerub.data.ispn.VirtualMachineDynamicDaoImpl">
 		<constructor-arg ref="vmDynCache"/>
 		<constructor-arg ref="vmHistoryDao"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
-	<bean id="vmHistoryDao" class="com.github.K0zka.kerub.data.ispn.history.VirtualMachineDynamicHistoryDaoImpl">
+	<bean id="vmHistoryDao" class="com.github.kerubistan.kerub.data.ispn.history.VirtualMachineDynamicHistoryDaoImpl">
 		<constructor-arg ref="vmHistoryCache"/>
 	</bean>
 
 
-	<bean id="virtualStorageDeviceDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDaoImpl"
+	<bean id="virtualStorageDeviceDao" class="com.github.kerubistan.kerub.data.ispn.VirtualStorageDeviceDaoImpl"
 	      parent="daoBase">
 		<constructor-arg ref="virtualStorageDeviceCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="vNetDao" class="com.github.K0zka.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
+	<bean id="vNetDao" class="com.github.kerubistan.kerub.data.ispn.VirtualNetworkDaoImpl" parent="daoBase">
 		<constructor-arg ref="vNetCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="hostDao" class="com.github.K0zka.kerub.data.ispn.HostDaoImpl" parent="daoBase">
+	<bean id="hostDao" class="com.github.kerubistan.kerub.data.ispn.HostDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="hostConfigDao" class="com.github.K0zka.kerub.data.ispn.HostConfigurationDaoImpl" parent="daoBase">
+	<bean id="hostConfigDao" class="com.github.kerubistan.kerub.data.ispn.HostConfigurationDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostConfigCache"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 
-	<bean id="assignmentDao" class="com.github.K0zka.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
+	<bean id="assignmentDao" class="com.github.kerubistan.kerub.data.ispn.AssignmentDaoImpl" parent="daoBase">
 		<constructor-arg ref="assignmentCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="hostDynamicDao" class="com.github.K0zka.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
+	<bean id="hostDynamicDao" class="com.github.kerubistan.kerub.data.ispn.HostDynamicDaoImpl" parent="daoBase">
 		<constructor-arg ref="hostDynamicCache"/>
 		<constructor-arg ref="hostHistoryDao"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 
-	<bean id="hostHistoryDao" class="com.github.K0zka.kerub.data.ispn.history.HostDynamicHistoryDao" parent="daoBase">
+	<bean id="hostHistoryDao" class="com.github.kerubistan.kerub.data.ispn.history.HostDynamicHistoryDao" parent="daoBase">
 		<constructor-arg ref="hostHistoryCache"/>
 	</bean>
 
-	<bean id="virtualStorageDeviceDynDao" class="com.github.K0zka.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl"
+	<bean id="virtualStorageDeviceDynDao" class="com.github.kerubistan.kerub.data.ispn.VirtualStorageDeviceDynamicDaoImpl"
 	      parent="daoBase">
 		<constructor-arg ref="virtualStorageDeviceDynamicCache"/>
 		<constructor-arg ref="eventListener"/>
 	</bean>
 
-	<bean id="projectDao" class="com.github.K0zka.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
+	<bean id="projectDao" class="com.github.kerubistan.kerub.data.ispn.ProjectDaoImpl" parent="daoBase">
 		<constructor-arg ref="projectCache"/>
 		<constructor-arg ref="eventListener"/>
 		<constructor-arg ref="auditManager"/>
 	</bean>
 
-	<bean id="auditDao" class="com.github.K0zka.kerub.data.ispn.AuditEntryDaoImpl">
+	<bean id="auditDao" class="com.github.kerubistan.kerub.data.ispn.AuditEntryDaoImpl">
 		<constructor-arg ref="auditCache"/>
 	</bean>
 
-	<bean id="eventDao" class="com.github.K0zka.kerub.data.ispn.EventDaoImpl">
+	<bean id="eventDao" class="com.github.kerubistan.kerub.data.ispn.EventDaoImpl">
 		<constructor-arg ref="eventCache"/>
 	</bean>
 
-	<bean id="controllerDao" class="com.github.K0zka.kerub.data.ispn.ControllerDaoImpl">
+	<bean id="controllerDao" class="com.github.kerubistan.kerub.data.ispn.ControllerDaoImpl">
 		<constructor-arg ref="cacheManager"/>
 	</bean>
 
-	<bean id="controllerDynamicDao" class="com.github.K0zka.kerub.data.ispn.ControllerDynamicDaoImpl">
+	<bean id="controllerDynamicDao" class="com.github.kerubistan.kerub.data.ispn.ControllerDynamicDaoImpl">
 		<constructor-arg ref="controllerDynamicCache"/>
 	</bean>
 
-	<bean id="executionResultDao" class="com.github.K0zka.kerub.data.ispn.ExecutionResultDaoImpl">
+	<bean id="executionResultDao" class="com.github.kerubistan.kerub.data.ispn.ExecutionResultDaoImpl">
 		<constructor-arg ref="executionResultCache"/>
 	</bean>
 
-	<bean id="anyAssetDao" class="com.github.K0zka.kerub.data.hub.AnyAssetDaoImpl">
+	<bean id="anyAssetDao" class="com.github.kerubistan.kerub.data.hub.AnyAssetDaoImpl">
 		<constructor-arg ref="vmDao"/>
 		<constructor-arg ref="vNetDao"/>
 		<constructor-arg ref="virtualStorageDeviceDao"/>
 	</bean>
 
-	<bean id="anyEntityDao" class="com.github.K0zka.kerub.data.hub.AnyEntityDaoImpl">
+	<bean id="anyEntityDao" class="com.github.kerubistan.kerub.data.hub.AnyEntityDaoImpl">
 		<constructor-arg ref="anyAssetDao"/>
 		<constructor-arg>
 			<map>
-				<entry key="com.github.K0zka.kerub.model.Host" value-ref="hostDao"/>
+				<entry key="com.github.kerubistan.kerub.model.Host" value-ref="hostDao"/>
 			</map>
 		</constructor-arg>
 	</bean>
@@ -256,31 +256,31 @@
 	Managers
 	-->
 
-	<bean id="assetValidator" class="com.github.K0zka.kerub.security.ValidatorImpl">
+	<bean id="assetValidator" class="com.github.kerubistan.kerub.security.ValidatorImpl">
 		<constructor-arg ref="anyAssetDao"/>
 	</bean>
 
-	<bean id="assetAccessController" class="com.github.K0zka.kerub.security.AssetAccessControllerImpl">
+	<bean id="assetAccessController" class="com.github.kerubistan.kerub.security.AssetAccessControllerImpl">
 		<constructor-arg ref="controllerConfigDao"/>
 		<constructor-arg ref="accountMembershipDao"/>
 		<constructor-arg ref="projectMembershipDao"/>
 		<constructor-arg ref="assetValidator"/>
 	</bean>
 
-	<bean id="entityAccessController" class="com.github.K0zka.kerub.security.EntityAccessControllerImpl">
+	<bean id="entityAccessController" class="com.github.kerubistan.kerub.security.EntityAccessControllerImpl">
 		<constructor-arg ref="assetAccessController"/>
 		<constructor-arg ref="anyEntityDao"/>
 	</bean>
 
 	<bean
 			id="auditManager"
-	        class="com.github.K0zka.kerub.audit.AuditManagerImpl">
+	        class="com.github.kerubistan.kerub.audit.AuditManagerImpl">
 		<constructor-arg ref="auditDao"/>
 	</bean>
 
 	<bean
 			id="keyPairFactory"
-			class="com.github.K0zka.kerub.host.KeyPairFactory">
+			class="com.github.kerubistan.kerub.host.KeyPairFactory">
 		<property name="keyStorePassword" value="password"/>
 		<property name="certificatePassword" value="password"/>
 	</bean>
@@ -291,7 +291,7 @@
 
 	<bean
 			id="hostManager"
-			class="com.github.K0zka.kerub.host.HostManagerImpl"
+			class="com.github.kerubistan.kerub.host.HostManagerImpl"
 			init-method="start"
 			destroy-method="stop">
 		<constructor-arg ref="hostDao"/>
@@ -307,8 +307,8 @@
 		<constructor-arg ref="hostAssigner"/>
 	</bean>
 
-	<bean id="hostDiscoverer" class="com.github.K0zka.kerub.host.HostCapabilitiesDiscovererImpl"/>
-	<bean id="hostAssigner" class="com.github.K0zka.kerub.host.ControllerAssignerImpl">
+	<bean id="hostDiscoverer" class="com.github.kerubistan.kerub.host.HostCapabilitiesDiscovererImpl"/>
+	<bean id="hostAssigner" class="com.github.kerubistan.kerub.host.ControllerAssignerImpl">
 		<constructor-arg ref="backtrack"/>
 		<constructor-arg ref="controllerDao"/>
 		<constructor-arg ref="controllerDynamicDao"/>
@@ -316,17 +316,17 @@
 		<constructor-arg ref="interController"/>
 	</bean>
 
-	<bean id="interController" class="com.github.K0zka.kerub.controller.impl.InterControllerImpl">
+	<bean id="interController" class="com.github.kerubistan.kerub.controller.impl.InterControllerImpl">
 		<constructor-arg ref="jmsTemplate"/>
 	</bean>
 
-	<bean id="interControllerListener" class="com.github.K0zka.kerub.controller.impl.InterControllerListener">
+	<bean id="interControllerListener" class="com.github.kerubistan.kerub.controller.impl.InterControllerListener">
 		<constructor-arg ref="hostManager"/>
 		<constructor-arg ref="hostDao"/>
 		<constructor-arg ref="messageListener"/>
 	</bean>
 
-	<bean id="sshClientFactory" class="com.github.K0zka.kerub.host.SshClientFactory"/>
+	<bean id="sshClientFactory" class="com.github.kerubistan.kerub.host.SshClientFactory"/>
 
 	<bean id="sshClient"
 	      factory-bean="sshClientFactory"
@@ -342,7 +342,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="sshClientService" class="com.github.K0zka.kerub.host.SshClientServiceImpl" depends-on="artemis">
+	<bean id="sshClientService" class="com.github.kerubistan.kerub.host.SshClientServiceImpl" depends-on="artemis">
 		<constructor-arg ref="sshClient"/>
 		<constructor-arg ref="keyPair"/>
 		<constructor-arg value="1000"/>
@@ -351,7 +351,7 @@
 
 	<bean
 			id="controllerManager"
-			class="com.github.K0zka.kerub.host.ControllerManagerImpl"
+			class="com.github.kerubistan.kerub.host.ControllerManagerImpl"
 			init-method="start">
 		<constructor-arg ref="controllerDynamicDao"/>
 		<constructor-arg ref="cacheManager"/>
@@ -362,7 +362,7 @@
 	-->
 
 	<!--
-	<bean id="stateBuilder" class="com.github.K0zka.kerub.planner.OperationalStateBuilderImpl">
+	<bean id="stateBuilder" class="com.github.kerubistan.kerub.planner.OperationalStateBuilderImpl">
 		<constructor-arg ref="controllerManager"/>
 		<constructor-arg ref="assignmentDao"/>
 		<constructor-arg ref="hostDynamicDao"/>
@@ -374,7 +374,7 @@
 	</bean>
 	-->
 
-	<bean id="stateBuilder" class="com.github.K0zka.kerub.planner.GlobalOperationalStateBuilderImpl">
+	<bean id="stateBuilder" class="com.github.kerubistan.kerub.planner.GlobalOperationalStateBuilderImpl">
 		<constructor-arg ref="hostDynamicDao"/>
 		<constructor-arg ref="hostDao"/>
 		<constructor-arg ref="hostConfigDao"/>
@@ -388,13 +388,13 @@
 
 	<bean id="backtrack" class="com.github.k0zka.finder4j.backtrack.BacktrackService"/>
 
-	<bean id="planner" class="com.github.K0zka.kerub.planner.PlannerImpl" init-method="start" destroy-method="stop">
+	<bean id="planner" class="com.github.kerubistan.kerub.planner.PlannerImpl" init-method="start" destroy-method="stop">
 		<constructor-arg ref="backtrack"/>
 		<constructor-arg ref="planExecutor"/>
 		<constructor-arg ref="stateBuilder"/>
 	</bean>
 
-	<bean id="planExecutor" class="com.github.K0zka.kerub.planner.execution.PlanExecutorImpl">
+	<bean id="planExecutor" class="com.github.kerubistan.kerub.planner.execution.PlanExecutorImpl">
 		<constructor-arg ref="executionResultDao"/>
 		<constructor-arg ref="controllerManager"/>
 		<constructor-arg ref="hostManager"/>
@@ -437,7 +437,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean class="com.github.K0zka.kerub.utils.artemis.MqInit" factory-method="init">
+	<bean class="com.github.kerubistan.kerub.utils.artemis.MqInit" factory-method="init">
 		<constructor-arg ref="controllerManager"/>
 		<constructor-arg ref="artemis"/>
 		<constructor-arg ref="artemisCF"/>
@@ -447,7 +447,7 @@
 	Event listeners
 	-->
 
-	<bean id="eventListener" class="com.github.K0zka.kerub.utils.JmsEventListener">
+	<bean id="eventListener" class="com.github.kerubistan.kerub.utils.JmsEventListener">
 		<constructor-arg>
 			<bean class="org.springframework.jms.core.JmsTemplate">
 				<property name="connectionFactory" ref="artemisCF"/>
@@ -465,7 +465,7 @@
 
 	<bean
 			id="messageListener"
-			class="com.github.K0zka.kerub.services.socket.InternalMessageListenerImpl">
+			class="com.github.kerubistan.kerub.services.socket.InternalMessageListenerImpl">
 		<constructor-arg ref="planner"/>
 	</bean>
 
@@ -508,7 +508,7 @@
 		<property name="messageListener" ref="asyncInvocationsMessageListener"/>
 	</bean>
 
-	<bean id="asyncInvocationsMessageListener" class="com.github.K0zka.kerub.utils.activeobject.MqExecutor"/>
+	<bean id="asyncInvocationsMessageListener" class="com.github.kerubistan.kerub.utils.activeobject.MqExecutor"/>
 
 	<!--
 	REST
@@ -518,7 +518,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
 	<bean id="objectMapperFactory"
-	      class="com.github.K0zka.kerub.utils.ObjectMapperFactory">
+	      class="com.github.kerubistan.kerub.utils.ObjectMapperFactory">
 		<constructor-arg name="prettyPrint" index="0" value="true"/>
 	</bean>
 
@@ -532,96 +532,96 @@
 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.HostAddressExceptionMapper"/>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.HostAddressExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
 
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
 
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.JsonMappingExceptionMapper">
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.JsonMappingExceptionMapper">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.JsonParseExceptionMapper">
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.JsonParseExceptionMapper">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
 
-			<bean class="com.github.K0zka.kerub.exceptions.mappers.DefaultExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.exceptions.mappers.DefaultExceptionMapper"/>
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
-			<bean id="controllerConfig" class="com.github.K0zka.kerub.services.impl.ControllerConfigServiceImpl">
+			<bean id="controllerConfig" class="com.github.kerubistan.kerub.services.impl.ControllerConfigServiceImpl">
 				<constructor-arg ref="controllerConfigDao"/>
 			</bean>
-			<bean id="accounts" class="com.github.K0zka.kerub.services.impl.AccountServiceImpl">
+			<bean id="accounts" class="com.github.kerubistan.kerub.services.impl.AccountServiceImpl">
 				<constructor-arg ref="accountDao"/>
 				<constructor-arg ref="assetAccessController"/>
 			</bean>
-			<bean id="accountMemberships" class="com.github.K0zka.kerub.services.impl.AccountMembershipServiceImpl">
+			<bean id="accountMemberships" class="com.github.kerubistan.kerub.services.impl.AccountMembershipServiceImpl">
 				<constructor-arg ref="accountMembershipDao"/>
 			</bean>
-			<bean id="vm" class="com.github.K0zka.kerub.services.impl.VirtualMachineServiceImpl">
+			<bean id="vm" class="com.github.kerubistan.kerub.services.impl.VirtualMachineServiceImpl">
 				<constructor-arg ref="vmDao"/>
 				<constructor-arg ref="assetAccessController"/>
 			</bean>
-			<bean id="vnet" class="com.github.K0zka.kerub.services.impl.VirtualNetworkServiceImpl">
+			<bean id="vnet" class="com.github.kerubistan.kerub.services.impl.VirtualNetworkServiceImpl">
 				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="vNetDao"/>
 			</bean>
-			<bean id="vmDyn" class="com.github.K0zka.kerub.services.impl.VirtualMachineDynamicServiceImpl">
+			<bean id="vmDyn" class="com.github.kerubistan.kerub.services.impl.VirtualMachineDynamicServiceImpl">
 				<constructor-arg ref="vmDynDao"/>
 				<constructor-arg ref="vmDao"/>
 			</bean>
-			<bean id="vstorage" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceServiceImpl">
+			<bean id="vstorage" class="com.github.kerubistan.kerub.services.impl.VirtualStorageDeviceServiceImpl">
 				<constructor-arg ref="virtualStorageDeviceDao"/>
 				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 				<constructor-arg ref="hostDao"/>
 				<constructor-arg ref="hostManager"/>
 			</bean>
-			<bean id="vstorageDyn" class="com.github.K0zka.kerub.services.impl.VirtualStorageDeviceDynamicServiceImpl">
+			<bean id="vstorageDyn" class="com.github.kerubistan.kerub.services.impl.VirtualStorageDeviceDynamicServiceImpl">
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 			</bean>
-			<bean id="project" class="com.github.K0zka.kerub.services.impl.ProjectServiceImpl">
+			<bean id="project" class="com.github.kerubistan.kerub.services.impl.ProjectServiceImpl">
 				<constructor-arg ref="projectDao"/>
 			</bean>
-			<bean id="audit" class="com.github.K0zka.kerub.services.impl.AuditServiceImpl">
+			<bean id="audit" class="com.github.kerubistan.kerub.services.impl.AuditServiceImpl">
 				<constructor-arg ref="auditDao"/>
 			</bean>
-			<bean id="event" class="com.github.K0zka.kerub.services.impl.EventServiceImpl">
+			<bean id="event" class="com.github.kerubistan.kerub.services.impl.EventServiceImpl">
 				<constructor-arg ref="eventDao"/>
 			</bean>
-			<bean id="stats" class="com.github.K0zka.kerub.services.impl.StatisticsServiceImpl">
+			<bean id="stats" class="com.github.kerubistan.kerub.services.impl.StatisticsServiceImpl">
 				<constructor-arg ref="cacheManager"/>
 			</bean>
-			<bean id="usageStats" class="com.github.K0zka.kerub.services.impl.UsageStatisticsServiceImpl">
+			<bean id="usageStats" class="com.github.kerubistan.kerub.services.impl.UsageStatisticsServiceImpl">
 				<constructor-arg ref="statisticsDao"/>
 			</bean>
-			<bean id="controllers" class="com.github.K0zka.kerub.services.impl.ControllerServiceImpl">
+			<bean id="controllers" class="com.github.kerubistan.kerub.services.impl.ControllerServiceImpl">
 				<constructor-arg ref="controllerDao"/>
 			</bean>
-			<bean id="assignments" class="com.github.K0zka.kerub.services.impl.AssignmentServiceImpl">
+			<bean id="assignments" class="com.github.kerubistan.kerub.services.impl.AssignmentServiceImpl">
 				<constructor-arg ref="assignmentDao"/>
 				<constructor-arg ref="hostManager"/>
 			</bean>
 			<ref bean="version"/>
-			<bean id="host" class="com.github.K0zka.kerub.services.impl.HostServiceImpl">
+			<bean id="host" class="com.github.kerubistan.kerub.services.impl.HostServiceImpl">
 				<constructor-arg ref="hostDao"/>
 				<constructor-arg ref="hostManager"/>
 				<constructor-arg ref="sshClientService"/>
 			</bean>
-			<bean id="hostDyn" class="com.github.K0zka.kerub.services.impl.HostDynamicServiceImpl">
+			<bean id="hostDyn" class="com.github.kerubistan.kerub.services.impl.HostDynamicServiceImpl">
 				<constructor-arg ref="hostDynamicDao"/>
 			</bean>
-			<bean id="login" class="com.github.K0zka.kerub.services.impl.LoginServiceImpl">
+			<bean id="login" class="com.github.kerubistan.kerub.services.impl.LoginServiceImpl">
 			</bean>
-			<bean id="ipmi" class="com.github.K0zka.kerub.services.IpmiService">
+			<bean id="ipmi" class="com.github.kerubistan.kerub.services.IpmiService">
 			</bean>
 			<ref bean="motd"/>
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 
-	<bean id="motd" class="com.github.K0zka.kerub.services.impl.MotdServiceImpl">
+	<bean id="motd" class="com.github.kerubistan.kerub.services.impl.MotdServiceImpl">
 		<constructor-arg index="0" name="motd">
 			<value>#### Developer mode
 
@@ -640,7 +640,7 @@ Remember, that the motd is readable by anyone!
 
 	<bean
 			id="version"
-			class="com.github.K0zka.kerub.services.impl.VersionServiceImpl"
+			class="com.github.kerubistan.kerub.services.impl.VersionServiceImpl"
 			init-method="logStart"
 			destroy-method="logStop"/>
 
@@ -677,12 +677,12 @@ Remember, that the motd is readable by anyone!
 	Configuration, utilities
 	-->
 
-	<bean class="com.github.K0zka.kerub.utils.spring.BeanOverrideConfigurer">
+	<bean class="com.github.kerubistan.kerub.utils.spring.BeanOverrideConfigurer">
 		<property name="location" value="classpath:local/kerub.properties"/>
 		<property name="ignoreResourceNotFound" value="true"/>
 	</bean>
 
-	<bean class="com.github.K0zka.kerub.utils.spring.BeanOverrideConfigurer">
+	<bean class="com.github.kerubistan.kerub.utils.spring.BeanOverrideConfigurer">
 		<property name="location" value="classpath:cluster/kerub.properties"/>
 		<property name="ignoreResourceNotFound" value="true"/>
 	</bean>

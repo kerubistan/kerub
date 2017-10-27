@@ -12,11 +12,11 @@
 	<websocket:handlers>
 		<websocket:mapping path="/ws" handler="wsHandler"/>
 		<websocket:handshake-interceptors>
-			<bean class="com.github.K0zka.kerub.security.WebsocketSecurityInterceptor"></bean>
+			<bean class="com.github.kerubistan.kerub.security.WebsocketSecurityInterceptor"></bean>
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
-	<bean id="wsHandler" class="com.github.K0zka.kerub.services.socket.WebSocketNotifier">
+	<bean id="wsHandler" class="com.github.kerubistan.kerub.services.socket.WebSocketNotifier">
 		<constructor-arg ref="messageListener"/>
 		<constructor-arg ref="entityAccessController"/>
 	</bean>

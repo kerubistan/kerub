@@ -12,6 +12,6 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="com.github.K0zka.kerub" level="debug"/>
+    <logger name="com.github.kerubistan.kerub" level="debug"/>
 
 </configuration>

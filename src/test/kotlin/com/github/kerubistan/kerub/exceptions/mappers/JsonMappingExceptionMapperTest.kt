@@ -1,0 +1,19 @@
+package com.github.kerubistan.kerub.exceptions.mappers
+
+import com.fasterxml.jackson.databind.JsonMappingException
+import com.github.kerubistan.kerub.utils.createObjectMapper
+import com.nhaarman.mockito_kotlin.mock
+import org.junit.Test
+import javax.ws.rs.core.Response
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+
+class JsonMappingExceptionMapperTest {
+	@Test
+	fun toResponse() {
+		val exception = mock<JsonMappingException>()
+		val response = JsonMappingExceptionMapper(createObjectMapper()).toResponse(exception)
+		assertEquals(Response.Status.NOT_ACCEPTABLE.statusCode, response!!.status)
+		assertNotNull(response.entity)
+	}
+}

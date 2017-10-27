@@ -15,7 +15,7 @@
     </context-param>
 
     <listener>
-        <listener-class>com.github.K0zka.kerub.security.UserSessionListener</listener-class>
+        <listener-class>com.github.kerubistan.kerub.security.UserSessionListener</listener-class>
     </listener>
 
     <servlet>

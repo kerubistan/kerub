@@ -1,0 +1,3 @@
+package com.github.kerubistan.kerub.model.dynamic
+
+interface VirtualStorageBlockDeviceAllocation : VirtualStorageAllocation
