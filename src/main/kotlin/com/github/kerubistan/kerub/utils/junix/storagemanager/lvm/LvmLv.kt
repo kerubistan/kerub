@@ -15,6 +15,8 @@ object LvmLv : Lvm() {
 	val minimalSize = "4 MB".toSize()
 	val logger = getLogger(LvmLv::class)
 
+	private fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
+
 	fun roundUp(size: BigInteger): BigInteger {
 		if (size.mod(minimalSize) == BigInteger.ZERO && size != BigInteger.ZERO) {
 			return size
@@ -71,15 +73,11 @@ object LvmLv : Lvm() {
 		)
 	}
 
-	fun checkErrorOutput(err: String): Boolean {
-		return err.isNotBlank() && !err.trim().startsWith("WARNING")
-	}
-
-	internal fun optionalInt(input: String?): Int? =
-			if (input?.isBlank() ?: true) {
+	private fun optionalInt(input: String?): Int? =
+			if (input?.isBlank() != false) {
 				null
 			} else {
-				input?.toInt()
+				input.toInt()
 			}
 
 	fun monitor(session: ClientSession, callback: (List<LogicalVolume>) -> Unit) {
@@ -123,12 +121,20 @@ object LvmLv : Lvm() {
 		}
 	}
 
+	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
+			session.executeOrDie(
+					("lvm lvcreate $vgName -n $name -L ${roundUp(size)}B -Wn -Zy " +
+							"&& lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy" +
+							"&& lvm lvconvert --type thin-pool ${name}_meta $name").trimIndent()
+					, ::checkErrorOutput)
+
 	fun create(session: ClientSession,
 			   vgName: String,
 			   name: String,
 			   size: BigInteger,
 			   minRecovery: Int? = null,
-			   maxRecovery: Int? = null
+			   maxRecovery: Int? = null,
+			   poolName: String? = null
 	): LogicalVolume {
 		fun minRecovery(minRecovery: Int?) = if (minRecovery == null) {
 			""
@@ -141,11 +147,22 @@ object LvmLv : Lvm() {
 		} else {
 			"--maxrecoveryrate $maxRecovery"
 		}
+
+		val sizeParam = if (poolName == null) {
+			"-L"
+		} else {
+			"-V"
+		}
 		session.executeOrDie(
 				"lvm lvcreate $vgName -n $name " +
 						"-Wn -Zy " +
-						"-L ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}",
-				{ checkErrorOutput(it) })
+						"$sizeParam ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}" +
+						if (poolName != null) {
+							"--thinpool $poolName"
+						} else {
+							""
+						},
+				::checkErrorOutput)
 		return list(session, volGroupName = vgName, volName = name).first { it.name == name }
 	}
 

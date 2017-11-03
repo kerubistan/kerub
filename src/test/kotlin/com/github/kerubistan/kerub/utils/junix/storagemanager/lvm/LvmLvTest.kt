@@ -128,6 +128,22 @@ class LvmLvTest {
 	}
 
 	@Test
+	fun createPool() {
+		whenever(session.createExecChannel(startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
+		whenever(createExecChannel.open()).thenReturn(openFuture)
+		whenever(createExecChannel.invertedOut)
+				.thenReturn(ByteArrayInputStream("  Logical volume \"pool0\" created.\n".toByteArray(charset("ASCII"))))
+		whenever(createExecChannel.invertedErr).thenReturn(NullInputStream(0))
+		LvmLv.createPool(
+				session = session,
+				name = "pool0",
+				metaSize = "1 GB".toSize(),
+				size = "200 GB".toSize(),
+				vgName = "pool"
+		)
+	}
+
+	@Test
 	fun create() {
 		whenever(session.createExecChannel(startsWith("lvm lvcreate"))).thenReturn(createExecChannel)
 		whenever(createExecChannel.open()).thenReturn(openFuture)
