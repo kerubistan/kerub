@@ -15,11 +15,8 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Ignore
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class CreateLvExecutorTest {
 
 	val hostCommandExecutor : HostCommandExecutor = mock()
