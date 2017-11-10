@@ -14,7 +14,7 @@ open class InternalMessageListenerImpl(private val planner: Planner) : MessageLi
 		val logger = getLogger(InternalMessageListenerImpl::class)
 	}
 
-	val channels: MutableMap<String, ClientConnection> = hashMapOf()
+	private val channels: MutableMap<String, ClientConnection> = hashMapOf()
 
 	override fun addSocketListener(id: String, conn: ClientConnection) {
 		channels.put(id, conn)
