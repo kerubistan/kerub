@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.services.socket
 import com.github.kerubistan.kerub.model.messages.EntityMessage
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.updateMutable
 import javax.jms.Message
 import javax.jms.MessageListener
 import javax.jms.ObjectMessage
@@ -14,23 +15,35 @@ open class InternalMessageListenerImpl(private val planner: Planner) : MessageLi
 		val logger = getLogger(InternalMessageListenerImpl::class)
 	}
 
-	private val channels: MutableMap<String, ClientConnection> = hashMapOf()
+	private val channels: MutableMap<String, Map<String, ClientConnection>> = hashMapOf()
 
-	override fun addSocketListener(id: String, conn: ClientConnection) {
-		channels.put(id, conn)
+	override fun addSocketListener(sessionId: String, socketId: String, conn: ClientConnection) {
+		synchronized(this) {
+			channels.updateMutable(sessionId,
+					init = { mapOf(socketId to conn) },
+					mapper = { it + (socketId to conn) }
+			)
+		}
 	}
 
-	override fun subscribe(sessionId: String, channel: String) {
-		channels[sessionId]?.addSubscription(channel)
+	override fun subscribe(sessionId: String, socketId: String, channel: String) {
+		synchronized(this) {
+			channels[sessionId]?.get(socketId)?.addSubscription(channel)
+		}
 	}
 
-	override fun unsubscribe(sessionId: String, channel: String) {
-		channels[sessionId]?.removeSubscription(channel)
+	override fun unsubscribe(sessionId: String, socketId: String, channel: String) {
+		synchronized(this) {
+			channels[sessionId]?.get(socketId)?.removeSubscription(channel)
+		}
 	}
 
 	override fun removeSocketListener(id: String) {
-		val connection = channels.remove(id)
-		connection?.close()
+		synchronized(this) {
+			channels.remove(id)?.forEach { connection ->
+				connection.value.close()
+			}
+		}
 	}
 
 	override fun onMessage(message: Message?) {
@@ -40,11 +53,13 @@ open class InternalMessageListenerImpl(private val planner: Planner) : MessageLi
 			planner.onEvent(obj)
 		}
 
-		for (connection in channels) {
-			try {
-				connection.value.filterAndSend(obj as KerubMessage)
-			} catch (e: IllegalStateException) {
-				logger.info("Could not deliver msg", e)
+		for (session in synchronized(this) { channels }) {
+			for (connection in session.value) {
+				try {
+					connection.value.filterAndSend(obj as KerubMessage)
+				} catch (e: IllegalStateException) {
+					logger.info("Could not deliver msg", e)
+				}
 			}
 		}
 	}

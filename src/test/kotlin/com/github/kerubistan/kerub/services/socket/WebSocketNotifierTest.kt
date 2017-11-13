@@ -37,7 +37,7 @@ class WebSocketNotifierTest {
 
 	@Test
 	fun afterConnectionEstablished() {
-		whenever(session.id).thenReturn("session-id")
+		whenever(session.id).thenReturn("socket-id")
 		whenever(session.principal).thenReturn(principal)
 		whenever(session.attributes).thenReturn(mapOf("subject" to mock<Subject>()))
 
@@ -45,6 +45,7 @@ class WebSocketNotifierTest {
 
 		verify(internal).addSocketListener(
 				anyString(),
+				eq("socket-id"),
 				any<ClientConnection>()
 		)
 	}

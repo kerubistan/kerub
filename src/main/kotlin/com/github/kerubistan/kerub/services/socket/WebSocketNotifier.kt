@@ -43,12 +43,12 @@ class WebSocketNotifier(
 				send(session, PongMessage())
 			}
 			is SubscribeMessage -> {
-				logger.info("{} subscribe to {}", session.servletSessionId, msg.channel)
-				internalListener.subscribe(session.servletSessionId, msg.channel)
+				logger.info("{} / {} subscribe to {}", session.servletSessionId, session.id, msg.channel)
+				internalListener.subscribe(session.servletSessionId, session.id, msg.channel)
 			}
 			is UnsubscribeMessage -> {
-				logger.info("{} unsubscribe from {}", session.servletSessionId, msg.channel)
-				internalListener.unsubscribe(session.servletSessionId, msg.channel)
+				logger.info("{} / {} unsubscribe from {}", session.servletSessionId, session.id, msg.channel)
+				internalListener.unsubscribe(session.servletSessionId, session.id, msg.channel)
 			}
 		}
 	}
@@ -61,6 +61,7 @@ class WebSocketNotifier(
 		logger.info("connection opened by {}, {}", session.principal, session.servletSessionId)
 		internalListener.addSocketListener(
 				session.servletSessionId,
+				session.id,
 				SpringSocketClientConnection(
 						session,
 						objectMapper,

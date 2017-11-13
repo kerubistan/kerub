@@ -29,7 +29,6 @@ import com.github.kerubistan.kerub.services.RestOperations
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.services.VirtualNetworkService
 import com.github.kerubistan.kerub.services.VirtualStorageDeviceService
-import com.github.kerubistan.kerub.socket.WebSocketSecurityIT
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.testWsUrl
@@ -450,22 +449,22 @@ class AuthorizationDefs {
 
 			@OnWebSocketConnect
 			fun connect(session: Session) {
-				WebSocketSecurityIT.logger.info("connected: ${session.isOpen}")
+				logger.info("connected: ${session.isOpen}")
 			}
 
 			@OnWebSocketClose
 			fun close(code: Int, msg: String?) {
-				WebSocketSecurityIT.logger.info("connection closed {} {}", code, msg)
+				logger.info("connection closed {} {}", code, msg)
 			}
 
 			@OnWebSocketMessage
 			fun message(session: Session, input: String) {
-				WebSocketSecurityIT.logger.info("message: {}", input)
+				logger.info("message: {}", input)
 			}
 
 			@OnWebSocketError
 			fun error(error: Throwable) {
-				WebSocketSecurityIT.logger.info("socket error", error)
+				logger.info("socket error", error)
 			}
 
 		}

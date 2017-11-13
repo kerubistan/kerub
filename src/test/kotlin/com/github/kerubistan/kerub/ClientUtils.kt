@@ -63,7 +63,9 @@ fun createSocketClient(resp: Response): WebSocketClient {
 	wsClient.cookieStore = cookieStore
 	resp.metadata["Set-Cookie"]?.forEach {
 		val cookie = it.toString()
-		wsClient.cookieStore.add(URI(testWsUrl), HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")))
+		wsClient.cookieStore.add(
+				URI(testWsUrl),
+				HttpCookie(cookie.substringBefore("="), cookie.substringBetween("=", ";")))
 	}
 	return wsClient
 }
