@@ -10,7 +10,6 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
-import com.github.kerubistan.kerub.utils.toSize
 import java.util.UUID
 
 val testCpu = ProcessorInformation(
@@ -31,7 +30,7 @@ val testHost = Host(
 
 val testHostCapabilities = HostCapabilities(
 		cpuArchitecture = "X86_64",
-		totalMemory = "32 GB".toSize()
+		totalMemory = 32.GB
 )
 
 val testFreeBsdHost = Host(
@@ -48,12 +47,12 @@ val testFreeBsdHost = Host(
 val testDisk = VirtualStorageDevice(
 		id = UUID.randomUUID(),
 		name = "test-vm",
-		size = "2 GB".toSize()
+		size = 2.GB
 )
 
 val testVm = VirtualMachine(
 		id = UUID.randomUUID(),
-		memory = Range(min = "1 GB".toSize(), max = "2 GB".toSize()),
+		memory = Range(min = 1.GB, max = 2.GB),
 		name = "test-vm",
 		nrOfCpus = 1
 )
@@ -62,7 +61,7 @@ val testVirtualDisk = VirtualStorageDevice(
 		id = UUID.randomUUID(),
 		name = "test-disk",
 		readOnly = false,
-		size = "1 GB".toSize()
+		size = 1.GB
 )
 
 val testVirtualNetwork = VirtualNetwork(

@@ -1,11 +1,11 @@
 package com.github.kerubistan.kerub.data.ispn
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.data.EventListener
 import com.github.kerubistan.kerub.data.HistoryDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
@@ -47,14 +47,14 @@ class VirtualMachineDynamicDaoImplTest {
 				id = UUID.randomUUID(),
 				hostId = host1Id,
 				status = VirtualMachineStatus.Up,
-				memoryUsed = "1 GB".toSize()
+				memoryUsed = 1.GB
 		)
 
 		val dyn2 = VirtualMachineDynamic(
 				id = UUID.randomUUID(),
 				hostId = host2Id,
 				status = VirtualMachineStatus.Up,
-				memoryUsed = "1 GB".toSize()
+				memoryUsed = 1.GB
 		)
 
 		dao!!.add(dyn1)

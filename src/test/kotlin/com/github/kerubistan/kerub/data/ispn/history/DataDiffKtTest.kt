@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.data.ispn.history
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
@@ -19,7 +20,7 @@ class DataDiffKtTest {
 						hostId = testHost.id,
 						status = VirtualMachineStatus.Up,
 						lastUpdated = System.currentTimeMillis() - 100,
-						memoryUsed = "1 GB".toSize(),
+						memoryUsed = 1.GB,
 						cpuUsage = listOf(
 								CpuStat(
 										cpuNr = 0,
