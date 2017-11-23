@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.model.Version
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -62,7 +61,7 @@ class FreeBSDTest {
 
 		val totalMem = FreeBSD().getTotalMemory(session)
 
-		assertEquals("1040261120 B".toSize(), totalMem)
+		assertEquals(1040261120, totalMem)
 	}
 
 
