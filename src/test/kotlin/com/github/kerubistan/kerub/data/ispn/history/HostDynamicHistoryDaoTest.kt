@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.data.ispn.history
 
+import com.github.kerubistan.kerub.GB
+import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.kerubistan.kerub.data.ispn.utils.CountdownCreateEventListener
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -8,7 +10,6 @@ import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.utils.toSize
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.then
 import org.junit.Test
@@ -44,11 +45,11 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						id = testHost.id,
 						status = HostStatus.Up,
 						ksmEnabled = false,
-						memFree = "129 MB".toSize(),
+						memFree = 129.MB,
 						storageStatus = listOf(
 								StorageDeviceDynamic(
 										id = testDisk.id,
-										freeCapacity = "600 GB".toSize()
+										freeCapacity = 600.GB
 								)
 						)
 				),
@@ -56,18 +57,18 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						id = testHost.id,
 						status = HostStatus.Up,
 						ksmEnabled = true,
-						memFree = "128 MB".toSize(),
+						memFree = 128.MB,
 						storageStatus = listOf(
 								StorageDeviceDynamic(
 										id = testDisk.id,
-										freeCapacity = "580 GB".toSize()
+										freeCapacity = 580.GB
 								)
 						)
 				)
 		)
 		dao.log(
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = "128 MB".toSize()),
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = "126 MB".toSize())
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = 128.MB),
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 126.MB)
 		)
 		deferred.promise.then {
 			val endTime = System.currentTimeMillis()
@@ -83,12 +84,12 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 		val dao = HostDynamicHistoryDao(cache!!)
 		val startTime = System.currentTimeMillis()
 		dao.log(
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = "129 MB".toSize()),
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = "128 MB".toSize())
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 129.MB),
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = 128.MB)
 		)
 		dao.log(
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = "128 MB".toSize()),
-				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = "126 MB".toSize())
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = 128.MB),
+				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 126.MB)
 		)
 		val history = deferred.promise.then {
 			val endTime = System.currentTimeMillis()

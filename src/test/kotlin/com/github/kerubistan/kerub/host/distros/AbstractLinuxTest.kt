@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.host.distros
 
+import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -35,7 +35,7 @@ class AbstractLinuxTest {
 		)
 
 		val total = linux.getTotalMemory(session)
-		assertEquals("16345292 kB".toSize(), total)
+		assertEquals(16345292.KB, total)
 	}
 
 	@Test
