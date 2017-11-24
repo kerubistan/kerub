@@ -41,7 +41,9 @@ class GlobalOperationalStateBuilderImplTest {
 
 		whenever(hostDao.list()).thenReturn(listOf(testHost))
 		whenever(hostDyn.get(eq(listOf(testHost.id)))).thenReturn(listOf(HostDynamic(id = testHost.id)))
-		whenever(hostCfg.get(eq(listOf(testHost.id)))).thenReturn(listOf(HostConfiguration(id = testHost.id)))
+		whenever(hostCfg.get(eq(listOf(testHost.id)))).thenReturn(
+				listOf(HostConfiguration(id = testHost.id, storageConfiguration = listOf(), services = listOf()))
+		)
 		whenever(virtualStorageDao.list()).thenReturn(listOf(testDisk))
 		whenever(vmDao.list()).thenReturn(listOf(testVm))
 		whenever(vmDynDao.get(eq(listOf(testVm.id)))).thenReturn(listOf(VirtualMachineDynamic(id = testVm.id, hostId = testHost.id, memoryUsed = BigInteger.TEN)))

@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.data.ispn
 
+import com.github.kerubistan.kerub.GB
+import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -71,12 +73,12 @@ class StatisticsDaoImplTest {
 			address = "host-1.example.com",
 			capabilities = testHostCapabilities.copy(
 					cpus = listOf(testCpu, testCpu),
-					totalMemory = "256 GB".toSize(),
+					totalMemory = 256.GB,
 					storageCapabilities = listOf(
 							LvmStorageCapability(
 									id = UUID.randomUUID(),
-									physicalVolumes = listOf("128 GB".toSize(), "128 GB".toSize()),
-									size = "256 GB".toSize(),
+									physicalVolumes = listOf(128.GB, 128.GB),
+									size = 256.GB,
 									volumeGroupName = "data-vg"
 							)
 					)
@@ -85,7 +87,7 @@ class StatisticsDaoImplTest {
 
 	val gvinumDisk = GvinumStorageCapability(
 			id = UUID.randomUUID(),
-			size = "256 GB".toSize(),
+			size = 256.GB,
 			name = "gvinum-disk-1",
 			device = "/dev/blah"
 	)
@@ -94,7 +96,7 @@ class StatisticsDaoImplTest {
 			address = "host-2.example.com",
 			capabilities = testHostCapabilities.copy(
 					cpus = listOf(testCpu, testCpu, testCpu, testCpu),
-					totalMemory = "512 GB".toSize(),
+					totalMemory = 512.GB,
 					storageCapabilities = listOf(gvinumDisk)
 			)
 	)
@@ -103,14 +105,14 @@ class StatisticsDaoImplTest {
 			id = UUID.randomUUID(),
 			name = "vm-1",
 			nrOfCpus = 2,
-			memory = Range("512 MB".toSize(), "2 GB".toSize())
+			memory = Range(512.MB, 2.GB)
 	)
 
 	val vm2 = testVm.copy(
 			id = UUID.randomUUID(),
 			name = "vm-2",
 			nrOfCpus = 1,
-			memory = Range("1 GB".toSize(), "1 GB".toSize()),
+			memory = Range(1.GB, 1.GB),
 			expectations = listOf(
 					CoreDedicationExpectation(level = ExpectationLevel.DealBreaker)
 			)
@@ -118,12 +120,12 @@ class StatisticsDaoImplTest {
 
 	val vDisk1 = testVirtualDisk.copy(
 			id = UUID.randomUUID(),
-			size = "128 GB".toSize()
+			size = 128.GB
 	)
 
 	val vDisk2 = testVirtualDisk.copy(
 			id = UUID.randomUUID(),
-			size = "128 GB".toSize()
+			size = 128.GB
 	)
 
 	@Test
@@ -138,7 +140,7 @@ class StatisticsDaoImplTest {
 				id = vDisk1.id,
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
-						actualSize = "64 GB".toSize(),
+						actualSize = 64.GB,
 						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
 				))
 		))
@@ -156,17 +158,17 @@ class StatisticsDaoImplTest {
 		).basicBalanceReport()
 
 		assertEquals(2, report.totalHosts)
-		assertEquals("256 GB".toSize() + "512 GB".toSize(), report.totalHostMemory)
-		assertEquals("512 MB".toSize() + "1 GB".toSize(), report.totalMinVmMemory)
-		assertEquals("2 GB".toSize() + "1 GB".toSize(), report.totalMaxVmMemory)
+		assertEquals(256.GB + 512.GB, report.totalHostMemory)
+		assertEquals(512.MB + 1.GB, report.totalMinVmMemory)
+		assertEquals(2.GB + 1.GB, report.totalMaxVmMemory)
 
 		assertEquals(6, report.totalHostCpus)
 		assertEquals(vm1.nrOfCpus + vm2.nrOfCpus, report.totalVmCpus)
 		assertEquals(vm2.nrOfCpus, report.totalDedicatedVmCpus)
 
-		assertEquals("512 GB".toSize(), report.totalHostStorage)
+		assertEquals(512.GB, report.totalHostStorage)
 		assertEquals(vDisk1.size + vDisk2.size, report.totalDiskStorageRequested)
-		assertEquals("64 GB".toSize(), report.totalDiskStorageActual)
+		assertEquals(64.GB, report.totalDiskStorageActual)
 	}
 
 	@Test

@@ -6,5 +6,6 @@ import java.util.UUID
 
 data class HostConfiguration(
 		override val id: UUID = UUID.randomUUID(),
-		val services: List<HostService> = listOf()
+		val services: List<HostService> = listOf(),
+		val storageConfiguration: List<HostStorageConfiguration> = listOf()
 ) : Entity<UUID>

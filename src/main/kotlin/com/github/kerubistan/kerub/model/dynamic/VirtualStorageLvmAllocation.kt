@@ -8,7 +8,8 @@ import java.util.UUID
 data class VirtualStorageLvmAllocation(
 		override val hostId: UUID,
 		override val actualSize: BigInteger,
-		val path: String
+		val path: String,
+		val pool: String? = null
 ) : VirtualStorageBlockDeviceAllocation {
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 

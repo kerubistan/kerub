@@ -61,7 +61,7 @@ class FreeBSDTest {
 
 		val totalMem = FreeBSD().getTotalMemory(session)
 
-		assertEquals(1040261120, totalMem)
+		assertEquals(1040261120.toBigInteger(), totalMem)
 	}
 
 

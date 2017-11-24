@@ -115,8 +115,7 @@ object LvmLv : Lvm() {
 		}
 		return session.executeOrDie(
 				"lvm lvs -o $fields $listOptions $filter")
-				.lines().filterNot { it.isEmpty() }.map {
-			row ->
+				.lines().filterNot { it.isEmpty() }.map { row ->
 			parseRow(row)
 		}
 	}
@@ -127,6 +126,15 @@ object LvmLv : Lvm() {
 							"&& lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy" +
 							"&& lvm lvconvert --type thin-pool ${name}_meta $name").trimIndent()
 					, ::checkErrorOutput)
+
+	fun extend(session: ClientSession, vgName: String,
+			   lvName: String,
+			   addSize: BigInteger) {
+		assert(addSize > BigInteger.ZERO) {
+			"lvextend $vgName/$lvName needs a size bigger than zero. given: $addSize"
+		}
+		session.executeOrDie("lvm lvextend $vgName/$lvName -L +${roundUp(addSize)}B")
+	}
 
 	fun create(session: ClientSession,
 			   vgName: String,

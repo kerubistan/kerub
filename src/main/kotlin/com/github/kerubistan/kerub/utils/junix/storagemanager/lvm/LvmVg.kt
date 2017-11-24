@@ -42,9 +42,9 @@ object LvmVg : Lvm() {
 
 	}
 
-	fun list(session: ClientSession): List<VolumeGroup> =
+	fun list(session: ClientSession, vgName : String? = null): List<VolumeGroup> =
 			session.executeOrDie(
-					"lvm vgs -o $vgFields $listOptions")
+					"lvm vgs ${vgName ?: ""} -o $vgFields $listOptions")
 					.trim().lines().map {
 				row ->
 				parseRow(row)
