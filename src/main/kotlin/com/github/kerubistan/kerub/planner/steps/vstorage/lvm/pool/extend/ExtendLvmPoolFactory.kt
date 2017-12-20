@@ -2,9 +2,9 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.extend
 
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
 
 
@@ -29,29 +29,16 @@ object ExtendLvmPoolFactory : AbstractOperationalStepFactory<ExtendLvmPool>() {
 						it.volumeGroupName == pool.vgName
 					}
 					host.value.dynamic?.storageStatus?.first { it.id == capability.id }?.let { poolStatus ->
-						if (needExtend(pool, poolStatus, state) && canExtend(pool, poolStatus, state)) {
+						percents.map {
 							ExtendLvmPool(
 									host = host.value.stat,
 									pool = pool.poolName,
-									addSize = pool.size.divide(10.toBigInteger()),
+									addSize = poolStatus.freeCapacity.divide(it.toBigInteger()),
 									vgName = pool.vgName)
-						} else {
-							null
 						}
 					}
 
 				}?.filterNotNull() ?: listOf()
-			}.join()
+			}.join().join()
 
-	private fun canExtend(pool: LvmPoolConfiguration,
-						  poolStatus: StorageDeviceDynamic,
-						  state: OperationalState): Boolean {
-		TODO()
-	}
-
-	private fun needExtend(pool: LvmPoolConfiguration,
-						   poolStatus: StorageDeviceDynamic,
-						   state: OperationalState): Boolean {
-		TODO()
-	}
 }

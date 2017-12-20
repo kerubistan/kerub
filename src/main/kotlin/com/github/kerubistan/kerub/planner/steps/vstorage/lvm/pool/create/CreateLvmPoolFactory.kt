@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
 import java.math.BigInteger
 import java.util.UUID
@@ -29,14 +30,13 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 				}
 
 			}.filterNotNull().join().map {
-		(1..100).step(10).map { percent ->
+		percents.map { percent ->
 			CreateLvmPool(
 					host = it.second.value.stat,
 					name = UUID.randomUUID().toString(),
 					size = it.first.size / percent.toBigInteger(),
 					vgName = it.first.volumeGroupName
 			)
-
 		}
 	}.join()
 }
