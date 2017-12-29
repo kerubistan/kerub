@@ -31,11 +31,15 @@
 			<id>jcenter</id>
 			<url>http://jcenter.bintray.com/</url>
 		</repository>
-		<repository>
-			<id>kotlin-1.2-beta</id>
-			<url>http://dl.bintray.com/kotlin/kotlin-eap-1.2</url>
-		</repository>
 	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jcenter</id>
+			<name>JCenter</name>
+			<url>https://jcenter.bintray.com/</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
 		<kotlin.version>1.2.0</kotlin.version>
@@ -50,6 +54,7 @@
 		<jetty.version>9.2.2.v20140723</jetty.version>
 		<shiro.version>1.4.0</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
+		<dokka.version>0.9.15</dokka.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -334,6 +339,21 @@
 		<sourceDirectory>src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>src/test/kotlin</testSourceDirectory>
 		<plugins>
+			<plugin>
+				<groupId>org.jetbrains.dokka</groupId>
+				<artifactId>dokka-maven-plugin</artifactId>
+				<version>${dokka.version}</version>
+				<executions>
+					<execution>
+						<phase>pre-site</phase>
+						<goals>
+							<goal>dokka</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>com.github.K0zka</groupId>
 				<artifactId>contentgzip-maven-plugin</artifactId>
