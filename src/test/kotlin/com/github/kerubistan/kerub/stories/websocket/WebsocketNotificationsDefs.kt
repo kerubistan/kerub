@@ -22,6 +22,7 @@ import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.testWsUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.now
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -53,11 +54,11 @@ class WebsocketNotificationsDefs {
 	var entities = listOf<Any>()
 	var listener: Listener? = null
 
-	data class ConnectEvent(val time: Long = System.currentTimeMillis())
+	data class ConnectEvent(val time: Long = now())
 
-	data class DisconnectEvent(val time: Long = System.currentTimeMillis())
+	data class DisconnectEvent(val time: Long = now())
 
-	data class MessageEvent(val time: Long = System.currentTimeMillis(), val message: Message)
+	data class MessageEvent(val time: Long = now(), val message: Message)
 
 	@WebSocket
 	class Listener(private val messages: BlockingQueue<Any>) {

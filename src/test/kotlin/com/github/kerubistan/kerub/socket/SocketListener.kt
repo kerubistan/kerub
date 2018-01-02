@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.socket
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.now
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect
@@ -22,7 +23,7 @@ class SocketListener(private val queue: BlockingQueue<String>) {
 	fun connect(session: Session) {
 		logger.info("connected: ${session.isOpen}")
 		session.remote.sendString(
-				createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
+				createObjectMapper().writeValueAsString(PingMessage(sent = now()))
 		)
 		queue.put("connected")
 	}

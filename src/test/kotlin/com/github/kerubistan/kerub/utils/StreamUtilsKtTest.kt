@@ -14,7 +14,7 @@ class StreamUtilsKtTest {
 
 	@Test
 	fun resourceToStringNotExisting() {
-		expect(IllegalArgumentException::class) { resourceToString("notexisting-" + System.currentTimeMillis()) }
+		expect(IllegalArgumentException::class) { resourceToString("notexisting-${now()}") }
 	}
 
 }

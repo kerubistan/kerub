@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.testWsUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.now
 import org.eclipse.jetty.websocket.api.UpgradeException
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import org.junit.After
@@ -50,7 +51,7 @@ class WebSocketSecurityIT {
 		val session = socketClient.connect(SocketListener(queue), URI(testWsUrl)).get()
 
 		session.remote.sendString(
-				createObjectMapper().writeValueAsString(PingMessage(sent = System.currentTimeMillis()))
+				createObjectMapper().writeValueAsString(PingMessage(sent = now()))
 		)
 
 		var messages = listOf<String>()

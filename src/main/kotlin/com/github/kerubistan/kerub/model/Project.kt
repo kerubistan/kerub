@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.model
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.kerubistan.kerub.utils.now
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.util.UUID
@@ -20,7 +21,7 @@ import kotlin.reflect.KClass
 		val description: String? = null,
 		@Field
 		@JsonProperty("created")
-		val created: Long = System.currentTimeMillis(),
+		val created: Long = now(),
 		override
 		@Field
 		@JsonProperty("expectations")

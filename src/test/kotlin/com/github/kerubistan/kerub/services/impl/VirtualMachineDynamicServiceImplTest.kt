@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.DisplaySettings
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -35,7 +36,7 @@ class VirtualMachineDynamicServiceImplTest {
 					password = "wilmaletmein",
 					ca = ""
 			),
-			lastUpdated = System.currentTimeMillis(),
+			lastUpdated = now(),
 			hostId = UUID.randomUUID(),
 			memoryUsed = "512 MB".toSize()
 	)

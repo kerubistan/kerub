@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.security.AssetAccessController
 import com.github.kerubistan.kerub.services.VirtualStorageDeviceService
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
+import com.github.kerubistan.kerub.utils.now
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.scp.ScpTimestamp
 import java.io.InputStream
@@ -104,7 +105,7 @@ class VirtualStorageDeviceServiceImpl(
 				path,
 				device.size.toLong(),
 				listOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE),
-				ScpTimestamp(System.currentTimeMillis(), System.currentTimeMillis())
+				ScpTimestamp(now(), now())
 		)
 	}
 }

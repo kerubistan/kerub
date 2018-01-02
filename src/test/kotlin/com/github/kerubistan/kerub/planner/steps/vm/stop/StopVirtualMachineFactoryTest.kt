@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
@@ -36,7 +37,7 @@ class StopVirtualMachineFactoryTest {
 		        hostId = host.id,
 		        status = VirtualMachineStatus.Up,
 		        memoryUsed = "1 GB".toSize(),
-		        lastUpdated = System.currentTimeMillis()
+		        lastUpdated = now()
 		                                 )
 		val state = OperationalState.fromLists(vms = listOf(vm), hosts = listOf(host), vmDyns = listOf(vmDyn))
 		val steps = StopVirtualMachineFactory.produce(state)

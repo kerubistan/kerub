@@ -13,6 +13,7 @@ import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.utils.MB
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
 import com.github.kerubistan.kerub.utils.toSize
@@ -115,7 +116,7 @@ object VBoxManage : OsCommand {
 							netRateTx = report.metric("Net/Rate/Tx", ::netRate),
 							diskUsed = report.metric("Disk/Usage/Used", ::size)
 					)
-					callback(System.currentTimeMillis(), metrics)
+					callback(now(), metrics)
 				}
 			}
 		}

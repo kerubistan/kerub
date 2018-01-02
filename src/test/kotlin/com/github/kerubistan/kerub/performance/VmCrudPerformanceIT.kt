@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.avgBy
+import com.github.kerubistan.kerub.utils.now
 import nl.komponents.kovenant.task
 import org.junit.After
 import org.junit.Assume
@@ -36,9 +37,9 @@ class VmCrudPerformanceIT {
 				val newVms = (1..1000).map {
 					task {
 						val id = UUID.randomUUID()
-						val start = System.currentTimeMillis()
+						val start = now()
 						vmService.add(testVm.copy(id = id, name = "vm-$i"))
-						val end = System.currentTimeMillis()
+						val end = now()
 						Triple(id, start, end)
 					}
 				}.map { it.get() }
@@ -50,9 +51,9 @@ class VmCrudPerformanceIT {
 
 				val vmGets = (1..10000).map { totalVms.get(random.nextInt(totalVms.size)) }.map {
 					task {
-						val start = System.currentTimeMillis()
+						val start = now()
 						vmService.getById(it)
-						val end = System.currentTimeMillis()
+						val end = now()
 						start to end
 					}
 				}.map { it.get() }

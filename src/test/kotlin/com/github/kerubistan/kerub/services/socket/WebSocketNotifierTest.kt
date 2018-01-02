@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.services.socket
 
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.security.EntityAccessController
+import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -55,7 +56,7 @@ class WebSocketNotifierTest {
 		notifier!!.handleMessage(session, TextMessage(
 				"""{
 				"@type":"ping",
-				"sent":${System.currentTimeMillis()}
+				"sent":${now()}
 				}"""
 		))
 

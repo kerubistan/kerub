@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.annotations.Dynamic
 import com.github.kerubistan.kerub.model.history.IgnoreDiff
+import com.github.kerubistan.kerub.utils.now
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -21,7 +22,7 @@ data class VirtualMachineDynamic(
 		override
 		val id: UUID,
 		@IgnoreDiff
-		override val lastUpdated: Long = System.currentTimeMillis(),
+		override val lastUpdated: Long = now(),
 		val hostId: UUID,
 		@Field
 		val status: VirtualMachineStatus = VirtualMachineStatus.Down,

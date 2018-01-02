@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.model
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
+import com.github.kerubistan.kerub.utils.now
 import org.hibernate.search.annotations.Analyze
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
@@ -15,7 +16,7 @@ data class UpdateEntry(
 		override val id: UUID = UUID.randomUUID(),
 		@Field
 		@JsonProperty("date")
-		override val date: Long = System.currentTimeMillis(),
+		override val date: Long = now(),
 		@Field
 		@JsonProperty("user")
 		override val user: String?,

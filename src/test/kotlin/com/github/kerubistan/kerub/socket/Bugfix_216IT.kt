@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.createClient
 import com.github.kerubistan.kerub.createSocketClient
 import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.testWsUrl
+import com.github.kerubistan.kerub.utils.now
 import nl.komponents.kovenant.task
 import org.eclipse.jetty.websocket.api.Session
 import org.junit.Test
@@ -31,7 +32,7 @@ class Bugfix_216IT {
 		fun sendTestMessages(session: Session) =
 				task {
 					for (i in 1..100) {
-						session.remote.sendString(""" {"@type": "ping", "sent" : ${System.currentTimeMillis()}} """)
+						session.remote.sendString(""" {"@type": "ping", "sent" : ${now()}} """)
 					}
 				}
 

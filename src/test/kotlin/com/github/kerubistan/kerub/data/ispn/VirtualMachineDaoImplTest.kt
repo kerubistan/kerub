@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.testVm
+import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Assert.assertEquals
@@ -306,7 +307,7 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 
 		assertTrue(dao.existsByName(vm1.name))
 		assertTrue(dao.existsByName(vm2.name))
-		assertFalse { dao.existsByName("not-existing-vm-${System.currentTimeMillis()}") }
+		assertFalse { dao.existsByName("not-existing-vm-${now()}") }
 	}
 
 	@Test
