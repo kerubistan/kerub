@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import kotlin.test.assertFalse
@@ -19,7 +20,7 @@ class DataDiffKtTest {
 						id = testVm.id,
 						hostId = testHost.id,
 						status = VirtualMachineStatus.Up,
-						lastUpdated = System.currentTimeMillis() - 100,
+						lastUpdated = now() - 100,
 						memoryUsed = 1.GB,
 						cpuUsage = listOf(
 								CpuStat(
@@ -42,7 +43,7 @@ class DataDiffKtTest {
 						id = testVm.id,
 						hostId = testHost.id,
 						status = VirtualMachineStatus.Up,
-						lastUpdated = System.currentTimeMillis(),
+						lastUpdated = now(),
 						memoryUsed = "1.1 GB".toSize(),
 						cpuUsage = listOf(
 								CpuStat(

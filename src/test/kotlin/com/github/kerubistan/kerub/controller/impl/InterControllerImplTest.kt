@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.controller.impl
 import com.github.kerubistan.kerub.controller.EntityEventMessage
 import com.github.kerubistan.kerub.model.Project
 import com.github.kerubistan.kerub.model.messages.EntityAddMessage
+import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Before
 import org.junit.Test
@@ -24,12 +25,12 @@ class InterControllerImplTest {
 		val message = EntityAddMessage(
 				obj = Project(
 						id = UUID.randomUUID(),
-						created = System.currentTimeMillis(),
+						created = now(),
 						description = "",
 						expectations = listOf(),
 						name = "test"
 				             ),
-				date = System.currentTimeMillis()
+				date = now()
 		                                       )
 		interControllerImpl!!.sendToController(controllerId, EntityEventMessage(
 				message
@@ -43,12 +44,12 @@ class InterControllerImplTest {
 		interControllerImpl!!.broadcast(EntityAddMessage(
 				obj = Project(
 						id = UUID.randomUUID(),
-						created = System.currentTimeMillis(),
+						created = now(),
 						description = "",
 						expectations = listOf(),
 						name = "test"
 				             ),
-				date = System.currentTimeMillis()
+				date = now()
 		                                                ))
 
 	}

@@ -22,6 +22,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.SecretType
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toMap
 import com.github.kerubistan.kerub.utils.toUUID
@@ -71,7 +72,7 @@ class KvmHypervisor(private val client: ClientSession,
 											user = vCpuStat.time?.toFloat() ?: 0f
 									)
 								},
-								lastUpdated = System.currentTimeMillis(),
+								lastUpdated = now(),
 								hostId = host.id,
 								memoryUsed = stat.balloonSize?.times(kb) ?: BigInteger.ZERO
 						)

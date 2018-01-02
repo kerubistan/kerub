@@ -1,5 +1,9 @@
 package com.github.kerubistan.kerub.planner
 
+import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
+import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
+import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
@@ -13,10 +17,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.CompositeStepFactory
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
-import com.github.k0zka.finder4j.backtrack.BacktrackService
-import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
-import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
-import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
+import com.github.kerubistan.kerub.utils.now
 import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap
@@ -78,7 +79,7 @@ class PlannerImpl(
 		val delay = 1000L
 		synchronized(this) {
 			timerTask = timer.scheduleAtFixedRate(delay, delay) {
-				val now = System.currentTimeMillis()
+				val now = now()
 				if (!inProgress && lastRun ?: 0 < (now - delay)) {
 					onEvent(PingMessage(now))
 				}
@@ -96,7 +97,7 @@ class PlannerImpl(
 		val state = buildState()
 		try {
 			inProgress = true
-			lastRun = System.currentTimeMillis()
+			lastRun = now()
 			plan(state)
 		} finally {
 			inProgress = false
@@ -114,7 +115,7 @@ class PlannerImpl(
 		val listener = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
 		val strategy = OrTerminationStrategy<Plan>(listOf(
 				listener,
-				TimeoutTerminationStrategy(System.currentTimeMillis() + 20000)
+				TimeoutTerminationStrategy(now() + 20000)
 		)
 		)
 		logger.debug("starting planing")

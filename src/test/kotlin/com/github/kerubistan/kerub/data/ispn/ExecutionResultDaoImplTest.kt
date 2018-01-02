@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.model.ExecutionResult
+import com.github.kerubistan.kerub.utils.now
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -12,7 +13,7 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		ExecutionResultDaoImpl(cache!!).add(
 				ExecutionResult(
 						controllerId = "test",
-						started = System.currentTimeMillis(),
+						started = now(),
 						steps = listOf()
 				)
 		)
@@ -23,7 +24,7 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		val executionResultDaoImpl = ExecutionResultDaoImpl(cache!!)
 		val error = ExecutionResult(
 				controllerId = "test",
-				started = System.currentTimeMillis(),
+				started = now(),
 				steps = listOf()
 		)
 		executionResultDaoImpl.add(error)
@@ -36,7 +37,7 @@ class ExecutionResultDaoImplTest : AbstractIspnDaoTest<UUID, ExecutionResult>() 
 		val executionResultDaoImpl = ExecutionResultDaoImpl(cache!!)
 		val error = ExecutionResult(
 				controllerId = "test",
-				started = System.currentTimeMillis(),
+				started = now(),
 				steps = listOf()
 		)
 		executionResultDaoImpl.add(error)

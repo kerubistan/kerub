@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.update
 
 data class CreateGvinumVolume(
@@ -59,7 +60,7 @@ data class CreateGvinumVolume(
 					vStorageData.copy(
 							dynamic = VirtualStorageDeviceDynamic(
 									id = disk.id,
-									lastUpdated = System.currentTimeMillis(),
+									lastUpdated = now(),
 									allocations = listOf(VirtualStorageGvinumAllocation(
 											hostId = host.id,
 											actualSize = disk.size,

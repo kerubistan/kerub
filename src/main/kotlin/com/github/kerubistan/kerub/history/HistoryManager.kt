@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.data.ispn.history.GenericHistoryDaoImpl
 import com.github.kerubistan.kerub.host.ControllerManager
 import com.github.kerubistan.kerub.model.controller.AssignmentType
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.now
 import java.util.Timer
 import java.util.TimerTask
 
@@ -31,7 +32,7 @@ class HistoryManager(private val timer: Timer,
 			daos.forEach { dao ->
 				assignments[dao.key]?.map { it.entityId }?.let {
 					logger.info("compressing the ${it.size} ${dao.key} entities assigned to this ($controllerId) controller")
-					dao.value.compress(0, System.currentTimeMillis(), it)
+					dao.value.compress(0, now(), it)
 					logger.info("done")
 				}
 			}

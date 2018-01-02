@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.stories.planner
 
+import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -64,10 +65,10 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
-import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
@@ -279,7 +280,7 @@ class PlannerDefs {
 				id = vm.id,
 				hostId = host.id,
 				status = VirtualMachineStatus.Up,
-				lastUpdated = System.currentTimeMillis(),
+				lastUpdated = now(),
 				memoryUsed = vm.memory.min
 		)
 
@@ -311,7 +312,7 @@ class PlannerDefs {
 		}
 		planner.onEvent(EntityUpdateMessage(
 				obj = vms.filter { it.name == vm }.first(),
-				date = System.currentTimeMillis()
+				date = now()
 		))
 	}
 
@@ -842,7 +843,7 @@ class PlannerDefs {
 
 		planner.onEvent(EntityUpdateMessage(
 				obj = virtualStorage,
-				date = System.currentTimeMillis()
+				date = now()
 		))
 	}
 
@@ -850,7 +851,7 @@ class PlannerDefs {
 	fun kickPlanner() {
 		planner.onEvent(EntityUpdateMessage(
 				obj = testVm,
-				date = System.currentTimeMillis()
+				date = now()
 		))
 	}
 
@@ -868,7 +869,7 @@ class PlannerDefs {
 							actualSize = disk.size,
 							path = "/dev/test/" + disk.id
 					)),
-					lastUpdated = System.currentTimeMillis()
+					lastUpdated = now()
 			)
 		}
 	}

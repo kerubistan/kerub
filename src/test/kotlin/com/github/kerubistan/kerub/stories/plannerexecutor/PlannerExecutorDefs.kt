@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.stories.plannerexecutor
 
+import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -25,8 +26,8 @@ import com.github.kerubistan.kerub.planner.PlanExecutor
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
-import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.java.Before
@@ -158,7 +159,7 @@ class PlannerExecutorDefs {
 							cpuStats = listOf(),
 							ksmEnabled = false
 					),
-					date = System.currentTimeMillis())
+					date = now())
 			)
 		}
 	}

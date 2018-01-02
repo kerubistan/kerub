@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.messages.EntityAddMessage
 import com.github.kerubistan.kerub.model.messages.EntityRemoveMessage
 import com.github.kerubistan.kerub.model.messages.EntityUpdateMessage
+import com.github.kerubistan.kerub.utils.now
 import org.infinispan.Cache
 import org.infinispan.metadata.Metadata
 import org.infinispan.notifications.Listener
@@ -24,7 +25,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 											 protected val eventListener: EventListener) : CrudDao<T, I> {
 	override fun add(entity: T): I {
 		cache.put(entity.id, entity)
-		eventListener.send(EntityAddMessage(entity, System.currentTimeMillis()))
+		eventListener.send(EntityAddMessage(entity, now()))
 		return entity.id
 	}
 
@@ -46,7 +47,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	override fun update(entity: T) {
-		eventListener.send(EntityUpdateMessage(entity, System.currentTimeMillis()))
+		eventListener.send(EntityUpdateMessage(entity, now()))
 		cache.put(entity.id!!, entity)
 	}
 

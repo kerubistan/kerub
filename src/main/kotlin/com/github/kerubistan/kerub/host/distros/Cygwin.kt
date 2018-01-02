@@ -18,6 +18,7 @@ import com.github.kerubistan.kerub.utils.asPercentOf
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.procfs.MemInfo
 import com.github.kerubistan.kerub.utils.junix.procfs.Stat
+import com.github.kerubistan.kerub.utils.now
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -59,7 +60,7 @@ class Cygwin : Distribution {
 						idleCpu = idle.asPercentOf(sum).toByte(),
 						systemCpu = system.asPercentOf(sum).toByte(),
 						userCpu = user.asPercentOf(sum).toByte(),
-						lastUpdated = System.currentTimeMillis()
+						lastUpdated = now()
 				)
 			}
 		}

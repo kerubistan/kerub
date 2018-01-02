@@ -48,6 +48,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdI
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareExecutor
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.getStackTraceAsString
+import com.github.kerubistan.kerub.utils.now
 import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(
@@ -96,7 +97,7 @@ class PlanExecutorImpl(
 
 	override fun
 			execute(plan: Plan, callback: (Plan) -> Unit) {
-		val started = System.currentTimeMillis()
+		val started = now()
 		//TODO: check synchronization need for this
 		var stepOnExec: AbstractOperationalStep? = null
 		var results = listOf<StepExecutionResult>()

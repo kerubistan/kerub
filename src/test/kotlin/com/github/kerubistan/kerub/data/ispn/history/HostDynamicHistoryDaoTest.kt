@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.utils.now
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.then
 import org.junit.Test
@@ -39,7 +40,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 		val deferred = deferred<Unit, Exception>()
 		cache!!.addListener(CountdownCreateEventListener(deferred))
 		val dao = HostDynamicHistoryDao(cache!!)
-		val startTime = System.currentTimeMillis()
+		val startTime = now()
 		dao.log(
 				HostDynamic(
 						id = testHost.id,
@@ -71,7 +72,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 126.MB)
 		)
 		deferred.promise.then {
-			val endTime = System.currentTimeMillis()
+			val endTime = now()
 			dao.compress(startTime, endTime, listOf(testHost.id))
 		}.get()
 
@@ -82,7 +83,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 		val deferred = deferred<Unit, Exception>()
 		cache!!.addListener(CountdownCreateEventListener(deferred))
 		val dao = HostDynamicHistoryDao(cache!!)
-		val startTime = System.currentTimeMillis()
+		val startTime = now()
 		dao.log(
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 129.MB),
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = true, memFree = 128.MB)
@@ -92,7 +93,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 				HostDynamic(id = testHost.id, status = HostStatus.Up, ksmEnabled = false, memFree = 126.MB)
 		)
 		val history = deferred.promise.then {
-			val endTime = System.currentTimeMillis()
+			val endTime = now()
 			dao.history(startTime - 10, endTime + 10, testHost.id)
 		}.get()
 

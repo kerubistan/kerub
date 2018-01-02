@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.annotations.Dynamic
+import com.github.kerubistan.kerub.utils.now
 import org.hibernate.search.annotations.DocumentId
 import java.math.BigInteger
 import java.util.UUID
@@ -17,7 +18,7 @@ data class HostDynamic(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID,
-		override val lastUpdated: Long = System.currentTimeMillis(),
+		override val lastUpdated: Long = now(),
 		val status: HostStatus = HostStatus.Up,
 		val userCpu: Byte? = null,
 		val systemCpu: Byte? = null,
