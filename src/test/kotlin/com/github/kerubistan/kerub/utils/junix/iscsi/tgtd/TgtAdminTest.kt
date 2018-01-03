@@ -9,13 +9,10 @@ import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mockito
-import org.mockito.runners.MockitoJUnitRunner
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
-@RunWith(MockitoJUnitRunner::class)
 class TgtAdminTest {
 
 	val session: ClientSession = mock()

@@ -5,10 +5,7 @@ import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class Fedora23PlusTest {
 
 	var session : ClientSession? = null
