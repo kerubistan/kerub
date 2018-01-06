@@ -1,5 +1,10 @@
 package com.github.kerubistan.kerub.host
 
+import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.github.k0zka.finder4j.backtrack.State
+import com.github.k0zka.finder4j.backtrack.Step
+import com.github.k0zka.finder4j.backtrack.StepFactory
+import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
 import com.github.kerubistan.kerub.controller.HostAssignedMessage
 import com.github.kerubistan.kerub.controller.InterController
 import com.github.kerubistan.kerub.data.AssignmentDao
@@ -10,11 +15,6 @@ import com.github.kerubistan.kerub.model.controller.Assignment
 import com.github.kerubistan.kerub.model.controller.AssignmentType
 import com.github.kerubistan.kerub.model.dynamic.ControllerDynamic
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.k0zka.finder4j.backtrack.BacktrackService
-import com.github.k0zka.finder4j.backtrack.State
-import com.github.k0zka.finder4j.backtrack.Step
-import com.github.k0zka.finder4j.backtrack.StepFactory
-import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
 import java.util.HashMap
 
 /*
@@ -33,9 +33,8 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 			val controllers: List<String>,
 			val controllerStates: Map<String, ControllerDynamic>,
 			val assignments: Map<Host, String>) : State {
-		override fun isComplete(): Boolean {
-			return hostsToAssign.isEmpty()
-		}
+		override val complete: Boolean
+			get() = hostsToAssign.isEmpty()
 	}
 
 	data class ControllerAssignmentStep(val host: Host, val controller: String) : Step<ControllerAssignmentState> {
@@ -103,16 +102,18 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 				strategy,
 				strategy
 		)
-		for (assignment in strategy.solution.assignments) {
+		strategy.solution?.assignments?.forEach {
+			assignment ->
 			hostAssignmentDao.add(Assignment(
 					entityId = assignment.key.id,
 					controller = assignment.value,
 					type = AssignmentType.host))
 			interController.sendToController(assignment.value,
-					HostAssignedMessage(
-							hostId = assignment.key.id,
-							conrollerId = assignment.value
-					))
+											 HostAssignedMessage(
+													 hostId = assignment.key.id,
+													 conrollerId = assignment.value
+											 ))
+
 		}
 	}
 }

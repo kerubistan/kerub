@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
+import com.github.k0zka.finder4j.backtrack.State
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.ExpectationLevel
@@ -36,7 +37,6 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.utils.join
-import com.github.k0zka.finder4j.backtrack.State
 import java.util.UUID
 
 data class OperationalState(
@@ -106,25 +106,21 @@ data class OperationalState(
 		return if (dyn == null) null else hosts[dyn.hostId]?.stat
 	}
 
-	override fun isComplete(): Boolean {
+	override val complete: Boolean
+		get() =
 		//check that all virtual resources has all DealBreaker satisfied
-		return vmsToCheck().all {
-			(stat) ->
-			stat.expectations.all {
-				expectation ->
-				expectation.level != ExpectationLevel.DealBreaker
-						|| isExpectationSatisfied(expectation, stat)
+			vmsToCheck().all { (stat) ->
+				stat.expectations.all { expectation ->
+					expectation.level != ExpectationLevel.DealBreaker
+							|| isExpectationSatisfied(expectation, stat)
+				}
+			} && virtualStorageToCheck().all { virtualStorageDevice ->
+				virtualStorageDevice.expectations.all { expectation ->
+					expectation.level != ExpectationLevel.DealBreaker
+							||
+							isExpectationSatisfied(expectation, virtualStorageDevice)
+				}
 			}
-		} && virtualStorageToCheck().all {
-			virtualStorageDevice ->
-			virtualStorageDevice.expectations.all {
-				expectation ->
-				expectation.level != ExpectationLevel.DealBreaker
-						||
-						isExpectationSatisfied(expectation, virtualStorageDevice)
-			}
-		}
-	}
 
 	private fun isExpectationSatisfied(expectation: VirtualStorageExpectation, virtualStorage: VirtualStorageDevice): Boolean {
 		when (expectation) {

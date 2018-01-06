@@ -8,8 +8,8 @@ data class Plan(
 		val state: OperationalState,
 		val steps: List<AbstractOperationalStep> = listOf()
 ) : State {
-
-	override fun isComplete(): Boolean = state.isComplete
+	override val complete: Boolean
+		get() = state.complete
 
 	fun reservations(): Collection<Reservation<*>> {
 		var result = setOf<Reservation<*>>()
