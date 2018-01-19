@@ -113,4 +113,19 @@ class PowerDownHostFactoryTest {
 		Assert.assertTrue(steps.isEmpty())
 	}
 
+	@Test
+	fun produceWithNoPowerManagementButRecycling() {
+		val recycling = host.copy(recycling = true)
+		val steps = PowerDownHostFactory.produce(OperationalState.fromLists(
+				hosts = listOf(recycling),
+				hostDyns = listOf(HostDynamic(
+						id = recycling.id,
+						status = HostStatus.Up
+				))
+		))
+		Assert.assertEquals(listOf(PowerDownHost(recycling)), steps)
+		Assert.assertTrue(steps.all { it.host == recycling })
+
+	}
+
 }

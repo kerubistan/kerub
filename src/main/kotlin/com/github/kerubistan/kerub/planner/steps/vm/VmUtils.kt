@@ -23,7 +23,7 @@ fun storageAllocationMap(state: OperationalState, links: List<VirtualStorageLink
 		}.toMap()
 
 
-/**
+/**T
  * Checks if the virtual machine is <strong>technically</strong> able to run on the host.
  * It does not check on the vm, virtual storage, network expectations, that's the planner's business.
  */

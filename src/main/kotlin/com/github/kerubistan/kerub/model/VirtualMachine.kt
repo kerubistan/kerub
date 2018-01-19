@@ -87,5 +87,7 @@ data class VirtualMachine constructor(
 	val virtualStorageIdStr: List<String>
 		@Field
 		get() = virtualStorageLinks.map { it.virtualStorageId.toString() }
+
+	override fun toString(): String = "VM(id=$id,name=$name${if (expectations.isEmpty()) "" else "exp=" + expectations.size})"
 }
 

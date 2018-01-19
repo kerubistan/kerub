@@ -74,7 +74,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-test</artifactId>
+			<artifactId>kotlin-test-junit</artifactId>
 			<version>${kotlin.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -265,7 +265,7 @@
 		<dependency>
 			<groupId>com.github.K0zka</groupId>
 			<artifactId>finder4j-backtrack</artifactId>
-			<version>0.4</version>
+			<version>0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>

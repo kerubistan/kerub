@@ -39,4 +39,6 @@ data class Host constructor(
 		val recycling: Boolean = false,
 		val dead: Boolean = false
 )
-	: Entity<UUID>
+	: Entity<UUID> {
+	override fun toString(): String = "Host(id=$id,addr=$address)"
+}

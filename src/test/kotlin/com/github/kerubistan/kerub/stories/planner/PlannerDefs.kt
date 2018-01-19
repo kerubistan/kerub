@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.stories.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -50,6 +51,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.OperationalStateBuilder
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanExecutor
+import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
@@ -82,6 +84,7 @@ import cucumber.api.java.en.When
 import org.junit.Assert
 import java.math.BigInteger
 import java.util.UUID
+import java.util.concurrent.ForkJoinPool
 import kotlin.test.assertTrue
 
 class PlannerDefs {
@@ -97,14 +100,15 @@ class PlannerDefs {
 	var hostConfigs = listOf<HostConfiguration>()
 	var controllerConfig = ControllerConfig()
 
-	val backtrack: BacktrackService = BacktrackService(1)
+	val backtrack: BacktrackService = BacktrackServiceImpl(ForkJoinPool(1))
 	val executor: PlanExecutor = mock()
 	val builder: OperationalStateBuilder = mock()
 
 	val planner: Planner = PlannerImpl(
 			backtrack,
 			executor,
-			builder
+			builder,
+			PlanViolationDetectorImpl()
 	)
 
 	var executedPlans = listOf<Plan>()

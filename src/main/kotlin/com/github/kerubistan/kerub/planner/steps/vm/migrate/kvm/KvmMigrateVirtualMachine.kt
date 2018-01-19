@@ -15,15 +15,16 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
 
 data class KvmMigrateVirtualMachine(
-		val vm: VirtualMachine,
-		val source: Host,
-		val target: Host) : AbstractOperationalStep {
+		override val vm: VirtualMachine,
+		override val source: Host,
+		override val target: Host) : AbstractOperationalStep, MigrateVirtualMachine {
 
 	override fun reservations(): List<Reservation<*>>
 			= listOf(VmReservation(vm),

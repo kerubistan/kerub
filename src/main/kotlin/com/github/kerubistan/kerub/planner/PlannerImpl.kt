@@ -6,6 +6,7 @@ import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
 import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.model.messages.PingMessage
+import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
 import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
 import com.github.kerubistan.kerub.planner.reservations.HostMemoryReservation
 import com.github.kerubistan.kerub.planner.reservations.HostReservation
@@ -13,7 +14,6 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
-import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.CompositeStepFactory
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
@@ -30,7 +30,8 @@ import kotlin.concurrent.scheduleAtFixedRate
 class PlannerImpl(
 		private val backtrack: BacktrackService,
 		private val executor: PlanExecutor,
-		private val builder: OperationalStateBuilder
+		private val builder: OperationalStateBuilder,
+		private val violationDetector : PlanViolationDetector
 ) : Planner {
 
 	private val timer = Timer()
@@ -112,7 +113,7 @@ class PlannerImpl(
 	}
 
 	private fun plan(state: OperationalState) {
-		val listener = FirstSolutionTerminationStrategy<Plan, AbstractOperationalStep>()
+		val listener = FirstSolutionTerminationStrategy<Plan>()
 		val strategy = OrTerminationStrategy<Plan>(listOf(
 				listener,
 				TimeoutTerminationStrategy(now() + 20000)
@@ -122,12 +123,15 @@ class PlannerImpl(
 		logger.debug("reservations: " + state.reservations)
 
 		backtrack.backtrack(
-				Plan(
-						state = state
-				),
-				CompositeStepFactory,
+				Plan(state = state),
+				CompositeStepFactory(violationDetector),
 				listener,
-				listener
+				listener,
+				{
+					violationDetector.listViolations(it).isEmpty()
+							//well, at least...
+						&& CompositeProblemDetectorImpl.detect(it).isEmpty()
+				}
 		)
 		val plan = listener.solution
 		if (plan == null) {

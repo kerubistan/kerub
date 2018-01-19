@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.stories.plannerexecutor
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -23,6 +24,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.OperationalStateBuilder
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanExecutor
+import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.utils.getLogger
@@ -102,7 +104,7 @@ class PlannerExecutorDefs {
 
 	@Given("the planner")
 	fun createPlanner() {
-		planner = PlannerImpl(BacktrackService(), executor, stateBuilder)
+		planner = PlannerImpl(BacktrackServiceImpl(), executor, stateBuilder, PlanViolationDetectorImpl())
 	}
 
 	@Given("a VM")

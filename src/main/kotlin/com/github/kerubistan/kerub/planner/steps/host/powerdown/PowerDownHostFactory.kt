@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.host.powerdown
 
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
+import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
@@ -21,10 +22,9 @@ object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 				}.map { it.dynamic?.hostId }.filterNotNull()
 
 				val idleDedicatedHosts = state.hosts.filter {
-					!hostsWithVms.contains(it.key)
-							&& it.value.stat.dedicated
-							&& it.value.config?.services?.isEmpty() ?: true
-							&& it.value.stat.capabilities?.powerManagment?.let { it.isNotEmpty() } ?: false
+					!hostsWithVms.contains(it.key) && it.value.let {
+						isHostIdle(it) && canPowerDown(it)
+					}
 				}
 
 				idleDedicatedHosts.filter {
@@ -32,5 +32,13 @@ object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 					dyn?.status == HostStatus.Up
 				}.map { PowerDownHost(it.value.stat) }
 			}
+
+	private fun canPowerDown(host: HostDataCollection): Boolean =
+			(host.stat.dedicated
+					&& host.stat.capabilities?.powerManagment?.isNotEmpty() ?: false
+					) || host.stat.recycling
+
+	private fun isHostIdle(host: HostDataCollection) =
+			host.config?.services?.isEmpty() ?: true
 
 }

@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.genPassword
 
-abstract class AbstractIscsiExecutor<T : AbstractIscsiShare>(
+abstract class AbstractIscsiExecutor<T : AbstractIscsiOperation>(
 		private val hostConfigDao: HostConfigurationDao,
 		protected val hostExecutor: HostCommandExecutor,
 		protected val hostManager: HostManager) : AbstractStepExecutor<T, String>() {

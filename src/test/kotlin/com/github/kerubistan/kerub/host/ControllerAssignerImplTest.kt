@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
+import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
 import com.github.kerubistan.kerub.controller.HostAssignedMessage
 import com.github.kerubistan.kerub.controller.InterController
 import com.github.kerubistan.kerub.data.AssignmentDao
@@ -19,6 +20,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 import java.util.UUID
+import java.util.concurrent.ForkJoinPool
 
 class ControllerAssignerImplTest {
 	var backtrack: BacktrackService? = null
@@ -33,7 +35,7 @@ class ControllerAssignerImplTest {
 
 	@Before
 	fun setup() {
-		backtrack = BacktrackService(4)
+		backtrack = BacktrackServiceImpl(ForkJoinPool(4))
 		Mockito.`when`(controllerDynamicDao.listAll()).thenReturn(listOf(
 				ControllerDynamic(
 						controllerId = "ctrl-1",
