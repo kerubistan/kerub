@@ -14,15 +14,8 @@ fun <K, V> MutableMap<K, V>.updateMutable(key: K, mapper: (V) -> V, init: () -> 
 	}
 }
 
-fun <K, V> Map<K, V>.update(key: K, mapper: (V) -> V, init: () -> V): Map<K, V> {
-	val value = this[key]
-	if (value == null) {
-		return this + (key to init())
-	} else {
-		return this + (key to mapper(value))
-	}
-}
+fun <K, V> Map<K, V>.update(key: K, mapper: (V) -> V, init: () -> V): Map<K, V> =
+		this[key]?.let { this + (key to mapper(it)) } ?: this+(key to init())
 
-fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> {
-	return this + (key to mapper(requireNotNull(this[key])))
-}
+fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> =
+		this + (key to mapper(requireNotNull(this[key])))
