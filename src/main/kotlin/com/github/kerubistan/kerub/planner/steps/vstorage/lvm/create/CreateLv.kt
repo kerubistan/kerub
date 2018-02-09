@@ -11,17 +11,11 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualS
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.base.updateHostDynLvmWithAllocation
 import com.github.kerubistan.kerub.utils.update
 
-class CreateLv(
+data class CreateLv(
 		override val host: Host,
-		val volumeGroupName: String,
+		override val volumeGroupName: String,
 		override val disk: VirtualStorageDevice
-) : AbstractCreateVirtualStorage {
-
-	override fun getCost(): List<Cost> {
-		return listOf(
-				IOCost(2048, host)
-		)
-	}
+) : AbstractCreateLv() {
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			vStorage = state.vStorage.update(disk.id) {
