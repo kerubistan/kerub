@@ -17,10 +17,16 @@ fun expect(clazz: KClass<out Exception>, action: () -> Unit) {
 	})
 }
 
-fun <T : Exception> expect(clazz: KClass<T>, action: () -> Unit, check: (T) -> Unit) {
+fun expect(message : String, clazz: KClass<out Exception>, action: () -> Unit) {
+	expect(clazz = clazz, action = action, check = {
+		assertTrue(clazz == it.javaClass.kotlin)
+	})
+}
+
+fun <T : Exception> expect(message : String? = null, clazz: KClass<T>, action: () -> Unit, check: (T) -> Unit) {
 	try {
 		action()
-		fail("expected exception: $clazz")
+		fail("${message ?: "" } \nexpected exception: $clazz")
 	} catch (e: Exception) {
 		if (clazz == e.javaClass.kotlin) {
 			check(e as T)
@@ -29,6 +35,10 @@ fun <T : Exception> expect(clazz: KClass<T>, action: () -> Unit, check: (T) -> U
 			fail("expected $clazz got $e")
 		}
 	}
+}
+
+fun <T : Exception> expect(clazz: KClass<T>, action: () -> Unit, check: (T) -> Unit) {
+	expect(null, clazz, action, check)
 }
 
 fun String.toInputStream(charset: Charset = Charsets.UTF_8): InputStream
