@@ -14,16 +14,16 @@ fun Throwable.getStackTraceAsString(): String =
 		}
 
 fun <T> silent(actionName: String = "", body: () -> T): T? {
-	try {
-		return body()
+	return try {
+		body()
 	} catch(exc: Exception) {
 		logger.warn("Exception occured during execution: $actionName", exc)
-		return null
+		null
 	}
 }
 
 fun <T> insist(tries: Int, action: () -> T): T {
-	for (attempt in 0..tries - 1) {
+	for (attempt in 0 until tries) {
 		try {
 			return action()
 		} catch (e: Exception) {
