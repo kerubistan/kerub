@@ -27,7 +27,7 @@ class QemuImgTest {
 
 	@Before
 	fun setup() {
-		whenever(session.createExecChannel(any<String>())).thenReturn(execChannel)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 	}
 
@@ -71,7 +71,7 @@ class QemuImgTest {
 
 	@Test
 	fun info() {
-		whenever(session.createExecChannel(any<String>())).thenReturn(execChannel)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 		val testOutput = """
 {

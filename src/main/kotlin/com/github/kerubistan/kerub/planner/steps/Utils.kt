@@ -4,7 +4,7 @@ inline fun <T> factoryFeature(enabled: Boolean, producer: () -> List<T>): List<T
 		if (enabled) {
 			producer()
 		} else {
-			listOf<T>()
+			listOf()
 		}
 
 /*

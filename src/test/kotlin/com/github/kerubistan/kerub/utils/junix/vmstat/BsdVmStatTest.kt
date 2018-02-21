@@ -31,7 +31,7 @@ class BsdVmStatTest {
 			sample.forEach {
 				out.write( it.toInt() )
 			}
-		}.whenever(channelExec).out = any<OutputStream>()
+		}.whenever(channelExec).out = any()
 
 		val handler = mock<(BsdVmStatEvent) -> Unit>()
 		BsdVmStat.vmstat(session, handler)

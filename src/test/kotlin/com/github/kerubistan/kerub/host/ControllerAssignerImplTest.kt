@@ -76,7 +76,7 @@ class ControllerAssignerImplTest {
 				entityId = UUID.randomUUID(),
 				type = AssignmentType.host
 		)
-		verify(hostAssignmentDao, times(2)).add(any<Assignment>())
+		verify(hostAssignmentDao, times(2)).add(any())
 
 		verify(interController, times(2)).sendToController(any(), any<HostAssignedMessage>())
 

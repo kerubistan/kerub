@@ -31,7 +31,7 @@ data class CreateGvinumVolume(
 				)
 			}
 			else -> {
-				listOf<Cost>()
+				listOf()
 			}
 		}
 	}

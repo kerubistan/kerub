@@ -37,7 +37,7 @@ class AccountMembershipDaoImplTest : AbstractIspnDaoTest<UUID, AccountMembership
 				)
 		)
 
-		assertEquals(listOf<AccountMembership>(), dao.listByUsername("SOME-OTHER-USER"))
+		assertEquals(listOf(), dao.listByUsername("SOME-OTHER-USER"))
 		assertEquals(1, dao.listByUsername("TEST").size)
 
 	}
@@ -54,7 +54,7 @@ class AccountMembershipDaoImplTest : AbstractIspnDaoTest<UUID, AccountMembership
 				)
 		)
 
-		assertEquals(listOf<AccountMembership>(), dao.listByGroupId(UUID.randomUUID()))
+		assertEquals(listOf(), dao.listByGroupId(UUID.randomUUID()))
 		assertEquals(1, dao.listByGroupId(groupId).size)
 	}
 }

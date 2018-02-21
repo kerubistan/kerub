@@ -10,15 +10,15 @@ class ListUtilsTest {
 	fun skip() {
 		assertEquals(listOf("B", "C"), listOf("A", "B", "C").skip())
 		assertEquals(listOf("C"), listOf("A", "B", "C").skip().skip())
-		assertEquals(listOf<String>(), listOf<String>().skip())
-		assertEquals(listOf<String>(), listOf("A").skip())
+		assertEquals(listOf(), listOf<String>().skip())
+		assertEquals(listOf(), listOf("A").skip())
 	}
 
 	@Test
 	fun join() {
 		assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A"), listOf("B", "C", "D")).join())
 		assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A", "B"), listOf("C", "D")).join())
-		assertEquals(listOf<String>(), listOf(listOf<String>(), listOf<String>()).join())
+		assertEquals(listOf(), listOf(listOf(), listOf<String>()).join())
 	}
 
 	data class TestEntity(override val id: Int, val name: String) : Entity<Int>

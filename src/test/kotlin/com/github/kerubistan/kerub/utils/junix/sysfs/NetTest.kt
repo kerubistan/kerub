@@ -30,7 +30,7 @@ class NetTest {
 	@Test
 	fun getMacAddress() {
 		val content = ByteArrayInputStream("52:54:00:b5:75:bb".toByteArray(charset("ASCII")))
-		Mockito.`when`(sftpClient.read(any<String>())).thenReturn(content)
+		Mockito.`when`(sftpClient.read(any())).thenReturn(content)
 		Mockito.`when`(clientSession.createSftpClient()).thenReturn(sftpClient)
 
 		val response = Net.getMacAddress(clientSession, "eth0")

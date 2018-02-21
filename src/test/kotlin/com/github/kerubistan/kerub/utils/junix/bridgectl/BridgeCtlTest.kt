@@ -27,7 +27,7 @@ virbr1		8000.000000000000	yes
 
 	@Test
 	fun list() {
-		Mockito.`when`(session.createExecChannel(any<String>())).thenReturn(execChannel)
+		Mockito.`when`(session.createExecChannel(any())).thenReturn(execChannel)
 		Mockito.`when`(execChannel.open()).thenReturn(channelOpenFuture)
 		Mockito.`when`(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		Mockito.`when`(execChannel.invertedErr).thenReturn(NullInputStream(0))

@@ -54,6 +54,6 @@ class LvmPvTest {
 
 		val list = LvmPv.list(session)
 
-		assertEquals(listOf<PhysicalVolume>(), list)
+		assertEquals(listOf(), list)
 	}
 }

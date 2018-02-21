@@ -10,7 +10,7 @@ import java.util.UUID
 abstract class BaseServiceImpl<T : Entity<UUID>>(protected val entityType: String)
 	: RestCrud<T> {
 
-	abstract protected val dao: CrudDao<T, UUID>
+	protected abstract val dao: CrudDao<T, UUID>
 
 	@JsonView(Full::class)
 	override fun getById(id: UUID): T = assertExist(entityType, dao[id], id)

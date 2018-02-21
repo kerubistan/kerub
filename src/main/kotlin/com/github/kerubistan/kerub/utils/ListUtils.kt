@@ -8,7 +8,7 @@ operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> 
 
 fun <T> List<T>.skip(): List<T> =
 		if (this.isEmpty()) {
-			listOf<T>()
+			listOf()
 		} else {
 			this.subList(1, this.size)
 		}
@@ -34,7 +34,7 @@ fun <K, V : Entity<K>> Collection<V>.toMap(): Map<K, V> =
 		this.map { it.id to it }.toMap()
 
 fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
-	var sum: Int = 0
+	var sum = 0
 	this.forEach { sum += fn(it) }
 	return sum.toDouble() / this.size
 }
