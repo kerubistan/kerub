@@ -31,7 +31,7 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 	}
 
 	companion object {
-		val KB = 1024
+		const val KB = 1024
 		private val logger = getLogger(JsonMarshaller::class)
 	}
 

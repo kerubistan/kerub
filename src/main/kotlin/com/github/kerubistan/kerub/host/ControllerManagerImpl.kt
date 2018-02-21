@@ -14,10 +14,10 @@ class ControllerManagerImpl(val dao: ControllerDynamicDao,
 	var id: String? = null
 
 	private fun getHostName(): String? {
-		try {
-			return InetAddress.getLocalHost().hostName
+		return try {
+			InetAddress.getLocalHost().hostName
 		} catch(ioe: IOException) {
-			return null
+			null
 		}
 	}
 

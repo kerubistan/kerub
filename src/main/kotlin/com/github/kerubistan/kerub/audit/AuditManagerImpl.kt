@@ -37,5 +37,5 @@ open class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditMan
 		)
 	}
 
-	open internal fun getCurrentUser() = silent { currentUser() }
+	internal open fun getCurrentUser() = silent { currentUser() }
 }

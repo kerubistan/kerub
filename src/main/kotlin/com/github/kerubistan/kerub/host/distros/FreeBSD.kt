@@ -119,7 +119,7 @@ class FreeBSD : Distribution {
 	override fun getFireWall(session: ClientSession): FireWall = IpfwFireWall(session)
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
-		val macs = IfConfig.list(session).map { it.mac }.filterNotNull().map { stringToMac(it) }
+		val macs = IfConfig.list(session).mapNotNull { it.mac }.map { stringToMac(it) }
 		return if (macs.isEmpty()) listOf() else listOf(WakeOnLanInfo(macs))
 	}
 
@@ -138,10 +138,10 @@ class FreeBSD : Distribution {
 
 	private fun cpuTypeByOS(session: ClientSession): String {
 		val processorType = session.execute("uname -p").trim()
-		if (processorType == "unknown") {
-			return session.execute("uname -m").trim()
+		return if (processorType == "unknown") {
+			session.execute("uname -m").trim()
 		} else {
-			return processorType
+			processorType
 		}
 	}
 

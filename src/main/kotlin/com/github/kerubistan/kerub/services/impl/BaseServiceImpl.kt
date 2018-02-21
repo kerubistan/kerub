@@ -13,9 +13,7 @@ abstract class BaseServiceImpl<T : Entity<UUID>>(protected val entityType: Strin
 	abstract protected val dao: CrudDao<T, UUID>
 
 	@JsonView(Full::class)
-	override fun getById(id: UUID): T {
-		return assertExist(entityType, dao[id], id)
-	}
+	override fun getById(id: UUID): T = assertExist(entityType, dao[id], id)
 
 	override fun update(id: UUID, entity: T): T {
 		dao.update(entity)

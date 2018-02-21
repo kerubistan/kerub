@@ -86,7 +86,4 @@ interface Distribution {
 
 	fun getHostOs(): OperatingSystem
 
-	companion object {
-	}
-
 }

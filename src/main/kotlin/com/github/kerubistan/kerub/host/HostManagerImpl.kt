@@ -65,11 +65,11 @@ open class HostManagerImpl(
 
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
-		if (connection != null) {
-			return KvmHypervisor(connection.first, host, hostDao, hostCfgDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
+		return if (connection != null) {
+			KvmHypervisor(connection.first, host, hostDao, hostCfgDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
 		} else {
 			//TODO: not connected: throw exception?
-			return null
+			null
 		}
 	}
 
@@ -91,8 +91,8 @@ open class HostManagerImpl(
 	override fun <T> dataConnection(host: Host, action: (ClientSession) -> T): T {
 
 		val controllConnection = connections[host.id]?.first
-		if (controllConnection == null) {
-			return sshClientService.loginWithPublicKey(
+		return if (controllConnection == null) {
+			sshClientService.loginWithPublicKey(
 					address = host.address,
 					userName = "root",
 					hostPublicKey = host.publicKey).use {
@@ -100,7 +100,7 @@ open class HostManagerImpl(
 				action(session)
 			}
 		} else {
-			return action(controllConnection)
+			action(controllConnection)
 		}
 	}
 
@@ -128,8 +128,8 @@ open class HostManagerImpl(
 
 	companion object {
 		val logger = getLogger(HostManagerImpl::class)
-		val defaultSshServerPort = 22
-		val defaultSshUserName = "root"
+		const val defaultSshServerPort = 22
+		const val defaultSshUserName = "root"
 
 		class ReconnectDisconnectedHosts(private val hostManager: HostManagerImpl) : TimerTask() {
 			override fun run() {
@@ -226,7 +226,7 @@ open class HostManagerImpl(
 		session.addSessionListener(SessionCloseListener(host, hostDynamicDao, connections))
 		val distro = discoverer.detectDistro(session)
 		if (distro != null) {
-			connections.put(host.id, session to distro)
+			connections[host.id] = session to distro
 			logger.debug("starting host monitoring processes on {} {}", host.address, host.id)
 			if (host.dedicated) {
 				distro.installMonitorPackages(session)
@@ -255,7 +255,7 @@ open class HostManagerImpl(
 		}
 	}
 
-	open internal fun resolve(address: String) = InetAddress.getByName(address)
+	internal open fun resolve(address: String) = InetAddress.getByName(address)
 
 	override fun join(host: Host, password: String, powerManagers: List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPassword(

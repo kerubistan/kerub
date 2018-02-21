@@ -77,12 +77,12 @@ fun ClientSession.checkFileExists(file: String): Boolean {
  * Check if a file exists.
  */
 fun SftpClient.checkFileExists(file: String): Boolean {
-	try {
+	return try {
 		this.stat(file)
-		return true
+		true
 	} catch (e: IOException) {
 		//this is fine, it happens when the file does not exist
-		return false
+		false
 	}
 }
 

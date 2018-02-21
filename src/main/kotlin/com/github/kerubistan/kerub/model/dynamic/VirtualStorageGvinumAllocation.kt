@@ -13,5 +13,5 @@ data class VirtualStorageGvinumAllocation(
 ) : VirtualStorageBlockDeviceAllocation {
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 
-	override fun getPath(id: UUID) = "/dev/gvinum/${id}"
+	override fun getPath(id: UUID) = "/dev/gvinum/$id"
 }

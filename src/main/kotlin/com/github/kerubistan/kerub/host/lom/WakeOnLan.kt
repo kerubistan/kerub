@@ -13,8 +13,8 @@ import java.net.InetAddress
 class WakeOnLan(private val host: Host) {
 
 	companion object {
-		val wolUdpPort = 9
-		val magicCookieHeader = 0xFF.toByte()
+		const val wolUdpPort = 9
+		private const val magicCookieHeader = 0xFF.toByte()
 		fun buildMagicPocket(mac: ByteArray): ByteArray {
 			require(mac.size == 6, { "Mac address must be 6 bytes" })
 			val bytes = ByteArray(102)

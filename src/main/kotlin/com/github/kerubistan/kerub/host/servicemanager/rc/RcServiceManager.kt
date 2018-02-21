@@ -13,7 +13,7 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 class RcServiceManager(private val session: ClientSession) : ServiceManager {
 
 	companion object {
-		private val configFile = "/etc/rc.conf"
+		private const val configFile = "/etc/rc.conf"
 		private val logger = getLogger(RcServiceManager::class)
 		private val serviceMap = mapOf<OsCommand, String>(
 				Ctld to "ctld"

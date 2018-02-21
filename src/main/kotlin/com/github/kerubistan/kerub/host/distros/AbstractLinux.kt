@@ -129,8 +129,7 @@ abstract class AbstractLinux : Distribution {
 					it.copy(
 							storageStatus =
 							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
-									+ volGroups.map {
-								volGroup ->
+									+ volGroups.mapNotNull { volGroup ->
 								val storageDevice = lvmVgsByName?.get(volGroup.name)
 								if (storageDevice == null) {
 									null
@@ -140,7 +139,7 @@ abstract class AbstractLinux : Distribution {
 											freeCapacity = volGroup.freeSize
 									)
 								}
-							}.filterNotNull()
+							}
 					)
 				}
 			})
@@ -224,7 +223,7 @@ abstract class AbstractLinux : Distribution {
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
 		//TODO: filter out the ones not connected and not wal-enabled
-		val macAdddresses = Net.listDevices(session).map { silent { Net.getMacAddress(session, it) } }.filterNotNull()
+		val macAdddresses = Net.listDevices(session).mapNotNull { silent { Net.getMacAddress(session, it) } }
 
 		return if (macAdddresses.isEmpty()) {
 			listOf()

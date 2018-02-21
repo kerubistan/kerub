@@ -8,7 +8,7 @@ import java.util.UUID
 class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>)
 	: ExecutionResultDao {
 	override fun add(entity: ExecutionResult): UUID = entity.let {
-		cache.put(it.id, it)
+		cache[it.id] = it
 		it.id
 	}
 

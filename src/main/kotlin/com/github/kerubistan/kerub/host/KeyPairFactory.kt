@@ -15,7 +15,7 @@ class KeyPairFactory {
 		val keyStore = KeyStore.getInstance("JKS")
 		Thread.currentThread().contextClassLoader.getResourceAsStream(keyStorePath).use {
 			if (it == null) {
-				throw IllegalArgumentException("Keystore ${keyStorePath} not found")
+				throw IllegalArgumentException("Keystore $keyStorePath not found")
 			}
 			keyStore.load(it, keyStorePassword.toCharArray())
 		}
