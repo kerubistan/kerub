@@ -65,9 +65,10 @@ Kerub will find whatever is installed.
 OS Packages
 ===========
 
-| OS / Distribution | packaging project 										 | status 	   |
-|-------------------|------------------------------------------------------------|-------------| 
-| Fedora			| [kerub-fedora](https://github.com/kerubistan/kerub-fedora) | maintained  |
-| CentOS			| [kerub-centos](https://github.com/kerubistan/kerub-centos) | maintained  |
-| ubuntu			| [kerub-ubuntu](https://github.com/kerubistan/kerub-ubuntu) | development |
+| OS / Distribution | packaging project 										                       | status 	   |
+|-------------------|--------------------------------------------------------------|-------------| 
+| Fedora			      | [kerub-fedora](https://github.com/kerubistan/kerub-fedora)   | maintained  |
+| CentOS			      | [kerub-centos](https://github.com/kerubistan/kerub-centos)   | maintained  |
+| ubuntu			      | [kerub-ubuntu](https://github.com/kerubistan/kerub-ubuntu)   | development |
+| openSUSE			    | [kerub-openuse](https://github.com/kerubistan/kerub-opensuse)| development |
 
