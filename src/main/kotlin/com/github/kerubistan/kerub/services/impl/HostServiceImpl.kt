@@ -18,6 +18,12 @@ class HostServiceImpl(
 		private val sshClientService: SshClientService)
 	: ListableBaseService<Host>("host"), HostService {
 
+	override fun getFeatures(id: UUID): List<HostService.HostFeatureSummary>
+			= assertExist("host",getById(id), id).let {
+		listOf()
+	}
+
+
 	override fun remove(id: UUID) =
 			dao.update(id) {
 				it.copy(

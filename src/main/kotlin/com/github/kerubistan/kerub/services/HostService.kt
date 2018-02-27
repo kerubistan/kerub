@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.services
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostPubKey
 import com.github.kerubistan.kerub.security.admin
+import com.github.kerubistan.kerub.services.impl.assertExist
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
 import com.wordnik.swagger.annotations.ApiParam
@@ -76,4 +77,20 @@ interface HostService : RestCrud<Host>, RestOperations.List<Host>, RestOperation
 	@Path("/{id}/dead")
 	fun declareDead(@PathParam("id") id: UUID)
 
+	enum class HostFeatureType {
+		networking,
+		virtualization,
+		storage,
+		hardware
+	}
+
+	data class HostFeatureSummary(
+			val type: HostFeatureType,
+			val name: String
+	)
+
+	@GET
+	@Path("{id}/features")
+	@Produces(MediaType.APPLICATION_JSON)
+	fun getFeatures(@PathParam("id") id : UUID) : List<HostFeatureSummary>
 }
