@@ -17,11 +17,9 @@ class OpenSuseTest {
 
 	@Test
 	fun testHandlesVersion() {
-		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("13"))))
-		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("13.1"))))
-		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("13.2"))))
-		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("13.3"))))
-		assertFalse((OpenSuse().handlesVersion(Version.fromVersionString("14"))))
-		assertFalse((OpenSuse().handlesVersion(Version.fromVersionString("12"))))
+		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("42"))))
+		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("42.2"))))
+		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("42.3"))))
+		assertTrue((OpenSuse().handlesVersion(Version.fromVersionString("42.1"))))
 	}
 }
