@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.model.Version
 import org.apache.sshd.client.session.ClientSession
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
