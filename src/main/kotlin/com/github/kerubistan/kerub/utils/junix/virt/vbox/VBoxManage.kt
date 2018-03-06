@@ -164,12 +164,30 @@ object VBoxManage : OsCommand {
 	}
 
 	fun stopVm(session: ClientSession, vm: VirtualMachine) {
-		session.executeOrDie("VBoxManage controlvm ${vm.id} poweroff")
+		controlVm(session, vm, "poweroff")
 	}
 
-	fun createMedium(session: ClientSession, path: String, size: BigInteger, type: DeviceType, format: VirtualDiskFormat) {
+	private fun controlVm(session: ClientSession,
+						  vm: VirtualMachine,
+						  command : String,
+						  args : String? = null) =
+		session.executeOrDie("VBoxManage controlvm ${vm.id} $command ${args ?: ""}")
+
+	fun pauseVm(session: ClientSession, vm: VirtualMachine) =
+		controlVm(session, vm, "pause")
+
+	fun resumeVm(session: ClientSession, vm: VirtualMachine) =
+		controlVm(session, vm, "resume")
+
+	fun resetVm(session: ClientSession, vm: VirtualMachine) =
+		controlVm(session, vm, "reset")
+
+	fun teleportVm(session: ClientSession, vm: VirtualMachine, address: String, port: Int, password: String,
+				   listener: (Int) -> Unit) =
+			controlVm(session, vm, "teleport", "--host $address --port $port --password $password")
+
+	fun createMedium(session: ClientSession, path: String, size: BigInteger, type: DeviceType, format: VirtualDiskFormat) =
 		session.executeOrDie("VBoxManage create $type --filename $path --format $format")
-	}
 
 }
 
