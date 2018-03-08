@@ -21,11 +21,10 @@ import kotlin.reflect.KClass
 @Indexed
 @JsonTypeName("vm")
 data class VirtualMachine constructor(
-		override
 		@JsonView(Simple::class)
 		@DocumentId
 		@JsonProperty("id")
-		val id: UUID = UUID.randomUUID(),
+		override val id: UUID = UUID.randomUUID(),
 		/**
 		 * Name of the VM, which is not necessarily a unique identifier, but helps to find the VM.
 		 */
@@ -33,6 +32,12 @@ data class VirtualMachine constructor(
 		@JsonView(Simple::class)
 		@JsonProperty("name")
 		override val name: String,
+
+		@Field
+		@JsonView(Simple::class)
+		@JsonProperty("architecture")
+		val architecture : String = "x86_64",
+
 		/**
 		 * The number of vCPUs of the VM.
 		 */

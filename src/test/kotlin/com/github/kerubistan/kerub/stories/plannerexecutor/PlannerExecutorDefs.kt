@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.stories.plannerexecutor
 
-import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
@@ -28,6 +27,9 @@ import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
@@ -90,6 +92,20 @@ class PlannerExecutorDefs {
 									volumeGroupName = "TEST",
 									size = "1 PB".toSize(),
 									physicalVolumes = listOf("1 PB".toSize()))
+					),
+					hypervisorCapabilities = listOf(
+							LibvirtCapabilities(
+									guests = listOf(
+											LibvirtGuest(
+													osType = "hvm",
+													arch = LibvirtArch(
+															name = "x86_64",
+															wordsize = 64,
+															emulator = "/usr/bin/qemu-kvm"
+													)
+											)
+									)
+							)
 					)
 			)
 	)

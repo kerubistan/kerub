@@ -14,9 +14,15 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testVm
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class KvmStartVirtualMachineFactoryTest {
@@ -50,7 +56,21 @@ class KvmStartVirtualMachineFactoryTest {
 					os = OperatingSystem.Linux,
 					distribution = SoftwarePackage("Ubuntu", version = Version.fromVersionString("17.04")),
 					system = null,
-					chassis = null
+					chassis = null,
+					hypervisorCapabilities = listOf(
+							LibvirtCapabilities(
+								guests = listOf(
+										LibvirtGuest(
+												osType = "hvm",
+												arch = LibvirtArch(
+														name = "x86_64",
+														wordsize = 64,
+														emulator = "/usr/bin/qemu-kvm"
+												)
+										)
+								)
+							)
+					)
 			)
 	)
 
@@ -125,6 +145,39 @@ class KvmStartVirtualMachineFactoryTest {
 			it.vm == vmToRun
 					&& it.host == host
 		})
+	}
+
+	@Test
+	fun isKvmCapable() {
+		assertFalse("if no capabilities, the VM may not be ok on the host") {
+			KvmStartVirtualMachineFactory.isKvmCapable(listOf(), testVm)
+		}
+
+		assertTrue("matching capability") {
+			KvmStartVirtualMachineFactory.isKvmCapable(
+					listOf(LibvirtCapabilities(
+							guests = listOf(
+									LibvirtGuest(arch =
+												 LibvirtArch(
+														 name = "x86_64", emulator = "/usr/bin/qemu-kvm",
+														 wordsize = 64),
+												 osType = "hvm"
+									)
+							)
+					)),
+					testVm)
+		}
+
+	}
+
+	@Test
+	fun isKvmInstalled() {
+		assertTrue("kvm installed") {
+			KvmStartVirtualMachineFactory.isKvmInstalled(host)
+		}
+		assertFalse("kvm not installed") {
+			KvmStartVirtualMachineFactory.isKvmInstalled(testHost)
+		}
 	}
 
 }

@@ -68,6 +68,9 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIs
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
@@ -188,7 +191,22 @@ class PlannerDefs {
 							devices = listOf(),
 							installedSoftware = listOf(),
 							system = null,
-							totalMemory = row[1].toSize()
+							totalMemory = row[1].toSize(),
+							hypervisorCapabilities = listOf(
+									LibvirtCapabilities(
+											guests = listOf(
+													LibvirtGuest(
+															osType = "hvm",
+															arch = LibvirtArch(
+																	name = "x86_64",
+																	wordsize = 64,
+																	emulator = "/usr/bin/qemu-kvm"
+															)
+													)
+											)
+									)
+							)
+
 					)
 			)
 			hosts += host
