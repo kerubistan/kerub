@@ -30,7 +30,11 @@ data class StorageTechnologiesConfig(
 		/**
 		 * The controllers can use gluster
 		 */
-		val glusterEnabled: Boolean = false
+		val glusterEnabled: Boolean = false,
+		/**
+		 * The controllers can use NFS
+		 */
+		val nfsEnabled: Boolean = true
 
 ) : Serializable {
 
