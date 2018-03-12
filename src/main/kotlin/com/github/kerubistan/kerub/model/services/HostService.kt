@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type as type
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes(
-		type(IscsiService::class)
+		type(IscsiService::class),
+		type(NfsService::class)
 )
 interface HostService : Serializable
