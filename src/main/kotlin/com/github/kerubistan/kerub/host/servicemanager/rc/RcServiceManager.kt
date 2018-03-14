@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.iscsi.ctld.Ctld
+import com.github.kerubistan.kerub.utils.junix.nfs.Exports
 import com.github.kerubistan.kerub.utils.remove
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
@@ -16,7 +17,8 @@ class RcServiceManager(private val session: ClientSession) : ServiceManager {
 		private const val configFile = "/etc/rc.conf"
 		private val logger = getLogger(RcServiceManager::class)
 		private val serviceMap = mapOf<OsCommand, String>(
-				Ctld to "ctld"
+				Ctld to "ctld",
+				Exports to "nfs"
 		)
 
 		internal fun isEnabled(serviceName: String, config: String): Boolean =
