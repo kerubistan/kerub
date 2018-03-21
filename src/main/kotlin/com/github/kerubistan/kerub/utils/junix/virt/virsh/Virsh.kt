@@ -105,7 +105,7 @@ object Virsh : OsCommand {
 		session.executeOrDie("virsh resume $id")
 	}
 
-	private val domstatsCommand = "virsh domstats --raw"
+	private const val domstatsCommand = "virsh domstats --raw"
 
 	fun domStat(session: ClientSession): List<DomainStat> {
 		return parseDomStats(session.executeOrDie(domstatsCommand))
@@ -134,7 +134,7 @@ object Virsh : OsCommand {
 	}
 
 
-	internal fun toDomStat(virshDomStat: String): DomainStat {
+	private fun toDomStat(virshDomStat: String): DomainStat {
 		val header = virshDomStat.substringBefore('\n')
 		val propertiesSource = virshDomStat.substringAfter('\n')
 		val props = StringReader(propertiesSource).use {
@@ -174,7 +174,8 @@ object Virsh : OsCommand {
 			sent = toNetTrafficStat(props, netId, "tx")
 	)
 
-	fun netToLong(props: Map<String, String>, netId: Int, type: String, prop: String) = requireNotNull(props["net.$netId.$type.$prop"]).toLong()
+	private fun netToLong(props: Map<String, String>, netId: Int, type: String, prop: String) = requireNotNull(
+			props["net.$netId.$type.$prop"]).toLong()
 
 	private fun toNetTrafficStat(props: Map<String, String>, netId: Int, type: String): NetTrafficStat = NetTrafficStat(
 			bytes = netToLong(props, netId, type, "bytes"),
@@ -190,7 +191,7 @@ object Virsh : OsCommand {
 		return protocol to port
 	}
 
-	internal fun toCpuStat(props: Map<String, String>, id: Int): VcpuStat =
+	private fun toCpuStat(props: Map<String, String>, id: Int): VcpuStat =
 			VcpuStat(
 					state = VcpuState.running,
 					time = props["vcpu.$id.time"]?.toLong()
