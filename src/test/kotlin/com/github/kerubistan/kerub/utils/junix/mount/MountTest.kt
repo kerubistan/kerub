@@ -50,5 +50,4 @@ class MountTest : AbstractJunixCommandVerification() {
 					&& it.mountPoint == "/"
 		})
 	}
-
 }

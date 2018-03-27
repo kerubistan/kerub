@@ -1,8 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs
 
 import com.github.kerubistan.kerub.model.Host
-import com.github.kerubistan.kerub.model.VirtualMachineStatus
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
+import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
@@ -12,7 +11,7 @@ object UnshareNfsFactory : AbstractOperationalStepFactory<UnshareNfs>() {
 	override fun produce(state: OperationalState): List<UnshareNfs> =
 			state.hosts.values.map { hostColl ->
 				hostColl.stat to hostColl.config?.services?.filterIsInstance<NfsService>()?.filterNot { nfsService ->
-					isDirectoryUsedByAnyAllocations(nfsService.directory, hostColl.stat, state)
+					isDirectoryUsedByAnyMounts(nfsService.directory, hostColl.stat, state)
 				}
 			}.map { hostAndServices ->
 				hostAndServices.second?.map {
@@ -20,11 +19,11 @@ object UnshareNfsFactory : AbstractOperationalStepFactory<UnshareNfs>() {
 				}
 			}.filterNotNull().join()
 
-	private fun isDirectoryUsedByAnyAllocations(directory: String, host: Host,
-												state: OperationalState): Boolean =
-			state.vms.values.filter { it.dynamic?.status == VirtualMachineStatus.Up }
-					.map { it.stat.virtualStorageLinks.map { it.virtualStorageId } }
-					.join()
-					.mapNotNull { state.vStorage[it]?.dynamic?.allocations?.filterIsInstance<VirtualStorageFsAllocation>() }
-					.join().any { it.hostId == host.id && it.mountPoint == directory }
+	private fun isDirectoryUsedByAnyMounts(directory: String, host: Host,
+										   state: OperationalState): Boolean =
+			state.hosts.values.any {
+				it.config?.services?.any {
+					it is NfsMount && it.remoteDirectory == directory && it.remoteHostId == host.id
+				} ?: false
+			}
 }

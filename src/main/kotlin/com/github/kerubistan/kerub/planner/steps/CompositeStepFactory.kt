@@ -19,7 +19,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtua
 import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
-import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.MigrateVirtualStorageDeviceFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.IscsiShareFactory
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
@@ -33,7 +33,8 @@ class CompositeStepFactory(
 
 	private val logger = getLogger(CompositeStepFactory::class)
 
-	private val defaultFactories = setOf(MigrateVirtualMachineFactory, MigrateVirtualStorageDeviceFactory,
+	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
+										 LibvirtMigrateVirtualStorageDeviceFactory,
 										 PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
 										 RecycleHostFactory)
 
@@ -41,8 +42,9 @@ class CompositeStepFactory(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(StartVirtualMachineFactory, CreateDiskFactory, StopVirtualMachineFactory,
 							 KvmMigrateVirtualMachineFactory, WakeHostFactory, IscsiShareFactory),
-			NotSameStorageExpectation::class to setOf(MigrateVirtualStorageDeviceFactory, WakeHostFactory,
-													  MigrateVirtualMachineFactory),
+			NotSameStorageExpectation::class to setOf(
+					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
+					MigrateVirtualMachineFactory),
 			StorageAvailabilityExpectation::class to setOf(CreateDiskFactory, WakeHostFactory,
 														   MigrateVirtualMachineFactory)
 	)

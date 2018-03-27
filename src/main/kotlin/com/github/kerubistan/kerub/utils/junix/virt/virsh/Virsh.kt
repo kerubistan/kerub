@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
 import com.github.kerubistan.kerub.utils.base64
 import com.github.kerubistan.kerub.utils.equalsAnyOf
+import com.github.kerubistan.kerub.utils.flag
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.silent
@@ -23,11 +24,11 @@ object Virsh : OsCommand {
 	val logger = getLogger(Virsh::class)
 	val utf8 = charset("UTF-8")
 
-	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
-			= listOf(
+	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Centos Linux", "Fedora", "openSUSE") }
 					to listOf("libvirt-client"),
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Debian") } to listOf("libvirt-clients", "libvirt-daemon"),
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Debian") } to listOf("libvirt-clients",
+																					   "libvirt-daemon"),
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Ubuntu") } to listOf("libvirt-bin")
 	)
 
@@ -40,11 +41,9 @@ object Virsh : OsCommand {
 		<target>$id</target>
 	</usage>
 </secret>"""
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			try {
-				sftp.write(secretDefFile).use {
-					file ->
+				sftp.write(secretDefFile).use { file ->
 					file.write(secretDef.toByteArray(utf8))
 				}
 				session.executeOrDie("virsh secret-define $secretDefFile")
@@ -63,11 +62,9 @@ object Virsh : OsCommand {
 	fun create(session: ClientSession, id: UUID, domainDef: String) {
 		val domainDefFile = "/tmp/$id.xml"
 		logger.info("creating domain: \n {}", domainDef)
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			try {
-				sftp.write(domainDefFile).use {
-					file ->
+				sftp.write(domainDefFile).use { file ->
 					file.write(domainDef.toByteArray(utf8))
 				}
 				session.executeOrDie("virsh create $domainDefFile")
@@ -75,6 +72,19 @@ object Virsh : OsCommand {
 				silent { sftp.remove(domainDefFile) }
 			}
 		}
+	}
+
+	fun blockCopy(session: ClientSession, domaindId: UUID, path: String, destination: String, shallow: Boolean = false,
+				  format: String? = null, blockDev: Boolean = false) {
+		val formatFlag = if (format != null) {
+			"--format $format"
+		} else {
+			""
+		}
+		session.executeOrDie(
+				"virsh blockcopy $domaindId $path --dest $destination ${shallow.flag("--shallow")}" +
+						"${blockDev.flag("--blockdev")} --verbose --wait $formatFlag"
+		)
 	}
 
 	fun migrate(
@@ -94,8 +104,8 @@ object Virsh : OsCommand {
 		session.executeOrDie("virsh destroy $id  --graceful")
 	}
 
-	fun list(session: ClientSession): List<UUID>
-			= session.executeOrDie("virsh list --uuid").lines().map { UUID.fromString(it) }
+	fun list(session: ClientSession): List<UUID> = session.executeOrDie(
+			"virsh list --uuid").lines().map { UUID.fromString(it) }
 
 	fun suspend(session: ClientSession, id: UUID) {
 		session.executeOrDie("virsh suspend $id")
@@ -111,7 +121,9 @@ object Virsh : OsCommand {
 		return parseDomStats(session.executeOrDie(domstatsCommand))
 	}
 
-	internal fun parseDomStats(output: String) = output.split("\n\n").filter { it.isNotBlank() }.map { toDomStat(it.trim()) }
+	internal fun parseDomStats(output: String) = output.split("\n\n").filter { it.isNotBlank() }.map {
+		toDomStat(it.trim())
+	}
 
 	internal class DomStatsOutputHandler(private val handler: (List<DomainStat>) -> Unit) : OutputStream() {
 
@@ -149,8 +161,7 @@ object Virsh : OsCommand {
 				balloonMax = props.getProperty("balloon.maximum")?.toBigInteger(),
 				balloonSize = props.getProperty("balloon.current")?.toBigInteger(),
 				vcpuMax = vcpuMax,
-				netStats = (0..netCount - 1).map {
-					netId ->
+				netStats = (0..netCount - 1).map { netId ->
 					toNetStat(
 							props.filter { it.key.toString().startsWith("net.$netId.") }
 									.map { it.key.toString() to it.value.toString() }
@@ -158,12 +169,11 @@ object Virsh : OsCommand {
 							, netId
 					)
 				},
-				cpuStats = (0..vcpuMax - 1).map {
-					vcpuid ->
+				cpuStats = (0..vcpuMax - 1).map { vcpuid ->
 					toCpuStat(props
-							.filter { it.key.toString().startsWith("vcpu.$vcpuid.") }
-							.map { it.key.toString() to it.value.toString() }
-							.toMap(), vcpuid)
+									  .filter { it.key.toString().startsWith("vcpu.$vcpuid.") }
+									  .map { it.key.toString() to it.value.toString() }
+									  .toMap(), vcpuid)
 				}
 		)
 	}
@@ -199,11 +209,11 @@ object Virsh : OsCommand {
 
 	fun capabilities(session: ClientSession): LibvirtCapabilities {
 		val capabilities = session.executeOrDie("virsh capabilities")
-		val jaxbContext = JAXBContext.newInstance(LibvirtXmlArch::class.java, LibvirtXmlCapabilities::class.java, LibvirtXmlGuest::class.java)
+		val jaxbContext = JAXBContext.newInstance(LibvirtXmlArch::class.java, LibvirtXmlCapabilities::class.java,
+												  LibvirtXmlGuest::class.java)
 		return StringReader(capabilities).use {
 			val xmlCapabilities = jaxbContext.createUnmarshaller().unmarshal(it) as LibvirtXmlCapabilities
-			LibvirtCapabilities(xmlCapabilities.guests.map {
-				xmlGuest ->
+			LibvirtCapabilities(xmlCapabilities.guests.map { xmlGuest ->
 				val arch = requireNotNull(xmlGuest.arch)
 				LibvirtGuest(
 						osType = requireNotNull(xmlGuest.osType),
