@@ -18,7 +18,7 @@ class IspnConfiguration {
 	var json = false
 
 	companion object {
-		val logger = getLogger(IspnConfiguration::class)
+		private val logger = getLogger(IspnConfiguration::class)
 	}
 
 	private var globalConfig: GlobalConfiguration? = null

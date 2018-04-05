@@ -78,14 +78,13 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 	}
 
 	companion object {
-		val logger = getLogger(ControllerAssignerImpl::class)
-		fun controllerScore(state: ControllerDynamic?): Int {
+		private val logger = getLogger(ControllerAssignerImpl::class)
+		fun controllerScore(state: ControllerDynamic?): Int =
 			if (state == null) {
-				return -1
+				-1
 			} else {
-				return state.maxHosts - state.totalHosts
+				state.maxHosts - state.totalHosts
 			}
-		}
 	}
 
 	override fun assignControllers(hosts: List<Host>) {

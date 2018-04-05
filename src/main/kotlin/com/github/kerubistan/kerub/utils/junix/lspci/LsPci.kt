@@ -2,11 +2,9 @@ package com.github.kerubistan.kerub.utils.junix.lspci
 
 import com.github.kerubistan.kerub.host.execute
 import com.github.kerubistan.kerub.model.hardware.PciDevice
-import com.github.kerubistan.kerub.utils.getLogger
 import org.apache.sshd.client.session.ClientSession
 
 object LsPci {
-	val logger = getLogger(LsPci::class)
 	@JvmStatic val doublequote = "\""
 
 	fun execute(session: ClientSession): List<PciDevice> {

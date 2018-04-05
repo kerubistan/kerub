@@ -12,7 +12,7 @@ import org.junit.Test
 class MotdServiceIT {
 
 	companion object {
-		val logger = getLogger(MotdServiceIT::class)
+		private val logger = getLogger(MotdServiceIT::class)
 	}
 
 	@Test

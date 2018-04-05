@@ -37,7 +37,7 @@ import kotlin.reflect.KClass
 class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 
 	private companion object {
-		val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
+		private val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
 		internal val distributions = listOf(
 				//RPM-based distros
 				Fedora(),

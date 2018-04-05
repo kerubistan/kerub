@@ -21,8 +21,8 @@ import javax.xml.bind.JAXBContext
 
 object Virsh : OsCommand {
 
-	val logger = getLogger(Virsh::class)
-	val utf8 = charset("UTF-8")
+	private val logger = getLogger(Virsh::class)
+	private val utf8 = charset("UTF-8")
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Centos Linux", "Fedora", "openSUSE") }

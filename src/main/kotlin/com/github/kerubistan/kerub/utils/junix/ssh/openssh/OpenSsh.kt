@@ -14,8 +14,8 @@ import java.util.Date
  */
 object OpenSsh {
 	private val logger = getLogger(OpenSsh::class)
-	private val knownHosts = ".ssh/known_hosts"
-	private val authorizedKeys = ".ssh/authorized_keys"
+	private const val knownHosts = ".ssh/known_hosts"
+	private const val authorizedKeys = ".ssh/authorized_keys"
 
 	fun keyGen(session: ClientSession, password: String? = null) {
 		session.executeOrDie("ssh-keygen -t rsa -N ${password ?: ""}")

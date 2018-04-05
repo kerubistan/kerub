@@ -9,7 +9,7 @@ import javax.ws.rs.ext.ExceptionMapper
 abstract class AbstractExceptionMapper<T : Throwable>(val mapper: ObjectMapper) : ExceptionMapper<T> {
 
 	companion object {
-		val logger = getLogger(AbstractExceptionMapper::class)
+		private val logger = getLogger(AbstractExceptionMapper::class)
 	}
 
 	abstract fun getRestError(exception: T): RestError

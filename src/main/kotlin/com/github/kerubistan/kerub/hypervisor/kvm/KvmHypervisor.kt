@@ -18,7 +18,6 @@ import com.github.kerubistan.kerub.model.services.PasswordProtected
 import com.github.kerubistan.kerub.model.services.StorageService
 import com.github.kerubistan.kerub.utils.KB
 import com.github.kerubistan.kerub.utils.genPassword
-import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.SecretType
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
@@ -39,8 +38,7 @@ class KvmHypervisor(private val client: ClientSession,
 					private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao) : Hypervisor {
 
 	companion object {
-		val logger = getLogger(KvmHypervisor::class)
-		val kb = KB.toBigInteger()
+		private val kb = KB.toBigInteger()
 	}
 
 	override fun startMonitoringProcess() {

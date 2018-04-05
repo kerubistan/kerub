@@ -12,8 +12,8 @@ import java.math.BigInteger
 
 object LvmLv : Lvm() {
 
-	val minimalSize = "4 MB".toSize()
-	val logger = getLogger(LvmLv::class)
+	private val minimalSize = "4 MB".toSize()
+	private val logger = getLogger(LvmLv::class)
 
 	private fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
 

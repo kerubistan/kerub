@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.utils.artemis
 
 import com.github.kerubistan.kerub.host.ControllerManager
-import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.use
 import org.apache.activemq.artemis.api.core.SimpleString
 import org.apache.activemq.artemis.jms.server.embedded.EmbeddedJMS
@@ -12,10 +11,9 @@ import javax.jms.ConnectionFactory
  * https://issues.jboss.org/browse/HORNETQ-302
  */
 object MqInit {
-	val logger = getLogger(MqInit::class)
-
 	@JvmStatic
-	fun init(controllerManager: ControllerManager, artemis: EmbeddedJMS, factory: ConnectionFactory): ConnectionFactory {
+	fun init(controllerManager: ControllerManager, artemis: EmbeddedJMS,
+			 factory: ConnectionFactory): ConnectionFactory {
 		val controllerId = controllerManager.getControllerId()
 		val server = artemis.activeMQServer
 		val mqName = "kerub-mq-$controllerId"

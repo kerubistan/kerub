@@ -16,7 +16,7 @@ import java.util.UUID
 class DmiDecoder : OsCommand {
 
 	companion object {
-		val logger = getLogger(DmiDecoder::class)
+		private val logger = getLogger(DmiDecoder::class)
 		@JvmStatic fun split(input: String): List<String> =
 				input.split("\n\n".toRegex()).toTypedArray() //empty line
 						.filter { it.startsWith("Handle 0x") }

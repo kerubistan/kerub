@@ -127,7 +127,7 @@ open class HostManagerImpl(
 	}
 
 	companion object {
-		val logger = getLogger(HostManagerImpl::class)
+		private val logger = getLogger(HostManagerImpl::class)
 		const val defaultSshServerPort = 22
 		const val defaultSshUserName = "root"
 

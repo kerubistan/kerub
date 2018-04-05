@@ -76,7 +76,7 @@ class PlanExecutorImpl(
 ) : PlanExecutor {
 
 	companion object {
-		val logger = getLogger(PlanExecutorImpl::class)
+		private val logger = getLogger(PlanExecutorImpl::class)
 	}
 
 	private val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(

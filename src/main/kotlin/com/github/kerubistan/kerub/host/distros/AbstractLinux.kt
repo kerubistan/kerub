@@ -18,7 +18,6 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
-import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
@@ -46,7 +45,6 @@ abstract class AbstractLinux : Distribution {
 	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
-		val logger = getLogger(AbstractLinux::class)
 		private val packages = mapOf(
 				DF to listOf("coreutils"),
 				DmiDecoder to listOf("dmidecode"),

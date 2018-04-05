@@ -68,7 +68,7 @@ class AuthorizationDefs {
 	private var originalConfig: ControllerConfig? = null
 
 	companion object {
-		val logger = getLogger(AuthorizationDefs::class)
+		private val logger = getLogger(AuthorizationDefs::class)
 	}
 
 	fun <X : Any> WebClient.tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {

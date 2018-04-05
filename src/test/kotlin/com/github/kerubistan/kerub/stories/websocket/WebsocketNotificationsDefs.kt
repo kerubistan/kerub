@@ -95,7 +95,7 @@ class WebsocketNotificationsDefs {
 	}
 
 	companion object {
-		val logger = getLogger(WebsocketNotificationsDefs::class)
+		private val logger = getLogger(WebsocketNotificationsDefs::class)
 		private val mapper = createObjectMapper(prettyPrint = true)
 	}
 

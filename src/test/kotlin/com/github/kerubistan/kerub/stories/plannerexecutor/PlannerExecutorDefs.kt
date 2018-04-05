@@ -44,7 +44,9 @@ import kotlin.test.assertEquals
 
 class PlannerExecutorDefs {
 
-	val logger = getLogger(PlannerExecutorDefs::class)
+	companion object {
+		private val logger = getLogger(PlannerExecutorDefs::class)
+	}
 
 	class MockExecutor : PlanExecutor {
 		var plans = listOf<Plan>()

@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.host.packman
 
 import com.github.kerubistan.kerub.host.PackageManager
 import com.github.kerubistan.kerub.model.SoftwarePackage
-import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.packagemanager.cygwin.CygCheck
 import com.github.kerubistan.kerub.utils.junix.packagemanager.cygwin.Wmic
 import org.apache.sshd.client.session.ClientSession
@@ -10,8 +9,6 @@ import org.apache.sshd.client.session.ClientSession
 class CygwinPackageManager(private val session: ClientSession) : PackageManager {
 
 	companion object {
-		val logger = getLogger(CygwinPackageManager::class)
-
 		val packageMatchers = mapOf(
 				"Oracle VM VirtualBox.*".toRegex() to "virtualbox"
 		)

@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 class AssignmentServiceImpl(val dao: AssignmentDao, val hostManager: HostManager) : AssignmentService {
 
 	companion object {
-		val logger = getLogger(AssignmentServiceImpl::class)
+		private val logger = getLogger(AssignmentServiceImpl::class)
 	}
 
 	fun start() {

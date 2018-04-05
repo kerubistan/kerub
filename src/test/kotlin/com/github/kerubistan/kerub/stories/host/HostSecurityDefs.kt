@@ -19,7 +19,9 @@ class HostSecurityDefs {
 	var user: String = "admin"
 	var responseCode = 200
 
-	companion object private val logger = getLogger(HostSecurityDefs::class)
+	companion object {
+		private val logger = getLogger(HostSecurityDefs::class)
+	}
 
 	@Given("A controller")
 	fun givenAController() {

@@ -31,7 +31,9 @@ class CompositeStepFactory(
 ) :
 		StepFactory<AbstractOperationalStep, Plan> {
 
-	private val logger = getLogger(CompositeStepFactory::class)
+	companion object {
+		private val logger = getLogger(CompositeStepFactory::class)
+	}
 
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
 										 PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,

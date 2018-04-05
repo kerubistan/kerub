@@ -11,14 +11,14 @@ import com.github.kerubistan.kerub.utils.getLogger
 open class WakeHostExecutor(
 		private val hostManager: HostManager,
 		private val hostDynDao: HostDynamicDao,
-		private val tries: Int = defaulMaxRetries,
+		private val tries: Int = defaultMaxRetries,
 		private val wait: Long = defaultWaitBetweenTries
 ) : AbstractStepExecutor<AbstractWakeHost, Unit>() {
 
 	companion object {
-		val logger = getLogger(WakeHostExecutor::class)
-		val defaulMaxRetries = 8
-		val defaultWaitBetweenTries = 30000.toLong()
+		private val logger = getLogger(WakeHostExecutor::class)
+		private const val defaultMaxRetries = 8
+		private const val defaultWaitBetweenTries = 30000.toLong()
 	}
 
 	override fun perform(step: AbstractWakeHost) {
@@ -47,7 +47,7 @@ open class WakeHostExecutor(
 				lastException = e
 			}
 		}
-		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaulMaxRetries attempts", lastException)
+		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaultMaxRetries attempts", lastException)
 	}
 
 	open internal fun wakeOnLoan(host: Host) {
