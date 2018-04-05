@@ -42,10 +42,22 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGv
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolumeExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfsExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.mount.UnmountNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.mount.UnmountNfsExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.ctld.CtldIscsiShare
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.ctld.CtldIscsiShareExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShareExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.ShareNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.ShareNfsExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.UnshareNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.UnshareNfsExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemonExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemonExecutor
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.getStackTraceAsString
 import com.github.kerubistan.kerub.utils.now
@@ -69,27 +81,37 @@ class PlanExecutorImpl(
 
 	private val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao),
-			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor, vmDynamicDao),
+			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor,
+																						  vmDynamicDao),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
 			KvmMigrateVirtualMachine::class to KvmMigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
-			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
+			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao,
+																	hostDynamicDao),
 			//TODO: handle both with just one (unless you want to maintain a long list)
 			IpmiWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			WolWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
 			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
 			CtldIscsiShare::class to CtldIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
-			RecycleHost::class to RecycleHostExecutor(hostDao, hostDynamicDao)
+			RecycleHost::class to RecycleHostExecutor(hostDao, hostDynamicDao),
+
+			//NFS
+			StartNfsDaemon::class to StartNfsDaemonExecutor(hostManager, hostConfigurationDao),
+			StopNfsDaemon::class to StopNfsDaemonExecutor(hostManager, hostConfigurationDao),
+			ShareNfs::class to ShareNfsExecutor(hostConfigurationDao, hostCommandExecutor),
+			UnshareNfs::class to UnshareNfsExecutor(hostConfigurationDao, hostCommandExecutor),
+			MountNfs::class to MountNfsExecutor(hostCommandExecutor, hostConfigurationDao),
+			UnmountNfs::class to UnmountNfsExecutor(hostCommandExecutor, hostConfigurationDao)
 	)
 
 	fun execute(step: AbstractOperationalStep) {
 		val executor = stepExecutors.get(step.javaClass.kotlin)
 		if (executor == null) {
-			throw IllegalArgumentException("No executor for step ${step}")
+			throw IllegalArgumentException("No executor for step $step")
 		} else {
 			(executor as StepExecutor<AbstractOperationalStep>).execute(step)
 		}
@@ -109,8 +131,7 @@ class PlanExecutorImpl(
 				execute(step)
 				results += StepExecutionPass(executionStep = step)
 			}
-		} fail {
-			exc ->
+		} fail { exc ->
 			logger.warn("plan execution failed", exc)
 			stepOnExec?.let {
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
