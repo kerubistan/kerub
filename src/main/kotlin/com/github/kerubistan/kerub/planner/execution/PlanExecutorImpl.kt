@@ -67,7 +67,7 @@ class PlanExecutorImpl(
 		val logger = getLogger(PlanExecutorImpl::class)
 	}
 
-	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
+	private val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao),
 			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor, vmDynamicDao),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
