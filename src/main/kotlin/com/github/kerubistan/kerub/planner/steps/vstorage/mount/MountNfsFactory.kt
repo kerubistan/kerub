@@ -9,8 +9,6 @@ import com.github.kerubistan.kerub.utils.join
 
 object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
 
-	private val slash = "/".toRegex()
-
 	override fun produce(state: OperationalState): List<MountNfs> =
 			factoryFeature(state.controllerConfig.storageTechnologies.nfsEnabled) {
 				// for each host, all other host's all existing shares, except the ones that are already mounted

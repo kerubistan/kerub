@@ -14,11 +14,10 @@ object VirtualBoxStartVirtualMachineFactory : AbstractStartVmFactory<VirtualBoxS
 						&& isHwVirtualizationSupported(hostData.stat)
 			}.toList()).filter {
 				val vm = it.first
-				val host = it.second.stat
+				val host = it.second
 				match(
 						host = host,
 						vm = vm,
-						dyn = it.second.dynamic,
 						vStorage = storageAllocationMap(state, vm.virtualStorageLinks)
 				)
 			}.map { VirtualBoxStartVirtualMachine(vm = it.first, host = it.second.stat) }

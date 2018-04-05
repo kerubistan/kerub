@@ -20,7 +20,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFac
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.IscsiShareFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
 import kotlin.reflect.KClass
@@ -34,14 +34,13 @@ class CompositeStepFactory(
 	private val logger = getLogger(CompositeStepFactory::class)
 
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
-										 LibvirtMigrateVirtualStorageDeviceFactory,
 										 PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-										 RecycleHostFactory)
+										 RecycleHostFactory, ShareFactory)
 
 	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(StartVirtualMachineFactory, CreateDiskFactory, StopVirtualMachineFactory,
-							 KvmMigrateVirtualMachineFactory, WakeHostFactory, IscsiShareFactory),
+							 KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory),
 			NotSameStorageExpectation::class to setOf(
 					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
 					MigrateVirtualMachineFactory),
@@ -70,10 +69,15 @@ class CompositeStepFactory(
 				.map { it.javaClass.kotlin }
 				.map { problems[it] ?: defaultFactories }.join().distinct()
 
-		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(), state = state)
-		logger.debug("steps generated: {}", steps)
+		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(),
+						 state = state)
+		logger.debug("{} steps generated: {}", steps.size, steps)
 
-		return steps
+		// let's not take a step that leads back to a previous planning phase, we could run endless rounds
+		val filtered = steps.filterNot { step -> state.states.contains(step.take(state.state)) }
+		logger.debug("{} filtered steps: {}", filtered.size, filtered)
+
+		return filtered
 	}
 
 	internal fun sort(list: List<AbstractOperationalStep>,

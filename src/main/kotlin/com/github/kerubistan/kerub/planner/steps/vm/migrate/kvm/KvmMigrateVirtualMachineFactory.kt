@@ -26,7 +26,7 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 			hostData ->
 			runningVms.forEach {
 				vmData ->
-				if (match(hostData.stat, hostData.dynamic, vmData.stat, storageAllocationMap(state, vmData.stat.virtualStorageLinks))) {
+				if (match(hostData, vmData.stat, storageAllocationMap(state, vmData.stat.virtualStorageLinks))) {
 					val sourceId = vmData.dynamic?.hostId
 					val sourceHost = requireNotNull(state.hosts[sourceId])
 					if (sourceId != hostData.stat.id) {

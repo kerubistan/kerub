@@ -22,6 +22,11 @@ class ControllerConfigDefs {
 				"lvm create volume enabled" to { enabled, config -> config.copy(
 						storageTechnologies = config.storageTechnologies.copy(lvmCreateVolumeEnabled = enabled)
 				) },
+				"nfs enabled" to { enabled, config ->
+					config.copy(
+							storageTechnologies = config.storageTechnologies.copy(nfsEnabled = enabled)
+					)
+				},
 				"gvinum create volume enabled" to { enabled, config -> config.copy(
 						storageTechnologies = config.storageTechnologies.copy(gvinumCreateVolumeEnabled = enabled)
 				) }

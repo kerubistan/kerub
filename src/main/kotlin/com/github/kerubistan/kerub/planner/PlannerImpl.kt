@@ -123,7 +123,7 @@ class PlannerImpl(
 		logger.debug("reservations: " + state.reservations)
 
 		backtrack.backtrack(
-				Plan(state = state),
+				Plan(states = listOf(state)),
 				CompositeStepFactory(violationDetector),
 				listener,
 				listener,

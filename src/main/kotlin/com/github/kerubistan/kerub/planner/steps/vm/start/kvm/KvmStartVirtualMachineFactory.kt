@@ -22,7 +22,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 							&& isHwVirtualizationSupported(hostData.stat)
 							&& isKvmInstalled(hostData.stat)
 							&& isKvmCapable(hostData.stat.capabilities.hypervisorCapabilities, vm)
-							&& match(hostData.stat, hostData.dynamic, vm, storageAllocationMap(state, vm.virtualStorageLinks))
+							&& match(hostData, vm, storageAllocationMap(state, vm.virtualStorageLinks))
 				}.map {
 					KvmStartVirtualMachine(vm, it.stat)
 				}
@@ -30,7 +30,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 
 	internal fun isKvmCapable(hypervisorCapabilities: List<Any>, vm: VirtualMachine): Boolean {
 		return hypervisorCapabilities.any {
-			it is LibvirtCapabilities && it.guests?.any { it.arch.name == vm.architecture }
+			it is LibvirtCapabilities && it.guests.any { it.arch.name == vm.architecture }
 		}
 	}
 

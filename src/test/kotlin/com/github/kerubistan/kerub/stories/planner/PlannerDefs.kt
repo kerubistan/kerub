@@ -64,7 +64,10 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxS
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
+import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.ShareNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.join
@@ -390,6 +393,30 @@ class PlannerDefs {
 		Assert.assertEquals(shareStep.vstorage.name, diskName)
 	}
 
+	@Then("nfs must be started on host (\\S+) as step (\\d+)")
+	fun verifyDirectoryNfsStart(hostName: String, stepNo: Int) {
+		val startStep = executedPlans.first().steps[stepNo - 1]
+		Assert.assertTrue("step $stepNo is $startStep", startStep is StartNfsDaemon)
+		Assert.assertEquals((startStep as StartNfsDaemon).host.address, hostName)
+	}
+
+	@Then("(\\S+) must be shared with nfs on host (\\S+) as step (\\d+)")
+	fun verifyDirectoryNfsShare(directory: String, hostName: String, stepNo: Int) {
+		val shareStep = executedPlans.first().steps[stepNo - 1]
+		Assert.assertTrue("step $stepNo is $shareStep", shareStep is ShareNfs)
+		Assert.assertEquals((shareStep as ShareNfs).host.address, hostName)
+		Assert.assertEquals(shareStep.directory, directory)
+	}
+
+	@Then("(\\S+):(\\S+) must be mounted on (\\S+) as step (\\d+)")
+	fun verifyDirectoryNfsMount(nfsHost: String, directory: String, hostName: String, stepNo: Int) {
+		val mountStep = executedPlans.first().steps[stepNo - 1]
+		Assert.assertTrue("step $stepNo is $mountStep", mountStep is MountNfs)
+		Assert.assertEquals((mountStep as MountNfs).host.address, hostName)
+		Assert.assertEquals(mountStep.remoteDirectory, directory)
+		Assert.assertEquals(mountStep.remoteHost.address, nfsHost)
+	}
+
 	@Then("^(\\S+) will be migrated to (\\S+) as step (\\d+)")
 	fun verifyVmMigration(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val migrationStep = executedPlans.first().steps[stepNo - 1]
@@ -503,7 +530,12 @@ class PlannerDefs {
 	}
 
 	@Given("^the virtual disk (\\S+) is created on (\\S+)$")
-	fun createVStorageDyn(storageName: String, hostAddr: String) {
+	fun createVStorageDynOld(storageName: String, hostAddr: String) {
+		createVStorageDyn(storageName, hostAddr, "/var")
+	}
+
+	@Given("^the virtual disk (\\S+) is created on (\\S+) at (\\S+)$")
+	fun createVStorageDyn(storageName: String, hostAddr: String, directory: String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
 		vstorageDyns += VirtualStorageDeviceDynamic(
@@ -511,9 +543,9 @@ class PlannerDefs {
 				allocations = listOf(VirtualStorageFsAllocation(
 						hostId = host.id,
 						actualSize = storage.size,
-						mountPoint = "/var",
+						mountPoint = directory,
 						type = VirtualDiskFormat.qcow2,
-						fileName = "/var/${storage.id}"
+						fileName = "$directory/${storage.id}"
 				))
 		)
 	}

@@ -32,12 +32,14 @@ data class OperationalState(
 		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T>
 				= entities.associateBy { it.id }
 
-		fun mapHostData(hosts: List<Host> = listOf(),
-						hostDyns: List<HostDynamic> = listOf(),
-						hostCfgs: List<HostConfiguration> = listOf()): Map<UUID, HostDataCollection> {
+		private fun mapHostData(hosts: List<Host> = listOf(),
+								hostDyns: List<HostDynamic> = listOf(),
+								hostCfgs: List<HostConfiguration> = listOf()): Map<UUID, HostDataCollection> {
 			val hostDynMap = mapById(hostDyns)
 			val hostCfgMap = mapById(hostCfgs)
-			return hosts.map { it.id to HostDataCollection(it, hostDynMap[it.id], hostCfgMap[it.id]) }.toMap()
+			return hosts.map {
+				it.id to HostDataCollection(it, hostDynMap[it.id], hostCfgMap[it.id] ?: HostConfiguration(id = it.id))
+			}.toMap()
 		}
 
 		fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<T, D>>
