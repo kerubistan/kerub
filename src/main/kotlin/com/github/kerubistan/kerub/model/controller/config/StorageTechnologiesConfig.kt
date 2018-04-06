@@ -34,7 +34,11 @@ data class StorageTechnologiesConfig(
 		/**
 		 * The controllers can use NFS
 		 */
-		val nfsEnabled: Boolean = true
+		val nfsEnabled: Boolean = true,
+		/**
+		 * The controllers can use ISCSI
+		 */
+		val iscsiEnabled: Boolean = true
 
 ) : Serializable {
 

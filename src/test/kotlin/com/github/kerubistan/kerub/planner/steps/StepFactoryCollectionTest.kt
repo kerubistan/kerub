@@ -31,4 +31,17 @@ class StepFactoryCollectionTest {
 		assertTrue(steps.contains(step2))
 	}
 
+	@Test
+	fun produceWithDisabledFeature() {
+		Mockito.`when`(factory1.produce(
+				Mockito.any(OperationalState::class.java) ?: OperationalState.fromLists())).thenReturn(listOf(step1))
+		Mockito.`when`(factory2.produce(
+				Mockito.any(OperationalState::class.java) ?: OperationalState.fromLists())).thenReturn(listOf(step2))
+
+		val steps = StepFactoryCollection(listOf(factory1, factory2), { false }).produce(OperationalState.fromLists())
+
+		assertEquals(steps, listOf<AbstractOperationalStep>())
+	}
+
+
 }

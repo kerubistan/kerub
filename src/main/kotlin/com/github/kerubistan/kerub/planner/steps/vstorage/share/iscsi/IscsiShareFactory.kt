@@ -7,4 +7,4 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdI
 object IscsiShareFactory : StepFactoryCollection(listOf(
 		TgtdIscsiShareFactory,
 		CtldIscsiShareFactory
-))
+), enabled = { it.storageTechnologies.iscsiEnabled })

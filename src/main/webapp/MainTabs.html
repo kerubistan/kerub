@@ -448,7 +448,24 @@
 							<!-- TODO: G stands for Gvinum and not for google, need a better icon -->
 							<td><span class="fa fa-google"></span> Create FreeBSD Gvinum volumes
 							</td>
-							<td><toggle-switch ng-model="config.storageTechnologies.gvinumCreateVolumeEnabled"></toggle-switch></td>
+							<td>
+								<toggle-switch
+										ng-model="config.storageTechnologies.gvinumCreateVolumeEnabled"></toggle-switch>
+							</td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-share-alt"></span> NFS
+							</td>
+							<td>
+								<toggle-switch ng-model="config.storageTechnologies.nfsEnabled"></toggle-switch>
+							</td>
+						</tr>
+						<tr>
+							<td><span class="fa fa-database"></span> iSCSI
+							</td>
+							<td>
+								<toggle-switch ng-model="config.storageTechnologies.iscsiEnabled"></toggle-switch>
+							</td>
 						</tr>
 					</tbody>
 				</table>
