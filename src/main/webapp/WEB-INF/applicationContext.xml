@@ -535,22 +535,22 @@
 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.HostAddressExceptionMapper"/>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.UnauthenticatedExceptionMapper"/>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.AuthenticationExceptionMapper"/>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.AuthorizationExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.HostAddressExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.UnauthenticatedExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.AuthenticationExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.AuthorizationExceptionMapper"/>
 
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.RuntimeSshExceptionMapper"/>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.UnresolvedAddressExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.RuntimeSshExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.UnresolvedAddressExceptionMapper"/>
 
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.JsonMappingExceptionMapper">
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.JsonMappingExceptionMapper">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.JsonParseExceptionMapper">
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.JsonParseExceptionMapper">
 				<constructor-arg ref="objectMapper"/>
 			</bean>
 
-			<bean class="com.github.kerubistan.kerub.exceptions.mappers.DefaultExceptionMapper"/>
+			<bean class="com.github.kerubistan.kerub.services.exc.mappers.DefaultExceptionMapper"/>
 		</jaxrs:providers>
 		<jaxrs:serviceBeans>
 			<bean id="controllerConfig" class="com.github.kerubistan.kerub.services.impl.ControllerConfigServiceImpl">

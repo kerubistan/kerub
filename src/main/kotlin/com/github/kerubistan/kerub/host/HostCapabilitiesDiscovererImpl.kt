@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.host
 
-import com.github.kerubistan.kerub.exc.UnknownHostOperatingSystemException
 import com.github.kerubistan.kerub.host.distros.Centos6
 import com.github.kerubistan.kerub.host.distros.Centos7
 import com.github.kerubistan.kerub.host.distros.Cygwin
@@ -23,6 +22,7 @@ import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
+import com.github.kerubistan.kerub.services.exc.UnknownHostOperatingSystemException
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.dmi.DmiDecoder
 import com.github.kerubistan.kerub.utils.junix.lspci.LsPci

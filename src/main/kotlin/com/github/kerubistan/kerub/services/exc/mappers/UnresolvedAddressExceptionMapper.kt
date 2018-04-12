@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.exceptions.mappers
+package com.github.kerubistan.kerub.services.exc.mappers
 
 import java.nio.channels.UnresolvedAddressException
 import javax.ws.rs.core.Response

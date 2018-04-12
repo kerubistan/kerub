@@ -2,8 +2,8 @@ package com.github.kerubistan.kerub
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
-import com.github.kerubistan.kerub.exceptions.mappers.RestError
 import com.github.kerubistan.kerub.services.LoginService
+import com.github.kerubistan.kerub.services.exc.mappers.RestError
 import com.github.kerubistan.kerub.services.getServiceBaseUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.silent

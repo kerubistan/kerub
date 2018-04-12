@@ -8,7 +8,6 @@ import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
-import com.github.kerubistan.kerub.exc.HostAddressException
 import com.github.kerubistan.kerub.host.distros.Distribution
 import com.github.kerubistan.kerub.hypervisor.Hypervisor
 import com.github.kerubistan.kerub.hypervisor.kvm.KvmHypervisor
@@ -16,6 +15,7 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.controller.AssignmentType
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
+import com.github.kerubistan.kerub.services.exc.HostAddressException
 import com.github.kerubistan.kerub.utils.DefaultSshEventListener
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.silent

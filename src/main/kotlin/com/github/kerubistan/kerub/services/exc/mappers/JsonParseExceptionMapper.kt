@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.exceptions.mappers
+package com.github.kerubistan.kerub.services.exc.mappers
 
 import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.ObjectMapper

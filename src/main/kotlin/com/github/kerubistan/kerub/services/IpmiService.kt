@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.services
 
-import com.github.kerubistan.kerub.exc.HostAddressException
+import com.github.kerubistan.kerub.services.exc.HostAddressException
 import com.github.kerubistan.kerub.utils.ipmi.IpmiClient
 import nl.komponents.kovenant.then
 import java.net.UnknownHostException

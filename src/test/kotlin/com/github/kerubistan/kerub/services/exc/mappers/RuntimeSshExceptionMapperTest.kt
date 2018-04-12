@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.exceptions.mappers
+package com.github.kerubistan.kerub.services.exc.mappers
 
 import org.apache.sshd.common.RuntimeSshException
 import org.hamcrest.CoreMatchers

@@ -7,7 +7,6 @@ import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
-import com.github.kerubistan.kerub.exc.HostAddressException
 import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.getTestKey
 import com.github.kerubistan.kerub.host.distros.Distribution
@@ -15,6 +14,7 @@ import com.github.kerubistan.kerub.hypervisor.Hypervisor
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.controller.Assignment
 import com.github.kerubistan.kerub.model.controller.AssignmentType
+import com.github.kerubistan.kerub.services.exc.HostAddressException
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.doReturn

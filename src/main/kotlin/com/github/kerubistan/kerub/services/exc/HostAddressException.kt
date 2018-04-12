@@ -1,3 +1,3 @@
-package com.github.kerubistan.kerub.exc
+package com.github.kerubistan.kerub.services.exc
 
 class HostAddressException(message: String) : RuntimeException(message)

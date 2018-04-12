@@ -1,6 +1,6 @@
-package com.github.kerubistan.kerub.exceptions.mappers
+package com.github.kerubistan.kerub.services.exc.mappers
 
-import com.github.kerubistan.kerub.exc.HostAddressException
+import com.github.kerubistan.kerub.services.exc.HostAddressException
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper
 

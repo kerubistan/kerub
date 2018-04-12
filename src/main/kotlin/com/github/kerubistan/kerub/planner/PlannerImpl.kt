@@ -116,21 +116,21 @@ class PlannerImpl(
 		val listener = FirstSolutionTerminationStrategy<Plan>()
 		val strategy = OrTerminationStrategy<Plan>(listOf(
 				listener,
-				TimeoutTerminationStrategy(now() + 20000)
+				TimeoutTerminationStrategy(now() + 2000)
 		)
 		)
 		logger.debug("starting planing")
 		logger.debug("reservations: " + state.reservations)
 
 		backtrack.backtrack(
-				Plan(states = listOf(state)),
-				CompositeStepFactory(violationDetector),
-				listener,
-				listener,
-				{
+				state = Plan(states = listOf(state)),
+				factory = CompositeStepFactory(violationDetector),
+				terminationStrategy = strategy,
+				listener = listener,
+				check = {
 					violationDetector.listViolations(it).isEmpty()
 							//well, at least...
-						&& CompositeProblemDetectorImpl.detect(it).isEmpty()
+							&& CompositeProblemDetectorImpl.detect(it).isEmpty()
 				}
 		)
 		val plan = listener.solution
