@@ -11,4 +11,11 @@ data class Risk(
 		/**
 		 * A comment about the nature of the risk
 		 */
-		val comment: String) : Cost
+		val comment: String) : Cost {
+
+	init {
+		require(score > 0) { "Score ($score) must be greater than zero" }
+	}
+
+	operator fun plus(other: Risk) = Risk(score = this.score + other.score, comment = "$this\n$other")
+}
