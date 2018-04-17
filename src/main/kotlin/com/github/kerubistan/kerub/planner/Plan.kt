@@ -9,6 +9,17 @@ data class Plan(
 		val steps: List<AbstractOperationalStep> = listOf()
 ) {
 
+	companion object {
+		fun planBy(initial: OperationalState, steps: List<AbstractOperationalStep>): Plan {
+			var states = listOf(initial)
+			steps.forEach { states += it.take(states.last()) }
+			return Plan(
+					steps = steps,
+					states = states
+			)
+		}
+	}
+
 	constructor(state: OperationalState, steps: List<AbstractOperationalStep> = listOf()) : this(listOf(state), steps)
 
 	val state: OperationalState
