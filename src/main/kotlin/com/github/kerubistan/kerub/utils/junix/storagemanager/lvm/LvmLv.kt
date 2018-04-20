@@ -17,15 +17,14 @@ object LvmLv : Lvm() {
 
 	private fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
 
-	fun roundUp(size: BigInteger): BigInteger {
-		if (size.mod(minimalSize) == BigInteger.ZERO && size != BigInteger.ZERO) {
-			return size
+	fun roundUp(size: BigInteger, minimum: BigInteger = minimalSize): BigInteger =
+			if (size.mod(minimum) == BigInteger.ZERO && size != BigInteger.ZERO) {
+				size
 		} else {
-			val newSize = (size.div(minimalSize) + BigInteger.ONE) * minimalSize
+				val newSize = (size.div(minimum) + BigInteger.ONE) * minimum
 			logger.info("Rounded up requested size {} to {}", size, newSize)
-			return newSize
-		}
-	}
+				newSize
+			}
 
 	class LvmMonitorOutputStream(
 			private val callback: (List<LogicalVolume>) -> Unit
@@ -118,6 +117,25 @@ object LvmLv : Lvm() {
 				.lines().filterNot { it.isEmpty() }.map { row ->
 			parseRow(row)
 		}
+	}
+
+	val cacheMetaRatio = 1000
+	val cacheMetaMinSize = "8 MB".toSize()
+
+	private fun String.cache() = this.plus("_cache")
+	private fun String.cacheMeta() = this.plus("_cachemeta")
+
+	fun createCache(session: ClientSession, vgName: String, cacheVg: String, name: String, cacheSize: BigInteger,
+					originSize: BigInteger) {
+		session.executeOrDie("""lvm lvcreate -n ${name.cache()} -L ${roundUp(cacheSize)}B vg $cacheVg
+			&& lvm lvcreate -n ${name.cacheMeta()} -L ${roundUp(originSize, minimum = cacheMetaMinSize)}B vg $cacheVg
+			&& lvm lvconvert --type cache-pool --poolmetadata $cacheVg/${name.cacheMeta()} $cacheVg/${name.cache()}
+			&& lvm lvconvert --type cache --cachepool $cacheVg/${name.cache()} $vgName/$name
+		""".trimIndent())
+	}
+
+	fun removeCache(session: ClientSession, vgName: String, cacheVg: String, name: String) {
+		session.executeOrDie("lvm lvconvert --uncache $cacheVg/${name.cache()}")
 	}
 
 	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
