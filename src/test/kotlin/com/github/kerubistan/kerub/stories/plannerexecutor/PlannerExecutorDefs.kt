@@ -57,12 +57,12 @@ class PlannerExecutorDefs {
 		}
 	}
 
-	var planner: Planner = mock()
-	var executor: PlanExecutor = MockExecutor()
-	var stateBuilder: OperationalStateBuilder = mock()
-	var state = OperationalState.fromLists()
+	private var planner: Planner = mock()
+	private var executor: PlanExecutor = MockExecutor()
+	private var stateBuilder: OperationalStateBuilder = mock()
+	private var state = OperationalState.fromLists()
 
-	var host = Host(
+	private var host = Host(
 			id = UUID.randomUUID(),
 			address = "host-1.example.com",
 			dedicated = true,
@@ -122,7 +122,7 @@ class PlannerExecutorDefs {
 
 	@Given("the planner")
 	fun createPlanner() {
-		planner = PlannerImpl(BacktrackServiceImpl(), executor, stateBuilder, PlanViolationDetectorImpl())
+		planner = PlannerImpl(BacktrackServiceImpl(), executor, stateBuilder, PlanViolationDetectorImpl)
 	}
 
 	@Given("a VM")

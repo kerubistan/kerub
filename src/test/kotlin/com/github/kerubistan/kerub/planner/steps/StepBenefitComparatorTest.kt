@@ -51,13 +51,13 @@ class StepBenefitComparatorTest {
 	@Test
 	fun compare() {
 		Assert.assertEquals(
-				StepBenefitComparator(PlanViolationDetectorImpl(), Plan(state, listOf())).compare(start, start), 0)
+				StepBenefitComparator(PlanViolationDetectorImpl, Plan(state, listOf())).compare(start, start), 0)
 		Assert.assertEquals(
-				StepBenefitComparator(PlanViolationDetectorImpl(), Plan(state, listOf())).compare(stopHost, stopHost),
+				StepBenefitComparator(PlanViolationDetectorImpl, Plan(state, listOf())).compare(stopHost, stopHost),
 				0)
 		Assert.assertTrue(
-				StepBenefitComparator(PlanViolationDetectorImpl(), Plan(state, listOf())).compare(start, stopHost) < 0)
+				StepBenefitComparator(PlanViolationDetectorImpl, Plan(state, listOf())).compare(start, stopHost) < 0)
 		Assert.assertTrue(
-				StepBenefitComparator(PlanViolationDetectorImpl(), Plan(state, listOf())).compare(stopHost, start) > 0)
+				StepBenefitComparator(PlanViolationDetectorImpl, Plan(state, listOf())).compare(stopHost, start) > 0)
 	}
 }

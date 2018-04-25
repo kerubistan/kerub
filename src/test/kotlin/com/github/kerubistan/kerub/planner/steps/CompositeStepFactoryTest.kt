@@ -31,7 +31,7 @@ class CompositeStepFactoryTest {
 				),
 				steps = listOf()
 		)
-		val steps = CompositeStepFactory(PlanViolationDetectorImpl()).produce(plan)
+		val steps = CompositeStepFactory(PlanViolationDetectorImpl).produce(plan)
 
 		//TODO:
 	}
@@ -42,7 +42,7 @@ class CompositeStepFactoryTest {
 				state = OperationalState.fromLists(),
 				steps = listOf()
 		)
-		val steps = CompositeStepFactory(PlanViolationDetectorImpl()).produce(plan)
+		val steps = CompositeStepFactory(PlanViolationDetectorImpl).produce(plan)
 
 		assertTrue { steps.isEmpty() }
 	}

@@ -30,62 +30,59 @@ import com.github.kerubistan.kerub.planner.issues.violations.vstorage.NotSameSto
 import com.github.kerubistan.kerub.planner.issues.violations.vstorage.StorageAvailabilityExpectationViolationDetector
 import com.github.kerubistan.kerub.utils.getLogger
 
-class PlanViolationDetectorImpl : PlanViolationDetector {
+object PlanViolationDetectorImpl : PlanViolationDetector {
 
-	companion object {
-		private val logger = getLogger(PlanViolationDetectorImpl::class)
+	private val logger = getLogger(PlanViolationDetectorImpl::class)
 
-		internal fun checkVmExpectation(vm: VirtualMachine, expectation: VirtualMachineExpectation,
-										plan: Plan) =
-				when (expectation) {
-					is CacheSizeExpectation -> CacheSizeExpectationViolationDetector.check(vm, expectation, plan.state)
-					is ChassisManufacturerExpectation ->
-						ChassisManufacturerExpectationViolationDetector.check(vm, expectation, plan.state)
-					is ClockFrequencyExpectation ->
-						ClockFrequencyExpectationViolationDetector.check(vm, expectation, plan.state)
-					is CoreDedicationExpectation ->
-						CoreDedicationExpectationViolationDetector.check(vm, expectation, plan.state)
-					is CpuArchitectureExpectation ->
-						CpuArchitectureExpectationViolationDetector.check(vm, expectation, plan.state)
-					is MemoryClockFrequencyExpectation ->
-						MemoryClockFrequencyExpectationViolationDetector.check(vm, expectation, plan.state)
-					is NotSameHostExpectation -> NotSameHostExpectationViolationDetector
-							.check(vm, expectation, plan.state)
-					is VirtualMachineAvailabilityExpectation ->
-						VirtualMachineAvailabilityExpectationViolationDetector.check(vm, expectation, plan.state)
-					is NoMigrationExpectation ->
-						NoMigrationExpectationViolationDetector.check(vm, expectation, plan)
-					else -> {
-						TODO("unhandled expectation: $expectation")
-					}
+	private fun checkVmExpectation(vm: VirtualMachine, expectation: VirtualMachineExpectation,
+								   plan: Plan) =
+			when (expectation) {
+				is CacheSizeExpectation -> CacheSizeExpectationViolationDetector.check(vm, expectation, plan.state)
+				is ChassisManufacturerExpectation ->
+					ChassisManufacturerExpectationViolationDetector.check(vm, expectation, plan.state)
+				is ClockFrequencyExpectation ->
+					ClockFrequencyExpectationViolationDetector.check(vm, expectation, plan.state)
+				is CoreDedicationExpectation ->
+					CoreDedicationExpectationViolationDetector.check(vm, expectation, plan.state)
+				is CpuArchitectureExpectation ->
+					CpuArchitectureExpectationViolationDetector.check(vm, expectation, plan.state)
+				is MemoryClockFrequencyExpectation ->
+					MemoryClockFrequencyExpectationViolationDetector.check(vm, expectation, plan.state)
+				is NotSameHostExpectation -> NotSameHostExpectationViolationDetector
+						.check(vm, expectation, plan.state)
+				is VirtualMachineAvailabilityExpectation ->
+					VirtualMachineAvailabilityExpectationViolationDetector.check(vm, expectation, plan.state)
+				is NoMigrationExpectation ->
+					NoMigrationExpectationViolationDetector.check(vm, expectation, plan)
+				else -> {
+					TODO("unhandled expectation: $expectation")
 				}
-
-		internal fun checkVStorageExpectation(vdisk: VirtualStorageDevice,
-											  expectation: VirtualStorageExpectation,
-											  plan: Plan)
-				= when (expectation) {
-			is NotSameStorageExpectation -> NotSameStorageExpectationViolationDetector
-					.check(vdisk, expectation, plan.state)
-			is StorageAvailabilityExpectation ->
-				StorageAvailabilityExpectationViolationDetector.check(vdisk, expectation, plan.state)
-			else -> {
-				logger.warn("unhandled expectation: $expectation")
-				false
 			}
+
+	private fun checkVStorageExpectation(vdisk: VirtualStorageDevice,
+										 expectation: VirtualStorageExpectation,
+										 plan: Plan) = when (expectation) {
+		is NotSameStorageExpectation -> NotSameStorageExpectationViolationDetector
+				.check(vdisk, expectation, plan.state)
+		is StorageAvailabilityExpectation ->
+			StorageAvailabilityExpectationViolationDetector.check(vdisk, expectation, plan.state)
+		else -> {
+			logger.warn("unhandled expectation: $expectation")
+			false
 		}
-
-		internal fun <C : Expectation, T : Constrained<C>> listEntityViolations(
-				entities: List<T>,
-				plan: Plan,
-				check: (T, C, Plan) -> Boolean): Map<Constrained<C>, List<Expectation>> =
-				entities.map { entity ->
-					entity to entity.expectations.filterNot { check(entity, it, plan) }
-				}.filter { it.second.isNotEmpty() }.toMap()
-
 	}
 
-	override fun listViolations(plan: Plan): Map<Constrained<out Expectation>, List<Expectation>>
-			= listVmViolations(plan) + listVStorageViolations(plan)
+	private fun <C : Expectation, T : Constrained<C>> listEntityViolations(
+			entities: List<T>,
+			plan: Plan,
+			check: (T, C, Plan) -> Boolean): Map<Constrained<C>, List<Expectation>> =
+			entities.map { entity ->
+				entity to entity.expectations.filterNot { check(entity, it, plan) }
+			}.filter { it.second.isNotEmpty() }.toMap()
+
+
+	override fun listViolations(plan: Plan): Map<Constrained<out Expectation>, List<Expectation>> = listVmViolations(
+			plan) + listVStorageViolations(plan)
 
 	private fun listVmViolations(
 			plan: Plan): Map<Constrained<VirtualMachineExpectation>, List<Expectation>> =

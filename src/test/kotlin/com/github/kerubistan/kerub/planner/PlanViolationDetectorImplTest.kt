@@ -9,7 +9,7 @@ class PlanViolationDetectorImplTest {
 	@Test
 	fun listViolations() {
 		assertTrue("a blank state should have no violations") {
-			PlanViolationDetectorImpl().listViolations(Plan(
+			PlanViolationDetectorImpl.listViolations(Plan(
 					OperationalState.fromLists(),
 					listOf()
 			)).isEmpty()
@@ -19,7 +19,7 @@ class PlanViolationDetectorImplTest {
 			val vm = testVm.copy(
 					expectations = listOf(expectation)
 			)
-			PlanViolationDetectorImpl().listViolations(Plan(OperationalState.fromLists(
+			PlanViolationDetectorImpl.listViolations(Plan(OperationalState.fromLists(
 					vms = listOf(vm)
 			), listOf())).let {
 				it.isNotEmpty()

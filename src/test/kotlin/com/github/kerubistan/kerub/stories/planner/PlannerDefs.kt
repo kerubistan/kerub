@@ -115,7 +115,7 @@ class PlannerDefs {
 			backtrack,
 			executor,
 			builder,
-			PlanViolationDetectorImpl()
+			PlanViolationDetectorImpl
 	)
 
 	var executedPlans = listOf<Plan>()
@@ -420,7 +420,7 @@ class PlannerDefs {
 	@Then("^(\\S+) will be migrated to (\\S+) as step (\\d+)")
 	fun verifyVmMigration(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val migrationStep = executedPlans.first().steps[stepNo - 1]
-		Assert.assertTrue(migrationStep is KvmMigrateVirtualMachine)
+		assertTrue("Migration step is $migrationStep") { migrationStep is KvmMigrateVirtualMachine }
 		Assert.assertEquals((migrationStep as KvmMigrateVirtualMachine).target.address, targetHostAddr)
 		Assert.assertEquals(migrationStep.vm.name, vmName)
 	}

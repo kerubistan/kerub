@@ -111,9 +111,17 @@ class PlannerImpl(
 				reservations = reservations.values.join()
 		)
 	}
-
 	private fun plan(state: OperationalState) {
-		val listener = FirstSolutionTerminationStrategy<Plan>()
+		val stepFactory = CompositeStepFactory(violationDetector)
+
+		class Listener : FirstSolutionTerminationStrategy<Plan>() {
+			override fun onSolution(state: Plan) {
+				super.onSolution(
+						PlanRationalizerImpl(problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
+											 violationDetector = violationDetector).rationalize(state))
+			}
+		}
+		val listener = Listener()
 		val strategy = OrTerminationStrategy<Plan>(listOf(
 				listener,
 				TimeoutTerminationStrategy(now() + 2000)
@@ -124,7 +132,7 @@ class PlannerImpl(
 
 		backtrack.backtrack(
 				state = Plan(states = listOf(state)),
-				factory = CompositeStepFactory(violationDetector),
+				factory = stepFactory,
 				terminationStrategy = strategy,
 				listener = listener,
 				check = {
