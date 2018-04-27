@@ -4,12 +4,11 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.planner.steps.InvertableStep
+import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 
-data class StartNfsDaemon(override val host: Host) : AbstractNfsDaemonStep(), InvertableStep {
-
-	override val inverseMatcher: (AbstractOperationalStep) -> Boolean
-		get() = { it is StopNfsDaemon && it.host == host }
+data class StartNfsDaemon(override val host: Host) : AbstractNfsDaemonStep(), InvertibleStep {
+	override fun isInverseOf(other: AbstractOperationalStep) =
+			other is StopNfsDaemon && other.host == host
 
 	override fun updateHostConfig(config: HostConfiguration): HostConfiguration = config.copy(
 			services = config.services + NfsDaemonService()

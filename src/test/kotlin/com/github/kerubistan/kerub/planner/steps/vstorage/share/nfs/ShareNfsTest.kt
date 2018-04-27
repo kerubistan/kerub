@@ -5,8 +5,18 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import kotlin.test.assertTrue
 
 class ShareNfsTest {
+
+	@Test
+	fun isInverseOf() {
+		assertTrue("find inverse step") {
+			val share = ShareNfs(host = testHost, directory = "/test")
+			val unshare = UnshareNfs(host = testHost, directory = "/test")
+			listOf(unshare).find { it.isInverseOf(share) } == unshare
+		}
+	}
 
 	@Test
 	fun take() {

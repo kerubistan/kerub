@@ -47,8 +47,9 @@ class PlanRationalizerImpl(
 			validatedSteps += step
 			states += state
 
-			if (isTargetState(plan)) {
-				return Plan(states = states, steps = validatedSteps)
+			val candidatePlan = Plan(states = states, steps = validatedSteps)
+			if (isTargetState(candidatePlan)) {
+				return candidatePlan
 			}
 
 

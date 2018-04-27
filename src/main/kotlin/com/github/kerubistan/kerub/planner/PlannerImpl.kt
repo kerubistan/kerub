@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
-import com.github.k0zka.finder4j.backtrack.termination.FirstSolutionTerminationStrategy
 import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
 import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import com.github.kerubistan.kerub.model.messages.Message
@@ -114,19 +113,14 @@ class PlannerImpl(
 	private fun plan(state: OperationalState) {
 		val stepFactory = CompositeStepFactory(violationDetector)
 
-		class Listener : FirstSolutionTerminationStrategy<Plan>() {
-			override fun onSolution(state: Plan) {
-				super.onSolution(
-						PlanRationalizerImpl(problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
-											 violationDetector = violationDetector).rationalize(state))
-			}
-		}
-		val listener = Listener()
+		val listener = RationalizedFirstSolutionTerminationStrategy(
+				PlanRationalizerImpl(problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
+									 violationDetector = violationDetector)
+		)
 		val strategy = OrTerminationStrategy<Plan>(listOf(
 				listener,
 				TimeoutTerminationStrategy(now() + 2000)
-		)
-		)
+		))
 		logger.debug("starting planing")
 		logger.debug("reservations: " + state.reservations)
 

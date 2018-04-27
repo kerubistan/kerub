@@ -7,10 +7,13 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertTrue
 
 class TgtdIscsiShareTest {
 
@@ -56,4 +59,14 @@ class TgtdIscsiShareTest {
 				))
 		assertTrue(newState.hosts[host.id]!!.config!!.services.isNotEmpty())
 	}
+
+	@Test
+	fun isInverseOf() {
+		assertTrue("find inverse operation") {
+			val share = TgtdIscsiShare(host = testHost, devicePath = "/dev/test", vstorage = testDisk)
+			val unshare = TgtdIscsiUnshare(host = testHost, vstorage = testDisk)
+			listOf(unshare).first { it.isInverseOf(share) } == unshare
+		}
+	}
+
 }

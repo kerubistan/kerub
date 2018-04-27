@@ -11,6 +11,15 @@ import kotlin.test.assertTrue
 class UnshareNfsTest {
 
 	@Test
+	fun isInverseOf() {
+		assertTrue("find inverse step") {
+			val share = ShareNfs(host = testHost, directory = "/test")
+			val unshare = UnshareNfs(host = testHost, directory = "/test")
+			listOf(share).find { it.isInverseOf(unshare) } == share
+		}
+	}
+
+	@Test
 	fun take() {
 		val state = UnshareNfs(directory = "/kerub", host = testHost).take(
 				OperationalState.fromLists(
