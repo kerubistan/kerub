@@ -7,7 +7,6 @@ Feature: storage management
 	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>     |
 	  | host-2.example.com | 8 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>     |
 	And Controller configuration 'lvm create volume enabled' is enabled
-	And Controller configuration 'nfs enabled' is disabled
 	And host host-1.example.com volume groups are:
 	  | vg name | size   | pvs                            |
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
@@ -123,7 +122,6 @@ Feature: storage management
 	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | <OS-1>           | <Distro-1>   | <version-1>   |
 	  | host-2.example.com | 8 GB | 2     | 4       | x86_64       | <OS-2>           | <Distro-2>   | <version-2>   |
 	And Controller configuration 'gvinum create volume enabled' is enabled
-	And Controller configuration 'nfs enabled' is disabled
 	And host host-1.example.com gvinum disks are:
 	  | name | device    | size |
 	  | test | /dev/test | 1 TB |
@@ -172,7 +170,6 @@ Feature: storage management
 	  | vg name | size   | pvs                            |
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And Controller configuration 'lvm create volume enabled' is enabled
-	And Controller configuration 'nfs enabled' is disabled
 	And host host-1.example.com is Up
 	And host host-2.example.com is Up
 	And host host-1.example.com CPUs are 4:

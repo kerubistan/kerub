@@ -5,11 +5,12 @@ import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetec
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 
 class PlanRationalizerImpl(
 		private val stepFactory: StepFactory<AbstractOperationalStep, Plan>,
 		private val violationDetector: PlanViolationDetector = PlanViolationDetectorImpl,
-		private val problemDetector: ProblemDetector<Problem> =  CompositeProblemDetectorImpl
+		private val problemDetector: ProblemDetector<Problem> = CompositeProblemDetectorImpl
 ) : PlanRationalizer {
 
 	/**
@@ -22,20 +23,43 @@ class PlanRationalizerImpl(
 	 */
 	override fun rationalize(plan: Plan): Plan =
 			if (plan.steps.size > 1) {
-				(1..(plan.steps.size - 1)).map {
-					subPlan(plan, it)
-				}.filterNotNull().minBy { it.steps.size } ?: plan
+				val cleanup = tryRemoveInverses(plan)
+				(1..(cleanup.steps.size - 1)).map {
+					subPlan(cleanup, it)
+				}.filterNotNull().minBy { it.steps.size } ?: cleanup
 			} else plan
+
+	internal fun tryRemoveInverses(plan: Plan): Plan {
+
+		var work = plan
+
+		plan.steps.mapIndexedNotNull { idx, step ->
+			if (step is InvertibleStep) {
+				plan.steps
+						.subList(fromIndex = idx, toIndex = plan.steps.size)
+						.firstOrNull { step.isInverseOf(it) }?.let { step to it }
+			} else null
+		}.forEach { (step, inverse) ->
+			val testPlan = Plan.planBy(initial = work.states.first(), steps = work.steps - step - inverse)
+			if (isTargetState(testPlan)) {
+				work = testPlan
+			}
+		}
+		return work
+	}
 
 	/**
 	 * Create subplan
 	 */
 	private fun subPlan(plan: Plan, startStepIndex: Int): Plan? {
 
+
 		val subSteps = plan.steps.subList(fromIndex = startStepIndex, toIndex = plan.steps.size)
 		var states = listOf(plan.state)
 		var validatedSteps = listOf<AbstractOperationalStep>()
 		subSteps.forEach { step ->
+
+
 			val steps = stepFactory.produce(Plan(states = states, steps = validatedSteps))
 
 			if (!steps.contains(step)) {
@@ -51,7 +75,6 @@ class PlanRationalizerImpl(
 			if (isTargetState(candidatePlan)) {
 				return candidatePlan
 			}
-
 
 		}
 
