@@ -15,6 +15,7 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
@@ -24,7 +25,10 @@ import java.util.HashMap
 data class KvmMigrateVirtualMachine(
 		override val vm: VirtualMachine,
 		override val source: Host,
-		override val target: Host) : AbstractOperationalStep, MigrateVirtualMachine {
+		override val target: Host) : AbstractOperationalStep, MigrateVirtualMachine, InvertibleStep {
+
+	override fun isInverseOf(other: AbstractOperationalStep) =
+			other is KvmMigrateVirtualMachine && other.vm == vm && other.source == target && other.target == source
 
 	override fun reservations(): List<Reservation<*>>
 			= listOf(VmReservation(vm),
