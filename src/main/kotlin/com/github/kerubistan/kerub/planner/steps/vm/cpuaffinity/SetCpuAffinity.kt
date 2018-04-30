@@ -11,13 +11,10 @@ import com.github.kerubistan.kerub.utils.update
 
 class SetCpuAffinity(val vm: VirtualMachine, val cpus: List<Int>, override val host: Host) : HostStep {
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(VmReservation(vm), UseHostReservation(host))
+	override fun reservations(): List<Reservation<*>> = listOf(VmReservation(vm), UseHostReservation(host))
 
-	override fun take(state: OperationalState)
-			= state.copy(
-			vms = state.vms.update(vm.id, {
-				vmData ->
+	override fun take(state: OperationalState) = state.copy(
+			vms = state.vms.update(vm.id, { vmData ->
 				val dynamic = requireNotNull(vmData.dynamic)
 				vmData.copy(dynamic = dynamic.copy(
 						coreAffinity = cpus
