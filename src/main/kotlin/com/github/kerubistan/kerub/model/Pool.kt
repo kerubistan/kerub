@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.github.kerubistan.kerub.model.expectations.PoolExpectation
 import java.util.UUID
 import kotlin.reflect.KClass
 

@@ -13,6 +13,9 @@ import com.github.kerubistan.kerub.model.expectations.MemoryClockFrequencyExpect
 import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
+import com.github.kerubistan.kerub.model.expectations.PoolAllVmExpectation
+import com.github.kerubistan.kerub.model.expectations.PoolAverageLoadExpectation
+import com.github.kerubistan.kerub.model.expectations.PoolRunningVmsExpectation
 import com.github.kerubistan.kerub.model.expectations.PowerRedundancyExpectation
 import com.github.kerubistan.kerub.model.expectations.SiteFeaturesExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
@@ -56,7 +59,11 @@ import java.io.Serializable
 		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
 		JsonSubTypes.Type(WorkingHostExpectation::class),
 		JsonSubTypes.Type(NoGarbageExpectation::class),
-		JsonSubTypes.Type(VmDependency::class)
+		JsonSubTypes.Type(VmDependency::class),
+		//pool expectations
+		JsonSubTypes.Type(PoolAllVmExpectation::class),
+		JsonSubTypes.Type(PoolAverageLoadExpectation::class),
+		JsonSubTypes.Type(PoolRunningVmsExpectation::class)
 )
 interface Expectation : Serializable {
 	val level: ExpectationLevel
