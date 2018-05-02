@@ -18,7 +18,7 @@ import java.util.UUID
 class AssetAccessControllerImpl(
 		private val controllerConfigDao: ControllerConfigDao,
 		private val accountMembershipDao: AccountMembershipDao,
-		private val projectmembershipDao: ProjectmembershipDao,
+		private val projectMembershipDao: ProjectmembershipDao,
 		private val validator: Validator
 ) : AssetAccessController {
 	override fun <T : Asset> filter(items: List<T>): List<T> {
@@ -73,7 +73,7 @@ class AssetAccessControllerImpl(
 				}
 			},
 			task {
-				projectmembershipDao.listByUsername(userName).map {
+				projectMembershipDao.listByUsername(userName).map {
 					AssetOwner(ownerId = it.groupId, ownerType = AssetOwnerType.project)
 				}
 			}
@@ -93,7 +93,7 @@ class AssetAccessControllerImpl(
 					count = list.size.toLong(),
 					result = list,
 					searchby = field,
-					start = start.toLong(),
+					start = start,
 					total = dao.count().toLong()
 			)
 		} else {
@@ -103,7 +103,7 @@ class AssetAccessControllerImpl(
 					count = results.size.toLong(),
 					result = results,
 					searchby = field,
-					start = start.toLong(),
+					start = start,
 					total = results.size.toLong() //TODO
 			)
 		}
