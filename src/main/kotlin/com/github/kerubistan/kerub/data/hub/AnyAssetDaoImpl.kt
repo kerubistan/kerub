@@ -2,10 +2,14 @@ package com.github.kerubistan.kerub.data.hub
 
 import com.github.kerubistan.kerub.data.AssetDao
 import com.github.kerubistan.kerub.data.DaoOperations
+import com.github.kerubistan.kerub.data.PoolDao
+import com.github.kerubistan.kerub.data.TemplateDao
 import com.github.kerubistan.kerub.data.VirtualMachineDao
 import com.github.kerubistan.kerub.data.VirtualNetworkDao
 import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
 import com.github.kerubistan.kerub.model.Asset
+import com.github.kerubistan.kerub.model.Pool
+import com.github.kerubistan.kerub.model.Template
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -15,13 +19,17 @@ import kotlin.reflect.KClass
 class AnyAssetDaoImpl(
 		vmDao: VirtualMachineDao,
 		vStorageDao: VirtualStorageDeviceDao,
-		vNetDao: VirtualNetworkDao
+		vNetDao: VirtualNetworkDao,
+		poolDao: PoolDao,
+		templateDao: TemplateDao
 ) : AnyAssetDao {
 
 	private val daos = mapOf<KClass<*>, AssetDao<*>>(
 			VirtualMachine::class to vmDao,
 			VirtualNetwork::class to vNetDao,
-			VirtualStorageDevice::class to vStorageDao
+			VirtualStorageDevice::class to vStorageDao,
+			Pool::class to poolDao,
+			Template::class to templateDao
 	)
 
 	override fun <T : Asset> get(clazz: KClass<T>, id: UUID): T =

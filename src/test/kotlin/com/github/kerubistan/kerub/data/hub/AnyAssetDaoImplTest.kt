@@ -25,7 +25,7 @@ class AnyAssetDaoImplTest {
 	fun get() {
 		whenever(vmDao.get(eq(testVm.id))).thenReturn(testVm)
 
-		assertEquals(testVm, AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao).get(VirtualMachine::class, testVm.id))
+		assertEquals(testVm, AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao, mock(), mock()).get(VirtualMachine::class, testVm.id))
 
 		verify(vmDao).get(testVm.id)
 		verify(vNetDao, never()).get(any<UUID>())
@@ -36,7 +36,7 @@ class AnyAssetDaoImplTest {
 	fun getAll() {
 		whenever(vmDao.get(eq(listOf(testVm.id)))).thenReturn(listOf(testVm))
 
-		assertEquals(listOf(testVm), AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao).getAll(VirtualMachine::class, listOf(testVm.id)))
+		assertEquals(listOf(testVm), AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao, mock(), mock()).getAll(VirtualMachine::class, listOf(testVm.id)))
 
 		verify(vmDao).get(eq(listOf(testVm.id)))
 		verify(vNetDao, never()).get(any<List<UUID>>())

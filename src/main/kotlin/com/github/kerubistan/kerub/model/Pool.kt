@@ -8,11 +8,11 @@ import kotlin.reflect.KClass
  * A pool of virtual machines based on a template.
  */
 data class Pool(
-		override val id: UUID,
+		override val id: UUID = UUID.randomUUID(),
 		override val name: String,
-		override val owner: AssetOwner?,
+		override val owner: AssetOwner? = null,
 		val templateId: UUID,
-		override val expectations: List<PoolExpectation>
+		override val expectations: List<PoolExpectation> = listOf()
 ) : Entity<UUID>, Named, Asset, Constrained<PoolExpectation> {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> =
 			mapOf(Template::class to listOf(templateId))

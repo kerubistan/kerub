@@ -164,6 +164,17 @@
 		<constructor-arg ref="vmHistoryCache"/>
 	</bean>
 
+	<bean id="poolDao" class="com.github.kerubistan.kerub.data.ispn.PoolDaoImpl" parent="daoBase">
+		<constructor-arg ref="poolCache"/>
+		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
+	</bean>
+
+	<bean id="templateDao" class="com.github.kerubistan.kerub.data.ispn.TemplateDaoImpl" parent="daoBase">
+		<constructor-arg ref="templateCache"/>
+		<constructor-arg ref="eventListener"/>
+		<constructor-arg ref="auditManager"/>
+	</bean>
 
 	<bean id="virtualStorageDeviceDao" class="com.github.kerubistan.kerub.data.ispn.VirtualStorageDeviceDaoImpl"
 	      parent="daoBase">
@@ -241,6 +252,8 @@
 		<constructor-arg ref="vmDao"/>
 		<constructor-arg ref="vNetDao"/>
 		<constructor-arg ref="virtualStorageDeviceDao"/>
+		<constructor-arg ref="poolDao"/>
+		<constructor-arg ref="templateDao"/>
 	</bean>
 
 	<bean id="anyEntityDao" class="com.github.kerubistan.kerub.data.hub.AnyEntityDaoImpl">
@@ -565,6 +578,10 @@
 			</bean>
 			<bean id="vm" class="com.github.kerubistan.kerub.services.impl.VirtualMachineServiceImpl">
 				<constructor-arg ref="vmDao"/>
+				<constructor-arg ref="assetAccessController"/>
+			</bean>
+			<bean id="pool" class="com.github.kerubistan.kerub.services.impl.PoolServiceImpl">
+				<constructor-arg ref="poolDao"/>
 				<constructor-arg ref="assetAccessController"/>
 			</bean>
 			<bean id="vnet" class="com.github.kerubistan.kerub.services.impl.VirtualNetworkServiceImpl">
