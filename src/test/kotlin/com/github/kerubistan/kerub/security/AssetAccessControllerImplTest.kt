@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.security
 
 import com.github.kerubistan.kerub.data.AccountMembershipDao
 import com.github.kerubistan.kerub.data.ControllerConfigDao
-import com.github.kerubistan.kerub.data.ProjectmembershipDao
+import com.github.kerubistan.kerub.data.ProjectMembershipDao
 import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.AccountMembership
 import com.github.kerubistan.kerub.model.Asset
@@ -34,7 +34,7 @@ class AssetAccessControllerImplTest {
 
 	val controllerConfigDao: ControllerConfigDao = mock()
 	val accountMembershipDao: AccountMembershipDao = mock()
-	val projectmembershipDao: ProjectmembershipDao = mock()
+	val projectmembershipDao: ProjectMembershipDao = mock()
 	val securityManager: SecurityManager = mock()
 	val subject = mock<Subject>()
 	val validator = mock<Validator>()

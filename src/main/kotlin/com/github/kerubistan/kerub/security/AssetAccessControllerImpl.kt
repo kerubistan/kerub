@@ -4,7 +4,7 @@ package com.github.kerubistan.kerub.security
 import com.github.kerubistan.kerub.data.AccountMembershipDao
 import com.github.kerubistan.kerub.data.AssetDao
 import com.github.kerubistan.kerub.data.ControllerConfigDao
-import com.github.kerubistan.kerub.data.ProjectmembershipDao
+import com.github.kerubistan.kerub.data.ProjectMembershipDao
 import com.github.kerubistan.kerub.model.Asset
 import com.github.kerubistan.kerub.model.AssetOwner
 import com.github.kerubistan.kerub.model.AssetOwnerType
@@ -18,7 +18,7 @@ import java.util.UUID
 class AssetAccessControllerImpl(
 		private val controllerConfigDao: ControllerConfigDao,
 		private val accountMembershipDao: AccountMembershipDao,
-		private val projectMembershipDao: ProjectmembershipDao,
+		private val projectMembershipDao: ProjectMembershipDao,
 		private val validator: Validator
 ) : AssetAccessController {
 	override fun <T : Asset> filter(items: List<T>): List<T> {
