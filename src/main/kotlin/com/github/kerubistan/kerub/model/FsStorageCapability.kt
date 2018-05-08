@@ -9,5 +9,6 @@ data class FsStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
 		val mountPoint: String,
-		val fsType: String
+		val fsType: String,
+		override val performanceInfo: Any? = null
 ) : StorageCapability

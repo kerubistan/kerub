@@ -15,4 +15,5 @@ import java.util.UUID
 interface StorageCapability : Serializable {
 	val id: UUID
 	val size: BigInteger
+	val performanceInfo: Any?
 }

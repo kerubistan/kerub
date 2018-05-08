@@ -5,9 +5,10 @@ import java.math.BigInteger
 import java.util.UUID
 
 @JsonTypeName("gvinum")
-data class GvinumStorageCapability(
+data class
+GvinumStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
 		val name: String,
-		val device: String
+		val device: String, override val performanceInfo: Any? = null
 ) : StorageCapability

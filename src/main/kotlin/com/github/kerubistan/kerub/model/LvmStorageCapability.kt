@@ -9,5 +9,6 @@ data class LvmStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
 		val volumeGroupName: String,
-		val physicalVolumes: List<BigInteger>
+		val physicalVolumes: List<BigInteger>,
+		override val performanceInfo: Any? = null
 ) : StorageCapability
