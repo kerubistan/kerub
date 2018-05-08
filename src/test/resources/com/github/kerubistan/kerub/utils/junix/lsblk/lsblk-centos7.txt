@@ -1,0 +1,4 @@
+NAME ROTA RO   RA RM MIN-IO OPT-IO TYPE
+vda     1  0 4096  0    512      0 disk
+vda1    1  0 4096  0    512      0 part
+vda2    1  0 4096  0    512      0 part
