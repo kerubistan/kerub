@@ -6,7 +6,9 @@ import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import org.apache.sshd.client.session.ClientSession
 
 object Bonnie : OsCommand {
-	override fun available(osVersion: SoftwarePackage, packages: List<SoftwarePackage>) = packages.any { it.name == "bonnie++" }
+
+	override fun available(osVersion: SoftwarePackage, packages: List<SoftwarePackage>) =
+			packages.any { it.name == "bonnie++" || it.name == "bonnieplus" }
 
 	private val coma = ",".toRegex()
 
