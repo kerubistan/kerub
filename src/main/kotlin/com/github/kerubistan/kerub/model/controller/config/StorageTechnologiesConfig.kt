@@ -38,8 +38,11 @@ data class StorageTechnologiesConfig(
 		/**
 		 * The controllers can use ISCSI
 		 */
-		val iscsiEnabled: Boolean = true
-
+		val iscsiEnabled: Boolean = true,
+		/**
+		 * Should the controller run benchmarks on the storage
+		 */
+		val storagebenchmarkingEnbled: Boolean = true
 ) : Serializable {
 
 	fun isEnabled(storageCapability: StorageCapability) =
