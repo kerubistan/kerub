@@ -1,0 +1,11 @@
+Version  1.97       ------Sequential Output------ --Sequential Input- --Random-
+Concurrency   1     -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+macsek-deskt 15720M   195  99 431123  95 213488  45   608  99 382269  40  3206 145
+Latency             49257us   66267us   87954us   17997us    2366us    5548us
+Version  1.97       ------Sequential Create------ --------Random Create--------
+macsek-desktop      -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16 27203  94 +++++ +++ +++++ +++ 29416  96 +++++ +++ +++++ +++
+Latency              6186us    1162us    2155us    1348us      33us    1605us
+1.97,1.97,macsek-desktop,1,1525559154,15720M,,195,99,431123,95,213488,45,608,99,382269,40,3206,145,16,,,,,27203,94,+++++,+++,+++++,+++,29416,96,+++++,+++,+++++,+++,49257us,66267us,87954us,17997us,2366us,5548us,6186us,1162us,2155us,1348us,33us,1605us

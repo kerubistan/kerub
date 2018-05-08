@@ -1,0 +1,11 @@
+Version  1.97       ------Sequential Output------ --Sequential Input- --Random-
+Concurrency   1     -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+localshot       31G   831  97 106328   6 49281   4  2055  95 117861   5 205.4   2
+Latency             25012us    1340ms    5440ms   41526us     288ms    1462ms
+Version  1.97       ------Sequential Create------ --------Random Create--------
+localshot           -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+               1024 35823  30 754253 100   776   0 36158  30 968014 100   475   0
+Latency               903ms     805us   19054ms    1033ms      70us   21078ms
+1.97,1.97,localshot,1,1525743108,31G,,831,97,106328,6,49281,4,2055,95,117861,5,205.4,2,1024,,,,,35823,30,754253,100,776,0,36158,30,968014,100,475,0,25012us,1340ms,5440ms,41526us,288ms,1462ms,903ms,805us,19054ms,1033ms,70us,21078ms
