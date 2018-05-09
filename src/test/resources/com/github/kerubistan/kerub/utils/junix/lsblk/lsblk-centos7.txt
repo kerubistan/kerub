@@ -1,4 +1,4 @@
-NAME ROTA RO   RA RM MIN-IO OPT-IO TYPE
-vda     1  0 4096  0    512      0 disk
-vda1    1  0 4096  0    512      0 part
-vda2    1  0 4096  0    512      0 part
+NAME ROTA RO   RA RM MIN-IO OPT-IO TYPE  SIZE
+vda     1  0 4096  0    512      0 disk    8G
+vda1    1  0 4096  0    512      0 part  500M
+vda2    1  0 4096  0    512      0 part  7.5G

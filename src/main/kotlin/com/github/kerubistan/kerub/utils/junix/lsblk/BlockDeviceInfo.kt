@@ -5,6 +5,7 @@ import java.math.BigInteger
 data class BlockDeviceInfo(
 		val name: String,
 		val type: String,
+		val size: BigInteger,
 		val rotational: Boolean,
 		val readOnly: Boolean,
 		val readAhead: BigInteger,
