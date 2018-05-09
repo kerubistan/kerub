@@ -17,7 +17,6 @@ import com.github.kerubistan.kerub.host.distros.UbuntuBSD
 import com.github.kerubistan.kerub.host.distros.XenServer7
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.SoftwarePackage
-import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
@@ -57,10 +56,11 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				//'UNIX'es
 				OpenIndiana(),
 				//Windows
-				Cygwin())
+				Cygwin()
+		)
 	}
 
-	fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
+	private fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
 		return list.filter { it?.javaClass?.kotlin == clazz }.map { clazz.java.cast(it) }
 	}
 
@@ -105,7 +105,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		)
 	}
 
-	internal fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {
+	private fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {
 		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
 		if (!dmiDecodeInstalled && dedicated && distro != null) {
 			distro.getPackageManager(session).install("dmidecode")
@@ -114,15 +114,11 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 		return dmiDecodeInstalled
 	}
 
-	fun runDmiDecode(session: ClientSession): String =
+	private fun runDmiDecode(session: ClientSession): String =
 			session.execute("dmidecode")
 
-	fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
+	private fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
 		return packages.any { "dmidecode" == it.name }
-	}
-
-	fun getHostKernelVersion(session: ClientSession): Version {
-		return Version.fromVersionString(session.execute("uname -r").trim())
 	}
 
 	override fun detectDistro(session: ClientSession): Distribution {
@@ -132,8 +128,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				return distro
 			}
 		}
-		throw UnknownHostOperatingSystemException("Mone of the distributions matched: "
-				+ distributions.map { "${it.operatingSystem}/${it.name()}" }.joinToString(","))
+		throw UnknownHostOperatingSystemException("None of the distributions matched: "
+				+ distributions.joinToString(",") { "${it.operatingSystem}/${it.name()}" })
 	}
 
 
