@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.host
 
+import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.host.distros.Centos6
 import com.github.kerubistan.kerub.host.distros.Centos7
 import com.github.kerubistan.kerub.host.distros.Cygwin
@@ -17,6 +18,8 @@ import com.github.kerubistan.kerub.host.distros.UbuntuBSD
 import com.github.kerubistan.kerub.host.distros.XenServer7
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.model.StorageCapability
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
@@ -33,9 +36,9 @@ import kotlin.reflect.KClass
 /**
  * Helper class to detect host capabilities through an established SSH session.
  */
-class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
+class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: ControllerConfigDao) : HostCapabilitiesDiscoverer {
 
-	private companion object {
+	companion object {
 		private val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
 		internal val distributions = listOf(
 				//RPM-based distros
@@ -58,6 +61,23 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				//Windows
 				Cygwin()
 		)
+
+		internal fun detectAndBenchmark(distro: Distribution,
+										session: ClientSession,
+										distribution: SoftwarePackage,
+										packages: List<SoftwarePackage>,
+										controllerConfig: ControllerConfig): List<StorageCapability> =
+				distro.detectStorageCapabilities(session, distribution, packages).let {
+					if (controllerConfig.storageTechnologies.storagebenchmarkingEnbled) {
+						logger.info("benchmarking storage")
+						it.map {
+							logger.info("benchmarking storage {}", it)
+							distro.storageBenchmark(session, it, distribution, packages, controllerConfig.storageTechnologies)
+						}
+					} else
+						it
+				}
+
 	}
 
 	private fun <T : Any> valuesOfType(list: Collection<*>, clazz: KClass<T>): List<T> {
@@ -84,6 +104,8 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				else
 					listOf()
 
+		val storageCapabilities = detectAndBenchmark(distro, session, distribution, packages, controllerConfigDao.get())
+
 		return HostCapabilities(
 				os = hostOs,
 				cpuArchitecture = cpuArchitecture,
@@ -100,7 +122,7 @@ class HostCapabilitiesDiscovererImpl : HostCapabilitiesDiscoverer {
 				chassis = valuesOfType(hardwareInfo, ChassisInformation::class).firstOrNull(),
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
-				storageCapabilities = distro.detectStorageCapabilities(session, distribution, packages),
+				storageCapabilities = storageCapabilities,
 				hypervisorCapabilities = hypervisorCapabilities
 		)
 	}

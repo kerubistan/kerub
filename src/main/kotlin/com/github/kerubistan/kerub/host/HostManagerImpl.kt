@@ -47,8 +47,7 @@ open class HostManagerImpl(
 		private val discoverer: HostCapabilitiesDiscoverer,
 		private val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
 
-	val timer = Timer("host-manager")
-
+	private val timer = Timer("host-manager")
 
 	override fun powerDown(host: Host) {
 		require(host.dedicated, { "Can not power off a non-dedicated host" })
@@ -213,8 +212,8 @@ open class HostManagerImpl(
 		}
 	}
 
-	var sshServerPort: Int = defaultSshServerPort
-	var sshUserName: String = defaultSshUserName
+	var sshServerPort = defaultSshServerPort
+	var sshUserName = defaultSshUserName
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
@@ -277,7 +276,7 @@ open class HostManagerImpl(
 		return joinConnectedHost(host, session, powerManagers)
 	}
 
-	internal fun joinConnectedHost(host: Host, session: ClientSession, powerManagers: List<PowerManagementInfo>): Host {
+	private fun joinConnectedHost(host: Host, session: ClientSession, powerManagers: List<PowerManagementInfo>): Host {
 		val capabilities = discoverer.discoverHost(session)
 
 		val internalHost = host.copy(capabilities = capabilities.copy(

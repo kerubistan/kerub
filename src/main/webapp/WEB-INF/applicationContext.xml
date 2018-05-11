@@ -320,7 +320,9 @@
 		<constructor-arg ref="hostAssigner"/>
 	</bean>
 
-	<bean id="hostDiscoverer" class="com.github.kerubistan.kerub.host.HostCapabilitiesDiscovererImpl"/>
+	<bean id="hostDiscoverer" class="com.github.kerubistan.kerub.host.HostCapabilitiesDiscovererImpl">
+		<constructor-arg ref="controllerConfigDao"/>
+	</bean>
 	<bean id="hostAssigner" class="com.github.kerubistan.kerub.host.ControllerAssignerImpl">
 		<constructor-arg ref="backtrack"/>
 		<constructor-arg ref="controllerDao"/>
