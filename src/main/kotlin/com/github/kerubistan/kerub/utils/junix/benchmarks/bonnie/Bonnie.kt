@@ -22,7 +22,7 @@ object Bonnie : OsCommand {
 		TODO("not handled: $this")
 	}
 
-	fun run(session: ClientSession, directory: String, user: String = "root", nrOfFiles: Int = 1024): FsBenchmarkData =
+	fun run(session: ClientSession, directory: String, user: String = "root", nrOfFiles: Int = 128): FsBenchmarkData =
 			session.executeOrDie("bonnie++ -n $nrOfFiles -u $user -d $directory", isError = { false })
 					.lines()
 					.last { it.isNotBlank() }
