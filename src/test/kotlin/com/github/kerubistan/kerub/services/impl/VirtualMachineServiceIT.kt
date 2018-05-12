@@ -84,6 +84,11 @@ class VirtualMachineServiceIT {
 		)
 
 		expect(RestException::class,
+				action = { vmService.delete(UUID.randomUUID()) },
+				check = { assertEquals("AUTH1", it.code) }
+		)
+
+		expect(RestException::class,
 				action = { vmService.stopVm(UUID.randomUUID()) },
 				check = { assertEquals("AUTH1", it.code) }
 		)
