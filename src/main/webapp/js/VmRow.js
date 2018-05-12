@@ -8,6 +8,12 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
     		$scope.workingprg = false;
     	});
     };
+    $scope.deleteVm = function() {
+    	$scope.workingprg = true;
+    	appsession.delete('s/r/vm/' + $scope.vm.id).then(function() {
+    		$scope.workingprg = false;
+    	});
+    };
     $scope.spiceConnect = function() {
 		window.open('s/r/vm-dyn/'+$scope.vm.id+'/connection/spice', '__new')
     };

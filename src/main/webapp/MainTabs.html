@@ -63,20 +63,28 @@
 						</td>
 						<td>
 							<button type="button"
-									class="btn btn-default glyphicon glyphicon-play"
-									ng-click="startVm()"
-									ng-if="vmdyn.status != 'Up'"
-									ng-disabled="workingprg"
-									uib-tooltip="Start this VM"
-									tooltip-placement="bottom">
+							        class="btn btn-default glyphicon glyphicon-trash"
+							        ng-click="deleteVm()"
+							        ng-if="vmdyn.status != 'Up'"
+							        ng-disabled="workingprg"
+							        uib-tooltip="Delete this VM"
+							        tooltip-placement="bottom">
 							</button>
 							<button type="button"
-									class="btn btn-default glyphicon glyphicon-stop"
-									ng-click="stopVm()"
-									ng-if="vmdyn.status == 'Up'"
-									ng-disabled="workingprg"
-									uib-tooltip="Stop this VM"
-									tooltip-placement="bottom">
+							        class="btn btn-default glyphicon glyphicon-play"
+							        ng-click="startVm()"
+							        ng-if="vmdyn.status != 'Up'"
+							        ng-disabled="workingprg"
+							        uib-tooltip="Start this VM"
+							        tooltip-placement="bottom">
+							</button>
+							<button type="button"
+							        class="btn btn-default glyphicon glyphicon-stop"
+							        ng-click="stopVm()"
+							        ng-if="vmdyn.status == 'Up'"
+							        ng-disabled="workingprg"
+							        uib-tooltip="Stop this VM"
+							        tooltip-placement="bottom">
 							</button>
 							<button type="button"
 									class="btn btn-default fa fa-eye"

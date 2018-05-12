@@ -1,7 +1,9 @@
 package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.data.VirtualMachineDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.model.VirtualMachine
+import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.security.AssetAccessController
 import com.github.kerubistan.kerub.services.VirtualMachineService
@@ -9,7 +11,8 @@ import java.util.UUID
 
 class VirtualMachineServiceImpl(
 		dao: VirtualMachineDao,
-		accessController: AssetAccessController
+		accessController: AssetAccessController,
+		private val dynDao: VirtualMachineDynamicDao
 ) : AbstractAssetService<VirtualMachine>(accessController, dao, "vm"),
 		VirtualMachineService {
 
@@ -42,5 +45,12 @@ class VirtualMachineServiceImpl(
 		update(id, action(getById(id)))
 	}
 
+	override fun beforeRemove(entity: VirtualMachine) {
+		check(entity.expectations.none { it is VirtualMachineAvailabilityExpectation && it.up }) {
+			"VM must be down"
+		}
+		check(dynDao[entity.id]?.let { it.status == VirtualMachineStatus.Down } ?: true) { "VM must be down" }
+		super.beforeRemove(entity)
+	}
 
 }

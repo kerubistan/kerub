@@ -59,9 +59,21 @@ abstract class AbstractAssetService<T : Asset>(
 			}, id)
 
 	override fun delete(id: UUID) {
-		val entity: T? = accessController.doAndCheck { dao[id] }
+		val entity: T = assertExist(entityType, accessController.doAndCheck { dao[id] }, id)
 
-		dao.remove(assertExist(entityType, entity, id))
+		beforeRemove(entity)
+
+		dao.remove(entity)
+
+		afterRemove(entity)
+	}
+
+	open fun afterRemove(entity: T) {
+		// usually nothing to do after remove, but some virtual resources may need post-action
+	}
+
+	open fun beforeRemove(entity: T) {
+		//it would be nice to have a generic validation here, like incoming references
 	}
 
 	override fun add(entity: T): T =

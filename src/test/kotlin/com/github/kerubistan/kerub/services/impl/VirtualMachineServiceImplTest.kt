@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.data.VirtualMachineDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.model.Asset
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
@@ -18,11 +19,11 @@ import java.util.UUID
 
 class VirtualMachineServiceImplTest {
 
-	val existingId = UUID.randomUUID()
-	val notExistingId = UUID.randomUUID()
+	private val existingId = UUID.randomUUID()
 
-	val dao: VirtualMachineDao = mock()
-	val accessController: AssetAccessController = mock()
+	private val dao: VirtualMachineDao = mock()
+	private val dynDao: VirtualMachineDynamicDao = mock()
+	private val accessController: AssetAccessController = mock()
 
 	@Test
 	fun startVm() {
@@ -43,7 +44,7 @@ class VirtualMachineServiceImplTest {
 		doAnswer {
 			checkExpectation(it, true)
 		}.whenever(dao).update(Mockito.any<VirtualMachine>() ?: vm)
-		VirtualMachineServiceImpl(dao, accessController).startVm(existingId)
+		VirtualMachineServiceImpl(dao, accessController, dynDao).startVm(existingId)
 	}
 
 	private fun checkExpectation(invocation: InvocationOnMock, expected: Boolean) {
@@ -64,7 +65,7 @@ class VirtualMachineServiceImplTest {
 		doAnswer {
 			checkExpectation(it, true)
 		}.`when`(dao).update(Mockito.any<VirtualMachine>() ?: vm)
-		VirtualMachineServiceImpl(dao, accessController).startVm(existingId)
+		VirtualMachineServiceImpl(dao, accessController, dynDao).startVm(existingId)
 	}
 
 	@Test

@@ -116,6 +116,14 @@ kerubApp.factory('appsession', ['$log', '$http', '$uibModal', function($log, $ht
             return wrap;
         },
         /**
+         * session delete
+         */
+        delete : function(url) {
+            var res = $http.delete(url);
+            var wrap = new SessionReqWrapper('DELETE', res, this);
+            return wrap;
+        },
+        /**
          * session ost
          */
         post : function(url, data) {

@@ -581,6 +581,7 @@
 			<bean id="vm" class="com.github.kerubistan.kerub.services.impl.VirtualMachineServiceImpl">
 				<constructor-arg ref="vmDao"/>
 				<constructor-arg ref="assetAccessController"/>
+				<constructor-arg ref="vmDynDao"/>
 			</bean>
 			<bean id="pool" class="com.github.kerubistan.kerub.services.impl.PoolServiceImpl">
 				<constructor-arg ref="poolDao"/>
