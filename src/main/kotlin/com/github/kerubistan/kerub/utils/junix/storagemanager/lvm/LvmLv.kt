@@ -154,6 +154,17 @@ object LvmLv : Lvm() {
 		session.executeOrDie("lvm lvextend $vgName/$lvName -L +${roundUp(addSize)}B")
 	}
 
+	fun remove(session: ClientSession,
+			   vgName: String,
+			   name: String) {
+		remove(session, "/dev/$vgName/$name")
+	}
+
+	fun remove(session: ClientSession,
+			   path: String) {
+		session.executeOrDie("lvm lvremove $path")
+	}
+
 	fun create(session: ClientSession,
 			   vgName: String,
 			   name: String,

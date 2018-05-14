@@ -249,4 +249,16 @@ class LvmLvTest {
 		assertEquals("4MB".toSize(), LvmLv.roundUp("2000B".toSize()))
 	}
 
+	@Test
+	fun remove() {
+		whenever(session.createExecChannel(startsWith("lvm lvremove"))).thenReturn(createExecChannel)
+		whenever(createExecChannel.open()).thenReturn(openFuture)
+		whenever(createExecChannel.invertedOut).then { NullInputStream(0) }
+		whenever(createExecChannel.invertedErr).then { NullInputStream(0) }
+
+		LvmLv.remove(session, "testVg", "testLv")
+
+		verify(session).createExecChannel(startsWith("lvm lvremove"))
+	}
+
 }
