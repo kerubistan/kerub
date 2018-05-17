@@ -420,6 +420,7 @@
 		<constructor-arg ref="hostDao"/>
 		<constructor-arg ref="hostDynamicDao"/>
 		<constructor-arg ref="vmDynDao"/>
+		<constructor-arg ref="virtualStorageDeviceDao"/>
 		<constructor-arg ref="virtualStorageDeviceDynDao"/>
 		<constructor-arg ref="hostConfigDao"/>
 	</bean>
@@ -601,6 +602,7 @@
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 				<constructor-arg ref="hostDao"/>
 				<constructor-arg ref="hostManager"/>
+				<constructor-arg ref="vmDao"/>
 			</bean>
 			<bean id="vstorageDyn" class="com.github.kerubistan.kerub.services.impl.VirtualStorageDeviceDynamicServiceImpl">
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>

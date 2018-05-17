@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedService
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
+import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDevice
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostFactory
@@ -19,7 +20,9 @@ import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtua
 import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
@@ -41,17 +44,18 @@ class CompositeStepFactory(
 
 	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
-					to setOf(StartVirtualMachineFactory, CreateDiskFactory, StopVirtualMachineFactory,
+					to setOf(StartVirtualMachineFactory, CreateDiskFactory, UnallocateDiskFactory, StopVirtualMachineFactory,
 							 KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory),
 			NotSameStorageExpectation::class to setOf(
 					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
 					MigrateVirtualMachineFactory),
-			StorageAvailabilityExpectation::class to setOf(CreateDiskFactory, WakeHostFactory,
+			StorageAvailabilityExpectation::class to setOf(CreateDiskFactory, UnallocateDiskFactory, WakeHostFactory,
 														   MigrateVirtualMachineFactory)
 	)
 
 	private val problems = mapOf(
 			RecyclingHost::class to setOf(MigrateVirtualMachineFactory, PowerDownHostFactory, RecycleHostFactory),
+			RecyclingStorageDevice::class to setOf(UnallocateDiskFactory, RemoveVirtualStorageFactory),
 			UnusedService::class to setOf(),
 			VmOnRecyclingHost::class to setOf()
 	)

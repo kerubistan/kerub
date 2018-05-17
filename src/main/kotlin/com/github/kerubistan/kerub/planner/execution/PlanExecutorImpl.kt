@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.execution
 
 import com.github.kerubistan.kerub.data.ExecutionResultDao
 import com.github.kerubistan.kerub.data.HostDao
+import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -38,14 +39,22 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImageExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.fs.unallocate.UnAllocateFs
+import com.github.kerubistan.kerub.planner.steps.vstorage.fs.unallocate.UnAllocateFsExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolumeExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.unallocate.UnAllocateGvinum
+import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.unallocate.UnAllocateGvinumExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLv
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLvExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfsExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.UnmountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.UnmountNfsExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorage
+import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.ctld.CtldIscsiShare
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.ctld.CtldIscsiShareExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd.TgtdIscsiShare
@@ -71,6 +80,7 @@ class PlanExecutorImpl(
 		hostDao: HostDao,
 		hostDynamicDao: HostDynamicDao,
 		vmDynamicDao: VirtualMachineDynamicDao,
+		vssDao : VirtualStorageDeviceDao,
 		virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 		hostConfigurationDao: HostConfigurationDao
 ) : PlanExecutor {
@@ -105,7 +115,14 @@ class PlanExecutorImpl(
 			ShareNfs::class to ShareNfsExecutor(hostConfigurationDao, hostCommandExecutor),
 			UnshareNfs::class to UnshareNfsExecutor(hostConfigurationDao, hostCommandExecutor),
 			MountNfs::class to MountNfsExecutor(hostCommandExecutor, hostConfigurationDao),
-			UnmountNfs::class to UnmountNfsExecutor(hostCommandExecutor, hostConfigurationDao)
+			UnmountNfs::class to UnmountNfsExecutor(hostCommandExecutor, hostConfigurationDao),
+
+			//storage un-allocation
+			UnAllocateGvinum::class to UnAllocateGvinumExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			UnAllocateFs::class to UnAllocateFsExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			UnAllocateLv::class to UnAllocateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+
+			RemoveVirtualStorage::class to RemoveVirtualStorageExecutor(vssDao, virtualStorageDeviceDynamicDao)
 	)
 
 	fun execute(step: AbstractOperationalStep) {

@@ -205,3 +205,32 @@ Feature: storage management
 	  | Linux | Fedora       | 23      | scsi-target-utils    | libvirt-client  |
 	  | Linux | openSUSE     | 13      | tgt                  | libvirt-client  |
 	  | Linux | Centos Linux | 7.1     | scsi-target-utils    | libvirt-client  |
+
+  Scenario: Unallocated disk removed
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7,1            |
+	And virtual storage devices:
+	  | name        | size | ro    |
+	  | test-disk-1 | 2 GB | false |
+	When disk test-disk-1 is recycled
+	Then disk test-disk-1 will be deleted as step 1
+
+  Scenario Outline: Disk allocated on <allocation> removed
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>      |
+	And host host-1.example.com is Up
+	And virtual storage devices:
+	  | name        | size | ro    |
+	  | test-disk-1 | 2 GB | false |
+	And virtual storage test-disk-1 allocated on host host-1.example.com using <allocation>
+	When disk test-disk-1 is recycled
+	Then disk test-disk-1 will be unallocated as step 1
+	And disk test-disk-1 will be deleted as step 2
+
+	Examples:
+	  | allocation                                                 | OS    | Distro       | version |
+	  | fs mount point /kerub                                      | Linux | Centos Linux | 7,1     |
+	  | simple gvinum disk id 5e5bf833-d54a-4732-b46b-7a987f905723 | BSD   | FreeBSD      | 11      |
+	  | lvm volume group kerub                                     | Linux | Centos Linux | 7,1     |

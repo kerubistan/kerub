@@ -25,9 +25,9 @@ import kotlin.test.assertEquals
 
 class ExtendLvmPoolExecutorTest {
 
-	val hostCommandExecutor: HostCommandExecutor = mock()
-	val hostConfigDao: HostConfigurationDao = mock()
-	val hostDynDao: HostDynamicDao = mock()
+	private val hostCommandExecutor: HostCommandExecutor = mock()
+	private val hostConfigDao: HostConfigurationDao = mock()
+	private val hostDynDao: HostDynamicDao = mock()
 
 	@Test
 	fun update() {

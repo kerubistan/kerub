@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedServiceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
+import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHostDetector
 import com.github.kerubistan.kerub.utils.join
 
@@ -16,7 +17,8 @@ object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 			//vms
 			VmOnRecyclingHostDetector,
 			//vstorage
-			VStorageDeviceOnRecyclingHostDetector
+			VStorageDeviceOnRecyclingHostDetector,
+			RecyclingStorageDeviceDetector
 	)
 
 	override fun detect(plan: Plan): Collection<Problem>

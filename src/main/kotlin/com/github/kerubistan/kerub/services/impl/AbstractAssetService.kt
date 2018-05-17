@@ -58,14 +58,18 @@ abstract class AbstractAssetService<T : Asset>(
 				super.update(id, entity)
 			}, id)
 
-	override fun delete(id: UUID) {
+	final override fun delete(id: UUID) {
 		val entity: T = assertExist(entityType, accessController.doAndCheck { dao[id] }, id)
 
 		beforeRemove(entity)
 
-		dao.remove(entity)
+		doRemove(entity)
 
 		afterRemove(entity)
+	}
+
+	open fun doRemove(entity: T) {
+		dao.remove(entity)
 	}
 
 	open fun afterRemove(entity: T) {

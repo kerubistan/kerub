@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.execution
 
 import com.github.kerubistan.kerub.data.ExecutionResultDao
 import com.github.kerubistan.kerub.data.HostDao
+import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -26,15 +27,16 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 class PlanExecutorImplTest {
-	val executionResultDao: ExecutionResultDao = mock()
-	val controllerManager: ControllerManager = mock()
-	val executor: HostCommandExecutor = mock()
-	val hostConfigDao = mock<HostConfigurationDao>()
-	val hostManager: HostManager = mock()
-	val hostDao: HostDao = mock()
-	val hostDynamicDao: HostDynamicDao = mock()
-	val vmDynamicDao: VirtualMachineDynamicDao = mock()
-	val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao = mock()
+	private val executionResultDao: ExecutionResultDao = mock()
+	private val controllerManager: ControllerManager = mock()
+	private val executor: HostCommandExecutor = mock()
+	private val hostConfigDao = mock<HostConfigurationDao>()
+	private val hostManager: HostManager = mock()
+	private val hostDao: HostDao = mock()
+	private val hostDynamicDao: HostDynamicDao = mock()
+	private val vmDynamicDao: VirtualMachineDynamicDao = mock()
+	private val vssDao = mock<VirtualStorageDeviceDao>()
+	private val virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao = mock()
 
 	@Test
 	fun execute() {
@@ -76,6 +78,7 @@ class PlanExecutorImplTest {
 				hostDao,
 				hostDynamicDao,
 				vmDynamicDao,
+				vssDao,
 				virtualStorageDeviceDynamicDao,
 				hostConfigDao
 		).execute(plan, callback)

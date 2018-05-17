@@ -162,7 +162,7 @@ object LvmLv : Lvm() {
 
 	fun remove(session: ClientSession,
 			   path: String) {
-		session.executeOrDie("lvm lvremove $path")
+		session.executeOrDie("lvm lvremove -f $path")
 	}
 
 	fun create(session: ClientSession,

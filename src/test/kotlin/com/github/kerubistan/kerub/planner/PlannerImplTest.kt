@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
@@ -15,13 +16,13 @@ class PlannerImplTest {
 	val vm1 = VirtualMachine(
 			name = "vm1",
 			nrOfCpus = 1,
-			memory = Range("512 MB".toSize(), "1 GB".toSize())
+			memory = Range("512 MB".toSize(), 1.GB)
 	)
 
 	val vm2 = VirtualMachine(
 			name = "vm2",
 			nrOfCpus = 1,
-			memory = Range("512 MB".toSize(), "1 GB".toSize())
+			memory = Range("512 MB".toSize(), 1.GB)
 	)
 
 	val host1 = Host(
@@ -52,7 +53,7 @@ class PlannerImplTest {
 
 		assertTrue(PlannerImpl.checkReservation(VmReservation(vm1), listOf(UseHostReservation(host1))))
 
-		assertTrue(PlannerImpl.checkReservation(UseHostReservation(host1), listOf(UseHostReservation(host1))))
+		assertFalse(PlannerImpl.checkReservation(UseHostReservation(host1), listOf(UseHostReservation(host1))))
 		assertTrue(PlannerImpl.checkReservation(UseHostReservation(host1), listOf(UseHostReservation(host2))))
 
 	}

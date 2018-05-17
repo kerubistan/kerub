@@ -45,6 +45,9 @@ Feature: Subscription to message feeds
 	And Virtual Disk:
 	  | property | value               |
 	  | name     | websocket-test-disk |
+	And Virtual Pool:
+	  | property | value               |
+	  | name     | websocket-test-pool |
 	And <listener> is connected to websocket
 	And user subscribed to message feed <feed>
 	When the user <action-user> <action> <entity-type> <entyty-name>
@@ -60,7 +63,10 @@ Feature: Subscription to message feeds
 	  | enduser  | enduser     | deletes | virtual network | websocket-test-net  | /vnet            | must             | delete            |
 	  | enduser  | enduser     | creates | virtual disk    |                     | /virtual-storage | must             | create            |
 	  | enduser  | enduser     | updates | virtual disk    | websocket-test-disk | /virtual-storage | must             | update            |
-	  | enduser  | enduser     | deletes | virtual disk    | websocket-test-disk | /virtual-storage | must             | delete            |
+	  | enduser  | enduser     | deletes | virtual disk    | websocket-test-disk | /virtual-storage | may              | delete            |
+	  | enduser  | enduser     | creates | pool            |                     | /pool            | must             | create            |
+	  | enduser  | enduser     | updates | pool            | websocket-test-pool | /pool            | must             | update            |
+	  | enduser  | enduser     | deletes | pool            | websocket-test-pool | /pool            | must             | delete            |
 # TODO this would be great to have but *adding* hosts is not possible without connecting them, also there is no remove operation yet
 #	  | admin    | admin       | creates | host            |                     | /host     | must             | create            |
 #	  | enduser  | admin       | creates | host            |                     | /host     | must not         | create            |

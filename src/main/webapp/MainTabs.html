@@ -151,12 +151,14 @@
 						<td>name</td>
 						<td>info</td>
 						<td>expectations</td>
+						<td>actions</td>
 					</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="virtDisk in virtualDisks.result">
+						<tr ng-repeat="virtDisk in virtualDisks.result" ng-controller="VirtualDiskRow" ng-init="init(virtDisk)">
 							<td>
 								{{virtDisk.name}}
+								<span ng-if="virtDisk.recycling" style="label fa fa-trash"></span>
 							</td>
 							<td>
 								<span class="label label-primary">{{humanFriendlySize(virtDisk.size)}}</span>
@@ -177,6 +179,9 @@
 										{{description}}
 									</span>
 								</span>
+							</td>
+							<td>
+								<button class="btn fa fa-trash" ng-click="deleteDisk()"></button>
 							</td>
 						</tr>
 					</tbody>

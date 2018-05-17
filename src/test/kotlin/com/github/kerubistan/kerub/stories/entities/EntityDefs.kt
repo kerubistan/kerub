@@ -4,12 +4,14 @@ import com.github.kerubistan.kerub.createClient
 import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.model.Account
 import com.github.kerubistan.kerub.model.Entity
+import com.github.kerubistan.kerub.model.Pool
 import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.AccountService
+import com.github.kerubistan.kerub.services.PoolService
 import com.github.kerubistan.kerub.services.RestCrud
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.services.VirtualNetworkService
@@ -46,7 +48,8 @@ class EntityDefs {
 	val entityTypes = mapOf<KClass<out Any>, KClass<out RestCrud<*>>>(
 			VirtualMachine::class to VirtualMachineService::class,
 			VirtualNetwork::class to VirtualNetworkService::class,
-			VirtualStorageDevice::class to VirtualStorageDeviceService::class
+			VirtualStorageDevice::class to VirtualStorageDeviceService::class,
+			Pool::class to PoolService::class
 	)
 
 	@Given("Account:")
@@ -80,6 +83,20 @@ class EntityDefs {
 		}
 		client.runRestAction(VirtualStorageDeviceService::class) {
 			entities += disk.name to it.add(disk)
+		}
+	}
+
+	@Given("Virtual Pool:")
+	fun createVirtualPool(details: DataTable) {
+		var pool = Pool(name = "test pool", templateId = UUID.randomUUID())
+		details.forEachPair { name, value ->
+			when (name) {
+				Pool::name.name -> pool = pool.copy(name = value)
+				else -> TODO("Not mapped property for virtual disk: $name")
+			}
+		}
+		client.runRestAction(PoolService::class) {
+			entities += pool.name to it.add(pool)
 		}
 	}
 

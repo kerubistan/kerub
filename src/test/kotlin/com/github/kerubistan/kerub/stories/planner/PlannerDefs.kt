@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.stories.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -22,10 +23,13 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.kerubistan.kerub.model.expectations.ClockFrequencyExpectation
@@ -54,6 +58,7 @@ import com.github.kerubistan.kerub.planner.PlanExecutor
 import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
+import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.AbstractWakeHost
@@ -65,6 +70,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
+import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.ShareNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
@@ -78,6 +84,7 @@ import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
+import com.github.kerubistan.kerub.utils.toUUID
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
@@ -506,6 +513,92 @@ class PlannerDefs {
 					size = it[1].toSize(),
 					readOnly = it[2].toBoolean()
 			)
+		}
+	}
+
+	@When("disk (\\S+) is recycled")
+	fun recycleVirtualStorage(name : String) {
+		vdisks = vdisks.map {
+			if(it.name == name) {
+				it.copy(recycling = true)
+			} else it
+		}
+		planner.onEvent(EntityUpdateMessage(
+				obj = vdisks.first { it.name == name },
+				date = now()
+		))
+	}
+
+	private fun createVirtualStorageAllocation(name : String,
+												hostAddr : String,
+												allocation : (Host,
+															  VirtualStorageDevice,
+															  VirtualStorageDeviceDynamic) -> VirtualStorageAllocation) {
+		val host = hosts.single { it.address == hostAddr }
+		val stat = vdisks.single { it.name == name }
+		val dyn = vstorageDyns.firstOrNull { it.id == stat.id } ?: VirtualStorageDeviceDynamic(
+				id = stat.id,
+				lastUpdated = now(),
+				allocations = listOf()
+		)
+		vstorageDyns = vstorageDyns - dyn + dyn.copy(
+				allocations = dyn.allocations + allocation(host, stat, dyn)
+		)
+	}
+
+
+	@Given("virtual storage (\\S+) allocated on host (\\S+) using fs mount point (\\S+)")
+	fun createVirtualStorageFsAllocation(name : String, hostAddr : String, mountPoint: String) {
+		createVirtualStorageAllocation(name, hostAddr) {
+			host, stat, dyn ->
+			VirtualStorageFsAllocation(
+					hostId = host.id,
+					mountPoint = mountPoint,
+					actualSize = 10.GB,
+					fileName = "test.qcow2",
+					type = VirtualDiskFormat.qcow2
+			)
+		}
+	}
+
+	@Given("virtual storage (\\S+) allocated on host (\\S+) using lvm volume group (\\S+)")
+	fun createVirtualStorageLvmAllocation(name : String, hostAddr : String, volGroup: String) {
+		createVirtualStorageAllocation(name, hostAddr) {
+			host, stat, dyn ->
+			VirtualStorageLvmAllocation(
+					hostId = host.id,
+					path = "/dev/$volGroup/${dyn.id}",
+					actualSize = 10.GB
+			)
+		}
+	}
+
+	@Given("virtual storage (\\S+) allocated on host (\\S+) using simple gvinum disk id (.*)")
+	fun createVirtualStorageGvinumAllocation(name : String, hostAddr : String, diskId: String) {
+		createVirtualStorageAllocation(name, hostAddr) {
+			host, stat, dyn ->
+			VirtualStorageGvinumAllocation(
+					hostId = host.id,
+					actualSize = 10.GB,
+					configuration = SimpleGvinumConfiguration(
+							diskId = diskId.toUUID()
+					)
+			)
+		}
+	}
+
+	@Then("disk (\\S+) will be unallocated as step (\\d+)")
+	fun verifyDiskUnalloction(name : String, index : Int) {
+		executedPlans.first().steps[index - 1].let {
+			assertTrue(it is UnAllocate<*> && it.vstorage.name == name)
+		}
+
+	}
+
+	@Then("disk (\\S+) will be deleted as step (\\d+)")
+	fun verifyDiskRemove(name : String, index : Int) {
+		executedPlans.first().steps[index - 1].let {
+			assertTrue(it is RemoveVirtualStorage && it.vStorage.name == name)
 		}
 	}
 

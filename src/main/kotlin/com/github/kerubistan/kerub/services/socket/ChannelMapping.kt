@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.services.socket
 
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.Pool
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -12,6 +13,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.services.ControllerConfigService
 import com.github.kerubistan.kerub.services.HostDynamicService
 import com.github.kerubistan.kerub.services.HostService
+import com.github.kerubistan.kerub.services.PoolService
 import com.github.kerubistan.kerub.services.VirtualMachineDynamicService
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.services.VirtualNetworkService
@@ -31,7 +33,8 @@ val services = mapOf<KClass<out Entity<out Any>>, KClass<*>>(
 		VirtualMachineDynamic::class to VirtualMachineDynamicService::class,
 		VirtualStorageDevice::class to VirtualStorageDeviceService::class,
 		VirtualStorageDeviceDynamic::class to VirtualStorageDeviceDynamicService::class,
-		ControllerConfig::class to ControllerConfigService::class
+		ControllerConfig::class to ControllerConfigService::class,
+		Pool::class to PoolService::class
 )
 
 fun pathFromJaxRsAnnotation(clazz: KClass<*>) =

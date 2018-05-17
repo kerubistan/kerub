@@ -120,6 +120,10 @@ object GVinum {
 		}
 	}
 
+	fun removeVolume(session: ClientSession, volName: String) {
+		session.executeOrDie("gvinum rm $volName")
+	}
+
 	class GvinumDriveMonitorOutputStream(private val callback: (List<GvinumDrive>) -> Unit) : OutputStream() {
 		private val buffer = StringBuilder(128)
 		override fun write(input: Int) {

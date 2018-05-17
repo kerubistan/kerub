@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.expectations.PoolExpectation
 import java.util.UUID
 import kotlin.reflect.KClass
@@ -7,6 +8,7 @@ import kotlin.reflect.KClass
 /**
  * A pool of virtual machines based on a template.
  */
+@JsonTypeName("pool")
 data class Pool(
 		override val id: UUID = UUID.randomUUID(),
 		override val name: String,

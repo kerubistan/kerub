@@ -36,9 +36,9 @@ data class Host constructor(
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null,
-		val recycling: Boolean = false,
+		override val recycling: Boolean = false,
 		val dead: Boolean = false
 )
-	: Entity<UUID> {
+	: Entity<UUID>, Recyclable {
 	override fun toString(): String = "Host(id=$id,addr=$address)"
 }

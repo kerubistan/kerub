@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.stories.websocket
 import com.github.kerubistan.kerub.createClient
 import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.model.Entity
+import com.github.kerubistan.kerub.model.Pool
 import com.github.kerubistan.kerub.model.messages.EntityAddMessage
 import com.github.kerubistan.kerub.model.messages.EntityRemoveMessage
 import com.github.kerubistan.kerub.model.messages.EntityUpdateMessage
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.model.messages.SubscribeMessage
 import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.HostService
+import com.github.kerubistan.kerub.services.PoolService
 import com.github.kerubistan.kerub.services.RestCrud
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.services.VirtualNetworkService
@@ -137,10 +139,11 @@ class WebsocketNotificationsDefs {
 			"vm" to VirtualMachineService::class,
 			"virtual network" to VirtualNetworkService::class,
 			"virtual disk" to VirtualStorageDeviceService::class,
+			"pool" to PoolService::class,
 			"host" to HostService::class
 	)
 
-	@When("the user (\\S+) creates (vm|virtual network|virtual disk)")
+	@When("the user (\\S+) creates (vm|virtual network|virtual disk|pool)")
 	fun runUserAdd(userName: String, entityType: String) {
 		val client = createClient()
 		client.login(userName, "password")
@@ -154,10 +157,13 @@ class WebsocketNotificationsDefs {
 			"virtual disk" -> client.runRestAction(VirtualStorageDeviceService::class) {
 				entities += it.add(testDisk.copy(id = UUID.randomUUID()))
 			}
+			"pool" -> client.runRestAction(PoolService::class) {
+				entities += it.add(Pool(name = "test pool", templateId = UUID.randomUUID()))
+			}
 		}
 	}
 
-	@When("the user (\\S+) (updates|deletes) (vm|virtual network|virtual disk) (\\S+)")
+	@When("the user (\\S+) (updates|deletes) (vm|virtual network|virtual disk|pool) (\\S+)")
 	fun runUserAction(userName: String, action: String, entityType: String, entityName: String) {
 		val client = createClient()
 		client.login(userName, "password")

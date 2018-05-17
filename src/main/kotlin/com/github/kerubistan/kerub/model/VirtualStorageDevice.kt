@@ -33,9 +33,11 @@ VirtualStorageDevice(
 		@Field
 		@JsonView(Simple::class)
 		@JsonProperty("owner")
-		override val owner: AssetOwner? = null
+		override val owner: AssetOwner? = null,
 
-) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset {
+		override val recycling: Boolean = false
+
+) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset, Recyclable {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> {
 		val mapOf: Map<KClass<out Asset>, List<UUID>> = mapOf(
 				VirtualStorageDevice::class to expectations

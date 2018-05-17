@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.data.HostDao
+import com.github.kerubistan.kerub.data.VirtualMachineDao
 import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
@@ -28,21 +29,20 @@ class VirtualStorageDeviceServiceImpl(
 		accessController: AssetAccessController,
 		private val dynDao: VirtualStorageDeviceDynamicDao,
 		private val hostDao: HostDao,
-		private val executor: HostCommandExecutor
+		private val executor: HostCommandExecutor,
+		private val vmDao: VirtualMachineDao
 ) : VirtualStorageDeviceService,
 		AbstractAssetService<VirtualStorageDevice>(accessController, dao, "virtual disk") {
 
 	override fun download(id: UUID, type: VirtualDiskFormat, async: AsyncResponse) {
-		dao.update(id) {
-			stat ->
+		dao.update(id) { stat ->
 			stat.copy(
 					expectations =
 					stat.expectations.filterNot { it is StorageAvailabilityExpectation }
 							+ StorageAvailabilityExpectation(format = type)
 			)
 		}
-		dynDao.waitFor(id) {
-			dyn ->
+		dynDao.waitFor(id) { dyn ->
 			val host = requireNotNull(hostDao[dyn.allocation.hostId])
 			async.resume(
 					ok(executor.readRemoteFile(host, dyn.allocation.getPath(dyn.id)), MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
@@ -58,15 +58,13 @@ class VirtualStorageDeviceServiceImpl(
 
 	override fun load(id: UUID, type: VirtualDiskFormat, async: AsyncResponse, data: InputStream) {
 		val device = getById(id)
-		dynDao.waitFor(id) {
-			dyn ->
+		dynDao.waitFor(id) { dyn ->
 			val host = requireNotNull(hostDao[dyn.allocation.hostId])
-			executor.dataConnection(host, {
-				session ->
+			executor.dataConnection(host, { session ->
 				pump(data, device, dyn, session)
 
-				val virtualSize = if(type != VirtualDiskFormat.raw) {
-					val size : Long = QemuImg.info(
+				val virtualSize = if (type != VirtualDiskFormat.raw) {
+					val size: Long = QemuImg.info(
 							session,
 							"${(dyn.allocation as VirtualStorageFsAllocation).mountPoint}/${device.id}"
 					).virtualSize
@@ -107,5 +105,19 @@ class VirtualStorageDeviceServiceImpl(
 				listOf(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE),
 				ScpTimestamp(now(), now())
 		)
+	}
+
+	override fun beforeRemove(entity: VirtualStorageDevice) {
+		vmDao.listByAttachedStorage(entity.id).let {
+			check(it.isEmpty()) { "Disk attached to vms ${it.joinToString { it.id.toString() }}" }
+		}
+	}
+
+	override fun doRemove(entity: VirtualStorageDevice) {
+		// since the persistent data needs to be removed, we just mark this here for deletion
+		dao.update(entity.copy(
+				expectations = listOf(),
+				recycling = true
+		))
 	}
 }
