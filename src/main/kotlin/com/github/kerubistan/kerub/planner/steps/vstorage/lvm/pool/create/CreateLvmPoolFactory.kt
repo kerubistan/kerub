@@ -25,7 +25,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 							} ?: false
 						}?.map { lvmCapability ->
 					val freeCapacity = hostData.value.dynamic?.storageStatus
-							?.single { it.id == lvmCapability.id }?.freeCapacity
+							?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity
 					Triple(lvmCapability, hostData, freeCapacity ?: BigInteger.ZERO)
 				}
 
