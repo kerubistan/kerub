@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
+import java.util.UUID
 
 abstract class AbstractMigrateVirtualStorageDevice : AbstractOperationalStep {
 
@@ -18,10 +19,11 @@ abstract class AbstractMigrateVirtualStorageDevice : AbstractOperationalStep {
 	abstract val targetAllocation: VirtualStorageAllocation
 	abstract val source: Host
 	abstract val target: Host
+	abstract val targetStorageCapabilityId : UUID
 
 	override fun reservations(): List<Reservation<*>> = listOf(
 			VirtualStorageReservation(device),
-			HostStorageReservation(target, device.size),
+			HostStorageReservation(target, device.size, targetStorageCapabilityId),
 			UseHostReservation(source),
 			UseHostReservation(target)
 	)

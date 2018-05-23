@@ -39,22 +39,61 @@ class PlannerImplTest {
 
 	@Test
 	fun checkReservations() {
-		assertTrue(PlannerImpl.checkReservations(listOf(), listOf()))
-		assertTrue(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf()))
-		assertTrue(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf(VmReservation(vm2))))
-		assertFalse(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf(VmReservation(vm1))))
+		assertTrue(PlannerImpl.checkReservations(listOf(), listOf(), OperationalState.fromLists()))
+		assertTrue(PlannerImpl.checkReservations(listOf(VmReservation(vm1)), listOf(), OperationalState.fromLists()))
+		assertTrue(
+				PlannerImpl.checkReservations(
+						listOf(VmReservation(vm1)),
+						listOf(VmReservation(vm2)),
+						OperationalState.fromLists()
+				)
+		)
+		assertFalse(
+				PlannerImpl.checkReservations(
+						listOf(VmReservation(vm1)),
+						listOf(VmReservation(vm1)),
+						OperationalState.fromLists()
+				)
+		)
 	}
 
 	@Test
 	fun checkReservation() {
-		assertTrue(PlannerImpl.checkReservation(VmReservation(vm1), listOf()))
-		assertTrue(PlannerImpl.checkReservation(VmReservation(vm1), listOf(VmReservation(vm2))))
-		assertFalse(PlannerImpl.checkReservation(VmReservation(vm1), listOf(VmReservation(vm1))))
-
-		assertTrue(PlannerImpl.checkReservation(VmReservation(vm1), listOf(UseHostReservation(host1))))
-
-		assertFalse(PlannerImpl.checkReservation(UseHostReservation(host1), listOf(UseHostReservation(host1))))
-		assertTrue(PlannerImpl.checkReservation(UseHostReservation(host1), listOf(UseHostReservation(host2))))
-
+		assertTrue(PlannerImpl.checkReservation(VmReservation(vm1), listOf(), OperationalState.fromLists()))
+		assertTrue(
+				PlannerImpl.checkReservation(
+						VmReservation(vm1),
+						listOf(VmReservation(vm2)),
+						OperationalState.fromLists()
+				)
+		)
+		assertFalse(
+				PlannerImpl.checkReservation(
+						VmReservation(vm1),
+						listOf(VmReservation(vm1)),
+						OperationalState.fromLists()
+				)
+		)
+		assertTrue(
+				PlannerImpl.checkReservation(
+						VmReservation(vm1),
+						listOf(UseHostReservation(host1)),
+						OperationalState.fromLists()
+				)
+		)
+		assertFalse(
+				PlannerImpl.checkReservation(
+						UseHostReservation(host1),
+						listOf(UseHostReservation(host1)),
+						OperationalState.fromLists()
+				)
+		)
+		assertTrue(
+				PlannerImpl.checkReservation(
+						UseHostReservation(host1),
+						listOf(UseHostReservation(host2)),
+						OperationalState.fromLists()
+				)
+		)
 	}
 }

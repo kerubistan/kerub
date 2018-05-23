@@ -9,6 +9,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetec
 import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
 import com.github.kerubistan.kerub.planner.reservations.HostMemoryReservation
 import com.github.kerubistan.kerub.planner.reservations.HostReservation
+import com.github.kerubistan.kerub.planner.reservations.HostStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
@@ -40,37 +41,42 @@ class PlannerImpl(
 	@Volatile var lastRun: Long? = null
 
 	companion object {
-		fun checkReservations(planReservations: Collection<Reservation<*>>, reservations: List<Reservation<*>>): Boolean =
+		fun checkReservations(planReservations: Collection<Reservation<*>>,
+							  reservations: List<Reservation<*>>,
+							  state: OperationalState): Boolean =
 				planReservations.all {
-					checkReservation(it, reservations)
+					checkReservation(it, reservations, state)
 				}
 
 		/**
 		 * Return true if the requested reservation is not in collission with the existing list of reservations.
 		 */
-		fun checkReservation(requestedReservation: Reservation<*>, reservations: List<Reservation<*>>): Boolean {
+		fun checkReservation(requestedReservation: Reservation<*>, reservations: List<Reservation<*>>, state: OperationalState): Boolean =
 			when (requestedReservation) {
 				is FullHostReservation -> {
-					return reservations.none {
+					reservations.none {
 						reservation ->
 						reservation is HostReservation && reservation.host == requestedReservation.host
 					}
 				}
 				is VmReservation -> {
-					return !reservations.contains(requestedReservation)
+					!reservations.contains(requestedReservation)
 				}
 				is UseHostReservation -> {
-					return !reservations.contains(requestedReservation)
+					!reservations.contains(requestedReservation)
 				}
 				is VirtualStorageReservation -> {
-					return !reservations.contains(requestedReservation)
+					!reservations.contains(requestedReservation)
 				}
 				is HostMemoryReservation -> {
-					return true //TODO: correct verification needed
+					true //TODO: correct verification needed
+				}
+				is HostStorageReservation -> {
+					state.hosts[requestedReservation.host.id]?.dynamic?.storageStatus?.singleOrNull { it.id == requestedReservation.storageCapabilityId }
+					true // TODO need the state here to see the free space and
 				}
 				else -> TODO("check not implemented: ${requestedReservation}")
 			}
-		}
 
 		private val logger = getLogger(PlannerImpl::class)
 	}
@@ -140,7 +146,7 @@ class PlannerImpl(
 			logger.debug("No plan generated.")
 		} else {
 			val planReservations = plan.reservations()
-			if (checkReservations(planReservations, reservations.values.join())) {
+			if (checkReservations(planReservations, reservations.values.join(), state)) {
 				reservations.put(plan, planReservations.toList())
 				executor.execute(plan, {
 					reservations.remove(plan)

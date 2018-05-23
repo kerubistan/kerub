@@ -1,15 +1,19 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.create
 
+import com.github.k0zka.finder4j.backtrack.Step
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.kerubistan.kerub.planner.steps.SimilarStep
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
 import java.math.BigInteger
 import java.util.UUID
 
 object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
+
 	override fun produce(state: OperationalState): List<CreateLvmPool> = state.hosts
 			.map { hostData ->
 

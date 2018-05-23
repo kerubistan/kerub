@@ -69,6 +69,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxS
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
@@ -372,13 +373,15 @@ class PlannerDefs {
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) with kvm hypervisor$")
 	fun verifyVmScheduledOnHostWithKvm(vmName: String, hostAddress: String) {
-		Assert.assertTrue(executedPlans.any {
-			it.steps.any {
-				it is KvmStartVirtualMachine
-						&& it.host.address == hostAddress
-						&& it.vm.name == vmName
+		assertTrue("plans are: $executedPlans") {
+			executedPlans.any {
+				it.steps.any {
+					it is KvmStartVirtualMachine
+							&& it.host.address == hostAddress
+							&& it.vm.name == vmName
+				}
 			}
-		})
+		}
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) with virtualbox hypervisor$")
@@ -659,6 +662,16 @@ class PlannerDefs {
 	fun verifyVirtualStorageCreatedOnLvm(storageName: String, hostAddr: String, volumeGroup: String) {
 		Assert.assertTrue(executedPlans.first().steps.any {
 			it is CreateLv
+					&& it.disk.name == storageName
+					&& it.host.address == hostAddr
+					&& it.volumeGroupName == volumeGroup
+		})
+	}
+
+	@Then("the virtual disk (\\S+) must be thin-allocated on (\\S+) under on the volume group (\\S+)")
+	fun verifyVirtualStorageCreatedOnLvmThin(storageName: String, hostAddr: String, volumeGroup: String) {
+		Assert.assertTrue(executedPlans.first().steps.any {
+			it is CreateThinLv
 					&& it.disk.name == storageName
 					&& it.host.address == hostAddr
 					&& it.volumeGroupName == volumeGroup

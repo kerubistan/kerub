@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
+import com.github.kerubistan.kerub.utils.silent
 
 class PlanRationalizerImpl(
 		private val stepFactory: StepFactory<AbstractOperationalStep, Plan>,
@@ -15,11 +16,9 @@ class PlanRationalizerImpl(
 
 	/**
 	 * Logic behind the rationalization process:
-	 *  - take each step
-	 *  - check that the following steps could have been taken from previous
-	 *  	states up to a point that is a solution itself
-	 * - if that is so, remove all steps before and after
-	 * - if not, continue with next step
+	 * - try to remove pairs of inverse steps (they recognize each other) - done
+	 * - try to remove single steps and check if they still solve the problem - done
+	 * - but this is not good enough because maybe we have sequences of irrelevant steps - TODO
 	 */
 	override fun rationalize(plan: Plan): Plan =
 			if (plan.steps.size > 1) {
@@ -52,33 +51,13 @@ class PlanRationalizerImpl(
 	 * Create subplan
 	 */
 	private fun subPlan(plan: Plan, startStepIndex: Int): Plan? {
-
-
 		val subSteps = plan.steps.subList(fromIndex = startStepIndex, toIndex = plan.steps.size)
-		var states = listOf(plan.state)
-		var validatedSteps = listOf<AbstractOperationalStep>()
-		subSteps.forEach { step ->
-
-
-			val steps = stepFactory.produce(Plan(states = states, steps = validatedSteps))
-
-			if (!steps.contains(step)) {
-				return null
+		val targetPlan = silent {
+			Plan.planBy(plan.states.first(), subSteps) { step, state ->
+				stepFactory.produce(state).contains(step)
 			}
-
-			val state = step.take(states.last())
-
-			validatedSteps += step
-			states += state
-
-			val candidatePlan = Plan(states = states, steps = validatedSteps)
-			if (isTargetState(candidatePlan)) {
-				return candidatePlan
-			}
-
 		}
-
-		return Plan(steps = validatedSteps, states = states)
+		return if (targetPlan != null && isTargetState(targetPlan)) targetPlan else null
 	}
 
 	private fun isTargetState(plan: Plan): Boolean =

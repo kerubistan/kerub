@@ -39,18 +39,18 @@ class CompositeStepFactory(
 	}
 
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
-										 PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-										 RecycleHostFactory, ShareFactory)
+			PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
+			RecycleHostFactory, ShareFactory)
 
 	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(StartVirtualMachineFactory, CreateDiskFactory, UnallocateDiskFactory, StopVirtualMachineFactory,
-							 KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory),
+					KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory),
 			NotSameStorageExpectation::class to setOf(
 					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
 					MigrateVirtualMachineFactory),
 			StorageAvailabilityExpectation::class to setOf(CreateDiskFactory, UnallocateDiskFactory, WakeHostFactory,
-														   MigrateVirtualMachineFactory)
+					MigrateVirtualMachineFactory)
 	)
 
 	private val problems = mapOf(
@@ -76,21 +76,33 @@ class CompositeStepFactory(
 				.map { problems[it] ?: defaultFactories }.join().distinct()
 
 		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(),
-						 state = state)
+				state = state)
 		logger.debug("{} steps generated: {}", steps.size, steps)
 
 		// let's not take a step that leads back to a previous planning phase, we could run endless rounds
-		val filtered = steps.filterNot { step -> state.states.contains(step.take(state.state)) }
+		val filtered = filterSteps(steps, state)
 		logger.debug("{} filtered steps: {}", filtered.size, filtered)
 
 		return filtered
 	}
 
+	private fun filterSteps(steps: List<AbstractOperationalStep>, plan: Plan) =
+			steps.filterNot { step ->
+				//the step leads to a state which we already had before (circle)
+				plan.states.contains(step.take(plan.state))
+						// there are similar steps before, e.g. resizing a pool after resizing the same pool
+						// note a limitation here: we search for ANY similar step rather than a previous one
+						// and that may need a rethink after a while, but this is already better than nothing
+						|| plan.steps.any {
+					it is SimilarStep && it.isLikeStep(step)
+				} //?: false
+			}
+
 	internal fun sort(list: List<AbstractOperationalStep>,
 					  detector: ProblemDetector<*> = CompositeProblemDetectorImpl,
 					  state: Plan): List<AbstractOperationalStep> =
 			list.sortedWith(StepBenefitComparator(planViolationDetector, state).reversed()
-									.thenComparing(StepProblemsComparator(plan = state, detector = detector).reversed())
-									.thenComparing(StepCostComparator).reversed())
+					.thenComparing(StepProblemsComparator(plan = state, detector = detector).reversed())
+					.thenComparing(StepCostComparator).reversed())
 
 }

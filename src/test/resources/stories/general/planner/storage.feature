@@ -234,3 +234,18 @@ Feature: storage management
 	  | fs mount point /kerub                                      | Linux | Centos Linux | 7,1     |
 	  | simple gvinum disk id 5e5bf833-d54a-4732-b46b-7a987f905723 | BSD   | FreeBSD      | 11      |
 	  | lvm volume group kerub                                     | Linux | Centos Linux | 7,1     |
+
+  Scenario: LVM Thin Provisioning
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7.1            |
+	And host host-1.example.com volume groups are:
+	  | vg name | size   | pvs    |
+	  | vg-1    | 500 GB | 500 GB |
+	And virtual storage devices:
+	  | name        | size | ro    |
+	  | test-disk-1 | 1 TB | false |
+	And Controller configuration 'lvm create volume enabled' is enabled
+	And host host-1.example.com is Up
+	When virtual disk test-disk-1 gets an availability expectation
+	Then the virtual disk test-disk-1 must be thin-allocated on host-1.example.com under on the volume group vg-1

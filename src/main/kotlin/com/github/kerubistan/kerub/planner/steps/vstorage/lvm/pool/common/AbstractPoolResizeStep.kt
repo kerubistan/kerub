@@ -1,17 +1,25 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common
 
+import com.github.k0zka.finder4j.backtrack.Step
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.SimilarStep
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.base.updateHostDynLvmWithAllocation
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
-abstract class AbstractPoolResizeStep : AbstractOperationalStep {
+abstract class AbstractPoolResizeStep : AbstractOperationalStep, SimilarStep {
 	abstract val host: Host
 	abstract val vgName: String
 	abstract val pool: String
+
+	final override fun isLikeStep(other: Step<Plan>): Boolean = other.let {
+		it is AbstractPoolResizeStep && it.host == host && it.vgName == vgName && it.pool == pool
+	}
+
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			hosts = state.hosts.update(host.id) { hostData ->
 				hostData.copy(
