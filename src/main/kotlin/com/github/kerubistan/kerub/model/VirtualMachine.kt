@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.model
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
+import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineReference
 import com.github.kerubistan.kerub.model.views.Detailed
@@ -92,6 +93,11 @@ data class VirtualMachine constructor(
 	val virtualStorageIdStr: List<String>
 		@Field
 		get() = virtualStorageLinks.map { it.virtualStorageId.toString() }
+
+	val virtualNetworkIdStr: List<String>
+		@Field
+		get() = devices.filterIsInstance(NetworkDevice::class.java).map { it.networkId.toString() }
+
 
 	override fun toString(): String = "VM(id=$id,name=$name${if (expectations.isEmpty()) "" else "exp=" + expectations.size})"
 }

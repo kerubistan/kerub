@@ -20,4 +20,10 @@ class VirtualMachineDaoImpl(cache: Cache<UUID, VirtualMachine>, eventListener: E
 					.containsAny(virtualDiskId.toString())
 					.list<VirtualMachine>()
 
+	override fun listByAttachedNetwork(virtualNetworkId: UUID): List<VirtualMachine> =
+			cache.queryBuilder(VirtualMachine::class)
+					.having(Expression.property(VirtualMachine::virtualNetworkIdStr.name))
+					.containsAll(virtualNetworkId.toString())
+					.list()
+
 }

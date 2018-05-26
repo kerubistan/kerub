@@ -591,6 +591,7 @@
 			<bean id="vnet" class="com.github.kerubistan.kerub.services.impl.VirtualNetworkServiceImpl">
 				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="vNetDao"/>
+				<constructor-arg ref="vmDao"/>
 			</bean>
 			<bean id="vmDyn" class="com.github.kerubistan.kerub.services.impl.VirtualMachineDynamicServiceImpl">
 				<constructor-arg ref="vmDynDao"/>

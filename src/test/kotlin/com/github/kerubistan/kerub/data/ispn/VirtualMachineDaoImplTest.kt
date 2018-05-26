@@ -4,6 +4,8 @@ import com.github.kerubistan.kerub.model.AssetOwner
 import com.github.kerubistan.kerub.model.AssetOwnerType
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualStorageLink
+import com.github.kerubistan.kerub.model.devices.NetworkAdapterType
+import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.testVm
@@ -344,6 +346,34 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		assertEquals(listOf(vm1), dao.getByName(owner1, vm1.name))
 		assertEquals(listOf(vm2), dao.getByName(owner2, vm1.name))
 		assertEquals(listOf<VirtualMachine>(), dao.getByName(owner3, vm1.name))
+	}
+
+	@Test
+	fun listByAttachedNetwork() {
+		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
+		val networkId = UUID.randomUUID()
+		val otherNetworkId = UUID.randomUUID()
+
+		val vmConnected = testVm.copy(
+				id = UUID.randomUUID(),
+				devices = listOf(NetworkDevice(adapterType = NetworkAdapterType.rtl8139, networkId = networkId))
+		)
+		val vmConnected2 = testVm.copy(
+				id = UUID.randomUUID(),
+				devices = listOf(
+						NetworkDevice(adapterType = NetworkAdapterType.rtl8139, networkId = networkId),
+						NetworkDevice(adapterType = NetworkAdapterType.rtl8139, networkId = otherNetworkId)
+				)
+		)
+		val vmNotConnected = testVm.copy(
+				id = UUID.randomUUID()
+		)
+		dao.apply {
+			add(vmConnected)
+			add(vmConnected2)
+			add(vmNotConnected)
+			assertEquals(setOf(vmConnected, vmConnected2),listByAttachedNetwork(networkId).toSet())
+		}
 	}
 
 }

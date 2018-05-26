@@ -8,4 +8,5 @@ interface VirtualMachineDao :
 		DaoOperations.SimpleSearch<VirtualMachine>,
 		AssetDao<VirtualMachine> {
 	fun listByAttachedStorage(virtualDiskId: UUID): List<VirtualMachine>
+	fun listByAttachedNetwork(virtualNetworkId: UUID): List<VirtualMachine>
 }
