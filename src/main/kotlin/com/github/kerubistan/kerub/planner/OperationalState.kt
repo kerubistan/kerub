@@ -2,8 +2,11 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.Pool
+import com.github.kerubistan.kerub.model.Template
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
+import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.collection.DataCollection
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
@@ -23,6 +26,9 @@ data class OperationalState(
 		val hosts: Map<UUID, HostDataCollection> = mapOf(),
 		val vms: Map<UUID, VirtualMachineDataCollection> = mapOf(),
 		val vStorage: Map<UUID, VirtualStorageDataCollection> = mapOf(),
+		val vNet: Map<UUID, VirtualNetwork> = mapOf(),
+		val pools: Map<UUID, Pool> = mapOf(),
+		val templates: Map<UUID, Template> = mapOf(),
 		val reservations: List<Reservation<*>> = listOf(),
 		val controllerConfig: ControllerConfig = ControllerConfig()
 ) {
