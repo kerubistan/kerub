@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
 import com.github.kerubistan.kerub.utils.toSize
+import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
@@ -8,7 +9,6 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-import org.mockito.Matchers
 import java.io.ByteArrayInputStream
 import java.math.BigInteger
 import kotlin.test.assertEquals
@@ -30,7 +30,7 @@ class LvmPvTest {
 
 	@Test
 	fun list() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(argThat { startsWith("lvm pvs") })).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -47,7 +47,7 @@ class LvmPvTest {
 
 	@Test
 	fun listEmpty() {
-		whenever(session.createExecChannel(Matchers.startsWith("lvm pvs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(argThat { startsWith("lvm pvs") })).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("\n".toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))

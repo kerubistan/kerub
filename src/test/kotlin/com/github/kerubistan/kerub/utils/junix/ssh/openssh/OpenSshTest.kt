@@ -13,7 +13,6 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
-import org.mockito.Matchers
 import java.util.EnumSet
 
 class OpenSshTest {
@@ -40,8 +39,8 @@ class OpenSshTest {
 	fun authorize() {
 		whenever(session.createSftpClient()).thenReturn(sftClient)
 		whenever(sftClient.stat(eq(".ssh"))).thenReturn(attrs)
-		whenever(sftClient.open(eq(".ssh/authorized_keys"), Matchers.any<SftpClient.OpenMode>())).thenReturn(handle)
-		whenever(sftClient.open(eq(".ssh/authorized_keys"), Matchers.any<EnumSet<SftpClient.OpenMode>>())).thenReturn(handle)
+		whenever(sftClient.open(eq(".ssh/authorized_keys"), any<SftpClient.OpenMode>())).thenReturn(handle)
+		whenever(sftClient.open(eq(".ssh/authorized_keys"), any<EnumSet<SftpClient.OpenMode>>())).thenReturn(handle)
 		whenever(sftClient.stat(eq(".ssh/authorized_keys"))).thenReturn(SftpClient.Attributes())
 		whenever(sftClient.stat(any<SftpClient.CloseableHandle>())).thenReturn(SftpClient.Attributes())
 		OpenSsh.authorize(session, pubkey = "TEST")

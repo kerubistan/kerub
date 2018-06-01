@@ -10,7 +10,6 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-import org.mockito.Matchers
 import java.io.OutputStream
 import kotlin.test.assertEquals
 
@@ -32,7 +31,7 @@ class StatTest {
 				out.write(it.toInt())
 			}
 			null
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 
 		var cntr = 0
 		Stat.cpuLoadMonitor(session) {
@@ -53,11 +52,11 @@ class StatTest {
 				out.write(it.toInt())
 			}
 			null
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 
 		var cntr = 0
 		Stat.cpuLoadMonitor(session) {
-			cntr = cntr + 1
+			cntr += 1
 		}
 		assertEquals(23, cntr)
 	}
@@ -74,7 +73,7 @@ class StatTest {
 				out.write(it.toInt())
 			}
 			null
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 
 		var cntr = 0
 		Stat.cpuLoadMonitorIncremental(session) {
@@ -96,11 +95,11 @@ class StatTest {
 				out.write(it.toInt())
 			}
 			null
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 
 		var cntr = 0
 		Stat.cpuLoadMonitorIncremental(session) {
-			cntr = cntr + 1
+			cntr += 1
 		}
 
 		assertEquals(22, cntr)

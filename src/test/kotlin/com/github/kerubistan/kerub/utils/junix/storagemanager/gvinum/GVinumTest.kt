@@ -16,7 +16,6 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.mockito.Matchers
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.math.BigInteger
@@ -169,11 +168,11 @@ class GVinumTest {
 		doAnswer {
 			resource("com/github/kerubistan/kerub/utils/junix/storagemanager/gvinum/monitor-drives.txt")
 					.copyTo (it.arguments[0] as OutputStream)
-		}.`when`(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		}.`when`(execChannel)!!.out = any()
 
 		var drives : List<List<GvinumDrive>> = listOf()
 		GVinum.monitorDrives(session, {
-			drives = drives + listOf(it)
+			drives += listOf(it)
 		})
 
 		assertFalse(drives.isEmpty())

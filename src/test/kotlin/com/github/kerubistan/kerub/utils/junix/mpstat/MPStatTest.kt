@@ -10,7 +10,6 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.Matchers
 import java.io.OutputStream
 
 class MPStatTest {
@@ -40,7 +39,7 @@ class MPStatTest {
 				out.write( it.toInt() )
 			}
 			null
-		} .whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		} .whenever(execChannel)!!.out = any()
 		whenever(execChannel.open()).thenReturn(openFuture)
 
 		var stat = listOf<CpuStat>()

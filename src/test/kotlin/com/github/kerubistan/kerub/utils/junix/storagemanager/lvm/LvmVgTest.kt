@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -9,7 +11,6 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import org.mockito.Matchers
 import java.io.ByteArrayInputStream
 import java.io.OutputStream
 import java.math.BigInteger
@@ -28,7 +29,7 @@ class LvmVgTest {
 	@Test
 	fun list() {
 
-		whenever(session.createExecChannel(Matchers.startsWith("lvm vgs"))).thenReturn(execChannel)
+		whenever(session.createExecChannel(argThat { startsWith("lvm vgs") } )).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
@@ -56,7 +57,7 @@ class LvmVgTest {
 
 	@Test
 	fun monitor() {
-		whenever(session.createExecChannel(Matchers.anyString())).thenReturn(execChannel)
+		whenever(session.createExecChannel(any())).thenReturn(execChannel)
 		whenever(execChannel.open()).thenReturn(openFuture)
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
@@ -64,7 +65,7 @@ class LvmVgTest {
 				out.write( it.toInt() )
 			}
 			null
-		} .whenever(execChannel)!!.out = Matchers.any(OutputStream::class.java)
+		} .whenever(execChannel)!!.out = any<OutputStream>()
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 		val results = mutableListOf<List<VolumeGroup>>()
