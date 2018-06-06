@@ -571,7 +571,8 @@ class PlannerDefs {
 			VirtualStorageLvmAllocation(
 					hostId = host.id,
 					path = "/dev/$volGroup/${dyn.id}",
-					actualSize = 10.GB
+					actualSize = 10.GB,
+					vgName = volGroup
 			)
 		}
 	}
@@ -1031,7 +1032,8 @@ class PlannerDefs {
 					allocations = listOf(VirtualStorageLvmAllocation(
 							hostId = host.id,
 							actualSize = disk.size,
-							path = "/dev/test/" + disk.id
+							path = "/dev/test/" + disk.id,
+							vgName = volumeGroup
 					)),
 					lastUpdated = now()
 			)

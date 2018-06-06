@@ -111,23 +111,17 @@ fun SftpClient.appendToFile(file: String, content: String) {
  * This should be used only on small files, usually configuration files.
  * Opens a session and closes it afterwards.
  */
-fun ClientSession.getFileContents(file: String): String {
-	return this.createSftpClient().use {
-		it.getFileContents(file)
-	}
-}
+fun ClientSession.getFileContents(file: String) = this.createSftpClient().use { it.getFileContents(file) }
 
 /**
  * Get the contents of a file.
  * This should be used only on small files, usually configuration files.
  */
-fun SftpClient.getFileContents(file: String): String {
-	return this.read(file).use {
+fun SftpClient.getFileContents(file: String): String = this.read(file).use {
 		logger.debugAndReturn("Contents of file $file: ", it.reader(Charsets.US_ASCII).readText())
 	}
-}
 
-fun <T, S : Session> S.use(action: (S) -> T): T {
+inline fun <T, S : Session> S.use(action: (S) -> T): T {
 	try {
 		return action(this)
 	} finally {

@@ -7,7 +7,7 @@ enp2s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
 
 lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
         inet 127.0.0.1  netmask 255.0.0.0
-        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        inet6 ::1  prefixlen 128  scopeid 0x10<sourceHost>
         loop  txqueuelen 1  (Local Loopback)
         RX packets 322621  bytes 91140403 (86.9 MiB)
         RX errors 0  dropped 0  overruns 0  frame 0

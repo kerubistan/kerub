@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
-import java.util.UUID
+import java.util.UUID.randomUUID
 
 val testCpu = ProcessorInformation(
 		manufacturer = "Test Corporation",
@@ -22,8 +22,15 @@ val testCpu = ProcessorInformation(
 )
 
 val testHost = Host(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		address = "host-1.example.com",
+		dedicated = true,
+		publicKey = ""
+)
+
+val testOtherHost = Host(
+		id = randomUUID(),
+		address = "host-2.example.com",
 		dedicated = true,
 		publicKey = ""
 )
@@ -34,7 +41,7 @@ val testHostCapabilities = HostCapabilities(
 )
 
 val testFreeBsdHost = Host(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		address = "host-1.freebsd.example.com",
 		dedicated = true,
 		publicKey = "",
@@ -45,27 +52,27 @@ val testFreeBsdHost = Host(
 )
 
 val testDisk = VirtualStorageDevice(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		name = "test-vm",
 		size = 2.GB
 )
 
 val testVm = VirtualMachine(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		memory = Range(min = 1.GB, max = 2.GB),
 		name = "test-vm",
 		nrOfCpus = 1
 )
 
 val testVirtualDisk = VirtualStorageDevice(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		name = "test-disk",
 		readOnly = false,
 		size = 1.GB
 )
 
 val testVirtualNetwork = VirtualNetwork(
-		id = UUID.randomUUID(),
+		id = randomUUID(),
 		name = "test network"
 )
 

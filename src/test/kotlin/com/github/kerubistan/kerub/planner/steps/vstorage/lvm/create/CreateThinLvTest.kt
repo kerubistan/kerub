@@ -51,7 +51,9 @@ class CreateThinLvTest {
 					VirtualStorageLvmAllocation(hostId = host.id,
 												pool = "pool-1",
 												actualSize = BigInteger.ZERO,
-												path = "")
+												path = "",
+												vgName = "vg-1"
+							)
 			)
 		}
 	}

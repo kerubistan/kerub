@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.ssh.openssh
 
+import com.github.kerubistan.kerub.toInputStream
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -14,6 +15,7 @@ import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
 import java.util.EnumSet
+import kotlin.test.assertEquals
 
 class OpenSshTest {
 
@@ -21,7 +23,7 @@ class OpenSshTest {
 	val execChannel: ChannelExec = mock()
 	val openFuture: OpenFuture = mock()
 	val session: ClientSession = mock()
-	val sftClient: SftpClient = mock()
+	val sftpClient: SftpClient = mock()
 	val handle: SftpClient.CloseableHandle = mock()
 	val attrs: SftpClient.Attributes = mock()
 
@@ -31,21 +33,27 @@ class OpenSshTest {
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		whenever(session.createSftpClient()).thenReturn(sftpClient)
+		whenever(sftpClient.read(any())).then {
+			"TEST PUBLIC KEY".toInputStream()
+		}
 
-		OpenSsh.keyGen(session)
+		val pubKey = OpenSsh.keyGen(session)
+
+		assertEquals("TEST PUBLIC KEY", pubKey)
 	}
 
 	@Test
 	fun authorize() {
-		whenever(session.createSftpClient()).thenReturn(sftClient)
-		whenever(sftClient.stat(eq(".ssh"))).thenReturn(attrs)
-		whenever(sftClient.open(eq(".ssh/authorized_keys"), any<SftpClient.OpenMode>())).thenReturn(handle)
-		whenever(sftClient.open(eq(".ssh/authorized_keys"), any<EnumSet<SftpClient.OpenMode>>())).thenReturn(handle)
-		whenever(sftClient.stat(eq(".ssh/authorized_keys"))).thenReturn(SftpClient.Attributes())
-		whenever(sftClient.stat(any<SftpClient.CloseableHandle>())).thenReturn(SftpClient.Attributes())
+		whenever(session.createSftpClient()).thenReturn(sftpClient)
+		whenever(sftpClient.stat(eq(".ssh"))).thenReturn(attrs)
+		whenever(sftpClient.open(eq(".ssh/authorized_keys"), any<SftpClient.OpenMode>())).thenReturn(handle)
+		whenever(sftpClient.open(eq(".ssh/authorized_keys"), any<EnumSet<SftpClient.OpenMode>>())).thenReturn(handle)
+		whenever(sftpClient.stat(eq(".ssh/authorized_keys"))).thenReturn(SftpClient.Attributes())
+		whenever(sftpClient.stat(any<SftpClient.CloseableHandle>())).thenReturn(SftpClient.Attributes())
 		OpenSsh.authorize(session, pubkey = "TEST")
 
-		verify(sftClient).close()
-		verify(sftClient, never()).mkdir(any())
+		verify(sftpClient).close()
+		verify(sftpClient, never()).mkdir(any())
 	}
 }

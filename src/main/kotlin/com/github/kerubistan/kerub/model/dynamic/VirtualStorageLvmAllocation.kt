@@ -9,7 +9,8 @@ data class VirtualStorageLvmAllocation(
 		override val hostId: UUID,
 		override val actualSize: BigInteger,
 		val path: String,
-		val pool: String? = null
+		val pool: String? = null,
+		val vgName : String
 ) : VirtualStorageBlockDeviceAllocation {
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 

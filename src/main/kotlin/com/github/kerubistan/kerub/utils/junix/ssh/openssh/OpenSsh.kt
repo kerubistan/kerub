@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.ssh.openssh
 import com.github.kerubistan.kerub.host.appendToFile
 import com.github.kerubistan.kerub.host.checkFileExists
 import com.github.kerubistan.kerub.host.executeOrDie
+import com.github.kerubistan.kerub.host.getFileContents
 import com.github.kerubistan.kerub.utils.getLogger
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
@@ -17,8 +18,12 @@ object OpenSsh {
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 
-	fun keyGen(session: ClientSession, password: String? = null) {
+	fun keyGen(session: ClientSession, password: String? = null) : String {
+		session.createSftpClient().use {
+			checkSShDir(it, session)
+		}
 		session.executeOrDie("ssh-keygen -t rsa -N ${password ?: ""}")
+		return session.createSftpClient().use { it.getFileContents("/root/.ssh/id_rsa.pub") }
 	}
 
 	fun authorize(session: ClientSession, pubkey: String) {
@@ -73,6 +78,10 @@ object OpenSsh {
 				it.write(authorizedKeys).writer(Charsets.US_ASCII).write(filtered)
 			}
 		}
+	}
+
+	fun copyBlockDevice(session: ClientSession, sourceDevice : String, targetAddress : String, targetDevice: String) {
+		session.executeOrDie("""bash -c "dd if=$sourceDevice | ssh $targetAddress | dd of=$targetDevice" """)
 	}
 
 }

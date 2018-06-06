@@ -20,7 +20,8 @@ abstract class AbstractCreateLvExecutor<T : AbstractCreateLv>(
 						allocations = listOf(VirtualStorageLvmAllocation(
 								hostId = step.host.id,
 								actualSize = updates.size,
-								path = updates.path
+								path = updates.path,
+								vgName = step.volumeGroupName
 						))
 				)
 		)

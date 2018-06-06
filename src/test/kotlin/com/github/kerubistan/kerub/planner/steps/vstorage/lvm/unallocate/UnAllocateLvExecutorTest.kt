@@ -42,7 +42,8 @@ internal class UnAllocateLvExecutorTest {
 						allocation = VirtualStorageLvmAllocation(
 								hostId = testHost.id,
 								path = "/dev/kerub/test",
-								actualSize = 100.GB
+								actualSize = 100.GB,
+								vgName = "/kerub"
 						),
 						vstorage = testDisk
 				)

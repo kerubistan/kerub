@@ -22,7 +22,8 @@ data class CreateThinLv(
 								hostId = host.id,
 								actualSize = BigInteger.ZERO,
 								pool = poolName,
-								path = ""
+								path = "",
+								vgName = volumeGroupName
 						))
 				))
 			}

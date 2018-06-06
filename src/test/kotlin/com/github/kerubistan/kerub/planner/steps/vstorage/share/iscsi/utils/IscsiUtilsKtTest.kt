@@ -22,7 +22,8 @@ class IscsiUtilsKtTest {
 				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = testHost.id,
 						actualSize = testDisk.size,
-						path = "/dev/test/1234"
+						path = "/dev/test/1234",
+						vgName = "test"
 				))
 		)
 		kotlin.test.assertEquals(
@@ -45,7 +46,8 @@ class IscsiUtilsKtTest {
 				allocations = listOf(VirtualStorageLvmAllocation(
 						hostId = testHost.id,
 						actualSize = testDisk.size,
-						path = "/dev/test/1234"
+						path = "/dev/test/1234",
+						vgName = "test"
 				))
 		)
 		val hostDyn = HostDynamic(

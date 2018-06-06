@@ -89,7 +89,8 @@ class RemoveLvmPoolFactoryTest {
 													pool = "test-pool",
 													hostId = testHost.id,
 													path = "/dev/test-vg-1/${testDisk.id}",
-													actualSize = "1 GB".toSize()
+													actualSize = "1 GB".toSize(),
+													vgName = "test-vg-1"
 											)
 									)
 							)

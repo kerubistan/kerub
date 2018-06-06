@@ -20,7 +20,8 @@ class UnAllocateLvTest {
 		val allocation = VirtualStorageLvmAllocation(
 				hostId = testHost.id,
 				actualSize = 10.GB,
-				path = "/dev/kerub/test"
+				path = "/dev/kerub/test",
+				vgName = "kerub"
 		)
 		val updatedState = UnAllocateLv(
 				vstorage = testDisk,

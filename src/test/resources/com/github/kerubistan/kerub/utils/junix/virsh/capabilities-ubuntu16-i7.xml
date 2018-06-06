@@ -1,6 +1,6 @@
 <capabilities>
 
-  <host>
+  <sourceHost>
     <uuid>74ddabdd-0a68-11e5-a961-68f728e229e5</uuid>
     <cpu>
       <arch>x86_64</arch>
@@ -71,7 +71,7 @@
       <baselabel type='kvm'>+122:+130</baselabel>
       <baselabel type='qemu'>+122:+130</baselabel>
     </secmodel>
-  </host>
+  </sourceHost>
 
   <guest>
     <os_type>hvm</os_type>

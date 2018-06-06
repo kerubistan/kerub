@@ -51,7 +51,8 @@ class TgtdIscsiShareFactoryTest {
 			allocations = listOf(VirtualStorageLvmAllocation(
 					hostId = host.id,
 					actualSize = vStorage.size,
-					path = "/dev/test/" + vStorage.id
+					path = "/dev/test/" + vStorage.id,
+					vgName = "test"
 			))
 	)
 

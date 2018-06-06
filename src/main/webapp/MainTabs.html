@@ -205,7 +205,7 @@
 					</thead>
 					<tbody>
 					<tr ng-repeat="_host in hosts.result" class="clickable" ng-click="showHostDetails(_host.id)" ng-controller="HostRowController" ng-init="init(_host)">
-						<td>{{host.address}}</td>
+						<td>{{sourceHost.address}}</td>
 						<td style="maxheight: 50px">
 							<span ng-if="hostDyn">
 							<uib-progress animate="false" min="0" max="100">
@@ -216,30 +216,30 @@
 									{{hostDyn.systemCpu}} %
 								</uib-bar>
 							</uib-progress>
-							<uib-progress max="host.capabilities.totalMemory" animate="false">
-								<uib-bar value="host.capabilities.totalMemory - hostDyn.memFree">
-									{{ humanFriendlySize(host.capabilities.totalMemory-hostDyn.memFree)}} / {{ humanFriendlySize(host.capabilities.totalMemory)}}
+							<uib-progress max="sourceHost.capabilities.totalMemory" animate="false">
+								<uib-bar value="sourceHost.capabilities.totalMemory - hostDyn.memFree">
+									{{ humanFriendlySize(sourceHost.capabilities.totalMemory-hostDyn.memFree)}} / {{ humanFriendlySize(sourceHost.capabilities.totalMemory)}}
 								</uib-bar>
 							</uib-progress>
 							</span>
 						</td>
-						<td><span ng-if="host.capabilities.distribution" class="label label-primary">
+						<td><span ng-if="sourceHost.capabilities.distribution" class="label label-primary">
 									<i class="fa fa-linux"></i>
-									{{host.capabilities.distribution.name}}
-									{{host.capabilities.distribution.version.major}}
-									{{host.capabilities.distribution.version.minor}}
+									{{sourceHost.capabilities.distribution.name}}
+									{{sourceHost.capabilities.distribution.version.major}}
+									{{sourceHost.capabilities.distribution.version.minor}}
 									</span>
-									<span ng-if="host.capabilities.system.manufacturer" class="label label-default">
+									<span ng-if="sourceHost.capabilities.system.manufacturer" class="label label-default">
 									<i class="fa fa-industry"></i>
-									{{host.capabilities.system.manufacturer}}
+									{{sourceHost.capabilities.system.manufacturer}}
 									</span>
-									<span ng-if="host.capabilities.cpuArchitecture" class="label label-info">
+									<span ng-if="sourceHost.capabilities.cpuArchitecture" class="label label-info">
 									<i class="fa fa-gear"></i>
-									{{host.capabilities.cpuArchitecture}}
+									{{sourceHost.capabilities.cpuArchitecture}}
 									</span>
-									<span ng-if="host.capabilities.cpuArchitecture" class="label label-success">
+									<span ng-if="sourceHost.capabilities.cpuArchitecture" class="label label-success">
 									<i class="fa fa-reorder"></i>
-									{{humanFriendlySize(host.capabilities.totalMemory)}}
+									{{humanFriendlySize(sourceHost.capabilities.totalMemory)}}
 									</span>
 							<button class="btn fa fa-trash" ng-click="removeHost()"></button>
 						</td>
@@ -285,7 +285,7 @@
 						<ul>
 							<li>hosts: {{basicBalanceReport.totalHosts}} ({{basicBalanceReport.hostsOnline}} online)</li>
 							<li>vms: {{basicBalanceReport.totalVms}}</li>
-							<li>total host memory:
+							<li>total sourceHost memory:
 								{{humanFriendlySize(basicBalanceReport.totalHostMemory)}}
 							</li>
 							<li>min vm memory:
@@ -294,7 +294,7 @@
 							<li>max vm memory:
 								{{humanFriendlySize(basicBalanceReport.totalMaxVmMemory)}}
 							</li>
-							<li>host cpus:
+							<li>sourceHost cpus:
 								{{basicBalanceReport.totalHostCpus}}
 							</li>
 							<li>vm cpus:
@@ -407,7 +407,7 @@
 							<td><toggle-switch ng-model="config.ksmEnabled"></toggle-switch></td>
 						</tr>
 						<tr>
-							<td><span class="fa fa-copy"></span> Controller can install new software on the host
+							<td><span class="fa fa-copy"></span> Controller can install new software on the sourceHost
 							</td>
 							<td><toggle-switch ng-model="config.installSoftwareEnabled"></toggle-switch></td>
 						</tr>
