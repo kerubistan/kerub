@@ -9,7 +9,6 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
 import com.github.kerubistan.kerub.utils.update
-import java.util.UUID
 
 data class GenerateSshKey(val host: Host) : AbstractOperationalStep, InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean = other is ClearSshKey && other.host == host
@@ -18,7 +17,7 @@ data class GenerateSshKey(val host: Host) : AbstractOperationalStep, InvertibleS
 			hosts = state.hosts.update(host.id) {
 				it.copy(
 						config = (it.config ?: HostConfiguration(id = host.id))
-								.copy(publicKey = UUID.randomUUID().toString())
+								.copy(publicKey = "PLAN-KEY-FOR-${host.id}")
 				)
 			}
 	)
