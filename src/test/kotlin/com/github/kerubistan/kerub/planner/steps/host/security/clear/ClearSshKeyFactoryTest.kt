@@ -16,6 +16,18 @@ internal class ClearSshKeyFactoryTest {
 		assertTrue("blank state should produce no steps") {
 			ClearSshKeyFactory.produce(OperationalState.fromLists()).isEmpty()
 		}
+		assertTrue("only running hosts!") {
+			val host1 = testHost.copy(id = randomUUID())
+			val host2 = testHost.copy(id = randomUUID())
+			ClearSshKeyFactory.produce(
+					OperationalState.fromLists(
+							hosts = listOf(host1, host2),
+							hostCfgs = listOf(
+									HostConfiguration(id = host1.id, publicKey = "TEST")
+							)
+					)
+			).isEmpty()
+		}
 		assertTrue("Two hosts, one has public key, not installed on the other") {
 			val host1 = testHost.copy(id = randomUUID())
 			val host2 = testHost.copy(id = randomUUID())

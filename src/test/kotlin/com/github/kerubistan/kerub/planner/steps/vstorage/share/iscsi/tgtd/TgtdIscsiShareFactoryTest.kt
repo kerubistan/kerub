@@ -89,5 +89,20 @@ class TgtdIscsiShareFactoryTest {
 		assertTrue(steps.isEmpty())
 	}
 
+	@Test
+	fun produceAlreadyNotRunningHost() {
+		val steps = TgtdIscsiShareFactory.produce(
+				OperationalState.fromLists(
+						hosts = listOf(host),
+						hostCfgs = listOf(HostConfiguration(
+								id = host.id
+						)),
+						vStorage = listOf(vStorage),
+						vStorageDyns = listOf()
+				)
+		)
+		assertTrue(steps.isEmpty())
+	}
+
 
 }

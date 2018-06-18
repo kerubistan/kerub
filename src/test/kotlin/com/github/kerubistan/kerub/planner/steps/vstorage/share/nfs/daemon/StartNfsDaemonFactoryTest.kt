@@ -5,6 +5,8 @@ import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
+import com.github.kerubistan.kerub.model.dynamic.HostDynamic
+import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
@@ -51,9 +53,22 @@ class StartNfsDaemonFactoryTest {
 		assertTrue("single host with nfs not started - should generate a step") {
 			StartNfsDaemonFactory.produce(
 					OperationalState.fromLists(
-							hosts = listOf(hostWithNfs)
+							hosts = listOf(hostWithNfs),
+							hostDyns = listOf(
+									HostDynamic(
+											id = hostWithNfs.id,
+											status = HostStatus.Up
+									)
+							)
 					)
 			) == listOf(StartNfsDaemon(hostWithNfs))
+		}
+		assertTrue("single host with nfs not started - should not generate a step because it is not running") {
+			StartNfsDaemonFactory.produce(
+					OperationalState.fromLists(
+							hosts = listOf(hostWithNfs)
+					)
+			).isEmpty()
 		}
 		assertTrue("single host with nfs already started - no step") {
 			StartNfsDaemonFactory.produce(
