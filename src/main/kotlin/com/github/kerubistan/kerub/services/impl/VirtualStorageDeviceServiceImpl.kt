@@ -60,7 +60,7 @@ class VirtualStorageDeviceServiceImpl(
 		val device = getById(id)
 		dynDao.waitFor(id) { dyn ->
 			val host = requireNotNull(hostDao[dyn.allocation.hostId])
-			executor.dataConnection(host, { session ->
+			executor.dataConnection(host) { session ->
 				pump(data, device, dyn, session)
 
 				val virtualSize = if (type != VirtualDiskFormat.raw) {
@@ -80,7 +80,7 @@ class VirtualStorageDeviceServiceImpl(
 						size = virtualSize
 				))
 				async.resume(null)
-			})
+			}
 
 		}
 
