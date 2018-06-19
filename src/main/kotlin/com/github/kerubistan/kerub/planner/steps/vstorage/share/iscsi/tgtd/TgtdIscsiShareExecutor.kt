@@ -23,7 +23,7 @@ class TgtdIscsiShareExecutor(
 			)
 			TgtAdmin.shareBlockDevice(
 					session = session,
-					path = step.devicePath,
+					path = step.allocation.getPath(step.vstorage.id),
 					readOnly = step.vstorage.readOnly,
 					id = step.vstorage.id,
 					password = password

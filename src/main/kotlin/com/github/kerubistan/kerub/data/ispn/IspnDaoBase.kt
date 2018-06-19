@@ -107,7 +107,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 
 	override fun listenDelete(id: I, action: (T) -> Boolean) = listen(RemoveListener(cache, action), id)
 
-	override fun waitFor(id: I, action: (T) -> Unit) {
+	override fun waitFor(id: I, action: (T) -> Boolean) {
 		val value = get(id)
 		if (value == null) {
 			listenCreate(id, {

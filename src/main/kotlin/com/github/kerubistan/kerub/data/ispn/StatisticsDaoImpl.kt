@@ -122,7 +122,7 @@ class StatisticsDaoImpl(
 
 		val totalDiskStorageActual = task {
 			vdiskDynDao.parallelStream().map {
-				it.value.allocation.actualSize
+				it.value.allocations.sumBy { it.actualSize }
 			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
 		}
 

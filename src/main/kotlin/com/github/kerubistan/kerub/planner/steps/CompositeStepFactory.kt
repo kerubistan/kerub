@@ -12,8 +12,11 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedService
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDevice
+import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
+import com.github.kerubistan.kerub.planner.steps.base.UnAllocateFactory
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostFactory
+import com.github.kerubistan.kerub.planner.steps.host.security.HostSecurityCompositeFactory
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostFactory
 import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineFactory
@@ -21,6 +24,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFac
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.UnallocateDiskFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvmFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
@@ -40,12 +44,12 @@ class CompositeStepFactory(
 
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
 			PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-			RecycleHostFactory, ShareFactory)
+			RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory)
 
 	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
 					to setOf(StartVirtualMachineFactory, CreateDiskFactory, UnallocateDiskFactory, StopVirtualMachineFactory,
-					KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory),
+					KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory, UnAllocateFactory),
 			NotSameStorageExpectation::class to setOf(
 					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
 					MigrateVirtualMachineFactory),
@@ -54,39 +58,42 @@ class CompositeStepFactory(
 	)
 
 	private val problems = mapOf(
-			RecyclingHost::class to setOf(MigrateVirtualMachineFactory, PowerDownHostFactory, RecycleHostFactory),
+			RecyclingHost::class to setOf(MigrateVirtualMachineFactory, PowerDownHostFactory, RecycleHostFactory,
+					HostSecurityCompositeFactory, DuplicateToLvmFactory),
 			RecyclingStorageDevice::class to setOf(UnallocateDiskFactory, RemoveVirtualStorageFactory),
 			UnusedService::class to setOf(),
-			VmOnRecyclingHost::class to setOf()
+			VmOnRecyclingHost::class to setOf(),
+			VStorageDeviceOnRecyclingHost::class to setOf(
+					UnAllocateFactory, DuplicateToLvmFactory
+			)
 	)
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 		val unsatisfiedExpectations = planViolationDetector.listViolations(state)
-		logger.debug("unsatisfied expectations: {}", unsatisfiedExpectations)
+		logger.trace("unsatisfied expectations: {}", unsatisfiedExpectations)
 		val stepFactories = unsatisfiedExpectations.values.join()
 				.map {
 					factories[it.javaClass.kotlin] ?: defaultFactories
 				}.join().toSet()
 
-
 		val planProblems = problemDetector.detect(state)
-		logger.debug("problems {}", planProblems)
+		logger.trace("problems {}", planProblems)
 		val problemStepFactories = planProblems
 				.map { it.javaClass.kotlin }
 				.map { problems[it] ?: defaultFactories }.join().distinct()
 
 		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(),
 				state = state)
-		logger.debug("{} steps generated: {}", steps.size, steps)
+		logger.trace("{} steps generated: {}", steps.size, steps)
 
 		// let's not take a step that leads back to a previous planning phase, we could run endless rounds
 		val filtered = filterSteps(steps, state)
-		logger.debug("{} filtered steps: {}", filtered.size, filtered)
+		logger.trace("{} filtered steps: {}", filtered.size, filtered)
 
 		return filtered
 	}
 
-	private fun filterSteps(steps: List<AbstractOperationalStep>, plan: Plan) =
+	internal fun filterSteps(steps: List<AbstractOperationalStep>, plan: Plan) =
 			steps.filterNot { step ->
 				//the step leads to a state which we already had before (circle)
 				plan.states.contains(step.take(plan.state))
@@ -94,8 +101,9 @@ class CompositeStepFactory(
 						// note a limitation here: we search for ANY similar step rather than a previous one
 						// and that may need a rethink after a while, but this is already better than nothing
 						|| plan.steps.any {
-					it is SimilarStep && it.isLikeStep(step)
-				} //?: false
+					previousStep ->
+					previousStep is SimilarStep && previousStep.isLikeStep(step)
+				} || plan.steps.contains(step)
 			}
 
 	internal fun sort(list: List<AbstractOperationalStep>,

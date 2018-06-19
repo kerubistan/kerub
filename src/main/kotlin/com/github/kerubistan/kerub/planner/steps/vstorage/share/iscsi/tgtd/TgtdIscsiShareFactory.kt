@@ -1,26 +1,32 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
-import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.utils.unsharedDisks
+import com.github.kerubistan.kerub.planner.steps.factoryFeature
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.utils.iscsiShareableDisks
+import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 
 object TgtdIscsiShareFactory : AbstractOperationalStepFactory<TgtdIscsiShare>() {
 
-	override fun produce(state: OperationalState): List<TgtdIscsiShare> {
-		return unsharedDisks(state).map {
-			storageData ->
-			val host = requireNotNull(state.hosts[storageData.dynamic?.allocation?.hostId])
-			if (TgtAdmin.available(host.stat.capabilities) && host.dynamic?.status == HostStatus.Up) {
-				TgtdIscsiShare(
-						host = host.stat,
-						vstorage = storageData.stat,
-						devicePath = (storageData.dynamic?.allocation as VirtualStorageLvmAllocation).path
-				)
-			} else null
-		}.filterNotNull()
-	}
+	override fun produce(state: OperationalState): List<TgtdIscsiShare> =
+			factoryFeature(state.controllerConfig.storageTechnologies.iscsiEnabled) {
+				iscsiShareableDisks(state).mapNotNull { (disk, allocations) ->
+					allocations.filter {
+						isTgtdAvailable(requireNotNull(state.hosts[it.hostId]))
+					}.map { allocation ->
+						val hostColl = requireNotNull(state.hosts[allocation.hostId])
+						TgtdIscsiShare(
+								host = hostColl.stat,
+								vstorage = disk.stat,
+								allocation = allocation
+						)
+					}
+				}.join()
+			}
+
+	private fun isTgtdAvailable(hostColl: HostDataCollection) =
+			TgtAdmin.available(hostColl.stat.capabilities)
 
 }

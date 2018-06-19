@@ -9,6 +9,9 @@ import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
 import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemon
+import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -17,6 +20,27 @@ import org.junit.Test
 import kotlin.test.assertTrue
 
 class CompositeStepFactoryTest {
+
+	@Test
+	fun filterSteps() {
+		assertTrue("filter out steps that had been executed and been inverted already") {
+			val steps = listOf(
+					StartNfsDaemon(host = testHost),
+					StopNfsDaemon(host = testHost)
+			)
+			CompositeStepFactory(mock(), mock()).filterSteps(
+					listOf(
+							StartNfsDaemon(host = testHost)
+					),
+					Plan.planBy(
+							OperationalState.fromLists(
+									hosts = listOf(testHost)
+							),
+							steps
+					)
+			).isEmpty()
+		}
+	}
 
 	@Test
 	fun produce() {

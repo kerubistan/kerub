@@ -3,9 +3,11 @@ package com.github.kerubistan.kerub.services.impl
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.VirtualMachineDao
 import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
+import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
@@ -29,6 +31,7 @@ class VirtualStorageDeviceServiceImpl(
 		accessController: AssetAccessController,
 		private val dynDao: VirtualStorageDeviceDynamicDao,
 		private val hostDao: HostDao,
+		private val hostDynDao: HostDynamicDao,
 		private val executor: HostCommandExecutor,
 		private val vmDao: VirtualMachineDao
 ) : VirtualStorageDeviceService,
@@ -59,14 +62,15 @@ class VirtualStorageDeviceServiceImpl(
 	override fun load(id: UUID, type: VirtualDiskFormat, async: AsyncResponse, data: InputStream) {
 		val device = getById(id)
 		dynDao.waitFor(id) { dyn ->
-			val host = requireNotNull(hostDao[dyn.allocation.hostId])
+			val virtualStorageAllocation = dyn.allocations.single()
+			val host = requireNotNull(hostDao[virtualStorageAllocation.hostId])
 			executor.dataConnection(host) { session ->
-				pump(data, device, dyn, session)
+				pump(data, device, dyn, session, virtualStorageAllocation)
 
 				val virtualSize = if (type != VirtualDiskFormat.raw) {
 					val size: Long = QemuImg.info(
 							session,
-							"${(dyn.allocation as VirtualStorageFsAllocation).mountPoint}/${device.id}"
+							"${(virtualStorageAllocation as VirtualStorageFsAllocation).mountPoint}/${device.id}"
 					).virtualSize
 					BigInteger(
 							"$size"
@@ -93,8 +97,12 @@ class VirtualStorageDeviceServiceImpl(
 		load(id, VirtualDiskFormat.raw, async, data)
 	}
 
-	private fun pump(data: InputStream, device: VirtualStorageDevice, dyn: VirtualStorageDeviceDynamic, session: ClientSession) {
-		uploadRaw(data, device, dyn.allocation.getPath(dyn.id), session)
+	private fun pump(data: InputStream,
+					 device: VirtualStorageDevice,
+					 dyn: VirtualStorageDeviceDynamic,
+					 session: ClientSession,
+					 allocation: VirtualStorageAllocation) {
+		uploadRaw(data, device, allocation.getPath(dyn.id), session)
 	}
 
 	private fun uploadRaw(data: InputStream, device: VirtualStorageDevice, path: String, session: ClientSession) {

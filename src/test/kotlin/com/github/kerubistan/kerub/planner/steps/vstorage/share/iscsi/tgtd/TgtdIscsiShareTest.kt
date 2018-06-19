@@ -51,7 +51,13 @@ class TgtdIscsiShareTest {
 		val newState = TgtdIscsiShare(
 				host = host,
 				vstorage = vStorage,
-				devicePath = "/dev/test/${vStorage.id}")
+				allocation = VirtualStorageLvmAllocation(
+						vgName = "test",
+						actualSize = testDisk.size,
+						hostId = testHost.id,
+						path = ""
+				)
+		)
 				.take(OperationalState.fromLists(
 						hosts = listOf(host),
 						hostDyns = listOf(hostDyn),
@@ -64,9 +70,19 @@ class TgtdIscsiShareTest {
 	@Test
 	fun isInverseOf() {
 		assertTrue("find inverse operation") {
-			val share = TgtdIscsiShare(host = testHost, devicePath = "/dev/test", vstorage = testDisk)
-			val unshare = TgtdIscsiUnshare(host = testHost, vstorage = testDisk)
-			listOf(unshare).first { it.isInverseOf(share) } == unshare
+			val allocation = VirtualStorageLvmAllocation(
+					vgName = "test",
+					actualSize = testDisk.size,
+					hostId = testHost.id,
+					path = ""
+			)
+			val share = TgtdIscsiShare(
+					host = testHost,
+					allocation = allocation,
+					vstorage = testDisk
+			)
+			val unshare = TgtdIscsiUnshare(host = testHost, vstorage = testDisk, allocation = allocation)
+			unshare.isInverseOf(share)
 		}
 	}
 

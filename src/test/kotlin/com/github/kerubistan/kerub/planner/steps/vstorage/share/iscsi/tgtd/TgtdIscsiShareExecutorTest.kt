@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.HostManager
 import com.github.kerubistan.kerub.host.ServiceManager
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
@@ -59,7 +60,17 @@ class TgtdIscsiShareExecutorTest {
 		whenever(sftp.write(any())).thenReturn(NullOutputStream())
 		whenever(hostManager.getServiceManager(any())).thenReturn(serviceManager)
 		TgtdIscsiShareExecutor(hostConfigDao, HostCommandExecutorStub(session), hostManager)
-				.execute(step = TgtdIscsiShare(host = host, devicePath = "/dev/test", vstorage = vStorage))
+				.execute(
+						step = TgtdIscsiShare(
+								host = host,
+								allocation = VirtualStorageLvmAllocation(
+										hostId = host.id,
+										path = "",
+										actualSize = vStorage.size,
+										vgName = "test-vg"),
+								vstorage = vStorage
+						)
+				)
 
 		verify(firewall).open(eq(3260), eq("tcp"))
 		verify(serviceManager).start(TgtAdmin)

@@ -88,7 +88,7 @@ interface DaoOperations {
 		/**
 		 * Get the entity and perform the action
 		 */
-		fun waitFor(id: I, action: (T) -> Unit)
+		fun waitFor(id: I, action: (T) -> Boolean)
 	}
 
 }

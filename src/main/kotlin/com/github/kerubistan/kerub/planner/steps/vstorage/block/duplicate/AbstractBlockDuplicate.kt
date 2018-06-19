@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.block.duplicate
 
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -21,6 +22,8 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: 
 	abstract val sourceHost: Host
 	abstract val target: T
 	abstract val targetHost: Host
+	abstract val targetCapability : StorageCapability
+
 
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean =
 			(other is UnAllocate<*>
@@ -47,7 +50,13 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: 
 								dynamic = it.dynamic!!.copy(
 										storageStatus = it.dynamic.storageStatus.map {
 											storageStatus ->
-											TODO()
+											if(storageStatus.id == targetCapability.id) {
+												storageStatus.copy(
+														freeCapacity = storageStatus.freeCapacity - target.actualSize
+												)
+											} else {
+												storageStatus
+											}
 										}
 								)
 						)

@@ -602,6 +602,7 @@
 				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="virtualStorageDeviceDynDao"/>
 				<constructor-arg ref="hostDao"/>
+				<constructor-arg ref="hostDynamicDao"/>
 				<constructor-arg ref="hostManager"/>
 				<constructor-arg ref="vmDao"/>
 			</bean>

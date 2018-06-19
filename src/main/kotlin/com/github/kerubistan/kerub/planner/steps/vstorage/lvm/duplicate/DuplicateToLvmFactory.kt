@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate
 
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -27,6 +28,7 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 												?.filterIsInstance(LvmStorageCapability::class.java)
 												?.filter {
 													hasEnoughFreeCapacity(it, vstorage.value.stat, targetHostColl.dynamic)
+															&& isHostkeyInstalled(sourceHost, targetHostColl)
 												}?.map {
 													DuplicateToLvm(
 															vStorageDevice = vstorage.value.stat,
@@ -44,5 +46,9 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 									}
 						}
 			}.join().join().filterNotNull().join()
+
+	private fun isHostkeyInstalled(sourceHost: HostDataCollection, targetHostColl: HostDataCollection) =
+			(sourceHost.config?.publicKey != null &&
+					targetHostColl.config?.acceptedPublicKeys?.contains(sourceHost.config.publicKey) ?: false)
 
 }

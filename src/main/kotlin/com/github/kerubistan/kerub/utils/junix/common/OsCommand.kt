@@ -15,6 +15,5 @@ interface OsCommand {
 
 	fun available(hostCapabilities: HostCapabilities?) =
 			hostCapabilities?.distribution != null
-					&& hostCapabilities.installedSoftware != null
 					&& available(hostCapabilities.distribution, hostCapabilities.installedSoftware)
 }

@@ -17,6 +17,7 @@ data class VirtualStorageDeviceDynamic(
 		override val lastUpdated: Long = now(),
 		val allocations: List<VirtualStorageAllocation>
 ) : DynamicEntity {
+	@Deprecated("Use allocations", replaceWith = ReplaceWith(expression = "allocations"))
 	val allocation : VirtualStorageAllocation
-		get() = allocations.single()
+		get() = allocations.first()
 }

@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.annotations.Dynamic
 import com.github.kerubistan.kerub.utils.now
 import org.hibernate.search.annotations.DocumentId
+import org.hibernate.search.annotations.Field
 import java.math.BigInteger
 import java.util.UUID
 
@@ -19,6 +20,7 @@ data class HostDynamic(
 		@JsonProperty("id")
 		override val id: UUID,
 		override val lastUpdated: Long = now(),
+		@Field
 		val status: HostStatus = HostStatus.Up,
 		val userCpu: Byte? = null,
 		val systemCpu: Byte? = null,
@@ -30,4 +32,8 @@ data class HostDynamic(
 		val cpuStats: List<CpuStat> = listOf(),
 		val storageStatus: List<StorageDeviceDynamic> = listOf()
 )
-	: DynamicEntity
+	: DynamicEntity {
+	val idStr : String
+		@Field
+		get() = id.toString()
+}

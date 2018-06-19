@@ -103,7 +103,7 @@ class PlanRationalizerImplTest {
 			PlanRationalizerImpl(mock(), mock(), mock()).rationalize(onestep) == onestep
 		}
 
-		assertTrue("remove totally pointless stop to start nfs server") {
+		assertTrue("remove totally pointless step to start nfs server") {
 			val stepFactory = mock<StepFactory<AbstractOperationalStep, Plan>>()
 			val vm = testVm.copy(expectations = listOf(VirtualMachineAvailabilityExpectation()))
 			val startVirtualMachine = KvmStartVirtualMachine(vm = vm, host = testHost)

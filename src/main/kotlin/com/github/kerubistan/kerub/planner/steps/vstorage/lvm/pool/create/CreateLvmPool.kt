@@ -35,7 +35,7 @@ class CreateLvmPool(
 	)
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
-			hosts = state.hosts.update(host.id, {
+			hosts = state.hosts.update(host.id) {
 				it.copy(
 						config = (it.config ?: HostConfiguration()).let { config ->
 							config.copy(
@@ -49,6 +49,6 @@ class CreateLvmPool(
 						},
 						dynamic = updateHostDynLvmWithAllocation(state, host, vgName, size)
 				)
-			})
+			}
 	)
 }

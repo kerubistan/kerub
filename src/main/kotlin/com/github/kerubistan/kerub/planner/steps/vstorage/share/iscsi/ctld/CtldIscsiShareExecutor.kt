@@ -17,7 +17,7 @@ class CtldIscsiShareExecutor(hostConfigDao: HostConfigurationDao,
 					session = session,
 					id = step.vstorage.id,
 					readOnly = step.vstorage.readOnly,
-					path = "/dev/gvinum/${step.vstorage.id}"
+					path = step.allocation.getPath(step.vstorage.id)
 			)
 			hostManager.getServiceManager(host = step.host).let {
 				it.enable(Ctld)

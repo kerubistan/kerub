@@ -22,11 +22,45 @@ class PlanRationalizerImpl(
 	 */
 	override fun rationalize(plan: Plan): Plan =
 			if (plan.steps.size > 1) {
-				val cleanup = tryRemoveInverses(plan)
+				val cleanup = tryRemoveSingles(tryRemoveInverses(plan))
 				(1..(cleanup.steps.size - 1)).map {
 					subPlan(cleanup, it)
 				}.filterNotNull().minBy { it.steps.size } ?: cleanup
 			} else plan
+
+	internal fun tryRemoveSingles(plan: Plan): Plan =
+		if(plan.steps.size <= 1) {
+			plan
+		} else {
+			var work = plan
+
+			val initialState = plan.states.first()
+			plan.steps.forEach {
+				step ->
+
+				val candidatePlan = createPlan(initial = initialState, steps = work.steps - step)
+				if(candidatePlan != null && isTargetState(candidatePlan)) {
+					work = candidatePlan
+				}
+
+			}
+
+			work
+		}
+
+	private fun createPlan(initial: OperationalState, steps: List<AbstractOperationalStep>): Plan? {
+		var work = Plan(initial, listOf())
+		steps.forEach{
+			step ->
+			val offeredSteps = stepFactory.produce(work)
+			if(step in offeredSteps) {
+				work = Plan.planBy(initial, work.steps + step)
+			} else {
+				return null
+			}
+		}
+		return work
+	}
 
 	internal fun tryRemoveInverses(plan: Plan): Plan {
 

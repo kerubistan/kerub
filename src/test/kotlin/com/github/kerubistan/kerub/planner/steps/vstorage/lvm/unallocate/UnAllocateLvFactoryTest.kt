@@ -10,6 +10,12 @@ class UnAllocateLvFactoryTest {
 		assertTrue("blank state - no steps") {
 			UnAllocateLvFactory.produce(OperationalState.fromLists()).isEmpty()
 		}
+//		assertTrue("a read-only disk with two instances") {
+//			TODO()
+//		}
+//		assertTrue("a recycling disk") {
+//			TODO()
+//		}
 
 	}
 }

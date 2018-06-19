@@ -124,11 +124,10 @@ class PlannerImpl(
 									 violationDetector = violationDetector)
 		)
 		val strategy = OrTerminationStrategy<Plan>(listOf(
-				listener,
-				TimeoutTerminationStrategy(now() + 2000)
+				listener
+//				,
+//				TimeoutTerminationStrategy(now() + 2000)
 		))
-		logger.debug("starting planing")
-		logger.debug("reservations: " + state.reservations)
 
 		backtrack.backtrack(
 				state = Plan(states = listOf(state)),

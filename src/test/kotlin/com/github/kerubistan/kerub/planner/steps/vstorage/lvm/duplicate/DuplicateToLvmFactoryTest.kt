@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
@@ -135,6 +136,16 @@ internal class DuplicateToLvmFactoryTest {
 									)
 
 							),
+							hostCfgs = listOf(
+									HostConfiguration(
+											id = sourceHost.id,
+											publicKey = "SOURCE-HOST-PUBLIC-KEY"
+									),
+									HostConfiguration(
+											id = targetHost.id,
+											acceptedPublicKeys = listOf("SOURCE-HOST-PUBLIC-KEY")
+									)
+							),
 							vStorage = listOf(readOnlyDisk),
 							vStorageDyns = listOf(
 									VirtualStorageDeviceDynamic(
@@ -209,10 +220,109 @@ internal class DuplicateToLvmFactoryTest {
 									)
 
 							),
+							hostCfgs = listOf(
+									HostConfiguration(
+											id = sourceHost.id,
+											publicKey = "SOURCE-HOST-PUBLIC-KEY"
+									),
+									HostConfiguration(
+											id = targetHost.id,
+											acceptedPublicKeys = listOf("SOURCE-HOST-PUBLIC-KEY")
+									)
+							),
 							vStorage = listOf(readOnlyDisk),
 							vStorageDyns = listOf(
 									VirtualStorageDeviceDynamic(
 											id = readOnlyDisk.id,
+											allocations = listOf(
+													VirtualStorageLvmAllocation(
+															hostId = sourceHost.id,
+															path = "",
+															actualSize = 100.GB,
+															vgName = "kerub-test-vg"
+													),
+													VirtualStorageLvmAllocation(
+															hostId = targetHost.id,
+															path = "",
+															actualSize = 100.GB,
+															vgName = "kerub-test-vg"
+													)
+
+											)
+									)
+							)
+					)
+			).isEmpty()
+		}
+
+
+		assertTrue("two hosts, read-write disk") {
+			val sourceCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
+			val sourceHost = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									sourceCapability
+							)
+					)
+			)
+			val targetCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
+			val targetHost = testOtherHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									targetCapability
+							)
+					)
+			)
+			DuplicateToLvmFactory.produce(
+					OperationalState.fromLists(
+							hosts = listOf(sourceHost, targetHost),
+							hostDyns = listOf(
+									HostDynamic(
+											id = sourceHost.id,
+											status = HostStatus.Up,
+											storageStatus = listOf(
+													StorageDeviceDynamic(
+															id = sourceCapability.id,
+															freeCapacity = targetCapability.size // all free
+													)
+											)
+									),
+									HostDynamic(
+											id = targetHost.id,
+											status = HostStatus.Up,
+											storageStatus = listOf(
+													StorageDeviceDynamic(
+															id = targetCapability.id,
+															freeCapacity = targetCapability.size // all free
+													)
+											)
+									)
+
+							),
+							hostCfgs = listOf(
+									HostConfiguration(
+											id = sourceHost.id,
+											publicKey = "SOURCE-HOST-PUBLIC-KEY"
+									),
+									HostConfiguration(
+											id = targetHost.id,
+											acceptedPublicKeys = listOf("SOURCE-HOST-PUBLIC-KEY")
+									)
+							),
+							vStorage = listOf(readWriteDisk),
+							vStorageDyns = listOf(
+									VirtualStorageDeviceDynamic(
+											id = readWriteDisk.id,
 											allocations = listOf(
 													VirtualStorageLvmAllocation(
 															hostId = sourceHost.id,

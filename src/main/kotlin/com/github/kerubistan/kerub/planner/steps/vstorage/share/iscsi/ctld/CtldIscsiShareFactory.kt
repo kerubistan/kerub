@@ -1,28 +1,32 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.ctld
 
-import com.github.kerubistan.kerub.model.OperatingSystem
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.utils.unsharedDisks
+import com.github.kerubistan.kerub.planner.steps.factoryFeature
+import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.utils.iscsiShareableDisks
+import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.iscsi.ctld.Ctld
+import java.util.UUID
 
 object CtldIscsiShareFactory : AbstractOperationalStepFactory<CtldIscsiShare>() {
 	override fun produce(state: OperationalState): List<CtldIscsiShare> =
-			unsharedDisks(state).filter {
-				diskData ->
-				val allocation = diskData.dynamic?.allocation
-				val hostId = allocation?.hostId
-				allocation is VirtualStorageBlockDeviceAllocation && state.hosts[hostId]?.let {
-					val capabilities = it.stat.capabilities
-					capabilities?.os == OperatingSystem.BSD
-							&& capabilities.distribution?.name == "FreeBSD"
-							&& Ctld.available(capabilities)
-				} ?: false
-			}.map {
-				CtldIscsiShare(
-						host = requireNotNull(state.hosts[it.dynamic?.allocation?.hostId]).stat,
-						vstorage = it.stat
-				)
+			factoryFeature(state.controllerConfig.storageTechnologies.iscsiEnabled) {
+				iscsiShareableDisks(state).mapNotNull { (disk, allocations) ->
+					allocations.filter {
+						isCtldAvailable(state, it.hostId)
+					}.map {
+						CtldIscsiShare(
+								host = requireNotNull(state.hosts[it.hostId]).stat,
+								vstorage = disk.stat,
+								allocation = it
+						)
+					}
+
+				}.join()
 			}
+
+	fun isCtldAvailable(state: OperationalState, hostId: UUID): Boolean =
+			state.hosts[hostId]?.let {
+						Ctld.available(it.stat.capabilities)
+			} ?: false
 }

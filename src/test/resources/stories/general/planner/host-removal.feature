@@ -59,20 +59,20 @@ Feature: removing a host
 	  | address                | ram | Cores | Threads | Architecture | Operating System | Distro | Distro version |
 	  | diebastard.example.com | 2GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	  | longlive.example.com   | 2GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
+	And host diebastard.example.com is Up
+	And host longlive.example.com is Up
 	And host diebastard.example.com volume groups are:
 	  | vg name | size   | pvs                            |
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And host longlive.example.com volume groups are:
 	  | vg name | size   | pvs                            |
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
-	And host diebastard.example.com is Up
-	And host longlive.example.com is Up
 	And virtual storage devices:
-	  | name          | size | ro    |
-	  | system-disk-1 | 2 GB | false |
+	  | name          | size | ro   |
+	  | system-disk-1 | 2 GB | true |
 	And system-disk-1 is allocated on host diebastard.example.com volume group vg-1
 	And host diebastard.example.com is scheduled for recycling
 	When planner starts
 	Then host ssh key must be generated on diebastard.example.com as step 1
-	Then host ssh key of diebastard.example.com must be installed on livelong.example.com as step 2
-	Then the virtual disk \S+ must be duplicated to \S+ under volume group \S+ as step 3
+	Then host ssh key of diebastard.example.com must be installed on longlive.example.com as step 2
+	Then the virtual disk system-disk-1 must be duplicated to longlive.example.com under volume group vg-1 as step 3

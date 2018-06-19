@@ -12,43 +12,48 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.utils.genPassword
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class IscsiUtilsKtTest {
 
 	@Test
-	fun unsharedDisks() {
+	fun iscsiShareableDisks() {
+		val allocation = VirtualStorageLvmAllocation(
+				hostId = testHost.id,
+				actualSize = testDisk.size,
+				path = "/dev/test/1234",
+				vgName = "test"
+		)
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
-				allocations = listOf(VirtualStorageLvmAllocation(
-						hostId = testHost.id,
-						actualSize = testDisk.size,
-						path = "/dev/test/1234",
-						vgName = "test"
-				))
+				allocations = listOf(allocation)
 		)
-		kotlin.test.assertEquals(
-				listOf(VirtualStorageDataCollection(stat = testDisk, dynamic = diskDyn)),
-				unsharedDisks(
+		assertEquals(
+				mapOf(
+						VirtualStorageDataCollection(stat = testDisk, dynamic = diskDyn) to listOf(allocation)
+				),
+				iscsiShareableDisks(
 						OperationalState.fromLists(
 								vStorage = listOf(testDisk),
 								vStorageDyns = listOf(diskDyn),
-								hosts = listOf(testHost)
+								hosts = listOf(testHost),
+								hostDyns = listOf(HostDynamic(id = testHost.id, status = HostStatus.Up))
 						)
 				)
 		)
 	}
 
-
 	@Test
-	fun unsharedDisksWithSharedDisk() {
+	fun iscsiShareableDisksWithSharedDisk() {
+		val allocation = VirtualStorageLvmAllocation(
+				hostId = testHost.id,
+				actualSize = testDisk.size,
+				path = "/dev/test/1234",
+				vgName = "test"
+		)
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
-				allocations = listOf(VirtualStorageLvmAllocation(
-						hostId = testHost.id,
-						actualSize = testDisk.size,
-						path = "/dev/test/1234",
-						vgName = "test"
-				))
+				allocations = listOf(allocation)
 		)
 		val hostDyn = HostDynamic(
 				id = testHost.id,
@@ -63,9 +68,9 @@ class IscsiUtilsKtTest {
 						)
 				)
 		)
-		kotlin.test.assertEquals(
-				listOf(),
-				unsharedDisks(
+		assertEquals(
+				mapOf(),
+				iscsiShareableDisks(
 						OperationalState.fromLists(
 								vStorage = listOf(testDisk),
 								vStorageDyns = listOf(diskDyn),
@@ -75,6 +80,51 @@ class IscsiUtilsKtTest {
 						)
 				)
 		)
+	}
+
+	@Test
+	fun iscsiSharedDisks() {
+		val allocation = VirtualStorageLvmAllocation(
+				hostId = testHost.id,
+				actualSize = testDisk.size,
+				path = "/dev/test/1234",
+				vgName = "test"
+		)
+		val diskDyn = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocations = listOf(allocation)
+		)
+		val hostDyn = HostDynamic(
+				id = testHost.id,
+				status = HostStatus.Up
+		)
+		val hostConfig = HostConfiguration(
+				id = testHost.id,
+				services = listOf(
+						IscsiService(
+								password = genPassword(),
+								vstorageId = testDisk.id
+						)
+				)
+		)
+		assertEquals(
+				mapOf(
+						VirtualStorageDataCollection(
+								stat = testDisk,
+								dynamic = diskDyn
+						) to listOf(allocation)
+				),
+				iscsiSharedDisks(
+						OperationalState.fromLists(
+								vStorage = listOf(testDisk),
+								vStorageDyns = listOf(diskDyn),
+								hosts = listOf(testHost),
+								hostCfgs = listOf(hostConfig),
+								hostDyns = listOf(hostDyn)
+						)
+				)
+		)
+
 	}
 
 }

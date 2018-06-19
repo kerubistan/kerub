@@ -166,7 +166,7 @@ Feature: storage management
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
 	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>      |
 	  | host-2.example.com | 8 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>      |
-	And host 127.0.0.5 volume groups are:
+	And host host-1.example.com volume groups are:
 	  | vg name | size   | pvs                            |
 	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
 	And Controller configuration 'lvm create volume enabled' is enabled
