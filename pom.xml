@@ -54,7 +54,7 @@
 		<jetty.version>9.2.2.v20140723</jetty.version>
 		<shiro.version>1.4.0</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
-		<dokka.version>0.9.16</dokka.version>
+		<dokka.version>0.9.17</dokka.version>
 	</properties>
 	<dependencies>
 		<dependency>
