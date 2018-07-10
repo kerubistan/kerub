@@ -13,8 +13,7 @@ class FallocateImageExecutor(
 		private val dynDao: VirtualStorageDeviceDynamicDao
 ) : AbstractStepExecutor<FallocateImage, BigInteger>() {
 	override fun perform(step: FallocateImage) =
-			exec.execute(step.host) {
-				session ->
+			exec.execute(step.host) { session ->
 				val path = step.allocation.getPath(step.virtualStorage.id)
 				Fallocate.dig(session, path)
 				DU.du(session, path)
@@ -23,7 +22,9 @@ class FallocateImageExecutor(
 	override fun update(step: FallocateImage, updates: BigInteger) {
 		dynDao.update(id = step.virtualStorage.id) {
 			it.copy(
-					allocations = listOf(it.allocation.resize(updates))
+					allocations = it.allocations + step.allocation.copy(
+							actualSize = updates
+					)
 			)
 		}
 	}
