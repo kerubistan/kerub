@@ -57,6 +57,14 @@ val testDisk = VirtualStorageDevice(
 		size = 2.GB
 )
 
+val testCdrom = VirtualStorageDevice(
+		id = randomUUID(),
+		readOnly = true,
+		name = "crapware-linux_72.10.iso",
+		size = 4.GB
+)
+
+
 val testVm = VirtualMachine(
 		id = randomUUID(),
 		memory = Range(min = 1.GB, max = 2.GB),
