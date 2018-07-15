@@ -13,15 +13,14 @@ import com.github.kerubistan.kerub.utils.containsAny
 
 abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
-	fun getWorkingHosts(state: OperationalState, filter: (HostDataCollection) -> Boolean): List<HostDataCollection> {
-		return state.hosts.values.map {
+	fun getWorkingHosts(state: OperationalState, filter: (HostDataCollection) -> Boolean): List<HostDataCollection> =
+		state.hosts.values.mapNotNull {
 			hostData ->
 			if (hostData.dynamic != null && hostData.dynamic.status == HostStatus.Up && filter(hostData))
 				hostData
 			else
 				null
-		}.filterNotNull()
-	}
+		}
 
 	fun getWorkingHosts(state: OperationalState): List<HostDataCollection> = getWorkingHosts(state) { true }
 
