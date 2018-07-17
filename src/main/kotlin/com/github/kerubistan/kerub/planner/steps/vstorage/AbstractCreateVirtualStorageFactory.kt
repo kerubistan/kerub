@@ -12,9 +12,6 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
 	companion object {
-		fun listRunningHosts(state: OperationalState) =
-				state.hosts.values.filter { it.dynamic?.status == HostStatus.Up }
-
 		fun listStorageNotAllocated(
 				state: OperationalState,
 				types: List<VirtualDiskFormat> = VirtualDiskFormat.values().toList()): List<VirtualStorageDevice> {

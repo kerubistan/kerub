@@ -10,12 +10,11 @@ import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
 object CreateImageFactory : AbstractCreateVirtualStorageFactory<CreateImage>() {
 	override fun produce(state: OperationalState): List<CreateImage> {
 		val storageNotAllocated = listStorageNotAllocated(state)
-		val runningHosts = listRunningHosts(state)
 
 		var steps = listOf<CreateImage>()
 
 		val storageTechnologies = state.controllerConfig.storageTechnologies
-		runningHosts.filter { QemuImg.available(it.stat.capabilities) }
+		state.runningHosts.filter { QemuImg.available(it.stat.capabilities) }
 				.forEach {
 					hostData ->
 					hostData.stat.capabilities?.storageCapabilities?.filter {

@@ -16,6 +16,7 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.DynamicEntity
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
+import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.reservations.Reservation
@@ -98,5 +99,7 @@ data class OperationalState(
 			vStorage.values.filterNot {
 			reservations.contains(VirtualStorageReservation(it.stat))
 		}.map { it.stat }
+
+	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
 }
