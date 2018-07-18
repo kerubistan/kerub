@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
+import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.HostMemoryReservation
@@ -12,7 +13,10 @@ import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.update
 
-data class KvmStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+data class KvmStartVirtualMachine(
+		val vm: VirtualMachine,
+		override val host: Host,
+		val storageLinks : List<VirtualStorageLinkInfo> = listOf()) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		return state.copy(

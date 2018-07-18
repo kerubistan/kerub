@@ -4,9 +4,10 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.vm.allStorageAvailable
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
-import com.github.kerubistan.kerub.planner.steps.vm.storageAllocationMap
+import com.github.kerubistan.kerub.planner.steps.vm.virtualStorageLinkInfo
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
@@ -14,17 +15,26 @@ import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {
 
 	override fun produce(state: OperationalState): List<KvmStartVirtualMachine> =
-			getVmsToStart(state).map {
-				vm ->
-				getWorkingHosts(state) {
-					hostData ->
-					hostData.stat.capabilities?.os == OperatingSystem.Linux
+			getVmsToStart(state).map { vm ->
+				state.runningHosts.mapNotNull { hostData ->
+					val virtualStorageLinks = lazy {
+						virtualStorageLinkInfo(
+								state = state,
+								links = vm.virtualStorageLinks,
+								targetHostId = hostData.stat.id)
+					}
+					if (hostData.stat.capabilities?.os == OperatingSystem.Linux
 							&& isHwVirtualizationSupported(hostData.stat)
 							&& isKvmInstalled(hostData.stat)
 							&& isKvmCapable(hostData.stat.capabilities.hypervisorCapabilities, vm)
-							&& match(hostData, vm, storageAllocationMap(state, vm.virtualStorageLinks))
-				}.map {
-					KvmStartVirtualMachine(vm, it.stat)
+							&& match(hostData, vm)
+							&& allStorageAvailable(vm, virtualStorageLinks.value)) {
+						KvmStartVirtualMachine(
+								vm = vm,
+								host = hostData.stat,
+								storageLinks = virtualStorageLinks.value)
+
+					} else null
 				}
 			}.join()
 

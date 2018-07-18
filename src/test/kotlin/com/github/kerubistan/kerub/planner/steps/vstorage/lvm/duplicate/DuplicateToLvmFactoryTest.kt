@@ -20,14 +20,14 @@ import kotlin.test.assertTrue
 
 internal class DuplicateToLvmFactoryTest {
 
-	val readOnlyDisk = VirtualStorageDevice(
+	private val readOnlyDisk = VirtualStorageDevice(
 			id = randomUUID(),
 			name = "kakukklinux.iso",
 			size = 5.GB,
 			readOnly = true
 	)
 
-	val readWriteDisk = VirtualStorageDevice(
+	private val readWriteDisk = VirtualStorageDevice(
 			id = randomUUID(),
 			name = "database.qcow",
 			size = 5.GB,
@@ -329,6 +329,86 @@ internal class DuplicateToLvmFactoryTest {
 															path = "",
 															actualSize = 100.GB,
 															vgName = "kerub-test-vg"
+													))
+									)
+							)
+					)
+			).isEmpty()
+		}
+
+		assertTrue("two hosts, read-only disk, already has duplicate") {
+			val sourceCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
+			val sourceHost = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									sourceCapability
+							)
+					)
+			)
+			val targetCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
+			val targetHost = testOtherHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									targetCapability
+							)
+					)
+			)
+			DuplicateToLvmFactory.produce(
+					OperationalState.fromLists(
+							hosts = listOf(sourceHost, targetHost),
+							hostDyns = listOf(
+									HostDynamic(
+											id = sourceHost.id,
+											status = HostStatus.Up,
+											storageStatus = listOf(
+													StorageDeviceDynamic(
+															id = sourceCapability.id,
+															freeCapacity = targetCapability.size // all free
+													)
+											)
+									),
+									HostDynamic(
+											id = targetHost.id,
+											status = HostStatus.Up,
+											storageStatus = listOf(
+													StorageDeviceDynamic(
+															id = targetCapability.id,
+															freeCapacity = targetCapability.size // all free
+													)
+											)
+									)
+
+							),
+							hostCfgs = listOf(
+									HostConfiguration(
+											id = sourceHost.id,
+											publicKey = "SOURCE-HOST-PUBLIC-KEY"
+									),
+									HostConfiguration(
+											id = targetHost.id,
+											acceptedPublicKeys = listOf("SOURCE-HOST-PUBLIC-KEY")
+									)
+							),
+							vStorage = listOf(readOnlyDisk),
+							vStorageDyns = listOf(
+									VirtualStorageDeviceDynamic(
+											id = readOnlyDisk.id,
+											allocations = listOf(
+													VirtualStorageLvmAllocation(
+															hostId = sourceHost.id,
+															path = "",
+															actualSize = 100.GB,
+															vgName = "kerub-test-vg"
 													),
 													VirtualStorageLvmAllocation(
 															hostId = targetHost.id,
@@ -336,7 +416,6 @@ internal class DuplicateToLvmFactoryTest {
 															actualSize = 100.GB,
 															vgName = "kerub-test-vg"
 													)
-
 											)
 									)
 							)

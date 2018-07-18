@@ -2,11 +2,8 @@ package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.HostDao
-import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
-import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
-import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.distros.Distribution
 import com.github.kerubistan.kerub.hypervisor.Hypervisor
@@ -37,10 +34,7 @@ import java.util.UUID
 open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
-		private val hostCfgDao: HostConfigurationDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
-		private val virtualStorageDao: VirtualStorageDeviceDao,
-		private val virtualStorageDynDao: VirtualStorageDeviceDynamicDao,
 		private val sshClientService: SshClientService,
 		private val controllerManager: ControllerManager,
 		private val hostAssignmentDao: AssignmentDao,
@@ -50,10 +44,10 @@ open class HostManagerImpl(
 	private val timer = Timer("host-manager")
 
 	override fun powerDown(host: Host) {
-		require(host.dedicated, { "Can not power off a non-dedicated host" })
-		execute(host, {
+		require(host.dedicated) { "Can not power off a non-dedicated host" }
+		execute(host) {
 			it.execute("poweroff")
-		})
+		}
 		disconnectHost(host)
 	}
 
@@ -65,7 +59,7 @@ open class HostManagerImpl(
 	override fun getHypervisor(host: Host): Hypervisor? {
 		val connection = connections[host.id]
 		return if (connection != null) {
-			KvmHypervisor(connection.first, host, hostDao, hostCfgDao, hostDynamicDao, vmDynamicDao, virtualStorageDao, virtualStorageDynDao)
+			KvmHypervisor(connection.first, host, vmDynamicDao)
 		} else {
 			//TODO: not connected: throw exception?
 			null
@@ -83,7 +77,7 @@ open class HostManagerImpl(
 	}
 
 	override fun <T> execute(host: Host, closure: (ClientSession) -> T): T {
-		val session = requireNotNull(connections[host.id], { "Host no connected: ${host.id} ${host.address}" })
+		val session = requireNotNull(connections[host.id]) { "Host no connected: ${host.id} ${host.address}" }
 		return closure(session.first)
 	}
 

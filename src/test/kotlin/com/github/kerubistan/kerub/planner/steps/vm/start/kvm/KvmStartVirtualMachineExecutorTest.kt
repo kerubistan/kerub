@@ -1,33 +1,38 @@
 package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 
+import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.host.FireWall
+import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.host.HostManager
-import com.github.kerubistan.kerub.hypervisor.Hypervisor
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
-import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argThat
+import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import org.apache.commons.io.input.NullInputStream
+import org.apache.sshd.client.channel.ChannelExec
+import org.apache.sshd.client.future.OpenFuture
+import org.apache.sshd.client.session.ClientSession
+import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
 import org.mockito.Mockito
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.math.BigInteger
 import java.util.UUID
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.xpath.XPathFactory
+import kotlin.test.assertEquals
 
 class KvmStartVirtualMachineExecutorTest {
-	val hostManager: HostManager = mock()
-
-	val vmDynDao: VirtualMachineDynamicDao = mock()
-
-	val hypervisor: Hypervisor = mock()
-
-	val firewall: FireWall = mock()
 
 	@Test
 	fun execute() {
@@ -41,7 +46,7 @@ class KvmStartVirtualMachineExecutorTest {
 				name = "",
 				id = UUID.randomUUID(),
 				nrOfCpus = 1,
-				memory = Range(BigInteger("128"), BigInteger("256"))
+				memory = Range(128.MB, 128.MB)
 		)
 
 		val step = KvmStartVirtualMachine(
@@ -49,24 +54,57 @@ class KvmStartVirtualMachineExecutorTest {
 				vm = vm
 		)
 
-		whenever(hostManager.getHypervisor(any())).thenReturn(hypervisor)
-		whenever(hypervisor.getDisplay(Mockito.any(VirtualMachine::class.java) ?: vm)).thenReturn(RemoteConsoleProtocol.spice to 5900)
+		val hostManager = mock<HostManager>()
+		val vmDynDao = mock<VirtualMachineDynamicDao>()
+		val firewall = mock<FireWall>()
+		val hostCommandExecutor = mock<HostCommandExecutor>()
+		val session = mock<ClientSession>()
+		val sftp = mock<SftpClient>()
+		val exec = mock<ChannelExec>()
+		val openFuture = mock<OpenFuture>()
+
+		val domDisplayExec = mock<ChannelExec>()
+
+		whenever(session.createExecChannel(argThat { startsWith("virsh domdisplay") }))
+				.thenReturn(domDisplayExec)
+		whenever(domDisplayExec.invertedOut).then { "spice://localhost:5902\n".byteInputStream() }
+		whenever(domDisplayExec.invertedErr).then { NullInputStream(0) }
+		whenever(domDisplayExec.open()).thenReturn(openFuture)
+
+		whenever(exec.invertedErr).then { NullInputStream(0) }
+		whenever(exec.invertedOut).then { NullInputStream(0) }
+		whenever(exec.open()).thenReturn(openFuture)
+		whenever(session.createExecChannel(argThat { startsWith("virsh create") })).thenReturn(exec)
+
+		whenever(session.createSftpClient()).thenReturn(sftp)
+		val domainXml = ByteArrayOutputStream()
+		whenever(sftp.write(argThat { startsWith("/tmp") && endsWith(".xml") })).thenReturn(domainXml)
 		whenever(hostManager.getFireWall(Mockito.any(Host::class.java) ?: host)).thenReturn(firewall)
+		doAnswer {
+			(it.arguments[1] as (ClientSession) -> Any).invoke(session)
+		}.whenever(hostCommandExecutor).execute(eq(host), any<(ClientSession) -> Any>())
 
-		KvmStartVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
+		KvmStartVirtualMachineExecutor(hostManager, vmDynDao, hostCommandExecutor).execute(step)
 
-		verify(hypervisor).startVm(
-				//TODO: eq is failing with VM in kotlin-mockito (test framework bug)
-				Mockito.eq(vm) ?: vm,
-				any()
-		)
-		verify(firewall).open(eq(5900), eq("tcp"))
+		verify(firewall).open(eq(5902), eq("tcp"))
 		verify(vmDynDao).update(Mockito.any(VirtualMachineDynamic::class.java) ?: VirtualMachineDynamic(
 				id = step.vm.id,
 				status = VirtualMachineStatus.Up,
 				memoryUsed = BigInteger.ZERO,
 				hostId = step.host.id
 		))
+		checkDomainXml(domainXml, vm)
+	}
+
+	private fun checkDomainXml(domainXml: ByteArrayOutputStream, vm: VirtualMachine) {
+		// verify that the domain is a correct XML
+		val document = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+				.parse(ByteArrayInputStream(domainXml.toByteArray()))
+		val xPath = XPathFactory.newInstance().newXPath()
+		assertEquals(vm.id.toString(), xPath.evaluate("/domain/name/text()", document))
+		assertEquals(vm.id.toString(), xPath.evaluate("/domain/uuid/text()", document))
+		assertEquals("kvm", xPath.evaluate("/domain/@type", document))
+		assertEquals(vm.nrOfCpus.toString(), xPath.evaluate("/domain/vcpu/text()", document))
 	}
 
 }

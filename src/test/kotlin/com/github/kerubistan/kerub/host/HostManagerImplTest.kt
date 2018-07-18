@@ -2,11 +2,8 @@ package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.HostDao
-import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
-import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
-import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.getTestKey
 import com.github.kerubistan.kerub.host.distros.Distribution
@@ -46,8 +43,6 @@ class HostManagerImplTest {
 
 	val hostDao: HostDao = mock()
 
-	val hostCfgDao: HostConfigurationDao = mock()
-
 	val hostDynamicDao: HostDynamicDao = mock()
 
 	val vmDynDao: VirtualMachineDynamicDao = mock()
@@ -57,10 +52,6 @@ class HostManagerImplTest {
 	val controllerManager: ControllerManager = mock()
 
 	val hostAssignmentDao: AssignmentDao = mock()
-
-	val virtualStorageDao: VirtualStorageDeviceDao = mock()
-
-	val virtualStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
 
 	val hostAssigner: ControllerAssigner = mock()
 
@@ -117,10 +108,7 @@ class HostManagerImplTest {
 				HostManagerImpl(
 						hostDao,
 						hostDynamicDao,
-						hostCfgDao,
 						vmDynDao,
-						virtualStorageDao,
-						virtualStorageDynDao,
 						sshClientService,
 						controllerManager,
 						hostAssignmentDao,

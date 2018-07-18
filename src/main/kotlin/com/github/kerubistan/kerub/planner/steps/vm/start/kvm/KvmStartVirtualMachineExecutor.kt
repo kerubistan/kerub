@@ -1,16 +1,21 @@
 package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.host.HostManager
-import com.github.kerubistan.kerub.hypervisor.Hypervisor
+import com.github.kerubistan.kerub.hypervisor.kvm.vmDefinitiontoXml
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.DisplaySettings
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
-import com.github.kerubistan.kerub.planner.steps.vm.base.HypervisorStepExcecutor
+import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.genPassword
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import java.math.BigInteger
 
-class KvmStartVirtualMachineExecutor(hostManager: HostManager, private val vmDynDao: VirtualMachineDynamicDao) : HypervisorStepExcecutor<KvmStartVirtualMachine, DisplaySettings>(hostManager) {
+class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
+									 private val vmDynDao: VirtualMachineDynamicDao,
+									 private val hostCommandExecutor: HostCommandExecutor)
+	: AbstractStepExecutor<KvmStartVirtualMachine, DisplaySettings>() {
 
 	override fun update(step: KvmStartVirtualMachine, updates: DisplaySettings) {
 		val dyn = VirtualMachineDynamic(
@@ -20,21 +25,21 @@ class KvmStartVirtualMachineExecutor(hostManager: HostManager, private val vmDyn
 				status = VirtualMachineStatus.Up,
 				memoryUsed = BigInteger.ZERO
 		)
-
 		vmDynDao.update(dyn)
 	}
 
-	override fun execute(hypervisor: Hypervisor, step: KvmStartVirtualMachine): DisplaySettings {
-		val consolePwd = genPassword(length = 16)
-		hypervisor.startVm(step.vm, consolePwd)
-		val protoAndPort = getHypervisor(step).getDisplay(step.vm)
-		hostManager.getFireWall(step.host).open(protoAndPort.second, "tcp")
+	override fun perform(step: KvmStartVirtualMachine): DisplaySettings =
+		hostCommandExecutor.execute(step.host) { client ->
+			val consolePwd = genPassword(length = 16)
+			Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
+			val display = Virsh.getDisplay(session = client, vmId = step.vm.id)
+			hostManager.getFireWall(step.host).open(display.second, "tcp")
 
-		return DisplaySettings(
-				hostAddr = step.host.address,
-				password = consolePwd,
-				ca = "",
-				port = protoAndPort.second
-		)
-	}
+			DisplaySettings(
+					hostAddr = step.host.address,
+					password = consolePwd,
+					ca = "",
+					port = display.second
+			)
+		}
 }

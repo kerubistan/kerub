@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
-import com.github.kerubistan.kerub.planner.steps.vm.storageAllocationMap
 import com.github.kerubistan.kerub.utils.junix.virt.vbox.VBoxManage
 import com.github.kerubistan.kerub.utils.times
 
@@ -17,8 +16,7 @@ object VirtualBoxStartVirtualMachineFactory : AbstractStartVmFactory<VirtualBoxS
 				val host = it.second
 				match(
 						host = host,
-						vm = vm,
-						vStorage = storageAllocationMap(state, vm.virtualStorageLinks)
+						vm = vm
 				)
 			}.map { VirtualBoxStartVirtualMachine(vm = it.first, host = it.second.stat) }
 

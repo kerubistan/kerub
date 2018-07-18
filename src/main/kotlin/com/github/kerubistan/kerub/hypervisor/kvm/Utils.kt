@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.hypervisor.kvm
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
+import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -24,9 +25,7 @@ val allocationTypeToDiskType = mapOf(
 )
 
 private fun storageToXml(
-		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String {
-
-	return """
+		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String = """
 			<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
 				<driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
 				${if (linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
@@ -34,7 +33,6 @@ private fun storageToXml(
 				<target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
 			</disk>
 """
-}
 
 private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String {
 	if (remoteHost(linkInfo, targetHost)) {
