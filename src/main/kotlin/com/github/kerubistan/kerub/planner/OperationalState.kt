@@ -20,7 +20,6 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.reservations.Reservation
-import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import java.util.UUID
 
 data class OperationalState(
@@ -94,11 +93,6 @@ data class OperationalState(
 		val dyn = vms[vmId]?.dynamic
 		return if (dyn == null) null else hosts[dyn.hostId]?.stat
 	}
-
-	fun virtualStorageToCheck(): List<VirtualStorageDevice> =
-			vStorage.values.filterNot {
-			reservations.contains(VirtualStorageReservation(it.stat))
-		}.map { it.stat }
 
 	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
