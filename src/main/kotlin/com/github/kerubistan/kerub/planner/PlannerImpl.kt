@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
-import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl

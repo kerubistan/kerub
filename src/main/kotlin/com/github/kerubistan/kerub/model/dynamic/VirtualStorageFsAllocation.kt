@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import java.math.BigInteger
 import java.util.UUID
-import java.util.UUID.randomUUID
 
 @JsonTypeName("fs-allocation")
 data class VirtualStorageFsAllocation(

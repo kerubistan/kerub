@@ -2,8 +2,6 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.utils.insist
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv

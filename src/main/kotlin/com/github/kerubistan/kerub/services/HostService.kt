@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.services
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostPubKey
 import com.github.kerubistan.kerub.security.admin
-import com.github.kerubistan.kerub.services.impl.assertExist
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
 import com.wordnik.swagger.annotations.ApiParam

@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage
 
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
-import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat

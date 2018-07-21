@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.mount
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
-import com.github.kerubistan.kerub.utils.junix.mount.FSTab
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import org.apache.sshd.client.session.ClientSession
 

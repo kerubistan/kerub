@@ -3,8 +3,8 @@ package com.github.kerubistan.kerub.planner.issues.violations.plan
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
 import com.github.kerubistan.kerub.planner.Plan
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.kerubistan.kerub.planner.issues.violations.ViolationDetector
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 
 object NoMigrationExpectationViolationDetector :
 		ViolationDetector<VirtualMachine, NoMigrationExpectation, Plan> {

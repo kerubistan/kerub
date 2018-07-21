@@ -3,8 +3,8 @@ package com.github.kerubistan.kerub.data.ispn
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 import java.util.UUID
 import java.util.UUID.randomUUID
 

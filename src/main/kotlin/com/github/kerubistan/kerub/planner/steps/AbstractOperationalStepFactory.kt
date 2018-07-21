@@ -1,8 +1,8 @@
 package com.github.kerubistan.kerub.planner.steps
 
+import com.github.k0zka.finder4j.backtrack.StepFactory
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
-import com.github.k0zka.finder4j.backtrack.StepFactory
 
 /**
  * Abstract baseclass for step factories.

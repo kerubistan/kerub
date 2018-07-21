@@ -2,8 +2,6 @@ package com.github.kerubistan.kerub.services.impl
 
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class AccountServiceImplTest {
 
 	@Test
