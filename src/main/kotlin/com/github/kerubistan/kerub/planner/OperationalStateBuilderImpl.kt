@@ -50,7 +50,8 @@ class OperationalStateBuilderImpl(
 				vms = retrieveAll(vmAssignments, vmDao),
 				vmDyns = retrieveAll(vmAssignments, vmDynDao),
 				vStorage = retrieveAll(vstorageAssignments, virtualStorageDao),
-				vStorageDyns = retrieveAll(vstorageAssignments, virtualStorageDynDao)
+				vStorageDyns = retrieveAll(vstorageAssignments, virtualStorageDynDao),
+				config = configDao.get()
 		)
 	}
 }

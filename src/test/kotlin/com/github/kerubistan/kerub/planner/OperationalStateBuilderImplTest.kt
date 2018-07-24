@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
+import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.data.HostDao
@@ -15,6 +16,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.controller.Assignment
 import com.github.kerubistan.kerub.model.controller.AssignmentType
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
@@ -28,33 +30,33 @@ import java.util.UUID
 
 class OperationalStateBuilderImplTest {
 
-	val controllerManager: ControllerManager = mock()
-	val assignmentDao: AssignmentDao = mock()
-	val hostDyn: HostDynamicDao = mock()
-	val hostCfg: HostConfigurationDao = mock()
-	val hostDao: HostDao = mock()
-	val vmDao : VirtualMachineDao = mock()
-	val vmDynDao : VirtualMachineDynamicDao = mock()
-	val vStorageDao : VirtualStorageDeviceDao = mock()
-	val vStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
-	val configDao : ControllerConfigDao = mock()
+	private val controllerManager: ControllerManager = mock()
+	private val assignmentDao: AssignmentDao = mock()
+	private val hostDyn: HostDynamicDao = mock()
+	private val hostCfg: HostConfigurationDao = mock()
+	private val hostDao: HostDao = mock()
+	private val vmDao : VirtualMachineDao = mock()
+	private val vmDynDao : VirtualMachineDynamicDao = mock()
+	private val vStorageDao : VirtualStorageDeviceDao = mock()
+	private val vStorageDynDao: VirtualStorageDeviceDynamicDao = mock()
+	private val configDao : ControllerConfigDao = mock()
 
-	val host = Host(
+	private val host = Host(
 			address = "host-1.example.com",
 			dedicated = true,
 			publicKey = ""
 	)
 
-	val vm = VirtualMachine(
+	private val vm = VirtualMachine(
 			id = UUID.randomUUID(),
 			name = "vm-1"
 	)
 
-	val vmDyn = VirtualMachineDynamic(
+	private val vmDyn = VirtualMachineDynamic(
 			id = vm.id,
 			hostId = host.id,
 			status = VirtualMachineStatus.Up,
-			memoryUsed = "256 MB".toSize()
+			memoryUsed = 256.MB
 	)
 
 	@Test
@@ -71,6 +73,7 @@ class OperationalStateBuilderImplTest {
 						type = AssignmentType.host
 				)
 		)
+		whenever(configDao.get()).thenReturn(ControllerConfig())  // just default configuration
 		whenever(controllerManager.getControllerId()).thenReturn("TEST-CONTROLLER")
 		whenever(assignmentDao.listByController(eq("TEST-CONTROLLER") ?: "")).thenReturn(assignments)
 		whenever(hostDao.get(any(UUID::class.java) ?: host.id)).thenReturn(host)
