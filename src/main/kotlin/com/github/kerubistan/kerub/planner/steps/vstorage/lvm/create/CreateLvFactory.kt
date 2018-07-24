@@ -21,7 +21,7 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 								}.map { disk ->
 									CreateLv(
 											host = host.stat,
-											volumeGroupName = (volGroup as LvmStorageCapability).volumeGroupName,
+											volumeGroupName = volGroup.volumeGroupName,
 											disk = disk
 									)
 								}

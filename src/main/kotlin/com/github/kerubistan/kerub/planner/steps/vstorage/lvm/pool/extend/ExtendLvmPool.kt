@@ -18,6 +18,6 @@ class ExtendLvmPool(
 
 	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(host),
-			HostStorageReservation(host, addSize, volumeGroupId(host.capabilities!!.storageCapabilities!!, vgName))
+			HostStorageReservation(host, addSize, volumeGroupId(host.capabilities!!.storageCapabilities, vgName))
 	)
 }
