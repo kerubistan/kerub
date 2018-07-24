@@ -28,7 +28,7 @@ class DmiDecoder : OsCommand {
 				input.substringBetween("Handle ", ",")
 
 		@JvmStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
-				1 to { input, dependencies ->
+				1 to { input, _ ->
 					SystemInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							family = input.substringBetween("Family: ", "\n"),
@@ -36,7 +36,7 @@ class DmiDecoder : OsCommand {
 							uuid = UUID.fromString(input.substringBetween("UUID: ", "\n"))
 					)
 				},
-				3 to { input, dependencies ->
+				3 to { input, _ ->
 					ChassisInformation(
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
 							height = input.optionalIntBetween("Height: ", "\n"),
@@ -59,7 +59,7 @@ class DmiDecoder : OsCommand {
 							flags = listOf()
 					)
 				},
-				7 to { input, dependencies ->
+				7 to { input, _ ->
 					CacheInformation(
 							socket = input.substringBetween("Socket Designation: ", "\n"),
 							errorCorrection = input.substringBetween("Error Correction Type: ", "\n"),
@@ -68,14 +68,14 @@ class DmiDecoder : OsCommand {
 							speedNs = input.optionalIntBetween("Speed: ", " ns")
 					)
 				},
-				16 to { input, dependencies ->
+				16 to { input, _ ->
 					MemoryArrayInformation(
 							maxCapacity = input.substringBetween("Maximum Capacity:", "\n").toSize(),
 							errorCorrection = input.substringBetween("Error Correction Type:", "\n").trim(),
 							location = input.substringBetween("Location:", "\n").trim()
 					)
 				},
-				17 to { input, dependencies ->
+				17 to { input, _ ->
 					MemoryInformation(
 							size = input.substringBetween("Size: ", "\n").toSize(),
 							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
@@ -92,7 +92,7 @@ class DmiDecoder : OsCommand {
 				}
 		)
 
-		@JvmStatic val resolutionOrder = arrayOf(16, 17, 7, 3, 4, 1)
+		@JvmStatic private val resolutionOrder = arrayOf(16, 17, 7, 3, 4, 1)
 
 		@JvmStatic fun parse(input: String): Map<String, Any> {
 			val records = split(input)
@@ -103,7 +103,7 @@ class DmiDecoder : OsCommand {
 				for (record in recordsOfType ?: listOf()) {
 					val resolver = mappers[type]!!
 					try {
-						recordsByHandle.put(handle(record), resolver(record + "\n", recordsByHandle))
+						recordsByHandle[handle(record)] = resolver(record + "\n", recordsByHandle)
 					} catch (iae: IllegalArgumentException) {
 						logger.warn("Structure could not be parsed: {}", record, iae)
 					}
