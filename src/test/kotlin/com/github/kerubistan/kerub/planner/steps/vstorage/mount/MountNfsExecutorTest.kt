@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.mount
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
@@ -17,6 +18,8 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class MountNfsExecutorTest {
 
@@ -39,8 +42,11 @@ class MountNfsExecutorTest {
 		whenever(channelExec.invertedErr).then { NullInputStream(0) }
 		whenever(channelExec.invertedOut).then { NullInputStream(0) }
 
+		var updatedConfig : HostConfiguration? = null
+
 		doAnswer {
-			(it.arguments[2] as ((HostConfiguration) -> HostConfiguration)).invoke(HostConfiguration(id = local.id))
+			updatedConfig = (it.arguments[2] as ((HostConfiguration) -> HostConfiguration))
+					.invoke(HostConfiguration(id = local.id))
 		}.whenever(configurationDao).update(eq(local.id), any(), any())
 
 		MountNfsExecutor(executor, configurationDao).execute(
@@ -51,5 +57,7 @@ class MountNfsExecutorTest {
 			startsWith("mount ")
 		})
 		verify(configurationDao).update(eq(local.id), any(), any())
+		assertNotNull(updatedConfig)
+		assertTrue(updatedConfig!!.services.single() is NfsMount)
 	}
 }

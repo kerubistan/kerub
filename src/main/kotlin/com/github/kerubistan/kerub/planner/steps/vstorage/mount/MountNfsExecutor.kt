@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.mount
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import org.apache.sshd.client.session.ClientSession
 
@@ -16,5 +17,12 @@ class MountNfsExecutor(override val hostCommandExecutor: HostCommandExecutor,
 	}
 
 	override fun updateHostConfiguration(
-			it: HostConfiguration, step: MountNfs) = it.copy()
+			hostConfiguration: HostConfiguration, step: MountNfs) = hostConfiguration.copy(
+			services = hostConfiguration.services +
+					NfsMount(
+							remoteDirectory = step.remoteDirectory,
+							localDirectory = step.directory,
+							remoteHostId = step.remoteHost.id
+					)
+	)
 }
