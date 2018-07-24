@@ -25,13 +25,12 @@ class GlobalOperationalStateBuilderImpl(
 		private val configDao: ControllerConfigDao
 ) : OperationalStateBuilder {
 
-	internal fun <T : Entity<UUID>> retrieveAllRelated(
+	private fun <T : Entity<UUID>> retrieveAllRelated(
 			dao: DaoOperations.Read<T, UUID>,
-			ids: Collection<Entity<UUID>>): Promise<List<T>, Exception> {
-		return task {
+			ids: Collection<Entity<UUID>>): Promise<List<T>, Exception> =
+		task {
 			dao.get(ids.map { it.id })
 		}
-	}
 
 	override fun buildState(): OperationalState {
 		val hosts = task { hostDao.list(start = 0, limit = Int.MAX_VALUE) }

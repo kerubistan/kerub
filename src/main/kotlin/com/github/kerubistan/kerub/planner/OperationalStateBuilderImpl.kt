@@ -33,9 +33,9 @@ class OperationalStateBuilderImpl(
 		fun assignmentsOfType(assignments: List<Assignment>, type: AssignmentType): List<UUID>
 				= assignments.filter { it.type == type }.map { it.entityId }
 
-		//some parallelism would be definietly welcome here
+		//some parallelism would be definitely welcome here
 		fun <T : Entity<UUID>> retrieveAll(assignments: List<UUID>, dao: DaoOperations.Read<T, UUID>): List<T>
-				= assignments.map { dao.get(it) }.filterNot { it == null } as List<T>
+				= assignments.mapNotNull { dao[it] }
 	}
 
 	override fun buildState(): OperationalState {
