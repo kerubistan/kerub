@@ -26,7 +26,7 @@ object Zfs {
 			   name: String,
 			   size: BigInteger,
 			   sparse: Boolean = false) {
-		session.executeOrDie("zfs create -V ${size} ${sparse.flag("-s")} $name")
+		session.executeOrDie("zfs create -V $size ${sparse.flag("-s")} $name")
 	}
 
 }

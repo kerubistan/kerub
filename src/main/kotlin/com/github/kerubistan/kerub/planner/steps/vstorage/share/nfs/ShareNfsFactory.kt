@@ -35,11 +35,8 @@ object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {
 				}.join()
 			}
 
-	private fun getHostsRunningNfs(
-			state: OperationalState): List<HostDataCollection> {
-		val hostsRunningNfs = state.hosts.values.filter {
-			it.config?.services?.any { it is NfsDaemonService } ?: false
-		}
-		return hostsRunningNfs
-	}
+	private fun getHostsRunningNfs(state: OperationalState): List<HostDataCollection> =
+			state.hosts.values.filter {
+				it.config?.services?.any { it is NfsDaemonService } ?: false
+			}
 }

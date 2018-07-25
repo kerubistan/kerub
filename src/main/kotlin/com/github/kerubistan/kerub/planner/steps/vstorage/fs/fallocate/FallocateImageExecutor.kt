@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.fs.fallocate
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
-import com.github.kerubistan.kerub.planner.steps.vstorage.fs.rebase.FallocateImage
 import com.github.kerubistan.kerub.utils.junix.du.DU
 import com.github.kerubistan.kerub.utils.junix.fallocate.Fallocate
 import java.math.BigInteger

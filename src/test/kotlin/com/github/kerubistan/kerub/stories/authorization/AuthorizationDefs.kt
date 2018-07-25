@@ -289,7 +289,7 @@ class AuthorizationDefs {
 			it.add(
 					testVm.copy(
 							id = UUID.randomUUID(),
-							name = "vm under account ${accountName}",
+							name = "vm under account $accountName",
 							owner = AssetOwner(
 									ownerId = requireNotNull(accounts[accountName]).id,
 									ownerType = AssetOwnerType.account
@@ -307,7 +307,7 @@ class AuthorizationDefs {
 			it.add(
 					VirtualNetwork(
 							id = UUID.randomUUID(),
-							name = "vnet under account ${accountName}",
+							name = "vnet under account $accountName",
 							owner = AssetOwner(
 									ownerId = requireNotNull(accounts[accountName]).id,
 									ownerType = AssetOwnerType.account
@@ -325,7 +325,7 @@ class AuthorizationDefs {
 			it.add(
 					testDisk.copy(
 							id = UUID.randomUUID(),
-							name = "disk under account ${accountName}",
+							name = "disk under account $accountName",
 							owner = AssetOwner(
 									ownerId = requireNotNull(accounts[accountName]).id,
 									ownerType = AssetOwnerType.account

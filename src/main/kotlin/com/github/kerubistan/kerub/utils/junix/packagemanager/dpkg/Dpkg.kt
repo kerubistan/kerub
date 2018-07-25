@@ -28,7 +28,7 @@ object Dpkg {
 	fun parseDpkgOutputLine(it: String): SoftwarePackage {
 		val split = it.split('\t')
 		if (split.size != 2) {
-			throw IllegalArgumentException("Does not match expected input from dpkg-query: ${it}")
+			throw IllegalArgumentException("Does not match expected input from dpkg-query: $it")
 		}
 		return SoftwarePackage(split[0], Version.fromVersionString(split[1]))
 	}

@@ -10,7 +10,7 @@ import javax.jms.Session
 
 class InterControllerImpl(val jmsTemplate: JmsTemplate) : InterController {
 	override fun sendToController(controllerId: String, msg: Serializable) {
-		jmsTemplate.send("jms.queue.kerub-mq-${controllerId}", {
+		jmsTemplate.send("jms.queue.kerub-mq-$controllerId", {
 			createObjectMessage(it, msg)
 		})
 	}

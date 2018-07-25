@@ -65,14 +65,14 @@ class AuthenticationDefinitions {
 
 	@Then("^the response code must be (\\d+)$")
 	fun verifyResponseCode(expectedErrorCode: Int) {
-		Assert.assertThat("the response code must be ${expectedErrorCode}",
+		Assert.assertThat("the response code must be $expectedErrorCode",
 		                  exception?.status,
 		                  CoreMatchers.equalTo(expectedErrorCode))
 	}
 
 	@Then("^the error code must be (\\S+)$")
 	fun verifyErrorCode(expectedErrorCode: String) {
-		Assert.assertThat("the error code must be ${expectedErrorCode}",
+		Assert.assertThat("the error code must be $expectedErrorCode",
 		                  exception?.code,
 		                  CoreMatchers.equalTo(expectedErrorCode))
 	}

@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.planner.steps.vstorage.fs.rebase
+package com.github.kerubistan.kerub.planner.steps.vstorage.fs.fallocate
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice

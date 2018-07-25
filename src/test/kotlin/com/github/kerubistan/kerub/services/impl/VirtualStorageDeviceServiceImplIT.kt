@@ -29,7 +29,7 @@ class VirtualStorageDeviceServiceImplIT {
 		val randomUUID = UUID.randomUUID()
 		val deviceToSave = VirtualStorageDevice(
 				id = randomUUID,
-				name = "virtual disk ${randomUUID}",
+				name = "virtual disk $randomUUID",
 				size = "100 GB".toSize(),
 				readOnly = false,
 				expectations = listOf(

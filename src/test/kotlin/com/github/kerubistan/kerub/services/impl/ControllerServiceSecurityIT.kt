@@ -20,11 +20,11 @@ class ControllerServiceSecurityIT {
 		try {
 			controller.list()
 			if (!access) {
-				Assert.fail("User ${user.first} in role ${role} should not have access")
+				Assert.fail("User ${user.first} in role $role should not have access")
 			}
 		} catch (e: RestException) {
 			if (access) {
-				Assert.fail("User ${user.first} in role ${role} should have access")
+				Assert.fail("User ${user.first} in role $role should have access")
 			}
 		}
 	}

@@ -48,7 +48,7 @@ object MPStat : OsCommand {
 	}
 
 	fun monitor(session: ClientSession, handler: (List<CpuStat>) -> Unit, interval: Short = 1) {
-		val channel = session.createExecChannel("mpstat ${interval} -P ALL")
+		val channel = session.createExecChannel("mpstat $interval -P ALL")
 		channel.`in` = NullInputStream(0)
 		channel.err = NullOutputStream()
 		channel.out = MPStatOutput(handler)

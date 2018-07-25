@@ -155,7 +155,7 @@ object VBoxManage : OsCommand {
 					"${allocation.mountPoint}/${dyn.id}"
 				}
 				else -> {
-					TODO("Unknown allocation type: ${allocation}")
+					TODO("Unknown allocation type: $allocation")
 				}
 			}
 		} else {

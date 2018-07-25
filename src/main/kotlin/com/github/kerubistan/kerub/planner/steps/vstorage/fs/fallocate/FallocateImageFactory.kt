@@ -1,7 +1,8 @@
-package com.github.kerubistan.kerub.planner.steps.vstorage.fs.rebase
+package com.github.kerubistan.kerub.planner.steps.vstorage.fs.fallocate
 
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.fs.fallocate.FallocateImage
 
 object FallocateImageFactory : AbstractOperationalStepFactory<FallocateImage>() {
 	override fun produce(state: OperationalState): List<FallocateImage> {

@@ -18,7 +18,6 @@ import com.github.kerubistan.kerub.model.controller.Assignment
 import com.github.kerubistan.kerub.model.controller.AssignmentType
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert

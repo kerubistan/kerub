@@ -23,7 +23,7 @@ object BsdVmStat {
 
 	}
 
-	fun vmstat(session: ClientSession, handler: (BsdVmStatEvent) -> Unit, interval: Int = 1): Unit {
+	fun vmstat(session: ClientSession, handler: (BsdVmStatEvent) -> Unit, interval: Int = 1) {
 		commonVmStat(
 				session = session,
 				interval = interval,

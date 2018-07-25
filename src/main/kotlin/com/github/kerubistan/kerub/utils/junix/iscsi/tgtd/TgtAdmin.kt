@@ -35,7 +35,7 @@ object TgtAdmin : OsCommand {
 				out.write("""
 #created by kerub on ${Date()}
 <target ${iscsiStorageId(id)}>
-    backing-store ${path}
+    backing-store $path
     readonly ${if (readOnly) "1" else "0"}
     ${if (password != null) "incominguser $user $password" else ""}
 </target>
@@ -57,6 +57,6 @@ object TgtAdmin : OsCommand {
 
 	//TODO: this path may change by OS distribution
 	private fun configurationPath(id: UUID) =
-			"/etc/tgt/conf.d/${id}.conf"
+			"/etc/tgt/conf.d/$id.conf"
 
 }

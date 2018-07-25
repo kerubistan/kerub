@@ -183,7 +183,7 @@ class WebsocketNotificationsDefs {
 		while (event != null) {
 			logger.info("event: {}", event)
 			if (event is MessageEvent && matchesType(expectedType, event)) {
-				fail("expected no ${expectedType ?: ""} message, got ${event}")
+				fail("expected no ${expectedType ?: ""} message, got $event")
 			}
 			event = events.poll(100, TimeUnit.MILLISECONDS)
 		}

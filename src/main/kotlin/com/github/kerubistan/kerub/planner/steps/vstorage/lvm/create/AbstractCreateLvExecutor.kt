@@ -32,7 +32,7 @@ abstract class AbstractCreateLvExecutor<T : AbstractCreateLv>(
 		hostCommandExecutor.execute(step.host) { session ->
 
 			require(!LvmLv.exists(session, volGroupName = step.volumeGroupName, volName = diskId)) {
-				"Logical volume ${step.volumeGroupName} / ${diskId} already exists on host ${step.host.address}"
+				"Logical volume ${step.volumeGroupName} / $diskId already exists on host ${step.host.address}"
 			}
 		}
 

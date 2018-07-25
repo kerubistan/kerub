@@ -74,7 +74,7 @@ class PlannerImpl(
 					state.hosts[requestedReservation.host.id]?.dynamic?.storageStatus?.singleOrNull { it.id == requestedReservation.storageCapabilityId }
 					true // TODO need the state here to see the free space and
 				}
-				else -> TODO("check not implemented: ${requestedReservation}")
+				else -> TODO("check not implemented: $requestedReservation")
 			}
 
 		private val logger = getLogger(PlannerImpl::class)

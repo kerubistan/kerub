@@ -71,7 +71,7 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 						size = size - diskCap.value
 				).map { it + (diskCap.key to diskCap.value) }
 			}
-		}.filterNotNull().join().toSet().toList()
+		}.join().toSet().toList()
 	}
 
 	private fun simpleGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> {

@@ -15,7 +15,7 @@ class JsonMappingExceptionMapperIT {
 	@Test
 	fun brokenJsonFormat() {
 		val client = HttpClientBuilder.create().build()
-		val post = HttpPost("${testRestBaseUrl}/auth/login")
+		val post = HttpPost("$testRestBaseUrl/auth/login")
 		post.setHeader("Content-Type", MediaType.APPLICATION_JSON)
 		post.entity = StringEntity("{username:'',password:''}")
 		val response = client.execute(post)
@@ -25,7 +25,7 @@ class JsonMappingExceptionMapperIT {
 	@Test
 	fun brokenJsonMapping() {
 		val client = HttpClientBuilder.create().build()
-		val post = HttpPost("${testRestBaseUrl}/auth/login")
+		val post = HttpPost("$testRestBaseUrl/auth/login")
 		post.setHeader("Content-Type", MediaType.APPLICATION_JSON)
 		post.entity = StringEntity(
 				"""{"username__":"foo","password__":"bar"}""")
