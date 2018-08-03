@@ -24,7 +24,7 @@ fun iscsiSharedDisks(state: OperationalState): Map<VirtualStorageDataCollection,
 
 private inline fun mapBy(state: OperationalState, filter: (HostDataCollection, VirtualStorageDataCollection) -> Boolean)
 		: Map<VirtualStorageDataCollection, List<VirtualStorageAllocation>> =
-		state.vStorage.values.mapNotNull { coll ->
+		state.vStorage.values.map { coll ->
 			coll to (coll.dynamic?.allocations?.filter { allocation ->
 				isRawData(allocation) && state.hosts[allocation.hostId]?.let {
 					it.dynamic?.status == HostStatus.Up
