@@ -11,11 +11,11 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-internal class CtldIscsiShareFactoryTest {
+class CtldIscsiShareFactoryTest {
 
 	@Test
 	fun produce() {

@@ -10,9 +10,9 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
-internal class DuplicateToLvmExecutorTest {
+class DuplicateToLvmExecutorTest {
 
 	@Test
 	fun execute() {

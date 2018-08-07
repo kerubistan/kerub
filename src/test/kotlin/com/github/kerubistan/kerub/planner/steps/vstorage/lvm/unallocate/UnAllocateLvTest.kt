@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
 class UnAllocateLvTest {
 

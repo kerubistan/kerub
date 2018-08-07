@@ -14,10 +14,10 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class RemovePublicKeyExecutorTest {
+class RemovePublicKeyExecutorTest {
 
 	@Test
 	fun execute() {

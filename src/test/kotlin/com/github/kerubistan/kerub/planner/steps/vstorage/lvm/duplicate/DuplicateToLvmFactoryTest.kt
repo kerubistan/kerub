@@ -14,11 +14,11 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-internal class DuplicateToLvmFactoryTest {
+class DuplicateToLvmFactoryTest {
 
 	private val readOnlyDisk = VirtualStorageDevice(
 			id = randomUUID(),

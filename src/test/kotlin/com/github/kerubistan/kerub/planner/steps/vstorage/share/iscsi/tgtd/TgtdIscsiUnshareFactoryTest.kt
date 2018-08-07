@@ -13,10 +13,10 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class TgtdIscsiUnshareFactoryTest {
+class TgtdIscsiUnshareFactoryTest {
 
 	@Test
 	fun produce() {

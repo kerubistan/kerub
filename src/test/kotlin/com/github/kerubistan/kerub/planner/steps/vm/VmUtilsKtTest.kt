@@ -22,7 +22,7 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVm
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

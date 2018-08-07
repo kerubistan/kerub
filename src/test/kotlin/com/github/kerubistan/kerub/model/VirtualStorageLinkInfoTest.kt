@@ -13,9 +13,9 @@ import com.github.kerubistan.kerub.testCdrom
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testOtherHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
-internal class VirtualStorageLinkInfoTest {
+class VirtualStorageLinkInfoTest {
 	@Test
 	fun validation() {
 		expect(IllegalStateException::class) {

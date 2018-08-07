@@ -5,11 +5,11 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKey
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class InstallPublicKeyTest {
+class InstallPublicKeyTest {
 
 	@Test
 	fun isInverseOf() {

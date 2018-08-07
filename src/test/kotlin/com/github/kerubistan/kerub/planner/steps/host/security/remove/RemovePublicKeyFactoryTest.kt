@@ -6,10 +6,10 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class RemovePublicKeyFactoryTest {
+class RemovePublicKeyFactoryTest {
 
 	@Test
 	fun produce() {

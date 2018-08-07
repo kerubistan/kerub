@@ -17,7 +17,7 @@ import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
 import java.math.BigInteger
 
-internal class UnAllocateFsExecutorTest {
+class UnAllocateFsExecutorTest {
 	@Test
 	fun execute() {
 		val hostExecutor = mock<HostCommandExecutor>()

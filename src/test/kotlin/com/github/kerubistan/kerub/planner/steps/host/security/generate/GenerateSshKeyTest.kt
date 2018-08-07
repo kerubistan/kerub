@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

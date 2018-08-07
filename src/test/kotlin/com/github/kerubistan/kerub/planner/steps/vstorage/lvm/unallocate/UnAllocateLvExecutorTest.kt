@@ -15,7 +15,7 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 
-internal class UnAllocateLvExecutorTest {
+class UnAllocateLvExecutorTest {
 	@Test
 	fun execute() {
 		val hostExecutor = mock<HostCommandExecutor>()

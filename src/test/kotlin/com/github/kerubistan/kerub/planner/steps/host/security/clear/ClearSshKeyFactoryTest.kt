@@ -5,11 +5,11 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-internal class ClearSshKeyFactoryTest {
+class ClearSshKeyFactoryTest {
 
 	@Test
 	fun produce() {

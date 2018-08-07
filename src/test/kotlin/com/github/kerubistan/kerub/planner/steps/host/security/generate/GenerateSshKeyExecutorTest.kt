@@ -14,10 +14,10 @@ import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class GenerateSshKeyExecutorTest {
+class GenerateSshKeyExecutorTest {
 
 	@Test
 	fun execute() {

@@ -12,9 +12,9 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
-import org.junit.jupiter.api.Test
+import org.junit.Test
 
-internal class InstallPublicKeyExecutorTest {
+class InstallPublicKeyExecutorTest {
 
 	@Test
 	fun execute() {

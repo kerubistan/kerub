@@ -7,10 +7,10 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class RemoveVirtualStorageFactoryTest {
+class RemoveVirtualStorageFactoryTest {
 
 	@Test
 	fun produce() {

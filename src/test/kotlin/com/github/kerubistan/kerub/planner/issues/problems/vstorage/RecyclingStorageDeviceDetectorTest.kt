@@ -3,11 +3,11 @@ package com.github.kerubistan.kerub.planner.issues.problems.vstorage
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.testDisk
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-internal class RecyclingStorageDeviceDetectorTest {
+class RecyclingStorageDeviceDetectorTest {
 
 	@Test
 	fun detect() {

@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.testVm
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 
-internal class RemoveVirtualStorageTest {
+class RemoveVirtualStorageTest {
 	@Test
 	fun take() {
 		val state = OperationalState.fromLists(

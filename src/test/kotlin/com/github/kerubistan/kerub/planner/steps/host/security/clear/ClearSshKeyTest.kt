@@ -8,11 +8,11 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class ClearSshKeyTest {
+class ClearSshKeyTest {
 
 	@Test
 	fun take() {

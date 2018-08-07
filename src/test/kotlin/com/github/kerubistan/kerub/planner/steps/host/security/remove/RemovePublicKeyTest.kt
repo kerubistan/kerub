@@ -7,10 +7,10 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class RemovePublicKeyTest {
+class RemovePublicKeyTest {
 
 	@Test
 	fun isInverseOf() {

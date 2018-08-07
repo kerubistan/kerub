@@ -11,10 +11,10 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class ClearSshKeyExecutorTest {
+class ClearSshKeyExecutorTest {
 
 	@Test
 	fun execute() {

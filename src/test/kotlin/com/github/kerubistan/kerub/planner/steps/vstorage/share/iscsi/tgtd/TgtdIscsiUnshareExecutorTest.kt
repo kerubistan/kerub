@@ -20,11 +20,11 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals
 
-internal class TgtdIscsiUnshareExecutorTest {
+class TgtdIscsiUnshareExecutorTest {
 
 	@Test
 	fun execute() {
