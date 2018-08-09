@@ -2,15 +2,13 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs
 
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
@@ -27,8 +25,6 @@ class UnshareNfsExecutorTest {
 		val executor = mock<HostCommandExecutor>()
 		val hostConfigDao = mock<HostConfigurationDao>()
 		val sftpClient = mock<SftpClient>()
-		val execChannel = mock<ChannelExec>()
-		val future = mock<OpenFuture>()
 
 
 		whenever(executor.execute(eq(testHost), any<(ClientSession) -> Unit>())).then {
@@ -36,7 +32,8 @@ class UnshareNfsExecutorTest {
 		}
 
 		whenever(session.createSftpClient()).thenReturn(sftpClient)
-		whenever(sftpClient.read(eq("/etc/exports"))).then { """
+		whenever(sftpClient.read(eq("/etc/exports"))).then {
+			"""
 			# example from the man page
 			/               master(rw) trusty(rw,no_root_squash)
 			/projects       proj*.local.domain(rw)
@@ -46,14 +43,12 @@ class UnshareNfsExecutorTest {
 			/srv/www        -sync,rw server @trusted @external(ro)
 			/foo            2001:db8:9:e54::/64(rw) 192.0.2.0/24(rw)
 			/build          buildhost[0-9].local.domain(rw)
-		""".trimIndent().byteInputStream() }
+		""".trimIndent().byteInputStream()
+		}
 
 		val exportsOut = ByteArrayOutputStream()
 		whenever(sftpClient.write(eq("/etc/exports"))).then { exportsOut }
-		whenever(session.createExecChannel(any())).thenReturn(execChannel)
-		whenever(execChannel.open()).thenReturn(future)
-		whenever(execChannel.invertedErr).then { NullInputStream(0) }
-		whenever(execChannel.invertedOut).then { NullInputStream(0) }
+		session.mockCommandExecution(commandMatcher = "exportfs.*".toRegex())
 
 		UnshareNfsExecutor(hostConfigDao, executor).execute(UnshareNfs("/foo", testHost))
 

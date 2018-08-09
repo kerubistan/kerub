@@ -3,16 +3,11 @@ package com.github.kerubistan.kerub.utils.junix.benchmarks.bonnie
 import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.resource
-import com.nhaarman.mockito_kotlin.any
+import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
-import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -42,21 +37,15 @@ class BonnieTest {
 	}
 
 	private val session = mock<ClientSession>()
-	private val exec = mock<ChannelExec>()
-	private val future = mock<OpenFuture>()
-
-	@Before
-	fun setup() {
-		whenever(session.createExecChannel(any())).thenReturn(exec)
-		whenever(exec.open()).thenReturn(future)
-		whenever(exec.invertedErr).then { NullInputStream(0) }
-	}
 
 	@Test
 	fun run() {
-		whenever(exec.invertedOut).then {
-			resource("com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_laptop_sata.txt")
-		}
+		session.mockCommandExecution(
+				commandMatcher = "bonnie.*".toRegex(),
+				output = resourceToString(
+						"com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_laptop_sata.txt"
+				)
+		)
 		val data = Bonnie.run(session = session, directory = "/tmp")
 		assertEquals(
 				IoBenchmarkItem(throughput = 831.KB, cpuUsagePercent = 97, latency = 25012),
@@ -82,18 +71,24 @@ class BonnieTest {
 
 	@Test
 	fun runSsdSata() {
-		whenever(exec.invertedOut).then {
-			resource("com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_nuc_ssd_sata.txt")
-		}
+		session.mockCommandExecution(
+				commandMatcher = "bonnie.*".toRegex(),
+				output = resourceToString(
+						"com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_nuc_ssd_sata.txt"
+				)
+		)
 		Bonnie.run(session = session, directory = "/tmp")
 	}
 
 	@Test
 	@Ignore("sample to be updated")
 	fun runSsdPcie() {
-		whenever(exec.invertedOut).then {
-			resource("com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_ssd_mpcie.txt")
-		}
+		session.mockCommandExecution(
+				commandMatcher = "bonnie.*".toRegex(),
+				output = resourceToString(
+						"com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_ssd_mpcie.txt"
+				)
+		)
 		Bonnie.run(session = session, directory = "/tmp")
 	}
 

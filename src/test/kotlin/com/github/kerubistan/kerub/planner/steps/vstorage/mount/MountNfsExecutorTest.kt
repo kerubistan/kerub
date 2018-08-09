@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsMount
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
@@ -12,9 +13,6 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import java.util.UUID
@@ -26,21 +24,16 @@ class MountNfsExecutorTest {
 	private val configurationDao = mock<HostConfigurationDao>()
 	private val executor = mock<HostCommandExecutor>()
 	private val session = mock<ClientSession>()
-	private val channelExec = mock<ChannelExec>()
-	private val openFuture = mock<OpenFuture>()
 
 	@Test
 	fun execute() {
 		val remote = testHost.copy(id = UUID.randomUUID())
 		val local = testHost.copy(id = UUID.randomUUID())
 
-		whenever(session.createExecChannel(any())).thenReturn(channelExec)
-		whenever(channelExec.open()).thenReturn(openFuture)
+		session.mockCommandExecution("mount.*")
 		doAnswer {
 			(it.arguments[1] as (ClientSession) -> Unit).invoke(session)
 		}.whenever(executor).execute(eq(local), any<(ClientSession) -> Unit>())
-		whenever(channelExec.invertedErr).then { NullInputStream(0) }
-		whenever(channelExec.invertedOut).then { NullInputStream(0) }
 
 		var updatedConfig : HostConfiguration? = null
 
