@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.hypervisor.kvm
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
@@ -27,7 +26,7 @@ val allocationTypeToDiskType = mapOf(
 private fun storageToXml(
 		linkInfo: VirtualStorageLinkInfo, targetHost: Host, targetDev: Char): String = """
 			<disk type='${kvmDeviceType(linkInfo, targetHost)}' device='${linkInfo.link.device.name.toLowerCase()}'>
-				<driver name='qemu' type='${allocationType(linkInfo.device.dynamic!!)}' cache='none'/>
+				<driver name='qemu' type='${allocationType(linkInfo)}' cache='none'/>
 				${if (linkInfo.device.stat.readOnly || linkInfo.link.readOnly) "<readonly/>" else ""}
 				${allocationToXml(linkInfo, targetHost)}
 				<target dev='sd$targetDev' bus='${linkInfo.link.bus}'/>
@@ -38,11 +37,11 @@ private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): S
 	if (remoteHost(linkInfo, targetHost)) {
 		return "network"
 	} else {
-		return allocationTypeToDiskType[requireNotNull(linkInfo.device.dynamic).allocation.javaClass.kotlin] ?: TODO()
+		return allocationTypeToDiskType[linkInfo.allocation.javaClass.kotlin] ?: TODO()
 	}
 }
 
-fun allocationType(deviceDyn: VirtualStorageDeviceDynamic): String {
+fun allocationType(deviceDyn: VirtualStorageLinkInfo): String {
 	return deviceDyn.allocation.let {
 		when (it) {
 			is VirtualStorageLvmAllocation -> "raw"
