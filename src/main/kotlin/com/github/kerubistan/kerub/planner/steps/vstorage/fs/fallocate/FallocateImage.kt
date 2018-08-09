@@ -14,6 +14,10 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
+/**
+ * fallocate can run on existing files and free unused blocks.
+ * Execution es heavily read-intensive, the bigger the allocated size is, the more
+ */
 data class FallocateImage(
 		val virtualStorage: VirtualStorageDevice,
 		val expectedFree : BigInteger,

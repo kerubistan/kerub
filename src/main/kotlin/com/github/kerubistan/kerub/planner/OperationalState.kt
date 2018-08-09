@@ -19,6 +19,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import java.util.UUID
 
@@ -35,8 +36,7 @@ data class OperationalState(
 
 	companion object {
 
-		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T>
-				= entities.associateBy { it.id }
+		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T> = entities.associateBy { it.id }
 
 		private fun mapHostData(hosts: List<Host> = listOf(),
 								hostDyns: List<HostDynamic> = listOf(),
@@ -95,5 +95,14 @@ data class OperationalState(
 	}
 
 	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
+
+	val vmsThatMustStart by lazy {
+		vms.values.filter { vm ->
+			vm.stat.expectations.any { expectation ->
+				expectation is VirtualMachineAvailabilityExpectation
+						&& expectation.up
+			} && vm.dynamic?.status != VirtualMachineStatus.Up
+		}
+	}
 
 }
