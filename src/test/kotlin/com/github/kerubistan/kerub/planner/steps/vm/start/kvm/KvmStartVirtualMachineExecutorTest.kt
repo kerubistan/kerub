@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.doAnswer
@@ -17,9 +18,6 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
@@ -60,21 +58,15 @@ class KvmStartVirtualMachineExecutorTest {
 		val hostCommandExecutor = mock<HostCommandExecutor>()
 		val session = mock<ClientSession>()
 		val sftp = mock<SftpClient>()
-		val exec = mock<ChannelExec>()
-		val openFuture = mock<OpenFuture>()
 
-		val domDisplayExec = mock<ChannelExec>()
+		session.mockCommandExecution(
+				commandMatcher = "virsh domdisplay.*",
+				output = "spice://localhost:5902\n"
+		)
 
-		whenever(session.createExecChannel(argThat { startsWith("virsh domdisplay") }))
-				.thenReturn(domDisplayExec)
-		whenever(domDisplayExec.invertedOut).then { "spice://localhost:5902\n".byteInputStream() }
-		whenever(domDisplayExec.invertedErr).then { NullInputStream(0) }
-		whenever(domDisplayExec.open()).thenReturn(openFuture)
-
-		whenever(exec.invertedErr).then { NullInputStream(0) }
-		whenever(exec.invertedOut).then { NullInputStream(0) }
-		whenever(exec.open()).thenReturn(openFuture)
-		whenever(session.createExecChannel(argThat { startsWith("virsh create") })).thenReturn(exec)
+		session.mockCommandExecution(
+				"virsh create.*"
+		)
 
 		whenever(session.createSftpClient()).thenReturn(sftp)
 		val domainXml = ByteArrayOutputStream()
