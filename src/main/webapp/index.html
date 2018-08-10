@@ -203,7 +203,7 @@
 			<uib-tab>
 				<uib-tab-heading>Expectations</uib-tab-heading>
 
-                <span ng-if="!storageExpectationFormOpen">
+				<span ng-if="!storageExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: storageExpectationsOpen}'>
 	                    <button type="button"
 	                            class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
@@ -225,7 +225,7 @@
                     </div>
 
                 </span>
-                <span ng-if="storageExpectationFormOpen" ng-include="newExpectation.template">
+				<span ng-if="storageExpectationFormOpen" ng-include="newExpectation.template">
 
                 </span>
 
@@ -279,7 +279,7 @@
 
 </script>
 
-<script type="text/ng-template" id="not-same-sourceHost-edit-template">
+<script type="text/ng-template" id="not-same-host-edit-template">
 	<div class="media" ng-controller="NotSameHostExpectationEdit" ng-init="init(vm)">
 		<div class="media-left">
 			<span class="fa fa-ban expectation-big-icon"></span>
@@ -289,19 +289,19 @@
 				<p>
 				<div class="input-group">
 					<div class="input-group-addon"><span class="fa fa-cubes"></span></div>
-				<input class="form-control input-lg"
-				       placeholder="virtual machine"
-				       uib-typeahead="result as result.name for result in listVms($viewValue)"
-				       typeahead-template-url="VmSelection.html"
-				       typeahead-editable="false"
-				       typeahead-min-length="2"
-				       typeahead-wait-ms="200"
-				       typeahead-on-select="selectVm()"
-				       ng-model="otherVm"
-				       autofocus
-				       autocomplete="off"
-				       tooltip-placement="right"
-				       uib-tooltip="Number of copies">
+					<input class="form-control input-lg"
+					       placeholder="virtual machine"
+					       uib-typeahead="result as result.name for result in listVms($viewValue)"
+					       typeahead-template-url="VmSelection.html"
+					       typeahead-editable="false"
+					       typeahead-min-length="2"
+					       typeahead-wait-ms="200"
+					       typeahead-on-select="selectVm()"
+					       ng-model="otherVm"
+					       autofocus
+					       autocomplete="off"
+					       tooltip-placement="right"
+					       uib-tooltip="Number of copies">
 				</div>
 
 				<span ng-include="'expectation-edit-template-buttons'"></span>
@@ -376,7 +376,7 @@
 	</div>
 </script>
 
-<script type="text/ng-template" id="sourceHost-chassis-manufacturer-edit-template">
+<script type="text/ng-template" id="host-chassis-manufacturer-edit-template">
 	<div class="media" ng-controller="HostChassisManufacturerExpectationEdit" ng-init="init(vm)">
 		<div class="media-left">
 			<span class="fa fa-industry expectation-big-icon"></span>
@@ -414,22 +414,22 @@
 		<div class="media-body">
 			<div class="caption">
 				<p>
-					<div class="input-group">
-						<div class="input-group-addon"><span class="fa fa-copy"></span></div>
-						<input class="form-control input-lg"
-						       placeholder="number of copies"
-						       autofocus
-						       maxlength="1"
-						       width="1"
-						       max="4"
-						       min="2"
-						       tooltip-placement="right"
-						       uib-tooltip="Number of copies"
-						       ng-model="expectation.nrOfCopies"
-						       type="number">
-					</div>
+				<div class="input-group">
+					<div class="input-group-addon"><span class="fa fa-copy"></span></div>
+					<input class="form-control input-lg"
+					       placeholder="number of copies"
+					       autofocus
+					       maxlength="1"
+					       width="1"
+					       max="4"
+					       min="2"
+					       tooltip-placement="right"
+					       uib-tooltip="Number of copies"
+					       ng-model="expectation.nrOfCopies"
+					       type="number">
+				</div>
 
-					<span ng-include="'expectation-edit-template-buttons'"></span>
+				<span ng-include="'expectation-edit-template-buttons'"></span>
 
 			</div>
 		</div>
@@ -469,10 +469,10 @@
 		<span ng-if="!match.model.readonly" class="fa fa-database"></span>
 		<span ng-if="match.model.readonly" class="glyphicon glyphicon-cd"></span>
 		{{match.model.name}} - {{humanFriendlySize(match.model.size)}}<br>
-            <span class="label label-default">
+		<span class="label label-default">
                 <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
             </span>
-            <span class="label label-info">
+		<span class="label label-info">
                 <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> TODO
             </span>
 	</a>
@@ -759,7 +759,7 @@
 			<uib-tab>
 				<uib-tab-heading>Expectations</uib-tab-heading>
 
-                <span ng-if="!vmExpectationFormOpen">
+				<span ng-if="!vmExpectationFormOpen">
                     <div class="btn-group" ng-class='{open: vmExpectationsOpen}'>
 	                    <button type="button"
 	                            class="btn btn-default dropdown-toggle glyphicon glyphicon-plus-sign"
@@ -792,7 +792,7 @@
                     </div>
 
                 </span>
-                <span ng-if="vmExpectationFormOpen" ng-include="newExpectation.template">
+				<span ng-if="vmExpectationFormOpen" ng-include="newExpectation.template">
                 </span>
 
 
@@ -878,7 +878,7 @@
 <script type="text/ng-template" id="NewHostWizard.html">
 
 	<div class="modal-header">
-		<h3 class="modal-title">Join Host {{sourceHost.address}}</h3>
+		<h3 class="modal-title">Join Host {{host.address}}</h3>
 	</div>
 	<div class="modal-body">
 
@@ -900,7 +900,7 @@
 						<span class="glyphicon glyphicon-map-marker"></span>
 					</div>
 					<input
-							ng-model="sourceHost.address"
+							ng-model="host.address"
 							class="form-control"
 							placeholder="address"
 							ng-blur="checkHostAddress(); updatePubkey();"
@@ -910,9 +910,9 @@
 						<button
 								type="button"
 								class="btn btn-default"
-								uib-tooltip="If sourceHost is dedicated, kerub can use all resources, change configuration and turn off when the sourceHost is not needed"
-								ng-click="sourceHost.dedicated = !sourceHost.dedicated">
-							<span ng-class="{true: 'glyphicon glyphicon-heart', false: 'glyphicon glyphicon-heart-empty'}[sourceHost.dedicated]"></span>
+								uib-tooltip="If host is dedicated, kerub can use all resources, change configuration and turn off when the host is not needed"
+								ng-click="host.dedicated = !host.dedicated">
+							<span ng-class="{true: 'glyphicon glyphicon-heart', false: 'glyphicon glyphicon-heart-empty'}[host.dedicated]"></span>
 						</button>
 					</div>
 				</div>
@@ -921,7 +921,7 @@
 						<span ng-class="{true: 'fa fa-refresh fa-spin', false: 'fa fa-cog'}[pubkeyUpdating]"></span>
 					</div>
 					<input
-							ng-model="sourceHost.publicKey"
+							ng-model="host.publicKey"
 							readonly
 							disabled
 							class="form-control"
@@ -1014,8 +1014,8 @@
 				type="button"
 				ng-click="addHost()"
 				class="btn btn-primary"
-				ng-disabled="inprg || sourceHost.address == '' || (!usepubkey && password.password == '') || sourceHost.publicKey == '' "
-		        uib-tooltip="Join this sourceHost to the IaaS service"
+				ng-disabled="inprg || host.address == '' || (!usepubkey && password.password == '') || host.publicKey == '' "
+				uib-tooltip="Join this host to the IaaS service"
 				tooltip-placement="top">
 			<span ng-class="{false:'glyphicon glyphicon-ok-sign', true:'fa fa-refresh fa-spin'}[inprg]"></span>
 		</button>
@@ -1025,7 +1025,7 @@
 				ng-click="close()"
 				ng-disabled="inprg"
 				uib-tooltip="Cancel"
-		        tooltip-placement="top">
+				tooltip-placement="top">
 		</button>
 	</div>
 
@@ -1165,7 +1165,7 @@
 		<h3 class="modal-title">
 			<span ng-if="dyn.status" ng-class="hostStatusIcon()"></span>
 			<span ng-if="!dyn.status" class="fa fa-question"></span>
-			Host Details - {{sourceHost.address}}</h3>
+			Host Details - {{host.address}}</h3>
 	</div>
 	<ul class="nav nav-tabs">
 		<li role="presentation" ng-class="isActive('overview')" ng-click="selectView('overview')"><a
@@ -1184,9 +1184,9 @@
 				<span class="input-group-addon fa-fw">
 					<span class="glyphicon glyphicon-barcode"></span>
 				</span>
-				<input class="form-control" ng-model="sourceHost.id" disabled>
+				<input class="form-control" ng-model="host.id" disabled>
 				<span class="input-group-addon">
-					<span ng-class="{true:'glyphicon glyphicon-heart', false:'glyphicon glyphicon-heart-empty'}[sourceHost.dedicated]"></span>
+					<span ng-class="{true:'glyphicon glyphicon-heart', false:'glyphicon glyphicon-heart-empty'}[host.dedicated]"></span>
 				</span>
 			</span>
 		</div>
@@ -1195,41 +1195,41 @@
 				<span class="input-group-addon">
 					<span class="fa fa-gear fa-fw"></span>
 				</span>
-				<input class="form-control" ng-model="sourceHost.publicKey" disabled>
+				<input class="form-control" ng-model="host.publicKey" disabled>
 			</span>
 		</div>
-		<div ng-if="sourceHost.capabilities">
-			<div class="form-group" ng-if="sourceHost.capabilities.os">
+		<div ng-if="host.capabilities">
+			<div class="form-group" ng-if="host.capabilities.os">
 				<span class="input-group">
 					<span class="input-group-addon">
 						<span class="fa fa-code fa-fw"></span>
 					</span>
-					<input class="form-control" ng-model="sourceHost.capabilities.os" disabled>
+					<input class="form-control" ng-model="host.capabilities.os" disabled>
 				</span>
 			</div>
-			<div class="form-group" ng-if="sourceHost.capabilities.distribution">
+			<div class="form-group" ng-if="host.capabilities.distribution">
 				<span class="input-group">
 					<span class="input-group-addon">
 						<span class="fa fa-code-fork fa-fw"></span>
 					</span>
 					<input
 							class="form-control"
-							value="{{sourceHost.capabilities.distribution.name}} - {{sourceHost.capabilities.distribution.ver.major}} {{sourceHost.capabilities.distribution.ver.minor}}"
+							value="{{host.capabilities.distribution.name}} - {{host.capabilities.distribution.ver.major}} {{host.capabilities.distribution.ver.minor}}"
 							disabled>
 				</span>
 			</div>
-			<div class="form-group" ng-if="sourceHost.capabilities.cpuArchitecture">
+			<div class="form-group" ng-if="host.capabilities.cpuArchitecture">
 				<span class="input-group">
 					<span class="input-group-addon">
 						<span class="fa fa-server fa-fw"></span>
 					</span>
-					<input class="form-control" ng-model="sourceHost.capabilities.cpuArchitecture" disabled>
+					<input class="form-control" ng-model="host.capabilities.cpuArchitecture" disabled>
 				</span>
 			</div>
 		</div>
 	</form>
 	<form class="modal-body" ng-show="isVisible('software')">
-            <span ng-repeat="software in sourceHost.capabilities.installedSoftware">
+            <span ng-repeat="software in host.capabilities.installedSoftware">
                 <span class="label label-default">
                     {{software.name}} {{software.ver.major}}<span
 		                ng-if="software.ver.minor">.{{software.ver.minor}}</span><span ng-if="software.ver.build">.{{software.ver.build}}</span>
@@ -1255,7 +1255,7 @@
 				<input class="form-control" ng-value="nrOfCpus" disabled>
 			</span>
 		</div>
-            <span ng-repeat="cpu in sourceHost.capabilities.cpus">
+		<span ng-repeat="cpu in host.capabilities.cpus">
                 <div class="form-group" ng-if="cpu.manufacturer">
 	                <span class="input-group">
 		                <span class="input-group-addon">
@@ -1321,13 +1321,13 @@
 	<form ng-show="isVisible('RAM')">
 		<div class="form-group">
 			<div class="form-group">
-				<uib-progress ng-if="sourceHost.capabilities.totalMemory && dyn.memUsed">
+				<uib-progress ng-if="host.capabilities.totalMemory && dyn.memUsed">
 					<!--
 						dynamic maximum is not supported by angular bootstrap, so this is a workaround here
 
 					-->
 					<uib-bar value="hostMemUsedPercent()" max="100" type="warning">
-						{{humanFriendlySize(dyn.memUsed)}} / {{humanFriendlySize(sourceHost.capabilities.totalMemory)}}
+						{{humanFriendlySize(dyn.memUsed)}} / {{humanFriendlySize(host.capabilities.totalMemory)}}
 					</uib-bar>
 				</uib-progress>
 			</div>
@@ -1341,7 +1341,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="device in sourceHost.capabilities.memoryDevices">
+			<tr ng-repeat="device in host.capabilities.memoryDevices">
 				<td>
 					{{device.serialNumber}}
 				</td>
@@ -1349,16 +1349,16 @@
                             <span ng-if="device.type">
                                 <span class="label label-default">{{device.type}}</span>
                             </span>
-                            <span ng-if="device.size">
+					<span ng-if="device.size">
                                 <span class="label label-default">{{humanFriendlySize(device.size)}}</span>
                             </span>
-                            <span ng-if="device.formFactor">
+					<span ng-if="device.formFactor">
                                 <span class="label label-default">{{device.formFactor}}</span>
                             </span>
-                            <span ng-if="device.speedMhz">
+					<span ng-if="device.speedMhz">
                                 <span class="label label-default">{{device.formFactor}}</span>
                             </span>
-                            <span ng-if="device.manufacturer">
+					<span ng-if="device.manufacturer">
                                 <span class="label label-default"><span class="fa fa-industry"></span> {{device.manufacturer}}</span>
                             </span>
 				</td>
@@ -1375,7 +1375,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="cap in sourceHost.capabilities.storageCapabilities">
+			<tr ng-repeat="cap in host.capabilities.storageCapabilities">
 				<td>{{humanFriendlySize(cap.size)}}</td>
 				<td>
                             <span ng-if="cap['@type'] === 'lvm'">
@@ -1386,7 +1386,7 @@
                                 </span>
 
                             </span>
-                            <span ng-if="cap['@type'] === 'fs'">
+					<span ng-if="cap['@type'] === 'fs'">
                                 <span class="label label-default"><span class="fa fa-folder"></span> {{cap.mountPoint}}</span>
                             </span>
 				</td>
