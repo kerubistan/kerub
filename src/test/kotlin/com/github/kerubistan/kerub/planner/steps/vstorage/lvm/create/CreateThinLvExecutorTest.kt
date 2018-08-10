@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
@@ -66,9 +65,7 @@ class CreateThinLvExecutorTest {
 		)
 
 		verify(virtualDiskDynDao).add(argThat {
-			println(this)
-			this is VirtualStorageDeviceDynamic
-					&& this.allocations.any { it is VirtualStorageLvmAllocation }
+			allocations.any { it is VirtualStorageLvmAllocation }
 		})
 	}
 
