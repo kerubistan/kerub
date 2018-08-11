@@ -61,6 +61,8 @@ data class OperationalState(
 					  vmDyns: List<VirtualMachineDynamic> = listOf(),
 					  vStorage: List<VirtualStorageDevice> = listOf(),
 					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
+					  pools: List<Pool> = listOf(),
+					  templates: List<Template> = listOf(),
 					  reservations: List<Reservation<*>> = listOf(),
 					  config: ControllerConfig = ControllerConfig()
 		) =
@@ -68,6 +70,8 @@ data class OperationalState(
 						hosts = mapHostData(hosts, hostDyns, hostCfgs),
 						vms = mapToCollection(vms, vmDyns) { stat, dyn -> VirtualMachineDataCollection(stat, dyn) },
 						vStorage = mapToCollection(vStorage, vStorageDyns) { stat, dyn -> VirtualStorageDataCollection(stat, dyn) },
+						pools = pools.associateBy { it.id },
+						templates = templates.associateBy { it.id },
 						reservations = reservations,
 						controllerConfig = config
 				)

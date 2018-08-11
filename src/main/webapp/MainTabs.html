@@ -2,7 +2,7 @@
 	<uib-tabset>
 		<uib-tab>
 			<uib-tab-heading>
-				<i class="fa fa-cubes"></i> VMs
+				<i class="fa fa-cube"></i> VMs
 			</uib-tab-heading>
 			<span ng-controller="VmTab">
 				<button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="newVmForm()" uib-tooltip="Create new VM" tooltip-placement="right"></button>
@@ -187,6 +187,20 @@
 					</tbody>
 				</table>
 			   <ul uib-pagination total-items="virtualDisks.total" ng-model="currentPage" ng-change="refresh()" previous-text="&laquo;" next-text="&raquo;"></ul>
+			</span>
+		</uib-tab>
+		<uib-tab>
+			<uib-tab-heading>
+				<i class="fa fa-clone"></i> Templates
+			</uib-tab-heading>
+			<span >
+			</span>
+		</uib-tab>
+		<uib-tab>
+			<uib-tab-heading>
+				<i class="fa fa-cubes"></i> Pools
+			</uib-tab-heading>
+			<span >
 			</span>
 		</uib-tab>
 		<uib-tab ng-if="isAdmin()">

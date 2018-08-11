@@ -3,20 +3,15 @@ package com.github.kerubistan.kerub.services.impl
 import com.github.kerubistan.kerub.RestException
 import com.github.kerubistan.kerub.createClient
 import com.github.kerubistan.kerub.createServiceClient
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.Pool
 import com.github.kerubistan.kerub.services.LoginService
 import com.github.kerubistan.kerub.services.PoolService
-import com.github.kerubistan.kerub.utils.getLogger
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 import kotlin.test.assertEquals
 
 class PoolServiceIT {
-
-	private companion object {
-		val logger = getLogger(PoolServiceIT::class)
-	}
 
 	@Test
 	fun crud() {
@@ -44,7 +39,7 @@ class PoolServiceIT {
 		assertEquals(pool.templateId, poolUpdate.templateId)
 
 		poolService.delete(pool.id)
-		expect(RestException::class) {
+		assertThrows<RestException>  {
 			poolService.getById(pool.id)
 		}
 	}
@@ -55,7 +50,7 @@ class PoolServiceIT {
 		val client = createClient()
 		val poolService = createServiceClient(PoolService::class, client)
 
-		expect(RestException::class) {
+		assertThrows<RestException> {
 			poolService.add(Pool(
 					id = UUID.randomUUID(),
 					name = "test-pool",
@@ -64,7 +59,7 @@ class PoolServiceIT {
 			)
 		}
 
-		expect(RestException::class) {
+		assertThrows<RestException> {
 			poolService.listAll(start = 0, limit = 1000, sort = "id")
 		}
 

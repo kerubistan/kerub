@@ -14,7 +14,10 @@ import kotlin.reflect.KClass
 @JsonSubTypes(
 		JsonSubTypes.Type(VirtualMachine::class),
 		JsonSubTypes.Type(VirtualNetwork::class),
-		JsonSubTypes.Type(VirtualStorageDevice::class)
+		JsonSubTypes.Type(VirtualStorageDevice::class),
+		JsonSubTypes.Type(Project::class),
+		JsonSubTypes.Type(Pool::class),
+		JsonSubTypes.Type(Template::class)
 )
 interface Asset : Entity<UUID>, Named {
 	val owner: AssetOwner?
