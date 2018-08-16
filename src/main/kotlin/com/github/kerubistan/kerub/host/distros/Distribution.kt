@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
+import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.benchmarks.bonnie.Bonnie
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.silent
@@ -22,6 +23,10 @@ import java.math.BigInteger
  * Interface to hide the details of some distribution-specific operations.
  */
 interface Distribution {
+
+	companion object {
+		val logger = getLogger(Distribution::class)
+	}
 
 	val operatingSystem: OperatingSystem
 
@@ -100,6 +105,7 @@ interface Distribution {
 					&& storageTechnologies.fsPathEnabled.contains(capability.mountPoint)
 					&& storageTechnologies.fsTypeEnabled.contains(capability.fsType)) {
 				if (Bonnie.available(osVersion, packages)) {
+					logger.info("benchmarking storage {}", capability)
 					capability.copy(
 							performanceInfo = silent {
 								Bonnie.run(session = session, directory = capability.mountPoint)

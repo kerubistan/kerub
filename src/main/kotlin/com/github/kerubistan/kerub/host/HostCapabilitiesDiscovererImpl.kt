@@ -69,9 +69,8 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 										controllerConfig: ControllerConfig): List<StorageCapability> =
 				distro.detectStorageCapabilities(session, distribution, packages).let {
 					if (controllerConfig.storageTechnologies.storagebenchmarkingEnbled) {
-						logger.info("benchmarking storage")
+						logger.info("benchmarking enabled storage")
 						it.map {
-							logger.info("benchmarking storage {}", it)
 							distro.storageBenchmark(session, it, distribution, packages, controllerConfig.storageTechnologies)
 						}
 					} else
