@@ -10,6 +10,9 @@ val MB = KB * sizeMultiplier
 val GB = MB * sizeMultiplier
 val TB = GB * sizeMultiplier
 val PB = TB * sizeMultiplier
+val EB = PB * sizeMultiplier
+val ZB = EB * sizeMultiplier
+val YB = ZB * sizeMultiplier
 
 val sizePostfixes = mapOf(
 		"BYTES" to { l: BigDecimal -> l },
