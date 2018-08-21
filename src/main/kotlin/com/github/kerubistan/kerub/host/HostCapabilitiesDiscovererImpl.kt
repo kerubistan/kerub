@@ -14,7 +14,6 @@ import com.github.kerubistan.kerub.host.distros.OpenIndiana
 import com.github.kerubistan.kerub.host.distros.OpenSuse
 import com.github.kerubistan.kerub.host.distros.Raspbian
 import com.github.kerubistan.kerub.host.distros.Ubuntu
-import com.github.kerubistan.kerub.host.distros.UbuntuBSD
 import com.github.kerubistan.kerub.host.distros.XenServer7
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.SoftwarePackage
@@ -55,7 +54,6 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 				Raspbian(),
 				// The BSD's
 				FreeBSD(),
-				UbuntuBSD(),
 				//'UNIX'es
 				OpenIndiana(),
 				//Windows
