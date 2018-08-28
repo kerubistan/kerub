@@ -26,17 +26,19 @@ object QemuImg : OsCommand {
 		)
 	}
 
-	val objectMapper = createObjectMapper()
+	private val objectMapper = createObjectMapper()
 	fun create(
 			session: ClientSession,
 			format: VirtualDiskFormat = VirtualDiskFormat.raw,
 			size: BigInteger,
-			path: String
+			path: String,
+			backingFile : String? = null
 	) {
-		session.executeOrDie("qemu-img create -f $format $path $size")
+		val options = backingFile?.let { "-o backing_file=$it" } ?: ""
+		session.executeOrDie("qemu-img create -f $format $options $path $size")
 	}
 
-	fun check(session: ClientSession, path: String, format : VirtualDiskFormat) {
+	fun check(session: ClientSession, path: String, format: VirtualDiskFormat) {
 		session.executeOrDie("qemu-img check -f $format $path")
 	}
 

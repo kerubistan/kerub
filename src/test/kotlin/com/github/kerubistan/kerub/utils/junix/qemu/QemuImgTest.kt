@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.qemu
 
+import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -64,9 +64,19 @@ class QemuImgTest {
 		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		QemuImg.create(session, VirtualDiskFormat.raw, "100 MB".toSize(), "/tmp/test.raw")
+		QemuImg.create(session, VirtualDiskFormat.raw, 100.MB, "/tmp/test.raw")
 
-		Mockito.verify(session).createExecChannel("qemu-img create -f raw /tmp/test.raw ${"100 MB".toSize()}")
+		Mockito.verify(session).createExecChannel("qemu-img create -f raw  /tmp/test.raw ${100.MB}")
+	}
+
+	@Test
+	fun createWithBackingFile() {
+		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
+		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
+
+		QemuImg.create(session, VirtualDiskFormat.qcow2, 100.MB, "/tmp/test.qcow2", "/tmp/template.qcow2")
+
+		Mockito.verify(session).createExecChannel("qemu-img create -f qcow2 -o backing_file=/tmp/template.qcow2 /tmp/test.qcow2 ${100.MB}")
 	}
 
 	@Test
@@ -100,9 +110,9 @@ class QemuImgTest {
 		whenever(execChannel.invertedOut).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		QemuImg.resize(session, "/tmp/test.raw", "100 MB".toSize())
+		QemuImg.resize(session, "/tmp/test.raw", 100.MB)
 
-		Mockito.verify(session).createExecChannel("qemu-img resize /tmp/test.raw ${"100 MB".toSize()}")
+		Mockito.verify(session).createExecChannel("qemu-img resize /tmp/test.raw ${100.MB}")
 	}
 
 	@Test
