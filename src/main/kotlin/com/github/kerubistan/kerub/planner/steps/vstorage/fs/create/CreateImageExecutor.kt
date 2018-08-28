@@ -17,7 +17,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 	}
 
 	override fun perform(step: CreateImage) =
-		exec.execute(step.host, {
+		exec.execute(step.host) {
 			logger.info("Creating virtual disk {} on host {}", step.disk, step.host.address)
 			QemuImg.create(
 					session = it,
@@ -27,7 +27,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 			)
 			logger.info("Created virtual disk")
 			QemuImg.info(session = it, path = "${step.path}/${step.disk.id}")
-		})
+		}
 
 	override fun update(step: CreateImage, updates: ImageInfo) {
 		dynDao.add(VirtualStorageDeviceDynamic(
