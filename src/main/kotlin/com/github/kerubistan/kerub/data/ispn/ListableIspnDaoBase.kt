@@ -11,11 +11,19 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		cache: Cache<I, T>,
 		eventListener: EventListener,
 		private val auditManager: AuditManager)
-	: IspnDaoBase<T, I>(cache, eventListener), DaoOperations.PagedList<T, I> {
+	: IspnDaoBase<T, I>(cache, eventListener),
+		DaoOperations.PagedList<T, I>,
+		DaoOperations.ListMany<I, T>
+{
 
 	override fun add(entity: T): I {
 		auditManager.auditAdd(entity)
 		return super.add(entity)
+	}
+
+	override fun addAll(entities: Collection<T>) {
+		entities.forEach { auditManager.auditAdd(it) }
+		super.addAll(entities)
 	}
 
 	override fun remove(entity: T) {
@@ -62,4 +70,10 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 				.orderBy(sort, SortOrder.ASC)
 				.list()
 	}
+
+	override fun list(ids: Collection<I>): List<T> =
+			cache.advancedCache.queryBuilder(getEntityClass().kotlin)
+					.having(Entity<Any>::idStr.name).`in`(ids.map { it.toString() })
+					.list()
+
 }

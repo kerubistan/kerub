@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.messages.EntityAddMessage
 import com.github.kerubistan.kerub.model.messages.EntityRemoveMessage
 import com.github.kerubistan.kerub.model.messages.EntityUpdateMessage
+import com.github.kerubistan.kerub.utils.byId
 import com.github.kerubistan.kerub.utils.now
 import org.infinispan.Cache
 import org.infinispan.metadata.Metadata
@@ -28,6 +29,9 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 		eventListener.send(EntityAddMessage(entity, now()))
 		return entity.id
 	}
+
+	override fun addAll(entities: Collection<T>) =
+		cache.putAll(entities.byId())
 
 	override fun get(id: I): T? = cache[id]
 

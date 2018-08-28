@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -30,4 +31,7 @@ interface Entity<T> : Serializable {
 	//	@DocumentId
 	//	@JsonProperty("id")
 	val id: T
+	val idStr : String
+		@JsonIgnore
+		get() = id.toString()
 }

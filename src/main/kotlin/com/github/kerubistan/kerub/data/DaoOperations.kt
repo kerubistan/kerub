@@ -13,6 +13,7 @@ interface DaoOperations {
 	 */
 	interface Add<T : Entity<I>, I> {
 		fun add(entity: T): I
+		fun addAll(entities: Collection<T>)
 	}
 
 	/**
@@ -67,6 +68,10 @@ interface DaoOperations {
 	 */
 	interface SimpleList<T : Any> {
 		fun listAll(): List<T>
+	}
+
+	interface ListMany<I, T> {
+		fun list(ids: Collection<I>): List<T>
 	}
 
 	interface SimpleSearch<T : Entity<*>> {

@@ -10,7 +10,6 @@ import java.util.UUID
 interface AuditEntry : Entity<UUID> {
 	val date: Long
 	val user: String?
-	val idStr: String
 }
 
 

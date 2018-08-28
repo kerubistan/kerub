@@ -32,8 +32,4 @@ data class HostDynamic(
 		val cpuStats: List<CpuStat> = listOf(),
 		val storageStatus: List<StorageDeviceDynamic> = listOf()
 )
-	: DynamicEntity {
-	val idStr : String
-		@Field
-		get() = id.toString()
-}
+	: DynamicEntity

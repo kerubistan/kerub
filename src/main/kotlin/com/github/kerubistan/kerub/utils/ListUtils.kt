@@ -103,3 +103,5 @@ fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<L
 
 	return ret
 }
+
+fun <I, E : Entity<I>> Collection<E>.byId() = this.associateBy { it.id }

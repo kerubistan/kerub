@@ -587,6 +587,8 @@
 			</bean>
 			<bean id="template" class="com.github.kerubistan.kerub.services.impl.TemplateServiceImpl">
 				<constructor-arg ref="templateDao"/>
+				<constructor-arg ref="vmDao"/>
+				<constructor-arg ref="virtualStorageDeviceDao"/>
 				<constructor-arg ref="assetAccessController"/>
 			</bean>
 			<bean id="vnet" class="com.github.kerubistan.kerub.services.impl.VirtualNetworkServiceImpl">

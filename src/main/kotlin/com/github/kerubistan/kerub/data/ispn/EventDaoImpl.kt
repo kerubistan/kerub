@@ -2,12 +2,16 @@ package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.data.EventDao
 import com.github.kerubistan.kerub.model.Event
+import com.github.kerubistan.kerub.utils.byId
 import org.infinispan.AdvancedCache
 import org.infinispan.query.Search
 import org.infinispan.query.dsl.SortOrder
 import java.util.UUID
 
 class EventDaoImpl(private val cache: AdvancedCache<UUID, Event>) : EventDao {
+	override fun addAll(entities: Collection<Event>) {
+		cache.putAll(entities.byId())
+	}
 
 	override fun get(ids: Collection<UUID>): List<Event>
 			= cache.advancedCache.getAll(ids.toHashSet()).values.toList()

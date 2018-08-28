@@ -2,11 +2,16 @@ package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.data.ExecutionResultDao
 import com.github.kerubistan.kerub.model.ExecutionResult
+import com.github.kerubistan.kerub.utils.byId
 import org.infinispan.Cache
 import java.util.UUID
 
 class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>)
 	: ExecutionResultDao {
+	override fun addAll(entities: Collection<ExecutionResult>) {
+		cache.putAll(entities.byId())
+	}
+
 	override fun add(entity: ExecutionResult): UUID = entity.let {
 		cache[it.id] = it
 		it.id

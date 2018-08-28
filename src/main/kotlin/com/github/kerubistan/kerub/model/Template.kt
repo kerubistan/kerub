@@ -7,9 +7,9 @@ import kotlin.reflect.KClass
  * A template of virtual machines.
  */
 data class Template(
-		override val id: UUID,
+		override val id: UUID = UUID.randomUUID(),
 		override val name: String,
-		override val owner: AssetOwner?,
+		override val owner: AssetOwner? = null,
 		val vmNamePrefix: String,
 		val vm: VirtualMachine
 ) : Entity<UUID>, Named, Asset {

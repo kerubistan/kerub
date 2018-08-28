@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.data.dynamic.ControllerDynamicDao
 import com.github.kerubistan.kerub.model.dynamic.ControllerDynamic
+import com.github.kerubistan.kerub.utils.byId
 import org.infinispan.Cache
 
 class ControllerDynamicDaoImpl(val cache: Cache<String, ControllerDynamic>) : ControllerDynamicDao {
@@ -18,4 +19,8 @@ class ControllerDynamicDaoImpl(val cache: Cache<String, ControllerDynamic>) : Co
 	}
 
 	override fun get(id: String): ControllerDynamic? = cache[id]
+
+	override fun addAll(entities: Collection<ControllerDynamic>) {
+		cache.putAll(entities.byId())
+	}
 }
