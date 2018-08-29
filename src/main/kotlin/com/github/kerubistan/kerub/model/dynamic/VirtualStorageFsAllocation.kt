@@ -11,7 +11,8 @@ data class VirtualStorageFsAllocation(
 		override val actualSize: BigInteger,
 		val mountPoint: String,
 		val type: VirtualDiskFormat,
-		val fileName : String
+		val fileName : String,
+		val backingFile : String? = null
 ) : VirtualStorageAllocation {
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 
