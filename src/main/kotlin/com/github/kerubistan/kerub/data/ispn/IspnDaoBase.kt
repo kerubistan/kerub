@@ -114,10 +114,10 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	override fun waitFor(id: I, action: (T) -> Boolean) {
 		val value = get(id)
 		if (value == null) {
-			listenCreate(id, {
+			listenCreate(id) {
 				action(it)
 				true
-			})
+			}
 		} else {
 			action(value)
 		}
