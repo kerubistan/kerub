@@ -57,9 +57,7 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		}
 	}
 
-	override fun count(): Int {
-		return cache.count()
-	}
+	override fun count(): Int = cache.count()
 
 	abstract fun getEntityClass(): Class<T>
 
