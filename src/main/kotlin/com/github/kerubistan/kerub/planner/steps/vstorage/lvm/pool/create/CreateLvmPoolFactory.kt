@@ -11,21 +11,21 @@ import java.util.UUID
 
 object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 
-	override fun produce(state: OperationalState): List<CreateLvmPool> = state.hosts
+	override fun produce(state: OperationalState): List<CreateLvmPool> = state.runningHosts
 			.map { hostData ->
 
 				//all the pools on the host vgname -> pool
-				val pools = hostData.value.config?.storageConfiguration
+				val pools = hostData.config?.storageConfiguration
 						?.filterIsInstance(LvmPoolConfiguration::class.java)?.associateBy { it.vgName } ?: mapOf()
 
 				//all lvm volume groups where there is no pool
-				hostData.value.stat.capabilities?.storageCapabilities?.filterIsInstance(LvmStorageCapability::class.java)
+				hostData.stat.capabilities?.storageCapabilities?.filterIsInstance(LvmStorageCapability::class.java)
 						?.filter { lvmCapability ->
-							hostData.value.config?.storageConfiguration?.none {
+							hostData.config?.storageConfiguration?.none {
 								it is LvmPoolConfiguration && !pools.containsKey(it.vgName)
 							} ?: false
 						}?.map { lvmCapability ->
-					val freeCapacity = hostData.value.dynamic?.storageStatus
+					val freeCapacity = hostData.dynamic?.storageStatus
 							?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity
 					Triple(lvmCapability, hostData, freeCapacity ?: BigInteger.ZERO)
 				}
@@ -33,7 +33,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 			}.filterNotNull().join().map {
 		percents.map { percent ->
 			CreateLvmPool(
-					host = it.second.value.stat,
+					host = it.second.stat,
 					name = UUID.randomUUID().toString(),
 					size = it.first.size / percent.toBigInteger(),
 					vgName = it.first.volumeGroupName
