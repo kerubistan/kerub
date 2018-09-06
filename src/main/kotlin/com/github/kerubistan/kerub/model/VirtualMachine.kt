@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
@@ -92,10 +93,12 @@ data class VirtualMachine constructor(
 
 	val virtualStorageIdStr: List<String>
 		@Field
+		@JsonIgnore
 		get() = virtualStorageLinks.map { it.virtualStorageId.toString() }
 
 	val virtualNetworkIdStr: List<String>
 		@Field
+		@JsonIgnore
 		get() = devices.filterIsInstance(NetworkDevice::class.java).map { it.networkId.toString() }
 
 
