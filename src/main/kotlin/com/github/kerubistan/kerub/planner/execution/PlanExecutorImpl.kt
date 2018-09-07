@@ -47,6 +47,16 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.unallocate.UnAl
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.unallocate.UnAllocateGvinumExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLvExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateThinLv
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateThinLvExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvm
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvmExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.create.CreateLvmPool
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.create.CreateLvmPoolExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.extend.ExtendLvmPool
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.extend.ExtendLvmPoolExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.remove.RemoveLvmPool
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.remove.RemoveLvmPoolExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLvExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
@@ -98,7 +108,6 @@ class PlanExecutorImpl(
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
-			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao,
 																	hostDynamicDao),
 			//TODO: handle both with just one (unless you want to maintain a long list)
@@ -108,6 +117,16 @@ class PlanExecutorImpl(
 			TgtdIscsiShare::class to TgtdIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
 			CtldIscsiShare::class to CtldIscsiShareExecutor(hostConfigurationDao, hostCommandExecutor, hostManager),
 			RecycleHost::class to RecycleHostExecutor(hostDao, hostDynamicDao),
+
+			//LVM
+			CreateLv::class to CreateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			CreateLvmPool::class to CreateLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao),
+			ExtendLvmPool::class to ExtendLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao, hostDynamicDao),
+			UnAllocateLv::class to UnAllocateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			DuplicateToLvm::class to DuplicateToLvmExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			CreateThinLv::class to CreateThinLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			//ShrinkLvmPool::class to ShrinkLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao),
+			RemoveLvmPool::class to RemoveLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao, hostDynamicDao),
 
 			//NFS
 			StartNfsDaemon::class to StartNfsDaemonExecutor(hostManager, hostConfigurationDao),
