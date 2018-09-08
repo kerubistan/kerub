@@ -168,7 +168,7 @@ class PlanExecutorImpl(
 				results += StepExecutionPass(executionStep = step)
 			}
 		} fail { exc ->
-			logger.warn("plan execution failed", exc)
+			logger.warn("plan execution failed: {}", plan, exc)
 			stepOnExec?.let {
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
 			}
