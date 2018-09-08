@@ -16,7 +16,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.volume
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
-class CreateLvmPool(
+data class CreateLvmPool(
 		val host: Host,
 		val vgName: String,
 		val name: String,
