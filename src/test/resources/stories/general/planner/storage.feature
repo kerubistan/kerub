@@ -247,5 +247,6 @@ Feature: storage management
 	  | test-disk-1 | 1 TB | false |
 	And Controller configuration 'lvm create volume enabled' is enabled
 	And host host-1.example.com is Up
+	And volume group vg-1 on host host-1.example.com has 200GB free capacity
 	When virtual disk test-disk-1 gets an availability expectation
 	Then the virtual disk test-disk-1 must be thin-allocated on host-1.example.com under on the volume group vg-1

@@ -6,38 +6,46 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.toSize
 import java.math.BigInteger
 import java.util.UUID
 
 object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 
-	override fun produce(state: OperationalState): List<CreateLvmPool> = state.runningHosts
-			.map { hostData ->
+	private val minimumThinGroupSize = "16 GB".toSize()
 
-				//all the pools on the host vgname -> pool
-				val pools = hostData.config?.storageConfiguration
-						?.filterIsInstance(LvmPoolConfiguration::class.java)?.associateBy { it.vgName } ?: mapOf()
+	override fun produce(state: OperationalState): List<CreateLvmPool> {
+		return state.runningHosts.mapNotNull { hostData ->
 
-				//all lvm volume groups where there is no pool
-				hostData.stat.capabilities?.storageCapabilities?.filterIsInstance(LvmStorageCapability::class.java)
-						?.filter { lvmCapability ->
-							hostData.config?.storageConfiguration?.none {
-								it is LvmPoolConfiguration && !pools.containsKey(it.vgName)
-							} ?: false
-						}?.map { lvmCapability ->
-					val freeCapacity = hostData.dynamic?.storageStatus
-							?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity
-					Triple(lvmCapability, hostData, freeCapacity ?: BigInteger.ZERO)
-				}
+			//all the pools on the host vgname -> pool
+			val pools = hostData.config?.storageConfiguration
+					?.filterIsInstance(LvmPoolConfiguration::class.java)?.associateBy { it.vgName } ?: mapOf()
 
-			}.filterNotNull().join().map {
-		percents.map { percent ->
-			CreateLvmPool(
-					host = it.second.stat,
-					name = UUID.randomUUID().toString(),
-					size = it.first.size / percent.toBigInteger(),
-					vgName = it.first.volumeGroupName
-			)
-		}
-	}.join()
+			//all lvm volume groups where there is no pool
+			hostData.stat.capabilities?.storageCapabilities?.filterIsInstance(LvmStorageCapability::class.java)
+					?.filter { lvmCapability ->
+						hostData.config?.storageConfiguration?.none {
+							it is LvmPoolConfiguration && !pools.containsKey(lvmCapability.volumeGroupName)
+						} ?: false
+					}?.mapNotNull { lvmCapability ->
+						val freeCapacity: BigInteger? = hostData.dynamic?.storageStatus
+								?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity
+						if(freeCapacity != null && freeCapacity > minimumThinGroupSize) {
+							Triple(lvmCapability, hostData, freeCapacity)
+						} else {
+							null
+						}
+					}
+
+		}.join().map { (capability, hostData, freeCap) ->
+			percents.mapNotNull { percent ->
+				CreateLvmPool(
+						host = hostData.stat,
+						name = UUID.randomUUID().toString(),
+						size = freeCap / percent.toBigInteger(),
+						vgName = capability.volumeGroupName
+				)
+			}
+		}.join()
+	}
 }
