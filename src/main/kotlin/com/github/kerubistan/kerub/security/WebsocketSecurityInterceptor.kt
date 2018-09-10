@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.security
 
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.NOP
 import com.github.kerubistan.kerub.utils.silent
 import org.apache.shiro.SecurityUtils
@@ -21,7 +22,9 @@ class WebsocketSecurityInterceptor : HandshakeInterceptor {
 			response: ServerHttpResponse,
 			wsHandler: WebSocketHandler,
 			attributes: MutableMap<String, Any>): Boolean {
-		val authenticated = silent { SecurityUtils.getSubject() }?.isAuthenticated ?: false
+		val authenticated = silent(level = LogLevel.Debug, actionName = "get subject") {
+			SecurityUtils.getSubject()
+		}?.isAuthenticated ?: false
 		if (authenticated) {
 			attributes.put("subject", SecurityUtils.getSubject())
 		}

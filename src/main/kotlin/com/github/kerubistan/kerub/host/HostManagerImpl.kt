@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.services.exc.HostAddressException
 import com.github.kerubistan.kerub.utils.DefaultSshEventListener
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.silent
 import org.apache.sshd.client.SshClient
@@ -161,8 +162,8 @@ open class HostManagerImpl(
 			final override fun markSupported(): Boolean = stream.markSupported()
 
 			override fun close() {
-				silent { stream.close() }
-				silent { sftp.close() }
+				silent(level = LogLevel.Info) { stream.close() }
+				silent(level = LogLevel.Info) { sftp.close() }
 			}
 		}
 

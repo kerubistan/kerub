@@ -5,19 +5,36 @@ import java.io.StringWriter
 
 private val logger = getLogger("com.github.kerubistan.kerub.utils")
 
+enum class LogLevel {
+	Debug,
+	Info,
+	Warning,
+	Error
+}
+
 fun Throwable.getStackTraceAsString(): String =
-		StringWriter().use {
-			PrintWriter(it).use {
+		StringWriter().use { stringWriter ->
+			PrintWriter(stringWriter).use {
 				this.printStackTrace(it)
 			}
-			it.toString()
+			stringWriter.toString()
 		}
 
-fun <T> silent(actionName: String = "", body: () -> T): T? {
+fun <T> silent(level : LogLevel = LogLevel.Info, actionName: String = "", body: () -> T): T? {
 	return try {
 		body()
 	} catch(exc: Exception) {
-		logger.warn("Exception occured during execution: $actionName", exc)
+		val message = "Exception occurred during execution: $actionName"
+		when(level) {
+			LogLevel.Debug ->
+				logger.debug(message, exc)
+			LogLevel.Info ->
+				logger.info(message, exc)
+			LogLevel.Warning ->
+				logger.warn(message, exc)
+			LogLevel.Error ->
+				logger.error(message, exc)
+		}
 		null
 	}
 }

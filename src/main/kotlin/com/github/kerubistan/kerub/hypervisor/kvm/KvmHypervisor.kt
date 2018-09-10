@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.utils.KB
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.genPassword
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
@@ -28,7 +29,9 @@ class KvmHypervisor(private val client: ClientSession,
 	override fun startMonitoringProcess() {
 		Virsh.domStat(client) { stats ->
 			val vmDyns = vmDynDao.findByHostId(host.id)
-			val runningVms = stats.map { silent { it.name.toUUID() } }.filterNotNull()
+			val runningVms = stats.mapNotNull {
+				silent(level = LogLevel.Debug, actionName = "parse domain name as uuid") { it.name.toUUID() }
+			}
 
 			//handle vms that no longer run on this host
 			vmDyns.filterNot { it.id in runningVms }.forEach {
@@ -36,7 +39,7 @@ class KvmHypervisor(private val client: ClientSession,
 			}
 
 			stats.forEach { stat ->
-				silent {
+				silent(level = LogLevel.Warning, actionName = "update stat data") {
 					val runningVmId = stat.name.toUUID()
 					vmDynDao.update(runningVmId, retrieve = {
 						vmDyns.firstOrNull { it.id == runningVmId } ?: VirtualMachineDynamic(

@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.virt.virsh
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.base64
 import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.flag
@@ -69,7 +70,7 @@ object Virsh : OsCommand {
 				}
 				session.executeOrDie("virsh create $domainDefFile")
 			} finally {
-				silent { sftp.remove(domainDefFile) }
+				silent(level = LogLevel.Debug, actionName = "clear temporary domain file") { sftp.remove(domainDefFile) }
 			}
 		}
 	}

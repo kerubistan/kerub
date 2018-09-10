@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.MB
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.now
@@ -60,7 +61,7 @@ object VBoxManage : OsCommand {
 			success = true
 		} finally {
 			if (!success) {
-				silent {
+				silent(level = LogLevel.Warning) {
 					session.executeOrDie("VBoxManage unregistervm ${vm.id} --delete")
 				}
 			}

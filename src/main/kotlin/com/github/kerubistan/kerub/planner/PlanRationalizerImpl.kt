@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.silent
 
 class PlanRationalizerImpl(
@@ -103,7 +104,7 @@ class PlanRationalizerImpl(
 	 */
 	private fun subPlan(plan: Plan, startStepIndex: Int): Plan? {
 		val subSteps = plan.steps.subList(fromIndex = startStepIndex, toIndex = plan.steps.size)
-		val targetPlan = silent {
+		val targetPlan = silent(level = LogLevel.Debug) {
 			Plan.planBy(plan.states.first(), subSteps) { step, state ->
 				stepFactory.produce(state).contains(step)
 			}

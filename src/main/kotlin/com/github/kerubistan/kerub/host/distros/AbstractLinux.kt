@@ -18,6 +18,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
@@ -221,7 +222,9 @@ abstract class AbstractLinux : Distribution {
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> {
 		//TODO: filter out the ones not connected and not wal-enabled
-		val macAdddresses = Net.listDevices(session).mapNotNull { silent { Net.getMacAddress(session, it) } }
+		val macAdddresses = Net.listDevices(session).mapNotNull {
+			silent(level = LogLevel.Debug) { Net.getMacAddress(session, it) }
+		}
 
 		return if (macAdddresses.isEmpty()) {
 			listOf()

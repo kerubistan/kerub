@@ -24,6 +24,7 @@ import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.services.exc.UnknownHostOperatingSystemException
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.dmi.DmiDecoder
 import com.github.kerubistan.kerub.utils.junix.lspci.LsPci
@@ -86,7 +87,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 
 		val distro = detectDistro(session)
 		val cpuArchitecture = distro.detectHostCpuType(session)
-		val packages = silent { distro.getPackageManager(session).list() } ?: listOf()
+		val packages = silent(actionName = "list os packages") { distro.getPackageManager(session).list() } ?: listOf()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
 		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
 

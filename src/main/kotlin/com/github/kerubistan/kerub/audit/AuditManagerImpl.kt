@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.AddEntry
 import com.github.kerubistan.kerub.model.DeleteEntry
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.UpdateEntry
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.currentUser
 import com.github.kerubistan.kerub.utils.silent
 
@@ -37,5 +38,5 @@ open class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditMan
 		)
 	}
 
-	internal open fun getCurrentUser() = silent { currentUser() }
+	internal open fun getCurrentUser() = silent(level = LogLevel.Debug) { currentUser() }
 }

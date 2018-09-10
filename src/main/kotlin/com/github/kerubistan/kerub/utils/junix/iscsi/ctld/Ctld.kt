@@ -11,18 +11,18 @@ import com.github.kerubistan.kerub.utils.storage.iscsiDefaultUser as iscsiUser
 
 object Ctld : OsCommand {
 
-	private val configFilePath = "/etc/ctl.conf"
+	private const val configFilePath = "/etc/ctl.conf"
 
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.os == OperatingSystem.BSD &&
 			hostCapabilities.distribution?.name == "FreeBSD"
 
-	internal fun begin(id: UUID) = "#cfg-begin $id"
-	internal fun end(id: UUID) = "#cfg-end $id"
+	private fun begin(id: UUID) = "#cfg-begin $id"
+	private fun end(id: UUID) = "#cfg-end $id"
 
 	fun share(session: ClientSession, id: UUID, path: String, readOnly: Boolean = false) {
 		val config = """
-${begin(id)}
+	${begin(id)}
 
      auth-group ag-$id {
      	#TODO
@@ -37,13 +37,12 @@ ${begin(id)}
 			path $path
 			${readonlyOption(readOnly)}
 		}
-	}
-${end(id)}"""
+s	}
+	s${end(id)}""".trimIndent()
 		session.createSftpClient().use {
 			sftp ->
 			sftp.appendToFile(configFilePath, config)
 		}
-		session
 	}
 
 	private fun readonlyOption(readOnly: Boolean) = if (readOnly) {
