@@ -10,7 +10,7 @@ import org.hibernate.search.annotations.Field
 import java.util.UUID
 
 @JsonTypeName("audit-add")
-class AddEntry(
+data class AddEntry(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),

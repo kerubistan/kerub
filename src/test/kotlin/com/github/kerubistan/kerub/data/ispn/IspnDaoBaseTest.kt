@@ -13,9 +13,7 @@ import org.junit.Test
 
 class IspnDaoBaseTest {
 
-	class TestEntity : Entity<String> {
-		override var id: String = "TEST"
-	}
+	data class TestEntity(override var id: String = "TEST") : Entity<String>
 
 	class TestDao(cache: Cache<String, TestEntity>, eventListener: EventListener, auditManager: AuditManager)
 	: ListableIspnDaoBase<TestEntity, String>(cache, eventListener, auditManager) {

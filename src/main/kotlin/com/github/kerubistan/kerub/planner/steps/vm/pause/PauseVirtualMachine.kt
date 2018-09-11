@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.update
 
-class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+data class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
 	override fun reservations(): List<Reservation<*>>
 			= listOf(VmReservation(vm))
@@ -17,15 +17,14 @@ class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : Hos
 	override fun take(state: OperationalState): OperationalState {
 		//TODO: should also transform host CPU load data to show any useful
 		return state.copy(
-				vms = state.vms.update(vm.id, {
-					vmData ->
+				vms = state.vms.update(vm.id) { vmData ->
 					vmData.copy(
 							dynamic = requireNotNull(vmData.dynamic).copy(
 									status = VirtualMachineStatus.Paused,
 									cpuUsage = listOf()
 							)
 					)
-				})
+				}
 		)
 	}
 }

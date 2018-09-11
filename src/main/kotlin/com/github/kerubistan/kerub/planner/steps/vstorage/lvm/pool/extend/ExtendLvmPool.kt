@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.Abstra
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.volumeGroupId
 import java.math.BigInteger
 
-class ExtendLvmPool(
+data class ExtendLvmPool(
 		override val host: Host,
 		override val vgName: String,
 		override val pool: String,

@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 
-class FenceHost(val host: Host) : AbstractOperationalStep {
+data class FenceHost(val host: Host) : AbstractOperationalStep {
 	override fun reservations(): List<Reservation<*>>
 			= listOf(FullHostReservation(host = host))
 

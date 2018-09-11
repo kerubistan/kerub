@@ -9,7 +9,7 @@ import org.hibernate.search.annotations.Field
 import java.util.UUID
 import kotlin.reflect.KClass
 
-@JsonTypeName("project") class Project @JsonCreator constructor(
+@JsonTypeName("project") data class Project @JsonCreator constructor(
 		@DocumentId
 		@JsonProperty("id")
 		override var id: UUID = UUID.randomUUID(),

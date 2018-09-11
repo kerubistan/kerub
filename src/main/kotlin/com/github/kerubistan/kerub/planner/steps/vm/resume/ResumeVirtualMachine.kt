@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.update
 
-class ResumeVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
+data class ResumeVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
 	override fun reservations(): List<Reservation<*>>
 			= listOf(VmReservation(vm))
