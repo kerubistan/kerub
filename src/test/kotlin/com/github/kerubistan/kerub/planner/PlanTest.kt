@@ -8,9 +8,10 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.testHost
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.Mockito
 import java.util.UUID
 import kotlin.test.assertTrue
 
@@ -33,10 +34,10 @@ class PlanTest {
 				publicKey = "",
 				address = "host1.example.com"
 		)
-		val step1 = Mockito.mock(AbstractOperationalStep::class.java)
-		val step2 = Mockito.mock(AbstractOperationalStep::class.java)
-		Mockito.`when`(step1.reservations()).thenReturn(listOf(FullHostReservation(host)))
-		Mockito.`when`(step2.reservations()).thenReturn(listOf(FullHostReservation(host)))
+		val step1 = mock<AbstractOperationalStep>()
+		val step2 = mock<AbstractOperationalStep>()
+		whenever(step1.reservations()).thenReturn(listOf(FullHostReservation(host)))
+		whenever(step2.reservations()).thenReturn(listOf(FullHostReservation(host)))
 
 		assertEquals(setOf<Reservation<*>>(FullHostReservation(host)), Plan(
 				OperationalState.fromLists(),

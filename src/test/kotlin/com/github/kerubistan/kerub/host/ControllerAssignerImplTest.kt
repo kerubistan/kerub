@@ -15,28 +15,28 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import java.util.UUID
 import java.util.concurrent.ForkJoinPool
 
 class ControllerAssignerImplTest {
-	var backtrack: BacktrackService? = null
+	private var backtrack: BacktrackService? = null
 
-	val controllerDao: ControllerDao = mock()
+	private val controllerDao: ControllerDao = mock()
 
-	val controllerDynamicDao: ControllerDynamicDao = mock()
+	private val controllerDynamicDao: ControllerDynamicDao = mock()
 
-	var hostAssignmentDao: AssignmentDao = mock()
+	private var hostAssignmentDao: AssignmentDao = mock()
 
-	var interController: InterController = mock()
+	private var interController: InterController = mock()
 
 	@Before
 	fun setup() {
 		backtrack = BacktrackServiceImpl(ForkJoinPool(4))
-		Mockito.`when`(controllerDynamicDao.listAll()).thenReturn(listOf(
+		whenever(controllerDynamicDao.listAll()).thenReturn(listOf(
 				ControllerDynamic(
 						controllerId = "ctrl-1",
 						addresses = listOf(),

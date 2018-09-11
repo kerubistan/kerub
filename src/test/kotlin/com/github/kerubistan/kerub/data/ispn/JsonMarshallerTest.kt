@@ -4,23 +4,26 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.Assert
+import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito
 import java.io.OutputStream
 import java.util.UUID
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class JsonMarshallerTest {
 
-	val mapper: ObjectMapper = mock()
+	private val mapper: ObjectMapper = mock()
 
-	var marshaller: JsonMarshaller? = null
+	private var marshaller: JsonMarshaller? = null
 
-	val testObject = VirtualMachine(
+	private val testObject = VirtualMachine(
 			id = UUID.randomUUID(),
 			name = "foo"
 	)
@@ -34,20 +37,20 @@ class JsonMarshallerTest {
 	fun objectToByteBuffer() {
 		marshaller!!.objectToByteBuffer(testObject)
 
-		Mockito.verify(mapper)!!.writeValue(any(OutputStream::class.java), eq(testObject))
+		verify(mapper)!!.writeValue(any(OutputStream::class.java), eq(testObject))
 	}
 
 	@Test
 	fun objectFromByteBuffer() {
-		Mockito.`when`(mapper.readValue(
+		whenever(mapper.readValue(
 				any(ByteArray::class.java),
 				anyInt(),
 				anyInt(),
 				eq(Entity::class.java))).thenReturn(testObject)
 
-		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0)))
+		assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0)))
 
-		Mockito.verify(mapper).readValue(
+		verify(mapper).readValue(
 				any(ByteArray::class.java),
 				anyInt(),
 				anyInt(),
@@ -56,15 +59,15 @@ class JsonMarshallerTest {
 
 	@Test
 	fun objectFromByteBufferWithLimits() {
-		Mockito.`when`(mapper.readValue(
+		whenever(mapper.readValue(
 				any(ByteArray::class.java),
 				anyInt(),
 				anyInt(),
 				eq(Entity::class.java))).thenReturn(testObject)
 
-		Assert.assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0), 0, 0))
+		assertEquals(testObject, marshaller!!.objectFromByteBuffer(ByteArray(0), 0, 0))
 
-		Mockito.verify(mapper).readValue(
+		verify(mapper).readValue(
 				any(ByteArray::class.java),
 				anyInt(),
 				anyInt(),
@@ -73,7 +76,7 @@ class JsonMarshallerTest {
 
 	@Test
 	fun isMarshallable() {
-		Assert.assertTrue(marshaller!!.isMarshallable(testObject))
-		Assert.assertFalse(marshaller!!.isMarshallable("obviously not"))
+		assertTrue(marshaller!!.isMarshallable(testObject))
+		assertFalse(marshaller!!.isMarshallable("obviously not"))
 	}
 }

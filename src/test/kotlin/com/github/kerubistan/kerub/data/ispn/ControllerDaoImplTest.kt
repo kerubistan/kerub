@@ -2,24 +2,24 @@ package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.data.ControllerDao
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.infinispan.manager.EmbeddedCacheManager
 import org.infinispan.remoting.transport.Address
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
 import kotlin.test.assertEquals
 
 class ControllerDaoImplTest {
-	var dao : ControllerDao? = null
-	val cacheManager : EmbeddedCacheManager = mock()
-	val address1 : Address = mock()
-	val address2 : Address = mock()
+	private var dao : ControllerDao? = null
+	private val cacheManager : EmbeddedCacheManager = mock()
+	private val address1 : Address = mock()
+	private val address2 : Address = mock()
 
 
 	@Before fun setup() {
-		Mockito.`when`( cacheManager.members).thenReturn( listOf(address1, address1) )
-		Mockito.`when`(address1.toString()).thenReturn("TEST-1")
-		Mockito.`when`(address2.toString()).thenReturn("TEST-2")
+		whenever(cacheManager.members).thenReturn( listOf(address1, address1) )
+		whenever(address1.toString()).thenReturn("TEST-1")
+		whenever(address2.toString()).thenReturn("TEST-2")
 		dao = ControllerDaoImpl(cacheManager)
 	}
 

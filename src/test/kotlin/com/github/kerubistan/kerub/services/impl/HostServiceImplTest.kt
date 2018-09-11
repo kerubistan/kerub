@@ -18,19 +18,18 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 import java.security.PublicKey
 import java.util.UUID
 import kotlin.test.assertEquals
 
 class HostServiceImplTest {
-	val dao: HostDao = mock()
-	val manager: HostManager = mock()
-	val sshClientService: SshClientService = mock()
+	private val dao: HostDao = mock()
+	private val manager: HostManager = mock()
+	private val sshClientService: SshClientService = mock()
 
-	var pubKey: PublicKey = getTestKey().public
+	private var pubKey: PublicKey = getTestKey().public
 
-	var service: HostServiceImpl? = null
+	private var service: HostServiceImpl? = null
 
 	@Before
 	fun setup() {
@@ -76,7 +75,7 @@ class HostServiceImplTest {
 
 	@Test
 	fun getHostPubkey() {
-		Mockito.`when`(manager.getHostPublicKey(anyString())).thenReturn(pubKey)
+		whenever(manager.getHostPublicKey(anyString())).thenReturn(pubKey)
 
 		val hostPubKey = service!!.getHostPubkey("127.0.0l.1")
 		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey.algorithm))
@@ -86,10 +85,10 @@ class HostServiceImplTest {
 
 	@Test
 	fun getPubKey() {
-		Mockito.`when`(sshClientService.getPublicKey()).thenReturn("TEST-KEY")
+		whenever(sshClientService.getPublicKey()).thenReturn("TEST-KEY")
 
 		Assert.assertThat(service!!.getPubkey(), CoreMatchers.`is`("TEST-KEY"))
 
-		Mockito.verify(sshClientService)!!.getPublicKey()
+		verify(sshClientService).getPublicKey()
 	}
 }

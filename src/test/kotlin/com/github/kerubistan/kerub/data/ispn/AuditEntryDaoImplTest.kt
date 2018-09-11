@@ -7,24 +7,24 @@ import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.UpdateEntry
 import com.github.kerubistan.kerub.utils.toUUID
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.mockito.Mockito
 import java.util.UUID
 import kotlin.test.assertTrue
 
 class AuditEntryDaoImplTest : AbstractIspnDaoTest<UUID, AuditEntry>() {
 
-	val oldEntity: Entity<UUID> = mock()
-	val newEntity: Entity<UUID> = mock()
+	private val oldEntity: Entity<UUID> = mock()
+	private val newEntity: Entity<UUID> = mock()
 
 	@Test
 	fun add() {
 
 		val dao = AuditEntryDaoImpl(cache!!.advancedCache)
 
-		Mockito.`when`(oldEntity.id)!!
+		whenever(oldEntity.id)
 				.thenReturn("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc".toUUID())
-		Mockito.`when`(newEntity.id)!!
+		whenever(newEntity.id)
 				.thenReturn("43dcc6e7-cfcd-44af-a4e5-bbe8f7d948cc".toUUID())
 
 		dao.add(AddEntry(

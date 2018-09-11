@@ -2,57 +2,39 @@ package com.github.kerubistan.kerub.planner.steps
 
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.Assert
+import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
-import org.mockito.Mockito
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class StepCostComparatorTest {
 
-	val step1 : AbstractOperationalStep = mock()
+	private val step1 : AbstractOperationalStep = mock()
 
-	val step2 : AbstractOperationalStep = mock()
+	private val step2 : AbstractOperationalStep = mock()
 
 	@Test
 	fun compareNoCosts() {
-		Mockito.`when`(step1.getCost()).thenReturn(
-				listOf()
-		                                            )
-		Mockito.`when`(step2.getCost()).thenReturn(
-				listOf()
-		                                            )
+		whenever(step1.getCost()).thenReturn(listOf())
+		whenever(step2.getCost()).thenReturn(listOf())
 
-		Assert.assertEquals(StepCostComparator.compare(step1, step2), 0)
+		assertEquals(StepCostComparator.compare(step1, step2), 0)
 	}
 
 	@Test
 	fun compareRisk() {
-		Mockito.`when`(step1.getCost()).thenReturn(
-				listOf(
-						Risk(score = 1, comment = "easy")
-				      )
-		                                            )
-		Mockito.`when`(step2.getCost()).thenReturn(
-				listOf(
-						Risk(score = 2, comment = "hard")
-				      )
-		                                            )
+		whenever(step1.getCost()).thenReturn(listOf(Risk(score = 1, comment = "easy")))
+		whenever(step2.getCost()).thenReturn(listOf(Risk(score = 2, comment = "hard")))
 
-		Assert.assertTrue(StepCostComparator.compare(step1, step2) < 0)
+		assertTrue(StepCostComparator.compare(step1, step2) < 0)
 	}
 
 	@Test
 	fun compareRiskSort(){
-		Mockito.`when`(step1.getCost()).thenReturn(
-				listOf(
-						Risk(score = 1, comment = "easy")
-				      )
-		                                            )
-		Mockito.`when`(step2.getCost()).thenReturn(
-				listOf(
-						Risk(score = 2, comment = "hard")
-				      )
-		                                            )
+		whenever(step1.getCost()).thenReturn(listOf(Risk(score = 1, comment = "easy")))
+		whenever(step2.getCost()).thenReturn(listOf(Risk(score = 2, comment = "hard")))
 		val original = listOf(step1, step2)
+		//TODO
 	}
 
 }
