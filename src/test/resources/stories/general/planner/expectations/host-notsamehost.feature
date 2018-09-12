@@ -3,8 +3,8 @@ Feature: support not-same-host expectation
   Scenario: Start a virtual machine with notsame expectation on it
 	Given hosts:
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And host host1.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
@@ -34,8 +34,8 @@ Feature: support not-same-host expectation
   Scenario: the other vm must be migrated to another host to be able to start
 	Given hosts:
 	  | address            | ram    | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host-s.example.com | 2 GB   | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host-b.example.com | 4.5 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host-s.example.com | 2 GB   | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host-b.example.com | 4.5 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And host host-s.example.com CPUs are 2:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |

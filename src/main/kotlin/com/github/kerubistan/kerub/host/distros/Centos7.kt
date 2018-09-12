@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.host.packman.YumPackageManager
 import com.github.kerubistan.kerub.model.Version
 import org.apache.sshd.client.session.ClientSession
 
-class Centos7 : LsbDistribution("Centos Linux") {
+class Centos7 : LsbDistribution("CentOS Linux") {
 	override fun getPackageManager(session: ClientSession): PackageManager
 			= YumPackageManager(session)
 

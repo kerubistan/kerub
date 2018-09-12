@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.iscsi.ctld
 import com.github.kerubistan.kerub.host.appendToFile
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
+import com.github.kerubistan.kerub.utils.junix.common.FreeBSD
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
@@ -15,7 +16,7 @@ object Ctld : OsCommand {
 
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.os == OperatingSystem.BSD &&
-			hostCapabilities.distribution?.name == "FreeBSD"
+			hostCapabilities.distribution?.name == FreeBSD
 
 	private fun begin(id: UUID) = "#cfg-begin $id"
 	private fun end(id: UUID) = "#cfg-end $id"

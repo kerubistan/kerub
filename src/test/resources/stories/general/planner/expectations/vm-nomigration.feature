@@ -9,8 +9,8 @@ Feature: "No migration" expectation
   Scenario: vm without "No migration" expectation is preferred when selecting for migration
 	Given hosts:
 	  | address                | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host-big.example.com   | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host-small.example.com | 3 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host-big.example.com   | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host-small.example.com | 3 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And host host-big.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |

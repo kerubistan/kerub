@@ -8,7 +8,12 @@ import com.github.kerubistan.kerub.utils.base64
 import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.flag
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.junix.common.Centos
+import com.github.kerubistan.kerub.utils.junix.common.Debian
+import com.github.kerubistan.kerub.utils.junix.common.Fedora
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
+import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toBigInteger
@@ -26,11 +31,11 @@ object Virsh : OsCommand {
 	private val utf8 = charset("UTF-8")
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Centos Linux", "Fedora", "openSUSE") }
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Centos, Fedora, openSuse) }
 					to listOf("libvirt-client"),
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Debian") } to listOf("libvirt-clients",
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Debian) } to listOf("libvirt-clients",
 																					   "libvirt-daemon"),
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Ubuntu") } to listOf("libvirt-bin")
+			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Ubuntu) } to listOf("libvirt-bin")
 	)
 
 	fun setSecret(session: ClientSession, id: UUID, type: SecretType, value: String) {

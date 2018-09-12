@@ -34,7 +34,7 @@ class QemuImgTest {
 	@Test
 	fun available() {
 		assertTrue(QemuImg.available(testHostCapabilities.copy(
-				distribution = SoftwarePackage("CentOS", Version.fromVersionString("7.0")),
+				distribution = SoftwarePackage("CentOS Linux", Version.fromVersionString("7.0")),
 				installedSoftware = listOf(
 						SoftwarePackage("qemu-img", version = Version.fromVersionString("2.1.5"))
 				)

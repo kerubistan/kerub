@@ -3,8 +3,8 @@ Feature: support for host manufacturer expectation
   Scenario: host selection with manufacturer info
 	Given hosts:
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And host host1.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |

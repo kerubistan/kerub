@@ -3,8 +3,8 @@ Feature: dedicated cores
   Scenario: Start a vm without dedicated cores when a dedicated one is already running
 	Given hosts:
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And software installed on host host1.example.com:
 	  | package        | version |
 	  | qemu-kvm       | 2.4.1   |
@@ -35,8 +35,8 @@ Feature: dedicated cores
   Scenario: Start a vm with dedicated cores when a shared one is already running
 	Given hosts:
 	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
-	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
-	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7              |
+	  | host1.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host2.example.com | 6 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And software installed on host host1.example.com:
 	  | package        | version |
 	  | qemu-kvm       | 2.4.1   |

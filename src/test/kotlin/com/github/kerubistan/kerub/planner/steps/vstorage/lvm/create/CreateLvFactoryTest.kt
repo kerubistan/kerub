@@ -26,14 +26,14 @@ import java.util.UUID
 
 class CreateLvFactoryTest {
 
-	val volumeGroup = LvmStorageCapability(
+	private val volumeGroup = LvmStorageCapability(
 			id = UUID.randomUUID(),
 			size = "1 TB".toSize(),
 			physicalVolumes = listOf(),
 			volumeGroupName = "testvg"
 	)
 
-	val host = Host(
+	private val host = Host(
 			id = UUID.randomUUID(),
 			dedicated = true,
 			address = "host-1.example.com",
@@ -41,19 +41,19 @@ class CreateLvFactoryTest {
 					os = OperatingSystem.Linux,
 					cpuArchitecture = "x86_64",
 					totalMemory = "1 GB".toSize(),
-					distribution = SoftwarePackage(name = "CentOS", version = Version.fromVersionString("7.0")),
+					distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.0")),
 					storageCapabilities = listOf<StorageCapability>(volumeGroup)
 			),
 			publicKey = ""
 	)
 
-	val vDisk = VirtualStorageDevice(
+	private val vDisk = VirtualStorageDevice(
 			id = UUID.randomUUID(),
 			size = "0.5 TB".toSize(),
 			name = "test disk"
 	)
 
-	val vm = VirtualMachine(
+	private val vm = VirtualMachine(
 			id = UUID.randomUUID(),
 			virtualStorageLinks = listOf(
 					VirtualStorageLink(

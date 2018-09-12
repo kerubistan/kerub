@@ -70,7 +70,7 @@ class PlannerExecutorDefs {
 			capabilities = HostCapabilities(
 					os = OperatingSystem.Linux,
 					totalMemory = "1 TB".toSize(),
-					distribution = SoftwarePackage(name = "Centos Linux", version = Version.fromVersionString("7.0")),
+					distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.0")),
 					installedSoftware = listOf(
 							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
 							SoftwarePackage(name = "libvirt", version = Version.fromVersionString("1.2.18"))

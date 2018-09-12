@@ -16,9 +16,7 @@ class Centos6 : AbstractLinux() {
 					session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replace("(Final)".toRegex(), "")
 			)
 
-	override fun name(): String {
-		return "Centos"
-	}
+	override fun name(): String = "CentOS Linux"
 
 	override fun handlesVersion(version: Version): Boolean {
 		return version.major == "6"

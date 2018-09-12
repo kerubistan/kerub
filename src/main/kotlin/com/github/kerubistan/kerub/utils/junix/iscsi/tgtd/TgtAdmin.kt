@@ -2,8 +2,14 @@ package com.github.kerubistan.kerub.utils.junix.iscsi.tgtd
 
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
 import com.github.kerubistan.kerub.utils.equalsAnyOf
+import com.github.kerubistan.kerub.utils.junix.common.Centos
+import com.github.kerubistan.kerub.utils.junix.common.Debian
+import com.github.kerubistan.kerub.utils.junix.common.Fedora
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
+import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
 import org.apache.sshd.client.session.ClientSession
 import java.util.Date
@@ -14,10 +20,10 @@ object TgtAdmin : OsCommand {
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
 			= listOf(
-			{ distro: SoftwarePackage -> distro.name.equalsAnyOf("Fedora", "Centos Linux") } to listOf("scsi-target-utils"),
-			{ distro: SoftwarePackage -> distro.name == "openSUSE" } to listOf("tgt"),
-			{ distro: SoftwarePackage -> distro.name.startsWith("Debian") } to listOf("tgt"),
-			{ distro: SoftwarePackage -> distro.name.startsWith("Ubuntu") } to listOf("tgt")
+			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Fedora, Centos) } to listOf("scsi-target-utils"),
+			{ distro: SoftwarePackage -> distro.name == openSuse } to listOf("tgt"),
+			{ distro: SoftwarePackage -> distro.name.startsWith(Debian) } to listOf("tgt"),
+			{ distro: SoftwarePackage -> distro.name.startsWith(Ubuntu) } to listOf("tgt")
 	)
 
 	fun shareBlockDevice(

@@ -2,9 +2,9 @@ Feature: support for not-same-storage expectation
 
   Scenario: When a not-same-storage virtual disk is allocated on host, allocate storage on another host
 	Given hosts:
-	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro | Distro Version |
-	  | host1.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
-	  | host2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS | 7              |
+	  | address           | ram  | Cores | Threads | Architecture | Operating System | Distro       | Distro Version |
+	  | host1.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
+	  | host2.example.com | 8 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7              |
 	And host host1.example.com filesystem is:
 	  | mount point | size   | free   | fstype |
 	  | /var        | 128 GB | 128 GB | ext4   |

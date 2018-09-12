@@ -49,7 +49,7 @@ class TgtdIscsiUnshareFactoryTest {
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							distribution = SoftwarePackage(
-									name = "Centos Linux",
+									name = "CentOS Linux",
 									version = fromVersionString("7.0")
 							),
 							installedSoftware = listOf()

@@ -22,7 +22,7 @@ class StartNfsDaemonFactoryTest {
 		val hostWithNfs = testHost.copy(
 				id = UUID.randomUUID(),
 				capabilities = testHostCapabilities.copy(
-						distribution = SoftwarePackage("Centos Linux", version = Version.fromVersionString("7.0")),
+						distribution = SoftwarePackage("CentOS Linux", version = Version.fromVersionString("7.0")),
 						installedSoftware = listOf(
 								//among others
 								SoftwarePackage("nfs-utils", version = Version.fromVersionString("1.2.3.4"))

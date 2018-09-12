@@ -4,8 +4,15 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.utils.createObjectMapper
+import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
 import com.github.kerubistan.kerub.utils.equalsAnyOf
+import com.github.kerubistan.kerub.utils.junix.common.Centos
+import com.github.kerubistan.kerub.utils.junix.common.Debian
+import com.github.kerubistan.kerub.utils.junix.common.Fedora
+import com.github.kerubistan.kerub.utils.junix.common.FreeBSD
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
+import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -17,11 +24,11 @@ object QemuImg : OsCommand {
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> {
 		return listOf(
-				{ os: SoftwarePackage -> os.name.equalsAnyOf("Fedora", "CentOS") }
+				{ os: SoftwarePackage -> os.name.equalsAnyIgnoreCase(Fedora, Centos) }
 						to listOf("qemu-img"),
-				{ os: SoftwarePackage -> os.name.equalsAnyOf("openSUSE") }
+				{ os: SoftwarePackage -> os.name.equalsAnyIgnoreCase(openSuse) }
 						to listOf("qemu-tools"),
-				{ os: SoftwarePackage -> os.name.equalsAnyOf("Ubuntu", "Debian", "FreeBSD") }
+				{ os: SoftwarePackage -> os.name.equalsAnyIgnoreCase(Ubuntu, Debian, FreeBSD) }
 						to listOf("qemu-utils")
 		)
 	}

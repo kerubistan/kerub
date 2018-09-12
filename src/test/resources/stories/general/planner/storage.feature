@@ -43,7 +43,7 @@ Feature: storage management
 	  | OS    | Distro       | version | iscsi-server-package | libvirt-package                |
 	  | Linux | Fedora       | 23      | scsi-target-utils    | libvirt-client                 |
 	  | Linux | openSUSE     | 13      | tgt                  | libvirt-client                 |
-	  | Linux | Centos Linux | 7.1     | scsi-target-utils    | libvirt-client                 |
+	  | Linux | CentOS Linux | 7.1     | scsi-target-utils    | libvirt-client                 |
 	  | Linux | Debian       | 8.6     | tgt                  | libvirt-clients,libvirt-daemon |
 	  | Linux | Ubuntu       | 14.0.4  | tgt                  | libvirt-bin                    |
 
@@ -156,7 +156,7 @@ Feature: storage management
 
 	Examples:
 	  | OS-1 | Distro-1 | version-1 | iscsi-server-package | OS-2  | Distro-2     | version-2 | libvirt-package |
-	  | BSD  | FreeBSD  | 10        | -                    | Linux | Centos Linux | 7.1       | libvirt-client  |
+	  | BSD  | FreeBSD  | 10        | -                    | Linux | CentOS Linux | 7.1       | libvirt-client  |
 	  | BSD  | FreeBSD  | 10        | -                    | Linux | Fedora       | 22        | libvirt-client  |
 	  | BSD  | FreeBSD  | 10        | -                    | Linux | openSUSE     | 13        | libvirt-client  |
 
@@ -204,12 +204,12 @@ Feature: storage management
 	  | OS    | Distro       | version | iscsi-server-package | libvirt-package |
 	  | Linux | Fedora       | 23      | scsi-target-utils    | libvirt-client  |
 	  | Linux | openSUSE     | 13      | tgt                  | libvirt-client  |
-	  | Linux | Centos Linux | 7.1     | scsi-target-utils    | libvirt-client  |
+	  | Linux | CentOS Linux | 7.1     | scsi-target-utils    | libvirt-client  |
 
   Scenario: Unallocated disk removed
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
-	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7,1            |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7,1            |
 	And virtual storage devices:
 	  | name        | size | ro    |
 	  | test-disk-1 | 2 GB | false |
@@ -231,14 +231,14 @@ Feature: storage management
 
 	Examples:
 	  | allocation                                                 | OS    | Distro       | version |
-	  | fs mount point /kerub                                      | Linux | Centos Linux | 7,1     |
+	  | fs mount point /kerub                                      | Linux | CentOS Linux | 7,1     |
 	  | simple gvinum disk id 5e5bf833-d54a-4732-b46b-7a987f905723 | BSD   | FreeBSD      | 11      |
-	  | lvm volume group kerub                                     | Linux | Centos Linux | 7,1     |
+	  | lvm volume group kerub                                     | Linux | CentOS Linux | 7,1     |
 
   Scenario: LVM Thin Provisioning
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
-	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | Centos Linux | 7.1            |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
 	And host host-1.example.com volume groups are:
 	  | vg name | size   | pvs    |
 	  | vg-1    | 500 GB | 500 GB |

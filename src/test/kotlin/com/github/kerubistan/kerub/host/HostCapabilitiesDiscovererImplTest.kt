@@ -22,7 +22,7 @@ class HostCapabilitiesDiscovererImplTest {
 		assertTrue("just the storage capabilities unchanged if the benchmarks are disabled") {
 			val session = mock<ClientSession>()
 			val distro = mock<Distribution>()
-			val distribution = SoftwarePackage(name = "Centos", version = Version.fromVersionString("7.8"))
+			val distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.8"))
 			val config = ControllerConfig(
 					storageTechnologies = StorageTechnologiesConfig(
 							storagebenchmarkingEnabled = false
@@ -46,7 +46,7 @@ class HostCapabilitiesDiscovererImplTest {
 		assertTrue("the storage capabilities with benchmark data if the benchmarks are enabled") {
 			val session = mock<ClientSession>()
 			val distro = mock<Distribution>()
-			val distribution = SoftwarePackage(name = "Centos", version = Version.fromVersionString("7.8"))
+			val distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.8"))
 			val config = ControllerConfig(
 					storageTechnologies = StorageTechnologiesConfig(
 							storagebenchmarkingEnabled = true
