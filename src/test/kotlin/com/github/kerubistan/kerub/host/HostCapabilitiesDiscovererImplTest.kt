@@ -25,7 +25,7 @@ class HostCapabilitiesDiscovererImplTest {
 			val distribution = SoftwarePackage(name = "Centos", version = Version.fromVersionString("7.8"))
 			val config = ControllerConfig(
 					storageTechnologies = StorageTechnologiesConfig(
-							storagebenchmarkingEnbled = false
+							storagebenchmarkingEnabled = false
 					)
 			)
 			val packages = listOf<SoftwarePackage>()
@@ -49,7 +49,7 @@ class HostCapabilitiesDiscovererImplTest {
 			val distribution = SoftwarePackage(name = "Centos", version = Version.fromVersionString("7.8"))
 			val config = ControllerConfig(
 					storageTechnologies = StorageTechnologiesConfig(
-							storagebenchmarkingEnbled = true
+							storagebenchmarkingEnabled = true
 					)
 			)
 			val packages = listOf<SoftwarePackage>()

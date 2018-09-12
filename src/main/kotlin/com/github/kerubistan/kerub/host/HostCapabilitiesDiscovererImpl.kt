@@ -24,7 +24,6 @@ import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.services.exc.UnknownHostOperatingSystemException
-import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.dmi.DmiDecoder
 import com.github.kerubistan.kerub.utils.junix.lspci.LsPci
@@ -67,7 +66,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 										packages: List<SoftwarePackage>,
 										controllerConfig: ControllerConfig): List<StorageCapability> =
 				distro.detectStorageCapabilities(session, distribution, packages).let {
-					if (controllerConfig.storageTechnologies.storagebenchmarkingEnbled) {
+					if (controllerConfig.storageTechnologies.storagebenchmarkingEnabled) {
 						logger.info("benchmarking enabled storage")
 						it.map {
 							distro.storageBenchmark(session, it, distribution, packages, controllerConfig.storageTechnologies)

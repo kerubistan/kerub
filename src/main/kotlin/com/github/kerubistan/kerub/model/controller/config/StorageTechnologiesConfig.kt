@@ -42,7 +42,7 @@ data class StorageTechnologiesConfig(
 		/**
 		 * Should the controller run benchmarks on the storage
 		 */
-		val storagebenchmarkingEnbled: Boolean = true
+		val storagebenchmarkingEnabled: Boolean = true
 ) : Serializable {
 
 	fun isEnabled(storageCapability: StorageCapability) =
