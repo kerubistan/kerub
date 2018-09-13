@@ -18,7 +18,12 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 
 	override fun perform(step: CreateImage) =
 		exec.execute(step.host) {
-			logger.info("Creating virtual disk {} on host {}", step.disk, step.host.address)
+			logger.info("Creating virtual disk {}/{} on host {}, format: {}",
+					step.path,
+					step.disk.id,
+					step.host.address,
+					step.format
+			)
 			QemuImg.create(
 					session = it,
 					format = step.format,
