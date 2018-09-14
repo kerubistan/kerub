@@ -23,16 +23,13 @@ object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
 									}
 											?: true
 								}
-					}.map {
-						remoteAndShares ->
-						val remote = remoteAndShares.first
-						val shares = remoteAndShares.second
+					}.mapNotNull { (remote, shares) ->
 						shares?.map { MountNfs(host = hostColl.stat,
-											   remoteHost = remote,
-											   directory = "/mnt/${remote.id}/${it.directory}",
-											   remoteDirectory = it.directory)
+								remoteHost = remote,
+								directory = "/mnt/${remote.id}/${it.directory}",
+								remoteDirectory = it.directory)
 						}
-					}.filterNotNull().join()
+					}.join()
 				}.join()
 			}
 }
