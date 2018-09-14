@@ -30,6 +30,7 @@ class MountNfsExecutorTest {
 		val remote = testHost.copy(id = UUID.randomUUID())
 		val local = testHost.copy(id = UUID.randomUUID())
 
+		session.mockCommandExecution("mkdir.*")
 		session.mockCommandExecution("mount.*")
 		doAnswer {
 			(it.arguments[1] as (ClientSession) -> Unit).invoke(session)
