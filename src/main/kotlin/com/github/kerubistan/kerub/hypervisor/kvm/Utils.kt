@@ -55,7 +55,7 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 				<host name='${linkInfo.storageHost.stat.address}' port='3260' />
 			</source>
 			<auth username="$iscsiUser">
-				<secret type='iscsi' uuid-'${linkInfo.device.stat.id}'/>
+				<secret type='iscsi' uuid='${linkInfo.device.stat.id}'/>
 			</auth>
 			"""
 		} else {
