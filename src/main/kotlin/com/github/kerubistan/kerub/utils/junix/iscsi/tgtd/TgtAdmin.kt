@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.utils.junix.iscsi.tgtd
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
-import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.junix.common.Centos
 import com.github.kerubistan.kerub.utils.junix.common.Debian
 import com.github.kerubistan.kerub.utils.junix.common.Fedora
