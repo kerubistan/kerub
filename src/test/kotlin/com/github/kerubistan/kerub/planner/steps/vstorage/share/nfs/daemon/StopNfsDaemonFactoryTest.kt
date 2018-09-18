@@ -57,7 +57,7 @@ class StopNfsDaemonFactoryTest {
 							hostCfgs = listOf(
 									HostConfiguration(id = testHost.id,
 													  services = listOf(NfsDaemonService(),
-																		NfsService(directory = "/kerub"))
+																		NfsService(directory = "/kerub", write = true))
 									)
 							)
 					)

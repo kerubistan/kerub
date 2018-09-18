@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.host.ServiceManager
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.packman.CygwinPackageManager
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -37,7 +38,7 @@ class Cygwin : Distribution {
 
 	override fun getPackageManager(session: ClientSession): PackageManager = CygwinPackageManager(session)
 
-	override fun installMonitorPackages(session: ClientSession) {
+	override fun installMonitorPackages(session: ClientSession, host: Host) {
 		// do nothing, cygwin can not install, try to work with what is installed
 	}
 
@@ -66,7 +67,7 @@ class Cygwin : Distribution {
 		}
 	}
 
-	override fun getRequiredPackages(osCommand: OsCommand): List<String> = listOf()
+	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> = listOf()
 
 	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> = listOf()
 

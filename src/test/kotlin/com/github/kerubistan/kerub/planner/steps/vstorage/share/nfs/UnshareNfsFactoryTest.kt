@@ -43,7 +43,7 @@ class UnshareNfsFactoryTest {
 							hosts = listOf(testHost),
 							hostCfgs = listOf(HostConfiguration(
 									id = testHost.id,
-									services = listOf(NfsDaemonService(), NfsService("/kerub"))
+									services = listOf(NfsDaemonService(), NfsService("/kerub", write = true))
 							))
 					)
 			) == listOf(UnshareNfs(directory = "/kerub", host = testHost))
@@ -77,7 +77,7 @@ class UnshareNfsFactoryTest {
 							hosts = listOf(testHost),
 							hostCfgs = listOf(HostConfiguration(
 									id = testHost.id,
-									services = listOf(NfsDaemonService(), NfsService("/kerub"))
+									services = listOf(NfsDaemonService(), NfsService("/kerub", write = true))
 							))
 					)
 			) == listOf(UnshareNfs(directory = "/kerub", host = testHost))
@@ -123,7 +123,7 @@ class UnshareNfsFactoryTest {
 									HostConfiguration(id = nfsServer.id,
 													  services = listOf(
 															  NfsDaemonService(),
-															  NfsService("/kerub"))
+															  NfsService("/kerub", write = true))
 									),
 									HostConfiguration(
 											id = nfsClient.id,

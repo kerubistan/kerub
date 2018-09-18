@@ -8,10 +8,12 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
  */
 interface OsCommand {
 	fun providedBy() = listOf<Pair<(SoftwarePackage) -> Boolean, List<String>>>()
+
 	fun available(osVersion: SoftwarePackage, packages: List<SoftwarePackage>) =
-			providedBy().any {
-				it.first(osVersion)
-			}
+			providedBy().firstOrNull { (selector, _) ->
+				selector(osVersion)
+			}?.second?.all { wantedPkg -> packages.any { installedPkg -> installedPkg.name == wantedPkg } }
+					?: false
 
 	fun available(hostCapabilities: HostCapabilities?) =
 			hostCapabilities?.distribution != null

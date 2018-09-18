@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.PackageManager
 import com.github.kerubistan.kerub.host.ServiceManager
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -55,7 +56,7 @@ interface Distribution {
 
 	fun getPackageManager(session: ClientSession): PackageManager
 
-	fun installMonitorPackages(session: ClientSession)
+	fun installMonitorPackages(session: ClientSession, host : Host)
 
 	/**
 	 * Start monitoring processes
@@ -68,7 +69,7 @@ interface Distribution {
 	/**
 	 * Get the list of packages to be installed for a given utility to work.
 	 */
-	fun getRequiredPackages(osCommand: OsCommand): List<String>
+	fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String>
 
 	fun detectStorageCapabilities(session: ClientSession,
 								  osVersion: SoftwarePackage,
@@ -83,7 +84,7 @@ interface Distribution {
 	fun getTotalMemory(session: ClientSession): BigInteger
 
 	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
-		return getRequiredPackages(osCommand).all { pack ->
+		return getRequiredPackages(osCommand, host.capabilities).all { pack ->
 			host.capabilities?.installedSoftware?.any {
 				it.name == pack
 			} ?: false

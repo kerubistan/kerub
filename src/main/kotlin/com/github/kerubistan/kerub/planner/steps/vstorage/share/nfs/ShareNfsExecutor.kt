@@ -9,12 +9,13 @@ import org.apache.sshd.client.session.ClientSession
 
 class ShareNfsExecutor(override val hostConfigDao: HostConfigurationDao,
 					   override val hostExecutor: HostCommandExecutor) : AbstractNfsShareExecutor<ShareNfs>() {
-	override fun performOnHost(session: ClientSession, step: ShareNfs) = Exports.export(session, step.directory)
+	override fun performOnHost(session: ClientSession, step: ShareNfs) =
+			Exports.export(session, step.directory, step.write)
 
 	override fun updateHostConfig(configuration: HostConfiguration,
 								  step: ShareNfs): HostConfiguration {
 		return configuration.copy(
-				services = configuration.services + NfsService(directory = step.directory)
+				services = configuration.services + NfsService(directory = step.directory, write = step.write)
 		)
 	}
 

@@ -19,14 +19,14 @@ Feature: storage management
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And software installed on host host-2.example.com:
+	  | package           | version |
+	  | qemu-kvm          | 2.4.1   |
+	  | <libvirt-package> | 1.2.18  |
+	And software installed on host host-1.example.com:
 	  | package                | version |
 	  | qemu-kvm               | 2.4.1   |
 	  | <libvirt-package>      | 1.2.18  |
 	  | <iscsi-server-package> | 1.0     |
-	And software installed on host host-1.example.com:
-	  | package           | version |
-	  | qemu-kvm          | 2.4.1   |
-	  | <libvirt-package> | 1.2.18  |
 	And virtual storage devices:
 	  | name          | size | ro    |
 	  | system-disk-1 | 2 GB | false |

@@ -1,6 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.iscsi.tgtd
 
+import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.utils.junix.common.Centos
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -27,6 +31,28 @@ class TgtAdminTest {
 	private val sftpClient: SftpClient = mock()
 
 	private val id = UUID.randomUUID()
+
+	@Test
+	fun available() {
+		assertTrue(
+				TgtAdmin.available(
+						testHostCapabilities.copy(
+								distribution = SoftwarePackage(name = Centos, version = Version.fromVersionString("7.5")),
+								installedSoftware = listOf(
+										SoftwarePackage(name = "scsi-target-utils", version = Version.fromVersionString("1.2.3"))
+								)
+						)
+				)
+		)
+		assertFalse(
+				TgtAdmin.available(
+						testHostCapabilities.copy(
+								distribution = SoftwarePackage(name = Centos, version = Version.fromVersionString("7.5")),
+								installedSoftware = listOf()
+						)
+				)
+		)
+	}
 
 	@Test
 	fun shareBlockDevice() {

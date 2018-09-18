@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.PackageManager
 import com.github.kerubistan.kerub.host.ServiceManager
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -31,7 +32,7 @@ class OpenIndiana : Distribution {
 	override fun getPackageManager(session: ClientSession): PackageManager
 			= TODO("https://github.com/kerubistan/kerub/issues/180")
 
-	override fun installMonitorPackages(session: ClientSession) {
+	override fun installMonitorPackages(session: ClientSession, host: Host) {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 
@@ -42,7 +43,7 @@ class OpenIndiana : Distribution {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 
-	override fun getRequiredPackages(osCommand: OsCommand): List<String> {
+	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 

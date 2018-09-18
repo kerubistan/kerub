@@ -19,7 +19,8 @@ object TgtAdmin : OsCommand {
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
 			= listOf(
-			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Fedora, Centos) } to listOf("scsi-target-utils"),
+			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Fedora, Centos) }
+					to listOf("scsi-target-utils"),
 			{ distro: SoftwarePackage -> distro.name == openSuse } to listOf("tgt"),
 			{ distro: SoftwarePackage -> distro.name.startsWith(Debian) } to listOf("tgt"),
 			{ distro: SoftwarePackage -> distro.name.startsWith(Ubuntu) } to listOf("tgt")

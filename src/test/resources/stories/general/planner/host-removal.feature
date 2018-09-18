@@ -10,18 +10,18 @@ Feature: removing a host
 	  | stayalive.example.com  | 2GB | 2     | 4       | x86_64       | Linux            | Ubuntu | 14.0.4         |
 	And host diebastard.example.com is scheduled for recycling
 	And software installed on host stayalive.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt-bin | 1.2.18  |
 	And host stayalive.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
 	And host stayalive.example.com is Up
  #exactly like stayalive.example.com
 	And software installed on host diebastard.example.com:
-	  | package  | version |
-	  | qemu-kvm | 2.4.1   |
-	  | libvirt  | 1.2.18  |
+	  | package     | version |
+	  | qemu-kvm    | 2.4.1   |
+	  | libvirt-bin | 1.2.18  |
 	And host diebastard.example.com CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |

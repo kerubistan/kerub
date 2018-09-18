@@ -73,7 +73,7 @@ class PlannerExecutorDefs {
 					distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.0")),
 					installedSoftware = listOf(
 							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
-							SoftwarePackage(name = "libvirt", version = Version.fromVersionString("1.2.18"))
+							SoftwarePackage(name = "libvirt-client", version = Version.fromVersionString("1.2.18"))
 					),
 					cpuArchitecture = "X86_64",
 					cpus = listOf(

@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.host.packman.PkgPackageManager
 import com.github.kerubistan.kerub.host.servicemanager.rc.RcServiceManager
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -55,11 +56,11 @@ class FreeBSD : Distribution {
 		return RcServiceManager(session)
 	}
 
-	override fun installMonitorPackages(session: ClientSession) {
+	override fun installMonitorPackages(session: ClientSession, host : Host) {
 		//TODO issue #57
 	}
 
-	override fun getRequiredPackages(osCommand: OsCommand): List<String> {
+	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> {
 		//TODO issue #57
 		return listOf()
 	}

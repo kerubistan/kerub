@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.host.fw.IptablesFireWall
 import com.github.kerubistan.kerub.host.servicemanager.systemd.SystemdServiceManager
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
@@ -22,18 +23,13 @@ import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
-import com.github.kerubistan.kerub.utils.junix.dmi.DmiDecoder
-import com.github.kerubistan.kerub.utils.junix.iscsi.tgtd.TgtAdmin
-import com.github.kerubistan.kerub.utils.junix.lspci.LsPci
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import com.github.kerubistan.kerub.utils.junix.mpstat.MPStat
 import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfo
-import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
 import com.github.kerubistan.kerub.utils.junix.sysfs.Net
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
@@ -46,28 +42,14 @@ abstract class AbstractLinux : Distribution {
 	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
-		private val packages = mapOf(
-				DF to listOf("coreutils"),
-				DmiDecoder to listOf("dmidecode"),
-				TgtAdmin to listOf("iscsi-target-utils"),
-				LsPci to listOf("pciutils"),
-				MPStat to listOf("sysstat"),
-				QemuImg to listOf("qemu-img"),
-				LvmLv to listOf("lvm2"),
-				LvmPv to listOf("lvm2"),
-				LvmVg to listOf("lvm2"),
-				Virsh to listOf("libvirt"),
-				VmStat to listOf("procps"),
-				Net to listOf()
-		)
 		private val nonStorageFilesystems = listOf("proc", "devtmpfs", "tmpfs", "cgroup", "debugfs", "pstore")
 	}
 
-	override fun installMonitorPackages(session: ClientSession) {
+	override fun installMonitorPackages(session: ClientSession, host : Host) {
 		//TODO: filter what is already installed, do not install if the list is empty
 		val packsNeeded =
 				arrayOf(VmStat, MPStat)
-						.map { util -> getRequiredPackages(util) }
+						.map { util -> getRequiredPackages(util, host.capabilities) }
 						.join()
 		getPackageManager(session).install(*packsNeeded.toTypedArray())
 	}
@@ -122,8 +104,7 @@ abstract class AbstractLinux : Distribution {
 		}
 
 		if (LvmVg.available(host.capabilities)) {
-			LvmVg.monitor(session, {
-				volGroups ->
+			LvmVg.monitor(session) { volGroups ->
 				hostDynDao.doWithDyn(id) {
 					it.copy(
 							storageStatus =
@@ -141,7 +122,7 @@ abstract class AbstractLinux : Distribution {
 							}
 					)
 				}
-			})
+			}
 		}
 
 		MPStat.monitor(session, {
@@ -171,8 +152,12 @@ abstract class AbstractLinux : Distribution {
 		})
 	}
 
-	override fun getRequiredPackages(osCommand: OsCommand): List<String> =
-			packages[osCommand] ?: listOf()
+	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> =
+			capabilities?.distribution?.let { distro ->
+				osCommand.providedBy().firstOrNull { (selector, _) ->
+					selector(distro)
+				}?.second
+			} ?: listOf()
 
 	override fun getFireWall(session: ClientSession): FireWall = IptablesFireWall(session)
 

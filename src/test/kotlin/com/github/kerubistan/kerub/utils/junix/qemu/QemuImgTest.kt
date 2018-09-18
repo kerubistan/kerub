@@ -48,13 +48,13 @@ class QemuImgTest {
 		assertTrue(QemuImg.available(testHostCapabilities.copy(
 				distribution = SoftwarePackage("Ubuntu", Version.fromVersionString("16.04")),
 				installedSoftware = listOf(
-						SoftwarePackage("qemu-util", version = Version.fromVersionString("2.1.5"))
+						SoftwarePackage("qemu-utils", version = Version.fromVersionString("2.1.5"))
 				)
 		)))
 		assertTrue(QemuImg.available(testHostCapabilities.copy(
 				distribution = SoftwarePackage("Debian", Version.fromVersionString("16.04")),
 				installedSoftware = listOf(
-						SoftwarePackage("qemu-util", version = Version.fromVersionString("2.1.5"))
+						SoftwarePackage("qemu-utils", version = Version.fromVersionString("2.1.5"))
 				)
 		)))
 	}

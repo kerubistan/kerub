@@ -37,7 +37,7 @@ class MountNfsFactoryTest {
 					hostCfgs = listOf(
 							HostConfiguration(
 									id = nfsHost.id,
-									services = listOf(NfsDaemonService(), NfsService("/kerub"))
+									services = listOf(NfsDaemonService(), NfsService("/kerub", true))
 							)
 					),
 					config = ControllerConfig(
@@ -67,7 +67,7 @@ class MountNfsFactoryTest {
 					hostCfgs = listOf(
 							HostConfiguration(
 									id = nfsHost.id,
-									services = listOf(NfsDaemonService(), NfsService("/kerub"))
+									services = listOf(NfsDaemonService(), NfsService("/kerub", true))
 							)
 					),
 					config = ControllerConfig(
@@ -98,7 +98,7 @@ class MountNfsFactoryTest {
 					hostCfgs = listOf(
 							HostConfiguration(
 									id = nfsHost.id,
-									services = listOf(NfsDaemonService(), NfsService("/kerub"))
+									services = listOf(NfsDaemonService(), NfsService("/kerub", true))
 							),
 							HostConfiguration(
 									id = nfsClient.id,

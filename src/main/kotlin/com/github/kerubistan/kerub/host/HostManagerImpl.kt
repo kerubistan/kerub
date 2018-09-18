@@ -223,7 +223,7 @@ open class HostManagerImpl(
 			connections[host.id] = session to distro
 			logger.debug("starting host monitoring processes on {} {}", host.address, host.id)
 			if (host.dedicated) {
-				distro.installMonitorPackages(session)
+				distro.installMonitorPackages(session, host)
 				hostDao.update(host)
 			}
 			distro.startMonitorProcesses(session, host, hostDynamicDao)

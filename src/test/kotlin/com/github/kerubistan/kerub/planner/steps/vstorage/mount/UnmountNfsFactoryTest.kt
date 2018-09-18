@@ -46,7 +46,7 @@ class UnmountNfsFactoryTest {
 					hostCfgs = listOf(
 							HostConfiguration(
 									id = nfsServer.id,
-									services = listOf(NfsDaemonService(), NfsService(directory = "/kerub"))
+									services = listOf(NfsDaemonService(), NfsService(directory = "/kerub", write = true))
 							),
 							HostConfiguration(
 									id = nfsClient.id,
@@ -75,7 +75,7 @@ class UnmountNfsFactoryTest {
 					hostCfgs = listOf(
 							HostConfiguration(
 									id = nfsServer.id,
-									services = listOf(NfsDaemonService(), NfsService(directory = "/kerub"))
+									services = listOf(NfsDaemonService(), NfsService(directory = "/kerub", write = true))
 							),
 							HostConfiguration(
 									id = nfsClient.id,

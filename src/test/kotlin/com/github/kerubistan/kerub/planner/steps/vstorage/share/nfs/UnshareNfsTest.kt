@@ -25,7 +25,7 @@ class UnshareNfsTest {
 				OperationalState.fromLists(
 						hosts = listOf(testHost),
 						hostCfgs = listOf(
-								HostConfiguration(id = testHost.id, services = listOf(NfsService("/kerub")))
+								HostConfiguration(id = testHost.id, services = listOf(NfsService("/kerub", write = true)))
 						)
 				)
 		)

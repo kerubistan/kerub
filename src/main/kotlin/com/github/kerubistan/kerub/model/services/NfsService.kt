@@ -4,5 +4,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 
 @JsonTypeName("nfs-share")
 data class NfsService(
-		val directory: String
+		val directory: String,
+		val write : Boolean
 ) : HostService

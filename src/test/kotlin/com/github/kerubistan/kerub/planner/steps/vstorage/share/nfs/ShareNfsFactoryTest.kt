@@ -78,7 +78,7 @@ class ShareNfsFactoryTest {
 							hostCfgs = listOf(
 									HostConfiguration(
 											id = testHost.id,
-											services = listOf(NfsDaemonService(), NfsService("/kerub"))
+											services = listOf(NfsDaemonService(), NfsService("/kerub", write = true))
 									)
 							),
 							vStorage = listOf(
