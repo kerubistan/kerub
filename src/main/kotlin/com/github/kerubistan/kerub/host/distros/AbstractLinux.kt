@@ -51,7 +51,9 @@ abstract class AbstractLinux : Distribution {
 				arrayOf(VmStat, MPStat)
 						.map { util -> getRequiredPackages(util, host.capabilities) }
 						.join()
-		getPackageManager(session).install(*packsNeeded.toTypedArray())
+		if(packsNeeded.isNotEmpty()) {
+			getPackageManager(session).install(*packsNeeded.toTypedArray())
+		}
 	}
 
 	override fun startMonitorProcesses(
