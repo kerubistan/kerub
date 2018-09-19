@@ -4,7 +4,6 @@ import com.github.kerubistan.kerub.host.appendToFile
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
-import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.junix.common.Centos
 import com.github.kerubistan.kerub.utils.junix.common.Fedora
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -22,7 +21,7 @@ object Exports : OsCommand {
 
 	fun export(session: ClientSession, directory: String, write : Boolean = false) {
 		session.createSftpClient().appendToFile(exportsFile, """
-			$directory		*(${if (write) {"rw"} else {"ro"} })
+			$directory		*(no_root_squash,${if (write) {"rw"} else {"ro"} })
 		""".trimIndent())
 		refresh(session)
 	}

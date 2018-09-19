@@ -28,7 +28,7 @@ object Mount : OsCommand {
 			}
 
 	fun mount(session: ClientSession, deviceSpec: String, mountPoint: String, write: Boolean = true) {
-		session.executeOrDie("mount $deviceSpec $mountPoint -o no_root_squash,${write.flag("rw", "ro")} ")
+		session.executeOrDie("mount $deviceSpec $mountPoint -o ${write.flag("rw", "ro")} ")
 	}
 
 	fun unmount(session: ClientSession, mountPoint: String) {
