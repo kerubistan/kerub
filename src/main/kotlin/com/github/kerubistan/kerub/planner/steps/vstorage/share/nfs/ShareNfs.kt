@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 data class ShareNfs(
 		override val directory: String,
 		override val host: Host,
-		val write : Boolean = false
+		val write : Boolean = true
 ) : AbstractNfsShareStep(), InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep) =
 			other is UnshareNfs && other.directory == directory && other.host == host
