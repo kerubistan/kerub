@@ -52,7 +52,6 @@ object UnusedServiceDetector : ProblemDetector<UnusedService> {
 							//which disk has an FS allocation on that host
 							state.vStorage[link.virtualStorageId]?.let {
 								it.dynamic?.allocations?.any { alloc ->
-									println(alloc)
 									alloc is VirtualStorageFsAllocation
 											&& alloc.hostId == hostService.remoteHostId
 											&& alloc.mountPoint == hostService.remoteDirectory
