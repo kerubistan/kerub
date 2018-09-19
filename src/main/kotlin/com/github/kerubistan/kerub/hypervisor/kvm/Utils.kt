@@ -5,6 +5,8 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.kerubistan.kerub.model.services.IscsiService
+import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
 import com.github.kerubistan.kerub.utils.storage.iscsiDefaultUser as iscsiUser
 
@@ -35,7 +37,11 @@ private fun storageToXml(
 
 private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
 		if (remoteHost(linkInfo, targetHost)) {
-			"network"
+			when(linkInfo.hostServiceUsed) {
+				is NfsService -> "file"
+				is IscsiService -> "network"
+				else -> TODO("not handled service type: $linkInfo")
+			}
 		} else {
 			allocationTypeToDiskType[linkInfo.allocation.javaClass.kotlin] ?: TODO()
 		}
@@ -50,14 +56,22 @@ fun allocationType(deviceDyn: VirtualStorageLinkInfo): String = deviceDyn.alloca
 
 fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
 		if (remoteHost(linkInfo, targetHost)) {
-			"""
-			<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
-				<host name='${linkInfo.storageHost.stat.address}' port='3260' />
-			</source>
-			<auth username="$iscsiUser">
-				<secret type='iscsi' uuid='${linkInfo.device.stat.id}'/>
-			</auth>
-			"""
+			when(linkInfo.hostServiceUsed) {
+				is NfsService ->
+					"""
+					  <source file='/mnt/${linkInfo.allocation.hostId}/${linkInfo.allocation.getPath(linkInfo.device.stat.id)}'/>
+					""".trimIndent()
+				is IscsiService ->
+					"""
+					<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
+						<host name='${linkInfo.storageHost.stat.address}' port='3260' />
+					</source>
+					<auth username="$iscsiUser">
+						<secret type='iscsi' uuid='${linkInfo.device.stat.id}'/>
+					</auth>
+				""".trimIndent()
+				else -> TODO("not handled service type: $linkInfo")
+			}
 		} else {
 			val allocation = linkInfo.allocation
 			when (allocation) {
