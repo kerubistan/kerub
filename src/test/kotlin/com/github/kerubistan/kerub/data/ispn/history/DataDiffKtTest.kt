@@ -10,8 +10,20 @@ import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 
 class DataDiffKtTest {
+
+	data class Person(
+			val name : String,
+			val address : String? = null
+	)
+
+	@Test
+	fun diffNulls() {
+		assertNotNull(diff(Person("bob", null) , Person("bob", "Somewhere")))
+		assertNotNull(diff(Person("bob", "Somewhere") , Person("bob", null)))
+	}
 
 	@Test
 	fun diffVmDyns() {
