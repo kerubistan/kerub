@@ -4,6 +4,6 @@ import java.io.Serializable
 
 data class PropertyChange(
 		val property: String,
-		val oldValue: Any?,
-		val newValue: Any?
+		val oldValue: Serializable?,
+		val newValue: Serializable?
 ) : Serializable

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import java.io.Serializable
 import java.math.BigInteger
 import java.util.UUID
 
@@ -10,5 +11,5 @@ data class FsStorageCapability(
 		override val size: BigInteger,
 		val mountPoint: String,
 		val fsType: String,
-		override val performanceInfo: Any? = null
+		override val performanceInfo: Serializable? = null
 ) : StorageCapability

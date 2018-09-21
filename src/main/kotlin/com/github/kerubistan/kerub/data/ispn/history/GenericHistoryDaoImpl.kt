@@ -20,6 +20,7 @@ import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.subLists
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Query
+import java.io.Serializable
 import java.math.BigDecimal
 import java.util.UUID
 import kotlin.reflect.KClass
@@ -150,7 +151,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 					val summary = HistorySummary(
 							appVersion = appVersion,
 							changes = sum(changes), //TODO
-							entityKey = changes.first().entityKey,
+							entityKey = changes.first().entityKey as Serializable,
 							time = Range(from, to)
 					)
 

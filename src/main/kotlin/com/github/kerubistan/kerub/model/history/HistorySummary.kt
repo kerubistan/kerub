@@ -7,7 +7,7 @@ import java.util.UUID
 
 data class HistorySummary(
 		override val id: UUID = UUID.randomUUID(),
-		override val entityKey: Any,
+		override val entityKey: Serializable,
 		override val appVersion: String?,
 		val time: Range<Long>,
 		val changes: List<PropertyChangeSummary>

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonTypeName
+import java.io.Serializable
 import java.math.BigInteger
 import java.util.UUID
 
@@ -10,5 +11,5 @@ GvinumStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
 		val name: String,
-		val device: String, override val performanceInfo: Any? = null
+		val device: String, override val performanceInfo: Serializable? = null
 ) : StorageCapability

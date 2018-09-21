@@ -6,7 +6,7 @@ import java.io.Serializable
 /**
  * Represents a PCI device of the host.
  */
-class PciDevice(
+data class PciDevice(
 		@Field
 		val address: String,
 		@Field

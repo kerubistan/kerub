@@ -6,7 +6,7 @@ import java.util.UUID
 
 data class ChangeEvent(
 		override val id: UUID = UUID.randomUUID(),
-		override val entityKey: Any,
+		override val entityKey: Serializable,
 		val time: Long = now(),
 		override val appVersion: String?,
 		val changes: List<PropertyChange>

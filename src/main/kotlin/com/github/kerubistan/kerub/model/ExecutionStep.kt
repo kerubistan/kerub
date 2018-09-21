@@ -1,3 +1,5 @@
 package com.github.kerubistan.kerub.model
 
-interface ExecutionStep
+import java.io.Serializable
+
+interface ExecutionStep : Serializable
