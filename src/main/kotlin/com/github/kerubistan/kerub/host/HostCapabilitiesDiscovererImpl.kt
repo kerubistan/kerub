@@ -24,6 +24,7 @@ import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.services.exc.UnknownHostOperatingSystemException
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.dmi.DmiDecoder
 import com.github.kerubistan.kerub.utils.junix.lspci.LsPci
@@ -97,7 +98,9 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 
 		val hypervisorCapabilities =
 				if (Virsh.available(distribution, packages))
-					silent { listOf(Virsh.capabilities(session)) } ?: listOf()
+					silent(LogLevel.Debug, "get virsh capabilities") {
+						listOf(Virsh.capabilities(session))
+					} ?: listOf()
 				else
 					listOf()
 
@@ -144,6 +147,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 		for (distro in distributions) {
 			logger.debug("Checking host with ${distro.name()} distro helper")
 			if (distro.detect(session)) {
+				logger.info("Detected distro: ${distro.name()}")
 				return distro
 			}
 		}
