@@ -159,8 +159,9 @@ class PlanExecutorImpl(
 		//TODO: check synchronization need for this
 		var stepOnExec: AbstractOperationalStep? = null
 		var results = listOf<StepExecutionResult>()
+		val stepList = plan.steps.map { it.javaClass.simpleName }
 		task {
-			logger.debug("Executing plan {}", plan)
+			logger.debug("Executing plan {}", stepList)
 			for (step in plan.steps) {
 				stepOnExec = step
 				logger.debug("Executing step {}", step.javaClass.simpleName)
@@ -168,12 +169,12 @@ class PlanExecutorImpl(
 				results += StepExecutionPass(executionStep = step)
 			}
 		} fail { exc ->
-			logger.warn("plan execution failed: {}", plan, exc)
+			logger.warn("plan execution failed: {}\n{}", stepList, plan, exc)
 			stepOnExec?.let {
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
 			}
 		} always {
-			logger.debug("Plan execution finished: {}", plan)
+			logger.debug("Plan execution finished: {}", stepList)
 			synchronized(results) {
 				executionResultDao.add(
 						ExecutionResult(
