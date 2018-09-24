@@ -38,7 +38,8 @@ data class VirtualMachineDynamic(
 		val coreAffinity: List<Int>? = null
 ) : DynamicEntity {
 	//TODO: issue #125 - workaround to allow infinispan query hostId
-	@Field(analyze = noAnalyze)
-	@JsonIgnore
-	fun getHostIdStr() = hostId.toString()
+	val hostIdStr
+		@Field(analyze = noAnalyze)
+		@JsonIgnore
+		get() = hostId.toString()
 }

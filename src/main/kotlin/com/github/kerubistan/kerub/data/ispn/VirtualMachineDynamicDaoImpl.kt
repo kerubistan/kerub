@@ -17,7 +17,7 @@ class VirtualMachineDynamicDaoImpl(cache: Cache<UUID, VirtualMachineDynamic>,
 	override fun findByHostId(hostId: UUID): List<VirtualMachineDynamic> =
 			Search.getQueryFactory(cache)
 					.from(VirtualMachineDynamic::class.java)
-					.having("hostIdStr").eq(hostId.toString())
+					.having(VirtualMachineDynamic::hostIdStr.name).eq(hostId.toString())
 					.toBuilder<Query>()
 					.build()
 					.list<VirtualMachineDynamic>()
