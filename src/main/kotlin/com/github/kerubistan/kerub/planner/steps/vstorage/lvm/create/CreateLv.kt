@@ -21,7 +21,7 @@ data class CreateLv(
 						allocations = listOf(VirtualStorageLvmAllocation(
 								hostId = host.id,
 								actualSize = disk.size,
-								path = "",
+								path = "/dev/$volumeGroupName/${disk.id}",
 								vgName = volumeGroupName
 						))
 				))
