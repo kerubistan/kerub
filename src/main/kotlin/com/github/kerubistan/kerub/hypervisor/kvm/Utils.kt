@@ -36,7 +36,7 @@ private fun storageToXml(
 """
 
 private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
-		if (remoteHost(linkInfo, targetHost)) {
+		if (isRemoteHost(linkInfo, targetHost)) {
 			when(linkInfo.hostServiceUsed) {
 				is NfsService -> "file"
 				is IscsiService -> "network"
@@ -55,21 +55,28 @@ fun allocationType(deviceDyn: VirtualStorageLinkInfo): String = deviceDyn.alloca
 }
 
 fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
-		if (remoteHost(linkInfo, targetHost)) {
+		if (isRemoteHost(linkInfo, targetHost)) {
 			when(linkInfo.hostServiceUsed) {
 				is NfsService ->
 					"""
 					  <source file='/mnt/${linkInfo.allocation.hostId}/${linkInfo.allocation.getPath(linkInfo.device.stat.id)}'/>
 					""".trimIndent()
-				is IscsiService ->
+				is IscsiService -> {
+					val auth = if(linkInfo.hostServiceUsed.password != null) {
+						"""
+							<auth username="$iscsiUser">
+								<secret type='iscsi'  uuid='${linkInfo.device.stat.id}'/>
+							</auth>
+						""".trimIndent()
+					} else "<!-- unauthenticated -->"
+
 					"""
 					<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
 						<host name='${linkInfo.storageHost.stat.address}' port='3260' />
 					</source>
-					<auth username="$iscsiUser">
-						<secret type='iscsi' uuid='${linkInfo.device.stat.id}'/>
-					</auth>
-				""".trimIndent()
+					$auth
+					""".trimIndent()
+			}
 				else -> TODO("not handled service type: $linkInfo")
 			}
 		} else {
@@ -83,7 +90,7 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 			}
 		}
 
-private fun remoteHost(linkInfo: VirtualStorageLinkInfo, targetHost: Host) = linkInfo.allocation.hostId != targetHost.id
+fun isRemoteHost(linkInfo: VirtualStorageLinkInfo, targetHost: Host) = linkInfo.allocation.hostId != targetHost.id
 
 fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password: String, targetHost: Host): String =
 		"""

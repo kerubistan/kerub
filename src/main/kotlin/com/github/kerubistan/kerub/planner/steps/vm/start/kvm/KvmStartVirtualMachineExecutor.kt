@@ -7,8 +7,10 @@ import com.github.kerubistan.kerub.hypervisor.kvm.vmDefinitiontoXml
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.DisplaySettings
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
+import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.genPassword
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.SecretType
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import java.math.BigInteger
 
@@ -31,6 +33,19 @@ class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
 	override fun perform(step: KvmStartVirtualMachine): DisplaySettings =
 		hostCommandExecutor.execute(step.host) { client ->
 			val consolePwd = genPassword(length = 16)
+
+			step.storageLinks.forEach {
+				storageLink ->
+				when(storageLink.hostServiceUsed) {
+					is IscsiService ->
+						if(storageLink.hostServiceUsed.password != null) {
+							Virsh.setSecret(client,
+									storageLink.hostServiceUsed.vstorageId,
+									SecretType.iscsi,
+									storageLink.hostServiceUsed.password)
+						}
+				}
+			}
 			Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
 			val display = Virsh.getDisplay(session = client, vmId = step.vm.id)
 			hostManager.getFireWall(step.host).open(display.second, "tcp")
