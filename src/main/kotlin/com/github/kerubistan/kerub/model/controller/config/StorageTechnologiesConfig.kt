@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model.controller.config
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -69,8 +70,9 @@ data class StorageTechnologiesConfig(
 	fun enabledCapabilities(allCapabilities: List<StorageCapability>) =
 			allCapabilities.filter(this::isEnabled)
 
-	val lvmVgPatternRegex by lazy {
+	val lvmVgPatternRegex
+		@JsonIgnore
+		get() =
 		lvmVGPattern.toRegex()
-	}
 
 }
