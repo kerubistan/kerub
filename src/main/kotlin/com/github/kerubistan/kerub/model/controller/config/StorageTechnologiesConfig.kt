@@ -20,6 +20,10 @@ data class StorageTechnologiesConfig(
 		 */
 		val lvmCreateVolumeEnabled: Boolean = true,
 		/**
+		 * The pattern matching the names of lvm volume groups where volumes can be created.
+		 */
+		val lvmVGPattern: String = ".*",
+		/**
 		 * The controllers can create gvinum volumes.
 		 */
 		val gvinumCreateVolumeEnabled: Boolean = true,
@@ -45,6 +49,10 @@ data class StorageTechnologiesConfig(
 		val storagebenchmarkingEnabled: Boolean = true
 ) : Serializable {
 
+	init {
+		lvmVGPattern.toRegex()
+	}
+
 	fun isEnabled(storageCapability: StorageCapability) =
 			when (storageCapability) {
 				is GvinumStorageCapability ->
@@ -60,5 +68,9 @@ data class StorageTechnologiesConfig(
 
 	fun enabledCapabilities(allCapabilities: List<StorageCapability>) =
 			allCapabilities.filter(this::isEnabled)
+
+	val lvmVgPatternRegex by lazy {
+		lvmVGPattern.toRegex()
+	}
 
 }

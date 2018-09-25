@@ -113,4 +113,26 @@ class CreateLvFactoryTest {
 		assertEquals(host, step.host)
 		assertEquals(volumeGroup.volumeGroupName, step.volumeGroupName)
 	}
+
+	@Test
+	fun testProduceWithNameNotMatching() {
+		assertTrue(CreateLvFactory.produce(OperationalState.fromLists(
+				hosts = listOf(host),
+				hostDyns = listOf(HostDynamic(
+						id = host.id,
+						status = HostStatus.Up,
+						storageStatus = listOf(
+								StorageDeviceDynamic(
+										id = volumeGroup.id,
+										freeCapacity = "1 TB".toSize()
+								)
+						)
+				)),
+				vms = listOf(vm),
+				vStorage = listOf(vDisk),
+				vStorageDyns = listOf(),
+				config = ControllerConfig(storageTechnologies = StorageTechnologiesConfig(lvmVGPattern = "\$NOT-MATCHING-.*"))
+		)).isEmpty())
+	}
+
 }

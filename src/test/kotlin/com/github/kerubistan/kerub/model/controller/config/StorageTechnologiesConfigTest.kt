@@ -3,9 +3,23 @@ package com.github.kerubistan.kerub.model.controller.config
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 class StorageTechnologiesConfigTest {
+
+	@Test
+	fun validations() {
+		assertThrows<Exception> {
+			StorageTechnologiesConfig(
+				lvmVGPattern = "\\"
+			)
+		}
+		StorageTechnologiesConfig(
+				lvmVGPattern = ".*"
+		)
+	}
+
 	@Test
 	fun enabledCapabilities() {
 		val shouldPass = FsStorageCapability(size = "128 GB".toSize(), mountPoint = "/kerub", fsType = "ext4")

@@ -15,6 +15,9 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 
 				state.runningHosts.forEach { host ->
 					host.stat.capabilities?.storageCapabilities?.filterIsInstance<LvmStorageCapability>()
+							?.filter {
+								it.volumeGroupName.matches(state.controllerConfig.storageTechnologies.lvmVgPatternRegex)
+							}
 							?.forEach { volGroup ->
 								steps += storageNotAllocated.filter {
 									hasEnoughFreeCapacity(volGroup, it, host.dynamic)
