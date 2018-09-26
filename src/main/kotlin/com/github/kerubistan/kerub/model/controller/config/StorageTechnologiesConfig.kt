@@ -47,7 +47,7 @@ data class StorageTechnologiesConfig(
 		/**
 		 * Should the controller run benchmarks on the storage
 		 */
-		val storagebenchmarkingEnabled: Boolean = true
+		val storageBenchmarkingEnabled: Boolean = true
 ) : Serializable {
 
 	init {
