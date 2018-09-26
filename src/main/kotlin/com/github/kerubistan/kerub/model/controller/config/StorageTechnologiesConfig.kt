@@ -70,9 +70,17 @@ data class StorageTechnologiesConfig(
 	fun enabledCapabilities(allCapabilities: List<StorageCapability>) =
 			allCapabilities.filter(this::isEnabled)
 
+	// this is workaround - could not find a way to make
+	// this property both annotated and lazy
+	private val lazyLvmVgPatternRegex
+		@JsonIgnore
+		get() = lazy {
+			lvmVGPattern.toRegex()
+		}
+
 	val lvmVgPatternRegex
 		@JsonIgnore
-		get() =
-		lvmVGPattern.toRegex()
+		get() = lazyLvmVgPatternRegex.value
+	// end of workaround
 
 }
