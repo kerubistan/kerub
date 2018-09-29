@@ -59,7 +59,8 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 			when(linkInfo.hostServiceUsed) {
 				is NfsService ->
 					"""
-					  <source file='/mnt/${linkInfo.allocation.hostId}/${linkInfo.allocation.getPath(linkInfo.device.stat.id)}'/>
+						<!-- nfs -->
+						<source file='/mnt/${linkInfo.allocation.hostId}/${linkInfo.allocation.getPath(linkInfo.device.stat.id)}'/>
 					""".trimIndent()
 				is IscsiService -> {
 					val auth = if(linkInfo.hostServiceUsed.password != null) {
@@ -71,6 +72,7 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 					} else "<!-- unauthenticated -->"
 
 					"""
+					<!-- iscsi -->
 					<source protocol='iscsi' name='${iscsiStorageId(linkInfo.device.stat.id)}/1'>
 						<host name='${linkInfo.storageHost.stat.address}' port='3260' />
 					</source>
@@ -83,9 +85,15 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 			val allocation = linkInfo.allocation
 			when (allocation) {
 				is VirtualStorageFsAllocation ->
-					"<source file='${allocation.mountPoint}/${allocation.fileName}'/>"
+					"""
+						<!-- local ${allocation.type} file allocation -->
+						<source file='${allocation.fileName}'/>
+					""".trimIndent()
 				is VirtualStorageLvmAllocation ->
-					"<source dev='${allocation.path}'/>"
+					"""
+						<!-- local lvm allocation -->
+						<source dev='${allocation.path}'/>
+					""".trimMargin()
 				else -> TODO()
 			}
 		}
