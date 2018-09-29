@@ -39,6 +39,8 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImageExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.fs.truncate.TruncateImage
+import com.github.kerubistan.kerub.planner.steps.vstorage.fs.truncate.TruncateImageExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.unallocate.UnAllocateFs
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.unallocate.UnAllocateFsExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGvinumVolume
@@ -108,6 +110,7 @@ class PlanExecutorImpl(
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			TruncateImage::class to TruncateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao,
 																	hostDynamicDao),
 			//TODO: handle both with just one (unless you want to maintain a long list)
