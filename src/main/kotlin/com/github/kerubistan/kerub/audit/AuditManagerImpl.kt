@@ -38,5 +38,5 @@ open class AuditManagerImpl(private val auditEntryDao: AuditEntryDao) : AuditMan
 		)
 	}
 
-	internal open fun getCurrentUser() = silent(level = LogLevel.Debug) { currentUser() }
+	internal open fun getCurrentUser() = silent(level = LogLevel.Off) { currentUser() }
 }

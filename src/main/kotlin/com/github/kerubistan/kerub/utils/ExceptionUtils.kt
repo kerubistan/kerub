@@ -6,6 +6,7 @@ import java.io.StringWriter
 private val logger = getLogger("com.github.kerubistan.kerub.utils")
 
 enum class LogLevel {
+	Off,
 	Debug,
 	Info,
 	Warning,
@@ -20,12 +21,12 @@ fun Throwable.getStackTraceAsString(): String =
 			stringWriter.toString()
 		}
 
-fun <T> silent(level : LogLevel = LogLevel.Info, actionName: String = "", body: () -> T): T? {
+fun <T> silent(level: LogLevel = LogLevel.Info, actionName: String = "", body: () -> T): T? {
 	return try {
 		body()
-	} catch(exc: Exception) {
+	} catch (exc: Exception) {
 		val message = "Exception occurred during execution: $actionName"
-		when(level) {
+		when (level) {
 			LogLevel.Debug ->
 				logger.debug(message, exc)
 			LogLevel.Info ->
@@ -34,6 +35,9 @@ fun <T> silent(level : LogLevel = LogLevel.Info, actionName: String = "", body: 
 				logger.warn(message, exc)
 			LogLevel.Error ->
 				logger.error(message, exc)
+			LogLevel.Off -> {
+				/* intentionally nothing */
+			}
 		}
 		null
 	}

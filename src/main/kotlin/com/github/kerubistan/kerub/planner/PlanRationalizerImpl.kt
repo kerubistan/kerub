@@ -104,7 +104,7 @@ class PlanRationalizerImpl(
 	 */
 	private fun subPlan(plan: Plan, startStepIndex: Int): Plan? {
 		val subSteps = plan.steps.subList(fromIndex = startStepIndex, toIndex = plan.steps.size)
-		val targetPlan = silent(level = LogLevel.Debug) {
+		val targetPlan = silent(level = LogLevel.Off) {
 			Plan.planBy(plan.states.first(), subSteps) { step, state ->
 				stepFactory.produce(state).contains(step)
 			}
