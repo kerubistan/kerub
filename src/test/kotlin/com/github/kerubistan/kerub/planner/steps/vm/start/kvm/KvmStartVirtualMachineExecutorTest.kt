@@ -16,6 +16,7 @@ import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
@@ -32,32 +33,60 @@ import kotlin.test.assertEquals
 
 class KvmStartVirtualMachineExecutorTest {
 
+	val host = Host(
+			address = "127.0.0.1",
+			publicKey = "",
+			dedicated = false
+	)
+
+	val vm = VirtualMachine(
+			name = "",
+			id = UUID.randomUUID(),
+			nrOfCpus = 1,
+			memory = Range(128.MB, 128.MB)
+	)
+
+	val step = KvmStartVirtualMachine(
+			host = host,
+			vm = vm
+	)
+
+	val hostManager = mock<HostManager>()
+	val vmDynDao = mock<VirtualMachineDynamicDao>()
+	val firewall = mock<FireWall>()
+	val hostCommandExecutor = mock<HostCommandExecutor>()
+	val session = mock<ClientSession>()
+	val sftp = mock<SftpClient>()
+
 	@Test
+	fun executeWithFailingGetDisplay() {
+		session.mockCommandExecution(
+				commandMatcher = "virsh domdisplay.*",
+				output = "\n",
+				// familiar message from opensuse 42
+				error = "One or more references were leaked after disconnect from the hypervisor"
+		)
+
+		session.mockCommandExecution(
+				"virsh create.*"
+		)
+
+		whenever(session.createSftpClient()).thenReturn(sftp)
+		val domainXml = ByteArrayOutputStream()
+		whenever(sftp.write(argThat { startsWith("/tmp") && endsWith(".xml") })).thenReturn(domainXml)
+		whenever(hostManager.getFireWall(Mockito.any(Host::class.java) ?: host)).thenReturn(firewall)
+
+		KvmStartVirtualMachineExecutor(hostManager, vmDynDao, hostCommandExecutor).execute(step)
+
+		// because spice port could not be read
+		verify(firewall, never()).open(any(), any())
+		// and also the display port won't be set
+		verify(vmDynDao).update(argThat { displaySetting == null })
+
+	}
+
+		@Test
 	fun execute() {
-		val host = Host(
-				address = "127.0.0.1",
-				publicKey = "",
-				dedicated = false
-		)
-
-		val vm = VirtualMachine(
-				name = "",
-				id = UUID.randomUUID(),
-				nrOfCpus = 1,
-				memory = Range(128.MB, 128.MB)
-		)
-
-		val step = KvmStartVirtualMachine(
-				host = host,
-				vm = vm
-		)
-
-		val hostManager = mock<HostManager>()
-		val vmDynDao = mock<VirtualMachineDynamicDao>()
-		val firewall = mock<FireWall>()
-		val hostCommandExecutor = mock<HostCommandExecutor>()
-		val session = mock<ClientSession>()
-		val sftp = mock<SftpClient>()
 
 		session.mockCommandExecution(
 				commandMatcher = "virsh domdisplay.*",

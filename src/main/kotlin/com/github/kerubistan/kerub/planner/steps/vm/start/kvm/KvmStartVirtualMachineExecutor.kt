@@ -10,16 +10,18 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.genPassword
+import com.github.kerubistan.kerub.utils.insist
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.SecretType
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
+import com.github.kerubistan.kerub.utils.kick
 import java.math.BigInteger
 
 class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
 									 private val vmDynDao: VirtualMachineDynamicDao,
 									 private val hostCommandExecutor: HostCommandExecutor)
-	: AbstractStepExecutor<KvmStartVirtualMachine, DisplaySettings>() {
+	: AbstractStepExecutor<KvmStartVirtualMachine, DisplaySettings?>() {
 
-	override fun update(step: KvmStartVirtualMachine, updates: DisplaySettings) {
+	override fun update(step: KvmStartVirtualMachine, updates: DisplaySettings?) {
 		val dyn = VirtualMachineDynamic(
 				id = step.vm.id,
 				displaySetting = updates,
@@ -30,7 +32,7 @@ class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
 		vmDynDao.update(dyn)
 	}
 
-	override fun perform(step: KvmStartVirtualMachine): DisplaySettings =
+	override fun perform(step: KvmStartVirtualMachine): DisplaySettings? =
 		hostCommandExecutor.execute(step.host) { client ->
 			val consolePwd = genPassword(length = 16)
 
@@ -47,14 +49,21 @@ class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
 				}
 			}
 			Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
-			val display = Virsh.getDisplay(session = client, vmId = step.vm.id)
-			hostManager.getFireWall(step.host).open(display.second, "tcp")
+			val display = kick(8) {
+				// why kicking it again? it does happen sometimes that this fails after successful vm start
+				// (noticed on opensuse 42)
+				Virsh.getDisplay(session = client, vmId = step.vm.id)
+			}
 
-			DisplaySettings(
-					hostAddr = step.host.address,
-					password = consolePwd,
-					ca = "",
-					port = display.second
-			)
+			display?.let {
+				hostManager.getFireWall(step.host).open(it.second, "tcp")
+
+				DisplaySettings(
+						hostAddr = step.host.address,
+						password = consolePwd,
+						ca = "",
+						port = it.second
+				)
+			}
 		}
 }

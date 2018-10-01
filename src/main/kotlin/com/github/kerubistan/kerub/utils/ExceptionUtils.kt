@@ -53,3 +53,14 @@ fun <T> insist(tries: Int, action: () -> T): T {
 	}
 	return action()
 }
+
+fun <T> kick(tries: Int, action: () -> T): T? {
+	for (attempt in 0 until tries) {
+		try {
+			return action()
+		} catch (e: Exception) {
+			logger.warn("Attempt $attempt failed", e)
+		}
+	}
+	return null
+}
