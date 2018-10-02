@@ -6,9 +6,11 @@ import com.github.kerubistan.kerub.planner.costs.ComputationCost
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
+import com.github.kerubistan.kerub.planner.steps.ProducedBy
 import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.update
 
+@ProducedBy(KsmFactory::class)
 data class EnableKsm(override val host: Host, val cycles: Long) : HostStep, InvertibleStep {
 
 	override fun isInverseOf(other: AbstractOperationalStep) = other is DisableKsm && other.host == this.host

@@ -8,7 +8,9 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
+import com.github.kerubistan.kerub.planner.steps.ProducedBy
 
+@ProducedBy(MountNfsFactory::class)
 data class MountNfs(override val host: Host, val remoteHost: Host, val directory: String, val remoteDirectory: String) :
 		AbstractNfsMount(), InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep) =
