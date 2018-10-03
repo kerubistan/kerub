@@ -15,16 +15,25 @@ class AbstractOperationalStepTest {
 				.getSubTypesOf(AbstractOperationalStep::class.java).forEach {
 					stepClass ->
 					if(!stepClass.kotlin.isAbstract) {
-						val annotation = stepClass.kotlin.annotations.singleOrNull { it is ProducedBy }
+						val annotation = stepClass.kotlin.annotations.filterIsInstance<ProducedBy>().singleOrNull()
 						if(annotation == null) {
 							val factoryClass = Class.forName(stepClass.name + "Factory")
 							assertTrue ("$stepClass needs a factory or a @ProducedBy annotation") {
 								AbstractOperationalStepFactory::class.java.isAssignableFrom(factoryClass)
 							}
+							validateFactory(factoryClass)
+						} else {
+							validateFactory(annotation.factory.java)
 						}
 					}
 				}
 
+	}
+
+	private fun validateFactory(factoryClass: Class<*>) {
+		assertTrue("$factoryClass must be an object") {
+			factoryClass.kotlin.objectInstance != null
+		}
 	}
 
 }
