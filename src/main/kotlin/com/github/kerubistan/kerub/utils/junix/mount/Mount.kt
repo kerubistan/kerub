@@ -27,8 +27,12 @@ object Mount : OsCommand {
 				)
 			}
 
-	fun mount(session: ClientSession, deviceSpec: String, mountPoint: String, write: Boolean = true) {
-		session.executeOrDie("mount $deviceSpec $mountPoint -o ${write.flag("rw", "ro")} ")
+	fun mount(session: ClientSession,
+			  deviceSpec: String,
+			  mountPoint: String,
+			  write: Boolean = true,
+			  verbose: Boolean = true) {
+		session.executeOrDie("mount ${verbose.flag("-v")} $deviceSpec $mountPoint -o ${write.flag("rw", "ro")} ")
 	}
 
 	fun unmount(session: ClientSession, mountPoint: String) {
@@ -36,7 +40,7 @@ object Mount : OsCommand {
 	}
 
 	fun mountNfs(session: ClientSession, address: String, remoteDir: String, mountPoint: String,
-				 write: Boolean = true) =
-			mount(session, "$address:$remoteDir", mountPoint, write)
+				 write: Boolean = true, verbose: Boolean = true) =
+			mount(session, "$address:$remoteDir", mountPoint, write, verbose)
 
 }

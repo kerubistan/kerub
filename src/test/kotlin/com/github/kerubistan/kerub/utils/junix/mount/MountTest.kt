@@ -3,16 +3,19 @@ package com.github.kerubistan.kerub.utils.junix.mount
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.kerubistan.kerub.utils.resource
-import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
+import com.github.kerubistan.kerub.utils.resourceToString
+import com.nhaarman.mockito_kotlin.mock
+import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class MountTest : AbstractJunixCommandVerification() {
+class MountTest {
+
+	private val session: ClientSession = mock()
+
 	@Test
 	fun available() {
 		assertTrue(Mount.available(testHostCapabilities.copy(os = OperatingSystem.Linux)))
@@ -25,8 +28,8 @@ class MountTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun listMountsWithCentos7() {
-		whenever(execChannel.invertedErr).then { NullInputStream(0) }
-		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/mount/mount-centos7.txt") }
+		session.mockCommandExecution("mount.*".toRegex(),
+				output = resourceToString("com/github/kerubistan/kerub/utils/junix/mount/mount-centos7.txt"))
 
 		val mounts = Mount.listMounts(session)
 
@@ -39,8 +42,8 @@ class MountTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun listMountsWithNetBSD() {
-		whenever(execChannel.invertedErr).then { NullInputStream(0) }
-		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/mount/mount-netbsd7.txt") }
+		session.mockCommandExecution("mount.*".toRegex(),
+				output = resourceToString("com/github/kerubistan/kerub/utils/junix/mount/mount-netbsd7.txt"))
 
 		val mounts = Mount.listMounts(session)
 
