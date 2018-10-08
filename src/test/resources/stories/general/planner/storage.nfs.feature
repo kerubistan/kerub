@@ -42,9 +42,9 @@ Feature: NFS storage
 
 
 	Examples:
-	  | OS    | Distro       | version | nfs-server-package | libvirt-package |
-   #	  | Linux | Fedora       | 23      | nfs-utils          | libvirt-client                 |
-   #	  | Linux | openSUSE     | 13      | nfs-utils          | libvirt-client                 |
-	  | Linux | CentOS Linux | 7.1     | nfs-utils          | libvirt-client  |
+	  | OS    | Distro       | version | nfs-server-package | libvirt-package                |
+	  | Linux | Fedora       | 23      | nfs-utils          | libvirt-client                 |
+	  | Linux | openSUSE     | 13      | nfs-kernel-server  | libvirt-client                 |
+	  | Linux | CentOS Linux | 7.1     | nfs-utils          | libvirt-client                 |
 #	  | Linux | Debian       | 8.6     | nfs-utils          | libvirt-clients,libvirt-daemon |
-#	  | Linux | Ubuntu       | 14.0.4  | nfs-utils          | libvirt-bin                    |
+	  | Linux | Ubuntu       | 14.0.4  | nfs-kernel-server  | libvirt-bin                    |
