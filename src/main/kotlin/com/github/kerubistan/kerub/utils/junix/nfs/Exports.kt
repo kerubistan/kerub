@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
 import com.github.kerubistan.kerub.utils.junix.common.Centos
+import com.github.kerubistan.kerub.utils.junix.common.Debian
 import com.github.kerubistan.kerub.utils.junix.common.Fedora
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
@@ -18,7 +19,7 @@ object Exports : OsCommand {
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(
 			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Centos, Fedora) } to listOf("nfs-utils"),
 			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(openSuse) } to listOf("nfs-kernel-server"),
-			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Ubuntu) } to listOf("nfs-kernel-server")
+			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Ubuntu, Debian) } to listOf("nfs-kernel-server")
 	)
 
 	fun export(session: ClientSession, directory: String, write : Boolean = false) {

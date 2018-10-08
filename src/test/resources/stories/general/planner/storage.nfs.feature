@@ -46,5 +46,5 @@ Feature: NFS storage
 	  | Linux | Fedora       | 23      | nfs-utils          | libvirt-client                 |
 	  | Linux | openSUSE     | 13      | nfs-kernel-server  | libvirt-client                 |
 	  | Linux | CentOS Linux | 7.1     | nfs-utils          | libvirt-client                 |
-#	  | Linux | Debian       | 8.6     | nfs-utils          | libvirt-clients,libvirt-daemon |
+	  | Linux | Debian       | 8.6     | nfs-kernel-server  | libvirt-clients,libvirt-daemon |
 	  | Linux | Ubuntu       | 14.0.4  | nfs-kernel-server  | libvirt-bin                    |
