@@ -100,6 +100,12 @@ data class OperationalState(
 
 	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
+	val runningVms by lazy {
+		vms.values.filter {
+			it.dynamic?.status == VirtualMachineStatus.Up
+		}
+	}
+
 	val vmsThatMustStart by lazy {
 		vms.values.filter { vm ->
 			vm.stat.expectations.any { expectation ->
