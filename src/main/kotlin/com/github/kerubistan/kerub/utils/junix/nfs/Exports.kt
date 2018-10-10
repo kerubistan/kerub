@@ -25,7 +25,7 @@ object Exports : OsCommand {
 	fun export(session: ClientSession, directory: String, write : Boolean = false) {
 		session.createSftpClient().appendToFile(exportsFile, """
 			$directory		*(no_root_squash,no_subtree_check,${if (write) {"rw"} else {"ro"} })
-		""".trimIndent())
+		""".trimIndent() + "\n")
 		refresh(session)
 	}
 
