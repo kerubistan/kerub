@@ -22,26 +22,26 @@ class KvmMigrateVirtualMachineExecutorTest {
 				address = "source-host.example.com",
 				dedicated = true,
 				publicKey = ""
-		                 )
+		)
 		val target = Host(
 				address = "target-host.example.com",
 				dedicated = true,
 				publicKey = ""
-		                 )
+		)
 		val vm = VirtualMachine(
 				name = "vm-1"
-		                       )
-		whenever(hostManager.getHypervisor(any<Host>())).thenReturn(hypervisor)
+		)
+		whenever(hostManager.getHypervisor(any())).thenReturn(hypervisor)
 		KvmMigrateVirtualMachineExecutor(hostManager).execute(KvmMigrateVirtualMachine(
 				vm = vm,
 				source = source,
 				target = target
-		                                                                          ))
+		))
 
 		verify(hypervisor).migrate(
 				vm = ArgumentMatchers.eq(vm) ?: vm,
 				source = eq(source),
-		        target = eq(target)
-		                                   )
+				target = eq(target)
+		)
 	}
 }
