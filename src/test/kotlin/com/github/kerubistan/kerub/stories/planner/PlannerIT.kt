@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 			"json:target/test-reports/planner/cucumber.json"
 		],
 		features = [
+			"classpath:stories/general/planner/vm-migration.feature",
 			"classpath:stories/general/planner/planner.feature",
 			"classpath:stories/general/planner/host-removal.feature",
 			"classpath:stories/general/planner/storage.feature",

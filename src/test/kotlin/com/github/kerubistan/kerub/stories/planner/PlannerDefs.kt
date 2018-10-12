@@ -484,7 +484,7 @@ class PlannerDefs {
 
 	@Given("^host (\\S+) is Up$")
 	fun setHostDyn(address: String) {
-		val host = hosts.firstOrNull { it.address == address }!!
+		val host = hosts.single { it.address == address }
 		hostDyns += HostDynamic(
 				id = host.id,
 				status = HostStatus.Up,
