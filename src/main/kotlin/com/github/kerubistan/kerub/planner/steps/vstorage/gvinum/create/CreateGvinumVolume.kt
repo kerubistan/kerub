@@ -18,7 +18,14 @@ data class CreateGvinumVolume(
 		override val host: Host,
 		override val disk: VirtualStorageDevice,
 		val config: GvinumConfiguration
-) : AbstractCreateVirtualStorage {
+) : AbstractCreateVirtualStorage<VirtualStorageGvinumAllocation> {
+	override val allocation: VirtualStorageGvinumAllocation by lazy {
+		VirtualStorageGvinumAllocation(
+				hostId = host.id,
+				actualSize = disk.size,
+				configuration = config
+		)
+	}
 
 	override fun getCost(): List<Cost> {
 		return when (config) {
@@ -61,11 +68,7 @@ data class CreateGvinumVolume(
 							dynamic = VirtualStorageDeviceDynamic(
 									id = disk.id,
 									lastUpdated = now(),
-									allocations = listOf(VirtualStorageGvinumAllocation(
-											hostId = host.id,
-											actualSize = disk.size,
-											configuration = config
-									))
+									allocations = listOf(allocation)
 							)
 					)
 				}

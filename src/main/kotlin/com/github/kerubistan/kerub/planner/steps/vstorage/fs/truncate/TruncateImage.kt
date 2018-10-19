@@ -11,7 +11,8 @@ import com.github.kerubistan.kerub.utils.update
 
 data class TruncateImage(override val host: Host,
 					override val disk: VirtualStorageDevice,
-					val allocation: VirtualStorageFsAllocation) : AbstractCreateVirtualStorage {
+					override val allocation: VirtualStorageFsAllocation)
+	: AbstractCreateVirtualStorage<VirtualStorageFsAllocation> {
 
 	init {
 		check(allocation.type == VirtualDiskFormat.raw) {

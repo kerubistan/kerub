@@ -13,7 +13,16 @@ data class CreateImage(
 		override val disk: VirtualStorageDevice,
 		override val host: Host,
 		val path: String,
-		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage {
+		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation> {
+	override val allocation: VirtualStorageFsAllocation by lazy {
+		VirtualStorageFsAllocation(
+				hostId = host.id,
+				actualSize = disk.size, //TODO not true when thin provisioning
+				mountPoint = path,
+				type = format,
+				fileName = "$path/${disk.id}"
+		)
+	}
 
 	/*
 	 * TODO: add costs here:
@@ -28,13 +37,7 @@ data class CreateImage(
 								dynamic =
 								VirtualStorageDeviceDynamic(
 										id = disk.id,
-										allocations = listOf(VirtualStorageFsAllocation(
-												hostId = host.id,
-												actualSize = disk.size, //TODO not true when thin provisioning
-												mountPoint = path,
-												type = format,
-												fileName = "$path/${disk.id}"
-										))
+										allocations = listOf(allocation)
 								)
 						)
 					}

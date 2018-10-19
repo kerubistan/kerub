@@ -13,17 +13,20 @@ data class CreateLv(
 		override val volumeGroupName: String,
 		override val disk: VirtualStorageDevice
 ) : AbstractCreateLv() {
+	override val allocation: VirtualStorageLvmAllocation by lazy {
+		VirtualStorageLvmAllocation(
+				hostId = host.id,
+				actualSize = disk.size,
+				path = "/dev/$volumeGroupName/${disk.id}",
+				vgName = volumeGroupName
+		)
+	}
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			vStorage = state.vStorage.update(disk.id) {
 				it.copy(dynamic = VirtualStorageDeviceDynamic(
 						id = disk.id,
-						allocations = listOf(VirtualStorageLvmAllocation(
-								hostId = host.id,
-								actualSize = disk.size,
-								path = "/dev/$volumeGroupName/${disk.id}",
-								vgName = volumeGroupName
-						))
+						allocations = listOf(allocation)
 				))
 			},
 			hosts = state.hosts.update(host.id) {
