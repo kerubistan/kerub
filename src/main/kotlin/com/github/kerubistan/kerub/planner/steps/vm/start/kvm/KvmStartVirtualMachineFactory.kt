@@ -1,9 +1,11 @@
 package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.vm.allStorageAvailable
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
@@ -11,8 +13,12 @@ import com.github.kerubistan.kerub.planner.steps.vm.virtualStorageLinkInfo
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
+import kotlin.reflect.KClass
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {
+
+	override val problemHints = setOf<KClass<out Problem>>()
+	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<KvmStartVirtualMachine> =
 			getVmsToStart(state).map { vm ->

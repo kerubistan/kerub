@@ -1,16 +1,22 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.create
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.toSize
 import java.math.BigInteger
 import java.util.UUID
+import kotlin.reflect.KClass
 
 object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
+
+	override val problemHints = setOf<KClass<out Problem>>()
+	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	private val minimumThinGroupSize = "16 GB".toSize()
 

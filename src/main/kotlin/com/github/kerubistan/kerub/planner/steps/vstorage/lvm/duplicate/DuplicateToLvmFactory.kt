@@ -1,16 +1,24 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
+import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
+import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.vstorage.block.duplicate.AbstractBlockDuplicateFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.util.hasEnoughFreeCapacity
 import com.github.kerubistan.kerub.utils.join
+import kotlin.reflect.KClass
 
 object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
+
+	override val problemHints = setOf(RecyclingHost::class, VmOnRecyclingHost::class, VStorageDeviceOnRecyclingHost::class)
+	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<DuplicateToLvm> =
 			state.vStorage.filterValues {

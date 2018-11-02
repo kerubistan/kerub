@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.kerubistan.kerub.model.services.IscsiService
+import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.utils.join
@@ -45,6 +46,10 @@ fun virtualStorageLinkInfo(state: OperationalState, links: List<VirtualStorageLi
 										is NfsService ->
 											allocation is VirtualStorageFsAllocation
 													&& allocation.mountPoint.startsWith(service.directory)
+													// and on the other side, it NEEDS an NFS mount
+													&& state.hosts[targetHostId]?.config?.services
+													?.filterIsInstance<NfsMount>()
+													?.any { it.remoteDirectory == allocation.mountPoint } ?: false
 										else ->
 											false
 									}

@@ -1,13 +1,20 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.tgtd
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.utils.iscsiSharedDisks
 import com.github.kerubistan.kerub.utils.join
+import kotlin.reflect.KClass
 
 object TgtdIscsiUnshareFactory : AbstractOperationalStepFactory<TgtdIscsiUnshare>() {
+
+	override val problemHints = setOf<KClass<out Problem>>()
+	override val expectationHints = setOf<KClass<out Expectation>>()
+
 	override fun produce(state: OperationalState): List<TgtdIscsiUnshare> =
 			iscsiSharedDisks(state).map { (diskData, allocations) ->
 				allocations

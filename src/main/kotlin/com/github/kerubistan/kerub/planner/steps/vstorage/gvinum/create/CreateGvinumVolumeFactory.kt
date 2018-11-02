@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -8,12 +9,17 @@ import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualStorageFactory
 import com.github.kerubistan.kerub.utils.join
 import java.math.BigInteger
+import kotlin.reflect.KClass
 
 object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvinumVolume>() {
+
+	override val problemHints = setOf<KClass<out Problem>>()
+	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<CreateGvinumVolume> =
 			factoryFeature(state.controllerConfig.storageTechnologies.gvinumCreateVolumeEnabled) {

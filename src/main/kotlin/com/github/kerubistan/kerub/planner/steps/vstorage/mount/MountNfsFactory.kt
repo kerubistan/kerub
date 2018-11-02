@@ -1,13 +1,19 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.mount
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.utils.join
+import kotlin.reflect.KClass
 
 object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
+
+	override val problemHints = setOf<KClass<out Problem>>()
+	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<MountNfs> =
 			factoryFeature(state.controllerConfig.storageTechnologies.nfsEnabled) {

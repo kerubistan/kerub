@@ -1,10 +1,17 @@
 package com.github.kerubistan.kerub.planner.steps.host.recycle
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import kotlin.reflect.KClass
 
 object RecycleHostFactory : AbstractOperationalStepFactory<RecycleHost>() {
+
+	override val problemHints = setOf(RecyclingHost::class)
+	override val expectationHints = setOf<KClass<out Expectation>>()
+
 	override fun produce(state: OperationalState): List<RecycleHost> =
 			state.hosts.values.filter {
 				(stat, dyn) ->

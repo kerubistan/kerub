@@ -1,8 +1,11 @@
 package com.github.kerubistan.kerub.planner.steps
 
 import com.github.k0zka.finder4j.backtrack.StepFactory
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
+import com.github.kerubistan.kerub.planner.issues.problems.Problem
+import kotlin.reflect.KClass
 
 /**
  * Abstract baseclass for step factories.
@@ -16,4 +19,12 @@ abstract class AbstractOperationalStepFactory<S : AbstractOperationalStep> : Ste
 
 	final override fun produce(state: Plan): List<S> =
 			produce(state.state)
+
+	abstract val problemHints : Set<KClass<out Problem>>
+
+	abstract val expectationHints : Set<KClass<out Expectation>>
+
+	// All implementations are objects, so a short name should be enough
+	override fun toString(): String = this.javaClass.simpleName
+
 }

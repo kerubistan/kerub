@@ -1,17 +1,25 @@
 package com.github.kerubistan.kerub.planner.steps.host.powerdown
 
+import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import java.util.UUID
+import kotlin.reflect.KClass
 
 /**
  * Generates PowerDown steps for each host in Up state if no virtual services run.
  */
 object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
+
+	override val problemHints = setOf(RecyclingHost::class)
+
+	override val expectationHints = setOf<KClass<out Expectation>>()
+
 	override fun produce(state: OperationalState): List<PowerDownHost> =
 			factoryFeature(state.controllerConfig.powerManagementEnabled) {
 				// NOTE:

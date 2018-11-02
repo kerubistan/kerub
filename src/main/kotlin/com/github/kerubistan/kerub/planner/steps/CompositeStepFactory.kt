@@ -8,11 +8,6 @@ import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
-import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
-import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedService
-import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
-import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDevice
-import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.base.UnAllocateFactory
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostFactory
@@ -28,8 +23,11 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.Duplicat
 import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
+import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.justToString
+import com.github.kerubistan.kerub.utils.logAndReturn
 import kotlin.reflect.KClass
 
 class CompositeStepFactory(
@@ -44,7 +42,8 @@ class CompositeStepFactory(
 
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
 			PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-			RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory)
+			RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory, UnAllocateFactory,
+			RemoveVirtualStorageFactory, UnallocateDiskFactory)
 
 	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
 			VirtualMachineAvailabilityExpectation::class
@@ -57,16 +56,13 @@ class CompositeStepFactory(
 					MigrateVirtualMachineFactory)
 	)
 
-	private val problems = mapOf(
-			RecyclingHost::class to setOf(MigrateVirtualMachineFactory, PowerDownHostFactory, RecycleHostFactory,
-					HostSecurityCompositeFactory, DuplicateToLvmFactory),
-			RecyclingStorageDevice::class to setOf(UnallocateDiskFactory, RemoveVirtualStorageFactory),
-			UnusedService::class to setOf(),
-			VmOnRecyclingHost::class to setOf(),
-			VStorageDeviceOnRecyclingHost::class to setOf(
-					UnAllocateFactory, DuplicateToLvmFactory
-			)
-	)
+	private val problems =
+			// all problem classes
+			logger.logAndReturn(LogLevel.Info, "problem hints {}",
+					defaultFactories.flatMap { it.problemHints }
+							.map { problemClass ->
+								problemClass to defaultFactories.filter { it.problemHints.contains(problemClass) }
+							}.toMap(), ::justToString)
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 		val unsatisfiedExpectations = planViolationDetector.listViolations(state)

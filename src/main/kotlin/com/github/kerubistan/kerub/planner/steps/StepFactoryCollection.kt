@@ -12,6 +12,9 @@ open class StepFactoryCollection(
 		val enabled: (ControllerConfig) -> Boolean = { true }
 ) : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 
+	override val problemHints =  factories.map { it.problemHints }.join().toSet()
+	override val expectationHints = factories.map { it.expectationHints }.join().toSet()
+
 	override fun produce(state: OperationalState): List<AbstractOperationalStep> =
 			factoryFeature(enabled(state.controllerConfig)) {
 				factories.map {

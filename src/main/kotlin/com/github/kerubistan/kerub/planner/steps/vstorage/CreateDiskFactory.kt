@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage
 
+import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.steps.StepFactoryCollection
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.fs.truncate.TruncateImageFactory
@@ -17,4 +18,6 @@ object CreateDiskFactory : StepFactoryCollection(
 				TruncateImageFactory,
 				CreateGvinumVolumeFactory
 		)
-)
+) {
+	override val expectationHints = super.expectationHints + VirtualMachineAvailabilityExpectation::class
+}
