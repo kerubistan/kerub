@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage
 
+import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDevice
 import com.github.kerubistan.kerub.planner.steps.StepFactoryCollection
@@ -12,6 +13,6 @@ object UnallocateDiskFactory : StepFactoryCollection(listOf(
 		UnAllocateFsFactory,
 		UnAllocateGvinumFactory
 )) {
-	override val expectationHints = super.expectationHints + VirtualMachineAvailabilityExpectation::class
+	override val expectationHints = super.expectationHints + setOf(VirtualMachineAvailabilityExpectation::class, StorageAvailabilityExpectation::class)
 	override val problemHints = super.problemHints + RecyclingStorageDevice::class
 }

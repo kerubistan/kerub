@@ -1,9 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps
 
 import com.github.k0zka.finder4j.backtrack.StepFactory
-import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
-import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
-import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
@@ -20,7 +17,6 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFacto
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvmFactory
-import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.live.libvirt.LibvirtMigrateVirtualStorageDeviceFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
 import com.github.kerubistan.kerub.utils.LogLevel
@@ -28,7 +24,6 @@ import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.justToString
 import com.github.kerubistan.kerub.utils.logAndReturn
-import kotlin.reflect.KClass
 
 class CompositeStepFactory(
 		private val planViolationDetector: PlanViolationDetector,
@@ -43,21 +38,16 @@ class CompositeStepFactory(
 	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
 			PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
 			RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory, UnAllocateFactory,
-			RemoveVirtualStorageFactory, UnallocateDiskFactory)
+			RemoveVirtualStorageFactory, UnallocateDiskFactory, CreateDiskFactory, WakeHostFactory, KvmMigrateVirtualMachineFactory)
 
-	private val factories = mapOf<KClass<*>, Set<AbstractOperationalStepFactory<*>>>(
-			VirtualMachineAvailabilityExpectation::class
-					to setOf(StartVirtualMachineFactory, CreateDiskFactory, UnallocateDiskFactory, StopVirtualMachineFactory,
-					KvmMigrateVirtualMachineFactory, WakeHostFactory, ShareFactory, UnAllocateFactory),
-			NotSameStorageExpectation::class to setOf(
-					LibvirtMigrateVirtualStorageDeviceFactory, WakeHostFactory,
-					MigrateVirtualMachineFactory),
-			StorageAvailabilityExpectation::class to setOf(CreateDiskFactory, UnallocateDiskFactory, WakeHostFactory,
-					MigrateVirtualMachineFactory)
-	)
+	private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
+			defaultFactories.flatMap { it.expectationHints }
+					.map { problemClass ->
+						problemClass to defaultFactories.filter { it.expectationHints.contains(problemClass) }
+					}.toMap(), ::justToString)
 
-	private val problems =
-			// all problem classes
+	private val problemHints =
+	// all problem classes
 			logger.logAndReturn(LogLevel.Info, "problem hints {}",
 					defaultFactories.flatMap { it.problemHints }
 							.map { problemClass ->
@@ -69,14 +59,14 @@ class CompositeStepFactory(
 		logger.trace("unsatisfied expectations: {}", unsatisfiedExpectations)
 		val stepFactories = unsatisfiedExpectations.values.join()
 				.map {
-					factories[it.javaClass.kotlin] ?: defaultFactories
+					violationHints[it.javaClass.kotlin] ?: defaultFactories
 				}.join().toSet()
 
 		val planProblems = problemDetector.detect(state)
-		logger.trace("problems {}", planProblems)
+		logger.trace("problemHints {}", planProblems)
 		val problemStepFactories = planProblems
 				.map { it.javaClass.kotlin }
-				.map { problems[it] ?: defaultFactories }.join().distinct()
+				.map { problemHints[it] ?: defaultFactories }.join().distinct()
 
 		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(),
 				state = state)
@@ -96,8 +86,7 @@ class CompositeStepFactory(
 						// there are similar steps before, e.g. resizing a pool after resizing the same pool
 						// note a limitation here: we search for ANY similar step rather than a previous one
 						// and that may need a rethink after a while, but this is already better than nothing
-						|| plan.steps.any {
-					previousStep ->
+						|| plan.steps.any { previousStep ->
 					previousStep is SimilarStep && previousStep.isLikeStep(step)
 				} || plan.steps.contains(step)
 			}
