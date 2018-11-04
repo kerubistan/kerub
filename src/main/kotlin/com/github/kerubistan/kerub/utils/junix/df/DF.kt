@@ -7,7 +7,6 @@ import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
-import java.lang.StringBuilder
 import java.math.BigInteger
 
 object

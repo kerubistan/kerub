@@ -8,7 +8,6 @@ import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
 import org.springframework.web.socket.WebSocketHandler
 import org.springframework.web.socket.server.HandshakeInterceptor
-import java.lang.Exception
 
 class WebsocketSecurityInterceptor : HandshakeInterceptor {
 	override fun afterHandshake(
