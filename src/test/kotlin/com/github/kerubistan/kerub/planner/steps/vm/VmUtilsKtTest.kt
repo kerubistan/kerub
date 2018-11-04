@@ -15,14 +15,17 @@ import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.model.services.IscsiService
+import com.github.kerubistan.kerub.model.services.NfsDaemonService
+import com.github.kerubistan.kerub.model.services.NfsMount
+import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testCdrom
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVm
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -153,6 +156,136 @@ class VmUtilsKtTest {
 						),
 						testOtherHost.id
 				)
+		)
+	}
+
+	@Test
+	fun virtualStorageLinkInfoWithRemoteNfs() {
+		val allocation = VirtualStorageFsAllocation(
+				hostId = testHost.id,
+				actualSize = 10.GB,
+				mountPoint = "/kerub",
+				type = VirtualDiskFormat.qcow2,
+				fileName = "${testDisk.id}.qcow2"
+		)
+		val dynamic = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocations = listOf(
+						allocation
+				)
+		)
+		val storageHostDyn = HostDynamic(id = testHost.id, status = HostStatus.Up)
+		val storageClientHostDyn = HostDynamic(id = testOtherHost.id, status = HostStatus.Up)
+		val storageLink = VirtualStorageLink(
+				device = DeviceType.disk,
+				readOnly = false,
+				bus = BusType.sata,
+				virtualStorageId = testDisk.id
+		)
+		val storageHostConfiguration = HostConfiguration(
+				id = testHost.id,
+				services = listOf(
+						NfsDaemonService(),
+						NfsService(directory = "/kerub", write = true)
+				)
+		)
+		val storageClientConfiguration = HostConfiguration(
+				id = testOtherHost.id,
+				services = listOf(
+						NfsMount(remoteDirectory = "/kerub", remoteHostId = testHost.id, localDirectory = "/mnt/${testHost.id}/kerub")
+				)
+		)
+		assertEquals(
+				listOf(
+						VirtualStorageLinkInfo(
+								device = VirtualStorageDataCollection(
+										dynamic = dynamic,
+										stat = testDisk
+								),
+								allocation = allocation,
+								storageHost = HostDataCollection(
+										stat = testHost,
+										dynamic = storageHostDyn,
+										config = storageHostConfiguration
+								),
+								link = storageLink,
+								hostServiceUsed = NfsService(directory = "/kerub", write = true)
+						)
+				),
+				virtualStorageLinkInfo(
+						OperationalState.fromLists(
+								hosts = listOf(testHost, testOtherHost),
+								hostDyns = listOf(storageHostDyn,storageClientHostDyn),
+								hostCfgs = listOf(
+										storageHostConfiguration,
+										storageClientConfiguration
+								),
+								vStorage = listOf(testDisk),
+								vStorageDyns = listOf(
+										dynamic
+								)
+						),
+						listOf(
+								storageLink
+						),
+						testOtherHost.id
+				)
+		)
+	}
+
+	@Test
+	fun virtualStorageLinkInfoWithRemoteNfsNotMounted() {
+		val allocation = VirtualStorageFsAllocation(
+				hostId = testHost.id,
+				actualSize = 10.GB,
+				mountPoint = "/kerub",
+				type = VirtualDiskFormat.qcow2,
+				fileName = "${testDisk.id}.qcow2"
+		)
+		val dynamic = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocations = listOf(
+						allocation
+				)
+		)
+		val storageHostDyn = HostDynamic(id = testHost.id, status = HostStatus.Up)
+		val storageClientHostDyn = HostDynamic(id = testOtherHost.id, status = HostStatus.Up)
+		val storageLink = VirtualStorageLink(
+				device = DeviceType.disk,
+				readOnly = false,
+				bus = BusType.sata,
+				virtualStorageId = testDisk.id
+		)
+		val storageHostConfiguration = HostConfiguration(
+				id = testHost.id,
+				services = listOf(
+						NfsDaemonService(),
+						NfsService(directory = "/kerub", write = true)
+				)
+		)
+		val storageClientConfiguration = HostConfiguration(
+				id = testOtherHost.id,
+				services = listOf()
+		)
+		assertTrue(
+				virtualStorageLinkInfo(
+						OperationalState.fromLists(
+								hosts = listOf(testHost, testOtherHost),
+								hostDyns = listOf(storageHostDyn,storageClientHostDyn),
+								hostCfgs = listOf(
+										storageHostConfiguration,
+										storageClientConfiguration
+								),
+								vStorage = listOf(testDisk),
+								vStorageDyns = listOf(
+										dynamic
+								)
+						),
+						listOf(
+								storageLink
+						),
+						testOtherHost.id
+				).isEmpty()
 		)
 	}
 

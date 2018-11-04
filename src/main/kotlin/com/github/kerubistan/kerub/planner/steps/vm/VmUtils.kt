@@ -49,7 +49,10 @@ fun virtualStorageLinkInfo(state: OperationalState, links: List<VirtualStorageLi
 													// and on the other side, it NEEDS an NFS mount
 													&& state.hosts[targetHostId]?.config?.services
 													?.filterIsInstance<NfsMount>()
-													?.any { it.remoteDirectory == allocation.mountPoint } ?: false
+													?.any {
+														it.remoteHostId == storageHost.stat.id
+																&& it.remoteDirectory == allocation.mountPoint
+													} ?: false
 										else ->
 											false
 									}
