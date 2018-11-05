@@ -28,12 +28,20 @@
 
 	<repositories>
 		<repository>
+			<id>kotlin-beta</id>
+			<url>https://dl.bintray.com/kotlin/kotlin-dev/</url>
+		</repository>
+		<repository>
 			<id>jcenter</id>
 			<url>http://jcenter.bintray.com/</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
+		<pluginRepository>
+			<id>kotlin-plugin-beta</id>
+			<url>https://dl.bintray.com/kotlin/kotlin-dev/</url>
+		</pluginRepository>
 		<pluginRepository>
 			<id>jcenter</id>
 			<name>JCenter</name>
@@ -42,7 +50,7 @@
 	</pluginRepositories>
 
 	<properties>
-		<kotlin.version>1.2.71</kotlin.version>
+		<kotlin.version>1.3.20-dev-1427</kotlin.version>
 		<spring.version>4.3.19.RELEASE</spring.version>
 		<cxf.version>3.2.3</cxf.version>
 		<infinispan.version>8.2.8.Final</infinispan.version>
@@ -57,11 +65,6 @@
 		<dokka.version>0.9.17</dokka.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-runtime</artifactId>
-			<version>${kotlin.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib</artifactId>

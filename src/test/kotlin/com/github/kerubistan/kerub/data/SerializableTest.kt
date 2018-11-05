@@ -24,6 +24,7 @@ class SerializableTest {
 				}.forEach { type ->
 					assertTrue("Hey ${type.kotlin.qualifiedName} should be data class") { type.kotlin.isData }
 					type.kotlin.memberProperties.forEach { prop ->
+						println("$prop -> ${prop.returnType}")
 						assertTrue(
 								"${type.kotlin.qualifiedName}.${prop.name} \t ${prop.returnType.classifier} " +
 										"should be serializable") {
