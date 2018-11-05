@@ -43,7 +43,7 @@
 
 	<properties>
 		<kotlin.version>1.2.71</kotlin.version>
-		<spring.version>4.2.9.RELEASE</spring.version>
+		<spring.version>4.3.19.RELEASE</spring.version>
 		<cxf.version>3.2.3</cxf.version>
 		<infinispan.version>8.2.8.Final</infinispan.version>
 		<angularjs.version>1.4.9</angularjs.version>
