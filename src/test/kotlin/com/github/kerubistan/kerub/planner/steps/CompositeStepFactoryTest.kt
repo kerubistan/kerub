@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
 import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
+import com.github.kerubistan.kerub.planner.execution.PlanExecutorImpl
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemon
@@ -20,6 +21,40 @@ import org.junit.Test
 import kotlin.test.assertTrue
 
 class CompositeStepFactoryTest {
+
+	@Test
+	fun validateStepsHaveExecutors() {
+		// all steps produced by the step factories registered in CompositeStepFactory
+		// must have an executor registered in PlanExecutorImpl
+
+		val planExecutor = PlanExecutorImpl(mock(), mock(), mock(), mock(), mock(), mock(), mock(), mock(), mock(),
+				mock())
+
+		CompositeStepFactory.defaultFactories.forEach { factory ->
+			validateStepFactory(factory, planExecutor)
+		}
+
+	}
+
+	private fun validateStepFactory(factory: AbstractOperationalStepFactory<out AbstractOperationalStep>, planExecutor: PlanExecutorImpl) {
+		when (factory) {
+			is StepFactoryCollection -> {
+				factory.factories.forEach {
+					validateStepFactory(it, planExecutor)
+				}
+			}
+			else -> {
+				val stepType = Class.forName(factory.javaClass.kotlin.supertypes[0].arguments[0].type.toString()).kotlin
+				if(!stepType.isAbstract) {
+					assertTrue("plan executor must handle $stepType because $factory produces it") {
+						planExecutor.stepExecutors.keys.contains(stepType)
+					}
+				} else {
+					//TODO get the subtypes, check them all
+				}
+			}
+		}
+	}
 
 	@Test
 	fun filterSteps() {

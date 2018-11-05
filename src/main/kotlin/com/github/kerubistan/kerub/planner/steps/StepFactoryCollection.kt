@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.utils.join
  * Groups together step factories that perform similar functionality, e.g. start VM, create storage
  */
 open class StepFactoryCollection(
-		private val factories: List<AbstractOperationalStepFactory<*>>,
+		val factories: List<AbstractOperationalStepFactory<*>>,
 		val enabled: (ControllerConfig) -> Boolean = { true }
 ) : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 

@@ -33,26 +33,26 @@ class CompositeStepFactory(
 
 	companion object {
 		private val logger = getLogger(CompositeStepFactory::class)
+		internal val defaultFactories = setOf(MigrateVirtualMachineFactory,
+				PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
+				RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory, UnAllocateFactory,
+				RemoveVirtualStorageFactory, UnallocateDiskFactory, CreateDiskFactory, WakeHostFactory, KvmMigrateVirtualMachineFactory)
+
+		private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
+				defaultFactories.flatMap { it.expectationHints }
+						.map { problemClass ->
+							problemClass to defaultFactories.filter { it.expectationHints.contains(problemClass) }
+						}.toMap(), ::justToString)
+
+		private val problemHints =
+		// all problem classes
+				logger.logAndReturn(LogLevel.Info, "problem hints {}",
+						defaultFactories.flatMap { it.problemHints }
+								.map { problemClass ->
+									problemClass to defaultFactories.filter { it.problemHints.contains(problemClass) }
+								}.toMap(), ::justToString)
+
 	}
-
-	private val defaultFactories = setOf(MigrateVirtualMachineFactory,
-			PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-			RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory, UnAllocateFactory,
-			RemoveVirtualStorageFactory, UnallocateDiskFactory, CreateDiskFactory, WakeHostFactory, KvmMigrateVirtualMachineFactory)
-
-	private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
-			defaultFactories.flatMap { it.expectationHints }
-					.map { problemClass ->
-						problemClass to defaultFactories.filter { it.expectationHints.contains(problemClass) }
-					}.toMap(), ::justToString)
-
-	private val problemHints =
-	// all problem classes
-			logger.logAndReturn(LogLevel.Info, "problem hints {}",
-					defaultFactories.flatMap { it.problemHints }
-							.map { problemClass ->
-								problemClass to defaultFactories.filter { it.problemHints.contains(problemClass) }
-							}.toMap(), ::justToString)
 
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 		val unsatisfiedExpectations = planViolationDetector.listViolations(state)

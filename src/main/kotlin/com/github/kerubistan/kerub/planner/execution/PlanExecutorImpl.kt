@@ -26,6 +26,14 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownExecuto
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostExecutor
+import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
+import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKeyExecutor
+import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
+import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKeyExecutor
+import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
+import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKeyExecutor
+import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKey
+import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKeyExecutor
 import com.github.kerubistan.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.kerubistan.kerub.planner.steps.host.startup.WolWakeHost
@@ -101,7 +109,7 @@ class PlanExecutorImpl(
 		private val logger = getLogger(PlanExecutorImpl::class)
 	}
 
-	private val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
+	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao, hostCommandExecutor),
 			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor,
 																						  vmDynamicDao),
@@ -144,7 +152,15 @@ class PlanExecutorImpl(
 			UnAllocateFs::class to UnAllocateFsExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			UnAllocateLv::class to UnAllocateLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 
-			RemoveVirtualStorage::class to RemoveVirtualStorageExecutor(vssDao, virtualStorageDeviceDynamicDao)
+			RemoveVirtualStorage::class to RemoveVirtualStorageExecutor(vssDao, virtualStorageDeviceDynamicDao),
+
+			// SSH
+			ClearSshKey::class to ClearSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
+			GenerateSshKey::class to GenerateSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
+			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
+			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao)
+
+			//power management
 	)
 
 	fun execute(step: AbstractOperationalStep) {
