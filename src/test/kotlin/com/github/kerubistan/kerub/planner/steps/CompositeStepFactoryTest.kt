@@ -18,6 +18,7 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
+import org.reflections.Reflections
 import kotlin.test.assertTrue
 
 class CompositeStepFactoryTest {
@@ -30,17 +31,20 @@ class CompositeStepFactoryTest {
 		val planExecutor = PlanExecutorImpl(mock(), mock(), mock(), mock(), mock(), mock(), mock(), mock(), mock(),
 				mock())
 
+		val reflections = Reflections("com.github.kerubistan.kerub.planner.steps")
 		CompositeStepFactory.defaultFactories.forEach { factory ->
-			validateStepFactory(factory, planExecutor)
+			validateStepFactory(factory, planExecutor, reflections)
 		}
 
 	}
 
-	private fun validateStepFactory(factory: AbstractOperationalStepFactory<out AbstractOperationalStep>, planExecutor: PlanExecutorImpl) {
+	private fun validateStepFactory(factory: AbstractOperationalStepFactory<AbstractOperationalStep>,
+									planExecutor: PlanExecutorImpl,
+									reflections: Reflections) {
 		when (factory) {
 			is StepFactoryCollection -> {
 				factory.factories.forEach {
-					validateStepFactory(it, planExecutor)
+					validateStepFactory(it, planExecutor, reflections)
 				}
 			}
 			else -> {
@@ -50,7 +54,13 @@ class CompositeStepFactoryTest {
 						planExecutor.stepExecutors.keys.contains(stepType)
 					}
 				} else {
-					//TODO get the subtypes, check them all
+					reflections.getSubTypesOf(stepType.java).forEach {
+						subType ->
+						assertTrue("plan executor must handle $subType because $factory may produce it") {
+							planExecutor.stepExecutors.keys.contains(subType.kotlin)
+						}
+
+					}
 				}
 			}
 		}

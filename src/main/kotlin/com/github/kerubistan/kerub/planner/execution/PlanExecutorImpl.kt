@@ -121,7 +121,7 @@ class PlanExecutorImpl(
 			TruncateImage::class to TruncateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao,
 																	hostDynamicDao),
-			//TODO: handle both with just one (unless you want to maintain a long list)
+
 			IpmiWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			WolWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			PowerDownHost::class to PowerDownExecutor(hostManager),
@@ -160,7 +160,6 @@ class PlanExecutorImpl(
 			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao)
 
-			//power management
 	)
 
 	fun execute(step: AbstractOperationalStep) {
