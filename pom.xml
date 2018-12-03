@@ -273,7 +273,7 @@
 		<dependency>
 			<groupId>com.github.K0zka</groupId>
 			<artifactId>finder4j-backtrack</artifactId>
-			<version>0.6</version>
+			<version>0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
