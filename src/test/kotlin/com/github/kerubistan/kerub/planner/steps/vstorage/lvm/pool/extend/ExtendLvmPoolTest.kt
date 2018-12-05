@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -37,7 +37,7 @@ class ExtendLvmPoolTest {
 							id = testHost.id,
 							status = HostStatus.Up,
 							storageStatus = listOf(
-									StorageDeviceDynamic(
+									SimpleStorageDeviceDynamic(
 											id = lvmStorageId,
 											freeCapacity = "600 GB".toSize()
 									)

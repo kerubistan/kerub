@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.host.ServiceManager
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.junix.iscsi.tgtd.TgtAdmin
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
@@ -67,7 +68,8 @@ class TgtdIscsiShareExecutorTest {
 										hostId = host.id,
 										path = "",
 										actualSize = vStorage.size,
-										vgName = "test-vg"),
+										vgName = "test-vg",
+										capabilityId = testLvmCapability.id),
 								vstorage = vStorage
 						)
 				)

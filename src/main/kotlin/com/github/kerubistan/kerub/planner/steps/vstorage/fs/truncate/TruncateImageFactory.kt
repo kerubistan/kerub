@@ -32,7 +32,9 @@ object TruncateImageFactory : AbstractCreateFileVirtualStorageFactory<TruncateIm
 					actualSize = BigInteger.ZERO,
 					fileName = "${storage.id}.raw",
 					mountPoint = mount.mountPoint,
-					type = VirtualDiskFormat.raw
-			)
+					type = VirtualDiskFormat.raw,
+					capabilityId = mount.id
+			),
+			capability = mount
 	)
 }

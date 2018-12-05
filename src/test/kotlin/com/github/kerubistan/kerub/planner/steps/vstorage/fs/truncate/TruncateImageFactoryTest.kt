@@ -56,8 +56,10 @@ internal class TruncateImageFactoryTest {
 							mountPoint = "/kerub",
 							fileName = "${disk.id}.raw",
 							actualSize = 0.GB,
-							hostId = host.id
-					)
+							hostId = host.id,
+							capabilityId = capability.id
+					),
+					capability = capability
 			)
 		}
 

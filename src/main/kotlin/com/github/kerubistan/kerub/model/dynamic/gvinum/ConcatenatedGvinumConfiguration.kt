@@ -9,4 +9,8 @@ import java.math.BigInteger
 @JsonTypeName("concatenated-configuration")
 data class ConcatenatedGvinumConfiguration(
 		val disks: Map<String, BigInteger>
-) : GvinumConfiguration
+) : GvinumConfiguration {
+	init {
+		check(disks.isNotEmpty()) { "Empty configuration is invalid" }
+	}
+}

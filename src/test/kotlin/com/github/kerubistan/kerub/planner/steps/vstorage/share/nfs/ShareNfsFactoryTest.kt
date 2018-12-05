@@ -11,7 +11,9 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -59,7 +61,9 @@ class ShareNfsFactoryTest {
 																			   actualSize = 100.MB,
 																			   mountPoint = "/kerub",
 																			   fileName = "${testDisk.id}.qcow",
-																			   type = VirtualDiskFormat.qcow2)
+																			   type = VirtualDiskFormat.qcow2,
+																capabilityId = testFsCapability.id
+															)
 											)
 									)
 							),
@@ -72,12 +76,17 @@ class ShareNfsFactoryTest {
 			) == listOf(ShareNfs(host = testHost, directory = "/kerub"))
 		}
 		assertTrue("if it is already shared, do not share it again") {
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testFsCapability)
+					)
+			)
 			ShareNfsFactory.produce(
 					OperationalState.fromLists(
-							hosts = listOf(testHost),
+							hosts = listOf(host),
 							hostCfgs = listOf(
 									HostConfiguration(
-											id = testHost.id,
+											id = host.id,
 											services = listOf(NfsDaemonService(), NfsService("/kerub", write = true))
 									)
 							),
@@ -90,9 +99,11 @@ class ShareNfsFactoryTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(hostId = testHost.id,
 																			   actualSize = 100.MB,
-																			   mountPoint = "/kerub",
+																			   mountPoint = testFsCapability.mountPoint,
 																			   fileName = "${testDisk.id}.qcow",
-																			   type = VirtualDiskFormat.qcow2)
+																			   type = VirtualDiskFormat.qcow2,
+																capabilityId = testFsCapability.id
+															)
 											)
 									)
 							),

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.github.kerubistan.kerub.GB
+import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
@@ -12,13 +13,22 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.testCdrom
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import org.junit.Test
+import java.util.UUID
 
 class VirtualStorageLinkInfoTest {
 	@Test
 	fun validation() {
 		expect(IllegalStateException::class) {
+			val lvmCapability = LvmStorageCapability(
+					id = UUID.randomUUID(),
+					size = 2.TB,
+					volumeGroupName = "testVg",
+					physicalVolumes = listOf(2.TB)
+			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
 							stat = testDisk,
@@ -34,17 +44,30 @@ class VirtualStorageLinkInfoTest {
 							bus = BusType.sata
 					),
 					storageHost = HostDataCollection(
-							stat = testHost
+							stat = testHost.copy(
+									capabilities = testHostCapabilities.copy(
+											storageCapabilities = listOf(
+													lvmCapability
+											)
+									)
+							)
 					),
 					allocation = VirtualStorageLvmAllocation(
 							hostId = testOtherHost.id,
 							vgName = "test-vg",
 							path = "/dev/test-vg/test-lv",
-							actualSize = 10.GB
+							actualSize = 10.GB,
+							capabilityId = lvmCapability.id
 					)
 			)
 		}
 		expect(IllegalStateException::class) {
+			val lvmCapability = LvmStorageCapability(
+					id = UUID.randomUUID(),
+					size = 2.TB,
+					volumeGroupName = "testVg",
+					physicalVolumes = listOf(2.TB)
+			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
 							stat = testDisk,
@@ -60,18 +83,31 @@ class VirtualStorageLinkInfoTest {
 							bus = BusType.sata
 					),
 					storageHost = HostDataCollection(
-							stat = testHost
+							stat = testHost.copy(
+									capabilities = testHostCapabilities.copy(
+											storageCapabilities = listOf(
+													lvmCapability
+											)
+									)
+							)
 					),
 					allocation = VirtualStorageLvmAllocation(
 							hostId = testHost.id,
 							vgName = "test-vg",
 							path = "/dev/test-vg/test-lv",
-							actualSize = 10.GB
+							actualSize = 10.GB,
+							capabilityId = lvmCapability.id
 					)
 			)
 
 		}
 		expect(IllegalStateException::class) {
+			val lvmCapability = LvmStorageCapability(
+					id = UUID.randomUUID(),
+					size = 2.TB,
+					volumeGroupName = "testVg",
+					physicalVolumes = listOf(2.TB)
+			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
 							stat = testDisk,
@@ -87,17 +123,64 @@ class VirtualStorageLinkInfoTest {
 							bus = BusType.sata
 					),
 					storageHost = HostDataCollection(
-							stat = testHost
+							stat = testHost.copy(
+									capabilities = testHostCapabilities.copy(
+											storageCapabilities = listOf(
+													lvmCapability
+											)
+									)
+					)),
+					allocation = VirtualStorageLvmAllocation(
+							hostId = testHost.id,
+							vgName = "test-vg",
+							path = "/dev/test-vg/test-lv",
+							actualSize = 10.GB,
+							capabilityId = lvmCapability.id
+					)
+			)
+
+		}
+
+		expect(IllegalStateException::class) {
+			VirtualStorageLinkInfo(
+					device = VirtualStorageDataCollection(
+							stat = testDisk,
+							dynamic = VirtualStorageDeviceDynamic(
+									id = testDisk.id,
+									allocations = listOf()
+							)
+					),
+					hostServiceUsed = IscsiService(vstorageId = testDisk.id),
+					link = VirtualStorageLink(
+							device = DeviceType.disk,
+							virtualStorageId = testDisk.id,
+							bus = BusType.sata
+					),
+					storageHost = HostDataCollection(
+							stat = testHost.copy(
+									capabilities = testHostCapabilities.copy(
+											storageCapabilities = listOf()
+									)
+							)
 					),
 					allocation = VirtualStorageLvmAllocation(
 							hostId = testHost.id,
 							vgName = "test-vg",
 							path = "/dev/test-vg/test-lv",
-							actualSize = 10.GB
+							actualSize = 10.GB,
+							// not registered, so this should cause a validation exception
+							capabilityId = testLvmCapability.id
 					)
 			)
 
 		}
+
+		val lvmCapability = LvmStorageCapability(
+				id = UUID.randomUUID(),
+				size = 2.TB,
+				volumeGroupName = "testVg",
+				physicalVolumes = listOf(2.TB)
+		)
 
 		VirtualStorageLinkInfo(
 				device = VirtualStorageDataCollection(
@@ -114,13 +197,20 @@ class VirtualStorageLinkInfoTest {
 						bus = BusType.sata
 				),
 				storageHost = HostDataCollection(
-						stat = testHost
+						stat = testHost.copy(
+								capabilities = testHostCapabilities.copy(
+										storageCapabilities = listOf(
+												lvmCapability
+										)
+								)
+						)
 				),
 				allocation = VirtualStorageLvmAllocation(
 						hostId = testHost.id,
 						vgName = "test-vg",
 						path = "/dev/test-vg/test-lv",
-						actualSize = 10.GB
+						actualSize = 10.GB,
+						capabilityId = lvmCapability.id
 				)
 		)
 

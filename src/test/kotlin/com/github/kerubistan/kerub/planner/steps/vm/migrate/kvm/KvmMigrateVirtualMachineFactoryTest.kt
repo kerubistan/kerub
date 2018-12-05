@@ -23,8 +23,10 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVirtualDisk
 import com.github.kerubistan.kerub.testVm
@@ -161,7 +163,8 @@ class KvmMigrateVirtualMachineFactoryTest {
 													mountPoint = host1FsCapability.mountPoint,
 													type = VirtualDiskFormat.qcow2,
 													fileName = testDisk.id.toString(),
-													actualSize = 20.GB
+													actualSize = 20.GB,
+													capabilityId = testFsCapability.id
 											)
 									)
 							))
@@ -236,7 +239,8 @@ class KvmMigrateVirtualMachineFactoryTest {
 													mountPoint = host1FsCapability.mountPoint,
 													type = VirtualDiskFormat.qcow2,
 													fileName = testDisk.id.toString(),
-													actualSize = 20.GB
+													actualSize = 20.GB,
+													capabilityId = testFsCapability.id
 											)
 									)
 							))
@@ -309,7 +313,8 @@ class KvmMigrateVirtualMachineFactoryTest {
 													hostId = testHost1.id,
 													actualSize = 20.GB,
 													vgName = "kerub-data",
-													path = "dev/kerub-data/${testDisk.id}"
+													path = "dev/kerub-data/${testDisk.id}",
+													capabilityId = testLvmCapability.id
 											)
 									)
 							))
@@ -390,7 +395,8 @@ class KvmMigrateVirtualMachineFactoryTest {
 															hostId = testHost1.id,
 															actualSize = 20.GB,
 															vgName = "kerub-data",
-															path = "dev/kerub-data/${testDisk.id}"
+															path = "dev/kerub-data/${testDisk.id}",
+															capabilityId = testLvmCapability.id
 													)
 											)
 									),
@@ -401,7 +407,8 @@ class KvmMigrateVirtualMachineFactoryTest {
 															hostId = testHost1.id,
 															actualSize = 20.GB,
 															vgName = "kerub-data",
-															path = "dev/kerub-data/${testVirtualDisk.id}"
+															path = "dev/kerub-data/${testVirtualDisk.id}",
+															capabilityId = testLvmCapability.id
 													)
 											)
 									)

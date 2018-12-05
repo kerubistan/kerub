@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -39,7 +40,8 @@ class UnAllocateLvExecutorTest {
 								hostId = testHost.id,
 								path = "/dev/kerub/test",
 								actualSize = 100.GB,
-								vgName = "/kerub"
+								vgName = "/kerub",
+								capabilityId = testLvmCapability.id
 						),
 						vstorage = testDisk
 				)

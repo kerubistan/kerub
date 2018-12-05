@@ -38,8 +38,11 @@ class CreateThinLvTest {
 			val disk = testDisk.copy(
 					size = 1.TB
 			)
-			val state = CreateThinLv(host = host, disk = disk, volumeGroupName = lvmCapability.volumeGroupName,
-									 poolName = "pool-1").take(
+			val state = CreateThinLv(
+					host = host,
+					disk = disk,
+					capability = lvmCapability,
+					poolName = "pool-1").take(
 					OperationalState.fromLists(
 							vStorage = listOf(disk),
 							hosts = listOf(host),
@@ -49,11 +52,12 @@ class CreateThinLvTest {
 
 			state.vStorage[disk.id]!!.dynamic!!.allocations == listOf(
 					VirtualStorageLvmAllocation(hostId = host.id,
-												pool = "pool-1",
-												actualSize = BigInteger.ZERO,
-												path = "",
-												vgName = "vg-1"
-							)
+							pool = "pool-1",
+							actualSize = BigInteger.ZERO,
+							path = "",
+							vgName = "vg-1",
+							capabilityId = lvmCapability.id
+					)
 			)
 		}
 	}

@@ -193,12 +193,15 @@ Feature: basic planner features
 	  | qemu-kvm    | 2.4.1   |
 	  | libvirt     | 1.2.18  |
 	  | libvirt-bin | 1.2.18  |
+	And host 127.0.0.5 filesystem is:
+	  | mountpoint | size   |  | type |
+	  | /kerub     | 100 GB |  | ext4 |
 	And host 127.0.0.5 is Up
 	And host 127.0.0.5 CPUs are 4:
 	  | Manufacturer | Mhz  | Name       | Flags       |
 	  | GenuineIntel | 2400 | Intel Xeon | vmx,sse,etc |
-	And system-disk-1 is attached to vm1
-	And the virtual disk system-disk-1 is created on 127.0.0.5
+	And system-disk-1 is attached to vm111
+	And the virtual disk system-disk-1 is created on 127.0.0.5 at /kerub
 	When VM vm1 is started
 	Then the virtual disk system-disk-1 must not be allocated
 	And VM vm1 gets scheduled on host 127.0.0.5 as step 1

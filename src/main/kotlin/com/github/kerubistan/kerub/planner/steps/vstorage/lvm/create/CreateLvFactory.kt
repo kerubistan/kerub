@@ -30,8 +30,8 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 								}.map { disk ->
 									CreateLv(
 											host = host.stat,
-											volumeGroupName = volGroup.volumeGroupName,
-											disk = disk
+											disk = disk,
+											capability = volGroup
 									)
 								}
 							}

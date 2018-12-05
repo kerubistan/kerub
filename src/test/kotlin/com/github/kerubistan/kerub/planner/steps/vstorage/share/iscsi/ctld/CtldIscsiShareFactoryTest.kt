@@ -11,8 +11,8 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
+import com.github.kerubistan.kerub.testGvinumCapability
 import org.junit.Test
-import java.util.UUID
 import kotlin.test.assertTrue
 
 class CtldIscsiShareFactoryTest {
@@ -46,8 +46,9 @@ class CtldIscsiShareFactoryTest {
 															hostId = testFreeBsdHost.id,
 															actualSize = 10.GB,
 															configuration = SimpleGvinumConfiguration(
-																	diskId = UUID.randomUUID()
-															)
+																	diskName = "gvinum-disk-1"
+															),
+															capabilityId = testGvinumCapability.id
 													)
 											)
 									)
@@ -60,8 +61,9 @@ class CtldIscsiShareFactoryTest {
 					hostId = testFreeBsdHost.id,
 					actualSize = 10.GB,
 					configuration = SimpleGvinumConfiguration(
-							diskId = UUID.randomUUID()
-					)
+							diskName = "gvinum-disk-1"
+					),
+					capabilityId = testGvinumCapability.id
 			)
 			CtldIscsiShareFactory.produce(
 					OperationalState.fromLists(

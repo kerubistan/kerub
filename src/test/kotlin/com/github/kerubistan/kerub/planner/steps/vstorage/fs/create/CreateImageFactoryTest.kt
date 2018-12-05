@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpecta
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
@@ -54,7 +55,7 @@ class CreateImageFactoryTest {
 							hostDyns = listOf(HostDynamic(id = testHost.id, status = HostStatus.Up)),
 							vStorage = listOf(disk)
 					)
-			) == listOf(CreateImage(disk = disk, host = host, format = VirtualDiskFormat.raw, path = "/kerub"))
+			) == listOf(CreateImage(disk = disk, host = host, format = VirtualDiskFormat.raw, capability = capability))
 		}
 	}
 }

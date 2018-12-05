@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
@@ -32,7 +33,8 @@ class RemoveVirtualStorageFactoryTest {
 													type = VirtualDiskFormat.qcow2,
 													fileName = "blah.qcow2",
 													mountPoint = "/mnt",
-													actualSize = 100.GB
+													actualSize = 100.GB,
+													capabilityId = testFsCapability.id
 											)
 									)
 							))

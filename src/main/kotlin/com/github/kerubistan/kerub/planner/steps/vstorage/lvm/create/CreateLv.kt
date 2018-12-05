@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -10,15 +11,17 @@ import com.github.kerubistan.kerub.utils.update
 
 data class CreateLv(
 		override val host: Host,
-		override val volumeGroupName: String,
+		override val capability: LvmStorageCapability,
 		override val disk: VirtualStorageDevice
 ) : AbstractCreateLv() {
+
 	override val allocation: VirtualStorageLvmAllocation by lazy {
 		VirtualStorageLvmAllocation(
 				hostId = host.id,
 				actualSize = disk.size,
 				path = "/dev/$volumeGroupName/${disk.id}",
-				vgName = volumeGroupName
+				vgName = volumeGroupName,
+				capabilityId = capability.id
 		)
 	}
 

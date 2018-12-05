@@ -9,6 +9,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -42,7 +43,8 @@ class TgtdIscsiShareTest {
 					hostId = host.id,
 					actualSize = vStorage.size,
 					path = "/dev/test/" + vStorage.id,
-					vgName = "test"
+					vgName = "test",
+					capabilityId = testLvmCapability.id
 			))
 	)
 
@@ -55,7 +57,8 @@ class TgtdIscsiShareTest {
 						vgName = "test",
 						actualSize = testDisk.size,
 						hostId = testHost.id,
-						path = ""
+						path = "",
+						capabilityId = testLvmCapability.id
 				)
 		)
 				.take(OperationalState.fromLists(
@@ -74,7 +77,8 @@ class TgtdIscsiShareTest {
 					vgName = "test",
 					actualSize = testDisk.size,
 					hostId = testHost.id,
-					path = ""
+					path = "",
+					capabilityId = testLvmCapability.id
 			)
 			val share = TgtdIscsiShare(
 					host = testHost,

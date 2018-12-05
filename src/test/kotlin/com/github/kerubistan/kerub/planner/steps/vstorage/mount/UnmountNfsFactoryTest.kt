@@ -15,6 +15,7 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVirtualDisk
 import com.github.kerubistan.kerub.testVm
@@ -88,9 +89,15 @@ class UnmountNfsFactoryTest {
 							VirtualStorageDeviceDynamic(
 									id = testVirtualDisk.id,
 									allocations = listOf(
-											VirtualStorageFsAllocation(hostId = nfsServer.id, mountPoint = "/kerub",
-																	   fileName = "blah.qcow2", actualSize = 1.GB,
-																	   type = VirtualDiskFormat.qcow2))
+											VirtualStorageFsAllocation(
+													hostId = nfsServer.id,
+													mountPoint = "/kerub",
+													fileName = "blah.qcow2",
+													actualSize = 1.GB,
+													type = VirtualDiskFormat.qcow2,
+													capabilityId = testFsCapability.id
+											)
+									)
 							)
 					),
 					vms = listOf(vm),

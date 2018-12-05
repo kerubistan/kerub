@@ -13,6 +13,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -37,7 +38,8 @@ class TgtdIscsiUnshareFactoryTest {
 															hostId = testHost.id,
 															vgName = "test-vg",
 															actualSize = 10.GB,
-															path = "/dev/test-vg/blah"
+															path = "/dev/test-vg/blah",
+															capabilityId = testLvmCapability.id
 													)
 											)
 									)
@@ -59,7 +61,8 @@ class TgtdIscsiUnshareFactoryTest {
 					hostId = host.id,
 					vgName = "test-vg",
 					actualSize = 10.GB,
-					path = "/dev/test-vg/blah"
+					path = "/dev/test-vg/blah",
+					capabilityId = testLvmCapability.id
 			)
 			TgtdIscsiUnshareFactory.produce(
 					OperationalState.fromLists(

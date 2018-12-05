@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -40,15 +40,16 @@ class DuplicateToLvmFactoryTest {
 			DuplicateToLvmFactory.produce(OperationalState.fromLists()) == listOf<DuplicateToLvm>()
 		}
 		assertTrue("There is only one host- no duplicate step") {
+			val lvmCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							storageCapabilities = listOf(
-									LvmStorageCapability(
-											id = randomUUID(),
-											size = 2.TB,
-											physicalVolumes = listOf(1.TB, 1.TB),
-											volumeGroupName = "kerub-test-vg"
-									)
+									lvmCapability
 							)
 					)
 			)
@@ -70,7 +71,8 @@ class DuplicateToLvmFactoryTest {
 															hostId = host.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = lvmCapability.id
 													)
 											)
 									)
@@ -79,16 +81,15 @@ class DuplicateToLvmFactoryTest {
 			) == listOf<DuplicateToLvm>()
 		}
 		assertTrue("two hosts, read-only disk allocated on only one") {
+			val lvmCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					physicalVolumes = listOf(1.TB, 1.TB),
+					volumeGroupName = "kerub-test-vg"
+			)
 			val sourceHost = testHost.copy(
 					capabilities = testHostCapabilities.copy(
-							storageCapabilities = listOf(
-									LvmStorageCapability(
-											id = randomUUID(),
-											size = 2.TB,
-											physicalVolumes = listOf(1.TB, 1.TB),
-											volumeGroupName = "kerub-test-vg"
-									)
-							)
+							storageCapabilities = listOf(lvmCapability)
 					)
 			)
 			val targetCapacity = LvmStorageCapability(
@@ -108,13 +109,15 @@ class DuplicateToLvmFactoryTest {
 					hostId = sourceHost.id,
 					path = "",
 					actualSize = 100.GB,
-					vgName = "kerub-test-vg"
+					vgName = "kerub-test-vg",
+					capabilityId = lvmCapability.id
 			)
 			val targetAllocation = VirtualStorageLvmAllocation(
 					hostId = targetHost.id,
 					path = "/dev/kerub-test-vg/${readOnlyDisk.id}",
 					actualSize = 100.GB,
-					vgName = "kerub-test-vg"
+					vgName = "kerub-test-vg",
+					capabilityId = targetCapacity.id
 			)
 			DuplicateToLvmFactory.produce(
 					OperationalState.fromLists(
@@ -128,7 +131,7 @@ class DuplicateToLvmFactoryTest {
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = targetCapacity.id,
 															freeCapacity = targetCapacity.size // all free
 													)
@@ -202,7 +205,7 @@ class DuplicateToLvmFactoryTest {
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = sourceCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -212,7 +215,7 @@ class DuplicateToLvmFactoryTest {
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = targetCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -239,13 +242,15 @@ class DuplicateToLvmFactoryTest {
 															hostId = sourceHost.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = sourceCapability.id
 													),
 													VirtualStorageLvmAllocation(
 															hostId = targetHost.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = targetCapability.id
 													)
 
 											)
@@ -291,7 +296,7 @@ class DuplicateToLvmFactoryTest {
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = sourceCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -301,7 +306,7 @@ class DuplicateToLvmFactoryTest {
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = targetCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -328,7 +333,8 @@ class DuplicateToLvmFactoryTest {
 															hostId = sourceHost.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = sourceCapability.id
 													))
 									)
 							)
@@ -371,7 +377,7 @@ class DuplicateToLvmFactoryTest {
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = sourceCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -381,7 +387,7 @@ class DuplicateToLvmFactoryTest {
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													StorageDeviceDynamic(
+													SimpleStorageDeviceDynamic(
 															id = targetCapability.id,
 															freeCapacity = targetCapability.size // all free
 													)
@@ -408,13 +414,15 @@ class DuplicateToLvmFactoryTest {
 															hostId = sourceHost.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = sourceCapability.id
 													),
 													VirtualStorageLvmAllocation(
 															hostId = targetHost.id,
 															path = "",
 															actualSize = 100.GB,
-															vgName = "kerub-test-vg"
+															vgName = "kerub-test-vg",
+															capabilityId = targetCapability.id
 													)
 											)
 									)

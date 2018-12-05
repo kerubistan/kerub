@@ -21,7 +21,8 @@ abstract class AbstractCreateLvExecutor<T : AbstractCreateLv>(
 								hostId = step.host.id,
 								actualSize = updates.size,
 								path = updates.path,
-								vgName = step.volumeGroupName
+								vgName = step.volumeGroupName,
+								capabilityId = step.capability.id
 						))
 				)
 		)

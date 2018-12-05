@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.kerubistan.kerub.model.Expectation
+import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
@@ -25,8 +26,9 @@ object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>()
 									CreateThinLv(
 											disk = disk,
 											poolName = pool.poolName,
-											volumeGroupName = pool.vgName,
-											host = hostColl.stat
+											host = hostColl.stat,
+											capability = requireNotNull(hostColl.stat.capabilities?.storageCapabilities
+													?.filterIsInstance<LvmStorageCapability>()?.single { it.volumeGroupName == pool.vgName })
 									)
 								}
 							}

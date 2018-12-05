@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -27,14 +28,16 @@ class DuplicateToLvmExecutorTest {
 							vgName = "source-vg",
 								actualSize = testDisk.size,
 								path = "/dev/source-vg/${testDisk.id}",
-								hostId = testHost.id
+								hostId = testHost.id,
+								capabilityId = testLvmCapability.id
 						),
 						targetHost = testOtherHost,
 						target = VirtualStorageLvmAllocation(
 								vgName = "target-vg",
 								actualSize = testDisk.size,
 								path = "/dev/target-vg/${testDisk.id}",
-								hostId = testHost.id
+								hostId = testHost.id,
+								capabilityId = testLvmCapability.id
 						),
 						vStorageDevice = testDisk
 				)

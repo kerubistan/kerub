@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.block.duplicate
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
@@ -51,7 +52,7 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: 
 										storageStatus = it.dynamic.storageStatus.map {
 											storageStatus ->
 											if(storageStatus.id == targetCapability.id) {
-												storageStatus.copy(
+												(storageStatus as SimpleStorageDeviceDynamic).copy(
 														freeCapacity = storageStatus.freeCapacity - target.actualSize
 												)
 											} else {

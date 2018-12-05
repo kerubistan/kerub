@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.fs.truncate
 
+import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -10,9 +11,10 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualS
 import com.github.kerubistan.kerub.utils.update
 
 data class TruncateImage(override val host: Host,
+						 override val capability: FsStorageCapability,
 					override val disk: VirtualStorageDevice,
 					override val allocation: VirtualStorageFsAllocation)
-	: AbstractCreateVirtualStorage<VirtualStorageFsAllocation> {
+	: AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
 
 	init {
 		check(allocation.type == VirtualDiskFormat.raw) {

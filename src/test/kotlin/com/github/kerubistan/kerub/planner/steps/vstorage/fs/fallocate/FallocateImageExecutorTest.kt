@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
@@ -33,15 +34,22 @@ class FallocateImageExecutorTest {
 		session.mockCommandExecution("du.*", output = "1234\t/kerub/test.raw")
 		session.mockCommandExecution("fallocate.*")
 
-		var updatedDyn : VirtualStorageDeviceDynamic? = null
+		var updatedDyn: VirtualStorageDeviceDynamic? = null
 
-		whenever(dynDao.update(eq(testDisk.id), retrieve = any(), change =  any())).then {
+		whenever(dynDao.update(eq(testDisk.id), retrieve = any(), change = any())).then {
 			updatedDyn = (it.arguments[2] as (VirtualStorageDeviceDynamic) -> VirtualStorageDeviceDynamic)
 					.invoke(VirtualStorageDeviceDynamic(id = testDisk.id, lastUpdated = now(), allocations = listOf()))
 			updatedDyn
 		}
 
-		val allocation = VirtualStorageFsAllocation(actualSize = 0.GB, fileName = "test.raw", hostId = testHost.id, mountPoint = "/kerub/", type = VirtualDiskFormat.raw)
+		val allocation = VirtualStorageFsAllocation(
+				actualSize = 0.GB,
+				fileName = "test.raw",
+				hostId = testHost.id,
+				mountPoint = "/kerub/",
+				type = VirtualDiskFormat.raw,
+				capabilityId = testFsCapability.id
+		)
 		FallocateImageExecutor(executor, dynDao)
 				.execute(
 						FallocateImage(
@@ -55,7 +63,7 @@ class FallocateImageExecutorTest {
 		assertTrue {
 			updatedDyn?.allocations?.single().let {
 				it is VirtualStorageFsAllocation
-					&& it.actualSize == 1234.toBigInteger()
+						&& it.actualSize == 1234.toBigInteger()
 			}
 		}
 	}

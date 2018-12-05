@@ -11,6 +11,11 @@ inline fun <T> factoryFeature(enabled: Boolean, producer: () -> List<T>): List<T
 			listOf()
 		}
 
+inline fun <T> produceIf(condition: Boolean, producer: () -> T): T? =
+		if (condition) {
+			producer()
+		} else null
+
 /*
  * TODO: issue #120 - move this whole thing to utils package
  */

@@ -8,5 +8,6 @@ import java.util.UUID
  * This configuration will create the volume on a single gvinum disk
  */
 data class SimpleGvinumConfiguration(
-		val diskId: UUID
+		//the single drive the 
+		val diskName: String
 ) : GvinumConfiguration

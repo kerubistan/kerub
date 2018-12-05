@@ -7,9 +7,9 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.whenever
-import junit.framework.Assert.assertFalse
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class LshwTest : AbstractJunixCommandVerification() {

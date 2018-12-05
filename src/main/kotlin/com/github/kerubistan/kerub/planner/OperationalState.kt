@@ -100,6 +100,8 @@ data class OperationalState(
 
 	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
+	val runningHostIds by lazy { runningHosts.map { it.stat.id } }
+
 	val runningVms by lazy {
 		vms.values.filter {
 			it.dynamic?.status == VirtualMachineStatus.Up
@@ -113,6 +115,10 @@ data class OperationalState(
 						&& expectation.up
 			} && vm.dynamic?.status != VirtualMachineStatus.Up
 		}
+	}
+
+	val allocatedStorage by lazy {
+		vStorage.values.filter { it.dynamic?.allocations?.isNotEmpty() ?: false }
 	}
 
 }

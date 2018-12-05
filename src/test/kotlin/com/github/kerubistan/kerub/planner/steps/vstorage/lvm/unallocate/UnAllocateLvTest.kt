@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.Test
 
@@ -19,7 +20,8 @@ class UnAllocateLvTest {
 				hostId = testHost.id,
 				actualSize = 10.GB,
 				path = "/dev/kerub/test",
-				vgName = "kerub"
+				vgName = "kerub",
+				capabilityId = testLvmCapability.id
 		)
 		val updatedState = UnAllocateLv(
 				vstorage = testDisk,

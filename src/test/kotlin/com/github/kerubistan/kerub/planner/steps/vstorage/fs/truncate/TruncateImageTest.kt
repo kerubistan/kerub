@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testOtherHost
 import org.junit.Test
@@ -23,8 +24,10 @@ class TruncateImageTest {
 							type = VirtualDiskFormat.qcow2, //intentionally wrong
 							mountPoint = "/kerub",
 							fileName = "XXX.qcow2",
-							actualSize = 100.GB),
-					disk = testDisk
+							actualSize = 100.GB,
+							capabilityId = testFsCapability.id),
+					disk = testDisk,
+					capability = testFsCapability
 			)
 		}
 		assertThrows<IllegalStateException> {
@@ -35,8 +38,10 @@ class TruncateImageTest {
 							type = VirtualDiskFormat.raw,
 							mountPoint = "/kerub",
 							fileName = "XXX.qcow2",
-							actualSize = 100.GB),
-					disk = testDisk
+							actualSize = 100.GB,
+							capabilityId = testFsCapability.id),
+					disk = testDisk,
+					capability = testFsCapability
 			)
 		}
 	}
@@ -48,17 +53,20 @@ class TruncateImageTest {
 				type = VirtualDiskFormat.raw,
 				mountPoint = "/kerub",
 				fileName = "XXX.qcow2",
-				actualSize = 100.GB)
+				actualSize = 100.GB,
+				capabilityId = testFsCapability.id
+		)
 		val state = TruncateImage(
 				host = testHost,
 				allocation = fsAllocation,
-				disk = testDisk
+				disk = testDisk,
+				capability = testFsCapability
 		).take(
 				OperationalState.fromLists(
 						vStorage = listOf(testDisk)
 				)
 		)
 
-		assertEquals( state.vStorage[testDisk.id]?.dynamic?.allocations, listOf(fsAllocation))
+		assertEquals(state.vStorage[testDisk.id]?.dynamic?.allocations, listOf(fsAllocation))
 	}
 }

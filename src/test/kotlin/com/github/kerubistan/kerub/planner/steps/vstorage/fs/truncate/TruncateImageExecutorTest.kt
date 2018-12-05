@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
@@ -46,13 +47,15 @@ class TruncateImageExecutorTest {
 				actualSize = 10.GB,
 				fileName = "${testDisk.id}.raw",
 				mountPoint = "/kerub",
-				type = VirtualDiskFormat.raw
+				type = VirtualDiskFormat.raw,
+				capabilityId = testFsCapability.id
 		)
 		TruncateImageExecutor(hostCommandExecutor, dynamicDao)
 				.execute(TruncateImage(
 						host = testHost,
 						disk = testDisk,
-						allocation = fsAllocation)
+						allocation = fsAllocation,
+						capability = testFsCapability)
 				)
 
 		verify(session).createExecChannel(argThat { startsWith("truncate") })

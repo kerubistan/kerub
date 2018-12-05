@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -36,7 +37,8 @@ class UnAllocateFsExecutorTest {
 								actualSize = 10.GB,
 								mountPoint = "/kerub",
 								fileName = "test.qcow2",
-								type = VirtualDiskFormat.qcow2
+								type = VirtualDiskFormat.qcow2,
+								capabilityId = testFsCapability.id
 						),
 						host = testHost
 				)

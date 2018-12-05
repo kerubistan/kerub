@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.toInputStream
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
@@ -59,8 +60,8 @@ class CreateThinLvExecutorTest {
 				CreateThinLv(
 						host = testHost,
 						poolName = "pool-1",
-						volumeGroupName = "vg-1",
-						disk = testDisk
+						disk = testDisk,
+						capability = testLvmCapability
 				)
 		)
 

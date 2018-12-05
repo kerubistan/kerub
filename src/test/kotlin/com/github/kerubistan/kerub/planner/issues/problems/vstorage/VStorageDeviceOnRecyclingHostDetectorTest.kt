@@ -12,6 +12,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testVm
 import org.junit.Test
 import java.util.UUID
@@ -25,7 +27,11 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 		}
 
 		assertTrue("No hosts being recycled - no problem") {
-			val host = testHost
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testLvmCapability)
+					)
+			)
 			val vm = testVm
 			val disk = testDisk
 			val allocation = VirtualStorageFsAllocation(
@@ -33,7 +39,8 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					fileName = "/var/storage/testdisk.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					actualSize = 16.GB,
-					mountPoint = "/var/storage/"
+					mountPoint = "/var/storage/",
+					capabilityId = testLvmCapability.id
 			)
 			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
 					state = OperationalState.fromLists(
@@ -62,7 +69,12 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 		}
 
 		assertTrue("host being recycled - problem should be detected") {
-			val host = testHost.copy(recycling = true)
+			val host = testHost.copy(
+					recycling = true,
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testLvmCapability)
+					)
+			)
 			val vm = testVm
 			val disk = testDisk
 			val allocation = VirtualStorageFsAllocation(
@@ -70,7 +82,8 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					fileName = "/var/storage/testdisk.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					actualSize = 16.GB,
-					mountPoint = "/var/storage/"
+					mountPoint = "/var/storage/",
+					capabilityId = testLvmCapability.id
 			)
 			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
 					state = OperationalState.fromLists(
@@ -100,7 +113,10 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 
 		assertTrue("another host being recycled - no problem") {
 			val host = testHost.copy(
-					id = UUID.randomUUID()
+					id = UUID.randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testLvmCapability)
+					)
 			)
 			val otherHost = testHost.copy(
 					recycling = true,
@@ -113,7 +129,8 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					fileName = "/var/storage/testdisk.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					actualSize = 16.GB,
-					mountPoint = "/var/storage/"
+					mountPoint = "/var/storage/",
+					capabilityId = testLvmCapability.id
 			)
 			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
 					state = OperationalState.fromLists(

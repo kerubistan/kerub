@@ -21,7 +21,10 @@ import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testCdrom
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVm
 import org.junit.Test
@@ -38,11 +41,19 @@ class VmUtilsKtTest {
 
 	@Test
 	fun virtualStorageLinkInfoWithLocal() {
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(
+								testLvmCapability
+						)
+				)
+		)
 		val allocation = VirtualStorageLvmAllocation(
-				hostId = testHost.id,
+				hostId = host.id,
 				vgName = "test-vg",
 				path = "/dev/test-vg/${testDisk.id}",
-				actualSize = 10.GB
+				actualSize = 10.GB,
+				capabilityId = testLvmCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -50,7 +61,7 @@ class VmUtilsKtTest {
 						allocation
 				)
 		)
-		val hostDyn = HostDynamic(id = testHost.id, status = HostStatus.Up)
+		val hostDyn = HostDynamic(id = host.id, status = HostStatus.Up)
 		val storageLink = VirtualStorageLink(
 				device = DeviceType.disk,
 				readOnly = false,
@@ -66,9 +77,9 @@ class VmUtilsKtTest {
 								),
 								allocation = allocation,
 								storageHost = HostDataCollection(
-										stat = testHost,
+										stat = host,
 										dynamic = hostDyn,
-										config = HostConfiguration(id = testHost.id)
+										config = HostConfiguration(id = host.id)
 								),
 								link = storageLink,
 								hostServiceUsed = null
@@ -76,7 +87,7 @@ class VmUtilsKtTest {
 				),
 				virtualStorageLinkInfo(
 						OperationalState.fromLists(
-								hosts = listOf(testHost),
+								hosts = listOf(host),
 								hostDyns = listOf(hostDyn),
 								vStorage = listOf(testDisk),
 								vStorageDyns = listOf(
@@ -85,18 +96,24 @@ class VmUtilsKtTest {
 						),
 						listOf(
 								storageLink
-						), testHost.id
+						), host.id
 				)
 		)
 	}
 
 	@Test
 	fun virtualStorageLinkInfoWithRemoteIscsi() {
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(testLvmCapability)
+				)
+		)
 		val allocation = VirtualStorageLvmAllocation(
-				hostId = testHost.id,
+				hostId = host.id,
 				vgName = "test-vg",
 				path = "/dev/test-vg/${testDisk.id}",
-				actualSize = 10.GB
+				actualSize = 10.GB,
+				capabilityId = testLvmCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -104,7 +121,7 @@ class VmUtilsKtTest {
 						allocation
 				)
 		)
-		val hostDyn = HostDynamic(id = testHost.id, status = HostStatus.Up)
+		val hostDyn = HostDynamic(id = host.id, status = HostStatus.Up)
 		val storageLink = VirtualStorageLink(
 				device = DeviceType.disk,
 				readOnly = false,
@@ -112,7 +129,7 @@ class VmUtilsKtTest {
 				virtualStorageId = testDisk.id
 		)
 		val hostConfiguration = HostConfiguration(
-				id = testHost.id,
+				id = host.id,
 				services = listOf(
 						IscsiService(vstorageId = testDisk.id)
 				)
@@ -126,10 +143,10 @@ class VmUtilsKtTest {
 								),
 								allocation = allocation,
 								storageHost = HostDataCollection(
-										stat = testHost,
+										stat = host,
 										dynamic = hostDyn,
 										config = HostConfiguration(
-												id = testHost.id,
+												id = host.id,
 												services = listOf(
 														IscsiService(vstorageId = testDisk.id)
 												)
@@ -141,7 +158,7 @@ class VmUtilsKtTest {
 				),
 				virtualStorageLinkInfo(
 						OperationalState.fromLists(
-								hosts = listOf(testHost),
+								hosts = listOf(host),
 								hostDyns = listOf(hostDyn),
 								hostCfgs = listOf(
 										hostConfiguration
@@ -161,12 +178,18 @@ class VmUtilsKtTest {
 
 	@Test
 	fun virtualStorageLinkInfoWithRemoteNfs() {
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(testFsCapability)
+				)
+		)
 		val allocation = VirtualStorageFsAllocation(
-				hostId = testHost.id,
+				hostId = host.id,
 				actualSize = 10.GB,
 				mountPoint = "/kerub",
 				type = VirtualDiskFormat.qcow2,
-				fileName = "${testDisk.id}.qcow2"
+				fileName = "${testDisk.id}.qcow2",
+				capabilityId = testFsCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -174,7 +197,7 @@ class VmUtilsKtTest {
 						allocation
 				)
 		)
-		val storageHostDyn = HostDynamic(id = testHost.id, status = HostStatus.Up)
+		val storageHostDyn = HostDynamic(id = host.id, status = HostStatus.Up)
 		val storageClientHostDyn = HostDynamic(id = testOtherHost.id, status = HostStatus.Up)
 		val storageLink = VirtualStorageLink(
 				device = DeviceType.disk,
@@ -183,7 +206,7 @@ class VmUtilsKtTest {
 				virtualStorageId = testDisk.id
 		)
 		val storageHostConfiguration = HostConfiguration(
-				id = testHost.id,
+				id = host.id,
 				services = listOf(
 						NfsDaemonService(),
 						NfsService(directory = "/kerub", write = true)
@@ -192,7 +215,7 @@ class VmUtilsKtTest {
 		val storageClientConfiguration = HostConfiguration(
 				id = testOtherHost.id,
 				services = listOf(
-						NfsMount(remoteDirectory = "/kerub", remoteHostId = testHost.id, localDirectory = "/mnt/${testHost.id}/kerub")
+						NfsMount(remoteDirectory = "/kerub", remoteHostId = host.id, localDirectory = "/mnt/${host.id}/kerub")
 				)
 		)
 		assertEquals(
@@ -204,7 +227,7 @@ class VmUtilsKtTest {
 								),
 								allocation = allocation,
 								storageHost = HostDataCollection(
-										stat = testHost,
+										stat = host,
 										dynamic = storageHostDyn,
 										config = storageHostConfiguration
 								),
@@ -214,7 +237,7 @@ class VmUtilsKtTest {
 				),
 				virtualStorageLinkInfo(
 						OperationalState.fromLists(
-								hosts = listOf(testHost, testOtherHost),
+								hosts = listOf(host, testOtherHost),
 								hostDyns = listOf(storageHostDyn,storageClientHostDyn),
 								hostCfgs = listOf(
 										storageHostConfiguration,
@@ -240,7 +263,8 @@ class VmUtilsKtTest {
 				actualSize = 10.GB,
 				mountPoint = "/kerub",
 				type = VirtualDiskFormat.qcow2,
-				fileName = "${testDisk.id}.qcow2"
+				fileName = "${testDisk.id}.qcow2",
+				capabilityId = testFsCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -321,6 +345,11 @@ class VmUtilsKtTest {
 							)
 					)
 			)
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testFsCapability)
+					)
+			)
 			allStorageAvailable(vm,
 					listOf(
 							VirtualStorageLinkInfo(
@@ -333,10 +362,11 @@ class VmUtilsKtTest {
 											actualSize = 10.GB,
 											type = VirtualDiskFormat.qcow2,
 											fileName = "test.qcow2",
-											mountPoint = "/kerub"
+											mountPoint = "/kerub",
+											capabilityId = testFsCapability.id
 									),
 									storageHost = HostDataCollection(
-											stat = testHost
+											stat = host
 									),
 									link = VirtualStorageLink(
 											device = DeviceType.disk,

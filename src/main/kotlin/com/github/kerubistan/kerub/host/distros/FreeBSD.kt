@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.host.fw.IpfwFireWall
 import com.github.kerubistan.kerub.host.packman.PkgPackageManager
 import com.github.kerubistan.kerub.host.servicemanager.rc.RcServiceManager
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
+import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -18,7 +19,7 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -46,9 +47,19 @@ class FreeBSD : Distribution {
 	}
 
 	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> {
-		return GVinum.listDrives(session).map {
-			drive ->
-			GvinumStorageCapability(name = drive.name, device = drive.device, size = drive.size)
+		return GVinum.listDrives(session).let { gvinumDrives ->
+			if(gvinumDrives.isEmpty()) {
+				listOf()
+			} else {
+				listOf(
+						GvinumStorageCapability(
+								devices = gvinumDrives.map {
+									GvinumStorageCapabilityDrive(name = it.name, size = it.size, device = it.device)
+								}
+						)
+				)
+
+			}
 		}
 	}
 
@@ -109,8 +120,8 @@ class FreeBSD : Distribution {
 								.filterNot { storageStat -> gvinumDiskIds.contains(storageStat.id) }
 								+ disks.map {
 							disk ->
-							val cap = gvinumCapabilities.first { (it as GvinumStorageCapability).name == disk.name }
-							StorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
+							val cap = gvinumCapabilities.filterIsInstance<GvinumStorageCapability>().single()
+							SimpleStorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
 						}
 				)
 			}

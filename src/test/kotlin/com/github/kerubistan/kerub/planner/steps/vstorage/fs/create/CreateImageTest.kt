@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
@@ -24,7 +25,7 @@ class CreateImageTest {
 
 	@Test
 	fun take() {
-		val state = CreateImage(device, host, "/var", VirtualDiskFormat.qcow2).take(OperationalState.fromLists(
+		val state = CreateImage(device, testFsCapability, host, VirtualDiskFormat.qcow2).take(OperationalState.fromLists(
 				hosts = listOf(host),
 				vStorage = listOf(device)
 		))

@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.genPassword
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -22,7 +23,8 @@ class IscsiUtilsKtTest {
 				hostId = testHost.id,
 				actualSize = testDisk.size,
 				path = "/dev/test/1234",
-				vgName = "test"
+				vgName = "test",
+				capabilityId = testLvmCapability.id
 		)
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -49,7 +51,8 @@ class IscsiUtilsKtTest {
 				hostId = testHost.id,
 				actualSize = testDisk.size,
 				path = "/dev/test/1234",
-				vgName = "test"
+				vgName = "test",
+				capabilityId = testLvmCapability.id
 		)
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -88,7 +91,8 @@ class IscsiUtilsKtTest {
 				hostId = testHost.id,
 				actualSize = testDisk.size,
 				path = "/dev/test/1234",
-				vgName = "test"
+				vgName = "test",
+				capabilityId = testLvmCapability.id
 		)
 		val diskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,

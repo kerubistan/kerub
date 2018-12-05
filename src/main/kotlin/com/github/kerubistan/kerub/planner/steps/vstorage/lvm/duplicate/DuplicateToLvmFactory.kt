@@ -45,7 +45,8 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 																	hostId = targetHostColl.stat.id,
 																	vgName = it.volumeGroupName,
 																	actualSize = sourceAllocation.actualSize,
-																	path = "/dev/${it.volumeGroupName}/${vstorage.value.stat.id}"
+																	path = "/dev/${it.volumeGroupName}/${vstorage.value.stat.id}",
+																	capabilityId = it.id
 															),
 															sourceHost = sourceHost.stat,
 															source = sourceAllocation

@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create
 
 import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
+import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -23,11 +24,9 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 
 	override fun produce(state: OperationalState): List<CreateGvinumVolume> =
 			factoryFeature(state.controllerConfig.storageTechnologies.gvinumCreateVolumeEnabled) {
-				listStorageNotAllocated(state).map {
-					virtualStorage ->
+				listStorageNotAllocated(state).map { virtualStorage ->
 
-					hostsWithGvinumCapabilities(state).map {
-						host ->
+					hostsWithGvinumCapabilities(state).map { host ->
 
 						simpleGvinumAllocations(host, virtualStorage) +
 								concatenatedGvinumAllocations(host, virtualStorage)
@@ -37,38 +36,36 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 			}
 
 
-	internal fun concatenatedGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> {
-		return combineConcatenations(
-				host = host,
-				size = virtualStorage.size
-		).map {
-			concat ->
-			CreateGvinumVolume(
-					host = host.stat,
-					disk = virtualStorage,
-					config = ConcatenatedGvinumConfiguration(
-							disks = concat
-					)
-			)
-		}
-	}
-
-	internal fun combineConcatenations(host: HostDataCollection, size: BigInteger): List<Map<String, BigInteger>> {
-		val gvinumDisks = gvinumCapabilities(host.stat).map {
-			cap ->
-			val storageDyn = host.dynamic?.storageStatus?.firstOrNull { cap.id == it.id }
-			if (storageDyn == null) {
-				null
-			} else {
-				cap.name to storageDyn.freeCapacity
+	private fun concatenatedGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> =
+			combineConcatenations(
+					host = host,
+					size = virtualStorage.size
+			).map { concat ->
+				CreateGvinumVolume(
+						host = host.stat,
+						disk = virtualStorage,
+						config = ConcatenatedGvinumConfiguration(
+								disks = concat
+						),
+						capability = requireNotNull(host.stat.capabilities?.storageCapabilities
+								?.filterIsInstance<GvinumStorageCapability>()?.single())
+				)
 			}
-		}.filterNotNull().toMap()
-		return combineConcatenations(gvinumDisks, size)
-	}
 
-	private fun combineConcatenations(gvinumDisks: Map<String, BigInteger>, size: BigInteger): List<Map<String, BigInteger>> {
-		return gvinumDisks.map {
-			diskCap ->
+	private fun combineConcatenations(host: HostDataCollection, size: BigInteger): List<Map<String, BigInteger>> =
+			gvinumCapability(host.stat)?.let { cap ->
+				val storageDyn = host.dynamic?.storageStatus?.firstOrNull { cap.id == it.id }
+				cap.devices.mapNotNull { drive ->
+					if (storageDyn == null) {
+						null
+					} else {
+						drive.name to storageDyn.freeCapacity
+					}
+				}.toMap()
+			}?.let { diskFreeMap -> combineConcatenations(diskFreeMap, size) } ?: listOf()
+
+	private fun combineConcatenations(gvinumDisks: Map<String, BigInteger>, size: BigInteger): List<Map<String, BigInteger>> =
+		gvinumDisks.map { diskCap ->
 			if (diskCap.value > size) {
 				listOf(mapOf(diskCap.key to size))
 			} else {
@@ -78,60 +75,51 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 				).map { it + (diskCap.key to diskCap.value) }
 			}
 		}.join().toSet().toList()
-	}
 
-	private fun simpleGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> {
-		return filterByFreeSpace(
-				host = host,
-				size = virtualStorage.size,
-				capabilities = filterBySize(gvinumCapabilities(host.stat), virtualStorage.size)
-		).map {
-			gvinumCapability ->
+	private fun simpleGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> =
+			gvinumCapability(host.stat)?.let { capability ->
+				filterByFreeSpace(
+						host = host,
+						size = virtualStorage.size,
+						capability = gvinumCapability(host.stat)
+				).let { drives ->
+					drives.map { drive ->
+						CreateGvinumVolume(
+								host = host.stat,
+								disk = virtualStorage,
+								config = SimpleGvinumConfiguration(
+										diskName = drive.name
+								),
+								capability = capability
+						)
+					}
+				}
+			} ?: listOf()
 
-			CreateGvinumVolume(
-					host = host.stat,
-					disk = virtualStorage,
-					config = SimpleGvinumConfiguration(
-							diskId = gvinumCapability.id
-					)
-			)
-		}
-	}
-
-	private fun gvinumCapabilities(host: Host): List<GvinumStorageCapability> {
-		return host.capabilities?.storageCapabilities?.filter {
-			it is GvinumStorageCapability
-		}?.map {
-			it as GvinumStorageCapability
-		} ?: listOf()
-	}
+	private fun gvinumCapability(host: Host): GvinumStorageCapability? =
+			host.capabilities?.storageCapabilities?.filterIsInstance<GvinumStorageCapability>()?.singleOrNull()
 
 	private fun filterBySize(
-			capabilities: List<GvinumStorageCapability>,
-			size: BigInteger): List<GvinumStorageCapability>
-			= capabilities.filter { it.size > size }
+			drives: List<GvinumStorageCapabilityDrive>,
+			size: BigInteger): List<GvinumStorageCapabilityDrive> = drives.filter { it.size > size }
 
 	private fun filterByFreeSpace(
 			host: HostDataCollection,
-			capabilities: List<GvinumStorageCapability>,
+			capability: GvinumStorageCapability?,
 			size: BigInteger
-	): List<GvinumStorageCapability> {
-		return capabilities.filter {
-			capability ->
-			val dyn = host.dynamic?.storageStatus?.firstOrNull { it.id == capability.id }
-			(dyn?.freeCapacity ?: BigInteger.ZERO) > size
-		}
-	}
+	): List<GvinumStorageCapabilityDrive> =
+			capability?.devices?.filter {
+				(host.dynamic?.storageStatusById?.get(capability.id)?.freeCapacity ?: BigInteger.ZERO) > size
+			}
+					?: listOf()
 
 	private fun hostsWithGvinumCapabilities(state: OperationalState): List<HostDataCollection> {
-		return state.hosts.values.filter {
-			host ->
+		return state.hosts.values.filter { host ->
 			// filter for FreeBSD servers
 			// which have gvinum storage
 			host.stat.capabilities?.os == OperatingSystem.BSD
 					&& host.stat.capabilities.distribution?.name == "FreeBSD"
-					&& host.stat.capabilities.storageCapabilities.any {
-				storage ->
+					&& host.stat.capabilities.storageCapabilities.any { storage ->
 				storage is GvinumStorageCapability
 			}
 		}

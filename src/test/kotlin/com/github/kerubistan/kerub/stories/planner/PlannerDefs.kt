@@ -6,12 +6,14 @@ import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
+import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
@@ -19,9 +21,11 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -88,7 +92,7 @@ import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
-import com.github.kerubistan.kerub.utils.toUUID
+import com.github.kerubistan.kerub.utils.update
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
@@ -261,12 +265,21 @@ class PlannerDefs {
 
 	@Given("host (\\S+) gvinum disks are:")
 	fun setHostGvinumCapabilities(hostAddr: String, disks: DataTable) {
-		val diskCapabilities = disks.raw().skip().map { row ->
-			GvinumStorageCapability(
-					name = row[0],
-					device = row[1],
-					size = row[2].toSize()
-			)
+		val diskCapabilities = listOf(
+				GvinumStorageCapability(
+						devices = disks.raw().skip().map {
+							row ->
+							GvinumStorageCapabilityDrive(
+									name = row[0],
+									size = row[2].toSize(),
+									device = row[1]
+							)
+						}
+
+				)
+
+		)
+		disks.raw().skip().map { row ->
 		}
 		hosts = hosts.replace({ it.address == hostAddr }, { host ->
 			host.copy(
@@ -298,7 +311,7 @@ class PlannerDefs {
 		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
 			dyn.copy(
 					storageStatus = dyn.storageStatus + lvmCapabilities.map {
-						StorageDeviceDynamic(id = it.id, freeCapacity = it.size)
+						SimpleStorageDeviceDynamic(id = it.id, freeCapacity = it.size)
 					}
 			)
 		})
@@ -484,7 +497,7 @@ class PlannerDefs {
 
 	@Given("^host (\\S+) is Up$")
 	fun setHostDyn(address: String) {
-		val host = hosts.single { it.address == address }
+		val host = getHostByAddr(address)
 		hostDyns += HostDynamic(
 				id = host.id,
 				status = HostStatus.Up,
@@ -539,7 +552,7 @@ class PlannerDefs {
 											   allocation: (Host,
 															VirtualStorageDevice,
 															VirtualStorageDeviceDynamic) -> VirtualStorageAllocation) {
-		val host = hosts.single { it.address == hostAddr }
+		val host = getHostByAddr(hostAddr)
 		val stat = vdisks.single { it.name == name }
 		val dyn = vstorageDyns.firstOrNull { it.id == stat.id } ?: VirtualStorageDeviceDynamic(
 				id = stat.id,
@@ -551,6 +564,12 @@ class PlannerDefs {
 		)
 	}
 
+	private inline fun <reified T : StorageCapability> getStorageCapability(hostAddr: String, selector : (T) -> Boolean) : T
+			= requireNotNull(getHostByAddr(hostAddr).capabilities?.storageCapabilities)
+			.filterIsInstance<T>().single(selector)
+
+	private inline fun <reified T : StorageCapability> getStorageCapabilityId(hostAddr: String, selector : (T) -> Boolean) : UUID
+			= getStorageCapability(hostAddr, selector).id
 
 	@Given("virtual storage (\\S+) allocated on host (\\S+) using fs mount point (\\S+)")
 	fun createVirtualStorageFsAllocation(name: String, hostAddr: String, mountPoint: String) {
@@ -560,7 +579,8 @@ class PlannerDefs {
 					mountPoint = mountPoint,
 					actualSize = 10.GB,
 					fileName = "test.qcow2",
-					type = VirtualDiskFormat.qcow2
+					type = VirtualDiskFormat.qcow2,
+					capabilityId = getStorageCapabilityId<FsStorageCapability>(hostAddr) {it.mountPoint == mountPoint}
 			)
 		}
 	}
@@ -572,23 +592,29 @@ class PlannerDefs {
 					hostId = host.id,
 					path = "/dev/$volGroup/${dyn.id}",
 					actualSize = 10.GB,
-					vgName = volGroup
+					vgName = volGroup,
+					capabilityId = getStorageCapabilityId<LvmStorageCapability>(hostAddr) { it.volumeGroupName == volGroup }
 			)
 		}
 	}
 
-	@Given("virtual storage (\\S+) allocated on host (\\S+) using simple gvinum disk id (.*)")
-	fun createVirtualStorageGvinumAllocation(name: String, hostAddr: String, diskId: String) {
+	@Given("virtual storage (\\S+) allocated on host (\\S+) using simple gvinum disk name (.*)")
+	fun createVirtualStorageGvinumAllocation(name: String, hostAddr: String, diskName: String) {
 		createVirtualStorageAllocation(name, hostAddr) { host, stat, dyn ->
 			VirtualStorageGvinumAllocation(
 					hostId = host.id,
 					actualSize = 10.GB,
 					configuration = SimpleGvinumConfiguration(
-							diskId = diskId.toUUID()
-					)
+							diskName = diskName
+					),
+					capabilityId = getStorageCapabilityId<GvinumStorageCapability>(hostAddr) {
+						true /*there can be only one*/
+					}
 			)
 		}
 	}
+
+	private fun getHostByAddr(hostAddr: String) = hosts.single { it.address == hostAddr }
 
 	@Then("disk (\\S+) will be unallocated as step (\\d+)")
 	fun verifyDiskUnalloction(name: String, index: Int) {
@@ -641,7 +667,10 @@ class PlannerDefs {
 						actualSize = storage.size,
 						mountPoint = directory,
 						type = VirtualDiskFormat.qcow2,
-						fileName = "$directory/${storage.id}"
+						fileName = "$directory/${storage.id}",
+						capabilityId = getStorageCapabilityId<FsStorageCapability>(hostAddr) {
+							it.mountPoint == directory
+						}
 				))
 		)
 	}
@@ -720,15 +749,33 @@ class PlannerDefs {
 
 	@Given("gvinum disk (\\S+) on host (\\S+) has (\\S+) free capacity")
 	fun setGvinumDiskFreeCapacity(diskName: String, hostAddr: String, capacity: String) {
-		val host = hosts.first { it.address == hostAddr }
-		val disk = requireNotNull(host.capabilities?.storageCapabilities?.first { it is GvinumStorageCapability && it.name == diskName })
-		setStorageCapabilityFreeCapacity(capacity, disk.id, host)
+		val host = getHostByAddr(hostAddr)
+		val disk = requireNotNull(host.capabilities?.storageCapabilities?.filterIsInstance<GvinumStorageCapability>()?.single())
+
+		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
+			dyn.copy(
+					storageStatus = dyn.storageStatus.update(
+							selector = { it.id == disk.id },
+							default = { CompositeStorageDeviceDynamic(items = listOf(), id = disk.id) },
+							map = {
+								it as CompositeStorageDeviceDynamic
+								it.copy(
+										items = it.items.filterNot { it.name == diskName } + CompositeStorageDeviceDynamicItem(
+												name = diskName,
+												freeCapacity = capacity.toSize()
+										)
+								)
+							}
+					)
+			)
+		})
 	}
 
 	private fun setStorageCapabilityFreeCapacity(capacity: String, capId: UUID, host: Host) {
 		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
 			dyn.copy(
-					storageStatus = dyn.storageStatus + StorageDeviceDynamic(
+					//TODO but this 'Simple' is not right for gvinum for example
+					storageStatus = dyn.storageStatus + SimpleStorageDeviceDynamic(
 							id = capId,
 							freeCapacity = capacity.toSize()
 					)
@@ -1016,7 +1063,10 @@ class PlannerDefs {
 							hostId = host.id,
 							actualSize = disk.size,
 							path = "/dev/test/" + disk.id,
-							vgName = volumeGroup
+							vgName = volumeGroup,
+							capabilityId = requireNotNull(host.capabilities?.storageCapabilities)
+									.single { it is LvmStorageCapability && it.volumeGroupName == volumeGroup }.id
+
 					)),
 					lastUpdated = now()
 			)

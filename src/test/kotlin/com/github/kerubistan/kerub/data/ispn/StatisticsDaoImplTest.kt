@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
+import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.Range
@@ -85,11 +86,15 @@ class StatisticsDaoImplTest {
 			)
 	)
 
-	val gvinumDisk = GvinumStorageCapability(
+	val gvinumCapability = GvinumStorageCapability(
 			id = UUID.randomUUID(),
-			size = 256.GB,
-			name = "gvinum-disk-1",
-			device = "/dev/blah"
+			devices = listOf(
+					GvinumStorageCapabilityDrive(
+							size = 256.GB,
+							name = "gvinum-disk-1",
+							device = "/dev/blah"
+					)
+			)
 	)
 	val host2 = testHost.copy(
 			id = UUID.randomUUID(),
@@ -97,7 +102,7 @@ class StatisticsDaoImplTest {
 			capabilities = testHostCapabilities.copy(
 					cpus = listOf(testCpu, testCpu, testCpu, testCpu),
 					totalMemory = 512.GB,
-					storageCapabilities = listOf(gvinumDisk)
+					storageCapabilities = listOf(gvinumCapability)
 			)
 	)
 
@@ -141,7 +146,8 @@ class StatisticsDaoImplTest {
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
 						actualSize = 64.GB,
-						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
+						configuration = SimpleGvinumConfiguration(diskName = gvinumCapability.devices.single().name),
+						capabilityId = gvinumCapability.id
 				))
 		))
 		whenever(controllerConfigDao.get()).thenReturn(
@@ -184,7 +190,8 @@ class StatisticsDaoImplTest {
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
 						actualSize = "64 GB".toSize(),
-						configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
+						configuration = SimpleGvinumConfiguration(diskName = gvinumCapability.devices.single().name),
+						capabilityId =gvinumCapability.id
 				))
 		))
 

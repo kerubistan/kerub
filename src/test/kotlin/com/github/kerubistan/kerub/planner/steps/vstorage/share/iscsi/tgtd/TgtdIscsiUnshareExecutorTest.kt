@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testLvmCapability
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
@@ -38,7 +39,8 @@ class TgtdIscsiUnshareExecutorTest {
 				hostId = testHost.id,
 				vgName = "test-vg",
 				actualSize = 10.GB,
-				path = "/dev/test-vg/test-lv"
+				path = "/dev/test-vg/test-lv",
+				capabilityId = testLvmCapability.id
 		)
 		val otherVstorageId = UUID.randomUUID()
 

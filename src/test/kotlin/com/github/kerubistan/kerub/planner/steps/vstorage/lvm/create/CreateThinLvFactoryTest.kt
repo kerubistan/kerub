@@ -91,14 +91,15 @@ class CreateThinLvFactoryTest {
 					),
 					expectations = listOf(VirtualMachineAvailabilityExpectation())
 			)
+			val storageCapability = LvmStorageCapability(
+					size = 2.TB,
+					volumeGroupName = "test-vg",
+					physicalVolumes = listOf(1.TB, 1.TB)
+			)
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							storageCapabilities = listOf(
-									LvmStorageCapability(
-											size = 2.TB,
-											volumeGroupName = "test-vg",
-											physicalVolumes = listOf(1.TB, 1.TB)
-									)
+									storageCapability
 							)
 					)
 			)
@@ -128,7 +129,14 @@ class CreateThinLvFactoryTest {
 							)
 					)
 			)
-			steps == listOf(CreateThinLv(host = host, volumeGroupName = "test-vg", poolName = "test-pool", disk = disk))
+			steps == listOf(
+					CreateThinLv(
+							host = host,
+							poolName = "test-pool",
+							disk = disk,
+							capability = storageCapability
+					)
+			)
 		}
 
 	}

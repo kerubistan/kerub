@@ -42,7 +42,8 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 						actualSize = BigInteger.valueOf(updates.diskSize),
 						mountPoint = step.path,
 						type = step.format,
-						fileName = "${step.path}/${step.disk.id}"
+						fileName = "${step.path}/${step.disk.id}",
+						capabilityId = step.capability.id
 				))
 		))
 	}

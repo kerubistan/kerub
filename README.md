@@ -1,7 +1,6 @@
 
-[![Kotlin](https://img.shields.io/badge/kotlin-1.2-blue.svg)](http://kotlinlang.org)
 [![FreeBSD](https://img.shields.io/badge/FreeBSD-10+-red.svg)](http://freebsd.org)
-[![Fedora](https://img.shields.io/badge/Fedora-20+-blue.svg)](https://getfedora.org/)
+[![CentOs](https://img.shields.io/badge/CentOs-6+-blue.svg)](https://centos.org/)
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-14+-red.svg)](http://ubuntu.com)
 [![OpenSUSE](https://img.shields.io/badge/OpenSUSE-13+-green.svg)](http://opensuse.org)
 

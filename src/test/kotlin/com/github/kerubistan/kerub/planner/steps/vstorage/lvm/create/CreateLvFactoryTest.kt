@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
+import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -14,7 +15,7 @@ import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -73,9 +74,9 @@ class CreateLvFactoryTest {
 						id = host.id,
 						status = HostStatus.Up,
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = volumeGroup.id,
-										freeCapacity = "1 TB".toSize()
+										freeCapacity = 1.TB
 								)
 						)
 				)),
@@ -98,9 +99,9 @@ class CreateLvFactoryTest {
 						id = host.id,
 						status = HostStatus.Up,
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = volumeGroup.id,
-										freeCapacity = "1 TB".toSize()
+										freeCapacity = 1.TB
 								)
 						)
 				)),
@@ -122,9 +123,9 @@ class CreateLvFactoryTest {
 						id = host.id,
 						status = HostStatus.Up,
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = volumeGroup.id,
-										freeCapacity = "1 TB".toSize()
+										freeCapacity = 1.TB
 								)
 						)
 				)),

@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.kerubistan.kerub.data.ispn.utils.CountdownCreateEventListener
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
@@ -50,7 +50,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						ksmEnabled = false,
 						memFree = 129.MB,
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = testDisk.id,
 										freeCapacity = 600.GB
 								)
@@ -62,7 +62,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						ksmEnabled = true,
 						memFree = 128.MB,
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = testDisk.id,
 										freeCapacity = 580.GB
 								)

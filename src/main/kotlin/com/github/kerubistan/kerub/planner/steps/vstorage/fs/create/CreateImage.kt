@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.fs.create
 
+import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -11,18 +12,21 @@ import com.github.kerubistan.kerub.utils.update
 
 data class CreateImage(
 		override val disk: VirtualStorageDevice,
+		override val capability: FsStorageCapability,
 		override val host: Host,
-		val path: String,
-		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation> {
+		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
 	override val allocation: VirtualStorageFsAllocation by lazy {
 		VirtualStorageFsAllocation(
 				hostId = host.id,
 				actualSize = disk.size, //TODO not true when thin provisioning
 				mountPoint = path,
 				type = format,
-				fileName = "$path/${disk.id}"
+				fileName = "$path/${disk.id}",
+				capabilityId = capability.id
 		)
 	}
+
+	val path get() = capability.mountPoint
 
 	/*
 	 * TODO: add costs here:

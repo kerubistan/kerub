@@ -12,6 +12,9 @@ import java.util.UUID
 		JsonSubTypes.Type(FsStorageCapability::class),
 		JsonSubTypes.Type(GvinumStorageCapability::class)
 )
+/**
+ * A physical storage capability of a server. like a filesystem or a volume group, not the raw disk.
+ */
 interface StorageCapability : Serializable {
 	val id: UUID
 	val size: BigInteger

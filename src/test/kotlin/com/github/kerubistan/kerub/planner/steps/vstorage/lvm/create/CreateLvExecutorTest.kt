@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
@@ -60,7 +61,7 @@ class CreateLvExecutorTest {
 				CreateLv(
 						host = host,
 						disk = vDisk,
-						volumeGroupName = "testvg"
+						capability = testLvmCapability
 				)
 		)
 	}

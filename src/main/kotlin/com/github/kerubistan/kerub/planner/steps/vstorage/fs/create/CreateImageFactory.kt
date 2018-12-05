@@ -28,7 +28,7 @@ object CreateImageFactory : AbstractCreateFileVirtualStorageFactory<CreateImage>
 					format = (storage.expectations.firstOrNull { it is StorageAvailabilityExpectation }
 							as StorageAvailabilityExpectation?)?.format
 							?: VirtualDiskFormat.qcow2,
-					path = mount.mountPoint
+					capability = mount
 			)
 
 }

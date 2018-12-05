@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.utils.junix.qemu.ImageInfo
 import com.nhaarman.mockito_kotlin.any
@@ -54,8 +55,8 @@ class CreateImageExecutorTest {
 		val step = CreateImage(
 				disk = testDisk,
 				host = testHost,
-				path = "/kerub/${testDisk.id}",
-				format = VirtualDiskFormat.qcow2
+				format = VirtualDiskFormat.qcow2,
+				capability = testFsCapability
 		)
 
 		whenever(hostCommandExecutor.execute(eq(testHost), any<(ClientSession) -> ImageInfo>()))

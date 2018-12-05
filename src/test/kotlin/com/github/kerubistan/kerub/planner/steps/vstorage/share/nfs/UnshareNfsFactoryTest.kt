@@ -15,7 +15,9 @@ import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
 import org.junit.Test
 import java.util.UUID
@@ -90,12 +92,14 @@ class UnshareNfsFactoryTest {
 											   device = DeviceType.cdrom, readOnly = true))
 			)
 			val nfsServer = testHost.copy(
-					id = UUID.randomUUID()
+					id = UUID.randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testFsCapability)
+					)
 			)
 			val nfsClient = testHost.copy(
 					id = UUID.randomUUID()
 			)
-
 			UnshareNfsFactory.produce(
 					OperationalState.fromLists(
 							config = ControllerConfig(
@@ -110,10 +114,11 @@ class UnshareNfsFactoryTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(
 															hostId = nfsServer.id,
-															mountPoint = "/kerub",
+															mountPoint = testFsCapability.mountPoint,
 															type = VirtualDiskFormat.qcow2,
 															fileName = "",
-															actualSize = 100.GB
+															actualSize = 100.GB,
+															capabilityId = testFsCapability.id
 													)
 											)
 									)

@@ -77,7 +77,8 @@ Feature: storage management
 	  | 10      | 7GB        | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | 2GB         | disk1,disk2,disk3,disk4 |
 	  | 10      | 2GB        | 2GB         | 600MB       | 2GB         | 600MB       | 2GB         | 600MB       | 2GB         | 600MB       | disk1,disk2,disk3,disk4 |
 	  | 10      | 2GB        | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 0MB         | disk1,disk2,disk3       |
-	  | 10      | 2GB        | 2GB         | 0MB         | 2GB         | 700MB       | 2GB         | 700MB       | 2GB         | 700MB       | disk2,disk3,disk4       |
+	  | 10      | 2GB        | 2GB         | 0MB         | 2GB         | 800MB       | 2GB         | 800MB       | 2GB         | 800MB       | disk2,disk3,disk4       |
+	  | 10      | 2GB        | 2GB         | 0MB         | 2GB         | 0MB         | 2GB         | 1500MB      | 2GB         | 1500MB      | disk2,disk3,disk4       |
 
   # In this story, host-1 can allocate the storage on only two disks, while host-2 needs at least 3
   # since with the number of disks the risk of data loss rises, the allocation on host-1 is more favorable
@@ -145,7 +146,7 @@ Feature: storage management
 	And virtual storage devices:
 	  | name          | size | ro    |
 	  | system-disk-1 | 2 GB | false |
-	And system-disk-1 is allocated on host host-1.example.com volume group vg-1
+	And virtual storage system-disk-1 allocated on host host-1.example.com using simple gvinum disk name test
 	Given VMs:
 	  | name | MinRam | MaxRam | CPUs | Architecture |
 	  | vm1  | 4 GB   | 4 GB   | 2    | x86_64       |
@@ -216,24 +217,53 @@ Feature: storage management
 	When disk test-disk-1 is recycled
 	Then disk test-disk-1 will be deleted as step 1
 
-  Scenario Outline: Disk allocated on <allocation> removed
+  Scenario: Disk allocated on fs mount point /kerub removed
 	Given hosts:
 	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
-	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | <OS>             | <Distro>     | <version>      |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
+	And host host-1.example.com filesystem is:
+	  | mount  | size | - | type |
+	  | /kerub | 1 TB |   | ext4 |
 	And host host-1.example.com is Up
 	And virtual storage devices:
 	  | name        | size | ro    |
 	  | test-disk-1 | 2 GB | false |
-	And virtual storage test-disk-1 allocated on host host-1.example.com using <allocation>
+	And virtual storage test-disk-1 allocated on host host-1.example.com using fs mount point /kerub
 	When disk test-disk-1 is recycled
 	Then disk test-disk-1 will be unallocated as step 1
 	And disk test-disk-1 will be deleted as step 2
 
-	Examples:
-	  | allocation                                                 | OS    | Distro       | version |
-	  | fs mount point /kerub                                      | Linux | CentOS Linux | 7,1     |
-	  | simple gvinum disk id 5e5bf833-d54a-4732-b46b-7a987f905723 | BSD   | FreeBSD      | 11      |
-	  | lvm volume group kerub                                     | Linux | CentOS Linux | 7,1     |
+  Scenario: Disk allocated on lvm volume group kerub
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
+	And host host-1.example.com volume groups are:
+	  | vg    | size | devices |
+	  | kerub | 1 TB | 1 TB    |
+	And host host-1.example.com is Up
+	And virtual storage devices:
+	  | name        | size | ro    |
+	  | test-disk-1 | 2 GB | false |
+	And virtual storage test-disk-1 allocated on host host-1.example.com using lvm volume group kerub
+	When disk test-disk-1 is recycled
+	Then disk test-disk-1 will be unallocated as step 1
+	And disk test-disk-1 will be deleted as step 2
+
+  Scenario: Disk allocated on simple gvinum disk id 5e5bf833-d54a-4732-b46b-7a987f905723
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | BSD              | FreeBSD      | 1.1            |
+	And host host-1.example.com gvinum disks are:
+	  | device | name | size |
+	  | sda1   | sda1 | 1 TB |
+	And host host-1.example.com is Up
+	And virtual storage devices:
+	  | name        | size | ro    |
+	  | test-disk-1 | 2 GB | false |
+	And virtual storage test-disk-1 allocated on host host-1.example.com using simple gvinum disk name sda1
+	When disk test-disk-1 is recycled
+	Then disk test-disk-1 will be unallocated as step 1
+	And disk test-disk-1 will be deleted as step 2
 
   Scenario: LVM Thin Provisioning
 	Given hosts:

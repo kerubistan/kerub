@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
@@ -144,7 +145,7 @@ class PlannerExecutorDefs {
 						status = HostStatus.Up,
 						memFree = "1 TB".toSize(),
 						storageStatus = listOf(
-								StorageDeviceDynamic(
+								SimpleStorageDeviceDynamic(
 										id = host.capabilities!!.storageCapabilities[0].id,
 										freeCapacity = "1 PB".toSize()
 								)

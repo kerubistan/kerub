@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testGvinumCapability
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
@@ -17,7 +18,6 @@ import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-import java.util.UUID
 
 class UnAllocateGvinumExecutorTest {
 
@@ -44,8 +44,9 @@ class UnAllocateGvinumExecutorTest {
 								actualSize = 10.GB,
 								hostId = testHost.id,
 								configuration = SimpleGvinumConfiguration(
-										diskId = UUID.randomUUID()
-								)
+										diskName = "gvinum-disk-1"
+								),
+								capabilityId = testGvinumCapability.id
 						)
 				)
 		)

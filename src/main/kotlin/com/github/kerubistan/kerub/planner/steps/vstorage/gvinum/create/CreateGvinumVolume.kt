@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create
 
+import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -7,6 +8,9 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.gvinum.MirroredGvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
@@ -16,14 +20,38 @@ import com.github.kerubistan.kerub.utils.update
 
 data class CreateGvinumVolume(
 		override val host: Host,
+		override val capability: GvinumStorageCapability,
 		override val disk: VirtualStorageDevice,
 		val config: GvinumConfiguration
-) : AbstractCreateVirtualStorage<VirtualStorageGvinumAllocation> {
+) : AbstractCreateVirtualStorage<VirtualStorageGvinumAllocation, GvinumStorageCapability> {
+
+	init {
+		when(config) {
+			is SimpleGvinumConfiguration ->
+				check( config.diskName in capability.devicesByName.keys ) {
+					"no disk '${config.diskName}' in gvinum capability, existing disks: ${capability.devicesByName.keys}"
+				}
+			is StripedGvinumConfiguration ->
+				check(capability.devicesByName.keys.containsAll(config.disks)) {
+					"one or more disk is not registered in gvinum capability: ${config.disks}"
+				}
+			is ConcatenatedGvinumConfiguration ->
+				check(capability.devicesByName.keys.containsAll(config.disks.keys)) {
+					"one or more disk is not registered in gvinum capability: ${config.disks.keys}"
+				}
+			is MirroredGvinumConfiguration ->
+				check(capability.devicesByName.keys.containsAll(config.disks)) {
+					"one or more disk is not registered in gvinum capability: ${config.disks}"
+				}
+		}
+	}
+
 	override val allocation: VirtualStorageGvinumAllocation by lazy {
 		VirtualStorageGvinumAllocation(
 				hostId = host.id,
 				actualSize = disk.size,
-				configuration = config
+				configuration = config,
+				capabilityId = capability.id
 		)
 	}
 
@@ -32,7 +60,7 @@ data class CreateGvinumVolume(
 			is ConcatenatedGvinumConfiguration -> {
 				listOf<Cost>(
 						Risk(
-								score = config.disks.size - 1,
+								score = maxOf(config.disks.size - 1, 1),
 								comment = "Loss of any of the ${config.disks.size} disks causes failure of the vstorage"
 						)
 				)

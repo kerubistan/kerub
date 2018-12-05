@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -52,7 +53,8 @@ class TgtdIscsiShareFactoryTest {
 					hostId = host.id,
 					actualSize = vStorage.size,
 					path = "/dev/test/" + vStorage.id,
-					vgName = "test"
+					vgName = "test",
+					capabilityId = testLvmCapability.id
 			))
 	)
 

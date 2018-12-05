@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
@@ -14,6 +16,7 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.math.BigInteger
 
+@JsonIgnoreProperties("storageCapabilitiesById", "storageCapabilitiesByType")
 data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
@@ -55,4 +58,15 @@ data class HostCapabilities(
 		@JsonView(Detailed::class)
 		val hypervisorCapabilities: List<Any> = listOf()
 )
-	: Serializable
+	: Serializable {
+
+	init {
+		storageCapabilities.count { it is GvinumStorageCapability }.let {
+			cnt ->
+			check(cnt <= 1) { "there can be only one gvinum capability, there are $cnt" }
+		}
+	}
+
+	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
+	val storageCapabilitiesByType by lazy { storageCapabilities. associateBy { it.javaClass.kotlin } }
+}

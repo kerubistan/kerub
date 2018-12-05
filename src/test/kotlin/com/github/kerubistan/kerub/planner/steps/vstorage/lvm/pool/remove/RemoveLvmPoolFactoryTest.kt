@@ -9,6 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import java.util.UUID
@@ -90,7 +91,8 @@ class RemoveLvmPoolFactoryTest {
 													hostId = testHost.id,
 													path = "/dev/test-vg-1/${testDisk.id}",
 													actualSize = "1 GB".toSize(),
-													vgName = "test-vg-1"
+													vgName = "test-vg-1",
+													capabilityId = testLvmCapability.id
 											)
 									)
 							)

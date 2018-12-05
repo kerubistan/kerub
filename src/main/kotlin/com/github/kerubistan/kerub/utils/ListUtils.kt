@@ -39,6 +39,11 @@ fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
 	return sum.toDouble() / this.size
 }
 
+fun <T> List<T>.update(selector : (T) -> Boolean, default : () -> T, map : (T) -> T) : List<T> =
+	this.firstOrNull(selector)?.let {
+		this.filterNot(selector) + map(it)
+	} ?: this + map(default())
+
 /**
  * Update a list with another, different type of items. Not updated items will remain the same, updates
  * not matching a data will be ignored.

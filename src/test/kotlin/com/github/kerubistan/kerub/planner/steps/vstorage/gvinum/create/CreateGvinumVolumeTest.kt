@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
+import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
@@ -14,11 +15,11 @@ import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguratio
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
+import com.github.kerubistan.kerub.testGvinumCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVirtualDisk
 import org.junit.Test
-import java.util.UUID
 import kotlin.test.assertTrue
 
 class CreateGvinumVolumeTest {
@@ -35,8 +36,9 @@ class CreateGvinumVolumeTest {
 					),
 					disk = testVirtualDisk,
 					config = SimpleGvinumConfiguration(
-							diskId = UUID.randomUUID()
-					)
+							diskName = "gvinum-disk-1"
+					),
+					capability = testGvinumCapability
 			).take(OperationalState.fromLists())
 		}
 		expect("GVinum is only running on FreeBSD, not on NetBSD", IllegalArgumentException::class) {
@@ -49,8 +51,9 @@ class CreateGvinumVolumeTest {
 					),
 					disk = testVirtualDisk,
 					config = SimpleGvinumConfiguration(
-							diskId = UUID.randomUUID()
-					)
+							diskName = "gvinum-disk-1"
+					),
+					capability = testGvinumCapability
 			).take(OperationalState.fromLists())
 		}
 		expect("The gvinum volume creation requires a running host", IllegalArgumentException::class) {
@@ -63,30 +66,37 @@ class CreateGvinumVolumeTest {
 					),
 					disk = testVirtualDisk,
 					config = SimpleGvinumConfiguration(
-							diskId = UUID.randomUUID()
-					)
+							diskName = "gvinum-disk-1"
+					),
+					capability = testGvinumCapability
 			).take(OperationalState.fromLists())
 
 		}
 
 		assertTrue("A step must create the planned allocation") {
-			val gvinumDisk = GvinumStorageCapability(
-					size = 1.TB,
-					name = "test-disk",
-					device = "/dev/sda"
+			val gvinumStorageCapability = GvinumStorageCapability(
+					devices = listOf(
+							GvinumStorageCapabilityDrive(
+									size = 1.TB,
+									name = "test-disk",
+									device = "/dev/sda"
+							)
+					)
 			)
 			val host = testFreeBsdHost.copy(
 					capabilities = testFreeBsdHost.capabilities!!.copy(
-							storageCapabilities = listOf(gvinumDisk)
+							storageCapabilities = listOf(gvinumStorageCapability)
 					)
 			)
 			val disk = testDisk.copy(
 					size = 100.GB
 
 			)
-			val state = CreateGvinumVolume(host = host,
-										   disk = disk,
-										   config = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
+			val state = CreateGvinumVolume(
+					host = host,
+					disk = disk,
+					config = SimpleGvinumConfiguration(diskName = gvinumStorageCapability.devices.first().name),
+					capability = gvinumStorageCapability
 			).take(
 					OperationalState.fromLists(
 							hosts = listOf(host),
@@ -98,7 +108,8 @@ class CreateGvinumVolumeTest {
 					VirtualStorageGvinumAllocation(
 							hostId = host.id,
 							actualSize = disk.size,
-							configuration = SimpleGvinumConfiguration(diskId = gvinumDisk.id)
+							configuration = SimpleGvinumConfiguration(diskName = gvinumStorageCapability.devices.first().name),
+							capabilityId = gvinumStorageCapability.id
 					)
 			)
 		}

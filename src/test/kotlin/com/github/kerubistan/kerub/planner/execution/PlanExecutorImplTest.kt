@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.execution
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.data.ExecutionResultDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.ControllerManager
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.host.HostManager
+import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
@@ -60,10 +62,9 @@ class PlanExecutorImplTest {
 								size = "100 MB".toSize(),
 								name = "foo"
 						),
-						path = "/var/",
-						format = VirtualDiskFormat.qcow2
-				)
-				)
+						format = VirtualDiskFormat.qcow2,
+						capability = FsStorageCapability(id = UUID.randomUUID(), size = 100.GB, fsType = "ext4", mountPoint = "/var/")
+				))
 		)
 		val callback = mock<(Plan) -> Unit>()
 		val called = AtomicBoolean(false)

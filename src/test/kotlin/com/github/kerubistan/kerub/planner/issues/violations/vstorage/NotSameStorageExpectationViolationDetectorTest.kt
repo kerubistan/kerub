@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import java.util.UUID
@@ -45,8 +46,9 @@ class NotSameStorageExpectationViolationDetectorTest {
 															actualSize = 10.GB,
 															fileName = "first-disk.raw",
 															type = VirtualDiskFormat.raw,
-															mountPoint = "/test-mount-1",
-															hostId = testHost.id
+															mountPoint = testFsCapability.mountPoint,
+															hostId = testHost.id,
+															capabilityId = testFsCapability.id
 													)
 											)
 									),
@@ -88,8 +90,9 @@ class NotSameStorageExpectationViolationDetectorTest {
 															actualSize = 10.GB,
 															fileName = "second-disk.raw",
 															type = VirtualDiskFormat.raw,
-															mountPoint = "/test-mount-2",
-															hostId = testHost.id
+															mountPoint = testFsCapability.mountPoint,
+															hostId = testHost.id,
+															capabilityId = testFsCapability.id
 													)
 											)
 									)
@@ -122,8 +125,9 @@ class NotSameStorageExpectationViolationDetectorTest {
 															actualSize = 10.GB,
 															fileName = "first-disk.raw",
 															type = VirtualDiskFormat.raw,
-															mountPoint = "/test-mount-1",
-															hostId = testHost.id
+															mountPoint = testFsCapability.mountPoint,
+															hostId = testHost.id,
+															capabilityId = testFsCapability.id
 													)
 											)
 									),
@@ -134,8 +138,9 @@ class NotSameStorageExpectationViolationDetectorTest {
 															actualSize = 10.GB,
 															fileName = "second-disk.qcow2",
 															type = VirtualDiskFormat.qcow2,
-															mountPoint = "/test-mount-2",
-															hostId = testHost.id
+															mountPoint = testFsCapability.mountPoint,
+															hostId = testHost.id,
+															capabilityId = testFsCapability.id
 													)
 											)
 									)

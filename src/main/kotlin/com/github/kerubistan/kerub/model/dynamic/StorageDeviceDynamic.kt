@@ -4,7 +4,8 @@ import java.io.Serializable
 import java.math.BigInteger
 import java.util.UUID
 
-data class StorageDeviceDynamic(
-		val id: UUID,
-		val freeCapacity: BigInteger
-) : Serializable
+interface StorageDeviceDynamic : Serializable {
+	val id: UUID
+	val freeCapacity: BigInteger
+}
+

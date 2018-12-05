@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -10,8 +11,8 @@ import java.math.BigInteger
 
 data class CreateThinLv(
 		override val host: Host,
+		override val capability: LvmStorageCapability,
 		override val disk: VirtualStorageDevice,
-		override val volumeGroupName: String,
 		val poolName: String) : AbstractCreateLv() {
 	override val allocation: VirtualStorageLvmAllocation by lazy {
 		VirtualStorageLvmAllocation(
@@ -19,7 +20,8 @@ data class CreateThinLv(
 				actualSize = BigInteger.ZERO,
 				pool = poolName,
 				path = "",
-				vgName = volumeGroupName
+				vgName = volumeGroupName,
+				capabilityId = capability.id
 		)
 	}
 

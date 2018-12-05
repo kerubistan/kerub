@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -10,13 +11,14 @@ import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertFalse
 
 class CreateLvTest {
 
@@ -47,7 +49,7 @@ class CreateLvTest {
 			id = host.id,
 			status = HostStatus.Up,
 			storageStatus = listOf(
-					StorageDeviceDynamic(
+					SimpleStorageDeviceDynamic(
 							freeCapacity = "200 GB".toSize(),
 							id = volume.id
 					)
@@ -62,7 +64,7 @@ class CreateLvTest {
 
 	@Test
 	fun take() {
-		val transformed = CreateLv(host, "testvg", vDisk).take(
+		val transformed = CreateLv(host, volume, vDisk).take(
 				OperationalState.fromLists(
 						hosts = listOf(host),
 						hostDyns = listOf(hostDyn),
@@ -71,16 +73,16 @@ class CreateLvTest {
 		)
 
 		assertEquals(vDisk.size, transformed.vStorage.values.single().dynamic?.allocations?.single()?.actualSize)
-		assertEquals("100 GB".toSize(), transformed.hosts.values.single().dynamic?.storageStatus?.single()?.freeCapacity)
+		assertEquals(100.GB, transformed.hosts.values.single().dynamic?.storageStatus?.single()?.freeCapacity)
 	}
 
 	@Test
 	fun getCost() {
-		assertTrue(CreateLv(host, "testvg", vDisk).getCost().isNotEmpty())
+		assertTrue(CreateLv(host, volume, vDisk).getCost().isNotEmpty())
 	}
 
 	@Test
 	fun reservations() {
-
+		assertFalse(CreateLv(host, volume, vDisk).reservations().isEmpty())
 	}
 }

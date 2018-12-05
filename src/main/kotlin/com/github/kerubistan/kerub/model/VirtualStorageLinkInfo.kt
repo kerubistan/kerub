@@ -13,7 +13,7 @@ import java.io.Serializable
 data class VirtualStorageLinkInfo(
 		val link: VirtualStorageLink,
 		val device: VirtualStorageDataCollection,
-		val allocation : VirtualStorageAllocation,
+		val allocation: VirtualStorageAllocation,
 		val hostServiceUsed: HostService?,
 		val storageHost: HostDataCollection
 ) : Serializable {
@@ -24,11 +24,17 @@ data class VirtualStorageLinkInfo(
 		check(link.virtualStorageId == device.stat.id) {
 			"virtual storage id of the link (${link.virtualStorageId}) does not match the device id (${device.stat.id})"
 		}
-		if(hostServiceUsed is StorageService) {
+		if (hostServiceUsed is StorageService) {
 			check(hostServiceUsed.vstorageId == device.stat.id) {
 				"virtual storage id (${hostServiceUsed.vstorageId}) of storage service " +
 						"does not match device id ${device.stat.id}"
 			}
+		}
+		check(allocation.requires.isInstance(
+				storageHost.stat.capabilities?.storageCapabilitiesById?.get(allocation.capabilityId))) {
+			"allocation $allocation does not match the type of the referenced allocation (${allocation.capabilityId}) " +
+					"of host ${storageHost.stat.address}, " +
+					"registered host storage capabilities are: ${storageHost.stat.capabilities?.storageCapabilities}"
 		}
 	}
 }

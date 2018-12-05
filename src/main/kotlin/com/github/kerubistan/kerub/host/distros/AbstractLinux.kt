@@ -16,6 +16,7 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
@@ -93,12 +94,12 @@ abstract class AbstractLinux : Distribution {
 									up ->
 									val stat = storageMountToId[up.mountPoint]
 									stat?.let {
-										StorageDeviceDynamic(id = it, freeCapacity = up.free)
+										SimpleStorageDeviceDynamic(id = it, freeCapacity = up.free)
 									}
 								},
 								merge = {
 									devDyn: StorageDeviceDynamic, fsInfo ->
-									devDyn.copy(freeCapacity = fsInfo.free)
+									(devDyn as SimpleStorageDeviceDynamic).copy(freeCapacity = fsInfo.free)
 								}
 						)
 				)
@@ -116,7 +117,7 @@ abstract class AbstractLinux : Distribution {
 								if (storageDevice == null) {
 									null
 								} else {
-									StorageDeviceDynamic(
+									SimpleStorageDeviceDynamic(
 											id = storageDevice.id,
 											freeCapacity = volGroup.freeSize
 									)

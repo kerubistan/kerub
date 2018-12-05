@@ -28,9 +28,11 @@ object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {
 		return allocationsOnRunningHosts.map { (storage, allocations) ->
 			allocations.map { allocation ->
 				val host = requireNotNull(state.hosts[allocation.hostId])
+				// TODO: this may be high-cost operation if there are tons os hosts
+				// maybe it would be better to narrow down the state of the cluster to the host
 				val targetAllocationSteps = CreateDiskFactory.produce(state)
 						// they all should be
-						.filterIsInstance<AbstractCreateVirtualStorage<*>>()
+						.filterIsInstance<AbstractCreateVirtualStorage<*, *>>()
 						.filter { it.host.id == host.stat.id }
 
 				targetAllocationSteps.map {
@@ -38,8 +40,8 @@ object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {
 					ConvertImage(
 							host = requireNotNull(state.hosts[allocation.hostId]).stat,
 							virtualStorage = storage,
-							fromAllocation = allocation,
-							newAllocation = allocation
+							sourceAllocation = allocation,
+							targetAllocation = TODO()
 					)
 				}
 

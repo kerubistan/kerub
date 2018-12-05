@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
@@ -44,7 +45,7 @@ class RemoveLvmPoolExecutor(
 					storageStatus = dyn.storageStatus.map {
 						status ->
 						if(status.id == storageCapability.id) {
-							status.copy(freeCapacity = updates)
+							(status as SimpleStorageDeviceDynamic).copy(freeCapacity = updates)
 						} else {
 							status
 						}
