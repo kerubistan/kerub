@@ -167,7 +167,7 @@ object Virsh : OsCommand {
 				balloonMax = props.getProperty("balloon.maximum")?.toBigInteger(),
 				balloonSize = props.getProperty("balloon.current")?.toBigInteger(),
 				vcpuMax = vcpuMax,
-				netStats = (0..netCount - 1).map { netId ->
+				netStats = (0 until netCount).map { netId ->
 					toNetStat(
 							props.filter { it.key.toString().startsWith("net.$netId.") }
 									.map { it.key.toString() to it.value.toString() }
@@ -175,7 +175,7 @@ object Virsh : OsCommand {
 							, netId
 					)
 				},
-				cpuStats = (0..vcpuMax - 1).map { vcpuid ->
+				cpuStats = (0 until vcpuMax).map { vcpuid ->
 					toCpuStat(props
 									  .filter { it.key.toString().startsWith("vcpu.$vcpuid.") }
 									  .map { it.key.toString() to it.value.toString() }
