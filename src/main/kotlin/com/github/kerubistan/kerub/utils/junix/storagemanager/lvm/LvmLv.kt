@@ -1,11 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
 import com.github.kerubistan.kerub.host.executeOrDie
+import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.emptyString
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.toSize
-import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
@@ -80,13 +79,10 @@ object LvmLv : Lvm() {
 			}
 
 	fun monitor(session: ClientSession, callback: (List<LogicalVolume>) -> Unit) {
-		val channel = session.createExecChannel(
-				"""bash -c "while true; do lvm lvs -o $fields $listOptions; echo $separator; sleep 60; done;"  """)
-
-		channel.`in` = NullInputStream(0)
-		channel.err = NullOutputStream()
-		channel.out = LvmMonitorOutputStream(callback)
-		channel.open().verify()
+		session.process(
+				"""bash -c "while true; do lvm lvs -o $fields $listOptions; echo $separator; sleep 60; done;"  """,
+				LvmMonitorOutputStream(callback)
+		)
 	}
 
 	/**

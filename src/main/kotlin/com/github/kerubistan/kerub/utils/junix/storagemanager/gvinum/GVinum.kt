@@ -1,11 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.kerubistan.kerub.host.executeOrDie
+import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.KB
 import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toSize
-import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
@@ -136,11 +135,10 @@ object GVinum {
 	}
 
 	fun monitorDrives(session: ClientSession, callback: (List<GvinumDrive>) -> Unit) {
-		val channel = session.createExecChannel(""" bash -c " while true; do gvinum ld -v; echo $separator; sleep 60; done " """)
-		channel.out = GvinumDriveMonitorOutputStream(callback)
-		channel.err = NullOutputStream()
-		channel.`in` = NullInputStream(0)
-		channel.open().verify()
+		session.process(
+				""" bash -c " while true; do gvinum ld -v; echo $separator; sleep 60; done " """,
+				GvinumDriveMonitorOutputStream(callback)
+		)
 	}
 
 }

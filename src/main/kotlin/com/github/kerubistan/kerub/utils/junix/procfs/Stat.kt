@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
+import com.github.kerubistan.kerub.host.process
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
@@ -10,8 +9,8 @@ object Stat {
 	private val separator = "--separator"
 	private val fieldSeparator = "\\s+".toRegex()
 
-	class CpuLoadMonitrOutputStream(val handler: (Map<String, CpuStat>) -> Unit) : OutputStream() {
-		val buffer = StringBuilder()
+	class CpuLoadMonitorOutputStream(val handler: (Map<String, CpuStat>) -> Unit) : OutputStream() {
+		private val buffer = StringBuilder()
 		override fun write(input: Int) {
 			buffer.append(input.toChar())
 			if (buffer.endsWith(separator)) {
@@ -35,13 +34,10 @@ object Stat {
 	}
 
 	fun cpuLoadMonitor(session: ClientSession, handler: (Map<String, CpuStat>) -> Unit) {
-		val channel = session.createExecChannel(
-				"""bash -c "while true; do grep cpu /proc/stat; echo $separator; sleep 1; done;" """
+		session.process(
+				"""bash -c "while true; do grep cpu /proc/stat; echo $separator; sleep 1; done;" """,
+						CpuLoadMonitorOutputStream(handler)
 		)
-		channel.`in` = NullInputStream(0)
-		channel.err = NullOutputStream()
-		channel.out = CpuLoadMonitrOutputStream(handler)
-		channel.open().verify()
 	}
 
 	fun cpuLoadMonitorIncremental(session: ClientSession, handler: (Map<String, CpuStat>) -> Unit) {

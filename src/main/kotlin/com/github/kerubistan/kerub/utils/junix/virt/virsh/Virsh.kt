@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.virt.virsh
 
 import com.github.kerubistan.kerub.host.executeOrDie
+import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
 import com.github.kerubistan.kerub.utils.LogLevel
@@ -17,7 +18,6 @@ import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toBigInteger
-import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.io.StringReader
@@ -145,10 +145,10 @@ object Virsh : OsCommand {
 	}
 
 	fun domStat(session: ClientSession, callback: (List<DomainStat>) -> Unit) {
-		val channel = session.createExecChannel("""bash -c "while true; do $domstatsCommand; sleep 1; done" """)
-		channel.out = DomStatsOutputHandler(callback)
-		channel.`in` = NullInputStream(0)
-		channel.open()
+		session.process(
+				"""bash -c "while true; do $domstatsCommand; sleep 1; done" """,
+				DomStatsOutputHandler(callback)
+		)
 	}
 
 

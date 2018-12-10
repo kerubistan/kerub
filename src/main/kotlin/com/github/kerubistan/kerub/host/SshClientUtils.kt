@@ -1,6 +1,8 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.utils.getLogger
+import org.apache.commons.io.input.NullInputStream
+import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.AbstractClientChannel
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
@@ -10,6 +12,7 @@ import org.apache.sshd.common.digest.Digest
 import org.apache.sshd.common.session.Session
 import org.slf4j.Logger
 import java.io.IOException
+import java.io.OutputStream
 import java.nio.charset.Charset
 import java.security.PublicKey
 import java.util.EnumSet
@@ -45,6 +48,15 @@ fun ClientSession.execute(command: String): String {
 fun ClientSession.executeOrDie(command: String): String {
 	return this.executeOrDie(command, { it.isNotBlank() })
 }
+
+fun ClientSession.process(command: String, output : OutputStream) {
+	val exec = this.createExecChannel(command)
+	exec.`in` = NullInputStream(0)
+	exec.err = NullOutputStream()
+	exec.out = output
+	exec.open().verify()
+}
+
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
 	val execChannel = this.createExecChannel(command)

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils.acpi
 
 import com.github.kerubistan.kerub.host.executeOrDie
+import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.substringBetween
 import org.apache.sshd.client.session.ClientSession
@@ -37,8 +38,10 @@ object Acpi : OsCommand {
 	}
 
 	fun monitorBatteryInfo(session: ClientSession, interval: Int = 1, handler : (List<BatteryStatus>) -> Unit) {
-		session.createExecChannel("""bash -c "while true; do acpi -t; echo $separator; sleep $interval; done" """).
-				out = AcpiBatteryOutputHandler(handler)
+		session.process(
+				"""bash -c "while true; do acpi -t; echo $separator; sleep $interval; done" """,
+				AcpiBatteryOutputHandler(handler)
+		)
 	}
 
 }
