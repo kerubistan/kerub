@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object Acpi : OsCommand {
 
-	private val separator = "---end---"
+	private const val separator = "---end---"
 
 	private fun parseBatteryInfo(input: String): BatteryStatus =
 			BatteryStatus(
@@ -19,7 +19,7 @@ object Acpi : OsCommand {
 			)
 
 	fun readBatteryInfo(session: ClientSession): List<BatteryStatus> =
-			session.executeOrDie("acpi -t").lines()
+			session.executeOrDie("acpi -b").lines()
 					.filterNot(String::isEmpty)
 					.map(::parseBatteryInfo)
 					.sortedBy { it.batteryId }
@@ -39,7 +39,7 @@ object Acpi : OsCommand {
 
 	fun monitorBatteryInfo(session: ClientSession, interval: Int = 1, handler : (List<BatteryStatus>) -> Unit) {
 		session.process(
-				"""bash -c "while true; do acpi -t; echo $separator; sleep $interval; done" """,
+				"""bash -c "while true; do acpi -b; echo $separator; sleep $interval; done" """,
 				AcpiBatteryOutputHandler(handler)
 		)
 	}

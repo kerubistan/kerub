@@ -27,6 +27,8 @@ import com.github.kerubistan.kerub.utils.junix.df.DF
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import com.github.kerubistan.kerub.utils.junix.mpstat.MPStat
 import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfo
+import com.github.kerubistan.kerub.utils.junix.sensors.CpuTemperatureInfo
+import com.github.kerubistan.kerub.utils.junix.sensors.Sensors
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
@@ -123,6 +125,16 @@ abstract class AbstractLinux : Distribution {
 									)
 								}
 							}
+					)
+				}
+			}
+		}
+
+		if(Sensors.available(host.capabilities)) {
+			Sensors.monitorCpuTemperatures(session) { temperatures ->
+				hostDynDao.doWithDyn(id) {
+					it.copy(
+							cpuTemperature = temperatures.map(CpuTemperatureInfo::temperature)
 					)
 				}
 			}

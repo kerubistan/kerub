@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.expect
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -12,6 +13,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.net.SocketAddress
 import java.nio.charset.Charset
 
 class SshClientUtilsKtTest {
@@ -39,8 +41,17 @@ class SshClientUtilsKtTest {
 		whenever(execChannel.invertedErr).thenReturn(ByteArrayInputStream("error".toByteArray(Charset.forName("ASCII"))))
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("hello".toByteArray(Charset.forName("ASCII"))))
 
-		expect(IOException::class,  {session.executeOrDie("echo hello")})
+		expect(IOException::class) {session.executeOrDie("echo hello")}
 
+	}
+
+	@Test
+	fun process() {
+		val socketAddress = mock<SocketAddress>()
+		whenever(socketAddress.toString()).thenReturn("test")
+		whenever(session.connectAddress).thenReturn(socketAddress)
+		session.mockProcess(".*".toRegex(), output = "", stderr = "this error will show up in the log\n")
+		session.process("TEST", mock {  })
 	}
 
 }

@@ -2,14 +2,28 @@ package com.github.kerubistan.kerub.utils.junix.sensors
 
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
+import com.github.kerubistan.kerub.model.HostCapabilities
+import com.github.kerubistan.kerub.model.OperatingSystem
+import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
 import com.github.kerubistan.kerub.utils.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
 object Sensors : OsCommand {
 
-	private val separator = "---end---"
+	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> =
+			listOf(
+					// TODO get teh package name from other distributions
+					{ pack: SoftwarePackage -> pack.name == "lm-sensors" } to listOf(Ubuntu)
+			)
+
+	override fun available(hostCapabilities: HostCapabilities?) =
+			// lm-sensors only for linux
+			hostCapabilities?.os == OperatingSystem.Linux && super.available(hostCapabilities)
+
+	private const val separator = "---end---"
 
 	private fun parseOutput(output: String) = output.lines().filter { it.startsWith("Core ") }
 			.map {

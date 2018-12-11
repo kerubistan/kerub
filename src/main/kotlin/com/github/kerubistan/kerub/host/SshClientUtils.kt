@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.utils.getLogger
 import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.AbstractClientChannel
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
@@ -45,14 +44,37 @@ fun ClientSession.execute(command: String): String {
 	}
 }
 
+/**
+ * Executes a command and returns the result or throws exception, any
+ * output on stderr is considered error.
+ */
 fun ClientSession.executeOrDie(command: String): String {
 	return this.executeOrDie(command, { it.isNotBlank() })
 }
 
+class StdErrLoggingOutputStream(private val session : ClientSession) : OutputStream() {
+
+	private val buff = StringBuilder()
+
+	override fun write(data: Int) {
+		if(data.toChar() == '\n') {
+			logger.warn("${session.connectAddress}/stderr: $buff")
+			buff.clear()
+		} else {
+			buff.append(data.toChar())
+		}
+
+	}
+
+}
+
+/**
+ * Starts a process that runs on the output.
+ */
 fun ClientSession.process(command: String, output : OutputStream) {
 	val exec = this.createExecChannel(command)
 	exec.`in` = NullInputStream(0)
-	exec.err = NullOutputStream()
+	exec.err = StdErrLoggingOutputStream(this)
 	exec.out = output
 	exec.open().verify()
 }

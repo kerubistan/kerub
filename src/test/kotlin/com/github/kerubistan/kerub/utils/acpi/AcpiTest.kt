@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils.acpi
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.nhaarman.mockito_kotlin.mock
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
@@ -40,6 +41,31 @@ class AcpiTest {
 			assertEquals(batteryId, 0)
 			assertEquals(batteryState, BatteryState.Discharging)
 			assertEquals(percent, 99)
+		}
+	}
+
+	@Test
+	fun monitorBatteryInfo() {
+		session.mockProcess(""".*acpi.*""".toRegex(), """Battery 0: Discharging, 64%, 00:58:35 remaining
+---end---
+Battery 0: Discharging, 64%, 00:58:35 remaining
+---end---
+Battery 0: Discharging, 64%, 01:15:23 remaining
+---end---
+Battery 0: Discharging, 64%, 01:14:56 remaining
+---end---
+Battery 0: Discharging, 64%, 01:45:40 remaining
+---end---
+Battery 0: Discharging, 64%, 01:44:50 remaining
+---end---
+""")
+		val results = mutableListOf<List<BatteryStatus>>()
+		Acpi.monitorBatteryInfo(session, handler = { results.add(it) })
+		assertEquals(6, results.size)
+		results.forEach {
+			assertEquals(64, it.single().percent)
+			assertEquals(0, it.single().batteryId)
+			assertEquals(BatteryState.Discharging, it.single().batteryState)
 		}
 	}
 

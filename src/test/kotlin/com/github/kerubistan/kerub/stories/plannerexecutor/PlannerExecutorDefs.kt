@@ -15,7 +15,6 @@ import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
@@ -176,9 +175,7 @@ class PlannerExecutorDefs {
 		for (i in 1..10) {
 			planner.onEvent(EntityUpdateMessage(
 					obj = HostDynamic(
-							id = host.id,
-							cpuStats = listOf(),
-							ksmEnabled = false
+							id = host.id
 					),
 					date = now())
 			)

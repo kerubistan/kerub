@@ -30,7 +30,7 @@ fun ClientSession.mockCommandExecution(
 			exec
 		}
 
-fun ClientSession.mockProcess(commandMatcher: Regex, output: String) {
+fun ClientSession.mockProcess(commandMatcher: Regex, output: String, stderr : String = "") {
 	val execChannel: ChannelExec = mock()
 	val openFuture : OpenFuture = mock()
 	whenever(this.createExecChannel(argThat { commandMatcher.matches(this) })).thenReturn(execChannel)
@@ -42,6 +42,14 @@ fun ClientSession.mockProcess(commandMatcher: Regex, output: String) {
 		}
 		null
 	} .whenever(execChannel)!!.out = any()
+	doAnswer {
+		val err = it.arguments[0] as OutputStream
+		stderr.forEach { chr ->
+			err.write( chr.toInt() )
+		}
+		null
+	} .whenever(execChannel)!!.err = any()
+
 	whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
 }
