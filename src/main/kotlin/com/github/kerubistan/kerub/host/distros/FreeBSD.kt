@@ -26,6 +26,7 @@ import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.dmesg.BsdDmesg
 import com.github.kerubistan.kerub.utils.junix.ifconfig.IfConfig
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
+import com.github.kerubistan.kerub.utils.junix.sysctl.BsdSysCtl
 import com.github.kerubistan.kerub.utils.junix.vmstat.BsdVmStat
 import com.github.kerubistan.kerub.utils.stringToMac
 import com.github.kerubistan.kerub.utils.toBigInteger
@@ -123,6 +124,15 @@ class FreeBSD : Distribution {
 							val cap = gvinumCapabilities.filterIsInstance<GvinumStorageCapability>().single()
 							SimpleStorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
 						}
+				)
+			}
+		}
+		BsdSysCtl.monitorCpuTemperatures(session) {
+			temperatures ->
+			hostDynDao.doWithDyn(host.id) {
+				hostDynamic ->
+				hostDynamic.copy(
+						cpuTemperature = temperatures.sortedBy { it.first }.map { it.second }
 				)
 			}
 		}
