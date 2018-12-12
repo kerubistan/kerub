@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.issues.problems
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedServiceDetector
+import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.CpuOverheatDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHostDetector
@@ -14,6 +15,8 @@ object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 			//host
 			RecyclingHostDetector,
 			UnusedServiceDetector,
+			//host hardware
+			CpuOverheatDetector,
 			//vms
 			VmOnRecyclingHostDetector,
 			//vstorage

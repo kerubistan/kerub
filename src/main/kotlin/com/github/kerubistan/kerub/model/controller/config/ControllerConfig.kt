@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.model.controller.config
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Entity
+import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.utils.emptyString
 
 /**
@@ -43,7 +44,12 @@ data class ControllerConfig(
 		/**
 		 * Configuration for the history archiver
 		 */
-		val archiverConfig: ArchiverConfig = ArchiverConfig()
+		val archiverConfig: ArchiverConfig = ArchiverConfig(),
+		/**
+		 * CPU temperature is considered normal between two limits.
+		 * This applies to all processor types, while for example ARM CPUs are usually cooler even under high load.
+		 */
+		val cpuNormalTemperature: Range<Int> = Range(20, 70)
 ) : Entity<String> {
 	@JsonIgnore
 	override val id: String = emptyString
