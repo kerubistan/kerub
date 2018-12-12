@@ -27,10 +27,11 @@ class DmiDecoder : OsCommand {
 		@JvmStatic fun handle(input: String): String =
 				input.substringBetween("Handle ", ",")
 
+		private const val manufacturer = "Manufacturer: "
 		@JvmStatic val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
 				1 to { input, _ ->
 					SystemInformation(
-							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
+							manufacturer = input.substringBetween(manufacturer, "\n"),
 							family = input.substringBetween("Family: ", "\n"),
 							version = input.substringBetween("Version: ", "\n"),
 							uuid = UUID.fromString(input.substringBetween("UUID: ", "\n"))
@@ -38,7 +39,7 @@ class DmiDecoder : OsCommand {
 				},
 				3 to { input, _ ->
 					ChassisInformation(
-							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
+							manufacturer = input.substringBetween(manufacturer, "\n"),
 							height = input.optionalIntBetween("Height: ", "\n"),
 							nrOfPowerCords = input.optionalIntBetween("Number Of Power Cords: ", "\n"),
 							type = input.substringBetween("Type: ", "\n")
@@ -46,7 +47,7 @@ class DmiDecoder : OsCommand {
 				},
 				4 to { input, dependencies ->
 					ProcessorInformation(
-							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
+							manufacturer = input.substringBetween(manufacturer, "\n"),
 							coreCount = input.optionalIntBetween("Core Count: ", "\n"),
 							threadCount = input.optionalIntBetween("Thread Count: ", "\n"),
 							maxSpeedMhz = input.optionalIntBetween("Max Speed: ", " MHz\n"),
@@ -78,7 +79,7 @@ class DmiDecoder : OsCommand {
 				17 to { input, _ ->
 					MemoryInformation(
 							size = input.substringBetween("Size: ", "\n").toSize(),
-							manufacturer = input.substringBetween("Manufacturer: ", "\n"),
+							manufacturer = input.substringBetween(manufacturer, "\n"),
 							type = input.substringBetween("Type: ", "\n"),
 							bankLocator = input.substringBetween("Bank Locator: ", "\n"),
 							configuredSpeedMhz = input.optionalIntBetween("Configured Clock Speed: ", " MHz"),
