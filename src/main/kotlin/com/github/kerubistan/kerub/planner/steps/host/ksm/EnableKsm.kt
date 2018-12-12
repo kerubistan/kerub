@@ -33,7 +33,7 @@ data class EnableKsm(override val host: Host, val cycles: Long) : HostStep, Inve
 									ksmEnabled = true,
 									systemCpu = ((dyn.systemCpu ?: 0) + ksmGeneratedLoad).toByte(),
 									idleCpu = ((dyn.idleCpu ?: 0) + ksmGeneratedLoad).toByte(),
-									memFree = ((dyn.memFree))
+									memFree = (dyn.memFree)
 							)
 					)
 				}
