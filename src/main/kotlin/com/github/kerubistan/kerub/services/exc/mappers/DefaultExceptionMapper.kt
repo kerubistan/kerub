@@ -25,6 +25,8 @@ class DefaultExceptionMapper : ExceptionMapper<Throwable> {
 		val jsonParseError = RestError("MAP2", "Json parsing error")
 	}
 
+	private fun Response.ResponseBuilder.contentType(contentType: String) = this.header("Content-Type", contentType)
+
 	override fun toResponse(exception: Throwable): Response =
 			when (exception) {
 				is UnresolvedAddressException ->
@@ -48,12 +50,12 @@ class DefaultExceptionMapper : ExceptionMapper<Throwable> {
 				is JsonMappingException ->
 					Response.status(NOT_ACCEPTABLE)
 							.entity(jsonMappingError)
-							.header("Content-Type", APPLICATION_JSON)
+							.contentType(APPLICATION_JSON)
 							.build()
 				is JsonParseException ->
 					Response.status(NOT_ACCEPTABLE)
 							.entity(jsonParseError)
-							.header("Content-Type", APPLICATION_JSON)
+							.contentType(APPLICATION_JSON)
 							.build()
 				is AuthenticationException ->
 					Response.status(UNAUTHORIZED)
@@ -69,7 +71,7 @@ class DefaultExceptionMapper : ExceptionMapper<Throwable> {
 											code = "HOST3",
 											message = exception.message
 									))
-							.header("Content-Type", APPLICATION_JSON)
+							.contentType(APPLICATION_JSON)
 							.build()
 				else ->
 					Response.status(INTERNAL_SERVER_ERROR)
