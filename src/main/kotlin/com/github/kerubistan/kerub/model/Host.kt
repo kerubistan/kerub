@@ -36,7 +36,7 @@ data class Host constructor(
 		@JsonView(Simple::class)
 		@Field
 		@JsonProperty("eol")
-		val endOfPlannedLifetime : Date?,
+		val endOfPlannedLifetime : Date? = null,
 		@Field
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
