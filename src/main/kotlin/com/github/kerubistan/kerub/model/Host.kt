@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonProperty
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
+import java.util.Date
 import java.util.UUID
 
 /**
@@ -32,6 +33,10 @@ data class Host constructor(
 		@Field
 		@JsonProperty("dedicated")
 		val dedicated: Boolean,
+		@JsonView(Simple::class)
+		@Field
+		@JsonProperty("eol")
+		val endOfPlannedLifetime : Date?,
 		@Field
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
