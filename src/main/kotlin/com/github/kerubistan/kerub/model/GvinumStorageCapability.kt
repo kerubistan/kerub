@@ -18,6 +18,11 @@ GvinumStorageCapability(
 		val devices: List<GvinumStorageCapabilityDrive>,
 		override val performanceInfo: Serializable? = null
 ) : StorageCapability {
+	init {
+		check(devices.isNotEmpty()) {
+			"there is no gvinum capability if there are no gvinum disks"
+		}
+	}
 	val devicesByName by lazy { devices.associateBy { it.name } }
 	override val size by lazy { devices.sumBy { it.size } }
 }

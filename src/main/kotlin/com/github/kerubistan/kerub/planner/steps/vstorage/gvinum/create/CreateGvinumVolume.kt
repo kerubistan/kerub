@@ -26,6 +26,9 @@ data class CreateGvinumVolume(
 ) : AbstractCreateVirtualStorage<VirtualStorageGvinumAllocation, GvinumStorageCapability> {
 
 	init {
+		check(capability in host.capabilities?.storageCapabilities ?: listOf()) {
+			"Capability must be registered in the host"
+		}
 		when(config) {
 			is SimpleGvinumConfiguration ->
 				check( config.diskName in capability.devicesByName.keys ) {
@@ -75,9 +78,9 @@ data class CreateGvinumVolume(
 		require(host.capabilities?.os == OperatingSystem.BSD) {
 			"Need BSD operating system, got ${host.capabilities?.os}"
 		}
-		require(host.capabilities?.distribution?.name == "FreeBSD", {
+		require(host.capabilities?.distribution?.name == "FreeBSD") {
 			"Gvinum runs on FreeBSD, got ${host.capabilities?.distribution?.name}"
-		})
+		}
 		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic) {
 			"Host dynamic not found - host must be running"
 		}
