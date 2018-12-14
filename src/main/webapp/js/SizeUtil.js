@@ -12,7 +12,7 @@ kerubApp.factory('size', ['$log', function($log) {
 	return {
 
         toSize: function (sizeStr) {
-            clean = sizeStr.toLowerCase().trim();
+            var clean = sizeStr.toLowerCase().trim();
             var amount = parseFloat(clean);
             if(clean.endsWith('kb')) {
 				return amount * kb;

@@ -55,7 +55,7 @@ kerubApp.factory('socket', ['$interval', '$log', 'appsession', function($interva
 		socket.onmessage = sock.__onmessage;
 		socket.onopen = function() {
 			$log.info('connection established');
-			for(i = 0; i < sock.queue.length; i++) {
+			for(var i = 0; i < sock.queue.length; i++) {
 				$log.debug('delayed sending msg', sock.queue[i]);
 				sock.socket.send(angular.toJson(sock.queue[i]));
 			}
