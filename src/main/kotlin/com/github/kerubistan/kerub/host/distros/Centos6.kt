@@ -8,13 +8,20 @@ import com.github.kerubistan.kerub.model.Version
 import org.apache.sshd.client.session.ClientSession
 
 class Centos6 : AbstractLinux() {
-	override fun getPackageManager(session: ClientSession): PackageManager
-			= YumPackageManager(session)
 
-	override fun getVersion(session: ClientSession): Version =
-			Version.fromVersionString(
-					session.getFileContents("/etc/redhat-release").substringAfter("CentOS release").replace("(Final)".toRegex(), "")
-			)
+	companion object {
+		private const val redHatReleaseFile = "/etc/redhat-release"
+	}
+
+	override fun getPackageManager(session: ClientSession): PackageManager = YumPackageManager(session)
+
+	override fun getVersion(session: ClientSession): Version {
+		return Version.fromVersionString(
+				session.getFileContents(redHatReleaseFile).substringAfter("CentOS release").replace(
+						"(Final)".toRegex(),
+						"")
+		)
+	}
 
 	override fun name(): String = "CentOS Linux"
 
@@ -23,7 +30,7 @@ class Centos6 : AbstractLinux() {
 	}
 
 	override fun detect(session: ClientSession): Boolean =
-			session.checkFileExists("/etc/redhat-release") &&
-					session.getFileContents("/etc/redhat-release").startsWith("CentOS release 6")
+			session.checkFileExists(redHatReleaseFile) &&
+					session.getFileContents(redHatReleaseFile).startsWith("CentOS release 6")
 
 }
