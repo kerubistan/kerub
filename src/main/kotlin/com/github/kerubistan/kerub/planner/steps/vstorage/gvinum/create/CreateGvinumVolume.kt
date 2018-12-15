@@ -8,9 +8,6 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumConfiguration
-import com.github.kerubistan.kerub.model.dynamic.gvinum.MirroredGvinumConfiguration
-import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
-import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
@@ -29,23 +26,8 @@ data class CreateGvinumVolume(
 		check(capability in host.capabilities?.storageCapabilities ?: listOf()) {
 			"Capability must be registered in the host"
 		}
-		when(config) {
-			is SimpleGvinumConfiguration ->
-				check( config.diskName in capability.devicesByName.keys ) {
-					"no disk '${config.diskName}' in gvinum capability, existing disks: ${capability.devicesByName.keys}"
-				}
-			is StripedGvinumConfiguration ->
-				check(capability.devicesByName.keys.containsAll(config.disks)) {
-					"one or more disk is not registered in gvinum capability: ${config.disks}"
-				}
-			is ConcatenatedGvinumConfiguration ->
-				check(capability.devicesByName.keys.containsAll(config.disks.keys)) {
-					"one or more disk is not registered in gvinum capability: ${config.disks.keys}"
-				}
-			is MirroredGvinumConfiguration ->
-				check(capability.devicesByName.keys.containsAll(config.disks)) {
-					"one or more disk is not registered in gvinum capability: ${config.disks}"
-				}
+		check(capability.devicesByName.keys.containsAll(config.diskNames)) {
+			"Not all of ${config.diskNames} could be found in ${capability.devicesByName.keys}"
 		}
 	}
 

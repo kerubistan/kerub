@@ -11,4 +11,6 @@ import java.io.Serializable
 		JsonSubTypes.Type(StripedGvinumConfiguration::class),
 		JsonSubTypes.Type(ConcatenatedGvinumConfiguration::class)
 )
-interface GvinumConfiguration : Serializable
+interface GvinumConfiguration : Serializable {
+	val diskNames : Collection<String>
+}

@@ -9,4 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 data class SimpleGvinumConfiguration(
 		//the single drive the 
 		val diskName: String
-) : GvinumConfiguration
+) : GvinumConfiguration {
+	override val diskNames: Set<String>
+		get() = setOf(diskName)
+}

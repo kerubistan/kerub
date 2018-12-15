@@ -10,6 +10,9 @@ import java.math.BigInteger
 data class ConcatenatedGvinumConfiguration(
 		val disks: Map<String, BigInteger>
 ) : GvinumConfiguration {
+	override val diskNames: Collection<String>
+		get() = disks.keys
+
 	init {
 		check(disks.isNotEmpty()) { "Empty configuration is invalid" }
 	}
