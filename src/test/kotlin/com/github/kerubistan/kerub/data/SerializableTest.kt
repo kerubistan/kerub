@@ -13,7 +13,7 @@ class SerializableTest {
 	@Test
 	fun checkSerializables() {
 		//check that all serializable classes have only fields that are also serializable
-		val subTypes = Reflections("com.github.kerubistan.kerub.model")
+		Reflections("com.github.kerubistan.kerub.model")
 				.getSubTypesOf(Serializable::class.java)
 				.filter {
 					!it.isInterface
