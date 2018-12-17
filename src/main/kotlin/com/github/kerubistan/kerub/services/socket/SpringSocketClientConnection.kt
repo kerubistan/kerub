@@ -50,8 +50,6 @@ class SpringSocketClientConnection(
 		)
 	}
 
-	private fun getEntityType(channel: String) = requireNotNull(addressToEntity[channel], { "Channel $channel not mapped!" })
-
 	override fun filterAndSend(msg: Message) {
 		if (msg is EntityMessage) {
 			val entity = msg.obj
