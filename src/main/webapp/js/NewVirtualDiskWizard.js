@@ -83,6 +83,7 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 			case 'iso':
 				$scope.fileFormat = 'raw';
 				$scope.disk.readOnly = true;
+				break;
 			default:
 				$scope.fileFormat = 'raw';
 				break;
