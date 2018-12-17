@@ -95,16 +95,6 @@ var NewVirtualDiskWizard = function($scope, $uibModalInstance, $log, appsession,
 		$scope.autoname = false;
 	};
 
-	/**
-	 * gettersetter for disk size
-	 */
-	$scope.diskSize = function(val) {
-		if(val) {
-			$log.info(val);
-		} else {
-		}
-	}
-
 	$scope.addStorage = function() {
 		appsession.put('s/r/virtual-storage', $scope.disk).success(function(result) {
 			if($scope.uploader.queue.length > 0) {
