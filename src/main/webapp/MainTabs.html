@@ -238,21 +238,21 @@
 							</span>
 						</td>
 						<td><span ng-if="host.capabilities.distribution" class="label label-primary">
-									<i class="fa fa-linux"></i>
+									<em class="fa fa-linux"></em>
 									{{host.capabilities.distribution.name}}
 									{{host.capabilities.distribution.version.major}}
 									{{host.capabilities.distribution.version.minor}}
 									</span>
 									<span ng-if="host.capabilities.system.manufacturer" class="label label-default">
-									<i class="fa fa-industry"></i>
+									<em class="fa fa-industry"></em>
 									{{host.capabilities.system.manufacturer}}
 									</span>
 									<span ng-if="host.capabilities.cpuArchitecture" class="label label-info">
-									<i class="fa fa-gear"></i>
+									<em class="fa fa-gear"></em>
 									{{host.capabilities.cpuArchitecture}}
 									</span>
 									<span ng-if="host.capabilities.cpuArchitecture" class="label label-success">
-									<i class="fa fa-reorder"></i>
+									<em class="fa fa-reorder"></em>
 									{{humanFriendlySize(host.capabilities.totalMemory)}}
 									</span>
 							<button class="btn fa fa-trash" ng-click="removeHost()"></button>
