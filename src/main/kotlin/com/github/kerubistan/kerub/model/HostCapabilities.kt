@@ -67,5 +67,4 @@ data class HostCapabilities(
 	}
 
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
-	val storageCapabilitiesByType by lazy { storageCapabilities. associateBy { it.javaClass.kotlin } }
 }
