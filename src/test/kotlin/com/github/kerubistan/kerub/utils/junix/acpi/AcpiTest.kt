@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.utils.acpi
+package com.github.kerubistan.kerub.utils.junix.acpi
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
