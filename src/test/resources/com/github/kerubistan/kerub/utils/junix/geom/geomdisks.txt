@@ -1,0 +1,52 @@
+Geom name: vtbd0
+Providers:
+1. Name: vtbd0
+   Mediasize: 21474836480 (20G)
+   Sectorsize: 512
+   Mode: r2w2e3
+   descr: (null)
+   ident: (null)
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 16
+
+Geom name: cd0
+Providers:
+1. Name: cd0
+   Mediasize: 0 (0B)
+   Sectorsize: 2048
+   Mode: r0w0e0
+   descr: QEMU QEMU DVD-ROM
+   ident: (null)
+   rotationrate: unknown
+   fwsectors: 0
+   fwheads: 0
+
+Geom name: da0
+Providers:
+1. Name: da0
+   Mediasize: 2147483648 (2.0G)
+   Sectorsize: 512
+   Stripesize: 4096
+   Stripeoffset: 0
+   Mode: r1w1e1
+   descr: QEMU QEMU HARDDISK
+   ident: (null)
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 255
+
+Geom name: da1
+Providers:
+1. Name: da1
+   Mediasize: 2147483648 (2.0G)
+   Sectorsize: 512
+   Stripesize: 4096
+   Stripeoffset: 0
+   Mode: r1w1e1
+   descr: QEMU QEMU HARDDISK
+   ident: (null)
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 255
+
