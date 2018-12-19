@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
@@ -15,7 +15,6 @@ import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.math.BigInteger
 
-@JsonIgnoreProperties("storageCapabilitiesById", "storageCapabilitiesByType")
 data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
@@ -66,5 +65,7 @@ data class HostCapabilities(
 		}
 	}
 
+	@delegate:JsonIgnore
+	@delegate:Transient
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
 }

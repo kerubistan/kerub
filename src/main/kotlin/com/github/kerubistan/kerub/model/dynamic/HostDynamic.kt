@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
@@ -16,7 +16,6 @@ import java.util.UUID
  */
 @JsonTypeName("host-dyn")
 @Dynamic(Host::class)
-@JsonIgnoreProperties("storageStatusById")
 data class HostDynamic(
 		@DocumentId
 		@JsonProperty("id")
@@ -35,5 +34,7 @@ data class HostDynamic(
 		val storageStatus: List<StorageDeviceDynamic> = listOf(),
 		val cpuTemperature: List<Int> = listOf()
 ) : DynamicEntity {
+	@delegate:JsonIgnore
+	@delegate:Transient
 	val storageStatusById by lazy { storageStatus.associateBy { it.id } }
 }

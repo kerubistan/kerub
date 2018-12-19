@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.utils.sumBy
 import java.io.Serializable
@@ -11,9 +11,7 @@ import java.util.UUID
  * There can be only one such storage capability per host, each can have different performance.
  */
 @JsonTypeName("gvinum")
-@JsonIgnoreProperties("devicesByName", "size")
-data class
-GvinumStorageCapability(
+data class GvinumStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		val devices: List<GvinumStorageCapabilityDrive>,
 		override val performanceInfo: Serializable? = null
@@ -23,6 +21,10 @@ GvinumStorageCapability(
 			"there is no gvinum capability if there are no gvinum disks"
 		}
 	}
+	@delegate:JsonIgnore
+	@delegate:Transient
 	val devicesByName by lazy { devices.associateBy { it.name } }
+	@delegate:JsonIgnore
+	@delegate:Transient
 	override val size by lazy { devices.sumBy { it.size } }
 }

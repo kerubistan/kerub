@@ -1,10 +1,11 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.kerubistan.kerub.utils.sumBy
 import java.util.UUID
 
-@JsonIgnoreProperties("freeCapacity")
 data class CompositeStorageDeviceDynamic(override val id: UUID, val items: List<CompositeStorageDeviceDynamicItem>) : StorageDeviceDynamic {
+	@delegate:JsonIgnore
+	@delegate:Transient
 	override val freeCapacity by lazy { items.sumBy { it.freeCapacity } }
 }
