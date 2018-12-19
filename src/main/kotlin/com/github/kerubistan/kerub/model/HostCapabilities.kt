@@ -67,5 +67,9 @@ data class HostCapabilities(
 
 	@delegate:JsonIgnore
 	@delegate:Transient
+	val installedSoftwareByName by lazy { installedSoftware.associateBy { it.name } }
+
+	@delegate:JsonIgnore
+	@delegate:Transient
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
 }

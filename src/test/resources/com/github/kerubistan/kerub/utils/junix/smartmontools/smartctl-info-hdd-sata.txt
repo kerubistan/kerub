@@ -1,0 +1,19 @@
+smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-42-generic] (local build)
+Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF INFORMATION SECTION ===
+Model Family:     Western Digital Blue Mobile
+Device Model:     WDC WD10JPCX-24UE4T0
+Serial Number:    WD-WXN1E9485PZA
+LU WWN Device Id: 5 0014ee 605b51a0f
+Firmware Version: 01.01A01
+User Capacity:    1'000'204'886'016 bytes [1.00 TB]
+Sector Sizes:     512 bytes logical, 4096 bytes physical
+Rotation Rate:    5400 rpm
+Device is:        In smartctl database [for details use: -P show]
+ATA Version is:   ACS-2 (minor revision not indicated)
+SATA Version is:  SATA 3.0, 6.0 Gb/s (current: 6.0 Gb/s)
+Local Time is:    Wed Dec 19 11:43:41 2018 CET
+SMART support is: Available - device has SMART capability.
+SMART support is: Enabled
+
