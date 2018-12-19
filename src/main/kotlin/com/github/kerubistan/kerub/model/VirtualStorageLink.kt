@@ -21,4 +21,13 @@ data class VirtualStorageLink(
 		val device: DeviceType = DeviceType.disk,
 		@Field
 		val readOnly: Boolean = false
-) : Serializable, Constrained<Expectation>
+) : Serializable, Constrained<Expectation> {
+	companion object {
+		private val cdromBusTypes = listOf(BusType.ide, BusType.sata, BusType.scsi)
+	}
+	init {
+		if(device == DeviceType.cdrom) {
+			check(bus in cdromBusTypes) { "cdrom can only be used with $cdromBusTypes bus types" }
+		}
+	}
+}

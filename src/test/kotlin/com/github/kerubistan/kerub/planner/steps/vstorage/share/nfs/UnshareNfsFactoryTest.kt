@@ -88,7 +88,7 @@ class UnshareNfsFactoryTest {
 		assertTrue("do not unshare if it is mounted") {
 			val vm = testVm.copy(
 					virtualStorageLinks = listOf(
-							VirtualStorageLink(virtualStorageId = testDisk.id, bus = BusType.virtio,
+							VirtualStorageLink(virtualStorageId = testDisk.id, bus = BusType.sata,
 											   device = DeviceType.cdrom, readOnly = true))
 			)
 			val nfsServer = testHost.copy(
