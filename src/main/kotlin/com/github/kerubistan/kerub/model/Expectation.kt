@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.github.kerubistan.kerub.model.expectations.BandwidthExpectation
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.kerubistan.kerub.model.expectations.ClockFrequencyExpectation
@@ -9,7 +10,9 @@ import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.kerubistan.kerub.model.expectations.EccMemoryExpectation
 import com.github.kerubistan.kerub.model.expectations.HostOperatingSystemExpectation
+import com.github.kerubistan.kerub.model.expectations.LatencyExpectation
 import com.github.kerubistan.kerub.model.expectations.MemoryClockFrequencyExpectation
+import com.github.kerubistan.kerub.model.expectations.NetworkRedundancyExpectation
 import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
@@ -38,32 +41,37 @@ import java.io.Serializable
 @JsonSubTypes(
 		JsonSubTypes.Type(HostOperatingSystemExpectation::class),
 		JsonSubTypes.Type(NoMigrationExpectation::class),
-		JsonSubTypes.Type(StoragePerformanceExpectation::class),
-		JsonSubTypes.Type(StorageReadPerformanceExpectation::class),
-		JsonSubTypes.Type(StorageReadWritePerformance::class),
-		JsonSubTypes.Type(StorageWritePerformanceExpectation::class),
 		JsonSubTypes.Type(VirtualMachineAvailabilityExpectation::class),
 		JsonSubTypes.Type(EccMemoryExpectation::class),
 		JsonSubTypes.Type(CoreDedicationExpectation::class),
 		JsonSubTypes.Type(ChassisManufacturerExpectation::class),
 		JsonSubTypes.Type(NotSameHostExpectation::class),
 		JsonSubTypes.Type(PowerRedundancyExpectation::class),
-		JsonSubTypes.Type(NotSameStorageExpectation::class),
 		JsonSubTypes.Type(CpuArchitectureExpectation::class),
-		JsonSubTypes.Type(StorageRedundancyExpectation::class),
 		JsonSubTypes.Type(ClockFrequencyExpectation::class),
 		JsonSubTypes.Type(MemoryClockFrequencyExpectation::class),
 		JsonSubTypes.Type(CacheSizeExpectation::class),
 		JsonSubTypes.Type(SystemManufacturerExpectation::class),
 		JsonSubTypes.Type(SiteFeaturesExpectation::class),
-		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
 		JsonSubTypes.Type(WorkingHostExpectation::class),
 		JsonSubTypes.Type(NoGarbageExpectation::class),
 		JsonSubTypes.Type(VmDependency::class),
-		//pool expectations
+		// virtual storage expectations
+		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
+		JsonSubTypes.Type(NotSameStorageExpectation::class),
+		JsonSubTypes.Type(StorageRedundancyExpectation::class),
+		JsonSubTypes.Type(StoragePerformanceExpectation::class),
+		JsonSubTypes.Type(StorageReadPerformanceExpectation::class),
+		JsonSubTypes.Type(StorageReadWritePerformance::class),
+		JsonSubTypes.Type(StorageWritePerformanceExpectation::class),
+		// pool expectations
 		JsonSubTypes.Type(PoolAllVmExpectation::class),
 		JsonSubTypes.Type(PoolAverageLoadExpectation::class),
-		JsonSubTypes.Type(PoolRunningVmsExpectation::class)
+		JsonSubTypes.Type(PoolRunningVmsExpectation::class),
+		// virtual network
+		JsonSubTypes.Type(BandwidthExpectation::class),
+		JsonSubTypes.Type(LatencyExpectation::class),
+		JsonSubTypes.Type(NetworkRedundancyExpectation::class)
 )
 interface Expectation : Serializable {
 	val level: ExpectationLevel

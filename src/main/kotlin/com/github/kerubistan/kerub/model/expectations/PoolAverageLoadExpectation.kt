@@ -1,10 +1,12 @@
 package com.github.kerubistan.kerub.model.expectations
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.ExpectationLevel
 
 /**
  *
  */
+@JsonTypeName("pool-average-load")
 data class PoolAverageLoadExpectation(val max: Int = 90,
 									  val min: Int = 10,
 									  val toleranceMs: Int = 10000,

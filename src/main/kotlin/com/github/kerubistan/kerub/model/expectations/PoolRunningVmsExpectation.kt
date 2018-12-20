@@ -1,11 +1,13 @@
 package com.github.kerubistan.kerub.model.expectations
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.github.kerubistan.kerub.model.ExpectationLevel
 
 /**
  * Set the minimum and optionally the maximum number of virtual machines running in the pool.
  */
-data class PoolRunningVmsExpectation(val min: Int = 0,
+
+data class PoolRunningVmsExpectation @JsonCreator constructor(val min: Int = 0,
 									 val max: Int? = null,
 									 override val level: ExpectationLevel = ExpectationLevel.Want) : PoolExpectation {
 	init {
