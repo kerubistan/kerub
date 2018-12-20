@@ -5,7 +5,9 @@ enum class SiteFeature {
 	RenewablePower,
 	UPS,
 	BackupGenerators,
+	Renewable,
 	ArmedGuards,
 	Subsurface,
-	VideoSurveilance
+	VideoSurveillance,
+	Doomsday
 }
