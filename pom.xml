@@ -58,7 +58,7 @@
 		<angular-bootstrap.version>1.1.1-1</angular-bootstrap.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<cucumber.version>1.2.5</cucumber.version>
-		<jackson.version>2.9.7</jackson.version>
+		<jackson.version>2.9.8</jackson.version>
 		<jetty.version>9.2.2.v20140723</jetty.version>
 		<shiro.version>1.4.0</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
