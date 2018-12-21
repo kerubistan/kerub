@@ -591,9 +591,9 @@
 											<li class="menuitem" ng-click="setBus('ide')"><a href="#"><span class="glyphicon glyphicon-hdd"></span> ide</a></li>
 											<li class="menuitem" ng-click="setBus('scsi')"><a href="#"><span class="fa fa-exchange"></span> scsi</a></li>
 											<li class="menuitem" ng-click="setBus('sata')"><a href="#"><span class="fa fa-exchange"></span> sata</a></li>
-											<li class="menuitem" ng-click="setBus('usb')"><a href="#"><span class="fa fa-usb"></span> usb</a></li>
-											<li class="menuitem" ng-click="setBus('virtio')"><a href="#"><span class="fa fa-cube"></span> virtio</a></li>
-											<li class="menuitem" ng-click="setBus('xen')"><a href="#"><span class="fa fa-cube"></span> xen</a></li>
+											<li class="menuitem" ng-click="setBus('usb')" ng-if="link.device != 'cdrom'"><a href="#"><span class="fa fa-usb"></span> usb</a></li>
+											<li class="menuitem" ng-click="setBus('virtio')" ng-if="link.device != 'cdrom'"><a href="#"><span class="fa fa-cube"></span> virtio</a></li>
+											<li class="menuitem" ng-click="setBus('xen')" ng-if="link.device != 'cdrom'"><a href="#"><span class="fa fa-cube"></span> xen</a></li>
 										</ul>
 									</span>
 
