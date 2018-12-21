@@ -477,6 +477,7 @@
 		<property name="concurrency" value="1"/>
 		<property name="destination" ref="globalEvents"/>
 		<property name="messageListener" ref="messageListener"/>
+		<property name="acceptMessagesWhileStopping" value="true"/>
 	</bean>
 
 	<bean
@@ -490,6 +491,7 @@
 		<property name="concurrency" value="1-2"/>
 		<property name="destination" ref="privateEvents"/>
 		<property name="messageListener" ref="interControllerListener"/>
+		<property name="acceptMessagesWhileStopping" value="true"/>
 	</bean>
 
 	<bean id="broadcastEvents" class="org.apache.activemq.artemis.jms.client.ActiveMQQueue">
@@ -502,6 +504,7 @@
 		<property name="concurrency" value="1-2"/>
 		<property name="destination" ref="broadcastEvents"/>
 		<property name="messageListener" ref="interControllerListener"/>
+		<property name="acceptMessagesWhileStopping" value="true"/>
 	</bean>
 
 	<!--
@@ -522,6 +525,7 @@
 		<property name="concurrency" value="1-8"/>
 		<property name="destination" ref="asyncInvocationsQueue"/>
 		<property name="messageListener" ref="asyncInvocationsMessageListener"/>
+		<property name="acceptMessagesWhileStopping" value="true"/>
 	</bean>
 
 	<bean id="asyncInvocationsMessageListener" class="com.github.kerubistan.kerub.utils.activeobject.MqExecutor"/>
