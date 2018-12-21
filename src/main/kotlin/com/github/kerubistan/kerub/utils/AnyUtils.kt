@@ -7,4 +7,4 @@ fun String.equalsAnyIgnoreCase(vararg others: String) = others.any { it.equals(t
 /**
  * Proudly and intentionally doing nothing.
  */
-inline fun NOP(): Unit {}
+inline fun NOP(): Unit { /*the expected nothing, inlined*/ }
