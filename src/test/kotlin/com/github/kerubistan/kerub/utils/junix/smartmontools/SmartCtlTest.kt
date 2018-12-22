@@ -3,9 +3,13 @@ package com.github.kerubistan.kerub.utils.junix.smartmontools
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.resourceToString
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -89,6 +93,37 @@ class SmartCtlTest {
 				"smartctl -H .*".toRegex(),
 				resourceToString("com/github/kerubistan/kerub/utils/junix/smartmontools/smartctl-healthcheck-qemu.txt"))
 		assertTrue(SmartCtl.healthCheck(session, "/dev/sda"))
+	}
+
+	@Test
+	fun monitor() {
+		session.mockProcess(
+				".*smartctl.*".toRegex(),
+				"""smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-42-generic] (local build)
+Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+---end---
+smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-42-generic] (local build)
+Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+---end---
+smartctl 6.6 2016-05-31 r4324 [x86_64-linux-4.15.0-42-generic] (local build)
+Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF READ SMART DATA SECTION ===
+SMART overall-health self-assessment test result: PASSED
+
+---end---
+""")
+		val update = mock<(Boolean) -> Unit>()
+		SmartCtl.monitor(session, "/dev/sda", interval = 1, update = update)
+		verify(update, times(3)).invoke(eq(true))
 	}
 
 }
