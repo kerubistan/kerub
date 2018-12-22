@@ -37,7 +37,7 @@ object SmartCtl : OsCommand {
 						it.substringBefore(" rpm").toInt()
 					}
 				},
-				userCapacity = properties["User Capacity"]?.substringBefore(" bytes")?.remove("(,|')".toRegex())?.toBigInteger()
+				userCapacity = properties["User Capacity"]?.substringBefore(" bytes")?.remove("([,'])".toRegex())?.toBigInteger()
 						?: ZERO,
 				sataVersion = properties["SATA Version is"]?.substringBetween("SATA ", ",") ?: "",
 				serialNumber = properties["Serial Number"] ?: ""
