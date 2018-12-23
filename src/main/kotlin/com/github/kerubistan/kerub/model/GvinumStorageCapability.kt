@@ -22,9 +22,7 @@ data class GvinumStorageCapability(
 		}
 	}
 	@delegate:JsonIgnore
-	@delegate:Transient
 	val devicesByName by lazy { devices.associateBy { it.name } }
 	@delegate:JsonIgnore
-	@delegate:Transient
 	override val size by lazy { devices.sumBy { it.size } }
 }

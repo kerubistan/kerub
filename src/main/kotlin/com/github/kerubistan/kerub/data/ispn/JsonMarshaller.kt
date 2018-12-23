@@ -35,13 +35,13 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 		private val logger = getLogger(JsonMarshaller::class)
 	}
 
-	internal fun objectToByteArray(o: Any?, objectMapper: ObjectMapper, estimatedSize: Int? = null): ByteArray =
+	private fun objectToByteArray(o: Any?, objectMapper: ObjectMapper, estimatedSize: Int? = null): ByteArray =
 			ByteArrayOutputStream(estimatedSize ?: 1024).use {
 				objectMapper.writeValue(it, o)
 				it.toByteArray()
 			}
 
-	internal fun byteArrayToObject(objectMapper: ObjectMapper, bytes: ByteArray, start: Int? = null, len: Int? = null): Any? =
+	private fun byteArrayToObject(objectMapper: ObjectMapper, bytes: ByteArray, start: Int? = null, len: Int? = null): Any? =
 			objectMapper.readValue(bytes, start ?: 1, len ?: bytes.size, Entity::class.java)
 
 	override fun objectToBuffer(o: Any?): ByteBuffer? {

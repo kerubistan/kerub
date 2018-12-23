@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.utils.asPercentOf
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -24,6 +25,10 @@ import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 class Cygwin : Distribution {
+	override fun listBlockDevices(session: ClientSession): List<BlockDevice>
+			// TODO : find a way to get block device list from windows - wmic maybe?
+			= listOf()
+
 	override fun getVersion(session: ClientSession) =
 			Version.fromVersionString(session.executeOrDie("uname -r").substringBefore("("))
 

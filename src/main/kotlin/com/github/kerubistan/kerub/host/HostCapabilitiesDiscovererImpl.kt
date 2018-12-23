@@ -123,6 +123,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 				devices = LsPci.execute(session),
 				powerManagment = distro.detectPowerManagement(session),
 				storageCapabilities = storageCapabilities,
+				blockDevices = distro.listBlockDevices(session),
 				hypervisorCapabilities = hypervisorCapabilities
 		)
 	}

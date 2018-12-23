@@ -18,17 +18,20 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
+import com.github.kerubistan.kerub.utils.junix.lsblk.Lsblk
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import com.github.kerubistan.kerub.utils.junix.mpstat.MPStat
 import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.CpuTemperatureInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.Sensors
+import com.github.kerubistan.kerub.utils.junix.smartmontools.SmartCtl
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
@@ -42,19 +45,22 @@ import java.math.BigInteger
 
 abstract class AbstractLinux : Distribution {
 
+	override fun listBlockDevices(session: ClientSession): List<BlockDevice> =
+			Lsblk.list(session, noDeps = true).map { BlockDevice(deviceName = it.name, storageCapacity = it.size) }
+
 	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
 		private val nonStorageFilesystems = listOf("proc", "devtmpfs", "tmpfs", "cgroup", "debugfs", "pstore")
 	}
 
-	override fun installMonitorPackages(session: ClientSession, host : Host) {
+	override fun installMonitorPackages(session: ClientSession, host: Host) {
 		//TODO: filter what is already installed, do not install if the list is empty
 		val packsNeeded =
 				arrayOf(VmStat, MPStat)
 						.map { util -> getRequiredPackages(util, host.capabilities) }
 						.join()
-		if(packsNeeded.isNotEmpty()) {
+		if (packsNeeded.isNotEmpty()) {
 			getPackageManager(session).install(*packsNeeded.toTypedArray())
 		}
 	}
@@ -62,7 +68,8 @@ abstract class AbstractLinux : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao) {
+			hostDynDao: HostDynamicDao
+	) {
 		val id = host.id
 
 		val lvmStorageCapabilities = host
@@ -82,25 +89,21 @@ abstract class AbstractLinux : Distribution {
 
 		val storageMountToId = storageIdToMount.map { it.value to it.key }.toMap()
 
-		DF.monitor(session) {
-			mounts ->
-			hostDynDao.doWithDyn(id) {
-				hostDyn ->
+		DF.monitor(session) { mounts ->
+			hostDynDao.doWithDyn(id) { hostDyn ->
 				hostDyn.copy(
 						storageStatus = hostDyn.storageStatus.update(
 								updateList = mounts,
 								upKey = { it.mountPoint },
 								selfKey = { storageIdToMount[it.id] ?: "" },
 								updateMiss = { it },
-								selfMiss = {
-									up ->
+								selfMiss = { up ->
 									val stat = storageMountToId[up.mountPoint]
 									stat?.let {
 										SimpleStorageDeviceDynamic(id = it, freeCapacity = up.free)
 									}
 								},
-								merge = {
-									devDyn: StorageDeviceDynamic, fsInfo ->
+								merge = { devDyn: StorageDeviceDynamic, fsInfo ->
 									(devDyn as SimpleStorageDeviceDynamic).copy(freeCapacity = fsInfo.free)
 								}
 						)
@@ -130,7 +133,7 @@ abstract class AbstractLinux : Distribution {
 			}
 		}
 
-		if(Sensors.available(host.capabilities)) {
+		if (Sensors.available(host.capabilities)) {
 			Sensors.monitorCpuTemperatures(session) { temperatures ->
 				hostDynDao.doWithDyn(id) {
 					it.copy(
@@ -140,8 +143,19 @@ abstract class AbstractLinux : Distribution {
 			}
 		}
 
-		MPStat.monitor(session, {
-			stats ->
+		if (SmartCtl.available(host.capabilities)) {
+			host.capabilities?.blockDevices?.forEach { storageDevice ->
+				SmartCtl.monitor(session, device = "/dev/${storageDevice.deviceName}") { healthy ->
+					hostDynDao.doWithDyn(id) {
+						it.copy(
+								storageDeviceHealth = it.storageDeviceHealth + (storageDevice.deviceName to healthy)
+						)
+					}
+				}
+			}
+		}
+
+		MPStat.monitor(session, { stats ->
 			hostDynDao.doWithDyn(id) {
 				it.copy(
 						cpuStats = stats
@@ -183,29 +197,30 @@ abstract class AbstractLinux : Distribution {
 	override fun detectStorageCapabilities(
 			session: ClientSession,
 			osVersion: SoftwarePackage,
-			packages: List<SoftwarePackage>): List<StorageCapability> {
+			packages: List<SoftwarePackage>
+	): List<StorageCapability> {
 		return listLvmVolumes(session, osVersion, packages) + listFilesystems(session)
 	}
 
-	internal fun listFilesystems(session: ClientSession): List<FsStorageCapability> =
+	private fun listFilesystems(session: ClientSession): List<FsStorageCapability> =
 			joinMountsAndDF(
 					DF.df(session),
 					Mount.listMounts(session).filterNot { nonStorageFilesystems.contains(it.type) }
 			)
 
 
-	internal fun listLvmVolumes(session: ClientSession,
-								osVersion: SoftwarePackage,
-								packages: List<SoftwarePackage>): List<LvmStorageCapability> =
+	private fun listLvmVolumes(
+			session: ClientSession,
+			osVersion: SoftwarePackage,
+			packages: List<SoftwarePackage>
+	): List<LvmStorageCapability> =
 			if (LvmLv.available(osVersion, packages)) {
 				val pvs = silent { LvmPv.list(session) } ?: listOf()
-				(silent { LvmVg.list(session) } ?: listOf()).map {
-					vg ->
+				(silent { LvmVg.list(session) } ?: listOf()).map { vg ->
 					LvmStorageCapability(
 							volumeGroupName = vg.name,
 							size = vg.size,
-							physicalVolumes = pvs.filter {
-								pv ->
+							physicalVolumes = pvs.filter { pv ->
 								pv.volumeGroupId == vg.id
 							}.map { it.size })
 				}
@@ -243,12 +258,12 @@ abstract class AbstractLinux : Distribution {
 		}
 	}
 
-	override fun detectHostCpuFlags(session: ClientSession): List<String>
-			= (if (detectHostCpuType(session) == "x86_64") {
-		CpuInfo.list(session)
-	} else {
-		CpuInfo.listPpc(session)
-	}).first().flags
+	override fun detectHostCpuFlags(session: ClientSession): List<String> =
+			(if (detectHostCpuType(session) == "x86_64") {
+				CpuInfo.list(session)
+			} else {
+				CpuInfo.listPpc(session)
+			}).first().flags
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
 }

@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.benchmarks.bonnie.Bonnie
@@ -114,5 +115,7 @@ interface Distribution {
 					)
 				} else capability
 			} else capability
+
+	fun listBlockDevices(session: ClientSession): List<BlockDevice>
 
 }

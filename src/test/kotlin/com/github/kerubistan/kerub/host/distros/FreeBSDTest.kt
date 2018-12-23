@@ -38,4 +38,24 @@ class FreeBSDTest {
 	}
 
 
+	@Test
+	fun listBlockDevices() {
+		session.mockCommandExecution("geom disk list.*".toRegex(), """Geom name: vtbd0
+Providers:
+1. Name: vtbd0
+   Mediasize: 21474836480 (20G)
+   Sectorsize: 512
+   Mode: r2w2e3
+   descr: (null)
+   ident: (null)
+   rotationrate: unknown
+   fwsectors: 63
+   fwheads: 16
+
+""")
+		val blockDevices = FreeBSD().listBlockDevices(session)
+		assertEquals("vtbd0", blockDevices.single().deviceName)
+		assertEquals(21474836480, blockDevices.single().storageCapacity.toLong())
+	}
+
 }

@@ -20,10 +20,12 @@ import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.dmesg.BsdDmesg
+import com.github.kerubistan.kerub.utils.junix.geom.Geom
 import com.github.kerubistan.kerub.utils.junix.ifconfig.IfConfig
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.kerubistan.kerub.utils.junix.sysctl.BsdSysCtl
@@ -39,6 +41,9 @@ import java.math.BigInteger
  * PermitRootLogin yes
  */
 class FreeBSD : Distribution {
+
+	override fun listBlockDevices(session: ClientSession): List<BlockDevice> =
+			Geom.list(session).map { BlockDevice(deviceName = it.name, storageCapacity = it.mediaSize) }
 
 	override fun getTotalMemory(session: ClientSession): BigInteger {
 		return (session

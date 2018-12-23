@@ -1,7 +1,9 @@
 package com.github.kerubistan.kerub.host.distros
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -61,5 +63,17 @@ class AbstractLinuxTest {
 
 		assertEquals(1, pms.size)
 		assertTrue { pms[0] is WakeOnLanInfo }
+	}
+
+	@Test
+	fun listBlockDevices() {
+		val linux = Fedora()
+		session.mockCommandExecution("lsblk.*".toRegex(), """NAME ROTA RO   RA RM MIN-IO OPT-IO TYPE  SIZE
+vda     1  0 4096  0    512      0 disk    8G
+""")
+		val blockDevices = linux.listBlockDevices(session)
+		assertEquals(8.GB, blockDevices.single().storageCapacity)
+		assertEquals("vda", blockDevices.single().deviceName)
+
 	}
 }

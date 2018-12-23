@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonView
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.PciDevice
@@ -30,6 +31,9 @@ data class HostCapabilities(
 		val devices: List<PciDevice> = listOf(),
 		@JsonView(Simple::class)
 		@Field
+		val blockDevices: List<BlockDevice> = listOf(),
+		@JsonView(Simple::class)
+		@Field
 		val cpuArchitecture: String,
 		@JsonView(Simple::class)
 		@Field
@@ -55,21 +59,17 @@ data class HostCapabilities(
 		@Field
 		@JsonView(Detailed::class)
 		val hypervisorCapabilities: List<Any> = listOf()
-)
-	: Serializable {
+) : Serializable {
 
 	init {
-		storageCapabilities.count { it is GvinumStorageCapability }.let {
-			cnt ->
+		storageCapabilities.count { it is GvinumStorageCapability }.let { cnt ->
 			check(cnt <= 1) { "there can be only one gvinum capability, there are $cnt" }
 		}
 	}
 
-	@delegate:JsonIgnore
-	@delegate:Transient
-	val installedSoftwareByName by lazy { installedSoftware.associateBy { it.name } }
+	@get:JsonIgnore
+	val installedSoftwareByName by lazy(LazyThreadSafetyMode.PUBLICATION) { installedSoftware.associateBy { it.name } }
 
-	@delegate:JsonIgnore
-	@delegate:Transient
+	@get:JsonIgnore
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
 }

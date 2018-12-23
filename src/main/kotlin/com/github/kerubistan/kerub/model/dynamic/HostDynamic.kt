@@ -32,9 +32,11 @@ data class HostDynamic(
 		val ksmEnabled: Boolean = false,
 		val cpuStats: List<CpuStat> = listOf(),
 		val storageStatus: List<StorageDeviceDynamic> = listOf(),
+		val storageDeviceHealth: Map<String, Boolean> = mapOf(),
 		val cpuTemperature: List<Int> = listOf()
 ) : DynamicEntity {
 	@delegate:JsonIgnore
-	@delegate:Transient
-	val storageStatusById by lazy { storageStatus.associateBy { it.id } }
+	val storageStatusById by lazy {
+		storageStatus.associateBy { it.id }
+	}
 }
