@@ -222,7 +222,7 @@ abstract class AbstractLinux : Distribution {
 							size = vg.size,
 							physicalVolumes = pvs.filter { pv ->
 								pv.volumeGroupId == vg.id
-							}.map { it.size })
+							}.associate { it.device to it.size })
 				}
 
 			} else {

@@ -21,7 +21,10 @@ class HostJsonSerializationTest {
 						),
 						storageCapabilities = listOf(
 								LvmStorageCapability(
-										physicalVolumes = listOf(2.TB, 2.TB, 2.TB),
+										physicalVolumes = mapOf(
+												"/dev/sda" to 2.TB,
+												"/dev/sdb" to 2.TB,
+												"/dev/sdc" to 2.TB),
 										size = 6.TB,
 										volumeGroupName = "test-vg",
 										id = UUID.randomUUID()

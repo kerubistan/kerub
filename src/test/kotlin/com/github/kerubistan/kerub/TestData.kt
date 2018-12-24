@@ -57,7 +57,7 @@ val testHostCapabilities = HostCapabilities(
 val testLvmCapability = LvmStorageCapability(
 		id = randomUUID(),
 		size = 2.TB,
-		physicalVolumes = listOf(2.TB),
+		physicalVolumes = mapOf("/dev/sda1" to 2.TB),
 		volumeGroupName = "test-vg"
 )
 

@@ -62,11 +62,11 @@ Feature: removing a host
 	And host diebastard.example.com is Up
 	And host longlive.example.com is Up
 	And host diebastard.example.com volume groups are:
-	  | vg name | size   | pvs                            |
-	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
+	  | vg name | size   | pvs                                                                    |
+	  | vg-1    | 512 GB | /dev/sda: 128 GB, /dev/sdb: 128 GB, /dev/sdc: 128 GB, /dev/sdd: 128 GB |
 	And host longlive.example.com volume groups are:
-	  | vg name | size   | pvs                            |
-	  | vg-1    | 512 GB | 128 GB, 128 GB, 128 GB, 128 GB |
+	  | vg name | size   | pvs                                                                    |
+	  | vg-1    | 512 GB | /dev/sda: 128 GB, /dev/sdb: 128 GB, /dev/sdc: 128 GB, /dev/sdd: 128 GB |
 	And virtual storage devices:
 	  | name          | size | ro   |
 	  | system-disk-1 | 2 GB | true |

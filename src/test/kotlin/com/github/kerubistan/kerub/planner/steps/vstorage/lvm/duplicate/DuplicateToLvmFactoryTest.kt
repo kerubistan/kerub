@@ -43,7 +43,7 @@ class DuplicateToLvmFactoryTest {
 			val lvmCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val host = testHost.copy(
@@ -84,7 +84,7 @@ class DuplicateToLvmFactoryTest {
 			val lvmCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val sourceHost = testHost.copy(
@@ -95,7 +95,7 @@ class DuplicateToLvmFactoryTest {
 			val targetCapacity = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val targetHost = testOtherHost.copy(
@@ -174,7 +174,7 @@ class DuplicateToLvmFactoryTest {
 			val sourceCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val sourceHost = testHost.copy(
@@ -187,7 +187,7 @@ class DuplicateToLvmFactoryTest {
 			val targetCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val targetHost = testOtherHost.copy(
@@ -265,7 +265,7 @@ class DuplicateToLvmFactoryTest {
 			val sourceCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val sourceHost = testHost.copy(
@@ -278,7 +278,7 @@ class DuplicateToLvmFactoryTest {
 			val targetCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val targetHost = testOtherHost.copy(
@@ -346,7 +346,7 @@ class DuplicateToLvmFactoryTest {
 			val sourceCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val sourceHost = testHost.copy(
@@ -359,7 +359,7 @@ class DuplicateToLvmFactoryTest {
 			val targetCapability = LvmStorageCapability(
 					id = randomUUID(),
 					size = 2.TB,
-					physicalVolumes = listOf(1.TB, 1.TB),
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 					volumeGroupName = "kerub-test-vg"
 			)
 			val targetHost = testOtherHost.copy(

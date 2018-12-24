@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.stories.plannerexecutor
 
 import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
+import com.github.kerubistan.kerub.PB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -92,8 +93,8 @@ class PlannerExecutorDefs {
 							LvmStorageCapability(
 									id = UUID.randomUUID(),
 									volumeGroupName = "TEST",
-									size = "1 PB".toSize(),
-									physicalVolumes = listOf("1 PB".toSize()))
+									size = 1.PB,
+									physicalVolumes = mapOf("/dev/sda" to 1.PB))
 					),
 					hypervisorCapabilities = listOf(
 							LibvirtCapabilities(

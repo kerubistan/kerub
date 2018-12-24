@@ -295,7 +295,10 @@ class PlannerDefs {
 		val lvmCapabilities = vgs.raw().skip().map { row ->
 			LvmStorageCapability(
 					id = UUID.randomUUID(),
-					physicalVolumes = row[2].split(",").map(String::toSize),
+					physicalVolumes = row[2].split(",").map {
+						val (device, size) = it.trim().split(":")
+						device.trim() to size.trim().toSize()
+					}.toMap(),
 					size = row[1].toSize(),
 					volumeGroupName = row[0]
 			)

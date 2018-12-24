@@ -13,7 +13,6 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -25,8 +24,8 @@ class CreateLvTest {
 	val volume = LvmStorageCapability(
 			volumeGroupName = "testvg",
 			id = UUID.randomUUID(),
-			size = "200 GB".toSize(),
-			physicalVolumes = listOf()
+			size = 200.GB,
+			physicalVolumes = mapOf("/dev/sda" to 200.GB)
 	)
 
 	val host = Host(
@@ -39,7 +38,7 @@ class CreateLvTest {
 							volume
 					),
 					cpuArchitecture = "",
-					totalMemory = "128 GB".toSize(),
+					totalMemory = 128.GB,
 					distribution = SoftwarePackage(name = "CentOs", version = Version.fromVersionString("7.0")),
 					os = OperatingSystem.Linux
 			)
@@ -50,16 +49,16 @@ class CreateLvTest {
 			status = HostStatus.Up,
 			storageStatus = listOf(
 					SimpleStorageDeviceDynamic(
-							freeCapacity = "200 GB".toSize(),
+							freeCapacity = 200.GB,
 							id = volume.id
 					)
 			)
 	)
 
-	val vDisk = VirtualStorageDevice(
+	private val vDisk = VirtualStorageDevice(
 			id = UUID.randomUUID(),
 			name = "test disk",
-			size = "100 GB".toSize()
+			size = 100.GB
 	)
 
 	@Test

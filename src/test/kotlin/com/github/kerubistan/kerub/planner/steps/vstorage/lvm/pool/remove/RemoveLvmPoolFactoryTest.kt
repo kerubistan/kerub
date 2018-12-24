@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.remove
 
+import com.github.kerubistan.kerub.GB
+import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
@@ -10,7 +12,6 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
-import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
@@ -42,8 +43,8 @@ class RemoveLvmPoolFactoryTest {
 							capabilities = testHostCapabilities.copy(
 									storageCapabilities = listOf(
 											LvmStorageCapability(
-													size = "2 TB".toSize(),
-													physicalVolumes = listOf("1 TB".toSize(), "1 TB".toSize()),
+													size = 2.TB,
+													physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 													volumeGroupName = "test-vg-1",
 													id = UUID.randomUUID()
 											)
@@ -59,8 +60,8 @@ class RemoveLvmPoolFactoryTest {
 							capabilities = testHostCapabilities.copy(
 									storageCapabilities = listOf(
 											LvmStorageCapability(
-													size = "2 TB".toSize(),
-													physicalVolumes = listOf("1 TB".toSize(), "1 TB".toSize()),
+													size = 2.TB,
+													physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 													volumeGroupName = "test-vg-1",
 													id = UUID.randomUUID()
 											)
@@ -72,7 +73,7 @@ class RemoveLvmPoolFactoryTest {
 									id = testHost.id,
 									storageConfiguration = listOf(
 											LvmPoolConfiguration(
-													size = "128 GB".toSize(),
+													size = 128.GB,
 													vgName = "test-vg-1",
 													poolName = "test-pool"
 											)
@@ -90,7 +91,7 @@ class RemoveLvmPoolFactoryTest {
 													pool = "test-pool",
 													hostId = testHost.id,
 													path = "/dev/test-vg-1/${testDisk.id}",
-													actualSize = "1 GB".toSize(),
+													actualSize = 1.GB,
 													vgName = "test-vg-1",
 													capabilityId = testLvmCapability.id
 											)
@@ -106,8 +107,8 @@ class RemoveLvmPoolFactoryTest {
 							capabilities = testHostCapabilities.copy(
 									storageCapabilities = listOf(
 											LvmStorageCapability(
-													size = "2 TB".toSize(),
-													physicalVolumes = listOf("1 TB".toSize(), "1 TB".toSize()),
+													size = 2.TB,
+													physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
 													volumeGroupName = "test-vg-1",
 													id = UUID.randomUUID()
 											)
@@ -119,7 +120,7 @@ class RemoveLvmPoolFactoryTest {
 									id = testHost.id,
 									storageConfiguration = listOf(
 											LvmPoolConfiguration(
-													size = "128 GB".toSize(),
+													size = 128.GB,
 													vgName = "test-vg-1",
 													poolName = "test-pool"
 											)

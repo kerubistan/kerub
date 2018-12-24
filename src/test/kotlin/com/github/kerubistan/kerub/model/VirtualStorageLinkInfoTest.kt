@@ -27,7 +27,7 @@ class VirtualStorageLinkInfoTest {
 					id = UUID.randomUUID(),
 					size = 2.TB,
 					volumeGroupName = "testVg",
-					physicalVolumes = listOf(2.TB)
+					physicalVolumes = mapOf("/dev/sda" to 2.TB)
 			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
@@ -66,7 +66,7 @@ class VirtualStorageLinkInfoTest {
 					id = UUID.randomUUID(),
 					size = 2.TB,
 					volumeGroupName = "testVg",
-					physicalVolumes = listOf(2.TB)
+					physicalVolumes = mapOf("/dev/sda" to 2.TB)
 			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
@@ -106,7 +106,7 @@ class VirtualStorageLinkInfoTest {
 					id = UUID.randomUUID(),
 					size = 2.TB,
 					volumeGroupName = "testVg",
-					physicalVolumes = listOf(2.TB)
+					physicalVolumes = mapOf("/dev/sda" to 2.TB)
 			)
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
@@ -179,7 +179,7 @@ class VirtualStorageLinkInfoTest {
 				id = UUID.randomUUID(),
 				size = 2.TB,
 				volumeGroupName = "testVg",
-				physicalVolumes = listOf(2.TB)
+				physicalVolumes = mapOf("/dev/sda" to 2.TB)
 		)
 
 		VirtualStorageLinkInfo(

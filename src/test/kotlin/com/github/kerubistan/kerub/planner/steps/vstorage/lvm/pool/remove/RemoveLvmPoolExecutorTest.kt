@@ -11,7 +11,6 @@ import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -31,13 +30,13 @@ class RemoveLvmPoolExecutorTest {
 		val vg1 = LvmStorageCapability(
 				id = UUID.randomUUID(),
 				size = 1.TB,
-				physicalVolumes = listOf(1.TB),
+				physicalVolumes = mapOf("/dev/sda" to 1.TB),
 				volumeGroupName = "vg-1"
 		)
 		val vg2 = LvmStorageCapability(
 				id = UUID.randomUUID(),
 				size = 2.TB,
-				physicalVolumes = listOf(2.TB),
+				physicalVolumes = mapOf("/dev/sdb" to 2.TB),
 				volumeGroupName = "vg-2"
 		)
 		val host = testHost.copy(

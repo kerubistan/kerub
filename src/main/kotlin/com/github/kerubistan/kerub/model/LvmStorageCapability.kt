@@ -10,6 +10,15 @@ data class LvmStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		override val size: BigInteger,
 		val volumeGroupName: String,
-		val physicalVolumes: List<BigInteger>,
+		val physicalVolumes: Map<String, BigInteger>,
 		override val performanceInfo: Serializable? = null
-) : StorageCapability
+) : VolumeManagerStorageCapability {
+
+	override val storageDevices by lazy { physicalVolumes.map { it.key } }
+
+	init {
+		check(physicalVolumes.isNotEmpty()) {
+			"There should be at least one PV in a VG"
+		}
+	}
+}

@@ -78,7 +78,7 @@ class StatisticsDaoImplTest {
 					storageCapabilities = listOf(
 							LvmStorageCapability(
 									id = UUID.randomUUID(),
-									physicalVolumes = listOf(128.GB, 128.GB),
+									physicalVolumes = mapOf("/dev/sda" to 128.GB, "/dev/sdb" to 128.GB),
 									size = 256.GB,
 									volumeGroupName = "data-vg"
 							)

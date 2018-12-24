@@ -94,7 +94,7 @@ class CreateThinLvFactoryTest {
 			val storageCapability = LvmStorageCapability(
 					size = 2.TB,
 					volumeGroupName = "test-vg",
-					physicalVolumes = listOf(1.TB, 1.TB)
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB)
 			)
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(

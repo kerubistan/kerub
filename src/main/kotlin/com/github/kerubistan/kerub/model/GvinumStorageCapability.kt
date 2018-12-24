@@ -15,7 +15,11 @@ data class GvinumStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		val devices: List<GvinumStorageCapabilityDrive>,
 		override val performanceInfo: Serializable? = null
-) : StorageCapability {
+) : VolumeManagerStorageCapability {
+
+	@get:JsonIgnore
+	override val storageDevices by lazy { devices.map { it.device } }
+
 	init {
 		check(devices.isNotEmpty()) {
 			"there is no gvinum capability if there are no gvinum disks"

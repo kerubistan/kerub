@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 
+import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
@@ -29,8 +30,8 @@ class CreateLvFactoryTest {
 
 	private val volumeGroup = LvmStorageCapability(
 			id = UUID.randomUUID(),
-			size = "1 TB".toSize(),
-			physicalVolumes = listOf(),
+			size = 1.TB,
+			physicalVolumes = mapOf("/dev/sda" to 1.TB),
 			volumeGroupName = "testvg"
 	)
 
@@ -41,7 +42,7 @@ class CreateLvFactoryTest {
 			capabilities = HostCapabilities(
 					os = OperatingSystem.Linux,
 					cpuArchitecture = "x86_64",
-					totalMemory = "1 GB".toSize(),
+					totalMemory = 1.GB,
 					distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.0")),
 					storageCapabilities = listOf<StorageCapability>(volumeGroup)
 			),

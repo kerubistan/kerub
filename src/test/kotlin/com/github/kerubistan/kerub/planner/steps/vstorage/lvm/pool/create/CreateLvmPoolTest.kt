@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.create
 
+import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
@@ -21,9 +22,9 @@ class CreateLvmPoolTest {
 						storageCapabilities = listOf(
 								LvmStorageCapability(
 										id = UUID.randomUUID(),
-										size = "8 TB".toSize(),
+										size = 8.TB,
 										volumeGroupName = "test-vg",
-										physicalVolumes = listOf("4 TB".toSize(), "4 TB".toSize())
+										physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
 								)
 						)
 				)

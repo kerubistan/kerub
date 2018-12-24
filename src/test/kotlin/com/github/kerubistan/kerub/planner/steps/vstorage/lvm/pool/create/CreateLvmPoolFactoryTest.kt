@@ -33,7 +33,7 @@ class CreateLvmPoolFactoryTest {
 									LvmStorageCapability(
 											id = storageId,
 											size = 4.TB,
-											physicalVolumes = listOf(2.TB, 2.TB),
+											physicalVolumes = mapOf("/dev/sda" to 2.TB, "/dev/sdb" to 2.TB),
 											volumeGroupName = "test-vg-1"
 									)
 							)
@@ -73,7 +73,7 @@ class CreateLvmPoolFactoryTest {
 									LvmStorageCapability(
 											id = storageId,
 											size = 4.TB,
-											physicalVolumes = listOf(2.TB, 2.TB),
+											physicalVolumes = mapOf("/dev/sda" to 2.TB, "/dev/sdb" to 2.TB),
 											volumeGroupName = "test-vg-1"
 									)
 							)
@@ -113,7 +113,7 @@ class CreateLvmPoolFactoryTest {
 									LvmStorageCapability(
 											id = storageId,
 											size = 4.TB,
-											physicalVolumes = listOf(2.TB, 2.TB),
+											physicalVolumes = mapOf("/dev/sda" to 2.TB, "/dev/sdb" to 2.TB),
 											volumeGroupName = "test-vg-1"
 									)
 							)
