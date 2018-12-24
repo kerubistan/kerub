@@ -30,7 +30,7 @@ class KvmHypervisor(private val client: ClientSession,
 		Virsh.domStat(client) { stats ->
 			val vmDyns = vmDynDao.findByHostId(host.id)
 			val runningVms = stats.mapNotNull {
-				silent(level = LogLevel.Debug, actionName = "parse domain name as uuid") { it.name.toUUID() }
+				silent(level = LogLevel.Off, actionName = "parse domain name as uuid") { it.name.toUUID() }
 			}
 
 			//handle vms that no longer run on this host
