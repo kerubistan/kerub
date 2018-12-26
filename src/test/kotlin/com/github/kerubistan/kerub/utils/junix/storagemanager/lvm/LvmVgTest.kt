@@ -1,16 +1,14 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-import java.io.OutputStream
 import java.math.BigInteger
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -61,17 +59,8 @@ class LvmVgTest {
 	@Test
 	fun monitor() {
 		val execChannel: ChannelExec = mock()
-		val openFuture : OpenFuture = mock()
 		whenever(session.createExecChannel(any())).thenReturn(execChannel)
-		whenever(execChannel.open()).thenReturn(openFuture)
-		doAnswer {
-			val out = it.arguments[0] as OutputStream
-			monitorOutput.forEach {
-				out.write( it.toInt() )
-			}
-			null
-		} .whenever(execChannel)!!.out = any<OutputStream>()
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		session.mockProcess(".*lvm vgs.*".toRegex(),monitorOutput)
 
 		val results = mutableListOf<List<VolumeGroup>>()
 		LvmVg.monitor(session, {
@@ -81,6 +70,13 @@ class LvmVgTest {
 
 		assertEquals(2, results.size)
 		assert( results.all { it.size == 2 } )
+	}
+
+	@Test
+	fun reduce() {
+		session.mockCommandExecution("lvm vgreduce.*".toRegex())
+		LvmVg.reduce(session, "test-vg", "/dev/sdf")
+		session.verifyCommandExecution("lvm vgreduce.*".toRegex())
 	}
 
 }

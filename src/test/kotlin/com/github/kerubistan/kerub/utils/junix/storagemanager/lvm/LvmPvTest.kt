@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.mock
@@ -19,7 +21,6 @@ class LvmPvTest {
 	val execChannel: ChannelExec = mock()
 	val createExecChannel: ChannelExec = mock()
 	val openFuture: OpenFuture = mock()
-
 
 	companion object {
 		val testOutput = """  KNQsfE-ddlI-PEnl-3S7i-qu3U-8w1X-l6Nen1:/dev/sda2:166673252352B:0B:gEUr1s-SwpD-vwZ4-trFZ-ZxJp-7kAr-E0QA5g
@@ -55,5 +56,12 @@ class LvmPvTest {
 		val list = LvmPv.list(session)
 
 		assertEquals(listOf(), list)
+	}
+
+	@Test
+	fun move() {
+		session.mockCommandExecution("lvm pvmove.*".toRegex())
+		LvmPv.move(session, "/dev/sdd")
+		session.verifyCommandExecution("lvm pvmove.*".toRegex())
 	}
 }

@@ -56,4 +56,9 @@ object LvmVg : Lvm() {
 				freePes = fields[5].toLong()
 		)
 	}
+
+	fun reduce(session: ClientSession, vgName: String, pv : String) {
+		session.executeOrDie("lvm vgreduce $vgName $pv")
+	}
+
 }

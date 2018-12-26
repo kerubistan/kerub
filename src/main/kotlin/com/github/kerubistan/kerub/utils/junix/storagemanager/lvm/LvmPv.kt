@@ -22,4 +22,8 @@ object LvmPv : Lvm() {
 						volumeGroupId = fields[4]
 				)
 			}
+
+	fun move(session: ClientSession, pv : String) {
+		session.executeOrDie("lvm pvmove $pv")
+	}
 }
