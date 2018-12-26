@@ -5,6 +5,7 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -29,6 +30,10 @@ fun ClientSession.mockCommandExecution(
 			whenever(exec.invertedOut).then { output.toInputStream() }
 			exec
 		}
+
+fun ClientSession.verifyCommandExecution(commandMatcher: Regex) {
+	verify(this).createExecChannel(argThat { commandMatcher.matches(this) })
+}
 
 fun ClientSession.mockProcess(commandMatcher: Regex, output: String, stderr : String = "") {
 	val execChannel: ChannelExec = mock()
