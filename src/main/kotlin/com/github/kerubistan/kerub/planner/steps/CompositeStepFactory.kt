@@ -17,6 +17,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFacto
 import com.github.kerubistan.kerub.planner.steps.vstorage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvmFactory
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.vg.RemoveDiskFromVGFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.ShareFactory
 import com.github.kerubistan.kerub.utils.LogLevel
@@ -33,10 +34,22 @@ class CompositeStepFactory(
 
 	companion object {
 		private val logger = getLogger(CompositeStepFactory::class)
-		internal val defaultFactories = setOf(MigrateVirtualMachineFactory,
-				PowerDownHostFactory, StartVirtualMachineFactory, StopVirtualMachineFactory,
-				RecycleHostFactory, ShareFactory, HostSecurityCompositeFactory, DuplicateToLvmFactory, UnAllocateFactory,
-				RemoveVirtualStorageFactory, UnallocateDiskFactory, CreateDiskFactory, WakeHostFactory, KvmMigrateVirtualMachineFactory)
+		internal val defaultFactories = setOf(
+				MigrateVirtualMachineFactory,
+				PowerDownHostFactory,
+				StartVirtualMachineFactory,
+				StopVirtualMachineFactory,
+				RecycleHostFactory,
+				ShareFactory,
+				HostSecurityCompositeFactory,
+				DuplicateToLvmFactory,
+				UnAllocateFactory,
+				RemoveVirtualStorageFactory,
+				UnallocateDiskFactory,
+				CreateDiskFactory,
+				WakeHostFactory,
+				KvmMigrateVirtualMachineFactory,
+				RemoveDiskFromVGFactory)
 
 		private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
 				defaultFactories.flatMap { it.expectationHints }

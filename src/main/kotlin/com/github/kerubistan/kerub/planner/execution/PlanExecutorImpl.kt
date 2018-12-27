@@ -69,6 +69,8 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.remove.Remove
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.remove.RemoveLvmPoolExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLvExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.vg.RemoveDiskFromVG
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.vg.RemoveDiskFromVGExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfsExecutor
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.UnmountNfs
@@ -138,6 +140,7 @@ class PlanExecutorImpl(
 			CreateThinLv::class to CreateThinLvExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			//ShrinkLvmPool::class to ShrinkLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao),
 			RemoveLvmPool::class to RemoveLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao, hostDynamicDao),
+			RemoveDiskFromVG::class to RemoveDiskFromVGExecutor(hostCommandExecutor, hostDao),
 
 			//NFS
 			StartNfsDaemon::class to StartNfsDaemonExecutor(hostManager, hostConfigurationDao),

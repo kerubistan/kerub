@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 			"classpath:stories/general/planner/planner.feature",
 			"classpath:stories/general/planner/host-removal.feature",
 			"classpath:stories/general/planner/storage.feature",
+			"classpath:stories/general/planner/hardware/storage-smart-failure.feature",
 			"classpath:stories/general/planner/storage.nfs.feature",
 //			"classpath:stories/general/planner/power-save.feature",
 //			"classpath:stories/general/planner/host-failure.feature",

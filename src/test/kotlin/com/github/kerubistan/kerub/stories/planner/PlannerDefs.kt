@@ -45,6 +45,7 @@ import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.hardware.CacheInformation
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
@@ -77,6 +78,7 @@ import com.github.kerubistan.kerub.planner.steps.vstorage.gvinum.create.CreateGv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.duplicate.DuplicateToLvm
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.vg.RemoveDiskFromVG
 import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.vstorage.remove.RemoveVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.vstorage.share.iscsi.AbstractIscsiShare
@@ -307,15 +309,24 @@ class PlannerDefs {
 		hosts = hosts.replace({ it.id == host.id }, { stat ->
 			stat.copy(
 					capabilities = requireNotNull(stat.capabilities).copy(
-							storageCapabilities = requireNotNull(requireNotNull(stat.capabilities).storageCapabilities) + lvmCapabilities
+							storageCapabilities = requireNotNull(requireNotNull(stat.capabilities).storageCapabilities) + lvmCapabilities,
+							blockDevices = stat.capabilities!!.blockDevices + lvmCapabilities.map {
+								it.physicalVolumes.map {
+									BlockDevice(
+											deviceName = it.key,
+											storageCapacity = it.value)
+								}
+							}.join()
 					)
 			)
 		})
 		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
+			val blockDevices = lvmCapabilities.map { it.physicalVolumes.map { it.key to true } }.join().toMap()
 			dyn.copy(
 					storageStatus = dyn.storageStatus + lvmCapabilities.map {
 						SimpleStorageDeviceDynamic(id = it.id, freeCapacity = it.size)
-					}
+					},
+					storageDeviceHealth = dyn.storageDeviceHealth + blockDevices
 			)
 		})
 	}
@@ -1192,4 +1203,34 @@ class PlannerDefs {
 			}
 		}
 	}
+
+	@When("disk (\\S+) in host (\\S+) signals failure")
+	fun setDiskFailing(device : String, hostAddress : String) {
+		val host = hosts.single { it.address == hostAddress }
+		hostDyns = hostDyns.update(selector = {it.id == host.id}, map = {
+			it.copy(
+					storageDeviceHealth = it.storageDeviceHealth + (device to false)
+			)
+		})
+		planner.onEvent(EntityUpdateMessage(
+				obj = hostDyns.single { it.id == host.id },
+				date = now()
+		))
+
+	}
+
+	@Then("disk (\\S+) in host (\\S+) will be removed from VG (\\S+) as step (\\d+)")
+	fun verifyPVRemove(device: String, hostAddr: String, volumeGroup: String, stepNr: Int) {
+		assertTrue("step $stepNr must be remove pv from vg") {
+			executedPlans.any { plan ->
+				plan.steps.getOrNull(stepNr - 1)?.let { step ->
+					step is RemoveDiskFromVG
+							&& step.device == device
+							&& step.host.address == hostAddr
+							&& step.capability.volumeGroupName == volumeGroup
+				} ?: false
+			}
+		}
+	}
+
 }
