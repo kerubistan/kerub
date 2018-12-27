@@ -18,7 +18,7 @@ object RemoveDiskFromVGFactory : AbstractOperationalStepFactory<RemoveDiskFromVG
 							.mapNotNull { capability ->
 								val capFree =
 										host.dynamic.storageStatusById[capability.id]?.freeCapacity ?: BigInteger.ZERO
-								if (device in capability.storageDevices && capFree > blockDevice.storageCapacity) {
+								if (capability.storageDevices.size > 1 && device in capability.storageDevices && capFree > blockDevice.storageCapacity) {
 									RemoveDiskFromVG(device = device, capability = capability, host = host.stat)
 								} else null
 							}
