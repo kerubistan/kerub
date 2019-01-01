@@ -3,6 +3,12 @@ package com.github.kerubistan.kerub.model
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.github.kerubistan.kerub.data.alerts.DataLossAlert
+import com.github.kerubistan.kerub.data.alerts.HostLostAlert
+import com.github.kerubistan.kerub.data.alerts.HostOverheatingAlert
+import com.github.kerubistan.kerub.data.alerts.NetworkLinkDownAlert
+import com.github.kerubistan.kerub.data.alerts.StorageFailureAlert
+import com.github.kerubistan.kerub.data.alerts.UnsatisfiedExpectationAlert
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import java.io.Serializable
 
@@ -25,7 +31,13 @@ import java.io.Serializable
 		JsonSubTypes.Type(AddEntry::class),
 		JsonSubTypes.Type(DeleteEntry::class),
 		JsonSubTypes.Type(UpdateEntry::class),
-		JsonSubTypes.Type(Event::class)
+		JsonSubTypes.Type(Event::class),
+		JsonSubTypes.Type(DataLossAlert::class),
+		JsonSubTypes.Type(NetworkLinkDownAlert::class),
+		JsonSubTypes.Type(StorageFailureAlert::class),
+		JsonSubTypes.Type(HostLostAlert::class),
+		JsonSubTypes.Type(HostOverheatingAlert::class),
+		JsonSubTypes.Type(UnsatisfiedExpectationAlert::class)
 )
 interface Entity<T> : Serializable {
 	//	@DocumentId
