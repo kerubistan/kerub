@@ -7,9 +7,9 @@ import com.github.kerubistan.kerub.utils.join
 
 object VirtualStorageAllocationOnFailingStorageDeviceDetector
 	: AbstractFailingStorageDeviceDetector<VirtualStorageAllocationOnFailingStorageDevice>() {
-	override fun createProblems(host: HostDataCollection, device: String, plan: Plan) =
+	override fun createProblems(host: HostDataCollection, failingDevice: String, plan: Plan) =
 			host.stat.capabilities?.storageCapabilities?.filterIsInstance<VolumeManagerStorageCapability>()?.filter {
-				device in it.storageDevices
+				failingDevice in it.storageDevices
 			}?.map { failingCapability ->
 				plan.state.allocatedStorage.mapNotNull { vdisk ->
 					vdisk.dynamic?.allocations?.mapNotNull { allocation ->

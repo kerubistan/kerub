@@ -15,7 +15,7 @@ abstract class AbstractFailingStorageDeviceDetector<T : Problem> : ProblemDetect
 	}.join().join()
 
 	/**
-	 * Create problem instances out of failed device with the host record.
+	 * Create problem instances out of failed failingDevice with the host record.
 	 */
-	abstract fun createProblems(host: HostDataCollection, device: String, plan: Plan): List<T>?
+	abstract fun createProblems(host: HostDataCollection, failingDevice: String, plan: Plan): List<T>?
 }
