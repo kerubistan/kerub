@@ -63,6 +63,7 @@ import com.github.kerubistan.kerub.planner.PlanExecutor
 import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
+import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
 import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
@@ -1201,6 +1202,21 @@ class PlannerDefs {
 						&& it.vStorageDevice.name == diskName
 				} ?: false
 			}
+		}
+	}
+
+	@Then("no plan executed")
+	fun verifyNoPlanExecuted() {
+		assertTrue("There should not be any plans executed. \n $executedPlans") {
+			executedPlans.isEmpty()
+		}
+	}
+
+	@Then("no problem")
+	fun verifyNoProblems() {
+		val problems = CompositeProblemDetectorImpl.detect(Plan(builder.buildState()))
+		assertTrue("There should be no problems detected\n $problems") {
+			problems.isEmpty()
 		}
 	}
 
