@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -17,7 +18,7 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class ShareNfsFactoryTest {
+class ShareNfsFactoryTest : AbstractFactoryVerifications(ShareNfsFactory) {
 
 	@Test
 	fun produce() {
@@ -57,13 +58,14 @@ class ShareNfsFactoryTest {
 									VirtualStorageDeviceDynamic(
 											id = testDisk.id,
 											allocations = listOf(
-													VirtualStorageFsAllocation(hostId = testHost.id,
-																			   actualSize = 100.MB,
-																			   mountPoint = "/kerub",
-																			   fileName = "${testDisk.id}.qcow",
-																			   type = VirtualDiskFormat.qcow2,
-																capabilityId = testFsCapability.id
-															)
+													VirtualStorageFsAllocation(
+															hostId = testHost.id,
+															actualSize = 100.MB,
+															mountPoint = "/kerub",
+															fileName = "${testDisk.id}.qcow",
+															type = VirtualDiskFormat.qcow2,
+															capabilityId = testFsCapability.id
+													)
 											)
 									)
 							),
@@ -97,13 +99,14 @@ class ShareNfsFactoryTest {
 									VirtualStorageDeviceDynamic(
 											id = testDisk.id,
 											allocations = listOf(
-													VirtualStorageFsAllocation(hostId = testHost.id,
-																			   actualSize = 100.MB,
-																			   mountPoint = testFsCapability.mountPoint,
-																			   fileName = "${testDisk.id}.qcow",
-																			   type = VirtualDiskFormat.qcow2,
-																capabilityId = testFsCapability.id
-															)
+													VirtualStorageFsAllocation(
+															hostId = testHost.id,
+															actualSize = 100.MB,
+															mountPoint = testFsCapability.mountPoint,
+															fileName = "${testDisk.id}.qcow",
+															type = VirtualDiskFormat.qcow2,
+															capabilityId = testFsCapability.id
+													)
 											)
 									)
 							),

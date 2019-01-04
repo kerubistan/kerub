@@ -9,21 +9,16 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class CreateLvmPoolFactoryTest {
+class CreateLvmPoolFactoryTest : AbstractFactoryVerifications(CreateLvmPoolFactory) {
 	@Test
 	fun produce() {
-		assertTrue {
-			CreateLvmPoolFactory.produce(
-					OperationalState.fromLists()
-			).isEmpty()
-		}
-
 		assertTrue("when there is no free space on the vg, produce nothing") {
 			val storageId = UUID.randomUUID()
 			val host = testHost.copy(

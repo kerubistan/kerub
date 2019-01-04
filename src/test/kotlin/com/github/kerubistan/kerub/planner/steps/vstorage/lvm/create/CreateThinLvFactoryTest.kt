@@ -13,6 +13,7 @@ import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpecta
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -20,20 +21,22 @@ import com.github.kerubistan.kerub.testVm
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class CreateThinLvFactoryTest {
+class CreateThinLvFactoryTest : AbstractFactoryVerifications(CreateThinLvFactory) {
 	@Test
 	fun produce() {
 		assertTrue("blank state should not produce any step - regardless of lvm enabled") {
 			CreateThinLvFactory.produce(
-					OperationalState.fromLists(config = ControllerConfig(
-							storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = true)))
+					OperationalState.fromLists(
+							config = ControllerConfig(
+									storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = true)))
 			).isEmpty()
 		}
 
 		assertTrue("blank state should not produce any step - regardless of lvm disabled") {
 			CreateThinLvFactory.produce(
-					OperationalState.fromLists(config = ControllerConfig(
-							storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = false)))
+					OperationalState.fromLists(
+							config = ControllerConfig(
+									storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = false)))
 			).isEmpty()
 		}
 

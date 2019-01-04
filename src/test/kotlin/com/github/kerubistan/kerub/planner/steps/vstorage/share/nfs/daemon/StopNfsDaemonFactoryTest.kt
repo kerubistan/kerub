@@ -6,11 +6,12 @@ import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesCo
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class StopNfsDaemonFactoryTest {
+class StopNfsDaemonFactoryTest : AbstractFactoryVerifications(StopNfsDaemonFactory) {
 
 	@Test
 	fun produce() {

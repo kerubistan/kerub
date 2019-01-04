@@ -4,20 +4,18 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class RemovePublicKeyFactoryTest {
+class RemovePublicKeyFactoryTest : AbstractFactoryVerifications(RemovePublicKeyFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state - no steps") {
-			RemovePublicKeyFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("single host - no steps") {
-			RemovePublicKeyFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(testHost),
 							hostDyns = listOf(
@@ -27,7 +25,7 @@ class RemovePublicKeyFactoryTest {
 			).isEmpty()
 		}
 		assertTrue("two hosts, installed keys") {
-			RemovePublicKeyFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(testHost, testFreeBsdHost),
 							hostDyns = listOf(

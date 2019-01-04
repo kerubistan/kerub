@@ -9,13 +9,14 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class StartNfsDaemonFactoryTest {
+class StartNfsDaemonFactoryTest : AbstractFactoryVerifications(StartNfsDaemonFactory) {
 
 	@Test
 	fun produce() {

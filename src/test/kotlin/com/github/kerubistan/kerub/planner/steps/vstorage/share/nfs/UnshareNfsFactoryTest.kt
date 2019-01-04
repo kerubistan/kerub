@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -23,16 +24,10 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class UnshareNfsFactoryTest {
+class UnshareNfsFactoryTest : AbstractFactoryVerifications(UnshareNfsFactory) {
 
 	@Test
 	fun produce() {
-
-		assertTrue("blank state - no steps") {
-			UnshareNfsFactory.produce(
-					OperationalState.fromLists()
-			).isEmpty()
-		}
 
 		assertTrue("controller can unshare even if nfs not enabled") {
 			UnshareNfsFactory.produce(

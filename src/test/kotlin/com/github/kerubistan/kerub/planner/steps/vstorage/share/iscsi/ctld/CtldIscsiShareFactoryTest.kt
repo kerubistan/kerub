@@ -9,19 +9,17 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testGvinumCapability
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class CtldIscsiShareFactoryTest {
+class CtldIscsiShareFactoryTest : AbstractFactoryVerifications(CtldIscsiShareFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			CtldIscsiShareFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("single shared - no steps") {
 			CtldIscsiShareFactory.produce(
 					OperationalState.fromLists(

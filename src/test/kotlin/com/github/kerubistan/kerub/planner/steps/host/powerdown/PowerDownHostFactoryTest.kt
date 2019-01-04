@@ -8,12 +8,13 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class PowerDownHostFactoryTest {
+class PowerDownHostFactoryTest : AbstractFactoryVerifications(PowerDownHostFactory) {
 
 	val vm = VirtualMachine(
 			name = "vm-1",

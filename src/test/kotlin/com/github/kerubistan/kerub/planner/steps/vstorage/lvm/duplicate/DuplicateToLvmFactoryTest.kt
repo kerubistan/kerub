@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
@@ -18,7 +19,7 @@ import org.junit.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-class DuplicateToLvmFactoryTest {
+class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFactory) {
 
 	private val readOnlyDisk = VirtualStorageDevice(
 			id = randomUUID(),
@@ -36,9 +37,6 @@ class DuplicateToLvmFactoryTest {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			DuplicateToLvmFactory.produce(OperationalState.fromLists()) == listOf<DuplicateToLvm>()
-		}
 		assertTrue("There is only one host- no duplicate step") {
 			val lvmCapability = LvmStorageCapability(
 					id = randomUUID(),

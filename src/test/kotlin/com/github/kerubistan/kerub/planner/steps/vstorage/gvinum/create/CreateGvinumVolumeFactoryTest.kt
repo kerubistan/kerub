@@ -12,20 +12,20 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVirtualDisk
-import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class CreateGvinumVolumeFactoryTest {
+class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumVolumeFactory) {
 
 	@Test
 	fun produceConcatenatedDisks() {
 		val testDisk = testVirtualDisk.copy(
-				size = "3 GB".toSize()
+				size = 3.GB
 		)
 		val gvinum1 = GvinumStorageCapability(
 				id = UUID.randomUUID(),

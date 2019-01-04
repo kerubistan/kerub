@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -20,13 +21,10 @@ import java.util.UUID
 import kotlin.test.assertTrue
 
 @Ignore("not finished")
-class ConvertImageFactoryTest {
+class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state should not produce steps") {
-			ConvertImageFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("disk is not allocated yet") {
 			ConvertImageFactory.produce(
 					OperationalState.fromLists(

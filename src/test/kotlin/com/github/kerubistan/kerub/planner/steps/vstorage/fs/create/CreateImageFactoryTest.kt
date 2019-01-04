@@ -10,19 +10,16 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
-import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class CreateImageFactoryTest {
+class CreateImageFactoryTest : AbstractFactoryVerifications(CreateImageFactory) {
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			CreateImageFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("no disks - no steps") {
 			CreateImageFactory.produce(
 					OperationalState.fromLists(

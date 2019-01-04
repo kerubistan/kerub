@@ -1,12 +1,13 @@
 package com.github.kerubistan.kerub.planner.steps.host.recycle
 
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.UUID.randomUUID
 
-class RecycleHostFactoryTest {
+class RecycleHostFactoryTest : AbstractFactoryVerifications(RecycleHostFactory) {
 	@Test
 	fun produce() {
 		val hostToRemove = testHost.copy(

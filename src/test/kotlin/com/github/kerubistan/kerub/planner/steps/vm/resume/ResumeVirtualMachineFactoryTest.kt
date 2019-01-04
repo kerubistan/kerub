@@ -5,12 +5,13 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import org.junit.Test
 import java.math.BigInteger
 import java.util.UUID
 import kotlin.test.assertEquals
 
-class ResumeVirtualMachineFactoryTest {
+class ResumeVirtualMachineFactoryTest : AbstractFactoryVerifications(ResumeVirtualMachineFactory) {
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),

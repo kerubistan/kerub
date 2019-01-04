@@ -4,20 +4,18 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class InstallPublicKeyFactoryTest {
+class InstallPublicKeyFactoryTest : AbstractFactoryVerifications(InstallPublicKeyFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			InstallPublicKeyFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("both host up, source has the key, target does not have it") {
-			InstallPublicKeyFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(testHost, testFreeBsdHost),
 							hostCfgs = listOf(
@@ -29,7 +27,11 @@ class InstallPublicKeyFactoryTest {
 									HostDynamic(id = testFreeBsdHost.id, status = HostStatus.Up)
 							)
 					)
-			) == listOf(InstallPublicKey(sourceHost = testHost, targetHost = testFreeBsdHost, publicKey = "ssh-rsa AAAAATEST"))
+			) == listOf(
+					InstallPublicKey(
+							sourceHost = testHost,
+							targetHost = testFreeBsdHost,
+							publicKey = "ssh-rsa AAAAATEST"))
 		}
 	}
 }

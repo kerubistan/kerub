@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
@@ -12,7 +13,7 @@ import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class VirtualBoxStartVirtualMachineFactoryTest {
+class VirtualBoxStartVirtualMachineFactoryTest : AbstractFactoryVerifications(VirtualBoxStartVirtualMachineFactory) {
 	@Test
 	fun produce() {
 		assertTrue {

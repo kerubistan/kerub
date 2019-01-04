@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -16,13 +17,9 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class RemoveLvmPoolFactoryTest {
+class RemoveLvmPoolFactoryTest : AbstractFactoryVerifications(RemoveLvmPoolFactory) {
 	@Test
 	fun produce() {
-		assertTrue("empty state should not produce remove lvm steps") {
-			RemoveLvmPoolFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
-
 		assertTrue("single blank host should not produce remove lvm steps") {
 			RemoveLvmPoolFactory.produce(OperationalState.fromLists(
 					hosts = listOf(testHost)

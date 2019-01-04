@@ -11,19 +11,17 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 
-internal class TruncateImageFactoryTest {
+class TruncateImageFactoryTest : AbstractFactoryVerifications(TruncateImageFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state") {
-			TruncateImageFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("no disks - no steps") {
 			TruncateImageFactory.produce(
 					OperationalState.fromLists(
@@ -50,7 +48,8 @@ internal class TruncateImageFactoryTest {
 							hostDyns = listOf(HostDynamic(id = host.id, status = HostStatus.Up)),
 							vStorage = listOf(disk)
 					)
-			).single() == TruncateImage(disk = disk, host = host,
+			).single() == TruncateImage(
+					disk = disk, host = host,
 					allocation = VirtualStorageFsAllocation(
 							type = VirtualDiskFormat.raw,
 							mountPoint = "/kerub",

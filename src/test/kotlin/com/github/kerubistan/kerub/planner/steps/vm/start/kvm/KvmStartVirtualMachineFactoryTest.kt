@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
@@ -25,7 +26,7 @@ import java.util.UUID
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class KvmStartVirtualMachineFactoryTest {
+class KvmStartVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmStartVirtualMachineFactory) {
 
 	private val vm = VirtualMachine(
 			name = "test-vm"
@@ -36,16 +37,17 @@ class KvmStartVirtualMachineFactoryTest {
 			id = UUID.randomUUID(),
 			publicKey = "",
 			capabilities = HostCapabilities(
-					cpus = listOf(ProcessorInformation(
-							coreCount = 2,
-							threadCount = 4,
-							maxSpeedMhz = 3000,
-							flags = listOf("vmx"),
-							manufacturer = "TEST",
-							version = "TEST CPU",
-							socket = "",
-							voltage = null
-					)),
+					cpus = listOf(
+							ProcessorInformation(
+									coreCount = 2,
+									threadCount = 4,
+									maxSpeedMhz = 3000,
+									flags = listOf("vmx"),
+									manufacturer = "TEST",
+									version = "TEST CPU",
+									socket = "",
+									voltage = null
+							)),
 					cpuArchitecture = "x86_64",
 					totalMemory = "8 GB".toSize(),
 					installedSoftware = listOf(
@@ -59,16 +61,16 @@ class KvmStartVirtualMachineFactoryTest {
 					chassis = null,
 					hypervisorCapabilities = listOf(
 							LibvirtCapabilities(
-								guests = listOf(
-										LibvirtGuest(
-												osType = "hvm",
-												arch = LibvirtArch(
-														name = "x86_64",
-														wordsize = 64,
-														emulator = "/usr/bin/qemu-kvm"
-												)
-										)
-								)
+									guests = listOf(
+											LibvirtGuest(
+													osType = "hvm",
+													arch = LibvirtArch(
+															name = "x86_64",
+															wordsize = 64,
+															emulator = "/usr/bin/qemu-kvm"
+													)
+											)
+									)
 							)
 					)
 			)
@@ -89,18 +91,6 @@ class KvmStartVirtualMachineFactoryTest {
 	)
 
 	@Test
-	fun produceWithoutBlankState() {
-		val steps = KvmStartVirtualMachineFactory.produce(OperationalState.fromLists())
-		assertTrue(steps.isEmpty())
-	}
-
-	@Test
-	fun produceWithoutHost() {
-		val steps = KvmStartVirtualMachineFactory.produce(OperationalState.fromLists())
-		assertTrue(steps.isEmpty())
-	}
-
-	@Test
 	fun produceWithoutRunningHosts() {
 		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
@@ -114,12 +104,14 @@ class KvmStartVirtualMachineFactoryTest {
 	fun produceWithVmRunning() {
 		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
-						vms = listOf(vm.copy(
-								expectations = listOf(VirtualMachineAvailabilityExpectation(
-										up = true,
-										level = ExpectationLevel.DealBreaker
-								)
-								))),
+						vms = listOf(
+								vm.copy(
+										expectations = listOf(
+												VirtualMachineAvailabilityExpectation(
+														up = true,
+														level = ExpectationLevel.DealBreaker
+												)
+										))),
 						hosts = listOf(host),
 						vmDyns = listOf(vmDyn),
 						hostDyns = listOf(hostDyn)))
@@ -129,10 +121,11 @@ class KvmStartVirtualMachineFactoryTest {
 	@Test
 	fun produceWithVmNotRunning() {
 		val vmToRun = vm.copy(
-				expectations = listOf(VirtualMachineAvailabilityExpectation(
-						up = true,
-						level = ExpectationLevel.DealBreaker
-				)
+				expectations = listOf(
+						VirtualMachineAvailabilityExpectation(
+								up = true,
+								level = ExpectationLevel.DealBreaker
+						)
 				))
 		val steps = KvmStartVirtualMachineFactory.produce(
 				OperationalState.fromLists(
@@ -155,16 +148,18 @@ class KvmStartVirtualMachineFactoryTest {
 
 		assertTrue("matching capability") {
 			KvmStartVirtualMachineFactory.isKvmCapable(
-					listOf(LibvirtCapabilities(
-							guests = listOf(
-									LibvirtGuest(arch =
-												 LibvirtArch(
-														 name = "x86_64", emulator = "/usr/bin/qemu-kvm",
-														 wordsize = 64),
-												 osType = "hvm"
+					listOf(
+							LibvirtCapabilities(
+									guests = listOf(
+											LibvirtGuest(
+													arch =
+													LibvirtArch(
+															name = "x86_64", emulator = "/usr/bin/qemu-kvm",
+															wordsize = 64),
+													osType = "hvm"
+											)
 									)
-							)
-					)),
+							)),
 					testVm)
 		}
 

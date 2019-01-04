@@ -5,19 +5,17 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class RemoveVirtualStorageFactoryTest {
+class RemoveVirtualStorageFactoryTest : AbstractFactoryVerifications(RemoveVirtualStorageFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("blank state, no operation") {
-			RemoveVirtualStorageFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("no recycling vstorage, no operation") {
 			RemoveVirtualStorageFactory.produce(OperationalState.fromLists(vStorage = listOf(testDisk))).isEmpty()
 		}

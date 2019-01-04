@@ -6,19 +6,17 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 import kotlin.test.expect
 
-class RemoveDiskFromVGFactoryTest {
+class RemoveDiskFromVGFactoryTest : AbstractFactoryVerifications(RemoveDiskFromVGFactory) {
 
 	@Test
 	fun produce() {
-		expect(listOf(), "blank state - no steps offered") {
-			RemoveDiskFromVGFactory.produce(OperationalState.fromLists())
-		}
 		expect(listOf(), "All disks healthy - let's not remove them") {
 			val sda = BlockDevice(deviceName = "/dev/sda", storageCapacity = 4.TB)
 			val sdb = BlockDevice(deviceName = "/dev/sdb", storageCapacity = 4.TB)
@@ -117,7 +115,8 @@ class RemoveDiskFromVGFactoryTest {
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostDynamic)
-					)) == listOf(RemoveDiskFromVG(
+					)) == listOf(
+					RemoveDiskFromVG(
 							capability = lvmStorageCapability,
 							device = sdb.deviceName,
 							host = host))

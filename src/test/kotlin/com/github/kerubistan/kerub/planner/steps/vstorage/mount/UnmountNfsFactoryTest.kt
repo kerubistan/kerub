@@ -15,6 +15,7 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVirtualDisk
@@ -23,13 +24,10 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class UnmountNfsFactoryTest {
+class UnmountNfsFactoryTest : AbstractFactoryVerifications(UnmountNfsFactory) {
 
 	@Test
 	fun produce() {
-		assertTrue("no mounts, no steps") {
-			UnmountNfsFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("no mounts, no steps") {
 			UnmountNfsFactory.produce(OperationalState.fromLists(
 					hosts = listOf(testHost)

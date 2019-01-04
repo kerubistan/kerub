@@ -9,12 +9,13 @@ import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class MountNfsFactoryTest {
+class MountNfsFactoryTest : AbstractFactoryVerifications(MountNfsFactory) {
 
 	@Test
 	fun produce() {

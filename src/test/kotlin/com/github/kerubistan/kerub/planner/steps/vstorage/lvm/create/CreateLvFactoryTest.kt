@@ -20,13 +20,14 @@ import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.utils.toSize
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
 
-class CreateLvFactoryTest {
+class CreateLvFactoryTest : AbstractFactoryVerifications(CreateLvFactory) {
 
 	private val volumeGroup = LvmStorageCapability(
 			id = UUID.randomUUID(),
@@ -69,47 +70,51 @@ class CreateLvFactoryTest {
 
 	@Test
 	fun produceWithDisabled() {
-		val steps = CreateLvFactory.produce(OperationalState.fromLists(
-				hosts = listOf(host),
-				hostDyns = listOf(HostDynamic(
-						id = host.id,
-						status = HostStatus.Up,
-						storageStatus = listOf(
-								SimpleStorageDeviceDynamic(
-										id = volumeGroup.id,
-										freeCapacity = 1.TB
-								)
+		val steps = CreateLvFactory.produce(
+				OperationalState.fromLists(
+						hosts = listOf(host),
+						hostDyns = listOf(
+								HostDynamic(
+										id = host.id,
+										status = HostStatus.Up,
+										storageStatus = listOf(
+												SimpleStorageDeviceDynamic(
+														id = volumeGroup.id,
+														freeCapacity = 1.TB
+												)
+										)
+								)),
+						vms = listOf(vm),
+						vStorage = listOf(vDisk),
+						vStorageDyns = listOf(),
+						config = ControllerConfig(
+								storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = false)
 						)
-				)),
-				vms = listOf(vm),
-				vStorage = listOf(vDisk),
-				vStorageDyns = listOf(),
-				config = ControllerConfig(
-						storageTechnologies = StorageTechnologiesConfig(lvmCreateVolumeEnabled = false)
-				)
-		))
+				))
 
 		assertTrue(steps.isEmpty())
 	}
 
 	@Test
 	fun testProduce() {
-		val step = CreateLvFactory.produce(OperationalState.fromLists(
-				hosts = listOf(host),
-				hostDyns = listOf(HostDynamic(
-						id = host.id,
-						status = HostStatus.Up,
-						storageStatus = listOf(
-								SimpleStorageDeviceDynamic(
-										id = volumeGroup.id,
-										freeCapacity = 1.TB
-								)
-						)
-				)),
-				vms = listOf(vm),
-				vStorage = listOf(vDisk),
-				vStorageDyns = listOf()
-		)).single()
+		val step = CreateLvFactory.produce(
+				OperationalState.fromLists(
+						hosts = listOf(host),
+						hostDyns = listOf(
+								HostDynamic(
+										id = host.id,
+										status = HostStatus.Up,
+										storageStatus = listOf(
+												SimpleStorageDeviceDynamic(
+														id = volumeGroup.id,
+														freeCapacity = 1.TB
+												)
+										)
+								)),
+						vms = listOf(vm),
+						vStorage = listOf(vDisk),
+						vStorageDyns = listOf()
+				)).single()
 
 		assertEquals(vDisk, step.disk)
 		assertEquals(host, step.host)
@@ -118,23 +123,26 @@ class CreateLvFactoryTest {
 
 	@Test
 	fun testProduceWithNameNotMatching() {
-		assertTrue(CreateLvFactory.produce(OperationalState.fromLists(
-				hosts = listOf(host),
-				hostDyns = listOf(HostDynamic(
-						id = host.id,
-						status = HostStatus.Up,
-						storageStatus = listOf(
-								SimpleStorageDeviceDynamic(
-										id = volumeGroup.id,
-										freeCapacity = 1.TB
-								)
-						)
-				)),
-				vms = listOf(vm),
-				vStorage = listOf(vDisk),
-				vStorageDyns = listOf(),
-				config = ControllerConfig(storageTechnologies = StorageTechnologiesConfig(lvmVGPattern = "\$NOT-MATCHING-.*"))
-		)).isEmpty())
+		assertTrue(
+				CreateLvFactory.produce(
+						OperationalState.fromLists(
+								hosts = listOf(host),
+								hostDyns = listOf(
+										HostDynamic(
+												id = host.id,
+												status = HostStatus.Up,
+												storageStatus = listOf(
+														SimpleStorageDeviceDynamic(
+																id = volumeGroup.id,
+																freeCapacity = 1.TB
+														)
+												)
+										)),
+								vms = listOf(vm),
+								vStorage = listOf(vDisk),
+								vStorageDyns = listOf(),
+								config = ControllerConfig(storageTechnologies = StorageTechnologiesConfig(lvmVGPattern = "\$NOT-MATCHING-.*"))
+						)).isEmpty())
 	}
 
 }

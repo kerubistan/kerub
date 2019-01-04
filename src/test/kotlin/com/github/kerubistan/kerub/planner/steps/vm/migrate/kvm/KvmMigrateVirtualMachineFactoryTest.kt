@@ -22,6 +22,7 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -34,12 +35,9 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class KvmMigrateVirtualMachineFactoryTest {
+class KvmMigrateVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmMigrateVirtualMachineFactory) {
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			KvmMigrateVirtualMachineFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("if there are no running vms, no steps") {
 			KvmMigrateVirtualMachineFactory.produce(
 					OperationalState.fromLists(
@@ -155,19 +153,20 @@ class KvmMigrateVirtualMachineFactoryTest {
 									)
 							),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(VirtualStorageDeviceDynamic(
-									id = testDisk.id,
-									allocations = listOf(
-											VirtualStorageFsAllocation(
-													hostId = testHost1.id,
-													mountPoint = host1FsCapability.mountPoint,
-													type = VirtualDiskFormat.qcow2,
-													fileName = testDisk.id.toString(),
-													actualSize = 20.GB,
-													capabilityId = testFsCapability.id
+							vStorageDyns = listOf(
+									VirtualStorageDeviceDynamic(
+											id = testDisk.id,
+											allocations = listOf(
+													VirtualStorageFsAllocation(
+															hostId = testHost1.id,
+															mountPoint = host1FsCapability.mountPoint,
+															type = VirtualDiskFormat.qcow2,
+															fileName = testDisk.id.toString(),
+															actualSize = 20.GB,
+															capabilityId = testFsCapability.id
+													)
 											)
-									)
-							))
+									))
 					)
 			).isEmpty()
 		}
@@ -231,19 +230,20 @@ class KvmMigrateVirtualMachineFactoryTest {
 									)
 							),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(VirtualStorageDeviceDynamic(
-									id = testDisk.id,
-									allocations = listOf(
-											VirtualStorageFsAllocation(
-													hostId = testHost1.id,
-													mountPoint = host1FsCapability.mountPoint,
-													type = VirtualDiskFormat.qcow2,
-													fileName = testDisk.id.toString(),
-													actualSize = 20.GB,
-													capabilityId = testFsCapability.id
+							vStorageDyns = listOf(
+									VirtualStorageDeviceDynamic(
+											id = testDisk.id,
+											allocations = listOf(
+													VirtualStorageFsAllocation(
+															hostId = testHost1.id,
+															mountPoint = host1FsCapability.mountPoint,
+															type = VirtualDiskFormat.qcow2,
+															fileName = testDisk.id.toString(),
+															actualSize = 20.GB,
+															capabilityId = testFsCapability.id
+													)
 											)
-									)
-							))
+									))
 					)
 			) == listOf(KvmMigrateVirtualMachine(vm = vm, source = testHost1, target = testHost2))
 		}
@@ -306,18 +306,19 @@ class KvmMigrateVirtualMachineFactoryTest {
 									)
 							),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(VirtualStorageDeviceDynamic(
-									id = testDisk.id,
-									allocations = listOf(
-											VirtualStorageLvmAllocation(
-													hostId = testHost1.id,
-													actualSize = 20.GB,
-													vgName = "kerub-data",
-													path = "dev/kerub-data/${testDisk.id}",
-													capabilityId = testLvmCapability.id
+							vStorageDyns = listOf(
+									VirtualStorageDeviceDynamic(
+											id = testDisk.id,
+											allocations = listOf(
+													VirtualStorageLvmAllocation(
+															hostId = testHost1.id,
+															actualSize = 20.GB,
+															vgName = "kerub-data",
+															path = "dev/kerub-data/${testDisk.id}",
+															capabilityId = testLvmCapability.id
+													)
 											)
-									)
-							))
+									))
 					)
 			) == listOf(KvmMigrateVirtualMachine(vm = vm, source = testHost1, target = testHost2))
 		}

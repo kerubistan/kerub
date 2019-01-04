@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -18,19 +19,16 @@ import com.github.kerubistan.kerub.vmUp
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class InPlaceConvertImageFactoryTest {
+class InPlaceConvertImageFactoryTest : AbstractFactoryVerifications(InPlaceConvertImageFactory) {
 	@Test
 	fun produce() {
-		assertTrue("blank state should produce no steps") {
-			InPlaceConvertImageFactory.produce(OperationalState.fromLists()).isEmpty()
-		}
 		assertTrue("disk not allocated - no steps") {
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							storageCapabilities = listOf(testFsCapability)
 					)
 			)
-			InPlaceConvertImageFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostUp(host)),
@@ -44,7 +42,7 @@ class InPlaceConvertImageFactoryTest {
 							storageCapabilities = listOf(testLvmCapability)
 					)
 			)
-			InPlaceConvertImageFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostUp(host)),
@@ -69,12 +67,17 @@ class InPlaceConvertImageFactoryTest {
 							storageCapabilities = listOf(testFsCapability)
 					)
 			)
-			InPlaceConvertImageFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostUp(host)),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(diskAllocated(testDisk, host, testFsCapability, VirtualDiskFormat.qcow2)),
+							vStorageDyns = listOf(
+									diskAllocated(
+											testDisk,
+											host,
+											testFsCapability,
+											VirtualDiskFormat.qcow2)),
 							vms = listOf(vm),
 							vmDyns = listOf(vmUp(vm, host))
 					)
@@ -96,12 +99,17 @@ class InPlaceConvertImageFactoryTest {
 							storageCapabilities = listOf(testFsCapability)
 					)
 			)
-			InPlaceConvertImageFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostDown(host)),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(diskAllocated(testDisk, host, testFsCapability, VirtualDiskFormat.qcow2)),
+							vStorageDyns = listOf(
+									diskAllocated(
+											testDisk,
+											host,
+											testFsCapability,
+											VirtualDiskFormat.qcow2)),
 							vms = listOf(vm)
 					)
 			).isEmpty()
@@ -123,12 +131,17 @@ class InPlaceConvertImageFactoryTest {
 							storageCapabilities = listOf(testFsCapability)
 					)
 			)
-			InPlaceConvertImageFactory.produce(
+			factory.produce(
 					OperationalState.fromLists(
 							hosts = listOf(host),
 							hostDyns = listOf(hostUp(host)),
 							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(diskAllocated(testDisk, host, testFsCapability, VirtualDiskFormat.qcow2)),
+							vStorageDyns = listOf(
+									diskAllocated(
+											testDisk,
+											host,
+											testFsCapability,
+											VirtualDiskFormat.qcow2)),
 							vms = listOf(vm)
 					)
 			).isNotEmpty()
