@@ -8,8 +8,6 @@ data class VirtualMachineDataCollection(
 		override val dynamic: VirtualMachineDynamic?)
 	: DataCollection<VirtualMachine, VirtualMachineDynamic> {
 	init {
-		dynamic?.apply {
-			check(id == stat.id) {"stat (${stat.id}) and dyn ($id) ids must match"}
-		}
+		this.validate()
 	}
 }

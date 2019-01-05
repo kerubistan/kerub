@@ -9,8 +9,8 @@ data class VirtualStorageDataCollection(
 		override val dynamic: VirtualStorageDeviceDynamic? = null
 ) : DataCollection<VirtualStorageDevice, VirtualStorageDeviceDynamic>, Serializable {
 	init {
+		this.validate()
 		dynamic?.apply {
-			check(id == stat.id) { "stat (${stat.id}) and dyn ($id) ids must match" }
 			check(stat.readOnly || allocations.size <= 1) {
 				"only read only storage devices can have multiple allocations " +
 						"- ${stat.id} has readOnly: ${stat.readOnly} and allocations $allocations"

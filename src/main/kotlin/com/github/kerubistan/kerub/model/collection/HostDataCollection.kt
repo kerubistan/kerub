@@ -10,9 +10,7 @@ data class HostDataCollection(
 		val config: HostConfiguration? = null
 ) : DataCollection<Host, HostDynamic> {
 	init {
-		dynamic?.apply {
-			check(id == stat.id) {"stat (${stat.id}) and dyn ($id) ids must match"}
-		}
+		this.validate()
 		config?.apply {
 			check(id == stat.id) {"stat (${stat.id}) and config ($id) ids must match"}
 		}
