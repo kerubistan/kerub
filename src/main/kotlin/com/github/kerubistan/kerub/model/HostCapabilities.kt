@@ -72,4 +72,18 @@ data class HostCapabilities(
 
 	@get:JsonIgnore
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
+
+	companion object {
+		private val compressionPackages = mapOf(
+				"gzip" to CompressionFormat.Gzip,
+				"bzip2" to CompressionFormat.Bzip2,
+				"lz4" to CompressionFormat.Lz4,
+				"xz" to CompressionFormat.Xz
+		)
+	}
+
+	@get:JsonIgnore
+	val compressionCapabilities by lazy {
+		installedSoftware.mapNotNull { compressionPackages[it.name] }
+	}
 }
