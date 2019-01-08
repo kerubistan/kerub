@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.join
+import java.math.BigInteger
 import kotlin.reflect.KClass
 
 
@@ -34,16 +35,18 @@ object ExtendLvmPoolFactory : AbstractOperationalStepFactory<ExtendLvmPool>() {
 							.filterIsInstance<LvmStorageCapability>().single {
 						it.volumeGroupName == pool.vgName
 					}
-					host.value.dynamic?.storageStatus?.first { it.id == capability.id }?.let { poolStatus ->
-						percents.map {
-							ExtendLvmPool(
-									host = host.value.stat,
-									pool = pool.poolName,
-									addSize = poolStatus.freeCapacity.divide(it.toBigInteger()),
-									vgName = pool.vgName)
-						}
+					host.value.dynamic?.storageStatus?.firstOrNull { it.id == capability.id }
+							?.let { poolStatus ->
+								if(poolStatus.freeCapacity > BigInteger.ZERO) {
+									percents.map {
+										ExtendLvmPool(
+												host = host.value.stat,
+												pool = pool.poolName,
+												addSize = poolStatus.freeCapacity.divide(it.toBigInteger()),
+												vgName = pool.vgName)
+									}
+								} else null
 					}
-
 				}?.filterNotNull() ?: listOf()
 			}.join().join()
 
