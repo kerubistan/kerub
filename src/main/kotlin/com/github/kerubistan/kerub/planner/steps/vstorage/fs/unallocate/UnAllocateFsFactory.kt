@@ -12,10 +12,15 @@ object UnAllocateFsFactory : AbstractUnAllocateFactory<UnAllocateFs, VirtualStor
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
-	override fun unAllocate(allocation: VirtualStorageFsAllocation,
-							vStorage: VirtualStorageDataCollection,
-							state: OperationalState) =
-			UnAllocateFs(vStorage.stat, allocation, requireNotNull(state.hosts[allocation.hostId]) { "host ${allocation.hostId} not found" }.stat)
+	override fun unAllocate(
+			allocation: VirtualStorageFsAllocation,
+			vStorage: VirtualStorageDataCollection,
+			state: OperationalState
+	) =
+			UnAllocateFs(
+					vstorage = vStorage.stat,
+					allocation = allocation,
+					host = requireNotNull(state.hosts[allocation.hostId]) { "host ${allocation.hostId} not found" }.stat)
 
 	override val type: KClass<VirtualStorageFsAllocation>
 		get() = VirtualStorageFsAllocation::class
