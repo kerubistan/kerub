@@ -54,6 +54,13 @@ val testHostCapabilities = HostCapabilities(
 		totalMemory = 32.GB
 )
 
+val testFreeBsdCapabilities = HostCapabilities(
+		cpuArchitecture = "X86_64",
+		totalMemory = 32.GB,
+		os = OperatingSystem.BSD,
+		distribution = SoftwarePackage("FreeBSD", Version.fromVersionString("12.0"))
+)
+
 val testLvmCapability = LvmStorageCapability(
 		id = randomUUID(),
 		size = 2.TB,
