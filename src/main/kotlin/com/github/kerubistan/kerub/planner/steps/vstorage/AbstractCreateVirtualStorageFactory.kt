@@ -14,7 +14,7 @@ abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> 
 				state: OperationalState,
 				types: List<VirtualDiskFormat> = VirtualDiskFormat.values().toList()): List<VirtualStorageDevice> =
 
-				state.vStorage.values.filter { it.dynamic == null }
+				state.vStorage.values.filter { it.dynamic?.allocations?.isEmpty() ?: true }
 				.filter { storage ->
 					storage.stat.expectations.any {
 						it is StorageAvailabilityExpectation
