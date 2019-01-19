@@ -166,7 +166,7 @@ class PlanExecutorImpl(
 	)
 
 	fun execute(step: AbstractOperationalStep) {
-		val executor = stepExecutors.get(step.javaClass.kotlin)
+		val executor = stepExecutors[step.javaClass.kotlin]
 		if (executor == null) {
 			throw IllegalArgumentException("No executor for step $step")
 		} else {
