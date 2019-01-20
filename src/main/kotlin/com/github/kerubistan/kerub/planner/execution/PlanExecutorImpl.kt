@@ -102,7 +102,7 @@ class PlanExecutorImpl(
 		hostDao: HostDao,
 		hostDynamicDao: HostDynamicDao,
 		vmDynamicDao: VirtualMachineDynamicDao,
-		vssDao : VirtualStorageDeviceDao,
+		vssDao: VirtualStorageDeviceDao,
 		virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 		hostConfigurationDao: HostConfigurationDao
 ) : PlanExecutor {
@@ -112,17 +112,22 @@ class PlanExecutorImpl(
 	}
 
 	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
-			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(hostManager, vmDynamicDao, hostCommandExecutor),
-			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(hostCommandExecutor,
-																						  vmDynamicDao),
+			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(
+					hostManager,
+					vmDynamicDao,
+					hostCommandExecutor),
+			VirtualBoxStartVirtualMachine::class to VirtualBoxStartVirtualMachineExecutor(
+					hostCommandExecutor,
+					vmDynamicDao),
 			StopVirtualMachine::class to StopVirtualMachineExecutor(hostManager, vmDynamicDao),
 			KvmMigrateVirtualMachine::class to KvmMigrateVirtualMachineExecutor(hostManager),
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			TruncateImage::class to TruncateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
-			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao,
-																	hostDynamicDao),
+			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(
+					hostCommandExecutor, virtualStorageDeviceDynamicDao,
+					hostDynamicDao),
 
 			IpmiWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
 			WolWakeHost::class to WakeHostExecutor(hostManager, hostDynamicDao),
