@@ -12,15 +12,15 @@ class CreateLvExecutor(
 ) : AbstractCreateLvExecutor<CreateLv>(hostCommandExecutor, virtualDiskDynDao) {
 
 	override fun perform(step: CreateLv): LogicalVolume =
-			hostCommandExecutor.execute(step.host, { session ->
+			hostCommandExecutor.execute(step.host) { session ->
 				LvmLv.create(session,
-							 vgName = step.volumeGroupName,
-							 name = step.disk.id.toString(),
-							 size = step.disk.size)
+						vgName = step.volumeGroupName,
+						name = step.disk.id.toString(),
+						size = step.disk.size)
 
 				//once created succesfully, take some effort to retrieve the data
 				insist(3) {
 					LvmLv.list(session, volGroupName = step.volumeGroupName, volName = step.disk.id.toString()).single()
 				}
-			})
+			}
 }

@@ -11,11 +11,15 @@ class CreateThinLvExecutor(
 ) : AbstractCreateLvExecutor<CreateThinLv>(hostCommandExecutor, virtualDiskDynDao) {
 
 	override fun perform(step: CreateThinLv): LogicalVolume =
-			hostCommandExecutor.execute(step.host) {
-				LvmLv.create(session = it, vgName = step.volumeGroupName, size = step.disk.size,
-							 poolName = step.poolName,
-							 name = step.disk.id.toString())
-				LvmLv.list(session = it, volName = step.disk.id.toString())
+			hostCommandExecutor.execute(step.host) { session ->
+				LvmLv.create(
+						session = session,
+						vgName = step.volumeGroupName,
+						size = step.disk.size,
+						poolName = step.poolName,
+						name = step.disk.id.toString()
+				)
+				LvmLv.list(session = session, volName = step.disk.id.toString())
 						.single { it.name == step.disk.id.toString() }
 			}
 
