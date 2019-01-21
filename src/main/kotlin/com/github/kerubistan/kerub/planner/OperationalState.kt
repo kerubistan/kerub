@@ -21,6 +21,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
+import com.github.kerubistan.kerub.utils.byId
 import java.util.UUID
 
 data class OperationalState(
@@ -38,9 +39,11 @@ data class OperationalState(
 
 		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T> = entities.associateBy { it.id }
 
-		private fun mapHostData(hosts: List<Host> = listOf(),
-								hostDyns: List<HostDynamic> = listOf(),
-								hostCfgs: List<HostConfiguration> = listOf()): Map<UUID, HostDataCollection> {
+		private fun mapHostData(
+				hosts: List<Host> = listOf(),
+				hostDyns: List<HostDynamic> = listOf(),
+				hostCfgs: List<HostConfiguration> = listOf()
+		): Map<UUID, HostDataCollection> {
 			val hostDynMap = mapById(hostDyns)
 			val hostCfgMap = mapById(hostCfgs)
 			return hosts.map {
@@ -48,28 +51,33 @@ data class OperationalState(
 			}.toMap()
 		}
 
-		fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<T, D>>
+		fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<I, T, D>>
 				mapToCollection(staticData: List<T>, dynamicData: List<D>, transform: (static: T, dynamic: D?) -> C): Map<I, C> {
 			val dynMap: Map<UUID, D> = mapById(dynamicData)
-			return staticData.map { it.id to transform(it, dynMap[it.id as UUID]) }.toMap()
+			return staticData.map { transform(it, dynMap[it.id as UUID]) }.byId()
 		}
 
-		fun fromLists(hosts: List<Host> = listOf(),
-					  hostDyns: List<HostDynamic> = listOf(),
-					  hostCfgs: List<HostConfiguration> = listOf(),
-					  vms: List<VirtualMachine> = listOf(),
-					  vmDyns: List<VirtualMachineDynamic> = listOf(),
-					  vStorage: List<VirtualStorageDevice> = listOf(),
-					  vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
-					  pools: List<Pool> = listOf(),
-					  templates: List<Template> = listOf(),
-					  reservations: List<Reservation<*>> = listOf(),
-					  config: ControllerConfig = ControllerConfig()
+		fun fromLists(
+				hosts: List<Host> = listOf(),
+				hostDyns: List<HostDynamic> = listOf(),
+				hostCfgs: List<HostConfiguration> = listOf(),
+				vms: List<VirtualMachine> = listOf(),
+				vmDyns: List<VirtualMachineDynamic> = listOf(),
+				vStorage: List<VirtualStorageDevice> = listOf(),
+				vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
+				pools: List<Pool> = listOf(),
+				templates: List<Template> = listOf(),
+				reservations: List<Reservation<*>> = listOf(),
+				config: ControllerConfig = ControllerConfig()
 		) =
 				OperationalState(
 						hosts = mapHostData(hosts, hostDyns, hostCfgs),
 						vms = mapToCollection(vms, vmDyns) { stat, dyn -> VirtualMachineDataCollection(stat, dyn) },
-						vStorage = mapToCollection(vStorage, vStorageDyns) { stat, dyn -> VirtualStorageDataCollection(stat, dyn) },
+						vStorage = mapToCollection(vStorage, vStorageDyns) { stat, dyn ->
+							VirtualStorageDataCollection(
+									stat,
+									dyn)
+						},
 						pools = pools.associateBy { it.id },
 						templates = templates.associateBy { it.id },
 						reservations = reservations,
@@ -99,6 +107,27 @@ data class OperationalState(
 	}
 
 	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
+
+	operator fun <T> Collection<T>?.contains(element: T): Boolean =
+			this?.contains(element) ?: false
+
+	/**
+	 * Map of host id to IDs of the hosts where the public key is accepted.
+	 */
+	val connectionTargets by lazy {
+		runningHosts.mapNotNull { client ->
+			if (client.config?.publicKey == null)
+				null
+			else {
+				 val acceptedByServer = runningHosts.mapNotNull { server ->
+					if (client.config.publicKey in server.config?.acceptedPublicKeys)
+						server.stat
+					else null
+				}
+				if(acceptedByServer.isEmpty()) null else client.id to acceptedByServer
+			}
+		}.toMap()
+	}
 
 	val runningHostIds by lazy { runningHosts.map { it.stat.id } }
 
