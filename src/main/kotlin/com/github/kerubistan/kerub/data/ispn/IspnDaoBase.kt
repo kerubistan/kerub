@@ -25,7 +25,7 @@ import org.infinispan.notifications.cachelistener.filter.EventType
 abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 											 protected val eventListener: EventListener) : CrudDao<T, I> {
 	override fun add(entity: T): I {
-		cache.put(entity.id, entity)
+		cache[entity.id] = entity
 		eventListener.send(EntityAddMessage(entity, now()))
 		return entity.id
 	}
@@ -52,7 +52,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 
 	override fun update(entity: T) {
 		eventListener.send(EntityUpdateMessage(entity, now()))
-		cache.put(entity.id!!, entity)
+		cache[entity.id!!] = entity
 	}
 
 	@Listener(clustered = true, sync = false)
