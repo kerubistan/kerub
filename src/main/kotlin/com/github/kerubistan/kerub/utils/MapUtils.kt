@@ -18,4 +18,10 @@ fun <K, V> Map<K, V>.update(key: K, mapper: (V) -> V, init: () -> V): Map<K, V> 
 		this[key]?.let { this + (key to mapper(it)) } ?: this+(key to init())
 
 fun <K : Any, V : Any> Map<K, V>.update(key: K, mapper: (V) -> V): Map<K, V> =
-		this + (key to mapper(requireNotNull(this[key])))
+		this.mapValues {
+			if(it.key == key) {
+				mapper(it.value)
+			} else {
+				it.value
+			}
+		}
