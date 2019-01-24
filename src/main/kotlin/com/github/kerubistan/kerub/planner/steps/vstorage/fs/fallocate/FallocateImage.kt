@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.fs.fallocate
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
@@ -20,19 +21,40 @@ import java.math.BigInteger
  */
 data class FallocateImage(
 		val virtualStorage: VirtualStorageDevice,
-		val expectedFree : BigInteger,
+		val expectedFree: BigInteger,
 		val allocation: VirtualStorageFsAllocation,
 		val host: Host
 ) : AbstractOperationalStep {
 
 	override fun take(state: OperationalState): OperationalState =
 			state.copy(
-				hosts = state.hosts.update(host.id) {
-					it.copy(
-
-					)
-				}
-
+					hosts = state.hosts.update(host.id) {
+						it.copy(
+								dynamic = it.dynamic!!.copy(
+										storageStatus = it.dynamic.storageStatus.map { storageDeviceDynamic ->
+											if (storageDeviceDynamic.id == allocation.capabilityId) {
+												//since this works on FS, and FS only does SimpleStorageDynamic
+												(storageDeviceDynamic as SimpleStorageDeviceDynamic).copy(
+														freeCapacity = storageDeviceDynamic.freeCapacity + expectedFree
+												)
+											} else storageDeviceDynamic
+										}
+								)
+						)
+					},
+					vStorage = state.vStorage.update(virtualStorage.id) { storage ->
+						storage.copy(
+								dynamic = storage.dynamic!!.copy(
+										allocations = storage.dynamic.allocations.map {
+											if (it is VirtualStorageFsAllocation && it.capabilityId == allocation.capabilityId) {
+												it.copy(
+														actualSize = it.actualSize - expectedFree
+												)
+											} else it
+										}
+								)
+						)
+					}
 			)
 
 	override fun getCost(): List<Cost> = listOf(
@@ -47,8 +69,7 @@ data class FallocateImage(
 			)
 	)
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(
+	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(host),
 			VirtualStorageReservation(virtualStorage)
 	)
