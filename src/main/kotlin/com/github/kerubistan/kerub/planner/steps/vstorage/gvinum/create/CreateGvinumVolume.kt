@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumConfiguration
+import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
@@ -30,6 +31,9 @@ data class CreateGvinumVolume(
 			"Not all of ${config.diskNames} could be found in ${capability.devicesByName.keys}"
 		}
 	}
+
+	override val format: VirtualDiskFormat
+		get() = VirtualDiskFormat.raw
 
 	override val allocation: VirtualStorageGvinumAllocation by lazy {
 		VirtualStorageGvinumAllocation(

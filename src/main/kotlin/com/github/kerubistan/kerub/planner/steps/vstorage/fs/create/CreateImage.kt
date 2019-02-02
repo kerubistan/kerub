@@ -14,7 +14,7 @@ data class CreateImage(
 		override val disk: VirtualStorageDevice,
 		override val capability: FsStorageCapability,
 		override val host: Host,
-		val format: VirtualDiskFormat) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
+		override val format: VirtualDiskFormat) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
 	override val allocation: VirtualStorageFsAllocation by lazy {
 		VirtualStorageFsAllocation(
 				hostId = host.id,

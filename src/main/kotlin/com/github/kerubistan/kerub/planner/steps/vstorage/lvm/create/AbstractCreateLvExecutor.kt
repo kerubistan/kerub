@@ -3,27 +3,29 @@ package com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
-import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
+import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.base.AbstractAllocateStorageExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 
 abstract class AbstractCreateLvExecutor<T : AbstractCreateLv>(
 		protected val hostCommandExecutor: HostCommandExecutor,
-		protected val virtualDiskDynDao: VirtualStorageDeviceDynamicDao
-) : AbstractStepExecutor<T, LogicalVolume>() {
+		virtualDiskDynDao: VirtualStorageDeviceDynamicDao
+) : AbstractAllocateStorageExecutor<T, LogicalVolume>(virtualDiskDynDao) {
 
 	override fun update(step: T, updates: LogicalVolume) {
-		virtualDiskDynDao.add(
-				VirtualStorageDeviceDynamic(
-						id = step.disk.id,
-						allocations = listOf(VirtualStorageLvmAllocation(
-								hostId = step.host.id,
-								actualSize = updates.size,
-								path = updates.path,
-								vgName = step.volumeGroupName,
-								capabilityId = step.capability.id
-						))
+		virtualDiskDynDao.update(step.disk.id,
+				retrieve = { id ->
+					virtualDiskDynDao[id] ?: VirtualStorageDeviceDynamic(id = id, allocations = listOf())
+				}) {
+			transformVirtualStorageDynamic(it, step, updates)
+		}
+	}
+
+	fun transformVirtualStorageDynamic(dyn: VirtualStorageDeviceDynamic, step: T, updates: LogicalVolume): VirtualStorageDeviceDynamic {
+		return dyn.copy(
+				allocations = dyn.allocations + step.allocation.copy(
+						actualSize = updates.size,
+						path = updates.path
 				)
 		)
 	}

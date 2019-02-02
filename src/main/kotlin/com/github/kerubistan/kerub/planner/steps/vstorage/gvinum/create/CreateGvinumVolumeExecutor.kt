@@ -21,20 +21,18 @@ class CreateGvinumVolumeExecutor(
 		private val hostDynamicDao: HostDynamicDao
 ) : AbstractStepExecutor<CreateGvinumVolume, Unit>() {
 	override fun update(step: CreateGvinumVolume, updates: Unit) {
-		virtualDiskDynDao.add(
-				VirtualStorageDeviceDynamic(
-						id = step.disk.id,
-						allocations = listOf(VirtualStorageGvinumAllocation(
-								hostId = step.host.id,
-								actualSize = step.disk.size,
-								configuration = step.config,
-								capabilityId = step.capability.id
-						))
-				)
-		)
-		hostCommandExecutor.execute(step.host) {session ->
+		virtualDiskDynDao.update(id = step.disk.id, retrieve = {
+			virtualDiskDynDao.get(step.disk.id) ?: VirtualStorageDeviceDynamic(
+					id = step.disk.id,
+					allocations = listOf()
+			)
+
+		}, change = {
+			transformVirtualStorageDynamic(it, step)
+		})
+		hostCommandExecutor.execute(step.host) { session ->
 			val updatedDisks = GVinum.listDrives(session).filter { drive ->
-				when(step.config) {
+				when (step.config) {
 					is SimpleGvinumConfiguration -> step.config.diskName == drive.name
 					is ConcatenatedGvinumConfiguration -> drive.name in step.config.disks.keys
 					is MirroredGvinumConfiguration -> drive.name in step.config.disks
@@ -46,14 +44,14 @@ class CreateGvinumVolumeExecutor(
 			hostDynamicDao.update(step.host.id) {
 				it.copy(
 						storageStatus = it.storageStatus.map { deviceDynamic ->
-							if(deviceDynamic.id == step.capability.id) {
-								when(deviceDynamic) {
+							if (deviceDynamic.id == step.capability.id) {
+								when (deviceDynamic) {
 									is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
 											freeCapacity = updatedDisks.sumBy { it.available }
 									)
 									is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
 											items = deviceDynamic.items.map { item ->
-												if(updatedDisksByName.value.containsKey(item.name)) {
+												if (updatedDisksByName.value.containsKey(item.name)) {
 													item.copy(
 															freeCapacity =
 															requireNotNull(updatedDisksByName.value[item.name]).available
@@ -74,9 +72,19 @@ class CreateGvinumVolumeExecutor(
 		}
 	}
 
+	fun transformVirtualStorageDynamic(dynamic: VirtualStorageDeviceDynamic, step: CreateGvinumVolume): VirtualStorageDeviceDynamic {
+		return dynamic.copy(
+				allocations = dynamic.allocations + VirtualStorageGvinumAllocation(
+						hostId = step.host.id,
+						actualSize = step.disk.size,
+						configuration = step.config,
+						capabilityId = step.capability.id
+				)
+		)
+	}
+
 	override fun perform(step: CreateGvinumVolume) {
-		hostCommandExecutor.execute(step.host) {
-			session ->
+		hostCommandExecutor.execute(step.host) { session ->
 			when (step.config) {
 				is ConcatenatedGvinumConfiguration -> {
 					GVinum.createConcatenatedVolume(
@@ -86,7 +94,11 @@ class CreateGvinumVolumeExecutor(
 					)
 				}
 				is SimpleGvinumConfiguration -> {
-					GVinum.createSimpleVolume(session = session, volName = step.disk.id.toString(), disk = step.config.diskName, size = step.disk.size)
+					GVinum.createSimpleVolume(
+							session = session,
+							volName = step.disk.id.toString(),
+							disk = step.config.diskName,
+							size = step.disk.size)
 				}
 				else -> {
 					TODO("gvinum configuration not implemented by executor: ${step.config}")

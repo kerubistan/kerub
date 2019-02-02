@@ -16,6 +16,9 @@ data class TruncateImage(override val host: Host,
 					override val allocation: VirtualStorageFsAllocation)
 	: AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
 
+	override val format: VirtualDiskFormat
+		get() = VirtualDiskFormat.raw
+
 	init {
 		check(allocation.type == VirtualDiskFormat.raw) {
 			"truncate can do only raw allocations, not ${allocation.type}"
