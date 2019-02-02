@@ -9,10 +9,29 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testLvmCapability
-import org.junit.jupiter.api.Assertions.assertTrue
+import com.github.kerubistan.kerub.testOtherHost
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.assertThrows
 
 class UnAllocateLvTest {
+
+	@Test
+	fun validation() {
+		assertThrows<IllegalStateException>("The allocation host must be equal to the host") {
+			UnAllocateLv(
+					vstorage = testDisk,
+					allocation = VirtualStorageLvmAllocation(
+							vgName = "vg-1",
+							capabilityId = testLvmCapability.id,
+							path = "",
+							hostId = testOtherHost.id,
+							actualSize = testDisk.size
+					),
+					host = testHost
+			)
+		}
+	}
 
 	@Test
 	fun take() {
