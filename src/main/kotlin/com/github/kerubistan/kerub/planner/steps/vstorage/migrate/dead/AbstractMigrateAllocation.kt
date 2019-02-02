@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
+import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 
 abstract class AbstractMigrateAllocation : AbstractOperationalStep {
@@ -17,7 +17,7 @@ abstract class AbstractMigrateAllocation : AbstractOperationalStep {
 	abstract val virtualStorage: VirtualStorageDevice
 	abstract val sourceAllocation: VirtualStorageAllocation
 	abstract val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>
-	abstract val deAllocationStep : UnAllocate<*>
+	abstract val deAllocationStep : AbstractUnAllocate<*>
 
 	override fun take(state: OperationalState): OperationalState =
 			deAllocationStep.take(allocationStep.take(state.copy()))

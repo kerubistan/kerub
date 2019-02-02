@@ -10,8 +10,7 @@ import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservatio
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
 
-// TODO: rename this to AbstractUnallocate - the same naming convention maintained everywhere
-abstract class UnAllocate<T : VirtualStorageAllocation> : AbstractOperationalStep {
+abstract class AbstractUnAllocate<T : VirtualStorageAllocation> : AbstractOperationalStep {
 	abstract val vstorage : VirtualStorageDevice
 	abstract val allocation : T
 	abstract val host : Host

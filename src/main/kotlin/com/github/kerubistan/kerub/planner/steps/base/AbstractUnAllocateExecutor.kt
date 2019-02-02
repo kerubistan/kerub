@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 
-abstract class AbstractUnAllocateExecutor<T : UnAllocate<S>, S : VirtualStorageAllocation>
+abstract class AbstractUnAllocateExecutor<T : AbstractUnAllocate<S>, S : VirtualStorageAllocation>
 	: AbstractStepExecutor<T, Unit>() {
 
 	protected abstract val vssDynDao: VirtualStorageDeviceDynamicDao

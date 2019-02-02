@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAlloca
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
+import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.vstorage.lvm.unallocate.UnAllocateLv
@@ -121,6 +121,9 @@ class MigrateBlockAllocationTest {
 					virtualStorage = testDisk
 			)
 		}
+//		assertThrows<IllegalStateException>("it requires raw data format") {
+//
+//		}
 	}
 
 	@Test
@@ -152,7 +155,7 @@ class MigrateBlockAllocationTest {
 			val allocationStep = mock<AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out StorageCapability>>()
 			whenever(allocationStep.host).thenReturn(targetHost)
 			whenever(allocationStep.format).thenReturn(VirtualDiskFormat.raw)
-			val deAllocationStep = mock<UnAllocate<*>>()
+			val deAllocationStep = mock<AbstractUnAllocate<*>>()
 			whenever(deAllocationStep.host).thenReturn(sourceHost)
 			val initialState = OperationalState.fromLists()
 			val allocatedState = OperationalState.fromLists(

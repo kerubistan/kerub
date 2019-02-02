@@ -13,7 +13,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
-import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
+import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.utils.update
 
 abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: AbstractOperationalStep, InvertibleStep {
@@ -27,7 +27,7 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: 
 
 
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean =
-			(other is UnAllocate<*>
+			(other is AbstractUnAllocate<*>
 					&& other.vstorage == vStorageDevice
 					&& other.allocation == target
 					&& other.host == targetHost)

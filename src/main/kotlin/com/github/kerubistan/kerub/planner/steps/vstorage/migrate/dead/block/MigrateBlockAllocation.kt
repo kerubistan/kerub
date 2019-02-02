@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.reservations.Reservation
-import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
+import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.vstorage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.vstorage.migrate.dead.AbstractMigrateAllocation
 
@@ -18,7 +18,7 @@ data class MigrateBlockAllocation(
 		override val virtualStorage: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageBlockDeviceAllocation,
 		override val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out StorageCapability>,
-		override val deAllocationStep: UnAllocate<*>
+		override val deAllocationStep: AbstractUnAllocate<*>
 ) : AbstractMigrateAllocation() {
 
 	init {

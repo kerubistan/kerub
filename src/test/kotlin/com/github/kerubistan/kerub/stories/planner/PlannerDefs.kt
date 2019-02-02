@@ -64,7 +64,7 @@ import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
-import com.github.kerubistan.kerub.planner.steps.base.UnAllocate
+import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
@@ -634,7 +634,7 @@ class PlannerDefs {
 	@Then("disk (\\S+) will be unallocated as step (\\d+)")
 	fun verifyDiskUnalloction(name: String, index: Int) {
 		executedPlans.first().steps[index - 1].let {
-			assertTrue(it is UnAllocate<*> && it.vstorage.name == name)
+			assertTrue(it is AbstractUnAllocate<*> && it.vstorage.name == name)
 		}
 
 	}
