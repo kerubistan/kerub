@@ -6,6 +6,8 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testLvmCapability
@@ -14,7 +16,20 @@ import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.assertThrows
 
-class UnAllocateLvTest {
+class UnAllocateLvTest : OperationalStepVerifications() {
+
+	override val step: AbstractOperationalStep
+		get() = UnAllocateLv(
+				vstorage = testDisk,
+				allocation = VirtualStorageLvmAllocation(
+						hostId = testHost.id,
+						actualSize = 10.GB,
+						path = "/dev/kerub/test",
+						vgName = "kerub",
+						capabilityId = testLvmCapability.id
+				),
+				host = testHost
+		)
 
 	@Test
 	fun validation() {

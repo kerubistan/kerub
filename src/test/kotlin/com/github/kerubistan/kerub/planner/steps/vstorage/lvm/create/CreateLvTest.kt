@@ -13,13 +13,16 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
-import kotlin.test.assertFalse
 
-class CreateLvTest {
+class CreateLvTest : OperationalStepVerifications() {
+
+	override val step: AbstractOperationalStep
+		get() = CreateLv(host, volume, vDisk)
 
 	val volume = LvmStorageCapability(
 			volumeGroupName = "testvg",
@@ -75,13 +78,4 @@ class CreateLvTest {
 		assertEquals(100.GB, transformed.hosts.values.single().dynamic?.storageStatus?.single()?.freeCapacity)
 	}
 
-	@Test
-	fun getCost() {
-		assertTrue(CreateLv(host, volume, vDisk).getCost().isNotEmpty())
-	}
-
-	@Test
-	fun reservations() {
-		assertFalse(CreateLv(host, volume, vDisk).reservations().isEmpty())
-	}
 }

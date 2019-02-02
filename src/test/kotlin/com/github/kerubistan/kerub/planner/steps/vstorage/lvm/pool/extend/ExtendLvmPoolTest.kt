@@ -9,13 +9,29 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class ExtendLvmPoolTest {
+class ExtendLvmPoolTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() = ExtendLvmPool(vgName = "test-vg", pool = "test-pool", host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(
+								LvmStorageCapability(
+										id = UUID.randomUUID(),
+										size = 2.TB,
+										physicalVolumes = mapOf("/dev/sda" to 2.TB),
+										volumeGroupName = "test-vg"
+								)
+						)
+				)
+		), addSize = 128.GB)
+
 	@Test
 	fun take() {
 		val lvmStorageId = UUID.randomUUID()
