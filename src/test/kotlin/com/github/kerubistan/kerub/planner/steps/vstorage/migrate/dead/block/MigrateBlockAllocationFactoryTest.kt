@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.VirtualStorageLink
+import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -278,6 +279,10 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 					OperationalState.fromLists(
 							hosts = listOf(host1, host2),
 							hostDyns = listOf(host1dyn, host2dyn),
+							hostCfgs = listOf(
+									HostConfiguration(id = host1.id, publicKey = "host1-pibkey"),
+									HostConfiguration(id = host2.id, acceptedPublicKeys = listOf("host1-pibkey"))
+							),
 							vStorage = listOf(testDisk),
 							vStorageDyns = listOf(
 									VirtualStorageDeviceDynamic(
