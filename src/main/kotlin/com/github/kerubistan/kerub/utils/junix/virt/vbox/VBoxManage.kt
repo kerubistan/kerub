@@ -22,11 +22,14 @@ import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.math.BigInteger.ZERO
 import java.util.UUID
 
 object VBoxManage : OsCommand {
 
 	private val knownPackages = listOf("virtualbox", "virtualbox-ose")
+
+	private val supportedFormats = setOf(VirtualDiskFormat.vdi, VirtualDiskFormat.vmdk)
 
 	override fun available(hostCapabilities: HostCapabilities?)
 			= hostCapabilities?.installedSoftware?.any { knownPackages.contains(it.name.toLowerCase()) } == true
@@ -187,8 +190,24 @@ object VBoxManage : OsCommand {
 				   listener: (Int) -> Unit) =
 			controlVm(session, vm, "teleport", "--host $address --port $port --password $password")
 
-	fun createMedium(session: ClientSession, path: String, size: BigInteger, type: DeviceType, format: VirtualDiskFormat) =
-		session.executeOrDie("VBoxManage create $type --filename $path --format $format")
+	private fun vboxType(type: DeviceType) = when(type) {
+		DeviceType.cdrom -> "dvd"
+		else -> type.name
+	}
+
+	fun createMedium(session: ClientSession,
+					 path: String,
+					 size: BigInteger,
+					 type: DeviceType,
+					 format: VirtualDiskFormat = VirtualDiskFormat.vdi) {
+		check(size > ZERO) {
+			"medium size ($size) must be greater than 0"
+		}
+		check(format in supportedFormats) {
+			"format ($format) not supported, only $supportedFormats"
+		}
+		session.executeOrDie("VBoxManage createmedium ${vboxType(type)} --filename $path --format $format --sizebyte ${round(size)}")
+	}
 
 }
 
