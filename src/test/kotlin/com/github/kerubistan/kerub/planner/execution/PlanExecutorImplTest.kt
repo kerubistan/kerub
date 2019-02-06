@@ -17,7 +17,7 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
-import com.github.kerubistan.kerub.planner.steps.vstorage.fs.create.CreateImage
+import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq

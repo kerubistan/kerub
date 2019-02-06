@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartNfsDaemon
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue

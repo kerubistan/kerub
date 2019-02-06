@@ -6,8 +6,8 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StopNfsDaemon
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import com.nhaarman.mockito_kotlin.any

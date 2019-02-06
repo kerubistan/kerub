@@ -10,8 +10,8 @@ import com.github.kerubistan.kerub.planner.PlanViolationDetector
 import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.execution.PlanExecutorImpl
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StartNfsDaemon
-import com.github.kerubistan.kerub.planner.steps.vstorage.share.nfs.daemon.StopNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StopNfsDaemon
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import com.nhaarman.mockito_kotlin.eq

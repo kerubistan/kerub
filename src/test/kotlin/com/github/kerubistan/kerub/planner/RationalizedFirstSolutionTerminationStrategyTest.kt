@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
-import com.github.kerubistan.kerub.planner.steps.vstorage.mount.MountNfs
+import com.github.kerubistan.kerub.planner.steps.storage.mount.MountNfs
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
