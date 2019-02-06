@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -259,6 +261,16 @@ class LvmLvTest {
 		LvmLv.remove(session, "testVg", "testLv")
 
 		verify(session).createExecChannel(startsWith("lvm lvremove"))
+	}
+
+	@ExperimentalUnsignedTypes
+	@Test
+	fun mirror() {
+		session.mockCommandExecution("lvm lvconvert .*".toRegex())
+
+		LvmLv.mirror(session, "test-lv", "test-vg", 1.toUShort())
+
+		session.verifyCommandExecution("lvm lvconvert .*".toRegex())
 	}
 
 }

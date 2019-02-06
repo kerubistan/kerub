@@ -203,4 +203,9 @@ object LvmLv : Lvm() {
 		session.executeOrDie("lvm lvremove -f $volumeName")
 	}
 
+	@ExperimentalUnsignedTypes
+	fun mirror(session: ClientSession, volumeName: String, vgName : String, mirrors : UShort) {
+		session.executeOrDie("lvm lvconvert -m$mirrors $vgName/$volumeName")
+	}
+
 }
