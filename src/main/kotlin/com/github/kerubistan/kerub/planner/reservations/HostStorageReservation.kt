@@ -9,5 +9,10 @@ data class HostStorageReservation(
 		override val reservedStorage: BigInteger,
 		val storageCapabilityId : UUID
 ) : HostReservation, StorageReservation<Host> {
+	init {
+		check(reservedStorage > BigInteger.ZERO) {
+			"reserved storage ($reservedStorage) must be bigger then 0"
+		}
+	}
 	override fun isShared() = true
 }
