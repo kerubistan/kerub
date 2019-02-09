@@ -19,7 +19,8 @@ class SshClientServiceImpl(
 		val client: SshClient = SshClient.setUpDefaultClient(),
 		val keyPair: KeyPair,
 		val maxWait: Long = 500,
-		val maxWaitUnit: TimeUnit = TimeUnit.MILLISECONDS) : SshClientService {
+		val maxWaitUnit: TimeUnit = TimeUnit.MILLISECONDS
+) : SshClientService {
 
 	class ServerFingerprintChecker(val expected: String) : DefaultSshEventListener() {
 		override fun sessionEvent(session: Session, event: SessionListener.Event) {
@@ -89,12 +90,13 @@ class SshClientServiceImpl(
 
 	override fun loginWithPublicKey(address: String, userName: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with public key", address)
-		val future = client.connect(userName, address, 22)
-		future.await()
-		val session = future.session
-		session.addSessionListener(ServerFingerprintChecker(hostPublicKey))
+		val session = createVerifiedSession(address, userName, hostPublicKey)
 		logger.debug("sending key to {}", address)
 		session.addPublicKeyIdentity(keyPair)
+		return checkLogin(address, session)
+	}
+
+	private fun checkLogin(address: String, session: ClientSession): ClientSession {
 		logger.debug("waiting for authentication from {}", address)
 		val authFuture = session.auth()
 		val finished = authFuture.await(maxWait, maxWaitUnit)
@@ -105,19 +107,14 @@ class SshClientServiceImpl(
 
 	override fun loginWithPassword(address: String, userName: String, password: String, hostPublicKey: String): ClientSession {
 		logger.debug("connecting to {} with password", address)
-		val future = client.connect(userName, address, 22)
-		future.await()
-		val session = future.session
-		session.addSessionListener(ServerFingerprintChecker(hostPublicKey))
+		val session = createVerifiedSession(address, userName, hostPublicKey)
 		logger.debug("sending password {}", address)
 		session.addPasswordIdentity(password)
-		logger.debug("authenticating {}", address)
-		val authFuture = session.auth()
-		authFuture.await(maxWait, maxWaitUnit)
-		authFuture.verify()
-		logger.debug("authentication finished {}", address)
-		return session
+		return checkLogin(address, session)
 	}
+
+	private fun createVerifiedSession(address: String, userName: String, hostPublicKey: String): ClientSession =
+			createSession(address, userName).apply { addSessionListener(ServerFingerprintChecker(hostPublicKey)) }
 
 	override fun getPublicKey(): String = """
 ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)} #added by kerub - ${Date()}

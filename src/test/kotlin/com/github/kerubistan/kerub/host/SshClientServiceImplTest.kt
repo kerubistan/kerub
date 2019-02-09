@@ -8,6 +8,8 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.future.AuthFuture
+import org.apache.sshd.client.future.ConnectFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.SshException
@@ -22,24 +24,26 @@ import org.mockito.Mockito
 import java.security.PublicKey
 import java.util.EnumSet
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 
 class SshClientServiceImplTest {
-	val client : SshClient = mock()
-	val session : ClientSession = mock()
-	val sftClient : SftpClient = mock()
+	val client: SshClient = mock()
+	val session: ClientSession = mock()
+	val sftClient: SftpClient = mock()
 	val serverPublicKey: PublicKey = mock()
 	val handle: SftpClient.CloseableHandle = mock()
 
-	var service : SshClientServiceImpl? = null
+	var service: SshClientServiceImpl? = null
 
 	@Before
 	fun setup() {
-		service = SshClientServiceImpl(client = client,
-		                               keyPair = getTestKey(),
-		                               maxWait = 1000,
-		                               maxWaitUnit = TimeUnit.MILLISECONDS
-		                              )
+		service = SshClientServiceImpl(
+				client = client,
+				keyPair = getTestKey(),
+				maxWait = 1000,
+				maxWaitUnit = TimeUnit.MILLISECONDS
+		)
 	}
 
 	@Test
@@ -76,10 +80,61 @@ class SshClientServiceImplTest {
 		val kex = Mockito.mock(KeyExchange::class.java)
 		whenever(abstractSession.kex).thenReturn(kex)
 		whenever(kex.serverKey).thenReturn(getTestKey().public)
-		expect(SshException::class, {
+		expect(SshException::class) {
 			SshClientServiceImpl.ServerFingerprintChecker("WRONG")
 					.sessionEvent(abstractSession, SessionListener.Event.KeyEstablished)
-		})
+		}
+	}
+
+	@Test
+	fun createSession() {
+		val sshClient = mock<SshClient>()
+		val connectFuture = mock<ConnectFuture>()
+		whenever(sshClient.connect(any(), any(), any())).thenReturn(connectFuture)
+		whenever(connectFuture.session).thenReturn(session)
+
+		val clientSession = SshClientServiceImpl(sshClient, getTestKey()).createSession("example.com", "root")
+
+		assertEquals(session, clientSession)
+	}
+
+	@Test
+	fun loginWithPublicKey() {
+		val sshClient = mock<SshClient>()
+		val connectFuture = mock<ConnectFuture>()
+		whenever(sshClient.connect(any(), any(), any())).thenReturn(connectFuture)
+		whenever(connectFuture.session).thenReturn(session)
+		val authFuture = mock<AuthFuture>()
+		whenever(session.auth()).thenReturn(authFuture)
+		whenever(authFuture.await(any(), any())).thenReturn(true)
+		val clientSession = SshClientServiceImpl(sshClient, getTestKey(), 10, TimeUnit.SECONDS)
+				.loginWithPublicKey(
+						"example.com",
+						"root",
+						"f6:aa:fa:c7:1d:98:cd:8b:0c:5b:c6:63:bb:3a:73:f6")
+
+		assertEquals(session, clientSession)
+		verify(authFuture).await(eq(10), eq(TimeUnit.SECONDS))
+	}
+
+	@Test
+	fun loginWithPassword() {
+		val sshClient = mock<SshClient>()
+		val connectFuture = mock<ConnectFuture>()
+		whenever(sshClient.connect(any(), any(), any())).thenReturn(connectFuture)
+		whenever(connectFuture.session).thenReturn(session)
+		val authFuture = mock<AuthFuture>()
+		whenever(session.auth()).thenReturn(authFuture)
+		whenever(authFuture.await(any(), any())).thenReturn(true)
+		val clientSession = SshClientServiceImpl(sshClient, getTestKey(), 10, TimeUnit.SECONDS)
+				.loginWithPassword(
+						"example.com",
+						"root",
+						"secret",
+						"f6:aa:fa:c7:1d:98:cd:8b:0c:5b:c6:63:bb:3a:73:f6")
+
+		assertEquals(session, clientSession)
+		verify(authFuture).await(eq(10), eq(TimeUnit.SECONDS))
 	}
 
 }
