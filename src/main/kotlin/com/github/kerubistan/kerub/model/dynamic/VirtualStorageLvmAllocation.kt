@@ -19,8 +19,8 @@ data class VirtualStorageLvmAllocation(
 ) : VirtualStorageBlockDeviceAllocation {
 
 	init {
-		check(actualSize > ZERO) {
-			"Actual size ($actualSize) must be greater than 0"
+		check(actualSize >= ZERO) {
+			"Actual size ($actualSize) must not be negative"
 		}
 	}
 
