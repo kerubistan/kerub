@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import java.math.BigInteger
+import java.math.BigInteger.ZERO
 import java.util.UUID
 
 @JsonTypeName("lvm-allocation")
@@ -13,8 +14,15 @@ data class VirtualStorageLvmAllocation(
 		override val actualSize: BigInteger,
 		val path: String,
 		val pool: String? = null,
-		val vgName : String
+		val vgName : String,
+		val mirrors : Byte = 0
 ) : VirtualStorageBlockDeviceAllocation {
+
+	init {
+		check(actualSize > ZERO) {
+			"Actual size ($actualSize) must be greater than 0"
+		}
+	}
 
 	@JsonIgnore
 	override val requires = LvmStorageCapability::class
