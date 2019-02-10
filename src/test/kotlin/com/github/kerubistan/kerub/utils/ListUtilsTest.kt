@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils
 import com.github.kerubistan.kerub.model.Entity
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ListUtilsTest {
@@ -91,6 +92,20 @@ class ListUtilsTest {
 				}
 		)
 
+	}
+
+	@Test
+	fun anyInstanceOf() {
+		assertTrue(listOf("A", 1, true).any<String>())
+		assertFalse(listOf("A", 1, true).any<List<String>>())
+		assertFalse(listOf<Any>().any<String>())
+	}
+
+	@Test
+	fun noInstanceOf() {
+		assertFalse(listOf("A", 1, true).none<String>())
+		assertTrue(listOf("A", 1, true).none<List<String>>())
+		assertTrue(listOf<Any>().none<String>())
 	}
 
 }
