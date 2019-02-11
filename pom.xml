@@ -92,13 +92,6 @@
 			<artifactId>angularjs</artifactId>
 			<version>${angularjs.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>angular-bootstrap-nav-tree-gildo</artifactId>
-			<version>0.1.0</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>angular-ui-bootstrap</artifactId>
@@ -494,15 +487,6 @@
 				<groupId>com.github.searls</groupId>
 				<artifactId>jasmine-maven-plugin</artifactId>
 				<version>1.3.1.5</version>
-				<!--
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				-->
 				<configuration>
 					<webDriverClassName>org.openqa.selenium.firefox.FirefoxDriver</webDriverClassName>
 					<jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
