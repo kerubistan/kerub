@@ -9,6 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
+import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.join
 import kotlin.reflect.KClass
 
@@ -43,6 +44,6 @@ object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {
 
 	private fun getHostsRunningNfs(state: OperationalState): List<HostDataCollection> =
 			state.hosts.values.filter {
-				it.config?.services?.any { it is NfsDaemonService } ?: false
+				it.config?.services?.any<NfsDaemonService>() ?: false
 			}
 }

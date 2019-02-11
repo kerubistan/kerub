@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.join
 
 object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetector<CoreDedicationExpectation>() {
@@ -15,7 +16,7 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 		val vmsOnHost = lazy { state.vmDataOnHost(host.id) }
 		val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
 		val coredDedicated: (VirtualMachineDataCollection) -> Boolean
-				= { it.stat.expectations.any { it is CoreDedicationExpectation } }
+				= { it.stat.expectations.any<CoreDedicationExpectation>() }
 		val vmNrOfCpus: (VirtualMachineDataCollection) -> Int = { it.stat.nrOfCpus }
 
 		// if this vm has CPU affinity to a smaller nr of cores, than the number of vcpus, that

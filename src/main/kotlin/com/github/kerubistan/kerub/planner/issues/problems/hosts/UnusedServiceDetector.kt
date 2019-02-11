@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
+import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.join
 
 object UnusedServiceDetector : ProblemDetector<UnusedService> {
@@ -61,7 +62,7 @@ object UnusedServiceDetector : ProblemDetector<UnusedService> {
 					}
 				}
 				is NfsDaemonService -> {
-					hostColl.config?.services?.any { it is NfsService } ?: false
+					hostColl.config?.services?.any<NfsService>() ?: false
 				}
 				else -> {
 					TODO("unhandled: $hostService")

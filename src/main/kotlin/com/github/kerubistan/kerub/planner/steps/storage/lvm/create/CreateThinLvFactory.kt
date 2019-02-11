@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorageFactory
+import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.join
 import kotlin.reflect.KClass
 
@@ -19,7 +20,7 @@ object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>()
 				val storageNotAllocated = listStorageNotAllocated(state)
 
 				state.runningHosts.filter {
-							it.config?.storageConfiguration?.any { it is LvmPoolConfiguration } ?: false
+							it.config?.storageConfiguration?.any<LvmPoolConfiguration>() ?: false
 				}.map { hostColl ->
 							hostColl.config?.storageConfiguration?.filterIsInstance<LvmPoolConfiguration>()?.map { pool ->
 								storageNotAllocated.map { disk ->
