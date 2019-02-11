@@ -17,6 +17,7 @@ import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
+import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 import java.util.ArrayList
@@ -106,7 +107,8 @@ data class KvmMigrateVirtualMachine(
 					cycles = vm.memory.max.toLong()
 			)
 
-	) + if (vm.expectations.any { it is NoMigrationExpectation }) {
+	) + if (vm.expectations.any<NoMigrationExpectation>()) {
+		// TODO: hmm, do I want to have this logic here? NoMigrationExpectationViolationDetector detects the problem
 		listOf(Risk(1000, comment = "broken no-migration rule"))
 	} else {
 		listOf<Cost>()
