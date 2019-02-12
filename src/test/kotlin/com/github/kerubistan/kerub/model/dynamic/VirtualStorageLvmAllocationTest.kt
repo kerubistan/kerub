@@ -8,13 +8,23 @@ import java.util.UUID
 class VirtualStorageLvmAllocationTest {
 	@Test
 	fun validation() {
-		assertThrows<IllegalStateException> {
+		assertThrows<IllegalStateException>("Size musn't be negative") {
 			VirtualStorageLvmAllocation(
 					hostId = UUID.randomUUID(),
 					capabilityId = UUID.randomUUID(),
 					actualSize = (-1).TB,
 					path = "",
 					vgName = "vg-1"
+			)
+		}
+		assertThrows<IllegalStateException>("Number of mirrors must be at least 0") {
+			VirtualStorageLvmAllocation(
+					hostId = UUID.randomUUID(),
+					capabilityId = UUID.randomUUID(),
+					actualSize = (-1).TB,
+					path = "",
+					vgName = "vg-1",
+					mirrors = -1
 			)
 		}
 	}

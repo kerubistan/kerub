@@ -22,6 +22,9 @@ data class VirtualStorageLvmAllocation(
 		check(actualSize >= ZERO) {
 			"Actual size ($actualSize) must not be negative"
 		}
+		check(mirrors >= 0) {
+			"number of mirrors must be at least 0"
+		}
 	}
 
 	@JsonIgnore
