@@ -6,6 +6,9 @@ operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> 
 	return this.map { x -> other.map { y -> x to y } }.join()
 }
 
+inline fun <reified C : Any> Iterable<*>.hasAny(predicate : (C) -> Boolean)
+		= this.any { it is C && predicate(it) }
+
 inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
 inline fun <reified C : Any> Iterable<*>.none() = this.none { it is C }
@@ -114,3 +117,9 @@ fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<L
 }
 
 fun <I, E : Entity<I>> Collection<E>.byId() = this.associateBy { it.id }
+
+inline fun <reified C : Any, R : Any> Iterable<*>.mapInstances(predicate: (C) -> R?) = this.mapNotNull {
+	if (it is C) {
+		predicate(it)
+	} else null
+}

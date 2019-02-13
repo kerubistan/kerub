@@ -26,11 +26,12 @@ class ListUtilsTest {
 
 	@Test
 	fun toMapEntities() {
-		assertEquals(mapOf(
-				1 to TestEntity(1, "FOO"),
-				2 to TestEntity(2, "BAR"),
-				3 to TestEntity(3, "BAZ")
-		), listOf(
+		assertEquals(
+				mapOf(
+						1 to TestEntity(1, "FOO"),
+						2 to TestEntity(2, "BAR"),
+						3 to TestEntity(3, "BAZ")
+				), listOf(
 				TestEntity(1, "FOO"),
 				TestEntity(2, "BAR"),
 				TestEntity(3, "BAZ")
@@ -102,10 +103,23 @@ class ListUtilsTest {
 	}
 
 	@Test
+	fun anyInstanceWithPredicate() {
+		assertTrue(listOf("A", 1, "B").hasAny<String> { it.startsWith("A") })
+		assertFalse(listOf("A", 1).hasAny<Boolean> { it })
+	}
+
+	@Test
 	fun noInstanceOf() {
 		assertFalse(listOf("A", 1, true).none<String>())
 		assertTrue(listOf("A", 1, true).none<List<String>>())
 		assertTrue(listOf<Any>().none<String>())
+	}
+
+	@Test
+	fun mapInstances() {
+		assertEquals(listOf("A", 1, "B", 2).mapInstances<Int, Int> { it + 1 }, listOf(2, 3))
+		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, Int> { it.length }, listOf(1, 1))
+		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, String> { if(it == "B") "X" else null }, listOf("X"))
 	}
 
 }
