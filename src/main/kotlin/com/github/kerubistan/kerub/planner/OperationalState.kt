@@ -129,7 +129,7 @@ data class OperationalState(
 		}.toMap()
 	}
 
-	val runningHostIds by lazy { runningHosts.map { it.stat.id } }
+	val runningHostIds by lazy { runningHosts.map { it.stat.id }.toSet() }
 
 	val runningVms by lazy {
 		vms.values.filter {
