@@ -19,7 +19,7 @@ data class VirtualStorageFsAllocation(
 ) : VirtualStorageAllocation {
 
 	@JsonIgnore
-	override val requires = FsStorageCapability::class
+	override fun requires() = FsStorageCapability::class
 
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 

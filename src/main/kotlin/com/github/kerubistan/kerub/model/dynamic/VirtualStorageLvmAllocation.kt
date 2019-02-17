@@ -28,7 +28,7 @@ data class VirtualStorageLvmAllocation(
 	}
 
 	@JsonIgnore
-	override val requires = LvmStorageCapability::class
+	override fun requires() = LvmStorageCapability::class
 
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 

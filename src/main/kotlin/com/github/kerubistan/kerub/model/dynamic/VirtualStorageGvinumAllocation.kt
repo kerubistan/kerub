@@ -16,7 +16,7 @@ data class VirtualStorageGvinumAllocation(
 ) : VirtualStorageBlockDeviceAllocation {
 
 	@JsonIgnore
-	override val requires = GvinumStorageCapability::class
+	override fun requires() = GvinumStorageCapability::class
 
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 

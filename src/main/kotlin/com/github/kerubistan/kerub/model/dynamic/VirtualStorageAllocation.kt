@@ -18,7 +18,7 @@ interface VirtualStorageAllocation : Serializable {
 	val hostId: UUID
 	val capabilityId : UUID
 	val actualSize: BigInteger
-	val requires : KClass<out StorageCapability>
+	fun requires() : KClass<out StorageCapability>
 	fun getPath(id : UUID) : String
 	// I would not need this with data class hierarchy
 	// coming in kotlin 1.2

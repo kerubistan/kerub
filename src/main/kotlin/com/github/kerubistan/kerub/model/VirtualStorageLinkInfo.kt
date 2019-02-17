@@ -30,7 +30,7 @@ data class VirtualStorageLinkInfo(
 						"does not match device id ${device.stat.id}"
 			}
 		}
-		check(allocation.requires.isInstance(
+		check(allocation.requires().isInstance(
 				storageHost.stat.capabilities?.storageCapabilitiesById?.get(allocation.capabilityId))) {
 			"allocation $allocation does not match the type of the referenced allocation (${allocation.capabilityId}) " +
 					"of host ${storageHost.stat.address}, " +
