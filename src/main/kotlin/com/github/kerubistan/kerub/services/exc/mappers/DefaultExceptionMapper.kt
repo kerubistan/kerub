@@ -49,7 +49,13 @@ class DefaultExceptionMapper : ExceptionMapper<Throwable> {
 							.build()
 				is JsonMappingException ->
 					Response.status(NOT_ACCEPTABLE)
-							.entity(jsonMappingError)
+							.entity(jsonMappingError.
+									copy(
+											message = """${jsonMappingError.message}\n
+												|path: ${exception.pathReference}\n
+												|message: ${exception.message}""".trimMargin()
+									)
+							)
 							.contentType(APPLICATION_JSON)
 							.build()
 				is JsonParseException ->
