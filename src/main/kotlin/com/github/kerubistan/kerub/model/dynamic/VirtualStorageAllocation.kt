@@ -21,6 +21,7 @@ interface VirtualStorageAllocation : Serializable {
 	fun requires() : KClass<out StorageCapability>
 	fun getPath(id : UUID) : String
 	// I would not need this with data class hierarchy
-	// coming in kotlin 1.2
+	// promissed for kotlin 1.2 - still not here with kotlin 1.3
 	fun resize(newSize : BigInteger) : VirtualStorageAllocation
+	fun getRedundancyLevel(): Byte
 }

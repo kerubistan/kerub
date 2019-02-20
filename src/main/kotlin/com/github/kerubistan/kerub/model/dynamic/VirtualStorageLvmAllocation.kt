@@ -18,6 +18,8 @@ data class VirtualStorageLvmAllocation(
 		val mirrors : Byte = 0
 ) : VirtualStorageBlockDeviceAllocation {
 
+	override fun getRedundancyLevel(): Byte = mirrors
+
 	init {
 		check(actualSize >= ZERO) {
 			"Actual size ($actualSize) must not be negative"

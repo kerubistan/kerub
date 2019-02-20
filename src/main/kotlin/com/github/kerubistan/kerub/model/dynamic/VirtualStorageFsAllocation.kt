@@ -18,6 +18,8 @@ data class VirtualStorageFsAllocation(
 		val backingFile : String? = null
 ) : VirtualStorageAllocation {
 
+	override fun getRedundancyLevel(): Byte = 0
+
 	@JsonIgnore
 	override fun requires() = FsStorageCapability::class
 

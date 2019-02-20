@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.TB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID
+import kotlin.test.assertEquals
 
 class VirtualStorageLvmAllocationTest {
 	@Test
@@ -27,5 +28,20 @@ class VirtualStorageLvmAllocationTest {
 					mirrors = -1
 			)
 		}
+	}
+
+	@Test
+	fun getRedundancyLevel() {
+		assertEquals(
+				1,
+				VirtualStorageLvmAllocation(
+						hostId = UUID.randomUUID(),
+						capabilityId = UUID.randomUUID(),
+						actualSize = 1.TB,
+						path = "",
+						vgName = "vg-1",
+						mirrors = 1
+				).getRedundancyLevel()
+		)
 	}
 }
