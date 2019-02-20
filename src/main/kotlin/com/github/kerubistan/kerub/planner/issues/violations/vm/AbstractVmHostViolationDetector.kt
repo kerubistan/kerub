@@ -15,5 +15,5 @@ abstract class AbstractVmHostViolationDetector<in E : VirtualMachineExpectation>
 		checkWithHost(entity, expectation, state, it)
 	} ?: true
 
-	abstract internal fun checkWithHost(entity: VirtualMachine, expectation: E, state: OperationalState, host: Host): Boolean
+	internal abstract fun checkWithHost(entity: VirtualMachine, expectation: E, state: OperationalState, host: Host): Boolean
 }
