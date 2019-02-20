@@ -8,4 +8,10 @@ data class StorageRedundancyExpectation constructor(
 		override val level: ExpectationLevel = ExpectationLevel.DealBreaker,
 		val outOfBox: Boolean = false,
 		val nrOfCopies: Int
-) : VirtualStorageExpectation
+) : VirtualStorageExpectation {
+	init {
+		check(nrOfCopies > 0) {
+			"the number of copies ($nrOfCopies) must be greater than 0"
+		}
+	}
+}
