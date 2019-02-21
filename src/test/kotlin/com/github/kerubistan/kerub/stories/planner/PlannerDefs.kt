@@ -44,6 +44,7 @@ import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
+import com.github.kerubistan.kerub.model.expectations.StorageRedundancyExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.hardware.CacheInformation
@@ -79,6 +80,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvi
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvm
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolume
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVG
 import com.github.kerubistan.kerub.planner.steps.storage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.storage.remove.RemoveVirtualStorage
@@ -103,6 +105,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.DataTable
 import cucumber.api.PendingException
 import cucumber.api.java.Before
+import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
@@ -702,6 +705,14 @@ class PlannerDefs {
 		})
 	}
 
+	@Then("the virtual disk (\\S+) must be mirrored using lvm - (\\d+) mirrors as step (\\d+)")
+	fun verifyMirror(virtualDisk : String, nrOfMirrors : Int, stepNo: Int) {
+		Assert.assertTrue(executedPlans.first().steps[stepNo - 1].let {
+			it is MirrorVolume
+					&& it.mirrors.toInt() == nrOfMirrors
+		})
+	}
+
 	@Then("the virtual disk (\\S+) must be allocated on (\\S+) under on the volume group (\\S+)")
 	fun verifyVirtualStorageCreatedOnLvm(storageName: String, hostAddr: String, volumeGroup: String) {
 		Assert.assertTrue(executedPlans.first().steps.any {
@@ -1037,6 +1048,15 @@ class PlannerDefs {
 									pm
 							)
 					)
+			)
+		})
+	}
+
+	@And("(\\S+) has storage redundancy expectation: (\\d+) copies")
+	fun setStorageRedundancyExpectation(diskName: String, redundancyLevel : Int) {
+		vdisks = vdisks.replace({ it.name == diskName }, {
+			it.copy(
+					expectations = it.expectations + StorageRedundancyExpectation(nrOfCopies = redundancyLevel)
 			)
 		})
 	}

@@ -38,6 +38,10 @@ data class ControllerConfig(
 		 */
 		val storageTechnologies: StorageTechnologiesConfig = StorageTechnologiesConfig(),
 		/**
+		 * The maximum redundancy level allowed by the controller.
+		 */
+		val maximumRedundancyAllowed : Short = 4,
+		/**
 		 * All hypervisor-related here.
 		 */
 		val hypervisorTechnologies: HypervisorTechnologies = HypervisorTechnologies(),

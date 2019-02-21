@@ -17,6 +17,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFacto
 import com.github.kerubistan.kerub.planner.steps.storage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvmFactory
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolumeFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVGFactory
 import com.github.kerubistan.kerub.planner.steps.storage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.storage.share.ShareFactory
@@ -34,6 +35,7 @@ class CompositeStepFactory(
 
 	companion object {
 		private val logger = getLogger(CompositeStepFactory::class)
+		@ExperimentalUnsignedTypes
 		internal val defaultFactories = setOf(
 				MigrateVirtualMachineFactory,
 				PowerDownHostFactory,
@@ -49,7 +51,8 @@ class CompositeStepFactory(
 				CreateDiskFactory,
 				WakeHostFactory,
 				KvmMigrateVirtualMachineFactory,
-				RemoveDiskFromVGFactory)
+				RemoveDiskFromVGFactory,
+				MirrorVolumeFactory)
 
 		private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
 				defaultFactories.flatMap { it.expectationHints }

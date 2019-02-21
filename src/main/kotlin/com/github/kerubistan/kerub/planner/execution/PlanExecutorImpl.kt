@@ -37,14 +37,6 @@ import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePubl
 import com.github.kerubistan.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.kerubistan.kerub.planner.steps.host.startup.WolWakeHost
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
-import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
-import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachineExecutor
-import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.fs.truncate.TruncateImage
@@ -61,6 +53,8 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLvExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvm
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvmExecutor
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolume
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolumeExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create.CreateLvmPool
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create.CreateLvmPoolExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.extend.ExtendLvmPool
@@ -89,6 +83,14 @@ import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartN
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartNfsDaemonExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StopNfsDaemon
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StopNfsDaemonExecutor
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineExecutor
+import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachineExecutor
+import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachineExecutor
+import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.getStackTraceAsString
 import com.github.kerubistan.kerub.utils.now
@@ -111,6 +113,7 @@ class PlanExecutorImpl(
 		private val logger = getLogger(PlanExecutorImpl::class)
 	}
 
+	@ExperimentalUnsignedTypes
 	val stepExecutors = mapOf<kotlin.reflect.KClass<*>, StepExecutor<*>>(
 			KvmStartVirtualMachine::class to KvmStartVirtualMachineExecutor(
 					hostManager,
@@ -146,6 +149,10 @@ class PlanExecutorImpl(
 			//ShrinkLvmPool::class to ShrinkLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao),
 			RemoveLvmPool::class to RemoveLvmPoolExecutor(hostCommandExecutor, hostConfigurationDao, hostDynamicDao),
 			RemoveDiskFromVG::class to RemoveDiskFromVGExecutor(hostCommandExecutor, hostDao),
+			MirrorVolume::class to MirrorVolumeExecutor(
+					hostCommandExecutor,
+					hostDynamicDao,
+					virtualStorageDeviceDynamicDao),
 
 			//NFS
 			StartNfsDaemon::class to StartNfsDaemonExecutor(hostManager, hostConfigurationDao),

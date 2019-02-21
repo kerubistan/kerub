@@ -280,3 +280,27 @@ Feature: storage management
 	And volume group vg-1 on host host-1.example.com has 200GB free capacity
 	When virtual disk test-disk-1 gets an availability expectation
 	Then the virtual disk test-disk-1 must be thin-allocated on host-1.example.com under on the volume group vg-1
+
+  Scenario: LVM and storage redundancy
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
+	  | host-2.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
+	And host host-2.example.com volume groups are:
+	  | vg name | size   | pvs                                |
+	  | vg-2    | 500 GB | /dev/sda: 512 GB, /dev/sdb: 512 GB |
+	And host host-1.example.com volume groups are:
+	  | vg name | size   | pvs               |
+	  | vg-1    | 500 GB | /dev/sda: 1024 GB |
+	And virtual storage devices:
+	  | name        | size   | ro    |
+	  | test-disk-1 | 300 GB | false |
+	And Controller configuration 'lvm create volume enabled' is enabled
+	And host host-1.example.com is Up
+	And volume group vg-1 on host host-1.example.com has 800GB free capacity
+	And host host-2.example.com is Up
+	And volume group vg-2 on host host-2.example.com has 800GB free capacity
+	And test-disk-1 has storage redundancy expectation: 1 copies
+	When virtual disk test-disk-1 gets an availability expectation
+	Then the virtual disk test-disk-1 must be allocated on host-2.example.com under on the volume group vg-2
+	And the virtual disk test-disk-1 must be mirrored using lvm - 1 mirrors as step 2

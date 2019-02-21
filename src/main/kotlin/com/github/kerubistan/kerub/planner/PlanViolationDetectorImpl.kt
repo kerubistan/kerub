@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.model.expectations.NotSameStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
+import com.github.kerubistan.kerub.model.expectations.StorageRedundancyExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualStorageExpectation
@@ -28,7 +29,9 @@ import com.github.kerubistan.kerub.planner.issues.violations.vm.NotSameHostExpec
 import com.github.kerubistan.kerub.planner.issues.violations.vm.VirtualMachineAvailabilityExpectationViolationDetector
 import com.github.kerubistan.kerub.planner.issues.violations.vstorage.NotSameStorageExpectationViolationDetector
 import com.github.kerubistan.kerub.planner.issues.violations.vstorage.StorageAvailabilityExpectationViolationDetector
+import com.github.kerubistan.kerub.planner.issues.violations.vstorage.StorageRedundancyExpectationViolationDetector
 import com.github.kerubistan.kerub.utils.getLogger
+import kotlin.math.exp
 
 object PlanViolationDetectorImpl : PlanViolationDetector {
 
@@ -66,6 +69,8 @@ object PlanViolationDetectorImpl : PlanViolationDetector {
 				.check(vdisk, expectation, plan.state)
 		is StorageAvailabilityExpectation ->
 			StorageAvailabilityExpectationViolationDetector.check(vdisk, expectation, plan.state)
+		is StorageRedundancyExpectation ->
+			StorageRedundancyExpectationViolationDetector.check(vdisk, expectation, plan.state)
 		else -> {
 			logger.warn("unhandled expectation: $expectation")
 			false
