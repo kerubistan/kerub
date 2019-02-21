@@ -304,3 +304,23 @@ Feature: storage management
 	When virtual disk test-disk-1 gets an availability expectation
 	Then the virtual disk test-disk-1 must be allocated on host-2.example.com under on the volume group vg-2
 	And the virtual disk test-disk-1 must be mirrored using lvm - 1 mirrors as step 2
+
+  Scenario: LVM and storage redundancy - choose the right volume group
+	Given hosts:
+	  | address            | ram  | Cores | Threads | Architecture | Operating System | Distribution | Distro Version |
+	  | host-1.example.com | 2 GB | 2     | 4       | x86_64       | Linux            | CentOS Linux | 7.1            |
+	And host host-1.example.com volume groups are:
+	  | vg name | size   | pvs                                                  |
+	  | vg-1    | 2 TB   | /dev/sda: 1024 GB, /dev/sdb: 1024 GB                 |
+	  | vg-2    | 1.5 TB | /dev/sdc: 512 GB, /dev/sdd: 512 GB, /dev/sde: 512 GB |
+	And virtual storage devices:
+	  | name        | size   | ro    |
+	  | test-disk-1 | 100 GB | false |
+	And Controller configuration 'lvm create volume enabled' is enabled
+	And host host-1.example.com is Up
+	And volume group vg-1 on host host-1.example.com has 800GB free capacity
+	And volume group vg-2 on host host-1.example.com has 800GB free capacity
+	And test-disk-1 has storage redundancy expectation: 2 copies
+	When virtual disk test-disk-1 gets an availability expectation
+	Then the virtual disk test-disk-1 must be allocated on host-1.example.com under on the volume group vg-2
+	And the virtual disk test-disk-1 must be mirrored using lvm - 2 mirrors as step 2
