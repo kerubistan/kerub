@@ -155,10 +155,10 @@ class PlannerDefs {
 					config = controllerConfig
 			)
 		}
-		doAnswer({
-			executedPlans += (it.arguments[0] as Plan)
+		doAnswer {
+			executedPlans = executedPlans + (it.arguments[0] as Plan)
 			Unit
-		}).whenever(executor).execute(any<Plan>(), any<(Plan) -> Unit>())
+		}.whenever(executor).execute(any(), any())
 	}
 
 	@Given("^VMs:$")
@@ -233,7 +233,7 @@ class PlannerDefs {
 
 					)
 			)
-			hosts += host
+			hosts = hosts + host
 		}
 	}
 
@@ -346,7 +346,7 @@ class PlannerDefs {
 		})
 		val host = hosts.first { it.address == hostAddr }
 
-		vmDyns += VirtualMachineDynamic(
+		vmDyns = vmDyns + VirtualMachineDynamic(
 				id = vm.id,
 				hostId = host.id,
 				status = VirtualMachineStatus.Up,
@@ -547,7 +547,7 @@ class PlannerDefs {
 			VirtualStorageDevice(
 					name = it[0],
 					size = it[1].toSize(),
-					readOnly = it[2].toBoolean()
+					readOnly = it[2]!!.toBoolean()
 			)
 		}
 	}
@@ -678,7 +678,7 @@ class PlannerDefs {
 	fun createVStorageDyn(storageName: String, hostAddr: String, directory: String) {
 		val storage = vdisks.first { it.name == storageName }
 		val host = hosts.first { it.address == hostAddr }
-		vstorageDyns += VirtualStorageDeviceDynamic(
+		vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
 				id = storage.id,
 				allocations = listOf(VirtualStorageFsAllocation(
 						hostId = host.id,
@@ -1092,7 +1092,7 @@ class PlannerDefs {
 		val disk = vdisks.first { it.name == diskName }
 		val diskDyn = vstorageDyns.firstOrNull { it.id == disk.id }
 		if (diskDyn == null) {
-			vstorageDyns += VirtualStorageDeviceDynamic(
+			vstorageDyns = vstorageDyns + VirtualStorageDeviceDynamic(
 					id = disk.id,
 					allocations = listOf(VirtualStorageLvmAllocation(
 							hostId = host.id,
@@ -1122,7 +1122,7 @@ class PlannerDefs {
 				)
 			})
 		} else {
-			hostConfigs += HostConfiguration(
+			hostConfigs = hostConfigs + HostConfiguration(
 					id = host.id,
 					services = listOf(service)
 			)
@@ -1199,7 +1199,8 @@ class PlannerDefs {
 	fun verifyHostSShKeyInstall(sourceHostAddr: String, targetHostAddr: String, stepNr: Int) {
 		assertTrue("step $stepNr must be ssh key installation ") {
 			executedPlans.any {
-				it.steps.getOrNull(stepNr - 1)?.let {
+				plan ->
+				plan.steps.getOrNull(stepNr - 1)?.let {
 					it is InstallPublicKey &&
 							it.sourceHost.address == sourceHostAddr
 							&& it.targetHost.address == targetHostAddr
