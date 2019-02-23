@@ -38,7 +38,7 @@ fun <T> Collection<T>.containsAny(vararg elems: T) =
 		}
 
 fun <K, V : Entity<K>> Collection<V>.toMap(): Map<K, V> =
-		this.map { it.id to it }.toMap()
+		this.associateBy { it.id }
 
 fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
 	var sum = 0

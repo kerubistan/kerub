@@ -31,7 +31,6 @@ import com.github.kerubistan.kerub.planner.issues.violations.vstorage.NotSameSto
 import com.github.kerubistan.kerub.planner.issues.violations.vstorage.StorageAvailabilityExpectationViolationDetector
 import com.github.kerubistan.kerub.planner.issues.violations.vstorage.StorageRedundancyExpectationViolationDetector
 import com.github.kerubistan.kerub.utils.getLogger
-import kotlin.math.exp
 
 object PlanViolationDetectorImpl : PlanViolationDetector {
 
@@ -81,9 +80,13 @@ object PlanViolationDetectorImpl : PlanViolationDetector {
 			entities: List<T>,
 			plan: Plan,
 			check: (T, C, Plan) -> Boolean): Map<Constrained<C>, List<Expectation>> =
-			entities.map { entity ->
-				entity to entity.expectations.filterNot { check(entity, it, plan) }
-			}.filter { it.second.isNotEmpty() }.toMap()
+			entities.mapNotNull { entity ->
+				entity.expectations.filterNot { check(entity, it, plan) }.let {
+					if(it.isNotEmpty())
+						entity to it
+					else null
+				}
+			}.toMap()
 
 
 	override fun listViolations(plan: Plan): Map<Constrained<out Expectation>, List<Expectation>> = listVmViolations(
