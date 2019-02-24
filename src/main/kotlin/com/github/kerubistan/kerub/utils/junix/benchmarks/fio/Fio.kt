@@ -14,7 +14,7 @@ object Fio : OsCommand {
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.installedSoftware?.any { it.name == "fio" } ?: false
 
-	private val runtimeLimit = 10
+	private const val runtimeLimit = 10
 	private val mapper = createObjectMapper(prettyPrint = false)
 			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
