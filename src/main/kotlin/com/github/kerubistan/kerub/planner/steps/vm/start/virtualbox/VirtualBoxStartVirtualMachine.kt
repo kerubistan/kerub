@@ -32,7 +32,9 @@ data class VirtualBoxStartVirtualMachine(val vm: VirtualMachine, override val ho
 				val dynamic = requireNotNull(hostData.dynamic)
 				hostData.copy(
 						dynamic = dynamic.copy(
-								memFree = dynamic.memFree ?: host.capabilities?.totalMemory ?: BigInteger.ZERO - vm.memory.min
+								memFree = (dynamic.memFree ?: host.capabilities?.totalMemory
+								?: BigInteger.ZERO) - vm.memory.min.coerceAtLeast(
+										BigInteger.ZERO)
 						)
 				)
 			}

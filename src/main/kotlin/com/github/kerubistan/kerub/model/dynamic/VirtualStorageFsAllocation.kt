@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
+import com.github.kerubistan.kerub.utils.validateSize
 import java.math.BigInteger
 import java.util.UUID
 
@@ -14,9 +15,13 @@ data class VirtualStorageFsAllocation(
 		override val actualSize: BigInteger,
 		val mountPoint: String,
 		val type: VirtualDiskFormat,
-		val fileName : String,
-		val backingFile : String? = null
+		val fileName: String,
+		val backingFile: String? = null
 ) : VirtualStorageAllocation {
+
+	init {
+		actualSize.validateSize("actualSize")
+	}
 
 	override fun getRedundancyLevel(): Byte = 0
 
@@ -26,5 +31,5 @@ data class VirtualStorageFsAllocation(
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 
 	override fun getPath(id: UUID) =
-		"$mountPoint/$id"
+			"$mountPoint/$id"
 }

@@ -71,7 +71,7 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 			} else {
 				combineConcatenations(
 						gvinumDisks = gvinumDisks.filterKeys { it != diskCap.key },
-						size = size - diskCap.value
+						size = (size - diskCap.value).coerceAtLeast(BigInteger.ZERO)
 				).map { it + (diskCap.key to diskCap.value) }
 			}
 		}.join().toSet().toList()

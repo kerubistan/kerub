@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.steps.storage.fs.convert.AbstractConvertImage
 import com.github.kerubistan.kerub.utils.update
+import java.math.BigInteger
 
 /**
  * This conversion moves the
@@ -58,8 +59,9 @@ data class ConvertImage(
 															// TODO this is again an inaccurate estimate
 															// as it depends on the target format and
 															// the actual size
-															freeCapacity = storageStatus.freeCapacity
-																	- virtualStorage.size
+															freeCapacity = (storageStatus.freeCapacity
+																	- virtualStorage.size)
+																	.coerceAtLeast(BigInteger.ZERO)
 													)
 													is CompositeStorageDeviceDynamic -> storageStatus.copy(
 															items = storageStatus.items.map {

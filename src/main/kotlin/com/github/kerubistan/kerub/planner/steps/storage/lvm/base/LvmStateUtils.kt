@@ -17,7 +17,7 @@ fun updateHostDynLvmWithAllocation(state: OperationalState, host: Host, volumeGr
 	return originalHostDyn.copy(
 			storageStatus = originalHostDyn.storageStatus.replace({ it.id == volGroup.id }, {
 				(it as SimpleStorageDeviceDynamic).copy(
-						freeCapacity = (it.freeCapacity - size)
+						freeCapacity = (it.freeCapacity - size).coerceAtLeast(BigInteger.ZERO)
 				)
 			})
 	)

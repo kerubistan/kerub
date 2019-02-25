@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
+import java.math.BigInteger
 
 data class RemoveDiskFromVG(
 		val capability: LvmStorageCapability,
@@ -41,7 +42,8 @@ data class RemoveDiskFromVG(
 												map = {
 													capability.copy(
 															physicalVolumes = capability.physicalVolumes - device,
-															size = capability.size - capability.physicalVolumes[device]!!
+															size = (capability.size - capability.physicalVolumes
+																	.getValue(device)).coerceAtLeast(BigInteger.ZERO)
 													)
 
 												}

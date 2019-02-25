@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.planner.reservations.HostStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
+import java.math.BigInteger
 
 @ExperimentalUnsignedTypes
 data class MirrorVolume @ExperimentalUnsignedTypes constructor(
@@ -44,7 +45,8 @@ data class MirrorVolume @ExperimentalUnsignedTypes constructor(
 										map = {
 											SimpleStorageDeviceDynamic(
 													id = it.id,
-													freeCapacity = it.freeCapacity - extraSpaceNeeded()
+													freeCapacity = (it.freeCapacity - extraSpaceNeeded())
+															.coerceAtLeast(BigInteger.ZERO)
 											)
 										})
 						)

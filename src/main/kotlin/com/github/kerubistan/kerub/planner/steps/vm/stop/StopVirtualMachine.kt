@@ -39,7 +39,7 @@ data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) :
 				hosts = state.hosts.update(host.id) {
 					it.copy(
 							dynamic = hostDyn.copy(
-									memFree = (hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max
+									memFree = ((hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max).coerceAtLeast(BigInteger.ZERO)
 							)
 					)
 				}

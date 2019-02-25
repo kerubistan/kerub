@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.annotations.Dynamic
 import com.github.kerubistan.kerub.utils.now
+import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -35,6 +36,13 @@ data class HostDynamic(
 		val storageDeviceHealth: Map<String, Boolean> = mapOf(),
 		val cpuTemperature: List<Int> = listOf()
 ) : DynamicEntity {
+
+	init {
+		memFree?.validateSize("memFree")
+		memSwapped?.validateSize("memSwapped")
+		memUsed?.validateSize("memUsed")
+	}
+
 	@delegate:JsonIgnore
 	val storageStatusById by lazy {
 		storageStatus.associateBy { it.id }

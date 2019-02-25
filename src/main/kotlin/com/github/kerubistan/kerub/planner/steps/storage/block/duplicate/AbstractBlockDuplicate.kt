@@ -15,6 +15,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.utils.update
+import java.math.BigInteger
 
 abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: AbstractOperationalStep, InvertibleStep {
 
@@ -53,7 +54,8 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: 
 											storageStatus ->
 											if(storageStatus.id == targetCapability.id) {
 												(storageStatus as SimpleStorageDeviceDynamic).copy(
-														freeCapacity = storageStatus.freeCapacity - target.actualSize
+														freeCapacity = (storageStatus.freeCapacity - target.actualSize)
+																.coerceAtLeast(BigInteger.ZERO)
 												)
 											} else {
 												storageStatus

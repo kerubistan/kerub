@@ -73,7 +73,8 @@ data class KvmMigrateVirtualMachine(
 							it.copy(
 									dynamic = targetHostDyn.copy(
 											memFree = sourceHostDyn.memFree!! + vmDyn.memoryUsed,
-											memUsed = sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed
+											memUsed = (sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed)
+													.coerceAtLeast(BigInteger.ZERO)
 									)
 							)
 						}
@@ -81,7 +82,8 @@ data class KvmMigrateVirtualMachine(
 							it.copy(
 									dynamic = sourceHostDyn.copy(
 											memFree = sourceHostDyn.memFree!! + vmDyn.memoryUsed,
-											memUsed = sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed
+											memUsed = (sourceHostDyn.memUsed ?: BigInteger.ZERO - vmDyn.memoryUsed)
+													.coerceAtLeast(BigInteger.ZERO)
 									)
 							)
 						}

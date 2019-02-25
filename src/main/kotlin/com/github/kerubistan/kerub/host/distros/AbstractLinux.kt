@@ -174,7 +174,7 @@ abstract class AbstractLinux : Distribution {
 						systemCpu = event.systemCpu,
 						userCpu = event.userCpu,
 						memFree = memFree,
-						memUsed = host.capabilities?.totalMemory?.minus(memFree),
+						memUsed = (host.capabilities?.totalMemory?.minus(memFree))?.coerceAtLeast(BigInteger.ZERO),
 						memSwapped = event.swapMem
 				)
 			}

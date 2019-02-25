@@ -48,7 +48,8 @@ data class FallocateImage(
 										allocations = storage.dynamic.allocations.map {
 											if (it is VirtualStorageFsAllocation && it.capabilityId == allocation.capabilityId) {
 												it.copy(
-														actualSize = it.actualSize - expectedFree
+														actualSize = (it.actualSize - expectedFree)
+																.coerceAtLeast(BigInteger.ZERO)
 												)
 											} else it
 										}
