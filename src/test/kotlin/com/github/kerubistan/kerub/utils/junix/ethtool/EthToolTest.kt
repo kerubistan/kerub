@@ -1,5 +1,8 @@
 package com.github.kerubistan.kerub.utils.junix.ethtool
 
+import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.whenever
@@ -12,7 +15,7 @@ import java.io.ByteArrayInputStream
 
 class EthToolTest : AbstractJunixCommandVerification() {
 
-	val testOutput =
+	private val testOutput =
 			""""Settings for enp2s0:
 	Supported ports: [ TP MII ]
 	Supported link modes:   10baseT/Half 10baseT/Full
@@ -48,5 +51,23 @@ class EthToolTest : AbstractJunixCommandVerification() {
 		assertFalse(devInfo.link)
 		assertTrue(devInfo.wakeOnLan)
 		assertEquals("10 MB".toSize(), devInfo.transferRate)
+	}
+
+	@Test
+	fun available() {
+		assertFalse(EthTool.available(null))
+		assertFalse(
+				EthTool.available(
+						testHostCapabilities.copy(
+								installedSoftware = listOf()
+						)))
+		assertTrue(
+				EthTool.available(
+						testHostCapabilities.copy(
+								installedSoftware = listOf(
+										SoftwarePackage(
+												name = "ethtool",
+												version = Version.fromVersionString("1.4.15")))
+						)))
 	}
 }
