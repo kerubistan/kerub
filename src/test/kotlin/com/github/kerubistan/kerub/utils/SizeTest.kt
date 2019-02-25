@@ -2,6 +2,8 @@ package com.github.kerubistan.kerub.utils
 
 import org.junit.Assert
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import java.math.BigInteger
 
 class SizeTest {
 
@@ -44,6 +46,15 @@ class SizeTest {
 		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024 * 1024, parseStorageSize("1 P").toLong())
 		Assert.assertEquals(1024.toLong() * 1024 * 1024 * 1024 * 1024, parseStorageSize("1 PB").toLong())
 
+	}
+
+	@Test
+	fun validateSize() {
+		assertThrows<IllegalStateException> {
+			BigInteger("-1").validateSize("test")
+		}
+		BigInteger("0").validateSize("test")
+		BigInteger("1").validateSize("test")
 	}
 
 }

@@ -38,4 +38,12 @@ fun parseStorageSize(storageSize: String): BigInteger {
 }
 
 fun String.toSize() =
-		parseStorageSize(this)
+		parseStorageSize(this).apply {
+			validateSize("size")
+		}
+
+fun BigInteger.validateSize(name : String) {
+	check(this >= BigInteger.ZERO) {
+		"$name ($this) must be greater or equal to zero"
+	}
+}
