@@ -7,6 +7,10 @@ import java.util.UUID
 data class Network(
 		@DocumentId
 		@JsonProperty("id")
-		override val id: UUID
-)
-	: Entity<UUID>
+		override val id: UUID,
+		val name: String
+) : Entity<UUID> {
+	init {
+		check(name.isNotBlank()) { "Network name must not be blank" }
+	}
+}
