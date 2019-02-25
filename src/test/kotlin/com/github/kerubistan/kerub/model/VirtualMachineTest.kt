@@ -9,9 +9,20 @@ import com.github.kerubistan.kerub.testVm
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
 class VirtualMachineTest {
+
+	@Test
+	fun validations() {
+		assertThrows<IllegalStateException> {
+			testVm.copy(memory = Range(1.toBigInteger(), (-2).toBigInteger()))
+		}
+		assertThrows<IllegalStateException> {
+			testVm.copy(memory = Range((-1).toBigInteger(), (2).toBigInteger()))
+		}
+	}
 
 	@Test
 	fun references() {

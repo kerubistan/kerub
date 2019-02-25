@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.expectations.VirtualMachineReference
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Simple
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
@@ -101,6 +102,10 @@ data class VirtualMachine constructor(
 		@JsonIgnore
 		get() = devices.filterIsInstance(NetworkDevice::class.java).map { it.networkId.toString() }
 
+	init {
+		memory.max.validateSize("memory.max")
+		memory.min.validateSize("memory.min")
+	}
 
 	override fun toString(): String = "VM(id=$id,name=$name${if (expectations.isEmpty()) "" else "exp=" + expectations.size})"
 }
