@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.expectations.VirtualStorageDeviceRefere
 import com.github.kerubistan.kerub.model.expectations.VirtualStorageExpectation
 import com.github.kerubistan.kerub.model.views.Simple
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -38,6 +39,11 @@ VirtualStorageDevice(
 		override val recycling: Boolean = false
 
 ) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset, Recyclable {
+
+	init {
+		size.validateSize("size")
+	}
+
 	override fun references(): Map<KClass<out Asset>, List<UUID>> {
 		val mapOf: Map<KClass<out Asset>, List<UUID>> = mapOf(
 				VirtualStorageDevice::class to expectations
