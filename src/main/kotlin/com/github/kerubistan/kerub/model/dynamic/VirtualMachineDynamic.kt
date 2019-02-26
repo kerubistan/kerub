@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.annotations.Dynamic
 import com.github.kerubistan.kerub.model.history.IgnoreDiff
 import com.github.kerubistan.kerub.utils.now
+import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -37,6 +38,11 @@ data class VirtualMachineDynamic(
 		 */
 		val coreAffinity: List<Int>? = null
 ) : DynamicEntity {
+
+	init {
+		memoryUsed.validateSize("memoryUsed")
+	}
+
 	//TODO: issue #125 - workaround to allow infinispan query hostId
 	val hostIdStr
 		@Field(analyze = noAnalyze)
