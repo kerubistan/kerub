@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Full
 import com.github.kerubistan.kerub.model.views.Simple
+import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
 import java.math.BigInteger
@@ -62,6 +63,7 @@ data class HostCapabilities(
 ) : Serializable {
 
 	init {
+		totalMemory.validateSize("totalMemory")
 		storageCapabilities.count { it is GvinumStorageCapability }.let { cnt ->
 			check(cnt <= 1) { "there can be only one gvinum capability, there are $cnt" }
 		}
