@@ -19,28 +19,26 @@ class PlanRationalizerImpl(
 	 * Logic behind the rationalization process:
 	 * - try to remove pairs of inverse steps (they recognize each other) - done
 	 * - try to remove single steps and check if they still solve the problem - done
-	 * - but this is not good enough because maybe we have sequences of irrelevant steps - TODO
 	 */
 	override fun rationalize(plan: Plan): Plan =
 			if (plan.steps.size > 1) {
-				val cleanup = trySimilar(tryRemoveSingles(tryRemoveInverses(plan)))
+				val cleanup = tryRemoveSingles(tryRemoveInverses(plan))
 				(1..(cleanup.steps.size - 1)).map {
 					subPlan(cleanup, it)
 				}.filterNotNull().minBy { it.steps.size } ?: cleanup
 			} else plan
 
-	fun simplify(plan: Plan, generator : (OperationalState, List<AbstractOperationalStep>) -> Plan?) : Plan =
-			if(plan.steps.size <= 1) {
+	private fun simplify(plan: Plan, generator: (OperationalState, List<AbstractOperationalStep>) -> Plan?): Plan =
+			if (plan.steps.size <= 1) {
 				plan
 			} else {
 				var work = plan
 
 				val initialState = plan.states.first()
-				plan.steps.forEach {
-					step ->
+				plan.steps.forEach { step ->
 
 					val candidatePlan = generator(initialState, work.steps - step)
-					if(candidatePlan != null && isTargetState(candidatePlan)) {
+					if (candidatePlan != null && isTargetState(candidatePlan)) {
 						work = candidatePlan
 					}
 
@@ -48,30 +46,13 @@ class PlanRationalizerImpl(
 				work
 			}
 
-	private fun trySimilar(plan: Plan): Plan = simplify(plan, this::createSimilarPlan)
-
 	private fun tryRemoveSingles(plan: Plan): Plan = simplify(plan, this::createStrictPlan)
-
-	private fun createSimilarPlan(initial: OperationalState, steps: List<AbstractOperationalStep>): Plan? {
-		var work = Plan(initial, listOf())
-		steps.forEach{
-			step ->
-			val offeredSteps = stepFactory.produce(work)
-			if(step.javaClass in offeredSteps.map { it.javaClass }) {
-				work = Plan.planBy(initial, work.steps + step)
-			} else {
-				return null
-			}
-		}
-		return work
-	}
 
 	private fun createStrictPlan(initial: OperationalState, steps: List<AbstractOperationalStep>): Plan? {
 		var work = Plan(initial, listOf())
-		steps.forEach{
-			step ->
+		steps.forEach { step ->
 			val offeredSteps = stepFactory.produce(work)
-			if(step in offeredSteps) {
+			if (step in offeredSteps) {
 				work = Plan.planBy(initial, work.steps + step)
 			} else {
 				return null
