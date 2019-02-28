@@ -6,13 +6,14 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.common.anyPackageNamed
 import org.apache.sshd.client.session.ClientSession
 import java.util.UUID
 
 object Fio : OsCommand {
 
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
-			= hostCapabilities?.installedSoftware?.any { it.name == "fio" } ?: false
+			= hostCapabilities.anyPackageNamed("fio")
 
 	private const val runtimeLimit = 10
 	private val mapper = createObjectMapper(prettyPrint = false)
