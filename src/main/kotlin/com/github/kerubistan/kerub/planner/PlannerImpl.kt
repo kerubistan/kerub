@@ -122,7 +122,7 @@ class PlannerImpl(
 				PlanRationalizerImpl(problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
 									 violationDetector = violationDetector)
 		)
-		val strategy = OrTerminationStrategy<Plan>(listOf(
+		val strategy = OrTerminationStrategy(listOf(
 				listener
 //				,
 //				TimeoutTerminationStrategy(now() + 2000)
@@ -145,10 +145,10 @@ class PlannerImpl(
 		} else {
 			val planReservations = plan.reservations()
 			if (checkReservations(planReservations, reservations.values.join(), state)) {
-				reservations.put(plan, planReservations.toList())
-				executor.execute(plan, {
+				reservations[plan] = planReservations.toList()
+				executor.execute(plan) {
 					reservations.remove(plan)
-				})
+				}
 			} else {
 				logger.info("reservations not matched")
 			}
