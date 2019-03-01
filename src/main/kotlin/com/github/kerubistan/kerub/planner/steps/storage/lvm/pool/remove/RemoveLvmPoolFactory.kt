@@ -15,9 +15,9 @@ object RemoveLvmPoolFactory : AbstractOperationalStepFactory<RemoveLvmPool>() {
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<RemoveLvmPool> {
-		val usedPools = state.vStorage.values.map {
+		val usedPools = state.vStorage.values.mapNotNull {
 			it.dynamic?.allocations?.filterIsInstance(VirtualStorageLvmAllocation::class.java)
-		}.filterNotNull().join().map { it.pool }.filterNotNull().distinct()
+		}.join().mapNotNull { it.pool }.distinct()
 
 		val notUsedPools = state.hosts.mapNotNull { host ->
 			host.value.config?.storageConfiguration?.filterIsInstance(LvmPoolConfiguration::class.java)

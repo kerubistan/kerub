@@ -15,22 +15,18 @@ object KsmFactory : AbstractOperationalStepFactory<AbstractOperationalStep>() {
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	private fun totalMemoryUsedByVms(state: OperationalState, host: Host): BigInteger =
-			state.vms.values.map { if (it.dynamic?.hostId == host.id) it.dynamic.memoryUsed else null }
-					.filterNotNull()
+			state.vms.values.mapNotNull { if (it.dynamic?.hostId == host.id) it.dynamic.memoryUsed else null }
 					.sum()
 
 	override fun produce(state: OperationalState): List<AbstractOperationalStep> {
-		return state.hosts.values.map {
-			host ->
-			val dyn = host.dynamic
-			if (dyn == null) {
-				null
-			} else
+		return state.hosts.values.mapNotNull { host ->
+			host.dynamic?.let { dyn ->
 				if (dyn.ksmEnabled) {
 					DisableKsm(host.stat)
 				} else {
 					EnableKsm(host.stat, totalMemoryUsedByVms(state, host.stat).toLong())
 				}
-		}.filterNotNull()
+			}
+		}
 	}
 }

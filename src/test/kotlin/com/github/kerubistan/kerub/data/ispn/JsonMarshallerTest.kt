@@ -37,7 +37,7 @@ class JsonMarshallerTest {
 	fun objectToByteBuffer() {
 		marshaller!!.objectToByteBuffer(testObject)
 
-		verify(mapper)!!.writeValue(any(OutputStream::class.java), eq(testObject))
+		verify(mapper).writeValue(any(OutputStream::class.java), eq(testObject))
 	}
 
 	@Test

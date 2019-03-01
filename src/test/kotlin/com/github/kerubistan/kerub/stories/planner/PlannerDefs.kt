@@ -382,7 +382,7 @@ class PlannerDefs {
 			}
 		}
 		planner.onEvent(EntityUpdateMessage(
-				obj = vms.filter { it.name == vm }.first(),
+				obj = vms.first { it.name == vm },
 				date = now()
 		))
 	}

@@ -174,60 +174,54 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 				val propertyChanges = changesOfProperty(changedProperty, changes)
 
 				val propertyType = getPropertyType(changedProperty, dynClass)
-				if(propertyType == null) {
-					TODO()
-				} else if(isNumber(propertyType)) {
-					fun genericSelector(summarySelector : (HistorySummary) -> BigDecimal) : (HistoryEntry) -> BigDecimal =
-							{
-								when (it) {
-									is HistorySummary ->
-										summarySelector(it)
-									is ChangeEvent ->
-										bd(it.changes.single { it.property == changedProperty }.newValue)
-												?: BigDecimal.ZERO
-									else -> TODO()
+				when {
+					propertyType == null -> TODO()
+					isNumber(propertyType) -> {
+						fun genericSelector(summarySelector : (HistorySummary) -> BigDecimal) : (HistoryEntry) -> BigDecimal =
+								{
+									when (it) {
+										is HistorySummary ->
+											summarySelector(it)
+										is ChangeEvent ->
+											bd(it.changes.single { it.property == changedProperty }.newValue)
+													?: BigDecimal.ZERO
+										else -> TODO()
+									}
 								}
-							}
 
-					val maxSelector: (HistoryEntry) -> BigDecimal
-							= genericSelector {
-						bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).max)
-								?: BigDecimal.ZERO
+						val maxSelector: (HistoryEntry) -> BigDecimal = genericSelector {
+							bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).max)
+									?: BigDecimal.ZERO
+						}
+						val minSelector: (HistoryEntry) -> BigDecimal = genericSelector {
+							bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).min)
+									?: BigDecimal.ZERO
+						}
+
+						NumericPropertyChangeSummary(
+								property = changedProperty,
+								average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/},
+								max = requireNotNull(propertyChanges.map(maxSelector).max()), //there is at least one element, therefore there must be a maximum
+								min = requireNotNull(propertyChanges.map(minSelector).min()), //and same for minimums
+								extremes = listOf()
+						)
+
 					}
-					val minSelector: (HistoryEntry) -> BigDecimal
-							= genericSelector {
-						bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).min)
-								?: BigDecimal.ZERO
-					}
-
-					NumericPropertyChangeSummary(
-							property = changedProperty,
-							average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/},
-							max = requireNotNull(propertyChanges.map(maxSelector).max()), //there is at least one element, therefore there must be a maximum
-							min = requireNotNull(propertyChanges.map(minSelector).min()), //and same for minimums
-							extremes = listOf()
-					)
-
-				} else if (isData(propertyType)){
-					//TODO
-					DataPropertyChangeSummary(
-							property = changedProperty,
-							changes = mapOf()
-					)
-
-				} else if(isList(propertyType)) {
-					//TODO
-					DataPropertyChangeSummary(
-							property = changedProperty,
-							changes = mapOf()
-					)
-				} else {
-					//TODO
-					DataPropertyChangeSummary(
-							property = changedProperty,
-							changes = mapOf()
-					)
-
+					isData(propertyType) -> //TODO
+						DataPropertyChangeSummary(
+								property = changedProperty,
+								changes = mapOf()
+						)
+					isList(propertyType) -> //TODO
+						DataPropertyChangeSummary(
+								property = changedProperty,
+								changes = mapOf()
+						)
+					else -> //TODO
+						DataPropertyChangeSummary(
+								property = changedProperty,
+								changes = mapOf()
+						)
 				}
 
 			}

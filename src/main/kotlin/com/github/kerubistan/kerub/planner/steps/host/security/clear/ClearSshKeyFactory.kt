@@ -15,7 +15,7 @@ object ClearSshKeyFactory : AbstractOperationalStepFactory<ClearSshKey>() {
 
 	override fun produce(state: OperationalState): List<ClearSshKey> {
 
-		val allInstalledSshKeys = state.hosts.values.map { it.config?.acceptedPublicKeys }.filterNotNull().join().toSet()
+		val allInstalledSshKeys = state.hosts.values.mapNotNull { it.config?.acceptedPublicKeys }.join().toSet()
 
 		return state.hosts.values.filter { it.dynamic?.status == HostStatus.Up }
 				.filter { it.config?.publicKey != null && !(it.config.publicKey in allInstalledSshKeys) }

@@ -20,19 +20,19 @@ object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>()
 				val storageNotAllocated = listStorageNotAllocated(state)
 
 				state.runningHosts.filter {
-							it.config?.storageConfiguration?.any<LvmPoolConfiguration>() ?: false
-				}.map { hostColl ->
-							hostColl.config?.storageConfiguration?.filterIsInstance<LvmPoolConfiguration>()?.map { pool ->
-								storageNotAllocated.map { disk ->
-									CreateThinLv(
-											disk = disk,
-											poolName = pool.poolName,
-											host = hostColl.stat,
-											capability = requireNotNull(hostColl.stat.capabilities?.storageCapabilities
-													?.filterIsInstance<LvmStorageCapability>()?.single { it.volumeGroupName == pool.vgName })
-									)
-								}
-							}
-						}.filterNotNull().join().join()
+					it.config?.storageConfiguration?.any<LvmPoolConfiguration>() ?: false
+				}.mapNotNull { hostColl ->
+					hostColl.config?.storageConfiguration?.filterIsInstance<LvmPoolConfiguration>()?.map { pool ->
+						storageNotAllocated.map { disk ->
+							CreateThinLv(
+									disk = disk,
+									poolName = pool.poolName,
+									host = hostColl.stat,
+									capability = requireNotNull(hostColl.stat.capabilities?.storageCapabilities
+											?.filterIsInstance<LvmStorageCapability>()?.single { it.volumeGroupName == pool.vgName })
+							)
+						}
+					}
+				}.join().join()
 			}
 }

@@ -30,24 +30,25 @@ object ExtendLvmPoolFactory : AbstractOperationalStepFactory<ExtendLvmPool>() {
 	 */
 	override fun produce(state: OperationalState): List<ExtendLvmPool> =
 			state.hosts.map { host ->
-				host.value.config?.storageConfiguration?.filterIsInstance(LvmPoolConfiguration::class.java)?.map { pool ->
-					val capability = host.value.stat.capabilities!!.storageCapabilities
-							.filterIsInstance<LvmStorageCapability>().single {
-						it.volumeGroupName == pool.vgName
-					}
-					host.value.dynamic?.storageStatus?.firstOrNull { it.id == capability.id }
-							?.let { poolStatus ->
-								if(poolStatus.freeCapacity > BigInteger.ZERO) {
-									percents.map {
-										ExtendLvmPool(
-												host = host.value.stat,
-												pool = pool.poolName,
-												addSize = poolStatus.freeCapacity.divide(it.toBigInteger()),
-												vgName = pool.vgName)
+				host.value.config?.storageConfiguration?.filterIsInstance(LvmPoolConfiguration::class.java)
+						?.mapNotNull { pool ->
+							val capability = host.value.stat.capabilities!!.storageCapabilities
+									.filterIsInstance<LvmStorageCapability>().single {
+										it.volumeGroupName == pool.vgName
 									}
-								} else null
-					}
-				}?.filterNotNull() ?: listOf()
+							host.value.dynamic?.storageStatus?.firstOrNull { it.id == capability.id }
+									?.let { poolStatus ->
+										if (poolStatus.freeCapacity > BigInteger.ZERO) {
+											percents.map {
+												ExtendLvmPool(
+														host = host.value.stat,
+														pool = pool.poolName,
+														addSize = poolStatus.freeCapacity.divide(it.toBigInteger()),
+														vgName = pool.vgName)
+											}
+										} else null
+									}
+						} ?: listOf()
 			}.join().join()
 
 }

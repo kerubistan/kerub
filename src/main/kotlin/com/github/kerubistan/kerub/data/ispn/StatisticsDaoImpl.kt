@@ -107,10 +107,9 @@ class StatisticsDaoImpl(
 			}.map {
 				val dyn = it.second.get()
 				val stat = it.first
-				stat.capabilities?.storageCapabilities?.filter(storageConfig::isEnabled)?.map {
-					cap ->
+				stat.capabilities?.storageCapabilities?.filter(storageConfig::isEnabled)?.mapNotNull { cap ->
 					dyn?.storageStatus?.firstOrNull { cap.id == it.id }
-				}?.filterNotNull()?.map { it.freeCapacity }?.sumBy { it } ?: BigInteger.ZERO
+				}?.sumBy { dynamic -> dynamic.freeCapacity } ?: BigInteger.ZERO
 			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
 		}
 

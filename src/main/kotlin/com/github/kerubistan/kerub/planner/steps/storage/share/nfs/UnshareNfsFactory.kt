@@ -19,11 +19,11 @@ object UnshareNfsFactory : AbstractOperationalStepFactory<UnshareNfs>() {
 				hostColl.stat to hostColl.config?.services?.filterIsInstance<NfsService>()?.filterNot { nfsService ->
 					isDirectoryUsedByAnyMounts(nfsService.directory, hostColl.stat, state)
 				}
-			}.map { hostAndServices ->
+			}.mapNotNull { hostAndServices ->
 				hostAndServices.second?.map {
 					UnshareNfs(host = hostAndServices.first, directory = it.directory)
 				}
-			}.filterNotNull().join()
+			}.join()
 
 	private fun isDirectoryUsedByAnyMounts(directory: String, host: Host,
 										   state: OperationalState): Boolean =

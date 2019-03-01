@@ -92,7 +92,7 @@ data class OperationalState(
 	fun vmsOnHost(hostId: UUID): List<VirtualMachine> =
 			vms.values
 					.filter { it.dynamic?.status == VirtualMachineStatus.Up && it.dynamic.hostId == hostId }
-					.map { vms[it.dynamic!!.id]?.stat }.filterNotNull()
+					.mapNotNull { vms[it.dynamic!!.id]?.stat }
 
 	fun isVmRunning(vm: VirtualMachine): Boolean {
 		val dyn = vms[vm.id]?.dynamic

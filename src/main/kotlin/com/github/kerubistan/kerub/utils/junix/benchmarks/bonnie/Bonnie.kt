@@ -14,12 +14,10 @@ object Bonnie : OsCommand {
 
 	private fun String.kPerSec() = (this.toLong() * 1024).toBigInteger()
 
-	private fun String.time() = if (this.endsWith("us")) {
-		this.substringBefore("us").toLong()
-	} else if (this.endsWith("ms")) {
-		this.substringBefore("ms").toLong() * 1000
-	} else {
-		TODO("not handled: $this")
+	private fun String.time() = when {
+		this.endsWith("us") -> this.substringBefore("us").toLong()
+		this.endsWith("ms") -> this.substringBefore("ms").toLong() * 1000
+		else -> TODO("not handled: $this")
 	}
 
 	fun run(session: ClientSession, directory: String, user: String = "root", nrOfFiles: Int = 128): FsBenchmarkData =

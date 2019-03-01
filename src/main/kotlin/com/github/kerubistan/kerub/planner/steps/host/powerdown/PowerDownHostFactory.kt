@@ -27,7 +27,7 @@ object PowerDownHostFactory : AbstractOperationalStepFactory<PowerDownHost>() {
 				// and other computational resources should also be included
 				val hostsWithVms: List<UUID> = state.vms.values.filter {
 					it.dynamic?.status != VirtualMachineStatus.Down
-				}.map { it.dynamic?.hostId }.filterNotNull()
+				}.mapNotNull { it.dynamic?.hostId }
 
 				val idleDedicatedHosts = state.hosts.filter {
 					!hostsWithVms.contains(it.key) && it.value.let {
