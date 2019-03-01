@@ -44,7 +44,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 					}
 
 		}.join().map { (capability, hostData, freeCap) ->
-			percents.mapNotNull { percent ->
+			percents.map { percent ->
 				CreateLvmPool(
 						host = hostData.stat,
 						name = UUID.randomUUID().toString(),
