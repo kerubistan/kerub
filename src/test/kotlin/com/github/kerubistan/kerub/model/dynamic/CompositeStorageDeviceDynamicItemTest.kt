@@ -1,5 +1,16 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-class CompositeStorageDeviceDynamicItemTest {
+import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
+class CompositeStorageDeviceDynamicItemTest {
+	@Test
+	fun validations() {
+		assertThrows<IllegalStateException> {
+			CompositeStorageDeviceDynamicItem(
+					name = "sdb",
+					freeCapacity = (-1).toBigInteger()
+			)
+		}
+	}
 }
