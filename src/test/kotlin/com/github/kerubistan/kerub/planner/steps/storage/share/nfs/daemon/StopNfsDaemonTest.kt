@@ -17,6 +17,6 @@ class StopNfsDaemonTest {
 						hostCfgs = listOf(HostConfiguration(id = testHost.id, services = listOf(NfsDaemonService())))
 				)
 		)
-		assertTrue(state.hosts[testHost.id]!!.config!!.services == listOf<HostService>())
+		assertTrue(state.hosts.getValue(testHost.id).config!!.services == listOf<HostService>())
 	}
 }

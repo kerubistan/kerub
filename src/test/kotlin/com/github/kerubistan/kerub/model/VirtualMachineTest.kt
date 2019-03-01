@@ -47,11 +47,11 @@ class VirtualMachineTest {
 		).references()
 
 		assertEquals(2, refs.keys.size)
-		val vmRefs = refs[VirtualMachine::class]!!
+		val vmRefs = refs.getValue(VirtualMachine::class)
 		assertEquals(2, vmRefs.size)
 		assertTrue(vmRefs.contains(otherVmId))
 		assertTrue(vmRefs.contains(thirdVmId))
-		val vStorageRefs = refs[VirtualStorageDevice::class]!!
+		val vStorageRefs = refs.getValue(VirtualStorageDevice::class)
 		assertEquals(vStorageRefs, listOf(testDisk.id))
 	}
 }

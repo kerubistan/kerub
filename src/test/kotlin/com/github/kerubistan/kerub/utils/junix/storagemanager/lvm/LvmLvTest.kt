@@ -235,9 +235,9 @@ class LvmLvTest {
 
 		val results = mutableListOf<List<LogicalVolume>>()
 
-		LvmLv.monitor(session, { volumes ->
+		LvmLv.monitor(session) { volumes ->
 			results.add(volumes)
-		})
+		}
 
 		assertEquals(2, results.size)
 	}

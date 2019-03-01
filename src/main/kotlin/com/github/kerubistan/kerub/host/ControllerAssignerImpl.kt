@@ -69,10 +69,9 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 					true
 				}
 						.map { ControllerAssignmentStep(host, it) }
-						.sortedBy({
-							step: ControllerAssignmentStep ->
+						.sortedBy { step: ControllerAssignmentStep ->
 							controllerScore(state.controllerStates[step.controller])
-						})
+						}
 			}
 		}
 	}

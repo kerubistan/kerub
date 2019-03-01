@@ -28,7 +28,7 @@ enum class ExpectationLevel {
 		)
 
 		override fun compare(first: ExpectationLevel, second: ExpectationLevel): Int =
-				values[first]!! - values[second]!!
+				values.getValue(first) - values.getValue(second)
 
 	}
 

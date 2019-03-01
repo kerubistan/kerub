@@ -6,7 +6,7 @@ import org.springframework.jms.core.JmsTemplate
 
 class JmsEventListener(val template: JmsTemplate) : EventListener {
 	override fun send(message: Message) {
-		template.send({ it?.createObjectMessage(message) })
+		template.send { it?.createObjectMessage(message) }
 	}
 
 }

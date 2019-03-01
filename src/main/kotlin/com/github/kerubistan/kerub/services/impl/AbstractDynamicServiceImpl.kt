@@ -10,5 +10,5 @@ abstract class AbstractDynamicServiceImpl<T : DynamicEntity>(
 		private val entyityType: String
 ) : DynamicService<T> {
 	override fun getById(id: UUID): T =
-			assertExist(entyityType, dao.get(id), id)
+			assertExist(entyityType, dao[id], id)
 }

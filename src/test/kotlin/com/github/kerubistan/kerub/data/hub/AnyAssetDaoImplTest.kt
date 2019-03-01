@@ -23,24 +23,24 @@ class AnyAssetDaoImplTest {
 
 	@Test
 	fun get() {
-		whenever(vmDao.get(eq(testVm.id))).thenReturn(testVm)
+		whenever(vmDao[eq(testVm.id)]).thenReturn(testVm)
 
 		assertEquals(testVm, AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao, mock(), mock()).get(VirtualMachine::class, testVm.id))
 
-		verify(vmDao).get(testVm.id)
-		verify(vNetDao, never()).get(any<UUID>())
-		verify(vStorageDao, never()).get(any<UUID>())
+		verify(vmDao)[testVm.id]
+		verify(vNetDao, never())[any<UUID>()]
+		verify(vStorageDao, never())[any<UUID>()]
 	}
 
 	@Test
 	fun getAll() {
-		whenever(vmDao.get(eq(listOf(testVm.id)))).thenReturn(listOf(testVm))
+		whenever(vmDao[eq(listOf(testVm.id))]).thenReturn(listOf(testVm))
 
 		assertEquals(listOf(testVm), AnyAssetDaoImpl(vmDao, vStorageDao, vNetDao, mock(), mock()).getAll(VirtualMachine::class, listOf(testVm.id)))
 
-		verify(vmDao).get(eq(listOf(testVm.id)))
-		verify(vNetDao, never()).get(any<List<UUID>>())
-		verify(vStorageDao, never()).get(any<List<UUID>>())
+		verify(vmDao)[eq(listOf(testVm.id))]
+		verify(vNetDao, never())[any<List<UUID>>()]
+		verify(vStorageDao, never())[any<List<UUID>>()]
 	}
 
 }

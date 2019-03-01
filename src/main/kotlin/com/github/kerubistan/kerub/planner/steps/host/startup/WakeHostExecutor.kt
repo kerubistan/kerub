@@ -24,7 +24,7 @@ open class WakeHostExecutor(
 	override fun perform(step: AbstractWakeHost) {
 		var lastException: Exception? = null
 		for (nr in 0..tries) {
-			if (hostDynDao.get(step.host.id)?.status == HostStatus.Up) {
+			if (hostDynDao[step.host.id]?.status == HostStatus.Up) {
 				//host connected
 				return
 			}

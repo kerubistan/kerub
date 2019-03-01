@@ -63,10 +63,10 @@ class LvmVgTest {
 		session.mockProcess(".*lvm vgs.*".toRegex(),monitorOutput)
 
 		val results = mutableListOf<List<VolumeGroup>>()
-		LvmVg.monitor(session, {
+		LvmVg.monitor(session) {
 			vgs ->
 			results.add(vgs)
-		})
+		}
 
 		assertEquals(2, results.size)
 		assert( results.all { it.size == 2 } )

@@ -286,9 +286,9 @@ Domain: 'kerub.hosts.fedora20'
 			channelOpenFuture
 		}
 		var results: List<List<DomainStat>> = listOf()
-		Virsh.domStat(session, {
+		Virsh.domStat(session) {
 			results += listOf(it)
-		})
+		}
 		assertEquals(2, results.size)
 		assertEquals("kerub.hosts.opensuse13", results[0][0].name)
 		assertEquals(2, results[0][0].vcpuMax)

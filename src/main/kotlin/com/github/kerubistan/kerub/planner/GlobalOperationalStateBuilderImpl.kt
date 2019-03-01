@@ -29,7 +29,7 @@ class GlobalOperationalStateBuilderImpl(
 			dao: DaoOperations.Read<T, UUID>,
 			ids: Collection<Entity<UUID>>): Promise<List<T>, Exception> =
 		task {
-			dao.get(ids.map { it.id })
+			dao[ids.map { it.id }]
 		}
 
 	override fun buildState(): OperationalState {

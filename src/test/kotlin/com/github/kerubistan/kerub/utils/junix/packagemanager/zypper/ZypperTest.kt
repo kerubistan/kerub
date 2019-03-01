@@ -20,13 +20,13 @@ class ZypperTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class, { Zypper.installPackage(session) })
+		expect(IllegalArgumentException::class) { Zypper.installPackage(session) }
 		verify(session, never()).createExecChannel(any())
 	}
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class, { Zypper.uninstallPackage(session /* no packages listed */) })
+		expect(IllegalArgumentException::class) { Zypper.uninstallPackage(session /* no packages listed */) }
 		verify(session, never()).createExecChannel(any())
 	}
 

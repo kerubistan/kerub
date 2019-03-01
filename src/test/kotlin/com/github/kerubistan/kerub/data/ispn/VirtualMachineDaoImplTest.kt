@@ -235,10 +235,10 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 				vm2
 		)
 
-		assertEquals(listOf(vm1), dao.get(listOf(vm1.id)))
-		assertEquals(listOf<VirtualMachine>(), dao.get(listOf()))
+		assertEquals(listOf(vm1), dao[listOf(vm1.id)])
+		assertEquals(listOf<VirtualMachine>(), dao[listOf()])
 
-		val both = dao.get(listOf(vm1.id, vm2.id))
+		val both = dao[listOf(vm1.id, vm2.id)]
 		assertEquals(2, both.size)
 		assertTrue(both.contains(vm1))
 		assertTrue(both.contains(vm2))

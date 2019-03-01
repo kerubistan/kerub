@@ -16,7 +16,7 @@ class WakeOnLan(private val host: Host) {
 		const val wolUdpPort = 9
 		private const val magicCookieHeader = 0xFF.toByte()
 		fun buildMagicPocket(mac: ByteArray): ByteArray {
-			require(mac.size == 6, { "Mac address must be 6 bytes" })
+			require(mac.size == 6) { "Mac address must be 6 bytes" }
 			val bytes = ByteArray(102)
 			bytes[0] = magicCookieHeader
 			bytes[1] = magicCookieHeader
@@ -41,8 +41,8 @@ class WakeOnLan(private val host: Host) {
 
 	fun on() {
 		val info = host.capabilities?.powerManagment?.first { it is WakeOnLanInfo } as WakeOnLanInfo?
-		require(info != null, { "mac address list needed to wake up host" })
-		require(info.macAddresses.isNotEmpty(), { "non-empty mac address list needed to wake up host" })
+		require(info != null) { "mac address list needed to wake up host" }
+		require(info.macAddresses.isNotEmpty()) { "non-empty mac address list needed to wake up host" }
 		for (mac in info.macAddresses) {
 			val bytes = buildMagicPocket(mac)
 

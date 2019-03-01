@@ -33,7 +33,7 @@ class InterControllerListener(
 			is HostAssignedMessage -> {
 				logger.info("msg: host assigned {}", msg.hostId)
 				hostManager.connectHost(
-						hostDao.get(msg.hostId)!!
+						hostDao[msg.hostId]!!
 				)
 			}
 		}

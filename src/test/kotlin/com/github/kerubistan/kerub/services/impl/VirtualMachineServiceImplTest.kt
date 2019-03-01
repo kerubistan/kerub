@@ -40,7 +40,7 @@ class VirtualMachineServiceImplTest {
 	private fun checkStartVm(vm: VirtualMachine) {
 		whenever(accessController.doAndCheck(any<() -> Asset>())).then { (it.arguments[0] as () -> Asset).invoke() }
 		whenever(accessController.checkAndDo(any(), any<() -> Asset?>())).then { (it.arguments[1] as () -> Asset).invoke() }
-		whenever(dao.get(eq(existingId))).thenReturn(vm)
+		whenever(dao[eq(existingId)]).thenReturn(vm)
 		doAnswer {
 			checkExpectation(it, true)
 		}.whenever(dao).update(Mockito.any<VirtualMachine>() ?: vm)
@@ -61,7 +61,7 @@ class VirtualMachineServiceImplTest {
 	private fun checkStopVm(vm: VirtualMachine) {
 		whenever(accessController.doAndCheck(any<() -> Asset>())).then { (it.arguments[0] as () -> Asset).invoke() }
 		whenever(accessController.checkAndDo(any(), any<() -> Asset?>())).then { (it.arguments[1] as () -> Asset).invoke() }
-		whenever(dao.get(eq(existingId) ?: existingId)).thenReturn(vm)
+		whenever(dao[eq(existingId) ?: existingId]).thenReturn(vm)
 		doAnswer {
 			checkExpectation(it, true)
 		}.`when`(dao).update(Mockito.any<VirtualMachine>() ?: vm)

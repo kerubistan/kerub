@@ -5,7 +5,7 @@ import java.nio.charset.Charset
 fun resource(resource: String) =
 		requireNotNull(Thread.currentThread()
 				.contextClassLoader
-				.getResource(resource), { "$resource not found" })
+				.getResource(resource)) { "$resource not found" }
 				.openStream()!!
 
 fun resourceToString(resource: String, charset: Charset = Charsets.UTF_8) =

@@ -37,7 +37,7 @@ class GenerateSshKeyTest {
 							)
 					)
 			).let {
-				it.hosts[testHost.id]!!.config!!.publicKey != null
+				it.hosts.getValue(testHost.id).config!!.publicKey != null
 			}
 		}
 	}

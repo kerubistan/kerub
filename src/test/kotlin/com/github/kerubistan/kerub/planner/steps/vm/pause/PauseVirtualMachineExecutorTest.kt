@@ -50,7 +50,7 @@ class PauseVirtualMachineExecutorTest {
 
 	@Test
 	fun execute() {
-		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		whenever(vmDynDao[vm.id]).thenReturn(vmDyn)
 		PauseVirtualMachineExecutor(hostManager, vmDynDao).execute(PauseVirtualMachine(vm = vm, host = host))
 
 		verify(hypervisor).suspend(Mockito.eq(vm) ?: vm)

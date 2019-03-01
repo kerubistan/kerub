@@ -26,7 +26,7 @@ class MountNfsTest {
 						)
 					)
 			)
-			state.hosts[local.id]!!.config!!.services.single() == NfsMount(remoteDirectory = "/kerub",
+			state.hosts.getValue(local.id).config!!.services.single() == NfsMount(remoteDirectory = "/kerub",
 																		   localDirectory = "/mnt",
 																		   remoteHostId = remote.id)
 		}

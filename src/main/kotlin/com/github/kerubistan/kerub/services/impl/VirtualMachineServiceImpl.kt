@@ -17,17 +17,17 @@ class VirtualMachineServiceImpl(
 		VirtualMachineService {
 
 	override fun startVm(id: UUID) {
-		doWithVm(id, {
+		doWithVm(id) {
 			vm ->
 			alterAvailabilityExpectations(VirtualMachineAvailabilityExpectation(up = true), vm)
-		})
+		}
 	}
 
 	override fun stopVm(id: UUID) {
-		doWithVm(id, {
+		doWithVm(id) {
 			vm ->
 			alterAvailabilityExpectations(VirtualMachineAvailabilityExpectation(up = false), vm)
-		})
+		}
 	}
 
 	override fun listByVirtualDisk(virtualDiskId: UUID): List<VirtualMachine> =

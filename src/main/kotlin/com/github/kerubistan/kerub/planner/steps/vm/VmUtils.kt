@@ -24,7 +24,7 @@ fun virtualStorageLinkInfo(state: OperationalState, links: List<VirtualStorageLi
 			state.vStorage[link.virtualStorageId]?.let { storage ->
 				storage.dynamic?.allocations?.filter { state.hosts[it.hostId]?.dynamic?.status == HostStatus.Up }
 						?.mapNotNull { allocation ->
-							val storageHost = state.hosts[allocation.hostId]!!
+							val storageHost = state.hosts.getValue(allocation.hostId)
 
 							if (storageHost.stat.id == targetHostId) {
 								VirtualStorageLinkInfo(

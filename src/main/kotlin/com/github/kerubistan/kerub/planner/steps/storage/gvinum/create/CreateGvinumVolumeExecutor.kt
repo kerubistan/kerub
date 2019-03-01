@@ -22,7 +22,7 @@ class CreateGvinumVolumeExecutor(
 ) : AbstractStepExecutor<CreateGvinumVolume, Unit>() {
 	override fun update(step: CreateGvinumVolume, updates: Unit) {
 		virtualDiskDynDao.update(id = step.disk.id, retrieve = {
-			virtualDiskDynDao.get(step.disk.id) ?: VirtualStorageDeviceDynamic(
+			virtualDiskDynDao[step.disk.id] ?: VirtualStorageDeviceDynamic(
 					id = step.disk.id,
 					allocations = listOf()
 			)

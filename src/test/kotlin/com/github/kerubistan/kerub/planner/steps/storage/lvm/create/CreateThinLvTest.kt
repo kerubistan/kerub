@@ -50,7 +50,7 @@ class CreateThinLvTest {
 					)
 			)
 
-			state.vStorage[disk.id]!!.dynamic!!.allocations == listOf(
+			state.vStorage.getValue(disk.id).dynamic!!.allocations == listOf(
 					VirtualStorageLvmAllocation(hostId = host.id,
 							pool = "pool-1",
 							actualSize = BigInteger.ZERO,

@@ -30,7 +30,7 @@ class UnshareNfsTest {
 				)
 		)
 
-		assertTrue(state.hosts[testHost.id]!!.config!!.services == listOf<HostService>())
+		assertTrue(state.hosts.getValue(testHost.id).config!!.services == listOf<HostService>())
 	}
 
 }

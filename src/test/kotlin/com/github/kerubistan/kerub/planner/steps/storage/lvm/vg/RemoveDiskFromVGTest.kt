@@ -78,7 +78,8 @@ class RemoveDiskFromVGTest {
 				)
 		)
 		assertTrue {
-			state.hosts[host.id]!!.stat.capabilities!!.storageCapabilitiesById[testLvmCapability.id]!!.let { cap ->
+			state.hosts.getValue(host.id).stat.capabilities!!.storageCapabilitiesById.getValue(testLvmCapability.id)
+					.let { cap ->
 				cap is LvmStorageCapability &&
 						cap.size < lvmStorageCapability.size
 						&& cap.physicalVolumes.keys.size == lvmStorageCapability.physicalVolumes.keys.size - 1

@@ -53,9 +53,9 @@ class AuthenticationDefinitions {
 
 	@When("^user tries to retrieve host list$")
 	fun tryRetrieveHostList() {
-		tryRunRestAction(HostService::class, {
+		tryRunRestAction(HostService::class) {
 			it.listAll(start = 0, limit = 100, sort = "address")
-		})
+		}
 	}
 
 	@Then("^request must be rejected$")
@@ -92,45 +92,45 @@ class AuthenticationDefinitions {
 
 	@When("^user tries to retrieve vm list$")
 	fun tryRetrieveVmList() {
-		tryRunRestAction( VirtualMachineService::class, {
+		tryRunRestAction( VirtualMachineService::class) {
 			it.listAll(start = 0, limit = 100, sort = "id")
-		})
+		}
 	}
 
 	@When("^user tries to create new vm$")
 	fun tryCreateNewVm() {
-		tryRunRestAction(VirtualMachineService::class, {
+		tryRunRestAction(VirtualMachineService::class) {
 			it.add(VirtualMachine(
-				name = "test",
-			    expectations = listOf(),
-			    nrOfCpus = 2,
-			    memory = Range<BigInteger>(min = "1 GB".toSize(), max = "2 GB".toSize())
-			                     ))
-		})
+					name = "test",
+					expectations = listOf(),
+					nrOfCpus = 2,
+					memory = Range<BigInteger>(min = "1 GB".toSize(), max = "2 GB".toSize())
+			))
+		}
 	}
 
 	@When("^user tries to get host public key$")
 	fun tryGetHostPublicKey() {
-		tryRunRestAction(HostService::class, {
+		tryRunRestAction(HostService::class) {
 			it.getHostPubkey("example.com")
-		})
+		}
 	}
 
 	@When("^user tries to log in$")
 	fun tryLogin() {
-		tryRunRestAction(LoginService::class, {
+		tryRunRestAction(LoginService::class) {
 			it.login(LoginService.UsernamePassword(username = user, password = password))
-		})
+		}
 	}
 
 	@When("^user tries to get motd$")
 	fun tryGetMotd() {
-		tryRunRestAction(MotdService::class, { it.get() })
+		tryRunRestAction(MotdService::class) { it.get() }
 	}
 
 	@When("^user tries to get version$")
 	fun tryGetVersion() {
-		tryRunRestAction(VersionService::class, { it.getVersionInfo() })
+		tryRunRestAction(VersionService::class) { it.getVersionInfo() }
 	}
 
 	fun <X : Any> tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
@@ -150,9 +150,9 @@ class AuthenticationDefinitions {
 
 	@When("^user tries to join new host$")
 	fun tryJoinNewHost() {
-		tryRunRestAction(HostService::class, {
+		tryRunRestAction(HostService::class) {
 			it.joinWithoutPassword(HostJoinDetails(host = testHost))
-		})
+		}
 	}
 
 	@Then("^session should be created$")

@@ -152,7 +152,7 @@ class AuthorizationDefs {
 		client.runRestAction(AccountMembershipService::class) {
 			val membership = AccountMembership(
 					user = userName,
-					groupId = accounts[accountName]!!.id
+					groupId = accounts.getValue(accountName).id
 			)
 
 			it.add(membership.groupId, membership.id, membership)

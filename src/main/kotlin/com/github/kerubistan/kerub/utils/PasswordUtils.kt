@@ -12,7 +12,7 @@ private val pwdCharacters = (charsBetween('a', 'z') +
 private val random = Random()
 
 private fun charsBetween(start: Char, end: Char): List<Char> {
-	return CharArray(end - start, { start + it }).toList()
+	return CharArray(end - start) { start + it }.toList()
 }
 
 fun genPassword(length: Int = 16): String {

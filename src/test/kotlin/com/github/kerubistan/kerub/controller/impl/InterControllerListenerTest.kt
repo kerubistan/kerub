@@ -41,7 +41,7 @@ class InterControllerListenerTest {
 				dedicated = true,
 				publicKey = "TEST"
 		               )
-		whenever(hostDao.get( eq(hostId) )).thenReturn(
+		whenever(hostDao[eq(hostId)]).thenReturn(
 				        host
 		                                          )
 		whenever(message.`object`).thenReturn(HostAssignedMessage(hostId, controllerId))

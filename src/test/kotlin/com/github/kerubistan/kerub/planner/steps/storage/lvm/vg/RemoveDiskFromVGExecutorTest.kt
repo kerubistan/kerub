@@ -73,6 +73,6 @@ class RemoveDiskFromVGExecutorTest {
 		session.verifyCommandExecution("lvm pvmove.*".toRegex())
 		session.verifyCommandExecution("lvm vgreduce.*".toRegex())
 		session.verifyCommandExecution("lvm vgs.*".toRegex())
-		assertTrue { updatedHost!!.capabilities!!.storageCapabilitiesById[capability.id]!!.size < capability.size }
+		assertTrue { updatedHost!!.capabilities!!.storageCapabilitiesById.getValue(capability.id).size < capability.size }
 	}
 }

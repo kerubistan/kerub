@@ -18,13 +18,13 @@ class DnfTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class, { Dnf.installPackage(session) })
+		expect(IllegalArgumentException::class) { Dnf.installPackage(session) }
 		verify(session, never()).createExecChannel("dnf -y install foo bar baz")
 	}
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class, { Dnf.uninstallPackage(session) })
+		expect(IllegalArgumentException::class) { Dnf.uninstallPackage(session) }
 		verify(session, never()).createExecChannel("dnf -y remove foo bar baz")
 	}
 

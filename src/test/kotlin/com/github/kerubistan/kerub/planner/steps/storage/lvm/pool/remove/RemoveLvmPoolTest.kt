@@ -85,7 +85,7 @@ class RemoveLvmPoolTest : OperationalStepVerifications() {
 					)
 			)
 
-			newState.hosts[host.id]!!.config!!.storageConfiguration == listOf(otherPool)
+			newState.hosts.getValue(host.id).config!!.storageConfiguration == listOf(otherPool)
 		}
 	}
 

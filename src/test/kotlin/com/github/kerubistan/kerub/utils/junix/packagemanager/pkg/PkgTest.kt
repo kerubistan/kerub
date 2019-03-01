@@ -31,13 +31,13 @@ class PkgTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class, { Pkg.installPackage(session) })
+		expect(IllegalArgumentException::class) { Pkg.installPackage(session) }
 		verify(session, never()).createExecChannel("pkg install -y foo bar baz")
 	}
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class, { Pkg.uninstallPackage(session) })
+		expect(IllegalArgumentException::class) { Pkg.uninstallPackage(session) }
 		verify(session, never()).createExecChannel("pkg remove -y foo bar baz")
 	}
 

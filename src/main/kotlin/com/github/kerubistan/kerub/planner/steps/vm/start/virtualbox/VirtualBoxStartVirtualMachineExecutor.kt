@@ -12,7 +12,7 @@ class VirtualBoxStartVirtualMachineExecutor(
 		private val vmDynDao: VirtualMachineDynamicDao)
 	: AbstractStepExecutor<VirtualBoxStartVirtualMachine, Unit>() {
 	override fun update(step: VirtualBoxStartVirtualMachine, updates: Unit) {
-		val dyn = vmDynDao.get(step.vm.id) ?: VirtualMachineDynamic(
+		val dyn = vmDynDao[step.vm.id] ?: VirtualMachineDynamic(
 				id = step.vm.id,
 				status = VirtualMachineStatus.Up,
 				hostId = step.host.id,

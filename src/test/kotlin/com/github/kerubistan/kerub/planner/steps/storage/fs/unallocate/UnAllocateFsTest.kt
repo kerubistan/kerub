@@ -10,8 +10,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertTrue
 
 class UnAllocateFsTest {
 
@@ -45,6 +45,6 @@ class UnAllocateFsTest {
 				)
 		)
 
-		assertTrue(updatedState.vStorage[testDisk.id]!!.dynamic!!.allocations.isEmpty())
+		assertTrue(updatedState.vStorage.getValue(testDisk.id).dynamic!!.allocations.isEmpty())
 	}
 }

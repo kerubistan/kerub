@@ -23,13 +23,13 @@ class HostServiceIT {
 	fun security() {
 		//unauthenticated
 		checkNoAccess(JAXRSClientFactory.fromClient(createClient(),
-				HostService::class.java, true), { assertEquals("AUTH1", it.code) })
+				HostService::class.java, true)) { assertEquals("AUTH1", it.code) }
 
 		//end user has nothing to do with hosts
 		val endUserClient = createClient()
 		endUserClient.login("enduser","password")
 		checkNoAccess(JAXRSClientFactory.fromClient(endUserClient,
-				HostService::class.java, true), { assertEquals("SEC1", it.code) })
+				HostService::class.java, true)) { assertEquals("SEC1", it.code) }
 
 	}
 

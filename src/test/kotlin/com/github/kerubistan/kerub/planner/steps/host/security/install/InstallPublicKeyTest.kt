@@ -44,7 +44,7 @@ class InstallPublicKeyTest {
 							OperationalState.fromLists(
 									hosts = listOf(testHost)
 							)
-					).let { publicKey in it.hosts[testHost.id]!!.config!!.acceptedPublicKeys }
+					).let { publicKey in it.hosts.getValue(testHost.id).config!!.acceptedPublicKeys }
 		}
 	}
 }

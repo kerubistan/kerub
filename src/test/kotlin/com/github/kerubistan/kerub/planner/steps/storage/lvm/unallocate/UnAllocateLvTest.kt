@@ -80,6 +80,6 @@ class UnAllocateLvTest : OperationalStepVerifications() {
 				)
 		)
 
-		assertTrue(updatedState.vStorage[testDisk.id]!!.dynamic!!.allocations.isEmpty())
+		assertTrue(updatedState.vStorage.getValue(testDisk.id).dynamic!!.allocations.isEmpty())
 	}
 }

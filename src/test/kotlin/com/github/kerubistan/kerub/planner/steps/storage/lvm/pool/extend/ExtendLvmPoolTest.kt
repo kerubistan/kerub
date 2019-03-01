@@ -77,7 +77,7 @@ class ExtendLvmPoolTest : OperationalStepVerifications() {
 		val state = ExtendLvmPool(vgName = "test-vg", pool = "test-pool", host = host, addSize = 128.GB)
 				.take(original)
 		assertTrue {
-			val configuration = state.hosts[host.id]!!.config!!.storageConfiguration.single()
+			val configuration = state.hosts.getValue(host.id).config!!.storageConfiguration.single()
 					as LvmPoolConfiguration
 			configuration.poolName == "test-pool"
 				&& configuration.size == 128.GB + 256.GB

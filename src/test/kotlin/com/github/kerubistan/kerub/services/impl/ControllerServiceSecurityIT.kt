@@ -12,7 +12,7 @@ import org.junit.Test
 class ControllerServiceSecurityIT {
 
 	fun check(role: String, access: Boolean) {
-		val user = testUsers[role]!!
+		val user = testUsers.getValue(role)
 		val client = createClient()
 		val login = JAXRSClientFactory.fromClient(client, LoginService::class.java, true)
 		login.login(LoginService.UsernamePassword(user.first, user.second))

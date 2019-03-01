@@ -211,11 +211,11 @@ class HostManagerImplTest {
 		val hostId = UUID.randomUUID()
 		val host = Host(id = hostId, address = "host.example.com", dedicated = true, publicKey = "testkey")
 		var called = false
-		hostManager!!.dataConnection(host, {
+		hostManager!!.dataConnection(host) {
 			session ->
 			called = true
 			assertEquals(clientSession, session)
-		})
+		}
 
 		assertTrue(called)
 		verify(sshClientService).loginWithPublicKey(any(), any(), any())

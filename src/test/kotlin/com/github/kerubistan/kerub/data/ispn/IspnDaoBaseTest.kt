@@ -47,7 +47,7 @@ class IspnDaoBaseTest {
 	fun get() {
 		val orig = TestEntity()
 		cache!!.put("A", orig)
-		val entity = dao!!.get("A")
+		val entity = dao!!["A"]
 		Assert.assertEquals(orig, entity)
 	}
 }

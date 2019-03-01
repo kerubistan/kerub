@@ -48,7 +48,7 @@ class ResumeVirtualMachineExecutorTest{
 
 	@Test
 	fun execute() {
-		whenever(vmDynDao.get(eq(vm.id))).thenReturn(vmDyn)
+		whenever(vmDynDao[eq(vm.id)]).thenReturn(vmDyn)
 		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
 		verify(hypervisor).resume(Mockito.eq(vm) ?: vm)
@@ -56,7 +56,7 @@ class ResumeVirtualMachineExecutorTest{
 
 	@Test
 	fun executeWithoutData() {
-		whenever(vmDynDao.get(vm.id)).thenReturn(vmDyn)
+		whenever(vmDynDao[vm.id]).thenReturn(vmDyn)
 		ResumeVirtualMachineExecutor(hostManager, vmDynDao).execute(ResumeVirtualMachine(vm, host))
 
 		verify(hypervisor).resume(Mockito.eq(vm) ?: vm)

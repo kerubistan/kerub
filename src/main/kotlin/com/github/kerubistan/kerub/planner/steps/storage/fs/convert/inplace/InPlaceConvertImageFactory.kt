@@ -24,7 +24,7 @@ object InPlaceConvertImageFactory : AbstractOperationalStepFactory<InPlaceConver
 				(VirtualDiskFormat.values().filterNot { it == allocation.type }).map { format ->
 					InPlaceConvertImage(
 							virtualStorage = coll.stat,
-							host = state.hosts[allocation.hostId]!!.stat,
+							host = state.hosts.getValue(allocation.hostId).stat,
 							sourceAllocation = allocation,
 							targetFormat = format
 					)

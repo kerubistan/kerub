@@ -7,13 +7,12 @@ import com.github.kerubistan.kerub.utils.update
 interface AbstractIscsiUnshare : AbstractIscsiOperation {
 	override fun take(state: OperationalState): OperationalState
 			= state.copy(
-			hosts = state.hosts.update(host.id, { hostData ->
+			hosts = state.hosts.update(host.id) { hostData ->
 				val hostConfig = hostData.config
 				hostData.copy(
 						config = hostConfig?.copy(
-								services = hostConfig.services.
-										filterNot { it is IscsiService && it.vstorageId == vstorage.id })
+								services = hostConfig.services.filterNot { it is IscsiService && it.vstorageId == vstorage.id })
 				)
-			})
+			}
 	)
 }

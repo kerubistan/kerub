@@ -102,7 +102,7 @@ class DmiDecoder : OsCommand {
 			for (type in resolutionOrder) {
 				val recordsOfType = recordsByType[type]
 				for (record in recordsOfType ?: listOf()) {
-					val resolver = mappers[type]!!
+					val resolver = mappers.getValue(type)
 					try {
 						recordsByHandle[handle(record)] = resolver(record + "\n", recordsByHandle)
 					} catch (iae: IllegalArgumentException) {

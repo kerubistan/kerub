@@ -15,7 +15,7 @@ class MqInvocationQueueTest {
 	@Test
 	fun send() {
 		val queue = MqInvocationQueue(template)
-		doAnswer({ (it.arguments!![0] as MessageCreator).createMessage(session) })
+		doAnswer { (it.arguments!![0] as MessageCreator).createMessage(session) }
 				.`when`(template)!!.send(any())
 		queue.send(AsyncInvocation("", "", listOf(), listOf()))
 		verify(template).send(any())

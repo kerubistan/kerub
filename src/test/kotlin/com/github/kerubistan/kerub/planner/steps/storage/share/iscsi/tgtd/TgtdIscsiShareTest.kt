@@ -67,7 +67,7 @@ class TgtdIscsiShareTest {
 						vStorage = listOf(vStorage),
 						vStorageDyns = listOf(vStorageDyn)
 				))
-		assertTrue(newState.hosts[host.id]!!.config!!.services.isNotEmpty())
+		assertTrue(newState.hosts.getValue(host.id).config!!.services.isNotEmpty())
 	}
 
 	@Test

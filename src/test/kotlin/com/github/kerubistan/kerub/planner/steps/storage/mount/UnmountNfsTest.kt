@@ -38,7 +38,7 @@ class UnmountNfsTest {
 							)
 					)
 			)
-			state.hosts[local.id]!!.config!!.services.isEmpty()
+			state.hosts.getValue(local.id).config!!.services.isEmpty()
 		}
 
 	}

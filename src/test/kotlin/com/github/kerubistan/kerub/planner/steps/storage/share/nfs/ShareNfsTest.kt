@@ -25,6 +25,6 @@ class ShareNfsTest {
 						hosts = listOf(testHost)
 				)
 		)
-		assertTrue(state.hosts[testHost.id]!!.config!!.services.any { it is NfsService && it.directory == "/kerub" })
+		assertTrue(state.hosts.getValue(testHost.id).config!!.services.any { it is NfsService && it.directory == "/kerub" })
 	}
 }

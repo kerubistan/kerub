@@ -171,9 +171,9 @@ class GVinumTest {
 		}.`when`(execChannel)!!.out = any()
 
 		var drives : List<List<GvinumDrive>> = listOf()
-		GVinum.monitorDrives(session, {
+		GVinum.monitorDrives(session) {
 			drives += listOf(it)
-		})
+		}
 
 		assertFalse(drives.isEmpty())
 	}

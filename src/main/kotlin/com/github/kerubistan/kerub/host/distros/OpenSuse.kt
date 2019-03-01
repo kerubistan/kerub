@@ -12,7 +12,7 @@ class OpenSuse : LsbDistribution("openSUSE") {
 
 	override fun detect(session: ClientSession): Boolean = session.checkFileExists("/etc/os-release")
 			&& silent(level = LogLevel.Info) {
-		name().equals(readLsbReleaseProperties(session).get("ID")?.toString(), ignoreCase = true)
+		name().equals(readLsbReleaseProperties(session)["ID"]?.toString(), ignoreCase = true)
 	} ?: false
 
 	override fun handlesVersion(version: Version): Boolean = version.major == "42"

@@ -17,7 +17,7 @@ object VStorageDeviceOnRecyclingHostDetector : ProblemDetector<VStorageDeviceOnR
 				collection.dynamic?.allocations?.let { allocations ->
 					allocations.filter { it.hostId in recyclingHosts.keys }.map { allocation ->
 						VStorageDeviceOnRecyclingHost(
-								host = recyclingHosts[allocation.hostId]!!.stat,
+								host = recyclingHosts.getValue(allocation.hostId).stat,
 								vstorage = collection.stat,
 								allocation = allocation
 						)

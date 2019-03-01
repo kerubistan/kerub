@@ -28,6 +28,6 @@ class StartNfsDaemonTest {
 						hostCfgs = listOf(HostConfiguration(id = testHost.id))
 				)
 		)
-		assertTrue(state.hosts[testHost.id]!!.config!!.services == listOf(NfsDaemonService()))
+		assertTrue(state.hosts.getValue(testHost.id).config!!.services == listOf(NfsDaemonService()))
 	}
 }

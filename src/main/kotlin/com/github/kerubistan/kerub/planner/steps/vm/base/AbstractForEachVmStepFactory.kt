@@ -14,12 +14,12 @@ abstract class AbstractForEachVmStepFactory<T : AbstractOperationalStep> : Abstr
 	abstract fun create(vmData: VirtualMachineDataCollection, state: OperationalState): T
 
 	protected fun getVm(id: UUID, state: OperationalState) =
-			requireNotNull(state.vms[id], { "VM not found with id $id" })
+			requireNotNull(state.vms[id]) { "VM not found with id $id" }
 
 	protected fun getHost(id: UUID, state: OperationalState) =
-			requireNotNull(state.hosts[id], { "Host not found with id $id" })
+			requireNotNull(state.hosts[id]) { "Host not found with id $id" }
 
-	override final fun produce(state: OperationalState): List<T> {
+	final override fun produce(state: OperationalState): List<T> {
 		return state.vms.values
 				.filter { it.dynamic != null && filter(it.dynamic) }
 				.map {

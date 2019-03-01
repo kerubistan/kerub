@@ -11,7 +11,7 @@ object VmOnRecyclingHostDetector : ProblemDetector<VmOnRecyclingHost> {
 			listOf()
 		} else {
 			plan.state.vms.values.filter { it.dynamic?.hostId in recyclingHosts }.map {
-				VmOnRecyclingHost(vm = it.stat, host = recyclingHosts[it.dynamic!!.hostId]!!.stat)
+				VmOnRecyclingHost(vm = it.stat, host = recyclingHosts.getValue(it.dynamic!!.hostId).stat)
 			}
 		}
 	}

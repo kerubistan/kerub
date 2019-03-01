@@ -75,9 +75,9 @@ class OperationalStateBuilderImplTest {
 		whenever(configDao.get()).thenReturn(ControllerConfig())  // just default configuration
 		whenever(controllerManager.getControllerId()).thenReturn("TEST-CONTROLLER")
 		whenever(assignmentDao.listByController(eq("TEST-CONTROLLER") ?: "")).thenReturn(assignments)
-		whenever(hostDao.get(any(UUID::class.java) ?: host.id)).thenReturn(host)
-		whenever(vmDao.get(any(UUID::class.java) ?: vm.id)).thenReturn(vm)
-		whenever(vmDynDao.get(any(UUID::class.java) ?: vm.id)).thenReturn(vmDyn)
+		whenever(hostDao[any(UUID::class.java) ?: host.id]).thenReturn(host)
+		whenever(vmDao[any(UUID::class.java) ?: vm.id]).thenReturn(vm)
+		whenever(vmDynDao[any(UUID::class.java) ?: vm.id]).thenReturn(vmDyn)
 
 		val state = OperationalStateBuilderImpl(
 				controllerManager,

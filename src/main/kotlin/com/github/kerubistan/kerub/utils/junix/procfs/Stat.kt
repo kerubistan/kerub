@@ -48,7 +48,7 @@ object Stat {
 				if (previous != null) {
 					handler(previous!!.map {
 						val prev = requireNotNull(previous!![it.key])
-						val curr = newStats[it.key]!!
+						val curr = newStats.getValue(it.key)
 						it.key to curr.copy(
 								user = curr.user - prev.user,
 								system = curr.system - prev.system,

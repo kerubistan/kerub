@@ -40,13 +40,13 @@ class GlobalOperationalStateBuilderImplTest {
 	fun buildState() {
 
 		whenever(hostDao.list()).thenReturn(listOf(testHost))
-		whenever(hostDyn.get(eq(listOf(testHost.id)))).thenReturn(listOf(HostDynamic(id = testHost.id)))
-		whenever(hostCfg.get(eq(listOf(testHost.id)))).thenReturn(
+		whenever(hostDyn[eq(listOf(testHost.id))]).thenReturn(listOf(HostDynamic(id = testHost.id)))
+		whenever(hostCfg[eq(listOf(testHost.id))]).thenReturn(
 				listOf(HostConfiguration(id = testHost.id, storageConfiguration = listOf(), services = listOf()))
 		)
 		whenever(virtualStorageDao.list()).thenReturn(listOf(testDisk))
 		whenever(vmDao.list()).thenReturn(listOf(testVm))
-		whenever(vmDynDao.get(eq(listOf(testVm.id)))).thenReturn(listOf(VirtualMachineDynamic(id = testVm.id, hostId = testHost.id, memoryUsed = BigInteger.TEN)))
+		whenever(vmDynDao[eq(listOf(testVm.id))]).thenReturn(listOf(VirtualMachineDynamic(id = testVm.id, hostId = testHost.id, memoryUsed = BigInteger.TEN)))
 		whenever(configDao.get()).thenReturn(ControllerConfig())
 
 		val state = GlobalOperationalStateBuilderImpl(
@@ -62,14 +62,14 @@ class GlobalOperationalStateBuilderImplTest {
 		assertEquals(testDisk, state.vStorage[testDisk.id]?.stat)
 
 		verify(hostDao).list()
-		verify(hostDyn).get(listOf(testHost.id))
-		verify(hostCfg).get(listOf(testHost.id))
+		verify(hostDyn)[listOf(testHost.id)]
+		verify(hostCfg)[listOf(testHost.id)]
 
 		verify(vmDao).list()
-		verify(vmDynDao).get(listOf(testVm.id))
+		verify(vmDynDao)[listOf(testVm.id)]
 
 		verify(virtualStorageDao).list()
-		verify(virtualStorageDynDao).get(listOf(testDisk.id))
+		verify(virtualStorageDynDao)[listOf(testDisk.id)]
 
 		verify(configDao).get()
 	}

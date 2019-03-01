@@ -355,7 +355,7 @@ class PlannerDefs {
 				memoryUsed = vm.memory.min
 		)
 
-		requireNotNull(hostDyns.firstOrNull { it.id == host.id }, { "host must be up, otherwise no vm!" })
+		requireNotNull(hostDyns.firstOrNull { it.id == host.id }) { "host must be up, otherwise no vm!" }
 
 		hostDyns = hostDyns.replace({ it.id == host.id }, {
 			it.copy(

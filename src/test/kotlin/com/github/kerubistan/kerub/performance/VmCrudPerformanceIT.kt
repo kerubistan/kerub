@@ -49,7 +49,7 @@ class VmCrudPerformanceIT {
 
 				totalVms += newVms.map { it.first }
 
-				val vmGets = (1..10000).map { totalVms.get(random.nextInt(totalVms.size)) }.map {
+				val vmGets = (1..10000).map { totalVms[random.nextInt(totalVms.size)] }.map {
 					task {
 						val start = now()
 						vmService.getById(it)

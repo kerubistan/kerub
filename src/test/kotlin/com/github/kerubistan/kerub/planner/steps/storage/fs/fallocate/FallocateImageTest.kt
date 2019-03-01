@@ -72,9 +72,9 @@ class FallocateImageTest {
 				)
 		)
 
-		assertTrue(newState.hosts[host.id]!!.dynamic!!.storageStatus.single().freeCapacity > 500.GB)
+		assertTrue(newState.hosts.getValue(host.id).dynamic!!.storageStatus.single().freeCapacity > 500.GB)
 		assertTrue(
-				(newState.vStorage[testDisk.id]!!.dynamic!!.allocations.single() as VirtualStorageFsAllocation)
+				(newState.vStorage.getValue(testDisk.id).dynamic!!.allocations.single() as VirtualStorageFsAllocation)
 						.actualSize < 10.GB
 		)
 

@@ -36,7 +36,7 @@ class RemovePublicKeyTest {
 							)
 					)
 			).let {
-				it.hosts[testHost.id]!!.config!!.acceptedPublicKeys == listOf<String>()
+				it.hosts.getValue(testHost.id).config!!.acceptedPublicKeys == listOf<String>()
 			}
 		}
 	}

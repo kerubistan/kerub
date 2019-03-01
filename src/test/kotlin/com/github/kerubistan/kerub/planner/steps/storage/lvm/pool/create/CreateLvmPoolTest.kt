@@ -67,7 +67,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 		)
 
 		assertTrue {
-			val poolConfig = (state.hosts[testHost.id]!!.config!!.storageConfiguration.single() as LvmPoolConfiguration)
+			val poolConfig = (state.hosts.getValue(testHost.id).config!!.storageConfiguration.single() as LvmPoolConfiguration)
 			poolConfig.poolName == "pool-1"
 					&& poolConfig.size == "2 TB".toSize()
 					&& poolConfig.vgName == "test-vg"

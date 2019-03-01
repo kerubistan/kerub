@@ -118,7 +118,7 @@ class InPlaceConvertImageTest {
 							)
 					)
 			))
-			state.vStorage[testDisk.id]!!.dynamic!!.allocations.single().let { it is VirtualStorageFsAllocation && it.type == VirtualDiskFormat.raw }
+			state.vStorage.getValue(testDisk.id).dynamic!!.allocations.single().let { it is VirtualStorageFsAllocation && it.type == VirtualDiskFormat.raw }
 		}
 	}
 }

@@ -39,7 +39,7 @@ class StepFactoryCollectionTest {
 		whenever(factory2.produce(
 				Mockito.any(OperationalState::class.java) ?: OperationalState.fromLists())).thenReturn(listOf(step2))
 
-		val steps = StepFactoryCollection(listOf(factory1, factory2), { false }).produce(OperationalState.fromLists())
+		val steps = StepFactoryCollection(listOf(factory1, factory2)) { false }.produce(OperationalState.fromLists())
 
 		assertEquals(steps, listOf<AbstractOperationalStep>())
 	}

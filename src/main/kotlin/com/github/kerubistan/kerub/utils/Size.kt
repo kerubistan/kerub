@@ -33,7 +33,7 @@ val numberRegex = "\\d+(\\.\\d+)?".toRegex()
 fun parseStorageSize(storageSize: String): BigInteger {
 	val unit = storageSize.replace(numberRegex, "").trim()
 	val num = BigDecimal(storageSize.substringBefore(unit).trim())
-	val fn = requireNotNull(sizePostfixes.get(unit.toUpperCase()), { "Unknown storage unit $unit in $storageSize" })
+	val fn = requireNotNull(sizePostfixes[unit.toUpperCase()]) { "Unknown storage unit $unit in $storageSize" }
 	return fn(num).toBigInteger()
 }
 

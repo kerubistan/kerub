@@ -56,7 +56,7 @@ class SpringSocketClientConnection(
 			subject.associateWith {
 				entityAccessController.checkAndDo(entity) {
 					val entityClass = entity.javaClass.kotlin as KClass<out Entity<out Any>>
-					val classChannel = channels.get(entityClass)
+					val classChannel = channels[entityClass]
 					if (classChannel == null) {
 						logger.warn("Entity type not handled: {}", entityClass)
 					} else {

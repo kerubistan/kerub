@@ -22,7 +22,7 @@ class ClearSshKeyTest {
 					hostDyns = listOf(HostDynamic(id = testHost.id, status = HostStatus.Up)),
 					hostCfgs = listOf(HostConfiguration(id = testHost.id, publicKey = "TEST"))
 			)).let {
-				it.hosts[testHost.id]!!.config!!.publicKey == null
+				it.hosts.getValue(testHost.id).config!!.publicKey == null
 			}
 		}
 	}
