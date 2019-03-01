@@ -18,7 +18,7 @@ class LsPciTest {
 	val channelOpenFuture : OpenFuture = mock()
 
 	object samples {
-		val nuc =
+		const val nuc =
 				"""00:00.0 "Host bridge" "Intel Corporation" "Haswell-ULT DRAM Controller" -r09 "Intel Corporation" "Device 2054"
 00:02.0 "VGA compatible controller" "Intel Corporation" "Haswell-ULT Integrated Graphics Controller" -r09 "Intel Corporation" "Device 2054"
 00:03.0 "Audio device" "Intel Corporation" "Haswell-ULT HD Audio Controller" -r09 "Intel Corporation" "Device 2054"
@@ -30,7 +30,7 @@ class LsPciTest {
 00:1f.2 "SATA controller" "Intel Corporation" "8 Series SATA Controller 1 [AHCI mode]" -r04 -p01 "Intel Corporation" "Device 2054"
 00:1f.3 "SMBus" "Intel Corporation" "8 Series SMBus Controller" -r04 "Intel Corporation" "Device 2054"
 """
-		val mylaptop =
+		const val mylaptop =
 				"""00:00.0 "Host bridge" "Advanced Micro Devices, Inc. [AMD]" "Family 14h Processor Root Complex" "Advanced Micro Devices, Inc. [AMD]" "Family 14h Processor Root Complex"
 00:01.0 "VGA compatible controller" "Advanced Micro Devices, Inc. [AMD/ATI]" "Wrestler [Radeon HD 7340]" "Lenovo" "Device 3972"
 00:01.1 "Audio device" "Advanced Micro Devices, Inc. [AMD/ATI]" "Wrestler HDMI Audio" "Lenovo" "Device 397f"
@@ -59,7 +59,7 @@ class LsPciTest {
 03:00.0 "Ethernet controller" "Realtek Semiconductor Co., Ltd." "RTL8101E/RTL8102E PCI Express Fast Ethernet controller" -r05 "Lenovo" "Device 397f"
 07:00.0 "Network controller" "Broadcom Corporation" "BCM4313 802.11bgn Wireless Network Adapter" -r01 "Broadcom Corporation" "Device 0587"
 """
-		val kvm =
+		const val kvm =
 				"""00:00.0 "Host bridge" "Intel Corporation" "440FX - 82441FX PMC [Natoma]" -r02 "Red Hat, Inc" "Qemu virtual machine"
 00:01.0 "ISA bridge" "Intel Corporation" "82371SB PIIX3 ISA [Natoma/Triton II]" "Red Hat, Inc" "Qemu virtual machine"
 00:01.1 "IDE interface" "Intel Corporation" "82371SB PIIX3 IDE [Natoma/Triton II]" -p80 "Red Hat, Inc" "Qemu virtual machine"

@@ -23,7 +23,7 @@ import com.github.kerubistan.kerub.utils.inverse
 import javax.ws.rs.Path
 import kotlin.reflect.KClass
 
-val slash = '/'
+const val slash = '/'
 
 val services = mapOf<KClass<out Entity<out Any>>, KClass<*>>(
 		Host::class to HostService::class,

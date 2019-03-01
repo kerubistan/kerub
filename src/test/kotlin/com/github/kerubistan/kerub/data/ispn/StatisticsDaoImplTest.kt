@@ -135,13 +135,13 @@ class StatisticsDaoImplTest {
 
 	@Test
 	fun basicBalanceReport() {
-		hostCache!!.put(host1.id, host1)
-		hostCache!!.put(host2.id, host2)
-		vmCache!!.put(vm1.id, vm1)
-		vmCache!!.put(vm2.id, vm2)
-		vdiskCache!!.put(vDisk1.id, vDisk1)
-		vdiskCache!!.put(vDisk2.id, vDisk2)
-		vdiskDynCache!!.put(vDisk1.id, VirtualStorageDeviceDynamic(
+		hostCache!![host1.id] = host1
+		hostCache!![host2.id] = host2
+		vmCache!![vm1.id] = vm1
+		vmCache!![vm2.id] = vm2
+		vdiskCache!![vDisk1.id] = vDisk1
+		vdiskCache!![vDisk2.id] = vDisk2
+		vdiskDynCache!![vDisk1.id] = VirtualStorageDeviceDynamic(
 				id = vDisk1.id,
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
@@ -149,7 +149,7 @@ class StatisticsDaoImplTest {
 						configuration = SimpleGvinumConfiguration(diskName = gvinumCapability.devices.single().name),
 						capabilityId = gvinumCapability.id
 				))
-		))
+		)
 		whenever(controllerConfigDao.get()).thenReturn(
 				ControllerConfig()
 		)
@@ -179,13 +179,13 @@ class StatisticsDaoImplTest {
 
 	@Test
 	fun basicBalanceReportWithGvinumDisabled() {
-		hostCache!!.put(host1.id, host1)
-		hostCache!!.put(host2.id, host2)
-		vmCache!!.put(vm1.id, vm1)
-		vmCache!!.put(vm2.id, vm2)
-		vdiskCache!!.put(vDisk1.id, vDisk1)
-		vdiskCache!!.put(vDisk2.id, vDisk2)
-		vdiskDynCache!!.put(vDisk1.id, VirtualStorageDeviceDynamic(
+		hostCache!![host1.id] = host1
+		hostCache!![host2.id] = host2
+		vmCache!![vm1.id] = vm1
+		vmCache!![vm2.id] = vm2
+		vdiskCache!![vDisk1.id] = vDisk1
+		vdiskCache!![vDisk2.id] = vDisk2
+		vdiskDynCache!![vDisk1.id] = VirtualStorageDeviceDynamic(
 				id = vDisk1.id,
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
@@ -193,7 +193,7 @@ class StatisticsDaoImplTest {
 						configuration = SimpleGvinumConfiguration(diskName = gvinumCapability.devices.single().name),
 						capabilityId =gvinumCapability.id
 				))
-		))
+		)
 
 		whenever(controllerConfigDao.get()).thenReturn(
 				ControllerConfig(storageTechnologies = StorageTechnologiesConfig(gvinumCreateVolumeEnabled = false))

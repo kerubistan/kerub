@@ -13,7 +13,7 @@ object
 DF : OsCommand {
 
 	private val regex = "\\s+".toRegex()
-	private val separator = "--separator"
+	private const val separator = "--separator"
 
 	val multiplier = BigInteger("1024")
 

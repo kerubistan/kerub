@@ -74,8 +74,7 @@ fun createSocketClient(resp: Response): WebSocketClient {
 fun createClient() : WebClient {
 	val objectMapper = createObjectMapper()
 	val client = WebClient.create(getServiceBaseUrl(), listOf(JacksonJsonProvider(objectMapper), RestExceptionHandler(objectMapper)), true)
-	WebClient.getConfig(client).requestContext.put(
-			org.apache.cxf.message.Message.MAINTAIN_SESSION, true)
+	WebClient.getConfig(client).requestContext[org.apache.cxf.message.Message.MAINTAIN_SESSION] = true
 	return client
 }
 

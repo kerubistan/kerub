@@ -40,7 +40,7 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 	data class ControllerAssignmentStep(val host: Host, val controller: String) : Step<ControllerAssignmentState> {
 		override fun take(state: ControllerAssignmentState): ControllerAssignmentState {
 			val assignments = HashMap<Host, String>(state.assignments)
-			assignments.put(host, controller)
+			assignments[host] = controller
 
 			val oldControllerState = state.controllerStates[controller] ?: ControllerDynamic(
 					controllerId = controller,

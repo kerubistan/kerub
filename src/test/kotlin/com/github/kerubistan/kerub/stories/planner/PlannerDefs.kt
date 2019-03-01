@@ -1062,7 +1062,7 @@ class PlannerDefs {
 					password = "",
 					username = ""
 			)
-			else -> throw IllegalArgumentException("typo? " + powerManagementType)
+			else -> throw IllegalArgumentException("typo? $powerManagementType")
 		}
 		hosts = hosts.replace({ it.address == host.address }, {
 			host.copy(

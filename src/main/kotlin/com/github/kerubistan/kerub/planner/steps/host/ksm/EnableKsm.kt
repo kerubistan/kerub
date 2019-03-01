@@ -20,7 +20,7 @@ data class EnableKsm(override val host: Host, val cycles: Long) : HostStep, Inve
 		// size and number of virtual machines,
 		// ther operating systems, etc
 		// so basically this is just a placeholder
-		val ksmGeneratedLoad = 5.toByte()
+		const val ksmGeneratedLoad = 5.toByte()
 	}
 
 	override fun take(state: OperationalState): OperationalState {

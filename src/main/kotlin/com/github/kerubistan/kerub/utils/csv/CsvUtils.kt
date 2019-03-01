@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.utils.csv
 
 import com.github.kerubistan.kerub.utils.skip
 
-private val coma = ","
+private const val coma = ","
 
 fun parseAsCsv(input: String): List<Map<String, String>> =
 		input.lines().let {

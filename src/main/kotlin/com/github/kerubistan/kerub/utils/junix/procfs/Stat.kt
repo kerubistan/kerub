@@ -6,7 +6,7 @@ import java.io.OutputStream
 
 object Stat {
 
-	private val separator = "--separator"
+	private const val separator = "--separator"
 	private val fieldSeparator = "\\s+".toRegex()
 
 	class CpuLoadMonitorOutputStream(val handler: (Map<String, CpuStat>) -> Unit) : OutputStream() {

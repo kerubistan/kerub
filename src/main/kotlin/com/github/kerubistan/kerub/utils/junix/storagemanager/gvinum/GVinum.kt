@@ -16,14 +16,14 @@ object GVinum {
 	fun listVolumes(session: ClientSession): List<GvinumVolume> = parseVolumeList(gvinum("lv", session))
 	fun listPlexes(session: ClientSession) = parsePlexesList(gvinum("lp", session))
 
-	private val separator = "--sep"
+	private const val separator = "--sep"
 
 	private val header = Regex.fromLiteral("\\n+\\s\\S+:$")
 	private val driveHeader = Regex.fromLiteral("Drive ")
 	private val subdiskHeader = Regex.fromLiteral("Subdisk")
 	private val plexHeader = Regex.fromLiteral("Plex ")
 	private val volumeHeader = Regex.fromLiteral("Volume ")
-	private val up = "up"
+	private const val up = "up"
 
 	private fun gvinum(command: String, session: ClientSession): String
 			= session.executeOrDie("gvinum $command -v")

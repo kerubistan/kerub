@@ -25,7 +25,7 @@ class WebsocketSecurityInterceptor : HandshakeInterceptor {
 			SecurityUtils.getSubject()
 		}?.isAuthenticated ?: false
 		if (authenticated) {
-			attributes.put("subject", SecurityUtils.getSubject())
+			attributes["subject"] = SecurityUtils.getSubject()
 		}
 		return authenticated
 	}

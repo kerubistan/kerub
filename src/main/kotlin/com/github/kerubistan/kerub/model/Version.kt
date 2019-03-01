@@ -14,7 +14,7 @@ data class Version(@Field val major: String,
 
 	companion object {
 
-		private val empty = ""
+		private const val empty = ""
 
 		private val versionSplitter = Pattern.compile("[._\\-]")
 

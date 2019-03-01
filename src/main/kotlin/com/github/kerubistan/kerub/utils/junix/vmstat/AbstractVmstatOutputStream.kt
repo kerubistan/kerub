@@ -4,7 +4,7 @@ import java.io.OutputStream
 
 abstract class AbstractVmstatOutputStream : OutputStream() {
 
-	val buff: StringBuilder = StringBuilder(128)
+	private val buff: StringBuilder = StringBuilder(128)
 
 	companion object {
 		private val someSpaces = "\\s+".toRegex()
@@ -26,5 +26,5 @@ abstract class AbstractVmstatOutputStream : OutputStream() {
 		}
 	}
 
-	abstract protected fun handleInput(split: List<String>)
+	protected abstract fun handleInput(split: List<String>)
 }

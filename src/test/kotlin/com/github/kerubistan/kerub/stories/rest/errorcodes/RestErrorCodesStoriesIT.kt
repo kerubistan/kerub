@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
-		plugin = arrayOf("pretty", "html:target/test-reports/errorcodes"),
-		features = arrayOf("classpath:stories/rest/errorcodes.feature"),
-        glue = arrayOf("com.github.kerubistan.kerub.stories.rest.errorcodes")
+		plugin = ["pretty", "html:target/test-reports/errorcodes"],
+		features = ["classpath:stories/rest/errorcodes.feature"],
+        glue = ["com.github.kerubistan.kerub.stories.rest.errorcodes"]
 ) class RestErrorCodesStoriesIT

@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.utils
 import java.math.BigInteger
 import java.util.UUID
 
-val emptyString = ""
+const val emptyString = ""
 
 fun String.toUUID(): UUID =
 		UUID.fromString(this)

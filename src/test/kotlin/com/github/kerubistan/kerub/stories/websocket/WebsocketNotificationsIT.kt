@@ -6,12 +6,8 @@ import org.junit.runner.RunWith
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
-		plugin = arrayOf("pretty", "html:target/test-reports/websocket"),
-		features = arrayOf("classpath:stories/general/websocket/subscriptions.feature"),
-		glue = arrayOf(
-				"com.github.kerubistan.kerub.stories.websocket",
-				"com.github.kerubistan.kerub.stories.config",
-				"com.github.kerubistan.kerub.stories.entities"
-		)
+		plugin = ["pretty", "html:target/test-reports/websocket"],
+		features = ["classpath:stories/general/websocket/subscriptions.feature"],
+		glue = ["com.github.kerubistan.kerub.stories.websocket", "com.github.kerubistan.kerub.stories.config", "com.github.kerubistan.kerub.stories.entities"]
 )
 class WebsocketNotificationsIT

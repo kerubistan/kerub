@@ -22,10 +22,9 @@ import kotlin.reflect.KClass
 		@Field
 		@JsonProperty("created")
 		val created: Long = now(),
-		override
 		@Field
 		@JsonProperty("expectations")
-		val expectations: List<Expectation> = listOf(),
+		override val expectations: List<Expectation> = listOf(),
 		@Field
 		@JsonProperty("quota")
 		val quota: Quota? = null,

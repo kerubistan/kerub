@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.dmi
 
-val mylaptop = """
+const val mylaptop = """
 # dmidecode 2.12
 SMBIOS 2.7 present.
 51 structures occupying 2201 bytes.
@@ -610,7 +610,7 @@ Handle 0x0032, DMI type 127, 4 bytes
 End Of Table
 """
 
-val nuc = """
+const val nuc = """
 # dmidecode 2.12
 SMBIOS 2.8 present.
 84 structures occupying 3174 bytes.
@@ -1532,7 +1532,7 @@ Handle 0x0066, DMI type 127, 4 bytes
 End Of Table
 """
 
-val nongnu = """
+const val nongnu = """
 # dmidecode 2.8
 SMBIOS 2.3 present.
 49 structures occupying 1383 bytes.
@@ -2062,7 +2062,7 @@ Handle 0x0030, DMI type 127, 4 bytes
 End Of Table
 """
 
-val qemuKvm = """
+const val qemuKvm = """
 # dmidecode 2.12
 SMBIOS 2.8 present.
 9 structures occupying 387 bytes.
@@ -2184,7 +2184,7 @@ End Of Table
 
 """
 
-val kvmQemuBochs = """SMBIOS 2.4 present.
+const val kvmQemuBochs = """SMBIOS 2.4 present.
 10 structures occupying 263 bytes.
 Table at 0x000F1680.
 

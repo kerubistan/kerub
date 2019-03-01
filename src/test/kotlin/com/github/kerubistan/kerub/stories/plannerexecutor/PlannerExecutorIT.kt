@@ -6,9 +6,7 @@ import org.junit.runner.RunWith
 
 @RunWith(Cucumber::class)
 @CucumberOptions(
-		plugin = arrayOf("pretty", "html:target/test-reports/planner-executor"),
-		features = arrayOf(
-				"classpath:stories/general/planner-executor/planner-executor.feature"
-		),
-		glue = arrayOf("com.github.kerubistan.kerub.stories.plannerexecutor"))
+		plugin = ["pretty", "html:target/test-reports/planner-executor"],
+		features = ["classpath:stories/general/planner-executor/planner-executor.feature"],
+		glue = ["com.github.kerubistan.kerub.stories.plannerexecutor"])
 class PlannerExecutorIT

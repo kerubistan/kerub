@@ -9,8 +9,8 @@ import org.apache.sshd.client.session.ClientSession
  */
 object Net {
 
-	val macAddressSize = 6
-	val hexaDecimal = 16
+	const val macAddressSize = 6
+	const val hexaDecimal = 16
 
 	/**
 	 * List ethernet devices.

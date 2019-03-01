@@ -106,7 +106,7 @@ object LvmLv : Lvm() {
 		val filter = if (volGroupName == null) {
 			""
 		} else {
-			"$volGroupName${if (volName == null) emptyString else '/' + volName}"
+			"$volGroupName${if (volName == null) emptyString else "/$volName"}"
 		}
 		return session.executeOrDie(
 				"lvm lvs -o $fields $listOptions $filter")
@@ -115,7 +115,7 @@ object LvmLv : Lvm() {
 		}
 	}
 
-	val cacheMetaRatio = 1000
+	const val cacheMetaRatio = 1000
 	val cacheMetaMinSize = "8 MB".toSize()
 
 	private fun String.cache() = this.plus("_cache")
