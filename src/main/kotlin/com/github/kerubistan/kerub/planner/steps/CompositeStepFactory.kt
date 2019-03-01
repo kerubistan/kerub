@@ -10,17 +10,18 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHostFac
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.security.HostSecurityCompositeFactory
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostFactory
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineFactory
-import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFactory
-import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.planner.steps.storage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvmFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolumeFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVGFactory
+import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocationFactory
 import com.github.kerubistan.kerub.planner.steps.storage.remove.RemoveVirtualStorageFactory
 import com.github.kerubistan.kerub.planner.steps.storage.share.ShareFactory
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachineFactory
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachineFactory
+import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFactory
+import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
@@ -52,7 +53,8 @@ class CompositeStepFactory(
 				WakeHostFactory,
 				KvmMigrateVirtualMachineFactory,
 				RemoveDiskFromVGFactory,
-				MirrorVolumeFactory)
+				MirrorVolumeFactory,
+				MigrateBlockAllocationFactory)
 
 		private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
 				defaultFactories.flatMap { it.expectationHints }

@@ -65,6 +65,8 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAlloca
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVG
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVGExecutor
+import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocation
+import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocationExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.storage.mount.MountNfsExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.mount.UnmountNfs
@@ -173,7 +175,9 @@ class PlanExecutorImpl(
 			ClearSshKey::class to ClearSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 			GenerateSshKey::class to GenerateSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
-			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao)
+			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
+
+			MigrateBlockAllocation::class to MigrateBlockAllocationExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao)
 
 	)
 

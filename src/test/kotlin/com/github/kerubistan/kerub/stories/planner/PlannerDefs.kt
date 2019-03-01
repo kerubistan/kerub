@@ -72,9 +72,6 @@ import com.github.kerubistan.kerub.planner.steps.host.security.generate.Generate
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.planner.steps.host.startup.AbstractWakeHost
 import com.github.kerubistan.kerub.planner.steps.replace
-import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
-import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
@@ -82,11 +79,15 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvm
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror.MirrorVolume
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.vg.RemoveDiskFromVG
+import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocation
 import com.github.kerubistan.kerub.planner.steps.storage.mount.MountNfs
 import com.github.kerubistan.kerub.planner.steps.storage.remove.RemoveVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.AbstractIscsiShare
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.ShareNfs
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartNfsDaemon
+import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMachine
+import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.join
@@ -386,6 +387,16 @@ class PlannerDefs {
 		))
 	}
 
+	@Then("^host (\\S+) will be recycled as step (\\d+)$")
+	fun verifyHostRecycleStep(hostAddress: String, stepNo: Int) {
+		Assert.assertTrue(executedPlans.any { plan ->
+			plan.steps[stepNo - 1].let { step ->
+				step is RecycleHost &&
+						step.host.address == hostAddress
+			}
+		})
+	}
+
 	@Then("^host (\\S+) will be recycled$")
 	fun verifyHostRecycle(hostAddress: String) {
 		Assert.assertTrue(executedPlans.any {
@@ -469,6 +480,18 @@ class PlannerDefs {
 		assertTrue("Migration step is $migrationStep") { migrationStep is KvmMigrateVirtualMachine }
 		Assert.assertEquals((migrationStep as KvmMigrateVirtualMachine).target.address, targetHostAddr)
 		Assert.assertEquals(migrationStep.vm.name, vmName)
+	}
+
+	@Then("virtual disk (\\S+) will be block dead-migrated from (\\S+) to (\\S+)")
+	fun verifyBlockDeadMigration(diskName: String, sourceHostAddr: String, targetHostAddr: String) {
+		Assert.assertTrue(executedPlans.any {
+			it.steps.any { step ->
+				step is MigrateBlockAllocation
+						&& step.virtualStorage.name == diskName
+						&& step.sourceHost.address == sourceHostAddr
+						&& step.targetHost.address == targetHostAddr
+			}
+		})
 	}
 
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
