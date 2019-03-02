@@ -24,7 +24,7 @@ class RestErrorCodesDefinitions {
 	var hostService: HostService? = null
 	var exception: RestException? = null
 
-	@Before()
+	@Before
 	fun setup() {
 		client = createClient()
 		hostService = JAXRSClientFactory.fromClient(client, HostService::class.java)

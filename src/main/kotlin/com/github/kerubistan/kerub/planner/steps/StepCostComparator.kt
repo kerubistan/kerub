@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
 
 object StepCostComparator : Comparator<AbstractOperationalStep> {
 
-	val comparators = mapOf<KClass<out Cost>, Comparator<out Cost>>(
+	val comparators = mapOf(
 			Risk::class to RiskComparator,
 			TimeCost::class to TimeCostComparator,
 			IOCost::class to IOCostComparator,
@@ -52,7 +52,7 @@ object StepCostComparator : Comparator<AbstractOperationalStep> {
 	private fun compareCosts(firstCost: Cost, secondCost: Cost): Int {
 		//TODO: this mess is because of a possible bug
 		// in compiler that prevents resolving the compare method of Comparator
-		val result = when (firstCost) {
+		return when (firstCost) {
 			is IOCost -> IOCostComparator.compare(firstCost, secondCost as IOCost)
 			is NetworkCost -> NetworkCostComparator.compare(firstCost, secondCost as NetworkCost)
 			is Risk -> RiskComparator.compare(firstCost, secondCost as Risk)
@@ -60,6 +60,5 @@ object StepCostComparator : Comparator<AbstractOperationalStep> {
 			is ComputationCost -> ComputationCostComparator.compare(firstCost, secondCost as ComputationCost)
 			else -> throw IllegalArgumentException("Not handled cost type")
 		}
-		return result
 	}
 }

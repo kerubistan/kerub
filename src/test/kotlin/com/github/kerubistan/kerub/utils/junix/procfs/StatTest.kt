@@ -35,7 +35,7 @@ class StatTest {
 
 		var cntr = 0
 		Stat.cpuLoadMonitor(session) {
-			cntr = cntr + 1
+			cntr += 1
 		}
 		assertEquals(20, cntr)
 	}
@@ -77,7 +77,7 @@ class StatTest {
 
 		var cntr = 0
 		Stat.cpuLoadMonitorIncremental(session) {
-			cntr = cntr + 1
+			cntr += 1
 		}
 
 		assertEquals(19, cntr)

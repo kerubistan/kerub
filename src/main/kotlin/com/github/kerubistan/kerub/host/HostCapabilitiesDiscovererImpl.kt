@@ -89,7 +89,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 		val cpuArchitecture = distro.detectHostCpuType(session)
 		val packages = silent(actionName = "list os packages") { distro.getPackageManager(session).list() } ?: listOf()
 		val dmiDecodeInstalled = installDmi(dedicated, distro, packages, session)
-		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.parse(runDmiDecode(session)) else mapOf()
+		val systemInfo = if (dmiDecodeInstalled) DmiDecoder.run(session) else mapOf<String, Any>()
 
 		val osDetectedFlags = distro.detectHostCpuFlags(session)
 		val hardwareInfo = systemInfo.values
@@ -136,9 +136,6 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 		}
 		return dmiDecodeInstalled
 	}
-
-	private fun runDmiDecode(session: ClientSession): String =
-			session.execute("dmidecode")
 
 	private fun isDmiDecodeInstalled(packages: List<SoftwarePackage>): Boolean {
 		return packages.any { "dmidecode" == it.name }

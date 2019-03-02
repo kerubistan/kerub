@@ -290,7 +290,7 @@ class VirtualMachineDaoImplTest : AbstractIspnDaoTest<UUID, VirtualMachine>() {
 		assertEquals(listOf<VirtualMachine>(), dao.getByName("NOTEXISTING-${UUID.randomUUID()}"))
 	}
 
-	@Test()
+	@Test
 	fun existsByName() {
 		val dao = VirtualMachineDaoImpl(cache!!, eventListener, auditManager)
 

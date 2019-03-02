@@ -20,7 +20,6 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.WebClient
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
-import java.math.BigInteger
 import javax.ws.rs.core.Response
 import kotlin.reflect.KClass
 import kotlin.test.assertFalse
@@ -104,7 +103,7 @@ class AuthenticationDefinitions {
 					name = "test",
 					expectations = listOf(),
 					nrOfCpus = 2,
-					memory = Range<BigInteger>(min = "1 GB".toSize(), max = "2 GB".toSize())
+					memory = Range(min = "1 GB".toSize(), max = "2 GB".toSize())
 			))
 		}
 	}

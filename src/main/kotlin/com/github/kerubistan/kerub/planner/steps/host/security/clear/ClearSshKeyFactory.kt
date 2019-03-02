@@ -18,7 +18,7 @@ object ClearSshKeyFactory : AbstractOperationalStepFactory<ClearSshKey>() {
 		val allInstalledSshKeys = state.hosts.values.mapNotNull { it.config?.acceptedPublicKeys }.join().toSet()
 
 		return state.hosts.values.filter { it.dynamic?.status == HostStatus.Up }
-				.filter { it.config?.publicKey != null && !(it.config.publicKey in allInstalledSshKeys) }
+				.filter { it.config?.publicKey != null && it.config.publicKey !in allInstalledSshKeys }
 				.map { ClearSshKey(it.stat) }
 
 	}

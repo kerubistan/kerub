@@ -40,7 +40,7 @@ class StopVirtualMachineExecutorTest {
 				vm = vm
 		)
 
-		whenever(hostManager.getHypervisor(any<Host>())).thenReturn(hypervisor)
+		whenever(hostManager.getHypervisor(any())).thenReturn(hypervisor)
 
 		StopVirtualMachineExecutor(hostManager, vmDynDao).execute(step)
 

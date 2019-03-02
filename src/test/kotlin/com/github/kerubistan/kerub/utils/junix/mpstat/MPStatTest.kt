@@ -13,7 +13,7 @@ import org.junit.Test
 import java.io.OutputStream
 
 class MPStatTest {
-	val testInput = """Linux 4.1.6-201.fc22.x86_64 (localshot) 	11/02/2015 	_x86_64_	(2 CPU)
+	private val testInput = """Linux 4.1.6-201.fc22.x86_64 (localshot) 	11/02/2015 	_x86_64_	(2 CPU)
 
 07:11:03 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
 07:11:04 AM  all   10.88    0.00    8.81    0.00    0.00    0.52    0.00    0.00    0.00   79.79
@@ -47,9 +47,9 @@ class MPStatTest {
 		MPStat.monitor(session, { stat += it } , interval = 1)
 
 		Assert.assertEquals(0, stat[0].cpuNr)
-		Assert.assertEquals(13.27.toDouble(), stat[0].user.toDouble(), 0.1)
-		Assert.assertEquals(11.22.toDouble(), stat[0].system.toDouble(), 0.1)
-		Assert.assertEquals(74.49.toDouble(), stat[0].idle.toDouble(), 0.1)
+		Assert.assertEquals(13.27, stat[0].user.toDouble(), 0.1)
+		Assert.assertEquals(11.22, stat[0].system.toDouble(), 0.1)
+		Assert.assertEquals(74.49, stat[0].idle.toDouble(), 0.1)
 		Assert.assertEquals(0.toDouble(), stat[0].ioWait.toDouble(), 0.1)
 	}
 

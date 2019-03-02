@@ -383,7 +383,7 @@ class AuthorizationDefs {
 			}
 	)
 
-	val clients = mapOf<String, KClass<RestCrud<Entity<UUID>>>>(
+	val clients = mapOf(
 			"vm" to VirtualMachineService::class as KClass<RestCrud<Entity<UUID>>>,
 			"virtual disk" to VirtualStorageDeviceService::class as KClass<RestCrud<Entity<UUID>>>,
 			"virtual network" to VirtualNetworkService::class as KClass<RestCrud<Entity<UUID>>>
