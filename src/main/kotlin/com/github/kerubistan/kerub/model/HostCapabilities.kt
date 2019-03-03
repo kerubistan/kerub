@@ -12,6 +12,10 @@ import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Full
 import com.github.kerubistan.kerub.model.views.Simple
+import com.github.kerubistan.kerub.utils.junix.compression.bzip2.BZip2
+import com.github.kerubistan.kerub.utils.junix.compression.gzip.GZip
+import com.github.kerubistan.kerub.utils.junix.compression.lz4.Lz4
+import com.github.kerubistan.kerub.utils.junix.compression.xz.Xz
 import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
@@ -76,16 +80,11 @@ data class HostCapabilities(
 	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
 
 	companion object {
-		private val compressionPackages = mapOf(
-				"gzip" to CompressionFormat.Gzip,
-				"bzip2" to CompressionFormat.Bzip2,
-				"lz4" to CompressionFormat.Lz4,
-				"xz" to CompressionFormat.Xz
-		)
+		private val compressionPackages = listOf(GZip, BZip2, Lz4, Xz)
 	}
 
 	@get:JsonIgnore
 	val compressionCapabilities by lazy {
-		installedSoftware.mapNotNull { compressionPackages[it.name] }
+		compressionPackages.filter { it.available(this) }.map { it.format }.toSet()
 	}
 }

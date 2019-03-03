@@ -1,13 +1,20 @@
 package com.github.kerubistan.kerub.utils.junix.compression.gzip
 
+import com.github.kerubistan.kerub.model.CompressionFormat
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class GZipTest {
+
+	@Test
+	fun getFormat() {
+		assertEquals(CompressionFormat.Gzip, GZip.format)
+	}
 
 	@Test
 	fun available() {
