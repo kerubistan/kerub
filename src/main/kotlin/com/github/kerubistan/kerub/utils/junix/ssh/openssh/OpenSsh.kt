@@ -22,7 +22,7 @@ object OpenSsh {
 		session.createSftpClient().use {
 			checkSShDir(it, session)
 		}
-		session.executeOrDie("ssh-keygen -t rsa ${(password?.let { "-N $it" }) ?: ""}")
+		session.executeOrDie("ssh-keygen -t rsa -N '${(password?.let { "$it" }) ?: ""}' -f /root/.ssh/id_rsa ")
 		return session.createSftpClient().use { it.getFileContents("/root/.ssh/id_rsa.pub") }
 	}
 

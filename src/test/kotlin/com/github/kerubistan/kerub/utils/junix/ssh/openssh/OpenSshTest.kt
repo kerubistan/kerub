@@ -25,7 +25,7 @@ class OpenSshTest {
 
 	@Test
 	fun keyGen() {
-		session.mockCommandExecution("ssh-keygen -t rsa\\s+".toRegex())
+		session.mockCommandExecution("ssh-keygen -t rsa -N ''.*+".toRegex())
 		whenever(session.createSftpClient()).thenReturn(sftpClient)
 		whenever(sftpClient.read(any())).then {
 			"TEST PUBLIC KEY".toInputStream()
