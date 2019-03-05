@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLvExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvExecutor
+import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 
@@ -23,6 +24,8 @@ class MigrateBlockAllocationExecutor(
 		private val hostDynDao: HostDynamicDao
 ) : AbstractStepExecutor<MigrateBlockAllocation, Pair<Any, Any>>() {
 
+	private val logger = getLogger(MigrateBlockAllocationExecutor::class)
+
 	private val createLvExecutor = CreateLvExecutor(hostCommandExecutor, vssDynDao)
 	private val createGvinumExecutor = CreateGvinumVolumeExecutor(hostCommandExecutor, vssDynDao, hostDynDao)
 	private val createThinLvExecutor = CreateThinLvExecutor(hostCommandExecutor, vssDynDao)
@@ -30,12 +33,14 @@ class MigrateBlockAllocationExecutor(
 	private val unAllocateGvinumExecutor = UnAllocateGvinumExecutor(hostCommandExecutor, vssDynDao)
 
 	override fun perform(step: MigrateBlockAllocation): Pair<Any, Any> {
+		logger.info("creating new allocation on {}", step.allocationStep.host)
 		val allocationResult = when (step.allocationStep) {
 			is CreateLv -> createLvExecutor.perform(step.allocationStep)
 			is CreateGvinumVolume -> createGvinumExecutor.perform(step.allocationStep)
 			is CreateThinLv -> createThinLvExecutor.perform(step.allocationStep)
 			else -> TODO("Allocation step type not handled: ${step.allocationStep}")
 		}
+		logger.info("copying block device from {} to {}", step.sourceHost.address, step.targetHost.address)
 		hostCommandExecutor.execute(step.sourceHost) {
 			OpenSsh.copyBlockDevice(
 					session = it,
@@ -43,6 +48,7 @@ class MigrateBlockAllocationExecutor(
 					targetAddress = step.targetHost.address,
 					targetDevice = step.allocationStep.allocation.getPath(step.virtualStorage.id))
 		}
+		logger.info("removing allocation on {}", step.deAllocationStep.host)
 		val deAllocationResult = when (step.deAllocationStep) {
 			is UnAllocateGvinum -> unAllocateGvinumExecutor.perform(step.deAllocationStep)
 			is UnAllocateLv -> unAllocateLvExecutor.perform(step.deAllocationStep)
