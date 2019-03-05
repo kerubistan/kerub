@@ -195,7 +195,7 @@ class PlanExecutorImpl(
 		val started = now()
 		//TODO: check synchronization need for this
 		var stepOnExec: AbstractOperationalStep? = null
-		var results = listOf<StepExecutionResult>()
+		val results = mutableListOf<StepExecutionResult>()
 		val stepList = plan.steps.map { it.javaClass.simpleName }
 		task {
 			logger.debug("Executing plan {}", stepList)
@@ -206,7 +206,7 @@ class PlanExecutorImpl(
 				results += StepExecutionPass(executionStep = step)
 			}
 		} fail { exc ->
-			logger.warn("plan execution failed: {}\n{}", stepList, plan, exc)
+			logger.warn("plan execution failed: {}\nat step:{}\n{}", stepList, stepOnExec?.javaClass?.simpleName, plan, exc)
 			stepOnExec?.let {
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
 			}
