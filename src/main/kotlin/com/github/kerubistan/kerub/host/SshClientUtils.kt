@@ -82,7 +82,7 @@ fun ClientSession.process(command: String, output : OutputStream) {
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
 	val execChannel = this.createExecChannel(command)
-	logger.debug("executing command: {}", command)
+	logger.debug("executing command on host {}: {}",this.connectAddress, command)
 	return execChannel.use {
 		val error = it.invertedErr.reader(cs).readText()
 		if (isError(error)) {
