@@ -81,7 +81,7 @@ object OpenSsh {
 	}
 
 	fun copyBlockDevice(session: ClientSession, sourceDevice : String, targetAddress : String, targetDevice: String) {
-		session.executeOrDie("""bash -c "dd if=$sourceDevice | ssh $targetAddress | dd of=$targetDevice" """)
+		session.executeOrDie("""bash -c "dd if=$sourceDevice | ssh -o BatchMode=true $targetAddress dd of=$targetDevice" """)
 	}
 
 }
