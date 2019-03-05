@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.ssh.openssh
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.toInputStream
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -62,4 +63,32 @@ class OpenSshTest {
 		verify(sftpClient).close()
 		verify(sftpClient, never()).mkdir(any())
 	}
+
+	@Test
+	fun copyBlockDevice() {
+		session.mockCommandExecution(".*".toRegex())
+		OpenSsh.copyBlockDevice(
+				session,
+				sourceDevice = "/dev/mapper/vg-1/vol-1",
+				targetDevice = "/dev/mapper/vg-2/vol-2",
+				targetAddress = "host-2.example.com")
+
+		session.verifyCommandExecution(".*ssh.*".toRegex())
+
+	}
+
+	@Test
+	fun copyBlockDeviceWithCompression() {
+		session.mockCommandExecution(".*".toRegex())
+		OpenSsh.copyBlockDevice(
+				session,
+				sourceDevice = "/dev/mapper/vg-1/vol-1",
+				targetDevice = "/dev/mapper/vg-2/vol-2",
+				targetAddress = "host-2.example.com",
+				filters = "gzip -1" to "gzip -dc")
+
+		session.verifyCommandExecution(".*gzip -1.*gzip -dc.*".toRegex())
+
+	}
+
 }

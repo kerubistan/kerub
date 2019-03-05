@@ -18,7 +18,7 @@ object OpenSsh {
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 
-	fun keyGen(session: ClientSession, password: String? = null) : String {
+	fun keyGen(session: ClientSession, password: String? = null): String {
 		session.createSftpClient().use {
 			checkSShDir(it, session)
 		}
@@ -61,7 +61,8 @@ object OpenSsh {
 		synchronized(session) {
 			session.createSftpClient().use {
 				checkSShDir(it, session)
-				it.appendToFile(knownHosts,
+				it.appendToFile(
+						knownHosts,
 						"$hostAddress $pubKey #added by kerub ${Date()}\n"
 				)
 				val stat = it.stat(knownHosts)
@@ -80,8 +81,20 @@ object OpenSsh {
 		}
 	}
 
-	fun copyBlockDevice(session: ClientSession, sourceDevice : String, targetAddress : String, targetDevice: String) {
-		session.executeOrDie("""bash -c "dd if=$sourceDevice | ssh -o BatchMode=true $targetAddress dd of=$targetDevice" """)
+	private val String?.pipeIn get() = if (this == null) "" else "| $this"
+
+	private val String?.pipeOut get() = if (this == null) "" else "$this |"
+
+	fun copyBlockDevice(
+			session: ClientSession,
+			sourceDevice: String,
+			targetAddress: String,
+			targetDevice: String,
+			filters: Pair<String, String>? = null
+	) {
+		session.executeOrDie(
+				"""bash -c "dd if=$sourceDevice ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """
+		)
 	}
 
 }
