@@ -31,7 +31,6 @@ fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 		this.open().await()
 		return fn(this)
 	} finally {
-		logger.debug("closing client channel")
 		this.close(true)
 	}
 }
