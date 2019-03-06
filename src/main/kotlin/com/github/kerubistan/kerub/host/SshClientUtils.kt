@@ -37,8 +37,8 @@ fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 
 fun ClientSession.execute(command: String): String {
 	return this.createExecChannel(command).use {
-		it.invertedOut.reader(Charset.forName("ASCII")).use {
-			logger.debugAndReturn("result of command $command: ", it.readText())
+		it.invertedOut.reader(Charset.forName("ASCII")).use { inputStream ->
+			logger.debugAndReturn("result of command $command: ", inputStream.readText())
 		}
 	}
 }
