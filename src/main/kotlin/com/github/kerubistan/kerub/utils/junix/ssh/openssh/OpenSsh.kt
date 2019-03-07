@@ -18,13 +18,17 @@ object OpenSsh {
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 
-	fun keyGen(session: ClientSession, password: String? = null): String {
-		session.createSftpClient().use {
-			checkSShDir(it, session)
-		}
-		session.executeOrDie("ssh-keygen -t rsa -N '${(password?.let { "$it" }) ?: ""}' -f /root/.ssh/id_rsa ")
-		return session.createSftpClient().use { it.getFileContents("/root/.ssh/id_rsa.pub") }
-	}
+	fun keyGen(session: ClientSession, password: String? = null): String =
+			session.createSftpClient().use {
+				checkSShDir(it, session)
+				if (it.checkFileExists("/root/.ssh/id_rsa.pub")) {
+					logger.warn("The file already exists, skipping generation")
+				} else {
+					session.executeOrDie(
+							"ssh-keygen -t rsa -N '${(password?.let { "$it" }) ?: ""}' -f /root/.ssh/id_rsa ")
+				}
+				it.getFileContents("/root/.ssh/id_rsa.pub")
+			}
 
 	fun authorize(session: ClientSession, pubkey: String) {
 		//synchronized to make sure multiple threads do not overwrite each other's results
