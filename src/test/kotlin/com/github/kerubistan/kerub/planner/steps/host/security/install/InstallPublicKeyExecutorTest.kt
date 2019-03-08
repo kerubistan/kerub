@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.host.security.install
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
@@ -27,9 +28,17 @@ class InstallPublicKeyExecutorTest {
 		whenever(sftpClient.stat(any<SftpClient.Handle>())).thenReturn(mock())
 		whenever(sftpClient.stat(any<String>())).thenReturn(mock())
 
+		clientSession.mockCommandExecution(".*ssh -o BatchMode=true.*".toRegex())
 		whenever(hostCommandExecutor.execute(eq(testHost), any<(ClientSession) -> Any>())).then {
 			(it.arguments[1] as ((ClientSession) -> Any)).invoke(clientSession)
 		}
+
+		whenever(hostCfgDao[testFreeBsdHost.id]).thenReturn(
+				HostConfiguration(
+						id = testFreeBsdHost.id,
+						publicKey = "ssh-rsa actual something"
+				)
+		)
 
 		whenever(hostCommandExecutor.execute(eq(testFreeBsdHost), any<(ClientSession) -> Any>())).then {
 			(it.arguments[1] as ((ClientSession) -> Any)).invoke(clientSession)

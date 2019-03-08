@@ -18,6 +18,10 @@ object OpenSsh {
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 
+	fun verifySshConnection(session: ClientSession, targetAddress : String) {
+		session.executeOrDie("""bash -c "ssh -o BatchMode=true $targetAddress echo connected" """)
+	}
+
 	fun keyGen(session: ClientSession, password: String? = null): String =
 			session.createSftpClient().use {
 				checkSShDir(it, session)

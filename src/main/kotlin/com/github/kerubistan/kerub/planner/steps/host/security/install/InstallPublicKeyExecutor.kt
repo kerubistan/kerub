@@ -14,13 +14,14 @@ class InstallPublicKeyExecutor(private val hostCommandExecutor: HostCommandExecu
 	private val logger = getLogger(InstallPublicKeyExecutor::class)
 
 	override fun perform(step: InstallPublicKey) {
+		val publicKey = requireNotNull(hostCfgDao[step.sourceHost.id]?.publicKey)
 		logger.info("installing public key on target host {}", step.targetHost.address)
 		hostCommandExecutor.execute(step.targetHost) {
-			OpenSsh.authorize(it, step.publicKey)
+			OpenSsh.authorize(it, publicKey)
 		}
 		logger.info("adding known host {} on host {}", step.targetHost.address, step.sourceHost.address)
 		hostCommandExecutor.execute(step.sourceHost) {
-			OpenSsh.addKnownHost(it, step.targetHost.address, step.targetHost.publicKey)
+			OpenSsh.addKnownHost(it, step.targetHost.address, publicKey)
 		}
 	}
 
@@ -29,6 +30,12 @@ class InstallPublicKeyExecutor(private val hostCommandExecutor: HostCommandExecu
 			it.copy(
 					acceptedPublicKeys = it.acceptedPublicKeys + step.publicKey
 			)
+		}
+	}
+
+	override fun verify(step: InstallPublicKey) {
+		hostCommandExecutor.execute(step.sourceHost) {session ->
+			OpenSsh.verifySshConnection(session, step.targetHost.address)
 		}
 	}
 

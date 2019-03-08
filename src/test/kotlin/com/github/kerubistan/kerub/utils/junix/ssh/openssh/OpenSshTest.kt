@@ -91,4 +91,11 @@ class OpenSshTest {
 
 	}
 
+	@Test
+	fun verifySshConnection() {
+		session.mockCommandExecution(".*host1.example.com.*".toRegex())
+		OpenSsh.verifySshConnection(session, "host1.example.com")
+		session.verifyCommandExecution(".*host1.example.com.*".toRegex())
+	}
+
 }
