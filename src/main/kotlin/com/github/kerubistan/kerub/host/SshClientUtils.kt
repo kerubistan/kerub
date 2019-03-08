@@ -47,9 +47,8 @@ fun ClientSession.execute(command: String): String {
  * Executes a command and returns the result or throws exception, any
  * output on stderr is considered error.
  */
-fun ClientSession.executeOrDie(command: String): String {
-	return this.executeOrDie(command, { it.isNotBlank() })
-}
+fun ClientSession.executeOrDie(command: String): String =
+	this.executeOrDie(command, { it.isNotBlank() })
 
 class StdErrLoggingOutputStream(private val session : ClientSession) : OutputStream() {
 
