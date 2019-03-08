@@ -22,7 +22,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.UUID
+import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
 class MigrateBlockAllocationTest {
@@ -121,9 +121,70 @@ class MigrateBlockAllocationTest {
 					virtualStorage = testDisk
 			)
 		}
-//		assertThrows<IllegalStateException>("it requires raw data format") {
-//
-//		}
+		assertThrows<IllegalStateException>("de-allocation must happen on ths source") {
+			val sourceHost = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+					)
+			)
+			val targetHost = testOtherHost.copy(
+					capabilities = testHostCapabilities.copy(
+					)
+			)
+			val allocation = VirtualStorageLvmAllocation(
+					actualSize = testDisk.size,
+					capabilityId = testLvmCapability.id,
+					hostId = sourceHost.id,
+					path = "",
+					vgName = testLvmCapability.volumeGroupName
+			)
+			MigrateBlockAllocation(
+					sourceHost = sourceHost.copy(id = randomUUID()),
+					targetHost = targetHost,
+					allocationStep = CreateLv(
+							host = testOtherHost,
+							disk = testDisk,
+							capability = testLvmCapability
+					),
+					deAllocationStep = UnAllocateLv(
+							host = sourceHost,
+							allocation = allocation,
+							vstorage = testDisk
+					),
+					sourceAllocation = allocation,
+					virtualStorage = testDisk
+			)
+		}
+		assertThrows<IllegalStateException>("allocation must happen on the target") {
+			val sourceHost = testHost.copy(
+					capabilities = testHostCapabilities
+			)
+			val targetHost = testOtherHost.copy(
+					capabilities = testHostCapabilities
+			)
+			val allocation = VirtualStorageLvmAllocation(
+					actualSize = testDisk.size,
+					capabilityId = testLvmCapability.id,
+					hostId = sourceHost.id,
+					path = "",
+					vgName = testLvmCapability.volumeGroupName
+			)
+			MigrateBlockAllocation(
+					sourceHost = sourceHost,
+					targetHost = targetHost.copy(id = randomUUID()),
+					allocationStep = CreateLv(
+							host = testOtherHost,
+							disk = testDisk,
+							capability = testLvmCapability
+					),
+					deAllocationStep = UnAllocateLv(
+							host = sourceHost,
+							allocation = allocation,
+							vstorage = testDisk
+					),
+					sourceAllocation = allocation,
+					virtualStorage = testDisk
+			)
+		}
 	}
 
 	@Test
@@ -152,7 +213,8 @@ class MigrateBlockAllocationTest {
 					path = "",
 					vgName = testLvmCapability.volumeGroupName
 			)
-			val allocationStep = mock<AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out StorageCapability>>()
+			val allocationStep =
+					mock<AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out StorageCapability>>()
 			whenever(allocationStep.host).thenReturn(targetHost)
 			whenever(allocationStep.format).thenReturn(VirtualDiskFormat.raw)
 			val deAllocationStep = mock<AbstractUnAllocate<*>>()
@@ -160,10 +222,10 @@ class MigrateBlockAllocationTest {
 			val initialState = OperationalState.fromLists()
 			val allocatedState = OperationalState.fromLists(
 					hosts = listOf(
-							testHost.copy(id = UUID.randomUUID())))
+							testHost.copy(id = randomUUID())))
 			val movedState = OperationalState.fromLists(
 					hosts = listOf(
-							testHost.copy(id = UUID.randomUUID())))
+							testHost.copy(id = randomUUID())))
 			whenever(allocationStep.take(eq(initialState))).thenReturn(allocatedState)
 			whenever(deAllocationStep.take(eq(allocatedState))).thenReturn(movedState)
 			MigrateBlockAllocation(
