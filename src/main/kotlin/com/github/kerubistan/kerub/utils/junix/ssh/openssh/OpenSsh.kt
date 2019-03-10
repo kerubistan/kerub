@@ -8,7 +8,6 @@ import com.github.kerubistan.kerub.utils.getLogger
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.subsystem.sftp.SftpConstants
-import java.util.Date
 
 /**
  * junix utility wrapper to manipulate the configuration files of openssh client and server
@@ -71,7 +70,7 @@ object OpenSsh {
 				checkSShDir(it, session)
 				it.appendToFile(
 						knownHosts,
-						"$hostAddress $pubKey #added by kerub ${Date()}\n"
+						"$hostAddress $pubKey\n"
 				)
 				val stat = it.stat(knownHosts)
 				it.setStat(knownHosts, stat.perms(SftpConstants.S_IRUSR or SftpConstants.S_IWUSR))
