@@ -12,7 +12,6 @@ import org.apache.sshd.common.session.helpers.AbstractSession
 import java.io.ByteArrayOutputStream
 import java.security.KeyPair
 import java.security.interfaces.RSAPublicKey
-import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class SshClientServiceImpl(
@@ -116,8 +115,6 @@ class SshClientServiceImpl(
 	private fun createVerifiedSession(address: String, userName: String, hostPublicKey: String): ClientSession =
 			createSession(address, userName).apply { addSessionListener(ServerFingerprintChecker(hostPublicKey)) }
 
-	override fun getPublicKey(): String = """
-ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)} #added by kerub - ${Date()}
-"""
+	override fun getPublicKey(): String = "ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}"
 
 }
