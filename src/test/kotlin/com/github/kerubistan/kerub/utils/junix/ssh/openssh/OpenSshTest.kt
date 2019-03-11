@@ -66,7 +66,13 @@ class OpenSshTest {
 
 	@Test
 	fun copyBlockDevice() {
-		session.mockCommandExecution(".*".toRegex())
+		session.mockCommandExecution(".*".toRegex(), "", """106496+0 records in
+106496+0 records out
+54525952 bytes (55 MB, 52 MiB) copied, 5.61393 s, 9.7 MB/s
+106496+0 records in
+106496+0 records out
+54525952 bytes (55 MB) copied, 5.50037 s, 9.9 MB/s
+""")
 		OpenSsh.copyBlockDevice(
 				session,
 				sourceDevice = "/dev/mapper/vg-1/vol-1",

@@ -17,6 +17,9 @@ object OpenSsh {
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 
+	private val ddOutputRecordsLineFormat = "\\d+\\+\\d+ records out".toRegex()
+	private val ddInputRecordsLineFormat = "\\d+\\+\\d+ records in".toRegex()
+
 	fun verifySshConnection(session: ClientSession, targetAddress : String) {
 		session.executeOrDie("""bash -c "ssh -o BatchMode=true $targetAddress echo connected" """)
 	}
@@ -100,7 +103,14 @@ object OpenSsh {
 			filters: Pair<String, String>? = null
 	) {
 		session.executeOrDie(
-				"""bash -c "dd if=$sourceDevice ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """
+				"""bash -c "dd if=$sourceDevice ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """,
+				isError = { it.lines().let { lines ->
+					lines.size == 6
+							&& lines[0].matches(ddInputRecordsLineFormat)
+							&& lines[1].matches(ddOutputRecordsLineFormat)
+							&& lines[3].matches(ddInputRecordsLineFormat)
+							&& lines[4].matches(ddOutputRecordsLineFormat)
+				} }
 		)
 	}
 
