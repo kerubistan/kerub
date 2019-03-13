@@ -174,7 +174,7 @@ class PlanExecutorImpl(
 			// SSH
 			ClearSshKey::class to ClearSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 			GenerateSshKey::class to GenerateSshKeyExecutor(hostCommandExecutor, hostConfigurationDao),
-			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
+			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostManager, hostConfigurationDao),
 			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 
 			MigrateBlockAllocation::class to MigrateBlockAllocationExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao)

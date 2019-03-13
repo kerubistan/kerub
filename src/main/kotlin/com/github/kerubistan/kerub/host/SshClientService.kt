@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import org.apache.sshd.client.session.ClientSession
+import java.security.PublicKey
 
 /**
  * Service to help creating ssh client sessions on hosts
@@ -30,4 +31,6 @@ interface SshClientService {
 	 * Get the OpenSSH format of public key.
 	 */
 	fun getPublicKey(): String
+
+	fun getHostPublicKey(addr : String) : PublicKey
 }

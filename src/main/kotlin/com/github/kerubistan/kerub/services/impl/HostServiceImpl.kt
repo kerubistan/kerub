@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.services.impl
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.host.HostManager
 import com.github.kerubistan.kerub.host.SshClientService
+import com.github.kerubistan.kerub.host.encodePublicKey
 import com.github.kerubistan.kerub.host.getSshFingerPrint
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostPubKey
@@ -62,6 +63,6 @@ class HostServiceImpl(
 
 	override fun getHostPubkey(address: String): HostPubKey {
 		val publicKey = manager.getHostPublicKey(address)
-		return HostPubKey(publicKey.algorithm, publicKey.format, getSshFingerPrint(publicKey))
+		return HostPubKey(publicKey.algorithm, publicKey.format, getSshFingerPrint(publicKey), encodePublicKey(publicKey))
 	}
 }

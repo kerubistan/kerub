@@ -69,7 +69,7 @@ class HostServiceImplTest {
 				dedicated = true,
 				capabilities = null
 		)
-		service!!.joinWithoutPassword(HostJoinDetails(host = host) )
+		service!!.joinWithoutPassword(HostJoinDetails(host = host))
 		verify(manager).join(eq(host), eq(listOf<PowerManagementInfo>()))
 	}
 
@@ -77,7 +77,7 @@ class HostServiceImplTest {
 	fun getHostPubkey() {
 		whenever(manager.getHostPublicKey(anyString())).thenReturn(pubKey)
 
-		val hostPubKey = service!!.getHostPubkey("127.0.0l.1")
+		val hostPubKey = service!!.getHostPubkey("example.com")
 		Assert.assertThat(hostPubKey.algorithm, CoreMatchers.`is`(pubKey.algorithm))
 		Assert.assertThat(hostPubKey.format, CoreMatchers.`is`(pubKey.format))
 		Assert.assertThat(hostPubKey.fingerprint, CoreMatchers.`is`("f6:aa:fa:c7:1d:98:cd:8b:0c:5b:c6:63:bb:3a:73:f6"))

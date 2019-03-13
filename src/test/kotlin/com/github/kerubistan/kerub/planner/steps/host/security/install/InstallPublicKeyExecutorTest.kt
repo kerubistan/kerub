@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.host.security.install
 
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
+import com.github.kerubistan.kerub.host.HostManager
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testFreeBsdHost
@@ -14,6 +15,8 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
+import java.math.BigInteger.ZERO
+import java.security.interfaces.RSAPublicKey
 
 class InstallPublicKeyExecutorTest {
 
@@ -23,6 +26,7 @@ class InstallPublicKeyExecutorTest {
 		val hostCfgDao = mock<HostConfigurationDao>()
 		val clientSession = mock<ClientSession>()
 		val sftpClient = mock<SftpClient>()
+		val hostManager = mock<HostManager>()
 		whenever(clientSession.createSftpClient()).thenReturn(sftpClient)
 		whenever(sftpClient.open(any(), any<Collection<SftpClient.OpenMode>>())).thenReturn(mock())
 		whenever(sftpClient.stat(any<SftpClient.Handle>())).thenReturn(mock())
@@ -40,6 +44,11 @@ class InstallPublicKeyExecutorTest {
 				)
 		)
 
+		val publicKey = mock<RSAPublicKey>()
+		whenever(publicKey.publicExponent).thenReturn(ZERO)
+		whenever(publicKey.modulus).thenReturn(ZERO)
+		whenever(hostManager.getHostPublicKey(any())).thenReturn(publicKey)
+
 		whenever(hostCommandExecutor.execute(eq(testFreeBsdHost), any<(ClientSession) -> Any>())).then {
 			(it.arguments[1] as ((ClientSession) -> Any)).invoke(clientSession)
 		}
@@ -49,7 +58,7 @@ class InstallPublicKeyExecutorTest {
 			(it.arguments[2] as (HostConfiguration) -> HostConfiguration).invoke(cfg)
 		}
 
-		InstallPublicKeyExecutor(hostCommandExecutor, hostCfgDao).execute(
+		InstallPublicKeyExecutor(hostCommandExecutor, hostManager, hostCfgDao).execute(
 				InstallPublicKey(sourceHost = testFreeBsdHost, targetHost = testHost, publicKey = "ssh-rsa blah blah")
 		)
 

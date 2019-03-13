@@ -17,14 +17,11 @@ import com.github.kerubistan.kerub.utils.DefaultSshEventListener
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.silent
-import org.apache.sshd.client.SshClient
-import org.apache.sshd.client.keyverifier.ServerKeyVerifier
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.session.Session
 import java.io.InputStream
 import java.net.InetAddress
-import java.net.SocketAddress
 import java.net.UnknownHostException
 import java.security.PublicKey
 import java.util.Collections
@@ -208,7 +205,6 @@ open class HostManagerImpl(
 	}
 
 	var sshServerPort = defaultSshServerPort
-	var sshUserName = defaultSshUserName
 	private val connections = Collections.synchronizedMap(hashMapOf<UUID, Pair<ClientSession, Distribution>>())
 
 	override fun connectHost(host: Host) {
@@ -254,7 +250,7 @@ open class HostManagerImpl(
 	override fun join(host: Host, password: String, powerManagers: List<PowerManagementInfo>): Host {
 		val session = sshClientService.loginWithPassword(
 				address = host.address,
-				userName = "root",
+				userName = defaultSshUserName,
 				password = password,
 				hostPublicKey = host.publicKey)
 		sshClientService.installPublicKey(session)
@@ -319,34 +315,7 @@ open class HostManagerImpl(
 		//TODO: disconnect hosts quick but nice
 	}
 
-	class ServerKeyReader : ServerKeyVerifier {
-		override fun verifyServerKey(sshClientSession: ClientSession?, remoteAddress: SocketAddress?, serverKey: PublicKey?): Boolean {
-			logger.debug("server key : {}", serverKey)
-			this.serverKey = serverKey
-			return true
-		}
-
-		var serverKey: PublicKey? = null
-	}
-
-	override fun getHostPublicKey(address: String): PublicKey {
-		checkAddressNotLocal(address)
-		val pubKeySshClient = SshClient.setUpDefaultClient()!!
-		val serverKeyReader = ServerKeyReader()
-		pubKeySshClient.serverKeyVerifier = serverKeyReader
-		pubKeySshClient.start()
-		try {
-			val connect = pubKeySshClient.connect(sshUserName, address, sshServerPort)!!
-
-			connect.await()
-			val session = connect.session!!
-			session.auth()!!.await()
-			logger.info(session.serverVersion)
-			return serverKeyReader.serverKey!!
-		} finally {
-			pubKeySshClient.stop()
-		}
-
-	}
+	override fun getHostPublicKey(address: String): PublicKey =
+		sshClientService.getHostPublicKey(address)
 
 }

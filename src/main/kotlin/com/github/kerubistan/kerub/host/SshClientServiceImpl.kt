@@ -9,13 +9,13 @@ import org.apache.sshd.common.SshException
 import org.apache.sshd.common.session.Session
 import org.apache.sshd.common.session.SessionListener
 import org.apache.sshd.common.session.helpers.AbstractSession
-import java.io.ByteArrayOutputStream
 import java.security.KeyPair
+import java.security.PublicKey
 import java.security.interfaces.RSAPublicKey
 import java.util.concurrent.TimeUnit
 
 class SshClientServiceImpl(
-		val client: SshClient = SshClient.setUpDefaultClient(),
+		val client: SshClient = createSshClient(),
 		val keyPair: KeyPair,
 		val maxWait: Long = 500,
 		val maxWaitUnit: TimeUnit = TimeUnit.MILLISECONDS
@@ -51,38 +51,8 @@ class SshClientServiceImpl(
 		logger.debug("{}: public key installation finished", session)
 	}
 
-	fun encodePublicKey(key: RSAPublicKey): String {
-		val out = ByteArrayOutputStream()
-
-		out.write(encodeString("ssh-rsa"))
-		out.write(encodeByteArray(key.publicExponent.toByteArray()))
-		out.write(encodeByteArray(key.modulus.toByteArray()))
-
-		return out.toByteArray().toBase64()
-	}
-
-	fun encodeString(str: String): ByteArray {
-		val bytes = str.toByteArray(charset("ASCII"))
-		return encodeByteArray(bytes)
-	}
-
-	private fun encodeByteArray(bytes: ByteArray): ByteArray {
-		val out = encodeUInt32(bytes.size).copyOf(bytes.size + 4)
-		bytes.forEachIndexed { idx, byte -> out[idx + 4] = byte }
-		return out
-	}
-
-	fun encodeUInt32(value: Int): ByteArray {
-		val bytes = ByteArray(4)
-		bytes[0] = value.shr(24).and(0xff).toByte()
-		bytes[1] = value.shr(16).and(0xff).toByte()
-		bytes[2] = value.shr(8).and(0xff).toByte()
-		bytes[3] = value.and(0xff).toByte()
-		return bytes
-	}
-
 	override fun createSession(address: String, userName: String): ClientSession {
-		val future = client.connect(userName, address, 22)
+		val future = client.connect(userName, address, sshPort)
 		future.await()
 		return future.session
 	}
@@ -116,5 +86,11 @@ class SshClientServiceImpl(
 			createSession(address, userName).apply { addSessionListener(ServerFingerprintChecker(hostPublicKey)) }
 
 	override fun getPublicKey(): String = "ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}"
+
+	override fun getHostPublicKey(addr: String): PublicKey = client.connect("test", addr, sshPort).let { future ->
+		future.await(maxWait, maxWaitUnit)
+		future.session.waitFor(listOf(ClientSession.ClientSessionEvent.WAIT_AUTH), maxWait)
+		future.session.kex.serverKey
+	}
 
 }

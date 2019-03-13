@@ -132,17 +132,6 @@ class HostManagerImplTest {
 	}
 
 	@Test
-	fun getHostPubkey() {
-		val address = mock<InetAddress>()
-		whenever(address.isLoopbackAddress).thenReturn(false)
-		whenever(address.isLinkLocalAddress).thenReturn(false)
-		whenever(address.isAnyLocalAddress).thenReturn(false)
-		whenever(hostManager!!.resolve(eq("localhost"))).thenReturn(address)
-		val publicKey = hostManager!!.getHostPublicKey("localhost")
-		assertEquals(getTestKey().public, publicKey)
-	}
-
-	@Test
 	fun connectHost() {
 		val host = Host(id = UUID.randomUUID(),
 				address = "host1.example.com",
