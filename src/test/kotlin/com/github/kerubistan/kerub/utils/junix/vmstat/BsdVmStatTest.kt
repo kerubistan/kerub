@@ -35,6 +35,6 @@ class BsdVmStatTest {
 
 		val handler = mock<(BsdVmStatEvent) -> Unit>()
 		BsdVmStat.vmstat(session, handler)
-		verify(handler, times(114)).invoke(any())
+		verify(handler, times(41)).invoke(any())
 	}
 }

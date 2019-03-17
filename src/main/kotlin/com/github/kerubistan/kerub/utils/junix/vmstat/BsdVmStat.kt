@@ -10,9 +10,9 @@ object BsdVmStat {
 		override fun handleInput(split: List<String>) {
 			handler(
 					BsdVmStatEvent(
-							userCpu = split[16].toByte(),
-							systemCpu = split[17].toByte(),
-							idleCpu = split[18].toByte(),
+							userCpu = split[14].toByte(),
+							systemCpu = split[15].toByte(),
+							idleCpu = split[16].toByte(),
 							cacheMem = BigInteger.ZERO,
 							ioBuffMem = BigInteger.ZERO,
 							swapMem = BigInteger.ZERO,
@@ -27,6 +27,7 @@ object BsdVmStat {
 		commonVmStat(
 				session = session,
 				interval = interval,
+				params = "-n 0 -H",
 				out = BsdVmstatOutputStream(handler)
 		)
 	}
