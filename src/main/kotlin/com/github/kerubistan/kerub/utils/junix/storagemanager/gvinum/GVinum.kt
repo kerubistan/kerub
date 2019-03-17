@@ -29,7 +29,8 @@ object GVinum {
 			= session.executeOrDie("gvinum $command -v")
 
 	internal fun parseDriveList(output: String): List<GvinumDrive> =
-			output.substringAfter("drives:\n").split(driveHeader).filter { it.isNotBlank() }.map {
+			output.substringAfter("drives:\n")
+					.substringAfter("1 drive:").split(driveHeader).filter { it.isNotBlank() }.map {
 				str ->
 				GvinumDrive(
 						name = str.substringBefore(":"),

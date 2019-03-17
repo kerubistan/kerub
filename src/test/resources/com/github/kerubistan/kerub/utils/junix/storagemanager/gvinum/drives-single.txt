@@ -1,0 +1,7 @@
+1 drive:
+Drive vtbd1:	Device vtbd1
+		Size:    1099511492096 bytes (1048575 MB)
+		Used:                0 bytes (0 MB)
+		Available: 1099511492096 bytes (1048575 MB)
+		State: up
+		Flags: 0

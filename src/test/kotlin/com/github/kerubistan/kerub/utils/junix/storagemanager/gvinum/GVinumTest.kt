@@ -36,6 +36,14 @@ class GVinumTest {
 		verifyDrivesList(list)
 	}
 
+	@Test
+	fun parseDriveListSingle() {
+		val list = GVinum.parseDriveList(
+				resourceToString("com/github/kerubistan/kerub/utils/junix/storagemanager/gvinum/drives-single.txt")
+		)
+		assertEquals(1, list.size)
+	}
+
 	private fun verifyDrivesList(list: List<GvinumDrive>) {
 		assertEquals(2, list.size)
 		assertEquals("5368573440 B".toSize(), list[0].size)
