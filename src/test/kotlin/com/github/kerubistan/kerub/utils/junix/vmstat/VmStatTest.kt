@@ -1,22 +1,15 @@
 package com.github.kerubistan.kerub.utils.junix.vmstat
 
-import com.nhaarman.mockito_kotlin.any
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
-import org.mockito.Mockito
-import java.io.OutputStream
 import java.util.ArrayList
 import java.util.Collections
 import kotlin.test.assertEquals
 
 class VmStatTest {
 	private val clientSession: ClientSession = mock()
-	private val execChannel: ChannelExec = mock()
-	private val openFuture: OpenFuture = mock()
 
 	private val sample = """procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
@@ -30,15 +23,7 @@ class VmStatTest {
 
 	@Test
 	fun vmstat() {
-		whenever(clientSession.createExecChannel(any())).thenReturn(execChannel)
-		Mockito.doAnswer {
-			val out = it.arguments[0] as OutputStream
-			sample.forEach {
-				out.write(it.toInt())
-			}
-			null
-		}.whenever(execChannel)!!.out = any()
-		whenever(execChannel.open()).thenReturn(openFuture)
+		clientSession.mockProcess("vmstat .*".toRegex(), output = sample)
 
 		val results = Collections.synchronizedList(ArrayList<VmStatEvent>())
 		VmStat.vmstat(clientSession, { results.add(it) })
