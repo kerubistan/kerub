@@ -25,8 +25,8 @@ data class GvinumStorageCapability(
 			"there is no gvinum capability if there are no gvinum disks"
 		}
 	}
-	@delegate:JsonIgnore
+	@get:JsonIgnore
 	val devicesByName by lazy { devices.associateBy { it.name } }
-	@delegate:JsonIgnore
+	@get:JsonIgnore
 	override val size by lazy { devices.sumBy { it.size } }
 }

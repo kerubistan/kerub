@@ -43,7 +43,7 @@ data class HostDynamic(
 		memUsed?.validateSize("memUsed")
 	}
 
-	@delegate:JsonIgnore
+	@get:JsonIgnore
 	val storageStatusById by lazy {
 		storageStatus.associateBy { it.id }
 	}
