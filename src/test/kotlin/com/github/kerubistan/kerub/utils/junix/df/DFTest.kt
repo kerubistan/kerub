@@ -1,27 +1,20 @@
 package com.github.kerubistan.kerub.utils.junix.df
 
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
-import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.io.ByteArrayInputStream
-import java.io.OutputStream
 
 class DFTest {
 
 	val session : ClientSession = mock()
-	val execChannel : ChannelExec = mock()
-	val channelOpenFuture : OpenFuture = mock()
 
 val testDfOutput = """Filesystem                                      1024-blocks     Used Available Capacity Mounted on
 devtmpfs                                            3871128        0   3871128       0% /dev
@@ -39,14 +32,11 @@ tmpfs                                                776644       24    776620  
 
 	@Before
 	fun setup() {
-		whenever(session.createExecChannel(any())).thenReturn(execChannel)
-		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 	}
 
 	@Test
 	fun df() {
-		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testDfOutput.toByteArray(charset("ASCII"))))
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
+		session.mockCommandExecution("df.*".toRegex(), output = testDfOutput)
 
 		val mounts = DF.df(session)
 
@@ -101,10 +91,7 @@ tmpfs                                 1634472        24   1634448       1% /run/
 
 	@Test
 	fun monitor() {
-		doAnswer {
-			val str = it.arguments[0] as OutputStream
-			monitorOutput.chars().forEach { str.write(it) }
-		}.whenever(execChannel).`out` = any()
+		session.mockProcess(".*".toRegex(), output = monitorOutput)
 		val callback = mock<(List<FilesystemInfo>) -> Unit>()
 
 		DF.monitor(session, callback = callback)
