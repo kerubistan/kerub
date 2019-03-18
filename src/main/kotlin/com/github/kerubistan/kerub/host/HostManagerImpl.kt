@@ -16,6 +16,7 @@ import com.github.kerubistan.kerub.services.exc.HostAddressException
 import com.github.kerubistan.kerub.utils.DefaultSshEventListener
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import com.github.kerubistan.kerub.utils.silent
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
@@ -54,15 +55,13 @@ open class HostManagerImpl(
 		session?.first?.close(true)
 	}
 
-	override fun getHypervisor(host: Host): Hypervisor? {
-		val connection = connections[host.id]
-		return if (connection != null) {
-			KvmHypervisor(connection.first, host, vmDynamicDao)
-		} else {
-			//TODO: not connected: throw exception?
-			null
+	override fun getHypervisor(host: Host): Hypervisor? =
+		connections[host.id].let {
+			connection ->
+			if (connection != null && Virsh.available(host.capabilities)) {
+				KvmHypervisor(connection.first, host, vmDynamicDao)
+			} else null
 		}
-	}
 
 	override fun getFireWall(host: Host): FireWall {
 		val conn = requireNotNull(connections[host.id])
