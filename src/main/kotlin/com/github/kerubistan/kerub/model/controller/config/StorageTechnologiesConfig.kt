@@ -15,7 +15,7 @@ data class StorageTechnologiesConfig(
 		/**
 		 * List of filesystem types where the controller is allowed to allocate storage
 		 */
-		val fsTypeEnabled: List<String> = listOf("ext4", "ext3", "zfs", "btrfs"),
+		val fsTypeEnabled: List<String> = listOf("ext4", "ext3", "zfs", "btrfs", "ufs"),
 		/**
 		 * The controllers can create logical volumes on vgs.
 		 */
