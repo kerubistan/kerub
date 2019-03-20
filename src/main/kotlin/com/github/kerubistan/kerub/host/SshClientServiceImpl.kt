@@ -13,6 +13,7 @@ import java.security.KeyPair
 import java.security.PublicKey
 import java.security.interfaces.RSAPublicKey
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class SshClientServiceImpl(
 		val client: SshClient = createSshClient(),
@@ -88,9 +89,16 @@ class SshClientServiceImpl(
 	override fun getPublicKey(): String = "ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}"
 
 	override fun getHostPublicKey(addr: String): PublicKey = client.connect("test", addr, sshPort).let { future ->
-		future.await(maxWait, maxWaitUnit)
-		future.session.waitFor(listOf(ClientSession.ClientSessionEvent.WAIT_AUTH), maxWait)
-		future.session.kex.serverKey
+		if(future.await(maxWait, maxWaitUnit)) {
+			val state = future.session.waitFor(listOf(ClientSession.ClientSessionEvent.WAIT_AUTH), maxWait)
+			if(ClientSession.ClientSessionEvent.WAIT_AUTH in state) {
+				future.session.kex.serverKey
+			} else {
+				throw SecurityException("Session communication timed out: $state")
+			}
+		} else {
+			throw TimeoutException("Could not open session in $maxWait $maxWaitUnit")
+		}
 	}
 
 }
