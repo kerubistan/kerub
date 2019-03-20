@@ -6,18 +6,16 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
+import com.github.kerubistan.kerub.planner.issues.problems.common.AbstractProblemDetectorVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class FailingStorageDeviceDetectorTest {
+class FailingStorageDeviceDetectorTest : AbstractProblemDetectorVerifications(FailingStorageDeviceDetector){
 
 	@Test
 	fun detect() {
-		assertTrue("blank state - no problem") {
-			FailingStorageDeviceDetector.detect(Plan(OperationalState.fromLists())).isEmpty()
-		}
 		assertTrue("there are no failed storage devices") {
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(

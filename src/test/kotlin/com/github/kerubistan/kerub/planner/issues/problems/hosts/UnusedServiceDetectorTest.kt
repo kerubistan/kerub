@@ -4,19 +4,16 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
+import com.github.kerubistan.kerub.planner.issues.problems.common.AbstractProblemDetectorVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class UnusedServiceDetectorTest {
+class UnusedServiceDetectorTest : AbstractProblemDetectorVerifications(UnusedServiceDetector) {
 	@Test
 	fun detect() {
-		assertTrue("blank state - no problem") {
-			UnusedServiceDetector.detect(Plan(state = OperationalState.fromLists())).isEmpty()
-		}
-
 		assertTrue("no services - no problem") {
 			val host = testHost.copy()
 			val vm = testVm.copy()

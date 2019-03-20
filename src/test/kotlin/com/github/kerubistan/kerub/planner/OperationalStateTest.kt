@@ -44,4 +44,26 @@ class OperationalStateTest {
 		}
 
 	}
+
+	@Test
+	fun recyclingHosts() {
+		assertTrue("no hosts, no recycling") {
+			OperationalState.fromLists().recyclingHosts.isEmpty()
+		}
+		assertTrue("no hosts recycling") {
+			OperationalState.fromLists(
+					hosts = listOf(testHost)
+			).recyclingHosts.isEmpty()
+		}
+		assertTrue("one recycling host") {
+			OperationalState.fromLists(
+					hosts = listOf(
+							testHost,
+							testOtherHost.copy(
+									recycling = true
+							)
+					)
+			).recyclingHosts.keys == setOf(testOtherHost.id)
+		}
+	}
 }

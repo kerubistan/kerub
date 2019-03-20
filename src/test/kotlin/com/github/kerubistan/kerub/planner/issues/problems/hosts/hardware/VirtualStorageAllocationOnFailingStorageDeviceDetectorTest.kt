@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
+import com.github.kerubistan.kerub.planner.issues.problems.common.AbstractProblemDetectorVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -14,17 +15,12 @@ import com.github.kerubistan.kerub.testLvmCapability
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
-import kotlin.test.expect
 
-class VirtualStorageAllocationOnFailingStorageDeviceDetectorTest {
+class VirtualStorageAllocationOnFailingStorageDeviceDetectorTest
+	: AbstractProblemDetectorVerifications(VirtualStorageAllocationOnFailingStorageDeviceDetector) {
 
 	@Test
 	fun detect() {
-		expect(listOf(), "blank state - no problem") {
-			VirtualStorageAllocationOnFailingStorageDeviceDetector.detect(
-					Plan(OperationalState.fromLists())
-			)
-		}
 		assertTrue("virtual disk on failing capability") {
 			val dieingCapability = testLvmCapability.copy(
 					id = UUID.randomUUID(),
@@ -64,19 +60,20 @@ class VirtualStorageAllocationOnFailingStorageDeviceDetectorTest {
 					vgName = dieingCapability.volumeGroupName
 			)
 			VirtualStorageAllocationOnFailingStorageDeviceDetector.detect(
-					Plan(OperationalState.fromLists(
-							hosts = listOf(host),
-							hostDyns = listOf(hostDynamic),
-							vStorage = listOf(testDisk),
-							vStorageDyns = listOf(
-									VirtualStorageDeviceDynamic(
-											id = testDisk.id,
-											allocations = listOf(
-													allocationOnFailingVg
+					Plan(
+							OperationalState.fromLists(
+									hosts = listOf(host),
+									hostDyns = listOf(hostDynamic),
+									vStorage = listOf(testDisk),
+									vStorageDyns = listOf(
+											VirtualStorageDeviceDynamic(
+													id = testDisk.id,
+													allocations = listOf(
+															allocationOnFailingVg
+													)
 											)
 									)
-							)
-					))
+							))
 			) == listOf(
 					VirtualStorageAllocationOnFailingStorageDevice(
 							host = host,

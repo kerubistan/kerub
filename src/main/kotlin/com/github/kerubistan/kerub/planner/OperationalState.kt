@@ -131,6 +131,12 @@ data class OperationalState(
 
 	val runningHostIds by lazy { runningHosts.map { it.stat.id }.toSet() }
 
+	val recyclingHosts by lazy {
+		hosts.values
+				.filter { it.stat.recycling }
+				.associateBy { it.stat.id }
+	}
+
 	val runningVms by lazy {
 		vms.values.filter {
 			it.dynamic?.status == VirtualMachineStatus.Up

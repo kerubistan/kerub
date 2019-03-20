@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
+import com.github.kerubistan.kerub.planner.issues.problems.common.AbstractProblemDetectorVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -19,12 +20,10 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class VStorageDeviceOnRecyclingHostDetectorTest {
+class VStorageDeviceOnRecyclingHostDetectorTest : AbstractProblemDetectorVerifications(
+		VStorageDeviceOnRecyclingHostDetector) {
 	@Test
 	fun detect() {
-		assertTrue("blank state - no problem") {
-			VStorageDeviceOnRecyclingHostDetector.detect(Plan(state = OperationalState.fromLists())).isEmpty()
-		}
 
 		assertTrue("No hosts being recycled - no problem") {
 			val host = testHost.copy(
@@ -42,30 +41,33 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					mountPoint = "/var/storage/",
 					capabilityId = testLvmCapability.id
 			)
-			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
-					state = OperationalState.fromLists(
-							vms = listOf(vm),
-							vmDyns = listOf(VirtualMachineDynamic(
-									id = vm.id,
-									status = VirtualMachineStatus.Up,
-									memoryUsed = 1.GB,
-									hostId = host.id
-							)),
-							vStorage = listOf(disk),
-							vStorageDyns = listOf(
-									VirtualStorageDeviceDynamic(
-											id = disk.id,
-											allocations = listOf(allocation)
-									)
-							),
-							hosts = listOf(host),
-							hostDyns = listOf(HostDynamic(
-									id = host.id,
-									status = HostStatus.Up,
-									memFree = 16.GB
-							))
-					)
-			)).isEmpty()
+			VStorageDeviceOnRecyclingHostDetector.detect(
+					Plan(
+							state = OperationalState.fromLists(
+									vms = listOf(vm),
+									vmDyns = listOf(
+											VirtualMachineDynamic(
+													id = vm.id,
+													status = VirtualMachineStatus.Up,
+													memoryUsed = 1.GB,
+													hostId = host.id
+											)),
+									vStorage = listOf(disk),
+									vStorageDyns = listOf(
+											VirtualStorageDeviceDynamic(
+													id = disk.id,
+													allocations = listOf(allocation)
+											)
+									),
+									hosts = listOf(host),
+									hostDyns = listOf(
+											HostDynamic(
+													id = host.id,
+													status = HostStatus.Up,
+													memFree = 16.GB
+											))
+							)
+					)).isEmpty()
 		}
 
 		assertTrue("host being recycled - problem should be detected") {
@@ -85,30 +87,33 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					mountPoint = "/var/storage/",
 					capabilityId = testLvmCapability.id
 			)
-			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
-					state = OperationalState.fromLists(
-							vms = listOf(vm),
-							vmDyns = listOf(VirtualMachineDynamic(
-									id = vm.id,
-									status = VirtualMachineStatus.Up,
-									memoryUsed = 1.GB,
-									hostId = host.id
-							)),
-							vStorage = listOf(disk),
-							vStorageDyns = listOf(
-									VirtualStorageDeviceDynamic(
-											id = disk.id,
-											allocations = listOf(allocation)
-									)
-							),
-							hosts = listOf(host),
-							hostDyns = listOf(HostDynamic(
-									id = host.id,
-									status = HostStatus.Up,
-									memFree = 16.GB
-							))
-					)
-			)) == listOf(VStorageDeviceOnRecyclingHost(vstorage = disk, host = host, allocation = allocation))
+			VStorageDeviceOnRecyclingHostDetector.detect(
+					Plan(
+							state = OperationalState.fromLists(
+									vms = listOf(vm),
+									vmDyns = listOf(
+											VirtualMachineDynamic(
+													id = vm.id,
+													status = VirtualMachineStatus.Up,
+													memoryUsed = 1.GB,
+													hostId = host.id
+											)),
+									vStorage = listOf(disk),
+									vStorageDyns = listOf(
+											VirtualStorageDeviceDynamic(
+													id = disk.id,
+													allocations = listOf(allocation)
+											)
+									),
+									hosts = listOf(host),
+									hostDyns = listOf(
+											HostDynamic(
+													id = host.id,
+													status = HostStatus.Up,
+													memFree = 16.GB
+											))
+							)
+					)) == listOf(VStorageDeviceOnRecyclingHost(vstorage = disk, host = host, allocation = allocation))
 		}
 
 		assertTrue("another host being recycled - no problem") {
@@ -132,37 +137,39 @@ class VStorageDeviceOnRecyclingHostDetectorTest {
 					mountPoint = "/var/storage/",
 					capabilityId = testLvmCapability.id
 			)
-			VStorageDeviceOnRecyclingHostDetector.detect(Plan(
-					state = OperationalState.fromLists(
-							vms = listOf(vm),
-							vmDyns = listOf(VirtualMachineDynamic(
-									id = vm.id,
-									status = VirtualMachineStatus.Up,
-									memoryUsed = 1.GB,
-									hostId = host.id
-							)),
-							vStorage = listOf(disk),
-							vStorageDyns = listOf(
-									VirtualStorageDeviceDynamic(
-											id = disk.id,
-											allocations = listOf(allocation)
-									)
-							),
-							hosts = listOf(host, otherHost),
-							hostDyns = listOf(
-									HostDynamic(
-									id = host.id,
-									status = HostStatus.Up,
-									memFree = 16.GB
+			VStorageDeviceOnRecyclingHostDetector.detect(
+					Plan(
+							state = OperationalState.fromLists(
+									vms = listOf(vm),
+									vmDyns = listOf(
+											VirtualMachineDynamic(
+													id = vm.id,
+													status = VirtualMachineStatus.Up,
+													memoryUsed = 1.GB,
+													hostId = host.id
+											)),
+									vStorage = listOf(disk),
+									vStorageDyns = listOf(
+											VirtualStorageDeviceDynamic(
+													id = disk.id,
+													allocations = listOf(allocation)
+											)
 									),
-									HostDynamic(
-											id = otherHost.id,
-											status = HostStatus.Up,
-											memFree = 16.GB
+									hosts = listOf(host, otherHost),
+									hostDyns = listOf(
+											HostDynamic(
+													id = host.id,
+													status = HostStatus.Up,
+													memFree = 16.GB
+											),
+											HostDynamic(
+													id = otherHost.id,
+													status = HostStatus.Up,
+													memFree = 16.GB
+											)
 									)
 							)
-					)
-			)).isEmpty()
+					)).isEmpty()
 		}
 
 
