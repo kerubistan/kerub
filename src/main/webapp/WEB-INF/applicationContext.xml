@@ -357,7 +357,7 @@
 	<bean id="sshClientService" class="com.github.kerubistan.kerub.host.SshClientServiceImpl" depends-on="artemis">
 		<constructor-arg ref="sshClient"/>
 		<constructor-arg ref="keyPair"/>
-		<constructor-arg value="1000"/>
+		<constructor-arg value="2000"/>
 		<constructor-arg value="MILLISECONDS"/>
 	</bean>
 
