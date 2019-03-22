@@ -14,7 +14,7 @@ abstract class AbstractVmstatOutputStream : OutputStream() {
 		if (data == 10) {
 
 			val line = buff.toString().trim()
-			buff.setLength(0)
+			buff.clear()
 			if (line.startsWith("procs") || line.startsWith("r")) {
 				return
 			}
