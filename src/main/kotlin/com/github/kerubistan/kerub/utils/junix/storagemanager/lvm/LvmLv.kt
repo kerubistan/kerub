@@ -35,7 +35,7 @@ object LvmLv : Lvm() {
 		override fun write(data: Int) {
 			if (data == 10) {
 				parseOutput()
-				buff.setLength(0)
+				buff.clear()
 			} else {
 				buff.append(data.toChar())
 			}

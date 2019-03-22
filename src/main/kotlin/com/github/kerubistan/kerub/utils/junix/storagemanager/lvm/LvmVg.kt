@@ -23,7 +23,7 @@ object LvmVg : Lvm() {
 				} else {
 					vgs += parseRow(row)
 				}
-				buffer.setLength(0)
+				buffer.clear()
 			} else {
 				buffer.append(data.toChar())
 			}
