@@ -139,7 +139,7 @@ object Virsh : OsCommand {
 			buff.append(data.toChar())
 			if (buff.length > 2 && buff.endsWith("\n\n\n")) {
 				handler(parseDomStats(buff.toString()))
-				buff.setLength(0)
+				buff.clear()
 			}
 		}
 	}
