@@ -41,7 +41,7 @@ DF : OsCommand {
 			if (buff.endsWith(separator)) {
 				buff.setLength(buff.length - separator.length)
 				callback(parse(buff.toString()))
-				buff.setLength(0)
+				buff.clear()
 			}
 		}
 	}

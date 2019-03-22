@@ -9,14 +9,14 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 
 class DFTest {
 
-	val session : ClientSession = mock()
+	val session: ClientSession = mock()
 
-val testDfOutput = """Filesystem                                      1024-blocks     Used Available Capacity Mounted on
+	private val testDfOutput =
+			"""Filesystem                                      1024-blocks     Used Available Capacity Mounted on
 devtmpfs                                            3871128        0   3871128       0% /dev
 tmpfs                                               3883208   102756   3780452       3% /dev/shm
 tmpfs                                               3883208     1300   3881908       1% /run
@@ -29,10 +29,6 @@ tmpfs                                               3883208     7668   3875540  
 tmpfs                                                776644        4    776640       1% /run/user/993
 tmpfs                                                776644       24    776620       1% /run/user/1000
 """
-
-	@Before
-	fun setup() {
-	}
 
 	@Test
 	fun df() {
