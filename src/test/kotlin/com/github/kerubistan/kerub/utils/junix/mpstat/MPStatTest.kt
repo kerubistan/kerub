@@ -1,16 +1,11 @@
 package com.github.kerubistan.kerub.utils.junix.mpstat
 
 import com.github.kerubistan.kerub.model.dynamic.CpuStat
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doAnswer
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
-import java.io.OutputStream
 
 class MPStatTest {
 	private val testInput = """Linux 4.1.6-201.fc22.x86_64 (localshot) 	11/02/2015 	_x86_64_	(2 CPU)
@@ -27,20 +22,10 @@ class MPStatTest {
 """
 
 	val session : ClientSession = mock()
-	val execChannel : ChannelExec = mock()
-	val openFuture : OpenFuture = mock()
 
 	@Test
 	fun monitor() {
-		whenever(session.createExecChannel(any())).thenReturn( execChannel )
-		doAnswer {
-			val out = it.arguments[0] as OutputStream
-			testInput.forEach {
-				out.write( it.toInt() )
-			}
-			null
-		} .whenever(execChannel)!!.out = any()
-		whenever(execChannel.open()).thenReturn(openFuture)
+		session.mockProcess("mpstat.*".toRegex(), output = testInput)
 
 		var stat = listOf<CpuStat>()
 

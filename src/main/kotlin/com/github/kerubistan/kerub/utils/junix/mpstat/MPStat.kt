@@ -24,7 +24,7 @@ object MPStat : OsCommand {
 
 		private fun parseOutput() {
 			val line = buff.toString()
-			buff.setLength(0)
+			buff.clear()
 
 			if (line.isBlank()) {
 				handler(
