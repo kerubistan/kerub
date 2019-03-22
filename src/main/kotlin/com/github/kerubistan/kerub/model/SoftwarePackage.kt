@@ -8,9 +8,15 @@ data class SoftwarePackage(
 		@JsonProperty("name")
 		@Field val name: String,
 		@JsonProperty("ver")
-		@Field val version: Version) : Serializable {
-	override
-	fun toString(): String {
+		@Field val version: Version
+) : Serializable {
+
+	companion object {
+		fun pack(name: String, version: String) =
+				SoftwarePackage(name = name, version = Version.fromVersionString(version))
+	}
+
+	override fun toString(): String {
 		return "$name-$version"
 	}
 }
