@@ -130,7 +130,7 @@ object GVinum {
 			buffer.append(input.toChar())
 			if (buffer.endsWith(separator)) {
 				callback(parseDriveList(buffer.substring(0, buffer.length - separator.length)))
-				buffer.setLength(0)
+				buffer.clear()
 			}
 		}
 	}
