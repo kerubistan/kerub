@@ -1,66 +1,54 @@
 package com.github.kerubistan.kerub.utils.junix.virt.virsh
 
 import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
-import com.github.kerubistan.kerub.utils.resource
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
+import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Matchers
-import org.mockito.Mockito
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.io.OutputStream
 import java.util.UUID
 import kotlin.test.assertEquals
 
 class VirshTest {
 
-	val session: ClientSession = mock()
-
-	val execChannel: ChannelExec = mock()
-
-	val channelOpenFuture: OpenFuture = mock()
+	private val session: ClientSession = mock()
 
 	val sftpClient: SftpClient = mock()
 
 	@Before
 	fun setup() {
-		whenever(session.createExecChannel(Matchers.anyString() ?: "")).thenReturn(execChannel)
-		whenever(execChannel.open()).thenReturn(channelOpenFuture)
 		whenever(session.createSftpClient()).thenReturn(sftpClient)
 	}
 
 	@Test
 	fun create() {
-		whenever(sftpClient.write(any())).thenReturn(ByteArrayOutputStream())
-		whenever(execChannel.invertedErr)
-				.thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut)
-				.thenReturn(NullInputStream(0))
+		session.mockCommandExecution("virsh create.*".toRegex())
+		val output = ByteArrayOutputStream()
+		whenever(sftpClient.write(any())).thenReturn(output)
 		Virsh.create(session, UUID.randomUUID(), "TEST-DOMAIN-DEF")
+
+		session.mockCommandExecution("virsh create.*".toRegex())
+		assertEquals("TEST-DOMAIN-DEF", output.toString())
 	}
 
 	@Test
 	fun createAndFail() {
 		try {
+
 			whenever(sftpClient.write(any())).thenReturn(ByteArrayOutputStream())
-			whenever(execChannel.invertedErr)
-					.thenReturn(ByteArrayInputStream("TEST ERROR".toByteArray(charset("ASCII"))))
-			whenever(execChannel.invertedOut)
-					.thenReturn(NullInputStream(0))
+			session.mockCommandExecution("virsh create.*".toRegex(), error = "TEST ERROR")
 			Virsh.create(session, UUID.randomUUID(), "TEST-DOMAIN-DEF")
-		} catch(e: IOException) {
+		} catch (e: IOException) {
 			verify(sftpClient).write(any())
 			verify(sftpClient).remove(any())
 		}
@@ -72,41 +60,34 @@ class VirshTest {
 				"""8952908a-f27d-45dc-b274-0aeb7a68660a
 8952908a-f27d-45dc-b274-0aeb7a68660b
 8952908a-f27d-45dc-b274-0aeb7a68660c"""
-		whenever(execChannel.invertedOut)
-				.thenReturn(ByteArrayInputStream(testOutput.toByteArray(charset("ASCII"))))
-		whenever(execChannel.invertedErr)
-				.thenReturn(NullInputStream(0))
+		session.mockCommandExecution("virsh list.*", output = testOutput)
 
 		val ids = Virsh.list(session)
 
-		Assert.assertEquals(ids, listOf(UUID.fromString("8952908a-f27d-45dc-b274-0aeb7a68660a"),
+		Assert.assertEquals(
+				ids, listOf(
+				UUID.fromString("8952908a-f27d-45dc-b274-0aeb7a68660a"),
 				UUID.fromString("8952908a-f27d-45dc-b274-0aeb7a68660b"),
 				UUID.fromString("8952908a-f27d-45dc-b274-0aeb7a68660c")))
 	}
 
 	@Test
 	fun suspend() {
-		whenever(execChannel.invertedOut)
-				.thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedErr)
-				.thenReturn(NullInputStream(0))
+		session.mockCommandExecution("virsh suspend.*".toRegex())
 		Virsh.suspend(session, UUID.randomUUID())
 
-		Mockito.verify(session)!!.createExecChannel(Matchers.startsWith("virsh suspend") ?: "")
+		session.verifyCommandExecution("virsh suspend.*".toRegex())
 	}
 
 	@Test
 	fun resume() {
-		whenever(execChannel.invertedOut)
-				.thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedErr)
-				.thenReturn(NullInputStream(0))
+		session.mockCommandExecution("virsh resume.*".toRegex())
 		Virsh.resume(session, UUID.randomUUID())
 
-		Mockito.verify(session)!!.createExecChannel(Matchers.startsWith("virsh resume") ?: "")
+		session.verifyCommandExecution("virsh resume.*".toRegex())
 	}
 
-	val domStatOutput = """
+	private val domStatOutput = """
 Domain: 'kerub.hosts.opensuse13'
   state.state=1
   state.reason=1
@@ -163,7 +144,7 @@ Domain: 'kerub.hosts.fedora20'
 
 """
 
-	val domStatMultiOutput = """
+	private val domStatMultiOutput = """
 Domain: 'kerub.hosts.opensuse13'
   state.state=1
   state.reason=1
@@ -274,20 +255,10 @@ Domain: 'kerub.hosts.fedora20'
 
 	@Test
 	fun domStat() {
-		var output: OutputStream? = null
-		whenever(execChannel.setOut(Mockito.any(OutputStream::class.java) ?: NullOutputStream())).thenAnswer {
-			output = it.arguments[0] as OutputStream
-			null
-		}
-		whenever(execChannel.open()).thenAnswer {
-			requireNotNull(output).writer(charset("ASCII")).use {
-				it.write(domStatMultiOutput)
-			}
-			channelOpenFuture
-		}
-		var results: List<List<DomainStat>> = listOf()
+		session.mockProcess(".*".toRegex(), output = domStatMultiOutput)
+		val results: MutableList<List<DomainStat>> = mutableListOf()
 		Virsh.domStat(session) {
-			results += listOf(it)
+			results.add(it)
 		}
 		assertEquals(2, results.size)
 		assertEquals("kerub.hosts.opensuse13", results[0][0].name)
@@ -297,10 +268,7 @@ Domain: 'kerub.hosts.fedora20'
 
 	@Test
 	fun domStatSingle() {
-		whenever(execChannel.invertedErr)
-				.thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut)
-				.thenReturn(ByteArrayInputStream(domStatOutput.toByteArray(charset("ASCII"))))
+		session.mockCommandExecution("virsh domstats.*".toRegex(), output = domStatOutput)
 
 		val stats = Virsh.domStat(session)
 		assertEquals(2, stats.size)
@@ -308,8 +276,7 @@ Domain: 'kerub.hosts.fedora20'
 
 	@Test
 	fun getDisplay() {
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("spice://localhost:5902\n".toByteArray()))
+		session.mockCommandExecution("virsh domdisplay.*".toRegex(), output = "spice://localhost:5902\n")
 
 		val display = Virsh.getDisplay(session, UUID.randomUUID())
 
@@ -319,10 +286,11 @@ Domain: 'kerub.hosts.fedora20'
 
 	@Test
 	fun capabilities() {
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut).then {
-			resource("com/github/kerubistan/kerub/utils/junix/virsh/capabilities-ubuntu16-i7.xml")
-		}
+		session.mockCommandExecution(
+				"virsh capabilities.*".toRegex(),
+				output =
+				resourceToString("com/github/kerubistan/kerub/utils/junix/virsh/capabilities-ubuntu16-i7.xml")
+		)
 
 		val capabilities = Virsh.capabilities(session)
 
