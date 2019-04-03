@@ -1,5 +1,8 @@
 package com.github.kerubistan.kerub.utils
 
+import com.github.kerubistan.kerub.GB
+import com.github.kerubistan.kerub.KB
+import com.github.kerubistan.kerub.MB
 import org.junit.Test
 import java.math.BigDecimal
 import kotlin.test.assertEquals
@@ -51,4 +54,14 @@ class NumberUtilsTest {
 						.decimalAvgBy { it }
 		)
 	}
+
+	@Test
+	fun roundUp() {
+		assertEquals(1.GB, 1.KB.roundUp(unit = 1.KB, minimum = 1.GB))
+		assertEquals(128.KB, 1.KB.roundUp(unit = 128.KB))
+		assertEquals(256.KB, 129.KB.roundUp(unit = 128.KB))
+		assertEquals(512.KB, 129.KB.roundUp(unit = 128.KB, minimum = 512.KB))
+		assertEquals(4.MB, 0.KB.roundUp(unit = 1.KB, minimum = 4.MB))
+	}
+
 }

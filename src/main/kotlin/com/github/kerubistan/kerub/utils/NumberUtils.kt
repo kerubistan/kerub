@@ -75,3 +75,6 @@ fun bd(something : Any?) =
 					BigDecimal(it.toString())
 			}
 		}
+
+fun BigInteger.roundUp(minimum: BigInteger = BigInteger.ZERO, unit: BigInteger): BigInteger =
+		(((this / unit).inc()) * unit).coerceAtLeast(minimum)
