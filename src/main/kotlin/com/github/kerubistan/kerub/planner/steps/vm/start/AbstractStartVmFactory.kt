@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.containsAny
+import com.github.kerubistan.kerub.utils.hasAny
 
 abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
@@ -27,10 +28,7 @@ abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOpe
 	fun getVmsToStart(state: OperationalState, filter: (VirtualMachine) -> Boolean): List<VirtualMachine> {
 		val vmsToRun = state.vms.values.filter {
 			vm ->
-			vm.stat.expectations.any {
-				it is VirtualMachineAvailabilityExpectation
-						&& it.up
-			}
+			vm.stat.expectations.hasAny<VirtualMachineAvailabilityExpectation> { it.up }
 					&& filter(vm.stat)
 		}
 		val vmsActuallyRunning = state.vms.values.filter { it.dynamic?.status == VirtualMachineStatus.Up }.map { it.stat.id }

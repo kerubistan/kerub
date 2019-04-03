@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.reservations.Reservation
+import kotlin.reflect.KClass
 
 interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 
@@ -21,6 +22,10 @@ interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 					states = state.states + take(state.state),
 					steps = state.steps + this
 			)
+	/**
+	 * Get the list of step types which should follow this step (otherwise this step does not make sense)
+	 */
+	val useBefore: List<KClass<out Step<*>>>? get() = null
 
 	/**
 	 * Get the list of costs expected at executing this step.

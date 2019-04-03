@@ -28,37 +28,26 @@ class PlanRationalizerImpl(
 				}.minBy { it.steps.size } ?: cleanup
 			} else plan
 
-	private fun simplify(plan: Plan, generator: (OperationalState, List<AbstractOperationalStep>) -> Plan?): Plan =
-			if (plan.steps.size <= 1) {
-				plan
-			} else {
-				var work = plan
 
-				val initialState = plan.states.first()
-				plan.steps.forEach { step ->
+	fun tryRemoveSingles(original: Plan): Plan {
+		var plan = original
 
-					val candidatePlan = generator(initialState, work.steps - step)
-					if (candidatePlan != null && isTargetState(candidatePlan)) {
-						work = candidatePlan
-					}
-
-				}
-				work
-			}
-
-	private fun tryRemoveSingles(plan: Plan): Plan = simplify(plan, this::createStrictPlan)
-
-	private fun createStrictPlan(initial: OperationalState, steps: List<AbstractOperationalStep>): Plan? {
-		var work = Plan(initial, listOf())
-		steps.forEach { step ->
-			val offeredSteps = stepFactory.produce(work)
-			if (step in offeredSteps) {
-				work = Plan.planBy(initial, work.steps + step)
-			} else {
-				return null
+		original.steps.forEach { step ->
+			if (canRemoveStep(step, plan)) {
+				plan = Plan.planBy(
+						plan.states.first(),
+						plan.steps - step
+				)
 			}
 		}
-		return work
+
+		return plan
+	}
+
+	private fun canRemoveStep(step: AbstractOperationalStep, plan: Plan): Boolean {
+		val stepIndex = plan.steps.indexOf(step)
+		val stepsAfter = lazy { plan.steps.takeLast(plan.steps.size - stepIndex - 1).map { it.javaClass.kotlin } }
+		return step.useBefore?.none { it in stepsAfter.value } ?: false
 	}
 
 	internal fun tryRemoveInverses(plan: Plan): Plan {

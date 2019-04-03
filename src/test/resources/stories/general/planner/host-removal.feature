@@ -74,5 +74,5 @@ Feature: removing a host
 	And host diebastard.example.com is scheduled for recycling
 	When planner starts
 	Then host ssh key must be generated on diebastard.example.com as step 1
-	Then host ssh key of diebastard.example.com must be installed on longlive.example.com as step 2
-	Then the virtual disk system-disk-1 must be duplicated to longlive.example.com under volume group vg-1 as step 3
+	Then host ssh key of diebastard.example.com must be installed on longlive.example.com as step 3
+	Then the virtual disk system-disk-1 must be duplicated to longlive.example.com under volume group vg-1 as step 4

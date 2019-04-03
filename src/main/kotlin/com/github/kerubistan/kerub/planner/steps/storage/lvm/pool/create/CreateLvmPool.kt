@@ -12,7 +12,9 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.SimilarStep
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.base.updateHostDynLvmWithAllocation
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.volumeGroupId
+import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocation
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
@@ -24,6 +26,8 @@ data class CreateLvmPool(
 
 	override fun isLikeStep(other: Step<Plan>)
 			= other is CreateLvmPool && other.host == host && other.vgName == vgName
+
+	override val useBefore by lazy { listOf(CreateThinLv::class, MigrateBlockAllocation::class) }
 
 	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(host),
