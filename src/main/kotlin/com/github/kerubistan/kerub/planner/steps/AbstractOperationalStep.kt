@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.k0zka.finder4j.backtrack.Step
 import com.github.kerubistan.kerub.model.Constrained
 import com.github.kerubistan.kerub.model.ExecutionStep
@@ -25,6 +26,7 @@ interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 	/**
 	 * Get the list of step types which should follow this step (otherwise this step does not make sense)
 	 */
+	@get:JsonIgnore
 	val useBefore: List<KClass<out Step<*>>>? get() = null
 
 	/**
