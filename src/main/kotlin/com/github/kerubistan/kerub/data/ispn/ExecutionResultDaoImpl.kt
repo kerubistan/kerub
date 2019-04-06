@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.ExecutionResult
 import com.github.kerubistan.kerub.utils.byId
 import com.github.kerubistan.kerub.utils.getLogger
 import org.infinispan.Cache
-import org.infinispan.persistence.spi.PersistenceException
+import org.infinispan.commons.CacheException
 import java.util.UUID
 
 class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>) : ExecutionResultDao {
@@ -21,8 +21,8 @@ class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>) : 
 	override fun add(entity: ExecutionResult): UUID = entity.let {
 		try {
 			cache[it.id] = it
-		} catch (pe: PersistenceException) {
-			logger.error("Could not persist execution result $it ", pe)
+		} catch (ce: CacheException) {
+			logger.error("Could not persist execution result $it ", ce)
 		}
 		it.id
 	}
