@@ -637,6 +637,9 @@
 			<bean id="ipmi" class="com.github.kerubistan.kerub.services.IpmiService">
 			</bean>
 			<ref bean="motd"/>
+			<bean id="dbdump" class="com.github.kerubistan.kerub.services.DbDumpServiceImpl">
+				<constructor-arg ref="cacheManager" index="0"/>
+			</bean>
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 
