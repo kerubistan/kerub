@@ -22,6 +22,14 @@ class LshwTest : AbstractJunixCommandVerification() {
 	}
 
 	@Test
+	fun listWithEspressoBin() {
+		whenever(execChannel.invertedErr).then { NullInputStream(0) }
+		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/lshw/lshw-espressobin.json") }
+		val system = Lshw.list(session)
+
+	}
+
+	@Test
 	fun available() {
 		assertTrue(
 				Lshw.available(testHostCapabilities.copy(

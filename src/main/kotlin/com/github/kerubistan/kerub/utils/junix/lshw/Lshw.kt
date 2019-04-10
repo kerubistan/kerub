@@ -19,6 +19,7 @@ object Lshw : OsCommand {
 			= createObjectMapper()
 			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 			.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false)
+			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	fun list(session: ClientSession): System
 			= mapper.readValue(session.executeOrDie("lshw -json"), System::class.java)

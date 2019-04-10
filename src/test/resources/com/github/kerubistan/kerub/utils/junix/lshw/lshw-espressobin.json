@@ -1,0 +1,287 @@
+{
+  "id" : "espressobin",
+  "class" : "system",
+  "claimed" : true,
+  "description" : "Computer",
+  "product" : "Globalscale Marvell ESPRESSOBin Board",
+  "width" : 64,
+  "capabilities" : {
+    "smp" : "Symmetric Multi-Processing"
+  },
+  "children" : [
+    {
+      "id" : "core",
+      "class" : "bus",
+      "claimed" : true,
+      "description" : "Motherboard",
+      "physid" : "0",
+      "children" : [
+        {
+          "id" : "cpu:0",
+          "class" : "processor",
+          "claimed" : true,
+          "description" : "CPU",
+          "product" : "cpu",
+          "physid" : "0",
+          "businfo" : "cpu@0",
+          "units" : "Hz",
+          "size" : 1000000000,
+          "capacity" : 1000000000,
+          "capabilities" : {
+            "fp" : "Floating point instructions",
+            "asimd" : "Advanced SIMD",
+            "evtstrm" : "Event stream",
+            "aes" : "AES instructions",
+            "pmull" : "PMULL instruction",
+            "sha1" : "SHA1 instructions",
+            "sha2" : "SHA2 instructions",
+            "crc32" : "CRC extension",
+            "cpuid" : true,
+            "cpufreq" : "CPU Frequency scaling"
+          }
+        },
+        {
+          "id" : "cpu:1",
+          "class" : "processor",
+          "claimed" : true,
+          "description" : "CPU",
+          "product" : "cpu",
+          "physid" : "1",
+          "businfo" : "cpu@1",
+          "units" : "Hz",
+          "size" : 1000000000,
+          "capacity" : 1000000000,
+          "capabilities" : {
+            "fp" : "Floating point instructions",
+            "asimd" : "Advanced SIMD",
+            "evtstrm" : "Event stream",
+            "aes" : "AES instructions",
+            "pmull" : "PMULL instruction",
+            "sha1" : "SHA1 instructions",
+            "sha2" : "SHA2 instructions",
+            "crc32" : "CRC extension",
+            "cpuid" : true,
+            "cpufreq" : "CPU Frequency scaling"
+          }
+        },
+        {
+          "id" : "memory",
+          "class" : "memory",
+          "claimed" : true,
+          "description" : "System memory",
+          "physid" : "2",
+          "units" : "bytes",
+          "size" : 1038229504
+        }
+      ]
+    },
+    {
+      "id" : "usbhost:0",
+      "class" : "bus",
+      "claimed" : true,
+      "handle" : "USB:1:1",
+      "product" : "EHCI Host Controller",
+      "vendor" : "Linux 4.19.20-mvebu64 ehci_hcd",
+      "physid" : "2",
+      "businfo" : "usb@1",
+      "logicalname" : "usb1",
+      "version" : "4.19",
+      "configuration" : {
+        "driver" : "hub",
+        "slots" : "1",
+        "speed" : "480Mbit/s"
+      },
+      "capabilities" : {
+        "usb-2.00" : "USB 2.0"
+      }
+    },
+    {
+      "id" : "usbhost:1",
+      "class" : "bus",
+      "claimed" : true,
+      "handle" : "USB:2:1",
+      "product" : "xHCI Host Controller",
+      "vendor" : "Linux 4.19.20-mvebu64 xhci-hcd",
+      "physid" : "3",
+      "businfo" : "usb@2",
+      "logicalname" : "usb2",
+      "version" : "4.19",
+      "configuration" : {
+        "driver" : "hub",
+        "slots" : "1",
+        "speed" : "480Mbit/s"
+      },
+      "capabilities" : {
+        "usb-2.00" : "USB 2.0"
+      }
+    },
+    {
+      "id" : "usbhost:2",
+      "class" : "bus",
+      "claimed" : true,
+      "handle" : "USB:3:1",
+      "product" : "xHCI Host Controller",
+      "vendor" : "Linux 4.19.20-mvebu64 xhci-hcd",
+      "physid" : "1",
+      "businfo" : "usb@3",
+      "logicalname" : "usb3",
+      "version" : "4.19",
+      "configuration" : {
+        "driver" : "hub",
+        "slots" : "1",
+        "speed" : "5000Mbit/s"
+      },
+      "capabilities" : {
+        "usb-3.00" : true
+      }
+    },
+    {
+      "id" : "network:0",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "4",
+      "logicalname" : "eth0",
+      "serial" : "f0:ad:4e:03:64:7f",
+      "units" : "bit/s",
+      "size" : 1000000000,
+      "configuration" : {
+        "autonegotiation" : "on",
+        "broadcast" : "yes",
+        "driver" : "mvneta",
+        "driverversion" : "1.0",
+        "duplex" : "full",
+        "link" : "yes",
+        "multicast" : "yes",
+        "port" : "MII",
+        "speed" : "1Gbit/s"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface",
+        "mii" : "Media Independent Interface"
+      }
+    },
+    {
+      "id" : "network:1",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "5",
+      "logicalname" : "br0",
+      "serial" : "a2:7a:46:64:45:cb",
+      "configuration" : {
+        "broadcast" : "yes",
+        "driver" : "bridge",
+        "driverversion" : "2.3",
+        "firmware" : "N/A",
+        "ip" : "192.168.1.213",
+        "link" : "yes",
+        "multicast" : "yes"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface"
+      }
+    },
+    {
+      "id" : "network:2",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "6",
+      "logicalname" : "wan",
+      "serial" : "f0:ad:4e:03:64:7f",
+      "units" : "bit/s",
+      "capacity" : 1000000000,
+      "configuration" : {
+        "autonegotiation" : "on",
+        "broadcast" : "yes",
+        "driver" : "dsa",
+        "firmware" : "N/A",
+        "link" : "no",
+        "multicast" : "yes",
+        "port" : "MII"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface",
+        "tp" : "twisted pair",
+        "mii" : "Media Independent Interface",
+        "10bt" : "10Mbit/s",
+        "10bt-fd" : "10Mbit/s (full duplex)",
+        "100bt" : "100Mbit/s",
+        "100bt-fd" : "100Mbit/s (full duplex)",
+        "1000bt-fd" : "1Gbit/s (full duplex)",
+        "autonegotiation" : "Auto-negotiation"
+      }
+    },
+    {
+      "id" : "network:3",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "7",
+      "logicalname" : "lan1",
+      "serial" : "f0:ad:4e:03:64:7f",
+      "units" : "bit/s",
+      "size" : 1000000000,
+      "capacity" : 1000000000,
+      "configuration" : {
+        "autonegotiation" : "on",
+        "broadcast" : "yes",
+        "driver" : "dsa",
+        "duplex" : "full",
+        "firmware" : "N/A",
+        "link" : "yes",
+        "multicast" : "yes",
+        "port" : "MII",
+        "speed" : "1Gbit/s"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface",
+        "tp" : "twisted pair",
+        "mii" : "Media Independent Interface",
+        "10bt" : "10Mbit/s",
+        "10bt-fd" : "10Mbit/s (full duplex)",
+        "100bt" : "100Mbit/s",
+        "100bt-fd" : "100Mbit/s (full duplex)",
+        "1000bt-fd" : "1Gbit/s (full duplex)",
+        "autonegotiation" : "Auto-negotiation"
+      }
+    },
+    {
+      "id" : "network:4",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "8",
+      "logicalname" : "lan0",
+      "serial" : "f0:ad:4e:03:64:7f",
+      "units" : "bit/s",
+      "capacity" : 1000000000,
+      "configuration" : {
+        "autonegotiation" : "on",
+        "broadcast" : "yes",
+        "driver" : "dsa",
+        "firmware" : "N/A",
+        "link" : "no",
+        "multicast" : "yes",
+        "port" : "MII"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface",
+        "tp" : "twisted pair",
+        "mii" : "Media Independent Interface",
+        "10bt" : "10Mbit/s",
+        "10bt-fd" : "10Mbit/s (full duplex)",
+        "100bt" : "100Mbit/s",
+        "100bt-fd" : "100Mbit/s (full duplex)",
+        "1000bt-fd" : "1Gbit/s (full duplex)",
+        "autonegotiation" : "Auto-negotiation"
+      }
+    }
+  ]
+}
