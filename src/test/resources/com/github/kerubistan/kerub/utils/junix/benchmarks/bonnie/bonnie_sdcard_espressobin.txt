@@ -1,0 +1,11 @@
+Version  1.97       ------Sequential Output------ --Sequential Input- --Random-
+Concurrency   1     -Per Chr- --Block-- -Rewrite- -Per Chr- --Block-- --Seeks--
+Machine        Size K/sec %CP K/sec %CP K/sec %CP K/sec %CP K/sec %CP  /sec %CP
+espressobin      2G   124  99 25807  14 17481  10   475  97 63267  18  1131  51
+Latency               112ms     668ms     727ms   25439us   11206us   20940us
+Version  1.97       ------Sequential Create------ --------Random Create--------
+espressobin         -Create-- --Read--- -Delete-- -Create-- --Read--- -Delete--
+              files  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP  /sec %CP
+                 16 12614  79 +++++ +++ 11677  56  8521  52 +++++ +++ 10427  52
+Latency             17336us    1866us    2253us     538us      72us     756us
+1.97,1.97,espressobin,1,1554928217,2G,,124,99,25807,14,17481,10,475,97,63267,18,1131,51,16,,,,,12614,79,+++++,+++,11677,56,8521,52,+++++,+++,10427,52,112ms,668ms,727ms,25439us,11206us,20940us,17336us,1866us,2253us,538us,72us,756us

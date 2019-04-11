@@ -70,6 +70,25 @@ class BonnieTest {
 	}
 
 	@Test
+	fun runWithSdcard() {
+		session.mockCommandExecution(
+				commandMatcher = "bonnie.*".toRegex(),
+				output = resourceToString(
+						"com/github/kerubistan/kerub/utils/junix/benchmarks/bonnie/bonnie_sdcard_espressobin.txt"
+				)
+		)
+		val data = Bonnie.run(session = session, directory = "/tmp")
+		assertEquals(
+				IoBenchmarkItem(throughput = 124.KB, cpuUsagePercent = 99, latency = 112000),
+				data.sequentialOutputPerChr
+		)
+		assertEquals(
+				IoBenchmarkItem(throughput = 25807.KB, cpuUsagePercent =14, latency = 668000),
+				data.sequentialOutputPerBlock
+		)
+	}
+
+	@Test
 	fun runSsdSata() {
 		session.mockCommandExecution(
 				commandMatcher = "bonnie.*".toRegex(),
