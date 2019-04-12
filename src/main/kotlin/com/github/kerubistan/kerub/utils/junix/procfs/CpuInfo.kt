@@ -40,6 +40,20 @@ object CpuInfo : OsCommand {
 				}
 			}
 
+	fun listArm(session: ClientSession): List<ArmCpuInfoRecord> =
+			session.createSftpClient().use {
+				sftp ->
+				sftp.read("/proc/cpuinfo").reader(Charsets.US_ASCII).use {
+					reader ->
+					val text = reader.readText()
+					text.split("\n\n").filter { it.isNotBlank() }.map {
+						ArmCpuInfoRecord(
+								flags = value(it, "Features").split(" ").toList(),
+								nr = value(it, "processor").toInt()
+						)
+					}
+				}
+			}
 
 	fun list(session: ClientSession): List<CpuInfoRecord> =
 			session.createSftpClient().use {

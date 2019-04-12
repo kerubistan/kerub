@@ -28,6 +28,18 @@ class CpuInfoTest {
 		assertEquals(2, results.size)
 	}
 
+
+	@Test
+	fun listOnArm64() {
+		whenever(session.createSftpClient()).thenReturn(sftp)
+		whenever(sftp.read(eq("/proc/cpuinfo"))).thenReturn(
+				resource("com/github/kerubistan/kerub/utils/junix/procfs/cpuinfo-linux-arm64.txt")
+		)
+
+		val results = CpuInfo.listArm(session)
+		assertEquals(2, results.size)
+	}
+
 	@Test
 	fun list() {
 		whenever(session.createSftpClient()).thenReturn(sftp)
