@@ -94,7 +94,7 @@ fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs
 		if (isError(error)) {
 			throw IOException(error)
 		} else if (error.isNotBlank()) {
-			logger.warn("Error output ignored by command {} : {}", command, error)
+			logger.info("Error output ignored by command {} : {}", command, error)
 		}
 		it.invertedOut.reader(cs).use {
 			logger.debugAndReturn("result of command $command: ", it.readText())
