@@ -10,6 +10,8 @@ import java.math.BigInteger
 
 object CpuInfo : OsCommand {
 
+	private const val path = "/proc/cpuinfo"
+
 	override fun available(hostCapabilities: HostCapabilities?): Boolean =
 			hostCapabilities?.os == OperatingSystem.Linux
 
@@ -17,62 +19,50 @@ object CpuInfo : OsCommand {
 			properties.substringBetween(property, "\n").substringAfter(":").trim()
 
 	fun listPpc(session: ClientSession): List<CpuInfoRecord> =
-			session.createSftpClient().use {
-				sftp ->
-				sftp.read("/proc/cpuinfo").reader(Charsets.US_ASCII).use {
-					reader ->
-					val text = reader.readText()
-					val sections = text.split("\n\n").filter { it.isNotBlank() }
-					val archInfo = sections.last()
-					val model = value(archInfo, "model")
-					sections.minus(archInfo).map {
-						CpuInfoRecord(
-								vendorId = model,
-								cacheSize = BigInteger.ZERO,
-								cpuFamily = 0,
-								mhz = value(it, "clock").substringBefore("MHz").toFloat(),
-								modelId = 0,
-								nr = value(it, "processor").toInt(),
-								modelName = value(it, "cpu"),
-								flags = listOf()
-						)
-					}
+			readCpuInfo(session).let { text ->
+				val sections = text.split("\n\n").filter { it.isNotBlank() }
+				val archInfo = sections.last()
+				val model = value(archInfo, "model")
+				sections.minus(archInfo).map {
+					CpuInfoRecord(
+							vendorId = model,
+							cacheSize = BigInteger.ZERO,
+							cpuFamily = 0,
+							mhz = value(it, "clock").substringBefore("MHz").toFloat(),
+							modelId = 0,
+							nr = value(it, "processor").toInt(),
+							modelName = value(it, "cpu"),
+							flags = listOf()
+					)
 				}
 			}
 
+	private fun readCpuInfo(session: ClientSession) = session.createSftpClient().use { sftp ->
+		sftp.read(path).reader(Charsets.US_ASCII).use { reader ->
+			reader.readText()
+		}
+	}
+
 	fun listArm(session: ClientSession): List<ArmCpuInfoRecord> =
-			session.createSftpClient().use {
-				sftp ->
-				sftp.read("/proc/cpuinfo").reader(Charsets.US_ASCII).use {
-					reader ->
-					val text = reader.readText()
-					text.split("\n\n").filter { it.isNotBlank() }.map {
-						ArmCpuInfoRecord(
-								flags = value(it, "Features").split(" ").toList(),
-								nr = value(it, "processor").toInt()
-						)
-					}
-				}
+			readCpuInfo(session).split("\n\n").filter { it.isNotBlank() }.map {
+				ArmCpuInfoRecord(
+						flags = value(it, "Features").split(" ").toList(),
+						nr = value(it, "processor").toInt()
+				)
 			}
 
 	fun list(session: ClientSession): List<CpuInfoRecord> =
-			session.createSftpClient().use {
-				sftp ->
-				sftp.read("/proc/cpuinfo").reader(Charsets.US_ASCII).use {
-					reader ->
-					val text = reader.readText()
-					text.split("\n\n").filter { it.isNotBlank() }.map {
-						CpuInfoRecord(
-								vendorId = value(it, "vendor_id"),
-								cacheSize = value(it, "cache size").toSize(),
-								cpuFamily = value(it, "cpu family").toInt(),
-								mhz = value(it, "cpu MHz").toFloat(),
-								modelId = value(it, "model").toInt(),
-								nr = value(it, "processor").toInt(),
-								modelName = value(it, "model name"),
-								flags = value(it, "flags").split(" ").toList()
-						)
-					}
-				}
+			readCpuInfo(session).split("\n\n").filter { it.isNotBlank() }.map {
+				CpuInfoRecord(
+						vendorId = value(it, "vendor_id"),
+						cacheSize = value(it, "cache size").toSize(),
+						cpuFamily = value(it, "cpu family").toInt(),
+						mhz = value(it, "cpu MHz").toFloat(),
+						modelId = value(it, "model").toInt(),
+						nr = value(it, "processor").toInt(),
+						modelName = value(it, "model name"),
+						flags = value(it, "flags").split(" ").toList()
+				)
 			}
+
 }
