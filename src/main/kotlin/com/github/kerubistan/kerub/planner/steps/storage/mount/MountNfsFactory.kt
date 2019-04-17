@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.normalizePath
 import kotlin.reflect.KClass
 
 object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
@@ -32,8 +33,8 @@ object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
 					}.mapNotNull { (remote, shares) ->
 						shares?.map { MountNfs(host = hostColl.stat,
 								remoteHost = remote,
-								directory = "/mnt/${remote.id}/${it.directory}",
-								remoteDirectory = it.directory)
+								directory = "/mnt/${remote.id}/${it.directory}".normalizePath(),
+								remoteDirectory = it.directory.normalizePath())
 						}
 					}.join()
 				}.join()

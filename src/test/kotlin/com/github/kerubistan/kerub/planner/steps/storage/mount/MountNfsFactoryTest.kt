@@ -76,7 +76,7 @@ class MountNfsFactoryTest : AbstractFactoryVerifications(MountNfsFactory) {
 									nfsEnabled = true
 							)
 					)
-			)) == listOf(MountNfs(remoteHost = nfsHost, host = nfsClient, directory = "/mnt/${nfsHost.id}//kerub",
+			)) == listOf(MountNfs(remoteHost = nfsHost, host = nfsClient, directory = "/mnt/${nfsHost.id}/kerub",
 								  remoteDirectory = "/kerub"))
 		}
 

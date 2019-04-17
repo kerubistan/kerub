@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.utils.junix.mkdir.MkDir
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
+import com.github.kerubistan.kerub.utils.normalizePath
 import org.apache.sshd.client.session.ClientSession
 
 class MountNfsExecutor(override val hostCommandExecutor: HostCommandExecutor,
@@ -22,7 +23,7 @@ class MountNfsExecutor(override val hostCommandExecutor: HostCommandExecutor,
 			hostConfiguration: HostConfiguration, step: MountNfs) = hostConfiguration.copy(
 			services = hostConfiguration.services +
 					NfsMount(
-							remoteDirectory = step.remoteDirectory,
+							remoteDirectory = step.remoteDirectory.normalizePath(),
 							localDirectory = step.directory,
 							remoteHostId = step.remoteHost.id
 					)

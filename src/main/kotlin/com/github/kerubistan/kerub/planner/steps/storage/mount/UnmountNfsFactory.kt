@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.join
+import com.github.kerubistan.kerub.utils.normalizePath
 import kotlin.reflect.KClass
 
 object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {
@@ -25,7 +26,7 @@ object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {
 					} ?: false
 				}
 			}?.map {
-				UnmountNfs(host = hostColl.stat, mountDir = it.localDirectory)
+				UnmountNfs(host = hostColl.stat, mountDir = it.localDirectory.normalizePath())
 			}
 		}.join()
 
