@@ -8,6 +8,8 @@ const val emptyString = ""
 private val uuidPattern = "([0-9]|[a-f]){8}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){12}"
 		.toRegex()
 
+private val duplicateSlashesPattern = "(/+)".toRegex()
+
 fun String.isUUID() = this.matches(uuidPattern)
 
 fun String.toUUID(): UUID =
@@ -39,3 +41,4 @@ fun String.substringBeforeOrNull(delimiter: String): String?
 	this.substring(0, it)
 }
 
+fun String.normalizePath() : String = this.replace(duplicateSlashesPattern, "/")

@@ -56,4 +56,14 @@ class StringUtilsTest {
 		assertEquals("A", "ABC".substringBeforeOrNull("BC"))
 		assertNull("ABC".substringBeforeOrNull("D"))
 	}
+
+	@Test
+	fun normalizePath() {
+		assertEquals("/tmp", "/tmp".normalizePath())
+		assertEquals("/tmp", "//tmp".normalizePath())
+		assertEquals("/tmp", "///tmp".normalizePath())
+		assertEquals("/tmp/test", "/tmp/test".normalizePath())
+		assertEquals("/tmp/test", "/tmp//test".normalizePath())
+		assertEquals("/tmp/test", "//tmp//test".normalizePath())
+	}
 }
