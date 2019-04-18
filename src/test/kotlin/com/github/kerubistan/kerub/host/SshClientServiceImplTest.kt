@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.host
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.getTestKey
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -20,8 +19,8 @@ import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
-import java.security.PublicKey
 import java.util.EnumSet
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
@@ -31,7 +30,6 @@ class SshClientServiceImplTest {
 	val client: SshClient = mock()
 	val session: ClientSession = mock()
 	val sftClient: SftpClient = mock()
-	val serverPublicKey: PublicKey = mock()
 	val handle: SftpClient.CloseableHandle = mock()
 
 	var service: SshClientServiceImpl? = null
@@ -80,7 +78,7 @@ class SshClientServiceImplTest {
 		val kex = Mockito.mock(KeyExchange::class.java)
 		whenever(abstractSession.kex).thenReturn(kex)
 		whenever(kex.serverKey).thenReturn(getTestKey().public)
-		expect(SshException::class) {
+		assertThrows<SshException> {
 			SshClientServiceImpl.ServerFingerprintChecker("WRONG")
 					.sessionEvent(abstractSession, SessionListener.Event.KeyEstablished)
 		}
