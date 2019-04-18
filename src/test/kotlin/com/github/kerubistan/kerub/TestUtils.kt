@@ -6,16 +6,9 @@ import java.io.InputStream
 import java.math.BigInteger
 import java.nio.charset.Charset
 import kotlin.reflect.KClass
-import kotlin.test.assertTrue
 import kotlin.test.fail
 
 val logger = getLogger("test-utils")
-
-fun expect(clazz: KClass<out Exception>, action: () -> Unit) {
-	expect(clazz = clazz, action = action, check = {
-		assertTrue(clazz == it.javaClass.kotlin)
-	})
-}
 
 fun <T : Exception> expect(message : String? = null, clazz: KClass<T>, action: () -> Unit, check: (T) -> Unit) {
 	try {
