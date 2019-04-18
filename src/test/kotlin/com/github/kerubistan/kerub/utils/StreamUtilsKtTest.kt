@@ -1,8 +1,8 @@
 package com.github.kerubistan.kerub.utils
 
-import com.github.kerubistan.kerub.expect
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class StreamUtilsKtTest {
 
@@ -14,7 +14,7 @@ class StreamUtilsKtTest {
 
 	@Test
 	fun resourceToStringNotExisting() {
-		expect(IllegalArgumentException::class) { resourceToString("notexisting-${now()}") }
+		assertThrows<IllegalArgumentException> { resourceToString("notexisting-${now()}") }
 	}
 
 }
