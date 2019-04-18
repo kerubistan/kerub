@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.packagemanager.zypper
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.never
@@ -21,7 +20,7 @@ class ZypperTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class) { Zypper.installPackage(session) }
+		assertThrows<IllegalArgumentException> { Zypper.installPackage(session) }
 		verify(session, never()).createExecChannel(any())
 	}
 
