@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.planner.costs
 
-import com.github.kerubistan.kerub.expect
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class TimeCostTest {
 
@@ -12,10 +12,10 @@ class TimeCostTest {
 
 	@Test
 	fun init() {
-		expect(IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException> {
 			TimeCost(-1, 1)
 		}
-		expect(IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException> {
 			TimeCost(10, 9)
 		}
 	}
