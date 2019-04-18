@@ -2,11 +2,11 @@ package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.RestException
 import com.github.kerubistan.kerub.createClient
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.security.Roles
 import com.github.kerubistan.kerub.services.LoginService
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.fail
 
@@ -56,7 +56,7 @@ class LoginServiceIT {
 		login.login(LoginService.UsernamePassword(username = "admin", password = "password"))
 		login.logout()
 
-		expect(RestException::class) {
+		assertThrows<RestException> {
 			login.getUser()
 		}
 	}
