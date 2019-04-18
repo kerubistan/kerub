@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.services.AccountService
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 import kotlin.test.assertEquals
 
@@ -49,13 +50,13 @@ class AccountMembershipServiceIT {
 	fun checkAuthentication() {
 		val accountId = account!!.id
 		createClient().runRestAction(AccountMembershipService::class) {
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.list(accountId)
 			}
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.listUserAccounts("admin")
 			}
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				val id = UUID.randomUUID()
 				it.add(accountId, id, AccountMembership(
 						id = id,
@@ -63,7 +64,7 @@ class AccountMembershipServiceIT {
 						user = "admin"
 				))
 			}
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.remove(accountId, UUID.randomUUID())
 			}
 		}
