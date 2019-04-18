@@ -1,11 +1,11 @@
 package com.github.kerubistan.kerub.utils.countdown
 
-import com.github.kerubistan.kerub.expect
 import com.nhaarman.mockito_kotlin.doCallRealMethod
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.spy
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.concurrent.TimeoutException
 
 class TimerTest {
@@ -22,7 +22,7 @@ class TimerTest {
 		val timer = spy(Timer(limit = 1000, start = 0))
 		doCallRealMethod().`when`(timer).check()
 		doReturn(1000.toLong()).`when`(timer).now()
-		expect(TimeoutException::class) {
+		assertThrows<TimeoutException> {
 			timer.check()
 		}
 	}
