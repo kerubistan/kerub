@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.utils
 
-import com.github.kerubistan.kerub.expect
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 class MapUtilsTest {
@@ -9,7 +9,7 @@ class MapUtilsTest {
 	@Test
 	fun want() {
 		assertEquals("value", mapOf("key" to "value").want("key"))
-		expect(IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException>  {
 			mapOf("key-1" to "value-1").want("key-2")
 		}
 	}
