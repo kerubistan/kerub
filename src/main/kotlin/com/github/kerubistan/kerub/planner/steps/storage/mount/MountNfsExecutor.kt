@@ -24,7 +24,7 @@ class MountNfsExecutor(override val hostCommandExecutor: HostCommandExecutor,
 			services = hostConfiguration.services +
 					NfsMount(
 							remoteDirectory = step.remoteDirectory.normalizePath(),
-							localDirectory = step.directory,
+							localDirectory = step.directory.normalizePath(),
 							remoteHostId = step.remoteHost.id
 					)
 	)
