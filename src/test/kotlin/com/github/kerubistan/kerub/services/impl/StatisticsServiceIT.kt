@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.RestException
 import com.github.kerubistan.kerub.createClient
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.StatisticsService
@@ -14,10 +13,10 @@ class StatisticsServiceIT {
 	fun testUnauthenticated() {
 		val client = createClient()
 		client.runRestAction(StatisticsService::class) {
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.listCaches()
 			}
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.getStatisticsInfo("TEST")
 			}
 		}
