@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.model
 
 import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.TB
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -17,12 +16,13 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 
 class VirtualStorageLinkInfoTest {
 	@Test
 	fun validation() {
-		expect(IllegalStateException::class) {
+		assertThrows<IllegalStateException> {
 			val lvmCapability = LvmStorageCapability(
 					id = UUID.randomUUID(),
 					size = 2.TB,
@@ -61,7 +61,7 @@ class VirtualStorageLinkInfoTest {
 					)
 			)
 		}
-		expect(IllegalStateException::class) {
+		assertThrows<IllegalStateException> {
 			val lvmCapability = LvmStorageCapability(
 					id = UUID.randomUUID(),
 					size = 2.TB,
@@ -101,7 +101,7 @@ class VirtualStorageLinkInfoTest {
 			)
 
 		}
-		expect(IllegalStateException::class) {
+		assertThrows<IllegalStateException> {
 			val lvmCapability = LvmStorageCapability(
 					id = UUID.randomUUID(),
 					size = 2.TB,
@@ -129,7 +129,7 @@ class VirtualStorageLinkInfoTest {
 													lvmCapability
 											)
 									)
-					)),
+							)),
 					allocation = VirtualStorageLvmAllocation(
 							hostId = testHost.id,
 							vgName = "test-vg",
@@ -141,7 +141,7 @@ class VirtualStorageLinkInfoTest {
 
 		}
 
-		expect(IllegalStateException::class) {
+		assertThrows<IllegalStateException> {
 			VirtualStorageLinkInfo(
 					device = VirtualStorageDataCollection(
 							stat = testDisk,
