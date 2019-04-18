@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.host
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -11,6 +10,7 @@ import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayInputStream
 import java.io.IOException
 import java.net.SocketAddress
@@ -41,7 +41,7 @@ class SshClientUtilsKtTest {
 		whenever(execChannel.invertedErr).thenReturn(ByteArrayInputStream("error".toByteArray(Charset.forName("ASCII"))))
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream("hello".toByteArray(Charset.forName("ASCII"))))
 
-		expect(IOException::class) {session.executeOrDie("echo hello")}
+		assertThrows<IOException> {session.executeOrDie("echo hello")}
 
 	}
 
