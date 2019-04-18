@@ -4,7 +4,6 @@ import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.getTestKey
 import com.github.kerubistan.kerub.host.distros.Distribution
 import com.github.kerubistan.kerub.hypervisor.Hypervisor
@@ -31,6 +30,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
@@ -109,6 +109,7 @@ class HostManagerImplTest {
 						hostDao,
 						hostDynamicDao,
 						vmDynDao,
+						mock(),
 						sshClientService,
 						controllerManager,
 						hostAssignmentDao,
@@ -163,7 +164,7 @@ class HostManagerImplTest {
 				address = any(),
 				hostPublicKey = any(),
 				userName = any())).thenReturn(clientSession)
-		expect(HostAddressException::class) {
+		assertThrows<HostAddressException> {
 			hostManager!!.connectHost(host)
 		}
 		verify(sshClientService, never()).loginWithPublicKey(any(), any(), any())
@@ -232,16 +233,16 @@ class HostManagerImplTest {
 
 	@Test
 	fun checkAddressNotLocal() {
-		expect(HostAddressException::class) {
+		assertThrows<HostAddressException> {
 			hostManager!!.checkAddressNotLocal("127.0.0.1")
 		}
-		expect(HostAddressException::class) {
+		assertThrows<HostAddressException> {
 			hostManager!!.checkAddressNotLocal("127.0.0.5")
 		}
-		expect(HostAddressException::class) {
+		assertThrows<HostAddressException> {
 			hostManager!!.checkAddressNotLocal("127.1.2.3")
 		}
-		expect(HostAddressException::class) {
+		assertThrows<HostAddressException> {
 			hostManager!!.checkAddressNotLocal("localhost")
 		}
 	}

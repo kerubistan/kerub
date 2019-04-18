@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.ServiceManager
@@ -97,7 +98,9 @@ class FreeBSD : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao) {
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	) {
 		BsdVmStat.vmstat(session, {
 			event ->
 			val dyn = hostDynDao[host.id] ?: HostDynamic(

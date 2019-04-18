@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.ServiceManager
@@ -18,10 +19,12 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.utils.LogLevel
+import com.github.kerubistan.kerub.utils.isUUID
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
@@ -39,6 +42,7 @@ import com.github.kerubistan.kerub.utils.junix.sysfs.Net
 import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
+import com.github.kerubistan.kerub.utils.toUUID
 import com.github.kerubistan.kerub.utils.update
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -68,7 +72,8 @@ abstract class AbstractLinux : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 	) {
 		val id = host.id
 
@@ -128,6 +133,50 @@ abstract class AbstractLinux : Distribution {
 									)
 								}
 							}
+					)
+				}
+			}
+		}
+
+		if(LvmLv.available(host.capabilities)) {
+			LvmLv.monitor(session) {
+				volumes ->
+				volumes.filter { it.name.isUUID() }.forEach {
+					volume ->
+					vStorageDeviceDynamicDao.update(volume.name.toUUID()) {
+						oldDyn ->
+						oldDyn.copy(
+								allocations = oldDyn.allocations.map {
+									allocation ->
+									if(allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {
+										allocation.copy(
+												actualSize = volume.size
+										)
+									} else allocation
+
+								}
+						)
+					}
+				}
+			}
+		}
+
+		if(LvmVg.available(host.capabilities)) {
+			LvmVg.monitor(session) {
+				volGroups ->
+				hostDynDao.update(host.id) {
+					hostDyn ->
+					volGroups.forEach {
+						volGroup ->
+						println("${volGroup.name}		${volGroup.freeSize}")
+					}
+					val lvmGroupsByName = volGroups.associateBy { it.name }
+					hostDyn.copy(
+						storageStatus = hostDyn.storageStatus.map {
+							status ->
+							//TODO
+							status
+						}
 					)
 				}
 			}
@@ -259,11 +308,12 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	override fun detectHostCpuFlags(session: ClientSession): List<String> =
-			(if (detectHostCpuType(session) == "x86_64") {
-				CpuInfo.list(session)
-			} else {
-				CpuInfo.listPpc(session)
-			}).first().flags
+			when(detectHostCpuType(session)) {
+				"aarch64" -> CpuInfo.list(session)
+				"x86_64" -> CpuInfo.list(session)
+				else -> CpuInfo.listPpc(session)
+			}.map { it.flags }.join().toSet().toList() // which isn't true
+
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
 }

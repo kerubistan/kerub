@@ -128,8 +128,15 @@ class PlannerImpl(
 //				TimeoutTerminationStrategy(now() + 2000)
 		))
 
+		val initialPlan = Plan(states = listOf(state))
+
+		val initialViolations = lazy { violationDetector.listViolations(initialPlan).size }
+		val initialProblems = lazy { CompositeProblemDetectorImpl.detect(initialPlan).size }
+
+		logger.debug( "violations: {}, problems: {}", initialViolations, initialProblems )
+
 		backtrack.backtrack(
-				state = Plan(states = listOf(state)),
+				state = initialPlan,
 				factory = stepFactory,
 				terminationStrategy = strategy,
 				listener = listener,

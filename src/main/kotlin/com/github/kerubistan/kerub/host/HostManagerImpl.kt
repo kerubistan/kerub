@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.distros.Distribution
 import com.github.kerubistan.kerub.hypervisor.Hypervisor
@@ -34,6 +35,7 @@ open class HostManagerImpl(
 		private val hostDao: HostDao,
 		private val hostDynamicDao: HostDynamicDao,
 		private val vmDynamicDao: VirtualMachineDynamicDao,
+		private val vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 		private val sshClientService: SshClientService,
 		private val controllerManager: ControllerManager,
 		private val hostAssignmentDao: AssignmentDao,
@@ -221,7 +223,7 @@ open class HostManagerImpl(
 				distro.installMonitorPackages(session, host)
 				hostDao.update(host)
 			}
-			distro.startMonitorProcesses(session, host, hostDynamicDao)
+			distro.startMonitorProcesses(session, host, hostDynamicDao, vStorageDeviceDynamicDao)
 		}
 		val hypervisor = getHypervisor(host)
 		if (hypervisor != null) {

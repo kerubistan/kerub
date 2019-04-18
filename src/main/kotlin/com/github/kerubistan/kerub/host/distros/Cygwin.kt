@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.PackageManager
@@ -50,7 +51,9 @@ class Cygwin : Distribution {
 	override fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao) {
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	) {
 		Stat.cpuLoadMonitorIncremental(session) {
 			cpus ->
 

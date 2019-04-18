@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host.distros
 
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
+import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.PackageManager
 import com.github.kerubistan.kerub.host.ServiceManager
@@ -65,7 +66,9 @@ interface Distribution {
 	fun startMonitorProcesses(
 			session: ClientSession,
 			host: Host,
-			hostDynDao: HostDynamicDao)
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	)
 
 	/**
 	 * Get the list of packages to be installed for a given utility to work.
