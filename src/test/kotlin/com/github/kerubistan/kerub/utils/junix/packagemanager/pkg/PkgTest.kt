@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.packagemanager.pkg
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
@@ -8,6 +7,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class PkgTest : AbstractJunixCommandVerification() {
 
@@ -31,13 +31,13 @@ class PkgTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class) { Pkg.installPackage(session) }
+		assertThrows<IllegalArgumentException>  { Pkg.installPackage(session) }
 		verify(session, never()).createExecChannel("pkg install -y foo bar baz")
 	}
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class) { Pkg.uninstallPackage(session) }
+		assertThrows<IllegalArgumentException>  { Pkg.uninstallPackage(session) }
 		verify(session, never()).createExecChannel("pkg remove -y foo bar baz")
 	}
 
