@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.security
 import com.github.kerubistan.kerub.data.AccountMembershipDao
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.data.ProjectMembershipDao
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.AccountMembership
 import com.github.kerubistan.kerub.model.Asset
 import com.github.kerubistan.kerub.model.AssetOwner
@@ -25,6 +24,7 @@ import org.apache.shiro.util.ThreadContext
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -106,7 +106,7 @@ class AssetAccessControllerImplTest {
 		val accountId = UUID.randomUUID()
 		whenever(subject.hasRole(admin)).thenReturn(false)
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(accountId))).thenReturn(false)
-		expect(SecurityException::class) {
+		assertThrows<SecurityException> {
 			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).doAsAccountMember(
 					accountId = accountId,
 					action = action
@@ -132,7 +132,7 @@ class AssetAccessControllerImplTest {
 	fun checkAndDoWithoutRequiredAccount() {
 		setAccountRequired(true)
 		val callback = mock<() -> Asset>()
-		expect(IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException> {
 			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 					VirtualNetwork(
 							id = UUID.randomUUID(),
@@ -151,7 +151,7 @@ class AssetAccessControllerImplTest {
 		val ownerId = UUID.randomUUID()
 		whenever(accountMembershipDao.isAccountMember(eq("test-user"), eq(ownerId))).thenReturn(false)
 
-		expect(SecurityException::class) {
+		assertThrows<SecurityException> {
 			AssetAccessControllerImpl(controllerConfigDao, accountMembershipDao, projectmembershipDao, validator).checkAndDo(
 					VirtualNetwork(
 							id = UUID.randomUUID(),
