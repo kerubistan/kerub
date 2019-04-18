@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.inplace
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
@@ -12,15 +11,14 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
 class InPlaceConvertImageTest {
 
 	@Test
 	fun validation() {
-		expect(
-				"should get exception when the allocation host is not the same as the host",
-				IllegalStateException::class) {
+		assertThrows<IllegalStateException>("should get exception when the allocation host is not the same as the host") {
 			InPlaceConvertImage(
 					testDisk,
 					VirtualStorageFsAllocation(
@@ -34,7 +32,7 @@ class InPlaceConvertImageTest {
 					testHost,
 					VirtualDiskFormat.raw)
 		}
-		expect("capability not registered in the host, should throw exception", IllegalStateException::class) {
+		assertThrows<IllegalStateException> ("capability not registered in the host, should throw exception") {
 			InPlaceConvertImage(
 					testDisk,
 					VirtualStorageFsAllocation(
@@ -49,7 +47,7 @@ class InPlaceConvertImageTest {
 					VirtualDiskFormat.raw)
 		}
 
-		expect("same format for source and target - does not make sense", IllegalStateException::class) {
+		assertThrows<IllegalStateException> ("same format for source and target - does not make sense") {
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							storageCapabilities = listOf(testFsCapability)

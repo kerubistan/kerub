@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.planner.steps.storage.gvinum.create
 
 import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.TB
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -87,7 +86,7 @@ class CreateGvinumVolumeTest {
 
 	@Test
 	fun takeWithoutFreeBsd() {
-		expect("GVinum is only running on FreeBSD, not on Debian", IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException> ("GVinum is only running on FreeBSD, not on Debian") {
 			CreateGvinumVolume(
 					host = testHost.copy(
 							capabilities = testHostCapabilities.copy(
@@ -103,7 +102,7 @@ class CreateGvinumVolumeTest {
 					capability = testGvinumCapability
 			).take(OperationalState.fromLists())
 		}
-		expect("GVinum is only running on FreeBSD, not on NetBSD", IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException>("GVinum is only running on FreeBSD, not on NetBSD") {
 			CreateGvinumVolume(
 					host = testHost.copy(
 							capabilities = testHostCapabilities.copy(
@@ -119,7 +118,7 @@ class CreateGvinumVolumeTest {
 					capability = testGvinumCapability
 			).take(OperationalState.fromLists())
 		}
-		expect("The gvinum volume creation requires a running host", IllegalArgumentException::class) {
+		assertThrows<IllegalArgumentException> ("The gvinum volume creation requires a running host") {
 			CreateGvinumVolume(
 					host = testHost.copy(
 							capabilities = testHostCapabilities.copy(

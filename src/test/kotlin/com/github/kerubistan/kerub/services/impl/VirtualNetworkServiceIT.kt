@@ -13,6 +13,7 @@ import com.github.kerubistan.kerub.services.VirtualNetworkService
 import com.github.kerubistan.kerub.testVirtualNetwork
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory.fromClient
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
 
@@ -99,7 +100,7 @@ class VirtualNetworkServiceIT {
 
 			delete(unusedNetwork.id)
 
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				delete(network.id)
 			}
 
