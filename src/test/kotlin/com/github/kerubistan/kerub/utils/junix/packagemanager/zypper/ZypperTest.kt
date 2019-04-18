@@ -9,6 +9,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class ZypperTest : AbstractJunixCommandVerification() {
 
@@ -26,7 +27,7 @@ class ZypperTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class) { Zypper.uninstallPackage(session /* no packages listed */) }
+		assertThrows<IllegalArgumentException> { Zypper.uninstallPackage(session /* no packages listed */) }
 		verify(session, never()).createExecChannel(any())
 	}
 
