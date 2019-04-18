@@ -17,12 +17,6 @@ fun expect(clazz: KClass<out Exception>, action: () -> Unit) {
 	})
 }
 
-fun expect(message : String, clazz: KClass<out Exception>, action: () -> Unit) {
-	expect(clazz = clazz, action = action, check = {
-		assertTrue(clazz == it.javaClass.kotlin)
-	})
-}
-
 fun <T : Exception> expect(message : String? = null, clazz: KClass<T>, action: () -> Unit, check: (T) -> Unit) {
 	try {
 		action()
