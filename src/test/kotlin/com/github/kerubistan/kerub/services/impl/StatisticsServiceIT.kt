@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.StatisticsService
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class StatisticsServiceIT {
 	@Test
@@ -27,10 +28,10 @@ class StatisticsServiceIT {
 		val client = createClient()
 		client.login("enduser", "password")
 		client.runRestAction(StatisticsService::class) {
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.listCaches()
 			}
-			expect(RestException::class) {
+			assertThrows<RestException> {
 				it.getStatisticsInfo("TEST")
 			}
 		}
