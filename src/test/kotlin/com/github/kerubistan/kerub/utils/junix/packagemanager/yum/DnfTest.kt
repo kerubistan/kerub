@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.packagemanager.yum
 
-import com.github.kerubistan.kerub.expect
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
@@ -8,6 +7,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 
 class DnfTest : AbstractJunixCommandVerification() {
 
@@ -18,13 +18,13 @@ class DnfTest : AbstractJunixCommandVerification() {
 
 	@Test
 	fun installNoPackage() {
-		expect(IllegalArgumentException::class) { Dnf.installPackage(session) }
+		assertThrows<IllegalArgumentException> { Dnf.installPackage(session) }
 		verify(session, never()).createExecChannel("dnf -y install foo bar baz")
 	}
 
 	@Test
 	fun uninstallNoPackage() {
-		expect(IllegalArgumentException::class) { Dnf.uninstallPackage(session) }
+		assertThrows<IllegalArgumentException> { Dnf.uninstallPackage(session) }
 		verify(session, never()).createExecChannel("dnf -y remove foo bar baz")
 	}
 
