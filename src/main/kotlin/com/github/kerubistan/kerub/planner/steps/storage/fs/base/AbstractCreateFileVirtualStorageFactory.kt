@@ -18,7 +18,7 @@ abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalSt
 		val storageNotAllocated = AbstractCreateVirtualStorageFactory.listStorageNotAllocated(state)
 
 		val storageTechnologies = state.controllerConfig.storageTechnologies
-		return state.runningHosts.filter { requiredOsCommand.available(it.stat.capabilities) }
+		return state.index.runningHosts.filter { requiredOsCommand.available(it.stat.capabilities) }
 				.mapNotNull { hostData ->
 					hostData.stat.capabilities?.storageCapabilities
 							?.filterIsInstance<FsStorageCapability>()?.filter { capability ->

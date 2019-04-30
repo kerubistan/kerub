@@ -30,7 +30,7 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 						.map { sourceAllocation ->
 							val sourceHost = requireNotNull(state.hosts[sourceAllocation.hostId])
 							val allocatedOnHosts = vstorage.value.dynamic!!.allocations.map { it.hostId }
-							state.runningHosts
+							state.index.runningHosts
 									.filterNot { allocatedOnHosts.contains(it.stat.id) }.map { targetHostColl ->
 										targetHostColl.stat.capabilities?.storageCapabilities
 												?.filterIsInstance(LvmStorageCapability::class.java)

@@ -21,7 +21,7 @@ abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> 
 								&& types.contains(it.format)
 					}
 							||
-							state.vmsThatMustStart.any { vm ->
+							state.index.vmsThatMustStart.any { vm ->
 								vm.stat.virtualStorageLinks.any { link ->
 									link.virtualStorageId == storage.stat.id
 								}

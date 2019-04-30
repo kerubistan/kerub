@@ -19,7 +19,7 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 				val storageNotAllocated = listStorageNotAllocated(state)
 				var steps = listOf<CreateLv>()
 
-				state.runningHosts.forEach { host ->
+				state.index.runningHosts.forEach { host ->
 					host.stat.capabilities?.storageCapabilities?.filterIsInstance<LvmStorageCapability>()
 							?.filter {
 								it.volumeGroupName.matches(state.controllerConfig.storageTechnologies.lvmVgPatternRegex)

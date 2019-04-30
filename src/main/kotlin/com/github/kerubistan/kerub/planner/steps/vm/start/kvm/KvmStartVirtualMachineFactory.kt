@@ -23,7 +23,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 
 	override fun produce(state: OperationalState): List<KvmStartVirtualMachine> =
 			getVmsToStart(state).map { vm ->
-				state.runningHosts.mapNotNull { hostData ->
+				state.index.runningHosts.mapNotNull { hostData ->
 					val virtualStorageLinks = lazy {
 						virtualStorageLinkInfo(
 								state = state,

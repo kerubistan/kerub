@@ -16,12 +16,12 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.DynamicEntity
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
-import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.utils.byId
+import org.codehaus.jackson.annotate.JsonIgnore
 import java.util.UUID
 
 data class OperationalState(
@@ -33,7 +33,10 @@ data class OperationalState(
 		val templates: Map<UUID, Template> = mapOf(),
 		val reservations: List<Reservation<*>> = listOf(),
 		val controllerConfig: ControllerConfig = ControllerConfig()
-) {
+): Indexed<OperationalStateIndex> {
+
+	@get:JsonIgnore
+	override val index: OperationalStateIndex by lazy { OperationalStateIndex(this) }
 
 	companion object {
 
@@ -104,56 +107,6 @@ data class OperationalState(
 	fun vmHost(vmId: UUID): Host? {
 		val dyn = vms[vmId]?.dynamic
 		return if (dyn == null) null else hosts[dyn.hostId]?.stat
-	}
-
-	val runningHosts by lazy { hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
-
-	operator fun <T> Collection<T>?.contains(element: T): Boolean =
-			this?.contains(element) ?: false
-
-	/**
-	 * Map of host id to IDs of the hosts where the public key is accepted.
-	 */
-	val connectionTargets by lazy {
-		runningHosts.mapNotNull { client ->
-			if (client.config?.publicKey == null)
-				null
-			else {
-				 val acceptedByServer = runningHosts.mapNotNull { server ->
-					if (client.config.publicKey in server.config?.acceptedPublicKeys)
-						server.stat
-					else null
-				}
-				if(acceptedByServer.isEmpty()) null else client.id to acceptedByServer
-			}
-		}.toMap()
-	}
-
-	val runningHostIds by lazy { runningHosts.map { it.stat.id }.toSet() }
-
-	val recyclingHosts by lazy {
-		hosts.values
-				.filter { it.stat.recycling }
-				.associateBy { it.stat.id }
-	}
-
-	val runningVms by lazy {
-		vms.values.filter {
-			it.dynamic?.status == VirtualMachineStatus.Up
-		}
-	}
-
-	val vmsThatMustStart by lazy {
-		vms.values.filter { vm ->
-			vm.stat.expectations.any { expectation ->
-				expectation is VirtualMachineAvailabilityExpectation
-						&& expectation.up
-			} && vm.dynamic?.status != VirtualMachineStatus.Up
-		}
-	}
-
-	val allocatedStorage by lazy {
-		vStorage.values.filter { it.dynamic?.allocations?.isNotEmpty() ?: false }
 	}
 
 }

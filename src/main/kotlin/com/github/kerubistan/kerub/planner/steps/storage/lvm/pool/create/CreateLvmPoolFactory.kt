@@ -21,7 +21,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 	private val minimumThinGroupSize = "16 GB".toSize()
 
 	override fun produce(state: OperationalState): List<CreateLvmPool> {
-		return state.runningHosts.mapNotNull { hostData ->
+		return state.index.runningHosts.mapNotNull { hostData ->
 
 			//all the pools on the host vgname -> pool
 			val pools = hostData.config?.storageConfiguration

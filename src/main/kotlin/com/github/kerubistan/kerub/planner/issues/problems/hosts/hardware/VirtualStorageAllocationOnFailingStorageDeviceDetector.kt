@@ -11,7 +11,7 @@ object VirtualStorageAllocationOnFailingStorageDeviceDetector
 			host.stat.capabilities?.storageCapabilities?.filterIsInstance<VolumeManagerStorageCapability>()?.filter {
 				failingDevice in it.storageDevices
 			}?.map { failingCapability ->
-				plan.state.allocatedStorage.mapNotNull { vdisk ->
+				plan.state.index.allocatedStorage.mapNotNull { vdisk ->
 					vdisk.dynamic?.allocations?.mapNotNull { allocation ->
 						if (allocation.capabilityId == failingCapability.id) {
 							VirtualStorageAllocationOnFailingStorageDevice(

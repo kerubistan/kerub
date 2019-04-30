@@ -12,7 +12,7 @@ object InstallPublicKeyFactory : AbstractOperationalStepFactory<InstallPublicKey
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<InstallPublicKey> =
-			state.runningHosts.let { runningHosts ->
+			state.index.runningHosts.let { runningHosts ->
 
 				(runningHosts * runningHosts).filter { (source, target) ->
 					source.stat.id != target.stat.id

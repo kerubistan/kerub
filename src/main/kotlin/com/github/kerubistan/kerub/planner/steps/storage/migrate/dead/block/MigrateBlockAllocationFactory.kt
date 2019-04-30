@@ -92,15 +92,15 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 
 				}
 
-			}.join().join().filter { it.targetHost in (state.connectionTargets[it.sourceHost.id] ?: listOf()) }
+			}.join().join().filter { it.targetHost in (state.index.connectionTargets[it.sourceHost.id] ?: listOf()) }
 
 	private fun canMigrate(vstorage: VirtualStorageDataCollection, state: OperationalState): Boolean {
 		val requiresVstorage: (VirtualMachineDataCollection) -> Boolean =
 				{ vm -> vm.stat.virtualStorageLinks.any { link -> link.virtualStorageId == vstorage.id } }
 		return (!vstorage.stat.readOnly
 				&& !hasAnyAllocations(vstorage)
-				&& state.runningVms.none(requiresVstorage)
-				&& state.vmsThatMustStart.none(requiresVstorage))
+				&& state.index.runningVms.none(requiresVstorage)
+				&& state.index.vmsThatMustStart.none(requiresVstorage))
 	}
 
 

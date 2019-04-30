@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 
 object VmOnRecyclingHostDetector : ProblemDetector<VmOnRecyclingHost> {
 	override fun detect(plan: Plan): Collection<VmOnRecyclingHost> {
-		val recyclingHosts = plan.state.recyclingHosts
+		val recyclingHosts = plan.state.index.recyclingHosts
 		return if (recyclingHosts.isEmpty()) {
 			listOf()
 		} else {

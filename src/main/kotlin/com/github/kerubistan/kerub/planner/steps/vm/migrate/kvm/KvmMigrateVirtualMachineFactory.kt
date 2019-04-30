@@ -23,8 +23,8 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 	override val expectationHints = setOf<KClass<out Expectation>>(VirtualMachineAvailabilityExpectation::class)
 
 	override fun produce(state: OperationalState): List<KvmMigrateVirtualMachine> =
-			state.runningHosts.map { hostData ->
-				state.runningVms.mapNotNull { vmData ->
+			state.index.runningHosts.map { hostData ->
+				state.index.runningVms.mapNotNull { vmData ->
 
 					if (match(hostData, vmData.stat) && allStorageShared(vmData, state)) {
 						val sourceId = vmData.dynamic?.hostId

@@ -16,7 +16,7 @@ class OperationalStateTest {
 			OperationalState.fromLists(
 					hosts = listOf(testHost, testOtherHost),
 					hostDyns = listOf(hostUp(testHost), hostUp(testOtherHost))
-			).connectionTargets.isEmpty()
+			).index.connectionTargets.isEmpty()
 		}
 		assertTrue("key installed while both server up") {
 			val host1 = testHost.copy()
@@ -28,7 +28,7 @@ class OperationalStateTest {
 							HostConfiguration(id = host1.id, publicKey = "HOST-1-PUBKEY"),
 							HostConfiguration(id = host2.id, acceptedPublicKeys = listOf("HOST-1-PUBKEY"))
 					)
-			).connectionTargets == mapOf(host1.id to listOf(host2))
+			).index.connectionTargets == mapOf(host1.id to listOf(host2))
 		}
 		assertTrue("key installed but server host is down") {
 			val host1 = testHost.copy()
@@ -40,7 +40,7 @@ class OperationalStateTest {
 							HostConfiguration(id = host1.id, publicKey = "HOST-1-PUBKEY"),
 							HostConfiguration(id = host2.id, acceptedPublicKeys = listOf("HOST-1-PUBKEY"))
 					)
-			).connectionTargets.isEmpty()
+			).index.connectionTargets.isEmpty()
 		}
 
 	}
@@ -48,12 +48,12 @@ class OperationalStateTest {
 	@Test
 	fun recyclingHosts() {
 		assertTrue("no hosts, no recycling") {
-			OperationalState.fromLists().recyclingHosts.isEmpty()
+			OperationalState.fromLists().index.recyclingHosts.isEmpty()
 		}
 		assertTrue("no hosts recycling") {
 			OperationalState.fromLists(
 					hosts = listOf(testHost)
-			).recyclingHosts.isEmpty()
+			).index.recyclingHosts.isEmpty()
 		}
 		assertTrue("one recycling host") {
 			OperationalState.fromLists(
@@ -63,7 +63,7 @@ class OperationalStateTest {
 									recycling = true
 							)
 					)
-			).recyclingHosts.keys == setOf(testOtherHost.id)
+			).index.recyclingHosts.keys == setOf(testOtherHost.id)
 		}
 	}
 }

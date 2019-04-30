@@ -16,7 +16,7 @@ object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<ConvertImage> {
-		val runningHosts = state.runningHosts
+		val runningHosts = state.index.runningHosts
 				.filter { QemuImg.available(it.stat.capabilities) }
 				.map { it.stat.id }
 		val allocationsOnRunningHosts = state.vStorage.mapNotNull { (_, storage) ->

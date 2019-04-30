@@ -18,9 +18,9 @@ import kotlin.reflect.KClass
  */
 object InPlaceConvertImageFactory : AbstractOperationalStepFactory<InPlaceConvertImage>() {
 
-	override fun produce(state: OperationalState) = state.allocatedStorage.mapNotNull { coll ->
+	override fun produce(state: OperationalState) = state.index.allocatedStorage.mapNotNull { coll ->
 		coll.dynamic?.allocations?.filterIsInstance<VirtualStorageFsAllocation>()?.mapNotNull { allocation ->
-			produceIf(allocation.hostId in state.runningHostIds && !isUsed(coll.stat, state)) {
+			produceIf(allocation.hostId in state.index.runningHostIds && !isUsed(coll.stat, state)) {
 				(VirtualDiskFormat.values().filterNot { it == allocation.type }).map { format ->
 					InPlaceConvertImage(
 							virtualStorage = coll.stat,
@@ -39,7 +39,7 @@ object InPlaceConvertImageFactory : AbstractOperationalStepFactory<InPlaceConver
 	 * relatively low-prio issue since once in use, the same format will do fine
 	 */
 	private fun isUsed(vdisk: VirtualStorageDevice, state: OperationalState) =
-			state.runningVms.any { it.stat.virtualStorageLinks.any { it.virtualStorageId == vdisk.id } }
+			state.index.runningVms.any { it.stat.virtualStorageLinks.any { it.virtualStorageId == vdisk.id } }
 
 	override val problemHints: Set<KClass<out Problem>>
 		get() = setOf()

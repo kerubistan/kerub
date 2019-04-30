@@ -19,7 +19,7 @@ object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>()
 			factoryFeature(state.controllerConfig.storageTechnologies.lvmCreateVolumeEnabled) {
 				val storageNotAllocated = listStorageNotAllocated(state)
 
-				state.runningHosts.filter {
+				state.index.runningHosts.filter {
 					it.config?.storageConfiguration?.any<LvmPoolConfiguration>() ?: false
 				}.mapNotNull { hostColl ->
 					hostColl.config?.storageConfiguration?.filterIsInstance<LvmPoolConfiguration>()?.map { pool ->

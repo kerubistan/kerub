@@ -16,7 +16,7 @@ object StartNfsDaemonFactory : AbstractOperationalStepFactory<StartNfsDaemon>() 
 
 	override fun produce(state: OperationalState): List<StartNfsDaemon> =
 			factoryFeature(state.controllerConfig.storageTechnologies.nfsEnabled) {
-				state.runningHosts
+				state.index.runningHosts
 						.filter { Exports.available(it.stat.capabilities) }
 						.filterNot { it.config?.services?.any<NfsDaemonService>() ?: false }
 						.map { StartNfsDaemon(it.stat) }
