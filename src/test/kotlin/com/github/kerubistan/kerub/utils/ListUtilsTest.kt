@@ -122,4 +122,12 @@ class ListUtilsTest {
 		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, String> { if(it == "B") "X" else null }, listOf("X"))
 	}
 
+	@Test
+	fun contains() {
+		assertFalse("something is not in null") { "something" in null }
+		assertFalse("something is not in empty set") { "something" in setOf<String>() }
+		assertFalse("something is not in empty set") { "something" in setOf("something else") }
+		assertTrue("something is in empty set") { "something" in setOf("something") }
+	}
+
 }
