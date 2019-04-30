@@ -19,7 +19,7 @@ data class RemoveDiskFromVG(
 		val capabilities = requireNotNull(host.capabilities) {
 			"The host ${host.id} ${host.address} does not have any capabilities registered"
 		}
-		check(capability.id in capabilities.storageCapabilitiesById.keys) {
+		check(capability.id in capabilities.index.storageCapabilitiesById.keys) {
 			"The host ${host.id} ${host.address} does not have " +
 					"lvm capability ${capability.id} ${capability.volumeGroupName} registered."
 		}

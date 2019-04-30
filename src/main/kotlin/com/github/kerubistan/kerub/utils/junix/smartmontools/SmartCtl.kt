@@ -14,7 +14,7 @@ import java.math.BigInteger.ZERO
 object SmartCtl : OsCommand {
 
 	override fun available(hostCapabilities: HostCapabilities?): Boolean =
-			hostCapabilities?.installedSoftwareByName?.containsKey("smartmontools") ?: false
+			hostCapabilities?.index?.installedSoftwareByName?.containsKey("smartmontools") ?: false
 
 	private const val delimiter = ":"
 

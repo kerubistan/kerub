@@ -33,7 +33,7 @@ class HostCapabilitiesTest {
 								SoftwarePackage(name = "gzip", version = Version.fromVersionString("1.2.3")),
 								SoftwarePackage(name = "xz-utils", version = Version.fromVersionString("1.2.3"))
 						)
-				).compressionCapabilities
+				).index.compressionCapabilities
 		)
 	}
 

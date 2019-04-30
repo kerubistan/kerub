@@ -22,9 +22,9 @@ data class InPlaceConvertImage(
 		check(host.id == sourceAllocation.hostId) {
 			"allocation host id (${sourceAllocation.hostId}) does not match the host id (${host.id})"
 		}
-		check(host.capabilities?.storageCapabilitiesById?.keys?.let { sourceAllocation.capabilityId in it } ?: false) {
+		check(host.capabilities?.index?.storageCapabilitiesById?.keys?.let { sourceAllocation.capabilityId in it } ?: false) {
 			"source allocation refers to capability (${sourceAllocation.capabilityId}) not registered in the host record." +
-					"known capabilities are ${host.capabilities?.storageCapabilitiesById}"
+					"known capabilities are ${host.capabilities?.index?.storageCapabilitiesById}"
 		}
 		check(sourceAllocation.type != targetFormat) {
 			"It is pointless to have the same format as source and target ($targetFormat)"

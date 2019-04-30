@@ -30,9 +30,9 @@ data class MigrateBlockAllocation(
 		if (compression != null) {
 			fun checkHost(host: Host, name: String) {
 				checkNotNull(host.capabilities)
-				check(compression in host.capabilities.compressionCapabilities) {
+				check(compression in host.capabilities.index.compressionCapabilities) {
 					"Compression $compression not in $name host (${host.id} ${host.address}) capabilities " +
-							"(${host.capabilities.compressionCapabilities})"
+							"(${host.capabilities.index.compressionCapabilities})"
 				}
 			}
 			checkHost(sourceHost, "source")

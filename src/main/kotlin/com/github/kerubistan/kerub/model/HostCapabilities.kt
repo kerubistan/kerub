@@ -8,14 +8,11 @@ import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.PciDevice
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
+import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Full
 import com.github.kerubistan.kerub.model.views.Simple
-import com.github.kerubistan.kerub.utils.junix.compression.bzip2.BZip2
-import com.github.kerubistan.kerub.utils.junix.compression.gzip.GZip
-import com.github.kerubistan.kerub.utils.junix.compression.lz4.Lz4
-import com.github.kerubistan.kerub.utils.junix.compression.xz.Xz
 import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
@@ -64,7 +61,10 @@ data class HostCapabilities(
 		@Field
 		@JsonView(Detailed::class)
 		val hypervisorCapabilities: List<Any> = listOf()
-) : Serializable {
+) : Serializable, Indexed<HostCapabilitiesIndex> {
+
+	@get:JsonIgnore
+	override val index: HostCapabilitiesIndex by lazy { HostCapabilitiesIndex(this) }
 
 	init {
 		totalMemory.validateSize("totalMemory")
@@ -73,18 +73,4 @@ data class HostCapabilities(
 		}
 	}
 
-	@get:JsonIgnore
-	val installedSoftwareByName by lazy(LazyThreadSafetyMode.PUBLICATION) { installedSoftware.associateBy { it.name } }
-
-	@get:JsonIgnore
-	val storageCapabilitiesById by lazy { storageCapabilities.associateBy { it.id } }
-
-	companion object {
-		private val compressionPackages = listOf(GZip, BZip2, Lz4, Xz)
-	}
-
-	@get:JsonIgnore
-	val compressionCapabilities by lazy {
-		compressionPackages.filter { it.available(this) }.map { it.format }.toSet()
-	}
 }

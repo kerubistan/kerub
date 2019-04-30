@@ -123,3 +123,6 @@ inline fun <reified C : Any, R : Any> Iterable<*>.mapInstances(predicate: (C) ->
 		predicate(it)
 	} else null
 }
+
+operator fun <T> Collection<T>?.contains(element: T): Boolean =
+		this?.contains(element) ?: false
