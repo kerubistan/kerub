@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.CompositeStepFactory
+import com.github.kerubistan.kerub.utils.debugLazy
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.now
@@ -130,10 +131,11 @@ class PlannerImpl(
 
 		val initialPlan = Plan(states = listOf(state))
 
-		val initialViolations = lazy { violationDetector.listViolations(initialPlan).size }
-		val initialProblems = lazy { CompositeProblemDetectorImpl.detect(initialPlan).size }
-
-		logger.debug( "violations: {}, problems: {}", initialViolations, initialProblems )
+		logger.debugLazy(
+				"violations: {}, problems: {}",
+				lazy { violationDetector.listViolations(initialPlan).size },
+				lazy { CompositeProblemDetectorImpl.detect(initialPlan).size }
+		)
 
 		backtrack.backtrack(
 				state = initialPlan,

@@ -13,15 +13,16 @@ fun getLogger(logger: String): Logger {
 	return LoggerFactory.getLogger(logger)!!
 }
 
-fun <T : Any> justToString(data : T) : Any = data
+fun <T : Any> justToString(data: T): Any = data
 
-fun <T : Any> json(data : T) = jacksonObjectMapper().writeValueAsString(data)
+fun <T : Any> json(data: T) = jacksonObjectMapper().writeValueAsString(data)
 
 fun <T : Any> Logger.logAndReturn(
 		level: LogLevel = LogLevel.Debug,
 		message: String = "",
 		data: T,
-		prettyPrint : (T) -> Any = ::justToString) = data.let {
+		prettyPrint: (T) -> Any = ::justToString
+) = data.let {
 	when (level) {
 		LogLevel.Debug -> this.debug(message, prettyPrint(data))
 		LogLevel.Info -> this.info(message, prettyPrint(data))
@@ -32,4 +33,10 @@ fun <T : Any> Logger.logAndReturn(
 		}
 	}
 	data
+}
+
+fun Logger.debugLazy(pattern: String, vararg lazies: Lazy<*>) {
+	if (this.isDebugEnabled) {
+		this.debug(pattern, * lazies.map { it.value }.toTypedArray())
+	}
 }
