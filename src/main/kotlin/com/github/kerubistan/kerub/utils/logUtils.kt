@@ -35,6 +35,9 @@ fun <T : Any> Logger.logAndReturn(
 	data
 }
 
+/**
+ * Evaluate the lazies only if the debug is enabled.
+ */
 fun Logger.debugLazy(pattern: String, vararg lazies: Lazy<*>) {
 	if (this.isDebugEnabled) {
 		this.debug(pattern, * lazies.map { it.value }.toTypedArray())
