@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.host.process
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
-object Stat {
+object Stat : AbstractProcFs {
 
 	private const val separator = "--separator"
 	private val fieldSeparator = "\\s+".toRegex()

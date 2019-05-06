@@ -1,20 +1,13 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import com.github.kerubistan.kerub.model.HostCapabilities
-import com.github.kerubistan.kerub.model.OperatingSystem
-import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
-object CpuInfo : OsCommand {
+object CpuInfo : AbstractProcFs {
 
 	private const val path = "/proc/cpuinfo"
-
-	override fun available(hostCapabilities: HostCapabilities?): Boolean =
-			hostCapabilities?.os == OperatingSystem.Linux
-
 	internal fun value(properties: String, property: String) =
 			properties.substringBetween(property, "\n").substringAfter(":").trim()
 

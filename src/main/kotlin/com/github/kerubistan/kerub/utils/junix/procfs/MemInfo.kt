@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.utils.toSize
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
-object MemInfo {
+object MemInfo : AbstractProcFs {
 
 	fun total(session: ClientSession): BigInteger =
 			getMemInfo(session).substringBetween("MemTotal:", "\n").trim().toSize()
