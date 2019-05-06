@@ -22,6 +22,24 @@ class BondingTest {
 	}
 
 	@Test
+	fun listBondInterfaces() {
+		val session = mock<ClientSession>()
+		val sftpClient = mock<SftpClient>()
+		whenever(session.createSftpClient()).thenReturn(sftpClient)
+		val handle = mock<SftpClient.CloseableHandle>()
+		whenever(sftpClient.open(eq("/proc/net/bonding"))).thenReturn(handle)
+		val bond0 = mock<SftpClient.DirEntry>()
+		whenever(bond0.filename).thenReturn("bond0")
+		val bond1 = mock<SftpClient.DirEntry>()
+		whenever(bond1.filename).thenReturn("bond1")
+		whenever(sftpClient.listDir(eq(handle))).thenReturn(listOf(bond0, bond1))
+
+		val interfaces = Bonding.listBondInterfaces(session)
+
+		assertEquals(listOf("bond0", "bond1"), interfaces)
+	}
+
+	@Test
 	fun getBondInfo() {
 		val session = mock<ClientSession>()
 		val sftpClient = mock<SftpClient>()

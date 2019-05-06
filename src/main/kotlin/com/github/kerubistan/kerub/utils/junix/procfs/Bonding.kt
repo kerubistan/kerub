@@ -10,6 +10,10 @@ object Bonding : AbstractProcFs {
 			"active backup" to BondingMode.ActiveBackup
 	)
 
+	fun listBondInterfaces(session: ClientSession) = session.createSftpClient().use { sftp ->
+		sftp.open("/proc/net/bonding").use { handle -> sftp.listDir(handle).map { it.filename } }
+	}
+
 	fun getBondInfo(session: ClientSession, bondInterface: String): BondingInfo {
 		val sections = session.getFileContents("/proc/net/bonding/$bondInterface")
 				.split("\n\n")
