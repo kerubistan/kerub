@@ -13,6 +13,8 @@ import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Full
 import com.github.kerubistan.kerub.model.views.Simple
+import com.github.kerubistan.kerub.network.EthernetPort
+import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
@@ -34,6 +36,10 @@ data class HostCapabilities(
 		@JsonView(Simple::class)
 		@Field
 		val blockDevices: List<BlockDevice> = listOf(),
+		@Field
+		val networkPorts : List<EthernetPort> = listOf(),
+		@Field
+		val networkInterfaces : List<NetworkInterface> = listOf(),
 		@JsonView(Simple::class)
 		@Field
 		val cpuArchitecture: String,
