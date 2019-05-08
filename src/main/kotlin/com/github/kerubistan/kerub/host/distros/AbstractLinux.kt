@@ -23,6 +23,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
+import com.github.kerubistan.kerub.network.EthernetPort
+import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.isUUID
 import com.github.kerubistan.kerub.utils.join
@@ -138,17 +140,13 @@ abstract class AbstractLinux : Distribution {
 			}
 		}
 
-		if(LvmLv.available(host.capabilities)) {
-			LvmLv.monitor(session) {
-				volumes ->
-				volumes.filter { it.name.isUUID() }.forEach {
-					volume ->
-					vStorageDeviceDynamicDao.update(volume.name.toUUID()) {
-						oldDyn ->
+		if (LvmLv.available(host.capabilities)) {
+			LvmLv.monitor(session) { volumes ->
+				volumes.filter { it.name.isUUID() }.forEach { volume ->
+					vStorageDeviceDynamicDao.update(volume.name.toUUID()) { oldDyn ->
 						oldDyn.copy(
-								allocations = oldDyn.allocations.map {
-									allocation ->
-									if(allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {
+								allocations = oldDyn.allocations.map { allocation ->
+									if (allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {
 										allocation.copy(
 												actualSize = volume.size
 										)
@@ -161,22 +159,18 @@ abstract class AbstractLinux : Distribution {
 			}
 		}
 
-		if(LvmVg.available(host.capabilities)) {
-			LvmVg.monitor(session) {
-				volGroups ->
-				hostDynDao.update(host.id) {
-					hostDyn ->
-					volGroups.forEach {
-						volGroup ->
+		if (LvmVg.available(host.capabilities)) {
+			LvmVg.monitor(session) { volGroups ->
+				hostDynDao.update(host.id) { hostDyn ->
+					volGroups.forEach { volGroup ->
 						println("${volGroup.name}		${volGroup.freeSize}")
 					}
 					val lvmGroupsByName = volGroups.associateBy { it.name }
 					hostDyn.copy(
-						storageStatus = hostDyn.storageStatus.map {
-							status ->
-							//TODO
-							status
-						}
+							storageStatus = hostDyn.storageStatus.map { status ->
+								//TODO
+								status
+							}
 					)
 				}
 			}
@@ -308,7 +302,7 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	override fun detectHostCpuFlags(session: ClientSession): List<String> =
-			when(detectHostCpuType(session)) {
+			when (detectHostCpuType(session)) {
 				"aarch64" -> CpuInfo.list(session)
 				"x86_64" -> CpuInfo.list(session)
 				else -> CpuInfo.listPpc(session)
@@ -316,4 +310,14 @@ abstract class AbstractLinux : Distribution {
 
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
+
+	override fun detectHostCapabilities(capabilities: HostCapabilities, session: ClientSession): HostCapabilities =
+			super.detectHostCapabilities(capabilities, session).copy(
+					networkInterfaces = detectNetworkInterfaces(capabilities),
+					networkPorts = detectNetworkPorts(capabilities)
+			)
+
+	private fun detectNetworkPorts(capabilities: HostCapabilities): List<EthernetPort> = listOf()
+
+	private fun detectNetworkInterfaces(capabilities: HostCapabilities): List<NetworkInterface> = listOf()
 }

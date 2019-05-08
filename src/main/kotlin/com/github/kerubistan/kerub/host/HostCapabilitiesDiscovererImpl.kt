@@ -106,7 +106,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 
 		val storageCapabilities = detectAndBenchmark(distro, session, distribution, packages, controllerConfigDao.get())
 
-		return HostCapabilities(
+		val hostCapabilities = HostCapabilities(
 				os = hostOs,
 				cpuArchitecture = cpuArchitecture,
 				distribution = distribution,
@@ -126,6 +126,9 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 				blockDevices = distro.listBlockDevices(session),
 				hypervisorCapabilities = hypervisorCapabilities
 		)
+		// all the above detection: storage, software, hardware - it has to move INTO the distro, the one call below
+		// so that here we just detect what distro it is and let the distro do the rest
+		return distro.detectHostCapabilities(hostCapabilities, session)
 	}
 
 	private fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {

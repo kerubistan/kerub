@@ -121,4 +121,16 @@ interface Distribution {
 
 	fun listBlockDevices(session: ClientSession): List<BlockDevice>
 
+	/**
+	 * Detect distro capabilities
+	 * It gets a HostCapabilities now for what HostCapabilitiesDiscoverer has detected, and that is doing
+	 * most of the job right now, and implementations can add some extra there. But the target state is that
+	 * distros has to do everything about capabilities detection and therefore this HostCapabilities input will
+	 * have to go away.
+	 *
+	 * Also, a somewhat usable distro adapter can't let this method blank, so the default implementation too
+	 * must go away.
+	 */
+	fun detectHostCapabilities(capabilities: HostCapabilities, session: ClientSession) :HostCapabilities = capabilities
+
 }
