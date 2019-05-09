@@ -1,8 +1,13 @@
 package com.github.kerubistan.kerub.network
 
+import org.codehaus.jackson.annotate.JsonSubTypes
 import java.io.Serializable
 
-data class NetworkInterface (
-		val name: String,
-		val portSpeedPerSec: Int
-) : Serializable
+@JsonSubTypes(
+		JsonSubTypes.Type(BondInterface::class),
+		JsonSubTypes.Type(SimpleInterface::class)
+)
+interface NetworkInterface : Serializable {
+	val name: String
+	val portSpeedPerSec: Int
+}

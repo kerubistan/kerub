@@ -9,6 +9,7 @@ data class Bus @JsonCreator constructor(
 		val handle: String? = null,
 		val product: String? = null,
 		val vendor: String? = null,
+		override val id: String?,
 		override val description: String? = null,
 		@JsonProperty("configuration")
 		override val configuration: Map<String, String>?,
