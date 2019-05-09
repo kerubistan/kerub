@@ -25,7 +25,8 @@ class AnyUtilsKtTest {
 		assertEquals(
 				setOf("var", "etc"),
 				Folder("/", listOf(Folder("var"), Folder("etc"), Folder("home")))
-						.browse(selector = { it.subFolders }, filter = { it.name.length == 3 }).map { it.name }.toSet()
+						.browse(selector = Folder::subFolders) { it.name.length == 3 }
+						.map { it.name }.toSet()
 		)
 	}
 
