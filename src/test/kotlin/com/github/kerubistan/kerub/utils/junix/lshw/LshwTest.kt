@@ -39,6 +39,14 @@ class LshwTest : AbstractJunixCommandVerification() {
 	}
 
 	@Test
+	fun listWithVm() {
+		whenever(execChannel.invertedErr).then { NullInputStream(0) }
+		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/lshw/vm-with-bond.json") }
+		val system = Lshw.list(session)
+		system.browse(HardwareItem::children, filter)
+	}
+
+	@Test
 	fun listWithEspressoBin() {
 		whenever(execChannel.invertedErr).then { NullInputStream(0) }
 		whenever(execChannel.invertedOut).then {

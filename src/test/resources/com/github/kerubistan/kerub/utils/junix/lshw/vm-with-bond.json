@@ -1,0 +1,843 @@
+{
+  "id" : "ubuntu",
+  "class" : "system",
+  "claimed" : true,
+  "handle" : "DMI:0100",
+  "description" : "Computer",
+  "product" : "Standard PC (i440FX + PIIX, 1996)",
+  "vendor" : "QEMU",
+  "version" : "pc-i440fx-bionic",
+  "width" : 64,
+  "configuration" : {
+    "boot" : "normal",
+    "uuid" : "43A64082-CBB1-E04C-AC7F-01C951B5BB3E"
+  },
+  "capabilities" : {
+    "smbios-2.8" : "SMBIOS version 2.8",
+    "dmi-2.8" : "DMI version 2.8",
+    "vsyscall32" : "32-bit processes"
+  },
+  "children" : [
+    {
+      "id" : "core",
+      "class" : "bus",
+      "claimed" : true,
+      "description" : "Motherboard",
+      "physid" : "0",
+      "children" : [
+        {
+          "id" : "firmware",
+          "class" : "memory",
+          "claimed" : true,
+          "description" : "BIOS",
+          "vendor" : "SeaBIOS",
+          "physid" : "0",
+          "version" : "1.10.2-1ubuntu1",
+          "date" : "04/01/2014",
+          "units" : "bytes",
+          "size" : 98304
+        },
+        {
+          "id" : "cpu",
+          "class" : "processor",
+          "claimed" : true,
+          "handle" : "DMI:0400",
+          "description" : "CPU",
+          "product" : "Intel Core Processor (Broadwell, no TSX, IBRS)",
+          "vendor" : "Intel Corp.",
+          "physid" : "400",
+          "businfo" : "cpu@0",
+          "version" : "pc-i440fx-bionic",
+          "slot" : "CPU 0",
+          "units" : "Hz",
+          "size" : 2000000000,
+          "capacity" : 2000000000,
+          "width" : 64,
+          "configuration" : {
+            "cores" : "1",
+            "enabledcores" : "1",
+            "threads" : "1"
+          },
+          "capabilities" : {
+            "fpu" : "mathematical co-processor",
+            "fpu_exception" : "FPU exceptions reporting",
+            "wp" : true,
+            "vme" : "virtual mode extensions",
+            "de" : "debugging extensions",
+            "pse" : "page size extensions",
+            "tsc" : "time stamp counter",
+            "msr" : "model-specific registers",
+            "pae" : "4GB+ memory addressing (Physical Address Extension)",
+            "mce" : "machine check exceptions",
+            "cx8" : "compare and exchange 8-byte",
+            "apic" : "on-chip advanced programmable interrupt controller (APIC)",
+            "sep" : "fast system calls",
+            "mtrr" : "memory type range registers",
+            "pge" : "page global enable",
+            "mca" : "machine check architecture",
+            "cmov" : "conditional move instruction",
+            "pat" : "page attribute table",
+            "pse36" : "36-bit page size extensions",
+            "clflush" : true,
+            "mmx" : "multimedia extensions (MMX)",
+            "fxsr" : "fast floating point save/restore",
+            "sse" : "streaming SIMD extensions (SSE)",
+            "sse2" : "streaming SIMD extensions (SSE2)",
+            "syscall" : "fast system calls",
+            "nx" : "no-execute bit (NX)",
+            "rdtscp" : true,
+            "x86-64" : "64bits extensions (x86-64)",
+            "constant_tsc" : true,
+            "rep_good" : true,
+            "nopl" : true,
+            "xtopology" : true,
+            "cpuid" : true,
+            "pni" : true,
+            "pclmulqdq" : true,
+            "ssse3" : true,
+            "fma" : true,
+            "cx16" : true,
+            "pcid" : true,
+            "sse4_1" : true,
+            "sse4_2" : true,
+            "x2apic" : true,
+            "movbe" : true,
+            "popcnt" : true,
+            "tsc_deadline_timer" : true,
+            "aes" : true,
+            "xsave" : true,
+            "avx" : true,
+            "f16c" : true,
+            "rdrand" : true,
+            "hypervisor" : true,
+            "lahf_lm" : true,
+            "abm" : true,
+            "3dnowprefetch" : true,
+            "cpuid_fault" : true,
+            "invpcid_single" : true,
+            "pti" : true,
+            "ibrs" : true,
+            "ibpb" : true,
+            "fsgsbase" : true,
+            "bmi1" : true,
+            "avx2" : true,
+            "smep" : true,
+            "bmi2" : true,
+            "erms" : true,
+            "invpcid" : true,
+            "rdseed" : true,
+            "adx" : true,
+            "smap" : true,
+            "xsaveopt" : true,
+            "arat" : true
+          }
+        },
+        {
+          "id" : "memory",
+          "class" : "memory",
+          "claimed" : true,
+          "handle" : "DMI:1000",
+          "description" : "System Memory",
+          "physid" : "1000",
+          "units" : "bytes",
+          "size" : 1073741824,
+          "capacity" : 1073741824,
+          "configuration" : {
+            "errordetection" : "multi-bit-ecc"
+          },
+          "capabilities" : {
+            "ecc" : "Multi-bit error-correcting code (ECC)"
+          },
+          "children" : [
+            {
+              "id" : "bank",
+              "class" : "memory",
+              "claimed" : true,
+              "handle" : "DMI:1100",
+              "description" : "DIMM RAM",
+              "vendor" : "QEMU",
+              "physid" : "0",
+              "slot" : "DIMM 0",
+              "units" : "bytes",
+              "size" : 1073741824
+            }
+          ]
+        },
+        {
+          "id" : "pci",
+          "class" : "bridge",
+          "claimed" : true,
+          "handle" : "PCIBUS:0000:00",
+          "description" : "Host bridge",
+          "product" : "440FX - 82441FX PMC [Natoma]",
+          "vendor" : "Intel Corporation",
+          "physid" : "100",
+          "businfo" : "pci@0000:00:00.0",
+          "version" : "02",
+          "width" : 32,
+          "clock" : 33000000,
+          "children" : [
+            {
+              "id" : "isa",
+              "class" : "bridge",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:01.0",
+              "description" : "ISA bridge",
+              "product" : "82371SB PIIX3 ISA [Natoma/Triton II]",
+              "vendor" : "Intel Corporation",
+              "physid" : "1",
+              "businfo" : "pci@0000:00:01.0",
+              "version" : "00",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "isa" : true
+              }
+            },
+            {
+              "id" : "ide",
+              "class" : "storage",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:01.1",
+              "description" : "IDE interface",
+              "product" : "82371SB PIIX3 IDE [Natoma/Triton II]",
+              "vendor" : "Intel Corporation",
+              "physid" : "1.1",
+              "businfo" : "pci@0000:00:01.1",
+              "version" : "00",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "ata_piix",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "ide" : true,
+                "isa_compatibility_mode-only_controller__supports_bus_mastering" : true,
+                "bus_master" : "bus mastering"
+              }
+            },
+            {
+              "id" : "bridge",
+              "class" : "bridge",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:01.3",
+              "description" : "Bridge",
+              "product" : "82371AB/EB/MB PIIX4 ACPI",
+              "vendor" : "Intel Corporation",
+              "physid" : "1.3",
+              "businfo" : "pci@0000:00:01.3",
+              "version" : "03",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "piix4_smbus",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "bridge" : true
+              }
+            },
+            {
+              "id" : "display",
+              "class" : "display",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:02.0",
+              "description" : "VGA compatible controller",
+              "product" : "QXL paravirtual graphic card",
+              "vendor" : "Red Hat, Inc.",
+              "physid" : "2",
+              "businfo" : "pci@0000:00:02.0",
+              "version" : "04",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "qxl",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "vga_controller" : true,
+                "rom" : "extension ROM"
+              }
+            },
+            {
+              "id" : "network:0",
+              "class" : "network",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:03.0",
+              "description" : "Ethernet controller",
+              "product" : "Virtio network device",
+              "vendor" : "Red Hat, Inc.",
+              "physid" : "3",
+              "businfo" : "pci@0000:00:03.0",
+              "version" : "00",
+              "width" : 64,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "virtio-pci",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "msix" : "MSI-X",
+                "bus_master" : "bus mastering",
+                "cap_list" : "PCI capabilities listing",
+                "rom" : "extension ROM"
+              },
+              "children" : [
+                {
+                  "id" : "virtio0",
+                  "class" : "network",
+                  "claimed" : true,
+                  "description" : "Ethernet interface",
+                  "physid" : "0",
+                  "businfo" : "virtio@0",
+                  "logicalname" : "ens3",
+                  "serial" : "5e:8e:d0:d2:e3:29",
+                  "configuration" : {
+                    "autonegotiation" : "off",
+                    "broadcast" : "yes",
+                    "driver" : "virtio_net",
+                    "driverversion" : "1.0.0",
+                    "link" : "yes",
+                    "multicast" : "yes",
+                    "slave" : "yes"
+                  },
+                  "capabilities" : {
+                    "ethernet" : true,
+                    "physical" : "Physical interface"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "usb:0",
+              "class" : "bus",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:04.0",
+              "description" : "USB controller",
+              "product" : "82801I (ICH9 Family) USB UHCI Controller #1",
+              "vendor" : "Intel Corporation",
+              "physid" : "4",
+              "businfo" : "pci@0000:00:04.0",
+              "version" : "03",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "uhci_hcd",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "uhci" : "Universal Host Controller Interface (USB1)",
+                "bus_master" : "bus mastering"
+              },
+              "children" : [
+                {
+                  "id" : "usbhost",
+                  "class" : "bus",
+                  "claimed" : true,
+                  "handle" : "USB:2:1",
+                  "product" : "UHCI Host Controller",
+                  "vendor" : "Linux 4.15.0-47-generic uhci_hcd",
+                  "physid" : "1",
+                  "businfo" : "usb@2",
+                  "logicalname" : "usb2",
+                  "version" : "4.15",
+                  "configuration" : {
+                    "driver" : "hub",
+                    "slots" : "2",
+                    "speed" : "12Mbit/s"
+                  },
+                  "capabilities" : {
+                    "usb-1.10" : "USB 1.1"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "usb:1",
+              "class" : "bus",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:04.1",
+              "description" : "USB controller",
+              "product" : "82801I (ICH9 Family) USB UHCI Controller #2",
+              "vendor" : "Intel Corporation",
+              "physid" : "4.1",
+              "businfo" : "pci@0000:00:04.1",
+              "version" : "03",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "uhci_hcd",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "uhci" : "Universal Host Controller Interface (USB1)",
+                "bus_master" : "bus mastering"
+              },
+              "children" : [
+                {
+                  "id" : "usbhost",
+                  "class" : "bus",
+                  "claimed" : true,
+                  "handle" : "USB:3:1",
+                  "product" : "UHCI Host Controller",
+                  "vendor" : "Linux 4.15.0-47-generic uhci_hcd",
+                  "physid" : "1",
+                  "businfo" : "usb@3",
+                  "logicalname" : "usb3",
+                  "version" : "4.15",
+                  "configuration" : {
+                    "driver" : "hub",
+                    "slots" : "2",
+                    "speed" : "12Mbit/s"
+                  },
+                  "capabilities" : {
+                    "usb-1.10" : "USB 1.1"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "usb:2",
+              "class" : "bus",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:04.2",
+              "description" : "USB controller",
+              "product" : "82801I (ICH9 Family) USB UHCI Controller #3",
+              "vendor" : "Intel Corporation",
+              "physid" : "4.2",
+              "businfo" : "pci@0000:00:04.2",
+              "version" : "03",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "uhci_hcd",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "uhci" : "Universal Host Controller Interface (USB1)",
+                "bus_master" : "bus mastering"
+              },
+              "children" : [
+                {
+                  "id" : "usbhost",
+                  "class" : "bus",
+                  "claimed" : true,
+                  "handle" : "USB:4:1",
+                  "product" : "UHCI Host Controller",
+                  "vendor" : "Linux 4.15.0-47-generic uhci_hcd",
+                  "physid" : "1",
+                  "businfo" : "usb@4",
+                  "logicalname" : "usb4",
+                  "version" : "4.15",
+                  "configuration" : {
+                    "driver" : "hub",
+                    "slots" : "2",
+                    "speed" : "12Mbit/s"
+                  },
+                  "capabilities" : {
+                    "usb-1.10" : "USB 1.1"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "usb:3",
+              "class" : "bus",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:04.7",
+              "description" : "USB controller",
+              "product" : "82801I (ICH9 Family) USB2 EHCI Controller #1",
+              "vendor" : "Intel Corporation",
+              "physid" : "4.7",
+              "businfo" : "pci@0000:00:04.7",
+              "version" : "03",
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "ehci-pci",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "ehci" : "Enhanced Host Controller Interface (USB2)",
+                "bus_master" : "bus mastering"
+              },
+              "children" : [
+                {
+                  "id" : "usbhost",
+                  "class" : "bus",
+                  "claimed" : true,
+                  "handle" : "USB:1:1",
+                  "product" : "EHCI Host Controller",
+                  "vendor" : "Linux 4.15.0-47-generic ehci_hcd",
+                  "physid" : "1",
+                  "businfo" : "usb@1",
+                  "logicalname" : "usb1",
+                  "version" : "4.15",
+                  "configuration" : {
+                    "driver" : "hub",
+                    "slots" : "6",
+                    "speed" : "480Mbit/s"
+                  },
+                  "capabilities" : {
+                    "usb-2.00" : "USB 2.0"
+                  },
+                  "children" : [
+                    {
+                      "id" : "usb",
+                      "class" : "input",
+                      "claimed" : true,
+                      "handle" : "USB:1:2",
+                      "description" : "Human interface device",
+                      "product" : "QEMU USB Tablet",
+                      "vendor" : "QEMU",
+                      "physid" : "1",
+                      "businfo" : "usb@1:1",
+                      "version" : "0.00",
+                      "serial" : "42",
+                      "configuration" : {
+                        "driver" : "usbhid",
+                        "maxpower" : "100mA",
+                        "speed" : "480Mbit/s"
+                      },
+                      "capabilities" : {
+                        "usb-2.00" : "USB 2.0"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id" : "communication",
+              "class" : "communication",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:05.0",
+              "description" : "Communication controller",
+              "product" : "Virtio console",
+              "vendor" : "Red Hat, Inc.",
+              "physid" : "5",
+              "businfo" : "pci@0000:00:05.0",
+              "version" : "00",
+              "width" : 64,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "virtio-pci",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "msix" : "MSI-X",
+                "bus_master" : "bus mastering",
+                "cap_list" : "PCI capabilities listing"
+              },
+              "children" : [
+                {
+                  "id" : "virtio1",
+                  "class" : "generic",
+                  "description" : "Virtual I/O device",
+                  "physid" : "0",
+                  "businfo" : "virtio@1",
+                  "configuration" : {
+                    "driver" : "virtio_console"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "scsi",
+              "class" : "storage",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:06.0",
+              "description" : "SCSI storage controller",
+              "product" : "Virtio block device",
+              "vendor" : "Red Hat, Inc.",
+              "physid" : "6",
+              "businfo" : "pci@0000:00:06.0",
+              "version" : "00",
+              "width" : 64,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "virtio-pci",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "scsi" : true,
+                "msix" : "MSI-X",
+                "bus_master" : "bus mastering",
+                "cap_list" : "PCI capabilities listing"
+              },
+              "children" : [
+                {
+                  "id" : "virtio2",
+                  "class" : "disk",
+                  "claimed" : true,
+                  "handle" : "GUID:0df11d2a-2d7b-4f9e-ae05-19388d9fc40b",
+                  "description" : "Virtual I/O device",
+                  "physid" : "0",
+                  "businfo" : "virtio@2",
+                  "logicalname" : "/dev/vda",
+                  "units" : "bytes",
+                  "size" : 5368709120,
+                  "configuration" : {
+                    "driver" : "virtio_blk",
+                    "guid" : "0df11d2a-2d7b-4f9e-ae05-19388d9fc40b",
+                    "logicalsectorsize" : "512",
+                    "sectorsize" : "512"
+                  },
+                  "capabilities" : {
+                    "gpt-1.00" : "GUID Partition Table version 1.00",
+                    "partitioned" : "Partitioned disk",
+                    "partitioned:gpt" : "GUID partition table"
+                  },
+                  "children" : [
+                    {
+                      "id" : "volume:0",
+                      "class" : "volume",
+                      "claimed" : true,
+                      "handle" : "GUID:75e36b64-8688-46f7-9804-95ad1a28511e",
+                      "description" : "BIOS Boot partition",
+                      "vendor" : "EFI",
+                      "physid" : "1",
+                      "businfo" : "virtio@2,1",
+                      "logicalname" : "/dev/vda1",
+                      "dev" : "252:1",
+                      "serial" : "75e36b64-8688-46f7-9804-95ad1a28511e",
+                      "capacity" : 1048064,
+                      "capabilities" : {
+                        "nofs" : "No filesystem"
+                      }
+                    },
+                    {
+                      "id" : "volume:1",
+                      "class" : "volume",
+                      "claimed" : true,
+                      "handle" : "GUID:45767e1c-4ecc-4fda-96fd-46966233777e",
+                      "description" : "EXT4 volume",
+                      "vendor" : "Linux",
+                      "physid" : "2",
+                      "businfo" : "virtio@2,2",
+                      "logicalname" : ["/dev/vda2", "/"],
+                      "dev" : "252:2",
+                      "version" : "1.0",
+                      "serial" : "3910ff7d-d6d7-477d-9091-836dcd7d705a",
+                      "size" : 5365563392,
+                      "configuration" : {
+                        "created" : "2019-04-22 20:51:38",
+                        "filesystem" : "ext4",
+                        "lastmountpoint" : "/",
+                        "modified" : "2019-04-22 20:51:40",
+                        "mount.fstype" : "ext4",
+                        "mount.options" : "rw,relatime,data=ordered",
+                        "mounted" : "2019-05-06 20:16:36",
+                        "state" : "mounted"
+                      },
+                      "capabilities" : {
+                        "journaled" : true,
+                        "extended_attributes" : "Extended Attributes",
+                        "large_files" : "4GB+ files",
+                        "huge_files" : "16TB+ files",
+                        "dir_nlink" : "directories with 65000+ subdirs",
+                        "64bit" : "64bit filesystem",
+                        "extents" : "extent-based allocation",
+                        "ext4" : true,
+                        "ext2" : "EXT2/EXT3",
+                        "initialized" : "initialized volume"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id" : "generic",
+              "class" : "generic",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:07.0",
+              "description" : "Unclassified device",
+              "product" : "Virtio memory balloon",
+              "vendor" : "Red Hat, Inc.",
+              "physid" : "7",
+              "businfo" : "pci@0000:00:07.0",
+              "version" : "00",
+              "width" : 64,
+              "clock" : 33000000,
+              "configuration" : {
+                "driver" : "virtio-pci",
+                "latency" : "0"
+              },
+              "capabilities" : {
+                "bus_master" : "bus mastering",
+                "cap_list" : "PCI capabilities listing"
+              },
+              "children" : [
+                {
+                  "id" : "virtio3",
+                  "class" : "generic",
+                  "description" : "Virtual I/O device",
+                  "physid" : "0",
+                  "businfo" : "virtio@3",
+                  "configuration" : {
+                    "driver" : "virtio_balloon"
+                  }
+                }
+              ]
+            },
+            {
+              "id" : "network:1",
+              "class" : "network",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:08.0",
+              "description" : "Ethernet interface",
+              "product" : "RTL-8100/8101L/8139 PCI Fast Ethernet Adapter",
+              "vendor" : "Realtek Semiconductor Co., Ltd.",
+              "physid" : "8",
+              "businfo" : "pci@0000:00:08.0",
+              "logicalname" : "ens8",
+              "version" : "20",
+              "serial" : "5e:8e:d0:d2:e3:29",
+              "units" : "bit/s",
+              "size" : 100000000,
+              "capacity" : 100000000,
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "autonegotiation" : "on",
+                "broadcast" : "yes",
+                "driver" : "8139cp",
+                "driverversion" : "1.3",
+                "duplex" : "full",
+                "latency" : "0",
+                "link" : "yes",
+                "multicast" : "yes",
+                "port" : "MII",
+                "slave" : "yes",
+                "speed" : "100Mbit/s"
+              },
+              "capabilities" : {
+                "bus_master" : "bus mastering",
+                "rom" : "extension ROM",
+                "ethernet" : true,
+                "physical" : "Physical interface",
+                "tp" : "twisted pair",
+                "mii" : "Media Independent Interface",
+                "10bt" : "10Mbit/s",
+                "10bt-fd" : "10Mbit/s (full duplex)",
+                "100bt" : "100Mbit/s",
+                "100bt-fd" : "100Mbit/s (full duplex)",
+                "autonegotiation" : "Auto-negotiation"
+              }
+            },
+            {
+              "id" : "network:2",
+              "class" : "network",
+              "claimed" : true,
+              "handle" : "PCI:0000:00:09.0",
+              "description" : "Ethernet interface",
+              "product" : "RTL-8100/8101L/8139 PCI Fast Ethernet Adapter",
+              "vendor" : "Realtek Semiconductor Co., Ltd.",
+              "physid" : "9",
+              "businfo" : "pci@0000:00:09.0",
+              "logicalname" : "ens9",
+              "version" : "20",
+              "serial" : "5e:8e:d0:d2:e3:29",
+              "units" : "bit/s",
+              "size" : 100000000,
+              "capacity" : 100000000,
+              "width" : 32,
+              "clock" : 33000000,
+              "configuration" : {
+                "autonegotiation" : "on",
+                "broadcast" : "yes",
+                "driver" : "8139cp",
+                "driverversion" : "1.3",
+                "duplex" : "full",
+                "latency" : "0",
+                "link" : "yes",
+                "multicast" : "yes",
+                "port" : "MII",
+                "slave" : "yes",
+                "speed" : "100Mbit/s"
+              },
+              "capabilities" : {
+                "bus_master" : "bus mastering",
+                "rom" : "extension ROM",
+                "ethernet" : true,
+                "physical" : "Physical interface",
+                "tp" : "twisted pair",
+                "mii" : "Media Independent Interface",
+                "10bt" : "10Mbit/s",
+                "10bt-fd" : "10Mbit/s (full duplex)",
+                "100bt" : "100Mbit/s",
+                "100bt-fd" : "100Mbit/s (full duplex)",
+                "autonegotiation" : "Auto-negotiation"
+              }
+            }
+          ]
+        },
+        {
+          "id" : "scsi",
+          "class" : "storage",
+          "claimed" : true,
+          "physid" : "1",
+          "logicalname" : "scsi0",
+          "capabilities" : {
+            "emulated" : "Emulated device"
+          },
+          "children" : [
+            {
+              "id" : "cdrom",
+              "class" : "disk",
+              "claimed" : true,
+              "handle" : "SCSI:00:00:00:00",
+              "description" : "DVD reader",
+              "product" : "QEMU DVD-ROM",
+              "vendor" : "QEMU",
+              "physid" : "0.0.0",
+              "businfo" : "scsi@0:0.0.0",
+              "logicalname" : ["/dev/cdrom", "/dev/dvd", "/dev/sr0"],
+              "dev" : "11:0",
+              "version" : "2.5+",
+              "configuration" : {
+                "ansiversion" : "5",
+                "status" : "nodisc"
+              },
+              "capabilities" : {
+                "removable" : "support is removable",
+                "audio" : "Audio CD playback",
+                "dvd" : "DVD playback"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id" : "network",
+      "class" : "network",
+      "claimed" : true,
+      "description" : "Ethernet interface",
+      "physid" : "1",
+      "logicalname" : "bond0",
+      "serial" : "5e:8e:d0:d2:e3:29",
+      "configuration" : {
+        "autonegotiation" : "off",
+        "broadcast" : "yes",
+        "driver" : "bonding",
+        "driverversion" : "3.7.1",
+        "duplex" : "full",
+        "firmware" : "2",
+        "ip" : "192.168.122.132",
+        "link" : "yes",
+        "master" : "yes",
+        "multicast" : "yes"
+      },
+      "capabilities" : {
+        "ethernet" : true,
+        "physical" : "Physical interface"
+      }
+    }
+  ]
+}

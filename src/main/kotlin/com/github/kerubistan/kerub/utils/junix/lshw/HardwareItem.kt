@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 		JsonSubTypes.Type(Disk::class),
 		JsonSubTypes.Type(Display::class),
 		JsonSubTypes.Type(Generic::class),
+		JsonSubTypes.Type(Input::class),
 		JsonSubTypes.Type(System::class),
 		JsonSubTypes.Type(Storage::class),
 		JsonSubTypes.Type(Power::class),
