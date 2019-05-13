@@ -13,6 +13,9 @@ enum class LogLevel {
 	Error
 }
 
+/**
+ * moved to kroki-utils
+ */
 fun Throwable.getStackTraceAsString(): String =
 		StringWriter().use { stringWriter ->
 			PrintWriter(stringWriter).use {
