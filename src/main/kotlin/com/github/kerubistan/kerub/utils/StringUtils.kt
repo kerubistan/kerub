@@ -5,13 +5,16 @@ import java.util.UUID
 
 const val emptyString = ""
 
+// moved to kroki-utils
 private val uuidPattern = "([0-9]|[a-f]){8}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){12}"
 		.toRegex()
 
 private val duplicateSlashesPattern = "(/+)".toRegex()
 
+// moved to kroki-utils
 fun String.isUUID() = this.matches(uuidPattern)
 
+// moved to kroki-utils
 fun String.toUUID(): UUID =
 		UUID.fromString(this)
 
