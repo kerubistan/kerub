@@ -20,6 +20,7 @@ fun <T> List<T>.skip(): List<T> =
 			this.subList(1, this.size)
 		}
 
+// moved to kroki (and that one is already better)
 fun <T> Collection<Collection<T>>.join(): List<T> {
 	var result = listOf<T>()
 	this.forEach {
