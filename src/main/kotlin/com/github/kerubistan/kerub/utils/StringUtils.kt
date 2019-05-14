@@ -23,6 +23,7 @@ fun String.toBigInteger() = BigInteger(this)
 fun String.remove(regex: Regex)
 		= this.replace(regex, "")
 
+// moved to kroki
 fun String.substringBetween(prefix: String, postfix: String): String =
 		this.substringAfter(prefix, "").substringBefore(postfix, "")
 
