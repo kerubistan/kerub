@@ -20,6 +20,7 @@ fun String.toUUID(): UUID =
 
 fun String.toBigInteger() = BigInteger(this)
 
+// moved to kroki
 fun String.remove(regex: Regex)
 		= this.replace(regex, "")
 
