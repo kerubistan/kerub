@@ -31,6 +31,7 @@ fun <T : Exception> expect(clazz: KClass<T>, action: () -> Unit, check: (T) -> U
 fun String.toInputStream(charset: Charset = Charsets.UTF_8): InputStream
 		= ByteArrayInputStream(this.toByteArray(charset))
 
+// moved to kroki -->
 private val K = 1024.toBigInteger()
 
 val Int.KB: BigInteger
@@ -47,3 +48,5 @@ val Int.TB: BigInteger
 
 val Int.PB: BigInteger
 	get() = this.TB * K
+
+// <-- moved to kroki
