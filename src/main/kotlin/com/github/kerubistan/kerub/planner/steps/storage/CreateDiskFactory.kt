@@ -9,11 +9,13 @@ import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvi
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create.CreateLvmPoolFactory
+import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.extend.ExtendLvmPoolFactory
 
 object CreateDiskFactory : StepFactoryCollection(
 		listOf(
 				CreateLvFactory,
 				CreateLvmPoolFactory,
+				ExtendLvmPoolFactory,
 				CreateThinLvFactory,
 				CreateImageFactory,
 				TruncateImageFactory,
