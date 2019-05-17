@@ -11,7 +11,7 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import java.math.BigInteger
 import java.util.UUID
 

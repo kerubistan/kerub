@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.github.kerubistan.kerub.planner.costs.TimeCost
 import com.github.kerubistan.kerub.planner.costs.Violation
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 /**
  * Compares two plans by costs (time, IO, risk), violations, outcome.

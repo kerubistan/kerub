@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.storage.block.duplicate.AbstractBlockDuplicateFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.util.hasEnoughFreeCapacity
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {

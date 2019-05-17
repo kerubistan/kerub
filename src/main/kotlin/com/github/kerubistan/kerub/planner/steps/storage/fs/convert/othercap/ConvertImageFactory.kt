@@ -6,8 +6,8 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.CreateDiskFactory
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {

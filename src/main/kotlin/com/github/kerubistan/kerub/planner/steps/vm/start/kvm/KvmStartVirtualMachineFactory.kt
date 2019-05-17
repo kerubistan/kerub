@@ -10,10 +10,10 @@ import com.github.kerubistan.kerub.planner.steps.vm.allStorageAvailable
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.kerubistan.kerub.planner.steps.vm.virtualStorageLinkInfo
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.anyPackageNamed
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {

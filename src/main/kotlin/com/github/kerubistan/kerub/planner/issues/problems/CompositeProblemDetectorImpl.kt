@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.Virtua
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHostDetector
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 

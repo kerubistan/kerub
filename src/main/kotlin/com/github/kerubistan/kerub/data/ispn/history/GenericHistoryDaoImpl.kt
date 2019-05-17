@@ -16,8 +16,8 @@ import com.github.kerubistan.kerub.model.history.PropertyChangeSummary
 import com.github.kerubistan.kerub.utils.bd
 import com.github.kerubistan.kerub.utils.decimalAvgBy
 import com.github.kerubistan.kerub.utils.equalsAnyOf
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.subLists
+import io.github.kerubistan.kroki.collections.join
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Query
 import java.io.Serializable

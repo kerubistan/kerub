@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 data class Plan(
 		val states: List<OperationalState>,

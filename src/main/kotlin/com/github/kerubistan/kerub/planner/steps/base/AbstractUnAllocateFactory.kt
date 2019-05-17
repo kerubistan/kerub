@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 abstract class AbstractUnAllocateFactory<T : AbstractUnAllocate<S>, S : VirtualStorageAllocation> : AbstractOperationalStepFactory<T>() {

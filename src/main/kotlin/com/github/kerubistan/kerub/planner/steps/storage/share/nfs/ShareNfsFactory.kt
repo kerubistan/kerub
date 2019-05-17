@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.utils.any
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {

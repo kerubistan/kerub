@@ -7,8 +7,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.percents
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.collections.join
 import java.math.BigInteger
 import java.util.UUID
 import kotlin.reflect.KClass

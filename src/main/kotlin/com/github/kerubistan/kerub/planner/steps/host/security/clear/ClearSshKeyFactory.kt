@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedService
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object ClearSshKeyFactory : AbstractOperationalStepFactory<ClearSshKey>() {

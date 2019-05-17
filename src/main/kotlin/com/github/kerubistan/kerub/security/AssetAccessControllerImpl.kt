@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.model.AssetOwner
 import com.github.kerubistan.kerub.model.AssetOwnerType
 import com.github.kerubistan.kerub.model.paging.SearchResultPage
 import com.github.kerubistan.kerub.model.paging.SortResultPage
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import nl.komponents.kovenant.task
 import org.apache.shiro.SecurityUtils.getSubject
 import java.util.UUID

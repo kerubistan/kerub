@@ -23,16 +23,20 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
+import com.github.kerubistan.kerub.network.BondInterface
 import com.github.kerubistan.kerub.network.EthernetPort
 import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
+import com.github.kerubistan.kerub.utils.browse
 import com.github.kerubistan.kerub.utils.isUUID
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
 import com.github.kerubistan.kerub.utils.junix.lsblk.Lsblk
+import com.github.kerubistan.kerub.utils.junix.lshw.HardwareItem
+import com.github.kerubistan.kerub.utils.junix.lshw.Lshw
 import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import com.github.kerubistan.kerub.utils.junix.mpstat.MPStat
+import com.github.kerubistan.kerub.utils.junix.procfs.Bonding
 import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.CpuTemperatureInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.Sensors
@@ -46,8 +50,11 @@ import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.toUUID
 import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.join
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
+import com.github.kerubistan.kerub.utils.junix.lshw.NetworkInterface as LshwNetworkInterface
+
 
 abstract class AbstractLinux : Distribution {
 
@@ -313,11 +320,39 @@ abstract class AbstractLinux : Distribution {
 
 	override fun detectHostCapabilities(capabilities: HostCapabilities, session: ClientSession): HostCapabilities =
 			super.detectHostCapabilities(capabilities, session).copy(
-					networkInterfaces = detectNetworkInterfaces(capabilities),
-					networkPorts = detectNetworkPorts(capabilities)
+					networkInterfaces = detectNetworkInterfaces(capabilities, session),
+					networkPorts = detectNetworkPorts(capabilities, session)
 			)
 
-	private fun detectNetworkPorts(capabilities: HostCapabilities): List<EthernetPort> = listOf()
+	private fun detectNetworkPorts(capabilities: HostCapabilities, session: ClientSession): List<EthernetPort> =
+			if (Lshw.available(capabilities)) {
+				Lshw.list(session).browse<HardwareItem>(
+						selector = { it.children ?: listOf() }
+				).filterIsInstance<LshwNetworkInterface>().filter { it.configuration?.get("driver") != "bonding" }.map {
+					EthernetPort(
+							device = it.logicalName?: "",
+							portSpeed = it.capacity?.toLong() ?: 0,
+							switchId = null
+					)
+				}
+			} else listOf()
 
-	private fun detectNetworkInterfaces(capabilities: HostCapabilities): List<NetworkInterface> = listOf()
+	private fun detectNetworkInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
+			listInterfaces(capabilities, session) + listBonds(capabilities, session)
+
+	private fun listInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
+			listOf()
+
+	private fun listBonds(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
+			if (Bonding.available(capabilities)) {
+				Bonding.listBondInterfaces(session).map { it to Bonding.getBondInfo(session, it) }.map {
+					(name, bondInfo) ->
+					BondInterface(
+							name = name,
+							devices = bondInfo.slaves.map { it.name },
+							portSpeedPerSec = bondInfo.slaves.sumBy { (it.speedMbps ?: 0) } /* * MB*/
+					)
+				}
+			} else listOf()
+
 }

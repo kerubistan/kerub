@@ -16,8 +16,8 @@ import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.CompositeStepFactory
 import com.github.kerubistan.kerub.utils.debugLazy
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.collections.join
 import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.ConcurrentHashMap

@@ -15,13 +15,6 @@ class ListUtilsTest {
 		assertEquals(listOf(), listOf("A").skip())
 	}
 
-	@Test
-	fun join() {
-		assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A"), listOf("B", "C", "D")).join())
-		assertEquals(listOf("A", "B", "C", "D"), listOf(listOf("A", "B"), listOf("C", "D")).join())
-		assertEquals(listOf(), listOf(listOf(), listOf<String>()).join())
-	}
-
 	data class TestEntity(override val id: Int, val name: String) : Entity<Int>
 
 	@Test

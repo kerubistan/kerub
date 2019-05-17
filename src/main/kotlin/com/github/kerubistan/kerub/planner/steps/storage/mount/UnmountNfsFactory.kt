@@ -6,8 +6,8 @@ import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.normalizePath
+import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
 object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {

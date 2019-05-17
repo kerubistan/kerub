@@ -7,8 +7,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorageFactory
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import io.github.kerubistan.kroki.collections.join
 
 abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 

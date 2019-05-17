@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 import java.util.Comparator
 
 class StepBenefitComparator(private val planViolationDetector: PlanViolationDetector, val plan: Plan) :

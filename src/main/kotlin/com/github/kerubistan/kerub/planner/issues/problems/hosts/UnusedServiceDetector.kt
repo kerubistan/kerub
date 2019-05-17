@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.utils.any
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 object UnusedServiceDetector : ProblemDetector<UnusedService> {
 	override fun detect(plan: Plan): Collection<UnusedService> =

@@ -9,8 +9,8 @@ import com.github.kerubistan.kerub.model.expectations.VirtualMachineExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineReference
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Simple
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.validateSize
+import io.github.kerubistan.kroki.collections.join
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed

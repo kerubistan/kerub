@@ -24,9 +24,9 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.StartVirtualMachineFac
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineFactory
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.justToString
 import com.github.kerubistan.kerub.utils.logAndReturn
+import io.github.kerubistan.kroki.collections.join
 
 class CompositeStepFactory(
 		private val planViolationDetector: PlanViolationDetector,

@@ -90,7 +90,6 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMac
 import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
@@ -110,6 +109,7 @@ import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.collections.join
 import org.junit.Assert
 import java.math.BigInteger
 import java.util.UUID

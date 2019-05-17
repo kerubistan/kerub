@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.utils
 
+import io.github.kerubistan.kroki.collections.join
+
 fun <T> T.equalsAnyOf(vararg others: T) = others.any { this == it }
 
 fun String.equalsAnyIgnoreCase(vararg others: String) = others.any { it.equals(this, ignoreCase = true) }

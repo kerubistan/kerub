@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.steps
 
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 /**
  * Groups together step factories that perform similar functionality, e.g. start VM, create storage

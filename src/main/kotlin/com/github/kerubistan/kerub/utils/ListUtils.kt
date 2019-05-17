@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.utils
 
 import com.github.kerubistan.kerub.model.Entity
+import io.github.kerubistan.kroki.collections.join
 
 operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> {
 	return this.map { x -> other.map { y -> x to y } }.join()
@@ -19,19 +20,6 @@ fun <T> List<T>.skip(): List<T> =
 		} else {
 			this.subList(1, this.size)
 		}
-
-// moved to kroki (and that one is already better)
-fun <T> Collection<Collection<T>>.join(): List<T> {
-	var result = listOf<T>()
-	this.forEach {
-		//performance: the += operation is relatively expensive, even with empty lists
-		//checking for empty improves throughput from 1.5M ops/sec to 1.8M ops/sec
-		if (it.isNotEmpty()) {
-			result += it
-		}
-	}
-	return result
-}
 
 fun <T> Collection<T>.containsAny(vararg elems: T) =
 		elems.any {

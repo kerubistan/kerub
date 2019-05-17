@@ -14,8 +14,8 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLvFact
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.AbstractMigrateAllocationFactory
-import com.github.kerubistan.kerub.utils.join
 import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.collections.join
 
 object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateBlockAllocation>() {
 

@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.utils.any
-import com.github.kerubistan.kerub.utils.join
+import io.github.kerubistan.kroki.collections.join
 
 object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetector<CoreDedicationExpectation>() {
 	override fun checkWithHost(entity: VirtualMachine,
