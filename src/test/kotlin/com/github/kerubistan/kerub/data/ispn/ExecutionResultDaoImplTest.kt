@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.data.ispn
 
 import com.github.kerubistan.kerub.model.ExecutionResult
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals

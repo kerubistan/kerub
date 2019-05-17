@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.messages.EntityAddMessage
 import com.github.kerubistan.kerub.model.messages.EntityRemoveMessage
 import com.github.kerubistan.kerub.model.messages.EntityUpdateMessage
 import com.github.kerubistan.kerub.utils.byId
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.infinispan.Cache
 import org.infinispan.metadata.Metadata
 import org.infinispan.notifications.Listener

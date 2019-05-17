@@ -9,9 +9,9 @@ import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
+import io.github.kerubistan.kroki.time.now
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

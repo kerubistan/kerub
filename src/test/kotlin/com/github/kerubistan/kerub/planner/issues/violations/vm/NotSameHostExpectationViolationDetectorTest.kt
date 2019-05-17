@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertFalse

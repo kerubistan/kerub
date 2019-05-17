@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model.history
 
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import java.io.Serializable
 import java.util.UUID
 

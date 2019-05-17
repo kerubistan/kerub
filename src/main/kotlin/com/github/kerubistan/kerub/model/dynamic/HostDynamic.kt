@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.annotations.Dynamic
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.validateSize
+import io.github.kerubistan.kroki.time.now
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger

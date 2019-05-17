@@ -3,8 +3,8 @@ package com.github.kerubistan.kerub.controller.impl
 import com.github.kerubistan.kerub.controller.EntityEventMessage
 import com.github.kerubistan.kerub.model.Project
 import com.github.kerubistan.kerub.model.messages.EntityAddMessage
-import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.mock
+import io.github.kerubistan.kroki.time.now
 import org.junit.Before
 import org.junit.Test
 import org.springframework.jms.core.JmsTemplate

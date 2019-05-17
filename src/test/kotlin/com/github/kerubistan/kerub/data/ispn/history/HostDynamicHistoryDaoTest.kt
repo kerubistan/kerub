@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.then
 import org.junit.Ignore

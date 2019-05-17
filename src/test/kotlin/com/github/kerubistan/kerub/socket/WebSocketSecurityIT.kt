@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.logout
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.testWsUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.eclipse.jetty.websocket.api.UpgradeException
 import org.eclipse.jetty.websocket.client.WebSocketClient
 import org.junit.After

@@ -15,7 +15,7 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.security.AssetAccessController
 import com.github.kerubistan.kerub.services.VirtualStorageDeviceService
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.scp.ScpTimestamp
 import java.io.InputStream

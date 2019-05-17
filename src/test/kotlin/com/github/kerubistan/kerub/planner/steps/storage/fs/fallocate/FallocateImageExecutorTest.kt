@@ -10,11 +10,11 @@ import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import kotlin.test.assertTrue

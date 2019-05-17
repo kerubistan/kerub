@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.data.alerts
 
 import com.fasterxml.jackson.annotation.JsonTypeName
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import java.util.UUID
 
 @JsonTypeName("data-loss-alert")

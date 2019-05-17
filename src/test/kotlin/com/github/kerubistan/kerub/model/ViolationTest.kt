@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.model
 
 import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID

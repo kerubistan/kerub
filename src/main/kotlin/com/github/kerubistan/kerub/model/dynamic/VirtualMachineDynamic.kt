@@ -7,8 +7,8 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.annotations.Dynamic
 import com.github.kerubistan.kerub.model.history.IgnoreDiff
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.validateSize
+import io.github.kerubistan.kroki.time.now
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger

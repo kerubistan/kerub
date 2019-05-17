@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.data.ispn.history.GenericHistoryDaoImpl
 import com.github.kerubistan.kerub.host.ControllerManager
 import com.github.kerubistan.kerub.model.controller.AssignmentType
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import java.util.Timer
 import java.util.TimerTask
 

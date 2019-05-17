@@ -95,7 +95,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachine
 import com.github.kerubistan.kerub.planner.steps.vm.stop.StopVirtualMachineExecutor
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.getStackTraceAsString
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import nl.komponents.kovenant.task
 
 class PlanExecutorImpl(

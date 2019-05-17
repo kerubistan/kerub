@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.avgBy
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import nl.komponents.kovenant.task
 import org.junit.After
 import org.junit.Assume

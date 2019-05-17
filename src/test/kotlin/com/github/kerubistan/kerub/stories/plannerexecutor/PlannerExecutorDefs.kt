@@ -31,7 +31,6 @@ import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -39,6 +38,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.time.now
 import java.math.BigDecimal
 import java.util.UUID
 import kotlin.test.assertEquals

@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model
 
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.hibernate.search.annotations.Indexed
 import java.util.UUID
 

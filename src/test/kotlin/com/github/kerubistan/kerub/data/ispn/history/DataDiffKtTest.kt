@@ -6,8 +6,8 @@ import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull

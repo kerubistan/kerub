@@ -21,7 +21,7 @@ import com.github.kerubistan.kerub.utils.asPercentOf
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.procfs.MemInfo
 import com.github.kerubistan.kerub.utils.junix.procfs.Stat
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 

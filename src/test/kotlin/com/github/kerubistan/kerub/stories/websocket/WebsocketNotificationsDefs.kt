@@ -24,10 +24,10 @@ import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.testWsUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.now
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.time.now
 import org.eclipse.jetty.websocket.api.Session
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect

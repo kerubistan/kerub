@@ -13,8 +13,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.time.now
 
 data class CreateGvinumVolume(
 		override val host: Host,

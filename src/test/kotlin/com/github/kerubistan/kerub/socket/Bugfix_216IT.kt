@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.createClient
 import com.github.kerubistan.kerub.createSocketClient
 import com.github.kerubistan.kerub.login
 import com.github.kerubistan.kerub.testWsUrl
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import nl.komponents.kovenant.task
 import org.eclipse.jetty.websocket.api.Session
 import org.junit.Test

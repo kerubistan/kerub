@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.services.socket
 
 import com.github.kerubistan.kerub.security.EntityAccessController
-import com.github.kerubistan.kerub.utils.now
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.time.now
 import org.apache.shiro.subject.Subject
 import org.junit.Before
 import org.junit.Test

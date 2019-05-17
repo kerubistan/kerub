@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
-import com.github.kerubistan.kerub.utils.now
+import io.github.kerubistan.kroki.time.now
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID

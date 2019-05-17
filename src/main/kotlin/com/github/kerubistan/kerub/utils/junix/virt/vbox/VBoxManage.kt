@@ -14,10 +14,10 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.MB
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.now
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigDecimal
