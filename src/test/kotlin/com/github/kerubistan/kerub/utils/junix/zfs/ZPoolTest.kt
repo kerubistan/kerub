@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -22,7 +23,7 @@ class ZPoolTest {
 	fun listWithFreeBsd11() {
 		whenever(session.createExecChannel(any())).thenReturn(channelExec)
 		whenever(channelExec.open()).thenReturn(openFuture)
-		whenever(channelExec.invertedOut).thenReturn(io.github.kerubistan.kroki.io.resource("com/github/kerubistan/kerub/utils/junix/zfs/zpool-list-freebsd11.txt"))
+		whenever(channelExec.invertedOut).thenReturn(resource("com/github/kerubistan/kerub/utils/junix/zfs/zpool-list-freebsd11.txt"))
 		whenever(channelExec.invertedErr).thenReturn(NullInputStream(0))
 
 		val zpools = ZPool.list(session)

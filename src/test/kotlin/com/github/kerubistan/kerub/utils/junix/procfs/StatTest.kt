@@ -71,7 +71,7 @@ class StatTest {
 
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
-			io.github.kerubistan.kroki.io.resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt")
+			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt")
 					.forEach {
 				out.write(it.toInt())
 			}
