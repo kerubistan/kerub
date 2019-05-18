@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.utils.emptyString
+import io.github.kerubistan.kroki.io.resource
 import java.security.KeyPair
 import java.security.KeyStore
 import java.security.PrivateKey
@@ -13,7 +14,7 @@ class KeyPairFactory {
 
 	fun createKeyPair(): KeyPair {
 		val keyStore = KeyStore.getInstance("JKS")
-		Thread.currentThread().contextClassLoader.getResourceAsStream(keyStorePath).use {
+		resource(keyStorePath).use {
 			if (it == null) {
 				throw IllegalArgumentException("Keystore $keyStorePath not found")
 			}

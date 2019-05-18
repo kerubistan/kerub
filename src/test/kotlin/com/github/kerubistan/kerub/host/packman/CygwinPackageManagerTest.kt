@@ -1,8 +1,8 @@
 package com.github.kerubistan.kerub.host.packman
 
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture

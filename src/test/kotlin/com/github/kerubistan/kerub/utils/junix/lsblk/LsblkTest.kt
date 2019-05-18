@@ -2,11 +2,11 @@ package com.github.kerubistan.kerub.utils.junix.lsblk
 
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture

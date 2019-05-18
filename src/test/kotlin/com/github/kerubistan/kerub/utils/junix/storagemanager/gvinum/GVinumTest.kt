@@ -2,12 +2,12 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
-import com.github.kerubistan.kerub.utils.resourceToString
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resourceToString
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals

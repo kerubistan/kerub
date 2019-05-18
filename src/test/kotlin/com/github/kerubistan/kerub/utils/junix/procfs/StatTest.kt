@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resourceToString
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -27,7 +27,8 @@ class StatTest {
 
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
-			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt").forEach {
+			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt")
+					.forEach {
 				out.write(it.toInt())
 			}
 			null
@@ -48,7 +49,8 @@ class StatTest {
 
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
-			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-cygwin.txt").forEach {
+			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-cygwin.txt")
+					.forEach {
 				out.write(it.toInt())
 			}
 			null
@@ -69,7 +71,8 @@ class StatTest {
 
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
-			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt").forEach {
+			io.github.kerubistan.kroki.io.resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-linux.txt")
+					.forEach {
 				out.write(it.toInt())
 			}
 			null
@@ -91,7 +94,8 @@ class StatTest {
 
 		doAnswer {
 			val out = it.arguments[0] as OutputStream
-			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-cygwin.txt").forEach {
+			resourceToString("com/github/kerubistan/kerub/utils/junix/procfs/procfs-stat-cygwin.txt")
+					.forEach {
 				out.write(it.toInt())
 			}
 			null

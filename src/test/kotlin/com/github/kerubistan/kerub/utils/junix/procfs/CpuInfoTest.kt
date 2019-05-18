@@ -1,9 +1,9 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient

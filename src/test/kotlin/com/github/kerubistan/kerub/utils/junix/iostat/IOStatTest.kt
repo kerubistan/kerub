@@ -5,11 +5,11 @@ import com.github.kerubistan.kerub.model.SoftwarePackage.Companion.pack
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
-import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
+import io.github.kerubistan.kroki.io.resourceToString
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import kotlin.test.assertTrue

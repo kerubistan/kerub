@@ -3,9 +3,9 @@ package com.github.kerubistan.kerub.utils.junix.packagemanager.dpkg
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.junit.Assert.assertEquals

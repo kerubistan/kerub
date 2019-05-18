@@ -5,8 +5,8 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.mock
+import io.github.kerubistan.kroki.io.resourceToString
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

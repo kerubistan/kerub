@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.packagemanager.cygwin
 
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -23,7 +22,7 @@ class WmicTest {
 		whenever(execChannel.open()).thenReturn(openFuture)
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 		whenever(execChannel.invertedOut).then {
-			resource("com/github/kerubistan/kerub/utils/junix/cygwin/wmic-product-list.txt")
+			io.github.kerubistan.kroki.io.resource("com/github/kerubistan/kerub/utils/junix/cygwin/wmic-product-list.txt")
 		}
 
 		val installed = Wmic.list(session)

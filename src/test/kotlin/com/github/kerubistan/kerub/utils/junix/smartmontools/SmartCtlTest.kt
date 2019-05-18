@@ -5,11 +5,11 @@ import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.resourceToString
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
+import io.github.kerubistan.kroki.io.resourceToString
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import kotlin.test.assertEquals

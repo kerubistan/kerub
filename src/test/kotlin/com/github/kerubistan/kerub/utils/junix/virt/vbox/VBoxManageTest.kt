@@ -8,7 +8,6 @@ import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.kerubistan.kerub.utils.resource
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
@@ -16,6 +15,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows

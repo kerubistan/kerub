@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.data.ispn
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.ispn.InfinispanJsonExternalizer
+import io.github.kerubistan.kroki.io.resource
 import org.infinispan.configuration.cache.Configuration
 import org.infinispan.configuration.global.GlobalConfiguration
 import org.infinispan.configuration.parsing.ParserRegistry
@@ -64,7 +65,7 @@ class IspnConfiguration {
 	}
 
 	internal fun loadTemplate() =
-			Thread.currentThread().contextClassLoader.getResourceAsStream(template).use {
+			resource(template).use {
 				ParserRegistry().parse(it)
 			}
 

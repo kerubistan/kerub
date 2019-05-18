@@ -4,10 +4,10 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.kerubistan.kerub.utils.resource
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.io.resource
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
