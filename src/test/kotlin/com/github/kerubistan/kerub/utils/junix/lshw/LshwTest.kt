@@ -4,10 +4,10 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.browse
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.io.resource
+import io.github.kerubistan.kroki.objects.find
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Test
 import kotlin.test.assertFalse
@@ -27,7 +27,7 @@ class LshwTest : AbstractJunixCommandVerification() {
 		whenever(execChannel.invertedErr).then { NullInputStream(0) }
 		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/lshw/lshw.json") }
 		val system = Lshw.list(session)
-		system.browse(HardwareItem::children, filter)
+		system.find(HardwareItem::children, filter)
 	}
 
 	@Test
@@ -35,7 +35,7 @@ class LshwTest : AbstractJunixCommandVerification() {
 		whenever(execChannel.invertedErr).then { NullInputStream(0) }
 		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/lshw/lshw-ssd.json") }
 		val system = Lshw.list(session)
-		system.browse(HardwareItem::children, filter)
+		system.find(HardwareItem::children, filter)
 	}
 
 	@Test
@@ -43,7 +43,7 @@ class LshwTest : AbstractJunixCommandVerification() {
 		whenever(execChannel.invertedErr).then { NullInputStream(0) }
 		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/lshw/vm-with-bond.json") }
 		val system = Lshw.list(session)
-		system.browse(HardwareItem::children, filter)
+		system.find(HardwareItem::children, filter)
 	}
 
 	@Test
@@ -53,7 +53,7 @@ class LshwTest : AbstractJunixCommandVerification() {
 			resource("com/github/kerubistan/kerub/utils/junix/lshw/lshw-espressobin.json")
 		}
 		val system = Lshw.list(session)
-		system.browse(HardwareItem::children, filter)
+		system.find(HardwareItem::children, filter)
 	}
 
 	@Test

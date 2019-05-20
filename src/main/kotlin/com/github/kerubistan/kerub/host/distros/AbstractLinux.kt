@@ -27,7 +27,6 @@ import com.github.kerubistan.kerub.network.BondInterface
 import com.github.kerubistan.kerub.network.EthernetPort
 import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
-import com.github.kerubistan.kerub.utils.browse
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
 import com.github.kerubistan.kerub.utils.junix.lsblk.Lsblk
@@ -49,6 +48,7 @@ import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.update
 import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.objects.find
 import io.github.kerubistan.kroki.strings.isUUID
 import io.github.kerubistan.kroki.strings.toUUID
 import org.apache.sshd.client.session.ClientSession
@@ -326,7 +326,7 @@ abstract class AbstractLinux : Distribution {
 
 	private fun detectNetworkPorts(capabilities: HostCapabilities, session: ClientSession): List<EthernetPort> =
 			if (Lshw.available(capabilities)) {
-				Lshw.list(session).browse<HardwareItem>(
+				Lshw.list(session).find<HardwareItem>(
 						selector = { it.children ?: listOf() }
 				).filterIsInstance<LshwNetworkInterface>().filter { it.configuration?.get("driver") != "bonding" }.map {
 					EthernetPort(
