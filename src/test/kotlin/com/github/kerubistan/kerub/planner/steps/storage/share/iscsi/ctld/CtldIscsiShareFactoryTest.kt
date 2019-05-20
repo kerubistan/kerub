@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.ctld
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
@@ -13,6 +12,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testGvinumCapability
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertTrue
 

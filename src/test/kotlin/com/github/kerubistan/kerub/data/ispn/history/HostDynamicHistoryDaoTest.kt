@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.data.ispn.history
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.ispn.AbstractIspnDaoTest
 import com.github.kerubistan.kerub.data.ispn.utils.CountdownCreateEventListener
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -10,6 +8,8 @@ import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import io.github.kerubistan.kroki.time.now
 import nl.komponents.kovenant.deferred
 import nl.komponents.kovenant.then

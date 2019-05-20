@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.data.ispn
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.data.EventListener
 import com.github.kerubistan.kerub.data.HistoryDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.nhaarman.mockito_kotlin.mock
+import io.github.kerubistan.kroki.size.GB
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After

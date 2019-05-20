@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.create
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
@@ -18,6 +17,7 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 

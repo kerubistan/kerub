@@ -1,8 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
 import com.github.k0zka.finder4j.backtrack.StepFactory
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -39,6 +37,8 @@ import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertEquals

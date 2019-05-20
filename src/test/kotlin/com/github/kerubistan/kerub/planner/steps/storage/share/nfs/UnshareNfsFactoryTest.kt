@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
@@ -20,6 +19,7 @@ import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue

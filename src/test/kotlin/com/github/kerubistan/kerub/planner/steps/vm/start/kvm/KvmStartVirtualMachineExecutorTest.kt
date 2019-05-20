@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.HostCommandExecutor
@@ -19,6 +18,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.MB
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test

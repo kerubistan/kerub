@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.othercap
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -12,6 +11,7 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVirtualDisk
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue

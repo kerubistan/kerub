@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.model
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.createObjectMapper
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals

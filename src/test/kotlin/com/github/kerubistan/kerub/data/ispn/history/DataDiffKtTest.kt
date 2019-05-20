@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.data.ispn.history
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import kotlin.test.assertFalse

@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -9,6 +8,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 import kotlin.test.expect

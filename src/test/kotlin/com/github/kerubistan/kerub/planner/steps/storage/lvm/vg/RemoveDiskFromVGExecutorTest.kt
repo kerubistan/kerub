@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.Host
@@ -15,6 +14,7 @@ import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.TB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import java.math.BigInteger

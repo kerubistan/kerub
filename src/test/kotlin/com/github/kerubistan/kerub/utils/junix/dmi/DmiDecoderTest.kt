@@ -1,14 +1,14 @@
 package com.github.kerubistan.kerub.utils.junix.dmi
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.KB
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryArrayInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertEquals

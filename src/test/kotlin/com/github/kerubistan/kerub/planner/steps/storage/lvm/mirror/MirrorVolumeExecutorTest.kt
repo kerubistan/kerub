@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
@@ -21,6 +19,8 @@ import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import kotlin.test.assertTrue

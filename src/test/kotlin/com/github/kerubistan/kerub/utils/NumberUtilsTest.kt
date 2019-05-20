@@ -1,8 +1,8 @@
 package com.github.kerubistan.kerub.utils
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.KB
-import com.github.kerubistan.kerub.MB
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Test
 import java.math.BigDecimal
 import kotlin.test.assertEquals

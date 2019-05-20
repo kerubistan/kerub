@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model
 
-import com.github.kerubistan.kerub.TB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals

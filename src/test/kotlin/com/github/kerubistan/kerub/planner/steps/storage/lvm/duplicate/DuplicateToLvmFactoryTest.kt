@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.config.HostConfiguration
@@ -15,6 +13,8 @@ import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue

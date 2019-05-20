@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.create
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -15,6 +14,7 @@ import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.UUID

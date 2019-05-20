@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner
 
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.AssignmentDao
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.data.HostDao
@@ -20,6 +19,7 @@ import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.ArgumentMatchers.any

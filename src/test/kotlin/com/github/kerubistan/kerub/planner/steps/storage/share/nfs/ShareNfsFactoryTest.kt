@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
@@ -15,6 +14,7 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Test
 import kotlin.test.assertTrue
 

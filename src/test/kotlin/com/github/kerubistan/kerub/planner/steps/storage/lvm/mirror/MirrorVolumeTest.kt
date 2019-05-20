@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -15,6 +13,8 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID

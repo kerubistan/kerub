@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
@@ -9,6 +8,7 @@ import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.common.AbstractProblemDetectorVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 

@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.planner.steps.vm.stop
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Assert
 import org.junit.Test

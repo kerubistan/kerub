@@ -1,9 +1,9 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows

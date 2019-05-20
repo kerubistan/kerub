@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.othercap
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
@@ -15,6 +13,8 @@ import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVirtualDisk
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Ignore
 import org.junit.Test
 import java.util.UUID

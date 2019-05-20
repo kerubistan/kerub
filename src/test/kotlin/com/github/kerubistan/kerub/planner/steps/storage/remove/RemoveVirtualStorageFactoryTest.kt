@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.remove
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
@@ -9,6 +8,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertTrue
 

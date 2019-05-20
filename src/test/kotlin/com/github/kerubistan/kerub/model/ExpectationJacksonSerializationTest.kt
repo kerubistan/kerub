@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.model
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.expectations.BandwidthExpectation
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
@@ -32,6 +30,8 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

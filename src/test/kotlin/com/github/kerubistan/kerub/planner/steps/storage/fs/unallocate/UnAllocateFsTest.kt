@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.unallocate
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -10,6 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertTrue
 

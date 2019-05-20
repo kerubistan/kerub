@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.tgtd
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version.Companion.fromVersionString
 import com.github.kerubistan.kerub.model.config.HostConfiguration
@@ -15,6 +14,7 @@ import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertTrue
 

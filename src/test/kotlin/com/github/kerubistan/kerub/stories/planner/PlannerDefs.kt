@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.stories.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -109,6 +108,7 @@ import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Assert
 import java.math.BigInteger

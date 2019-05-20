@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
@@ -12,6 +11,7 @@ import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue

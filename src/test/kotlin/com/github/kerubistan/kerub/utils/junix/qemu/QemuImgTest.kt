@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.qemu
 
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
@@ -8,6 +7,7 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.MB
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture

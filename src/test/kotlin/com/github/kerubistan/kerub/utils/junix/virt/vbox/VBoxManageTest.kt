@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.utils.junix.virt.vbox
 
-import com.github.kerubistan.kerub.KB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
@@ -16,6 +14,8 @@ import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.io.resource
+import io.github.kerubistan.kroki.size.KB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows

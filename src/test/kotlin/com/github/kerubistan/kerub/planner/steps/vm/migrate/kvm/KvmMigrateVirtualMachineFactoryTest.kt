@@ -1,8 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.MB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
@@ -31,6 +28,9 @@ import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVirtualDisk
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue

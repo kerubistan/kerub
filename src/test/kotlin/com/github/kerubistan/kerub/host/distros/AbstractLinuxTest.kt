@@ -1,13 +1,13 @@
 package com.github.kerubistan.kerub.host.distros
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture

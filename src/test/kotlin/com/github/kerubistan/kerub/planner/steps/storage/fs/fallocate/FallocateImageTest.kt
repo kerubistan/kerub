@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.fallocate
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -12,6 +10,8 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 

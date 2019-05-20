@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
@@ -13,6 +12,7 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture

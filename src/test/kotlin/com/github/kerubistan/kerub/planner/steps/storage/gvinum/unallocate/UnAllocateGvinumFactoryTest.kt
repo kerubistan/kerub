@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.gvinum.unallocate
 
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -19,6 +18,7 @@ import com.github.kerubistan.kerub.testFreeBsdCapabilities
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 

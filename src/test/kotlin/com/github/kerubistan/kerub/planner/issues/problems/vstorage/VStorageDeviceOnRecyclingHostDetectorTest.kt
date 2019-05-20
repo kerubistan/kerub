@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.issues.problems.vstorage
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
@@ -16,6 +15,7 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue

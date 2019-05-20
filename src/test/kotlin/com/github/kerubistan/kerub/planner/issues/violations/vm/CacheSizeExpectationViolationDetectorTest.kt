@@ -1,8 +1,5 @@
 package com.github.kerubistan.kerub.planner.issues.violations.vm
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.KB
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -15,6 +12,9 @@ import com.github.kerubistan.kerub.testCpu
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
+import io.github.kerubistan.kroki.size.MB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import kotlin.test.assertFalse

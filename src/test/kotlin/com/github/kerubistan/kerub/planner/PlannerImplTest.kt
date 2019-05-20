@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.planner
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -23,6 +23,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import io.github.kerubistan.kroki.time.now
 import java.util.UUID.randomUUID
 

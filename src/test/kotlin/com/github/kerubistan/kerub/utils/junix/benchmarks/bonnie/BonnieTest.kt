@@ -1,12 +1,12 @@
 package com.github.kerubistan.kerub.utils.junix.benchmarks.bonnie
 
-import com.github.kerubistan.kerub.KB
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.mock
 import io.github.kerubistan.kroki.io.resourceToString
+import io.github.kerubistan.kroki.size.KB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Ignore
 import org.junit.Test

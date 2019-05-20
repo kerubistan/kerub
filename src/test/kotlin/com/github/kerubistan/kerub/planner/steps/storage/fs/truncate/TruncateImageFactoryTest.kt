@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.truncate
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
@@ -15,6 +14,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertTrue
 

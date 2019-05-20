@@ -1,11 +1,11 @@
 package com.github.kerubistan.kerub.utils.junix.truncate
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows

@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.create
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -22,6 +20,8 @@ import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.storage.gvinum.create
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.TB
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -20,6 +18,8 @@ import com.github.kerubistan.kerub.testGvinumCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVirtualDisk
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue

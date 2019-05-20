@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.execution
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.data.ExecutionResultDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.VirtualStorageDeviceDao
@@ -24,6 +23,7 @@ import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean

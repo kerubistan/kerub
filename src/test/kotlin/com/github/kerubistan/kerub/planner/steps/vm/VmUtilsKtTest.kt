@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.planner.steps.vm
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
@@ -27,6 +26,7 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVm
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.test.assertFalse

@@ -1,9 +1,9 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.model.dynamic.gvinum.MirroredGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.testHost
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.UUID.randomUUID

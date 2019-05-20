@@ -1,7 +1,5 @@
 package com.github.kerubistan.kerub.data.ispn
 
-import com.github.kerubistan.kerub.GB
-import com.github.kerubistan.kerub.MB
 import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
@@ -26,6 +24,8 @@ import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import org.infinispan.Cache
 import org.infinispan.manager.DefaultCacheManager
 import org.junit.After

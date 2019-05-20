@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.host
 
-import com.github.kerubistan.kerub.GB
 import com.github.kerubistan.kerub.host.distros.Distribution
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.SoftwarePackage
@@ -10,6 +9,7 @@ import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesCo
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import java.util.UUID
