@@ -35,7 +35,7 @@ object DmiDecoder : OsCommand {
 
 	private fun String.manufacturer() = this.substringBetween(manufacturer, "\n").trim()
 
-	val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
+	private val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
 			1 to { input, _ ->
 				SystemInformation(
 						manufacturer = input.manufacturer(),
