@@ -1,32 +1,12 @@
 package com.github.kerubistan.kerub.utils
 
 import java.math.BigInteger
-import java.util.UUID
 
 const val emptyString = ""
 
-// moved to kroki-utils
-private val uuidPattern = "([0-9]|[a-f]){8}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){4}-([0-9]|[a-f]){12}"
-		.toRegex()
-
 private val duplicateSlashesPattern = "(/+)".toRegex()
 
-// moved to kroki-utils
-fun String.isUUID() = this.matches(uuidPattern)
-
-// moved to kroki-utils
-fun String.toUUID(): UUID =
-		UUID.fromString(this)
-
 fun String.toBigInteger() = BigInteger(this)
-
-// moved to kroki
-fun String.remove(regex: Regex)
-		= this.replace(regex, "")
-
-// moved to kroki
-fun String.substringBetween(prefix: String, postfix: String): String =
-		this.substringAfter(prefix, "").substringBefore(postfix, "")
 
 fun String.substringBetweenOrNull(prefix: String, postfix: String): String? =
 		this.substringAfterOrNull(prefix)?.substringBeforeOrNull(postfix)

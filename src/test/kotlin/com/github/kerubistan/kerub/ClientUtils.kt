@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.services.exc.mappers.RestError
 import com.github.kerubistan.kerub.services.getServiceBaseUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.silent
-import com.github.kerubistan.kerub.utils.substringBetween
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper
 import org.apache.cxf.jaxrs.client.WebClient

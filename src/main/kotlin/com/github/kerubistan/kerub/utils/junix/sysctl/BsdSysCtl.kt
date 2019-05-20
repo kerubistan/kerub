@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.substringBetween
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 

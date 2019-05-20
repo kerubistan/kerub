@@ -16,8 +16,8 @@ import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
 import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import com.github.kerubistan.kerub.utils.silent
-import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toBigInteger
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.io.StringReader

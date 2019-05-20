@@ -3,8 +3,8 @@ package com.github.kerubistan.kerub.utils.junix.ovs
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.csv.parseAsCsv
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.toUUID
 import com.github.kerubistan.kerub.utils.want
+import io.github.kerubistan.kroki.strings.toUUID
 import org.apache.sshd.client.session.ClientSession
 
 object Vsctl : OsCommand {

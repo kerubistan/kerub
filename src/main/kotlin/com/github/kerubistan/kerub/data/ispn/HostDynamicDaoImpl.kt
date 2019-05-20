@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.data.HistoryDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.utils.toUUID
+import io.github.kerubistan.kroki.strings.toUUID
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Query
 import java.util.UUID

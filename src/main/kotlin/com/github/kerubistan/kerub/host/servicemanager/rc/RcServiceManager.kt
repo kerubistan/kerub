@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.iscsi.ctld.Ctld
 import com.github.kerubistan.kerub.utils.junix.nfs.Exports
-import com.github.kerubistan.kerub.utils.remove
+import io.github.kerubistan.kroki.strings.remove
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 

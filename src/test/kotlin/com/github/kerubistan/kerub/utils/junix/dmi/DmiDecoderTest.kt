@@ -76,10 +76,10 @@ Built-in Pointing Device
 		assert(system.manufacturer == "")
 		assert(system.uuid == UUID.fromString("3DACA680-34DC-11E1-988E-C03FD56F97FC"))
 		val processor = devices["0x003A"] as ProcessorInformation
-		assert(processor.manufacturer == "Intel(R) Corp.")
-		assert(processor.version == "Intel(R) Core(TM) i3-4010U CPU @ 1.70GHz")
-		assert(processor.coreCount == 2)
-		assert(processor.threadCount == 4)
+		assertEquals("Intel(R) Corp.", processor.manufacturer)
+		assertEquals("Intel(R) Core(TM) i3-4010U CPU @ 1.70GHz", processor.version)
+		assertEquals(2, processor.coreCount)
+		assertEquals(4, processor.threadCount)
 
 		val l1Cache = processor.l1cache!!
 		assert(l1Cache.size == "128 KB".toSize().toInt())

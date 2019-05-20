@@ -1,8 +1,8 @@
 package com.github.kerubistan.kerub.utils.junix.dmesg
 
 import com.github.kerubistan.kerub.host.executeOrDie
-import com.github.kerubistan.kerub.utils.substringBetween
 import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 
 object BsdDmesg {

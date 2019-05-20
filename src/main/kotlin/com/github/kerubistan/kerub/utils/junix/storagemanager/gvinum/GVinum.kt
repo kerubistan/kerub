@@ -3,8 +3,8 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.KB
-import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger

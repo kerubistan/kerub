@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.services.socket
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
-import com.github.kerubistan.kerub.utils.toUUID
+import io.github.kerubistan.kroki.strings.toUUID
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

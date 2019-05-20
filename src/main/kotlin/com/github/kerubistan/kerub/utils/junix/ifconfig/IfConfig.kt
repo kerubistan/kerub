@@ -2,8 +2,8 @@ package com.github.kerubistan.kerub.utils.junix.ifconfig
 
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.substringAfterOrNull
-import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.substringBetweenOrNull
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.util.regex.Pattern
 

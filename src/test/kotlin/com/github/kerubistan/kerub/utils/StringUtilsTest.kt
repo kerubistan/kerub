@@ -1,37 +1,16 @@
 package com.github.kerubistan.kerub.utils
 
-import org.junit.Assert
 import org.junit.Test
 import java.math.BigInteger
-import java.util.UUID
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 class StringUtilsTest {
 
 	@Test
-	fun isUUID() {
-		Assert.assertTrue(UUID.randomUUID().toString().isUUID())
-		assertFalse(("something else").isUUID())
-	}
-
-	@Test
 	fun toBigInteger() {
 		assertEquals(BigInteger.ONE, "1".toBigInteger())
 		assertEquals(BigInteger.TEN, "10".toBigInteger())
-	}
-
-	@Test
-	fun remove() {
-		assertEquals("foo bar baz", "foo, bar, baz".remove(",".toRegex()))
-		assertEquals("abcdefgh", "abc12def45gh6".remove("\\d+".toRegex()))
-		assertEquals("123456", "12   3  45\t6".remove("\\s+".toRegex()))
-	}
-
-	@Test
-	fun substringsBetween() {
-		assertEquals("world", "hello world!".substringBetween("hello ", "!"))
 	}
 
 	@Test

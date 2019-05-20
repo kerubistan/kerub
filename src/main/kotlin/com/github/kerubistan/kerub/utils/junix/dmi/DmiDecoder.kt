@@ -9,8 +9,8 @@ import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.substringBetween
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.util.HashMap
 import java.util.UUID
@@ -31,19 +31,22 @@ object DmiDecoder : OsCommand {
 	fun handle(input: String): String =
 			input.substringBetween("Handle ", ",")
 
-	private const val manufacturer = "Manufacturer: "
+	private const val manufacturer = "Manufacturer:"
+
+	private fun String.manufacturer() = this.substringBetween(manufacturer, "\n").trim()
+
 	val mappers: Map<Int, (String, Map<String, Any>) -> Any> = mapOf(
 			1 to { input, _ ->
 				SystemInformation(
-						manufacturer = input.substringBetween(manufacturer, "\n"),
-						family = input.substringBetween("Family: ", "\n"),
-						version = input.substringBetween("Version: ", "\n"),
+						manufacturer = input.manufacturer(),
+						family = input.substringBetween("Family:", "\n").trim(),
+						version = input.substringBetween("Version:", "\n").trim(),
 						uuid = UUID.fromString(input.substringBetween("UUID: ", "\n"))
 				)
 			},
 			3 to { input, _ ->
 				ChassisInformation(
-						manufacturer = input.substringBetween(manufacturer, "\n"),
+						manufacturer = input.manufacturer(),
 						height = input.optionalIntBetween("Height: ", "\n"),
 						nrOfPowerCords = input.optionalIntBetween("Number Of Power Cords: ", "\n"),
 						type = input.substringBetween("Type: ", "\n")
@@ -51,7 +54,7 @@ object DmiDecoder : OsCommand {
 			},
 			4 to { input, dependencies ->
 				ProcessorInformation(
-						manufacturer = input.substringBetween(manufacturer, "\n"),
+						manufacturer = input.manufacturer(),
 						coreCount = input.optionalIntBetween("Core Count: ", "\n"),
 						threadCount = input.optionalIntBetween("Thread Count: ", "\n"),
 						maxSpeedMhz = input.optionalIntBetween("Max Speed: ", " MHz\n"),
@@ -89,7 +92,7 @@ object DmiDecoder : OsCommand {
 			17 to { input, _ ->
 				MemoryInformation(
 						size = input.substringBetween("Size: ", "\n").toSize(),
-						manufacturer = input.substringBetween(manufacturer, "\n"),
+						manufacturer = input.manufacturer(),
 						type = input.substringBetween("Type: ", "\n"),
 						bankLocator = input.substringBetween("Bank Locator: ", "\n"),
 						configuredSpeedMhz = input.optionalIntBetween("Configured Clock Speed: ", " MHz"),

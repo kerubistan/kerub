@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub
 
-import com.github.kerubistan.kerub.utils.substringBetween
 import io.github.kerubistan.kroki.io.resource
+import io.github.kerubistan.kroki.strings.substringBetween
 import org.junit.Test
 import kotlin.test.assertFalse
 

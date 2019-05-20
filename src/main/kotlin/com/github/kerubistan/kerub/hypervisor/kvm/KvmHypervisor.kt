@@ -13,7 +13,7 @@ import com.github.kerubistan.kerub.utils.genPassword
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import com.github.kerubistan.kerub.utils.silent
-import com.github.kerubistan.kerub.utils.toUUID
+import io.github.kerubistan.kroki.strings.toUUID
 import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger

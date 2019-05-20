@@ -5,9 +5,9 @@ import com.github.kerubistan.kerub.model.AuditEntry
 import com.github.kerubistan.kerub.model.DeleteEntry
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.UpdateEntry
-import com.github.kerubistan.kerub.utils.toUUID
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.strings.toUUID
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue

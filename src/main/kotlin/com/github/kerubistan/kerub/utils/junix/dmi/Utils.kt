@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.dmi
 
-import com.github.kerubistan.kerub.utils.substringBetween
+import io.github.kerubistan.kroki.strings.substringBetween
 import java.math.BigDecimal
 
 
@@ -18,7 +18,7 @@ fun String.intBetween(prefix: String, postfix: String): Int =
 
 fun String.optionalIntBetween(prefix: String, postfix: String): Int? {
 	try {
-		return this.substringBetween(prefix, postfix).toInt()
+		return this.substringBetween(prefix, postfix).trim().toInt()
 	} catch (nfe: NumberFormatException) {
 		return null
 	}
