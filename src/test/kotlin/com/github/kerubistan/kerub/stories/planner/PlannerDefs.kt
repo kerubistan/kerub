@@ -1004,7 +1004,7 @@ class PlannerDefs {
 							memoryDevices = listOf(
 									host.capabilities!!.memoryDevices.firstOrNull()
 											?: MemoryInformation(
-													size = "8 GB".toSize(),
+													size = 8.GB,
 													type = "",
 													formFactor = "SODIMM",
 													locator = "BANK-A",

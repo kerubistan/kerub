@@ -5,13 +5,14 @@ import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.emptyString
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.MB
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.math.BigInteger
 
 object LvmLv : Lvm() {
 
-	private val minimalSize = "4 MB".toSize()
+	private val minimalSize = 4.MB
 	private val logger = getLogger(LvmLv::class)
 
 	private fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
@@ -116,7 +117,7 @@ object LvmLv : Lvm() {
 	}
 
 	const val cacheMetaRatio = 1000
-	val cacheMetaMinSize = "8 MB".toSize()
+	private val cacheMetaMinSize = 8.MB
 
 	private fun String.cache() = this.plus("_cache")
 	private fun String.cacheMeta() = this.plus("_cachemeta")

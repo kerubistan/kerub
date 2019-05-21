@@ -4,8 +4,8 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.MB
 import org.apache.commons.io.input.NullInputStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -50,7 +50,7 @@ class EthToolTest : AbstractJunixCommandVerification() {
 
 		assertFalse(devInfo.link)
 		assertTrue(devInfo.wakeOnLan)
-		assertEquals("10 MB".toSize(), devInfo.transferRate)
+		assertEquals(10.MB, devInfo.transferRate)
 	}
 
 	@Test

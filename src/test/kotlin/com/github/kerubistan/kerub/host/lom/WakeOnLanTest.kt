@@ -5,8 +5,8 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.utils.stringToMac
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
@@ -22,7 +22,7 @@ class WakeOnLanTest {
 					powerManagment = listOf(WakeOnLanInfo(macAddresses = listOf(stringToMac("00:00:CA:FE:BA:BE")))),
 					cpuArchitecture = "x86_64",
 					devices = listOf(),
-					totalMemory = "1234 MB".toSize(),
+					totalMemory = 1234.MB,
 					cpus = listOf(),
 					installedSoftware = listOf(),
 					chassis = null,

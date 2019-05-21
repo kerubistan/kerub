@@ -5,7 +5,6 @@ import com.github.kerubistan.kerub.model.hardware.MemoryArrayInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
-import com.github.kerubistan.kerub.utils.toSize
 import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.size.KB
 import io.github.kerubistan.kroki.size.MB
@@ -90,8 +89,8 @@ Built-in Pointing Device
 		assertEquals(4, processor.threadCount)
 
 		val l1Cache = processor.l1cache!!
-		assert(l1Cache.size == "128 KB".toSize().toInt())
-		assert(l1Cache.speedNs == null)
+		assertEquals(128.KB.toInt(), l1Cache.size)
+		assertNull(l1Cache.speedNs)
 		assertEquals("Single-bit ECC", l1Cache.errorCorrection)
 
 		val l2Cache = processor.l2cache!!

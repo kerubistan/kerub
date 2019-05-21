@@ -5,8 +5,8 @@ import com.github.kerubistan.kerub.model.Range
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
-import com.github.kerubistan.kerub.utils.toSize
 import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -16,13 +16,13 @@ class PlannerImplTest {
 	val vm1 = VirtualMachine(
 			name = "vm1",
 			nrOfCpus = 1,
-			memory = Range("512 MB".toSize(), 1.GB)
+			memory = Range(512.MB, 1.GB)
 	)
 
 	val vm2 = VirtualMachine(
 			name = "vm2",
 			nrOfCpus = 1,
-			memory = Range("512 MB".toSize(), 1.GB)
+			memory = Range(512.MB, 1.GB)
 	)
 
 	val host1 = Host(

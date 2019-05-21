@@ -21,7 +21,6 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVirtualDisk
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.size.GB
@@ -189,7 +188,7 @@ class StatisticsDaoImplTest {
 				id = vDisk1.id,
 				allocations = listOf(VirtualStorageGvinumAllocation(
 						hostId = host2.id,
-						actualSize = "64 GB".toSize(),
+						actualSize = 64.GB,
 						configuration = SimpleGvinumConfiguration(diskName = gvinumCapability.devices.single().name),
 						capabilityId =gvinumCapability.id
 				))
@@ -209,17 +208,17 @@ class StatisticsDaoImplTest {
 		).basicBalanceReport()
 
 		assertEquals(2, report.totalHosts)
-		assertEquals("256 GB".toSize() + "512 GB".toSize(), report.totalHostMemory)
-		assertEquals("512 MB".toSize() + "1 GB".toSize(), report.totalMinVmMemory)
-		assertEquals("2 GB".toSize() + "1 GB".toSize(), report.totalMaxVmMemory)
+		assertEquals(256.GB + 512.GB, report.totalHostMemory)
+		assertEquals(512.MB + 1.GB, report.totalMinVmMemory)
+		assertEquals(2.GB + 1.GB, report.totalMaxVmMemory)
 
 		assertEquals(6, report.totalHostCpus)
 		assertEquals(vm1.nrOfCpus + vm2.nrOfCpus, report.totalVmCpus)
 		assertEquals(vm2.nrOfCpus, report.totalDedicatedVmCpus)
 
-		assertEquals("256 GB".toSize(), report.totalHostStorage)
+		assertEquals(256.GB, report.totalHostStorage)
 		assertEquals(vDisk1.size + vDisk2.size, report.totalDiskStorageRequested)
-		assertEquals("64 GB".toSize(), report.totalDiskStorageActual)
+		assertEquals(64.GB, report.totalDiskStorageActual)
 	}
 
 	@Test
@@ -237,17 +236,17 @@ class StatisticsDaoImplTest {
 		).basicBalanceReport()
 
 		assertEquals(0, report.totalHosts)
-		assertEquals("0 GB".toSize(), report.totalHostMemory)
-		assertEquals("0 MB".toSize(), report.totalMinVmMemory)
-		assertEquals("0 GB".toSize(), report.totalMaxVmMemory)
+		assertEquals(0.GB, report.totalHostMemory)
+		assertEquals(0.GB, report.totalMinVmMemory)
+		assertEquals(0.GB, report.totalMaxVmMemory)
 
 		assertEquals(0, report.totalHostCpus)
 		assertEquals(0, report.totalVmCpus)
 		assertEquals(0, report.totalDedicatedVmCpus)
 
-		assertEquals("0 GB".toSize(), report.totalHostStorage)
+		assertEquals(0.GB, report.totalHostStorage)
 
-		assertEquals("0 GB".toSize(), report.totalDiskStorageRequested)
+		assertEquals(0.GB, report.totalDiskStorageRequested)
 	}
 
 }

@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -20,7 +20,7 @@ class CtldTest {
 								os = OperatingSystem.Linux,
 								distribution = null,
 								cpuArchitecture = "X86_64",
-								totalMemory = "8 GB".toSize()
+								totalMemory = 8.GB
 						)
 				)
 		)
@@ -30,7 +30,7 @@ class CtldTest {
 								os = OperatingSystem.BSD,
 								distribution = null,
 								cpuArchitecture = "X86_64",
-								totalMemory = "8 GB".toSize()
+								totalMemory = 8.GB
 						)
 				)
 		)
@@ -43,7 +43,7 @@ class CtldTest {
 										version = Version.fromVersionString("10.0")
 								),
 								cpuArchitecture = "X86_64",
-								totalMemory = "8 GB".toSize()
+								totalMemory = 8.GB
 						)
 				)
 		)

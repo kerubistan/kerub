@@ -2,11 +2,13 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.KB
+import io.github.kerubistan.kroki.size.MB
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
@@ -139,8 +141,8 @@ class LvmLvTest {
 		LvmLv.createPool(
 				session = session,
 				name = "pool0",
-				metaSize = "1 GB".toSize(),
-				size = "200 GB".toSize(),
+				metaSize = 1.GB,
+				size = 200.GB,
 				vgName = "pool"
 		)
 	}
@@ -158,7 +160,7 @@ class LvmLvTest {
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
+		val volume = LvmLv.create(session, "test", "testlv2", 16.GB)
 		assertEquals("testlv2", volume.name)
 	}
 
@@ -181,7 +183,7 @@ class LvmLvTest {
 		whenever(execChannel.invertedOut).thenReturn(ByteArrayInputStream(testListOutput.toByteArray(charset("ASCII"))))
 		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
 
-		val volume = LvmLv.create(session, "test", "testlv2", "16 GB".toSize())
+		val volume = LvmLv.create(session, "test", "testlv2", 16.GB)
 		assertEquals("testlv2", volume.name)
 	}
 
@@ -244,11 +246,11 @@ class LvmLvTest {
 
 	@Test
 	fun roundUp() {
-		assertEquals("4MB".toSize(), LvmLv.roundUp("0B".toSize()))
-		assertEquals("4MB".toSize(), LvmLv.roundUp("128B".toSize()))
-		assertEquals("4MB".toSize(), LvmLv.roundUp("513B".toSize()))
-		assertEquals("4MB".toSize(), LvmLv.roundUp("1KB".toSize()))
-		assertEquals("4MB".toSize(), LvmLv.roundUp("2000B".toSize()))
+		assertEquals(4.MB, LvmLv.roundUp(0.toBigInteger()))
+		assertEquals(4.MB, LvmLv.roundUp(128.toBigInteger()))
+		assertEquals(4.MB, LvmLv.roundUp(513.toBigInteger()))
+		assertEquals(4.MB, LvmLv.roundUp(1.KB))
+		assertEquals(4.MB, LvmLv.roundUp(2000.toBigInteger()))
 	}
 
 	@Test
