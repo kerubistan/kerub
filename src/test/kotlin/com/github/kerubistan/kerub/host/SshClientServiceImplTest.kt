@@ -29,7 +29,7 @@ import kotlin.test.assertEquals
 class SshClientServiceImplTest {
 	val client: SshClient = mock()
 	val session: ClientSession = mock()
-	val sftClient: SftpClient = mock()
+	private val sftClient: SftpClient = mock()
 	val handle: SftpClient.CloseableHandle = mock()
 
 	var service: SshClientServiceImpl? = null

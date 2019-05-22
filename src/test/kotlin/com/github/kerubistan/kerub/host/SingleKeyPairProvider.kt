@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.host
 import org.apache.sshd.common.keyprovider.KeyPairProvider
 import java.security.KeyPair
 
-class SingleKeyPairProvider (val keyPair : KeyPair) : KeyPairProvider {
+class SingleKeyPairProvider (private val keyPair : KeyPair) : KeyPairProvider {
 	override fun loadKeys(): Iterable<KeyPair> {
 		return listOf( keyPair )
 	}

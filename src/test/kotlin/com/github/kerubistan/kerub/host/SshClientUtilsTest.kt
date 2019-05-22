@@ -29,14 +29,14 @@ import org.apache.sshd.client.auth.password.UserAuthPasswordFactory as ClientUse
 
 class SshClientUtilsTest {
 
-	var server: SshServer? = null
-	var client: SshClient? = null
-	var session: ClientSession? = null
+	private var server: SshServer? = null
+	private var client: SshClient? = null
+	private var session: ClientSession? = null
 
-	val testUserName = System.getProperty("user.name")
-	val testUserPassword = "R3411y533cr3tP455"
+	private val testUserName = System.getProperty("user.name")
+	private val testUserPassword = "R3411y533cr3tP455"
 
-	var rootDir: File? = null
+	private var rootDir: File? = null
 
 	@Before
 	fun setup() {

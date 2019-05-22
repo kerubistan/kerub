@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.AuditEntry
 import com.github.kerubistan.kerub.services.AuditService
 import java.util.UUID
 
-class AuditServiceImpl(val auditEntryDao: AuditEntryDao) : AuditService {
+class AuditServiceImpl(private val auditEntryDao: AuditEntryDao) : AuditService {
 	override fun listById(id: UUID): List<AuditEntry> {
 		return auditEntryDao.listById(id)
 	}

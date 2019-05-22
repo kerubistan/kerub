@@ -18,26 +18,26 @@ import kotlin.test.assertTrue
 
 class TgtdIscsiShareTest {
 
-	val host = Host(
+	private val host = Host(
 			id = UUID.randomUUID(),
 			address = "test-1.example.com",
 			publicKey = "",
 			dedicated = true
 	)
 
-	val hostDyn = HostDynamic(
+	private val hostDyn = HostDynamic(
 			id = host.id,
 			status = HostStatus.Up
 	)
 
-	val vStorage = VirtualStorageDevice(
+	private val vStorage = VirtualStorageDevice(
 			id = UUID.randomUUID(),
 			name = "disk-1",
 			expectations = listOf(),
 			size = 16.GB
 	)
 
-	val vStorageDyn = VirtualStorageDeviceDynamic(
+	private val vStorageDyn = VirtualStorageDeviceDynamic(
 			id = vStorage.id,
 			allocations = listOf(VirtualStorageLvmAllocation(
 					hostId = host.id,

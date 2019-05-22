@@ -15,7 +15,7 @@ class BsdDmesgTest {
 
 	val session : ClientSession = mock()
 	val openFuture : OpenFuture = mock()
-	val channelExec : ChannelExec = mock()
+	private val channelExec : ChannelExec = mock()
 
 	@Test
 	fun listCpuFlags() {

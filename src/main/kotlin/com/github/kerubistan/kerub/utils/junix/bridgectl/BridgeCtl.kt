@@ -8,7 +8,7 @@ import org.apache.sshd.client.session.ClientSession
 
 object BridgeCtl : OsCommand {
 
-	val fieldSeparator = "\\s+".toRegex()
+	private val fieldSeparator = "\\s+".toRegex()
 
 	fun list(session: ClientSession): List<Bridge> {
 		var bridges = listOf<Bridge>()

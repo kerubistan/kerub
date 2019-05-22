@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 
 class AccountMembershipServiceIT {
 
-	var account: Account? = null
+	private var account: Account? = null
 
 	@Before
 	fun setup() {

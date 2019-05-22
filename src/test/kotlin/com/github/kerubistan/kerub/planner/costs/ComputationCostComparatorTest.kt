@@ -10,11 +10,11 @@ class ComputationCostComparatorTest {
 	        dedicated = false,
 	        publicKey = ""
 	               )
-	val smaller = ComputationCost(
+	private val smaller = ComputationCost(
 			host = host,
 	        cycles = 100
 	                             )
-	val bigger = ComputationCost(
+	private val bigger = ComputationCost(
 			host = host,
 			cycles = 1000
 	                             )

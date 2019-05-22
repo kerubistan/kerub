@@ -48,7 +48,7 @@ object LvmLv : Lvm() {
 				callback(lvStats)
 				lvStats = listOf()
 			} else {
-				lvStats += LvmLv.parseRow(row)
+				lvStats += parseRow(row)
 			}
 		}
 	}

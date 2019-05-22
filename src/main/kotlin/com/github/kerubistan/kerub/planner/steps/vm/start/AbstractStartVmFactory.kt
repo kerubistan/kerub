@@ -25,7 +25,7 @@ abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOpe
 
 	fun getWorkingHosts(state: OperationalState): List<HostDataCollection> = getWorkingHosts(state) { true }
 
-	fun getVmsToStart(state: OperationalState, filter: (VirtualMachine) -> Boolean): List<VirtualMachine> {
+	private fun getVmsToStart(state: OperationalState, filter: (VirtualMachine) -> Boolean): List<VirtualMachine> {
 		val vmsToRun = state.vms.values.filter {
 			vm ->
 			vm.stat.expectations.hasAny<VirtualMachineAvailabilityExpectation> { it.up }

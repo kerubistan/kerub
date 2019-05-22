@@ -31,7 +31,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 
 	companion object {
 
-		internal const val minimumExtreme = 10
+		private const val minimumExtreme = 10
 
 		internal val appVersion = GenericHistoryDaoImpl::class.java.`package`.implementationVersion
 

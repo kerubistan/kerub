@@ -16,9 +16,9 @@ import java.math.BigInteger
 import java.util.UUID
 
 class StopVirtualMachineExecutorTest {
-	val hostManager: HostManager = mock()
-	val hypervisor: Hypervisor = mock()
-	val vmDynDao: VirtualMachineDynamicDao = mock()
+	private val hostManager: HostManager = mock()
+	private val hypervisor: Hypervisor = mock()
+	private val vmDynDao: VirtualMachineDynamicDao = mock()
 
 	@Test
 	fun execute() {

@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.UnshareNfs
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class StartNfsDaemonTest {
@@ -28,6 +29,6 @@ class StartNfsDaemonTest {
 						hostCfgs = listOf(HostConfiguration(id = testHost.id))
 				)
 		)
-		assertTrue(state.hosts.getValue(testHost.id).config!!.services == listOf(NfsDaemonService()))
+		assertEquals(listOf(NfsDaemonService()), state.hosts.getValue(testHost.id).config!!.services)
 	}
 }

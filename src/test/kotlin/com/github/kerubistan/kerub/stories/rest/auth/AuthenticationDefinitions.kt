@@ -132,7 +132,7 @@ class AuthenticationDefinitions {
 		tryRunRestAction(VersionService::class) { it.getVersionInfo() }
 	}
 
-	fun <X : Any> tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
+	private fun <X : Any> tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
 		try {
 			val serviceClient = JAXRSClientFactory.fromClient(client, clientClass.java)
 			service = serviceClient

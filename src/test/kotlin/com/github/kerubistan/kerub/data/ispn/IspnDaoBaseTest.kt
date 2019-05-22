@@ -24,11 +24,11 @@ class IspnDaoBaseTest {
 
 	}
 
-	var cacheManager: DefaultCacheManager? = null
+	private var cacheManager: DefaultCacheManager? = null
 	var cache: Cache<String, TestEntity>? = null
 	var dao: IspnDaoBase<TestEntity, String>? = null
-	val eventListener: EventListener = mock()
-	val auditManager = mock<AuditManager>()
+	private val eventListener: EventListener = mock()
+	private val auditManager = mock<AuditManager>()
 
 
 	@Before fun setup() {

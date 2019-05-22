@@ -21,9 +21,9 @@ import java.io.ByteArrayInputStream
 import kotlin.test.assertTrue
 
 class QemuImgTest {
-	val session: ClientSession = mock()
-	val execChannel: ChannelExec = mock()
-	val channelOpenFuture: OpenFuture = mock()
+	private val session: ClientSession = mock()
+	private val execChannel: ChannelExec = mock()
+	private val channelOpenFuture: OpenFuture = mock()
 
 	@Before
 	fun setup() {

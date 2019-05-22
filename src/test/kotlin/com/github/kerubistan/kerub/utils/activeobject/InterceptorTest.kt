@@ -12,7 +12,7 @@ class InterceptorTest {
 	private val queue: InvocationQueue = mock()
 	private val invocation: MethodInvocation = mock()
 
-	var interceptor: Interceptor? = null
+	private var interceptor: Interceptor? = null
 
 	@Before
 	fun setup() {

@@ -32,12 +32,12 @@ import kotlin.test.assertTrue
 
 class AssetAccessControllerImplTest {
 
-	val controllerConfigDao: ControllerConfigDao = mock()
-	val accountMembershipDao: AccountMembershipDao = mock()
-	val projectmembershipDao: ProjectMembershipDao = mock()
-	val securityManager: SecurityManager = mock()
-	val subject = mock<Subject>()
-	val validator = mock<Validator>()
+	private val controllerConfigDao: ControllerConfigDao = mock()
+	private val accountMembershipDao: AccountMembershipDao = mock()
+	private val projectmembershipDao: ProjectMembershipDao = mock()
+	private val securityManager: SecurityManager = mock()
+	private val subject = mock<Subject>()
+	private val validator = mock<Validator>()
 
 	@Test
 	fun doAndCheck() {

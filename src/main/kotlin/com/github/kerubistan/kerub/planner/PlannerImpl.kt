@@ -35,7 +35,7 @@ class PlannerImpl(
 ) : Planner {
 
 	private val timer = Timer()
-	var timerTask: TimerTask? = null
+	private var timerTask: TimerTask? = null
 	private val reservations = ConcurrentHashMap<Plan, List<Reservation<*>>>()
 	@Volatile var inProgress: Boolean = false
 	@Volatile var lastRun: Long? = null

@@ -78,7 +78,7 @@ object GVinum {
 		)
 	}
 
-	fun roundUpKb(size: BigInteger): BigInteger {
+	private fun roundUpKb(size: BigInteger): BigInteger {
 		val kbs = size / KB.toBigInteger()
 		return (kbs + BigInteger.ONE)
 	}

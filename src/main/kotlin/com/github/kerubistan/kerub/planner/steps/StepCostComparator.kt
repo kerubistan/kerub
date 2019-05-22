@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
 
 object StepCostComparator : Comparator<AbstractOperationalStep> {
 
-	val comparators = mapOf(
+	private val comparators = mapOf(
 			Risk::class to RiskComparator,
 			TimeCost::class to TimeCostComparator,
 			IOCost::class to IOCostComparator,
@@ -24,7 +24,7 @@ object StepCostComparator : Comparator<AbstractOperationalStep> {
 			ComputationCost::class to ComputationCostComparator
 	)
 
-	internal fun findCost(step: AbstractOperationalStep, costClass: KClass<out Cost>): Cost? {
+	private fun findCost(step: AbstractOperationalStep, costClass: KClass<out Cost>): Cost? {
 		return step.getCost().firstOrNull { it.javaClass.kotlin == costClass }
 	}
 

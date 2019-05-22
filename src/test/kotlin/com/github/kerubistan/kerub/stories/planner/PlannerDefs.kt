@@ -120,18 +120,18 @@ class PlannerDefs {
 
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
-	var vdisks = listOf<VirtualStorageDevice>()
+	private var vdisks = listOf<VirtualStorageDevice>()
 
 	var vmDyns = listOf<VirtualMachineDynamic>()
 	var hostDyns = listOf<HostDynamic>()
-	var vstorageDyns = listOf<VirtualStorageDeviceDynamic>()
+	private var vstorageDyns = listOf<VirtualStorageDeviceDynamic>()
 
-	var hostConfigs = listOf<HostConfiguration>()
-	var controllerConfig = ControllerConfig()
+	private var hostConfigs = listOf<HostConfiguration>()
+	private var controllerConfig = ControllerConfig()
 
-	val backtrack: BacktrackService = BacktrackServiceImpl(ForkJoinPool(1))
+	private val backtrack: BacktrackService = BacktrackServiceImpl(ForkJoinPool(1))
 	val executor: PlanExecutor = mock()
-	val builder: OperationalStateBuilder = mock()
+	private val builder: OperationalStateBuilder = mock()
 
 	val planner: Planner = PlannerImpl(
 			backtrack,
@@ -140,7 +140,7 @@ class PlannerDefs {
 			PlanViolationDetectorImpl
 	)
 
-	var executedPlans = listOf<Plan>()
+	private var executedPlans = listOf<Plan>()
 
 	@Before
 	fun setup() {

@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocateExecutor
 
 class UnAllocateFsExecutor(
 		private val hostExecutor : HostCommandExecutor,
-		protected override val vssDynDao: VirtualStorageDeviceDynamicDao
+		override val vssDynDao: VirtualStorageDeviceDynamicDao
 ) : AbstractUnAllocateExecutor<UnAllocateFs, VirtualStorageFsAllocation>() {
 	override fun perform(step: UnAllocateFs): Unit = hostExecutor.execute(step.host) { session ->
 		session.createSftpClient().use { sftpClient ->

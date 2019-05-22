@@ -52,8 +52,8 @@ class KvmStartVirtualMachineExecutorTest {
 	)
 
 	val hostManager = mock<HostManager>()
-	val vmDynDao = mock<VirtualMachineDynamicDao>()
-	val firewall = mock<FireWall>()
+	private val vmDynDao = mock<VirtualMachineDynamicDao>()
+	private val firewall = mock<FireWall>()
 	val hostCommandExecutor = mock<HostCommandExecutor>()
 	val session = mock<ClientSession>()
 	val sftp = mock<SftpClient>()

@@ -11,7 +11,7 @@ import org.junit.Before
 
 abstract class AbstractIspnDaoTest<K: Any, V : Any> {
 
-	protected var cacheManager : DefaultCacheManager? = null
+	private var cacheManager : DefaultCacheManager? = null
 	protected var cache : Cache<K, V>? = null
 	protected val auditManager = mock<AuditManager>()
 	protected val eventListener: EventListener = mock()

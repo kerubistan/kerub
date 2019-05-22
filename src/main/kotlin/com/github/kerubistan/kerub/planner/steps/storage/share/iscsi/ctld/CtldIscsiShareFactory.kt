@@ -32,7 +32,7 @@ object CtldIscsiShareFactory : AbstractOperationalStepFactory<CtldIscsiShare>() 
 				}.join()
 			}
 
-	fun isCtldAvailable(state: OperationalState, hostId: UUID): Boolean =
+	private fun isCtldAvailable(state: OperationalState, hostId: UUID): Boolean =
 			state.hosts[hostId]?.let {
 						Ctld.available(it.stat.capabilities)
 			} ?: false

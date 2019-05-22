@@ -64,7 +64,7 @@ class IspnConfiguration {
 		return globalConfig!!
 	}
 
-	internal fun loadTemplate() =
+	private fun loadTemplate() =
 			resource(template).use {
 				ParserRegistry().parse(it)
 			}

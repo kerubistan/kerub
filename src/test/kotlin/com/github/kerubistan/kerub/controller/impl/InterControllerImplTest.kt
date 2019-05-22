@@ -11,8 +11,8 @@ import org.springframework.jms.core.JmsTemplate
 import java.util.UUID
 
 class InterControllerImplTest {
-	var jmsTemplate: JmsTemplate = mock()
-	var interControllerImpl: InterControllerImpl? = null
+	private var jmsTemplate: JmsTemplate = mock()
+	private var interControllerImpl: InterControllerImpl? = null
 
 	@Before
 	fun setup() {

@@ -11,7 +11,7 @@ class AnyEntityDaoImpl(
 		map: Map<String, DaoOperations.Read<Entity<UUID>, UUID>>
 ) : AnyEntityDao {
 
-	val daos = map.map { Class.forName(it.key).kotlin to it.value }.toMap()
+	private val daos = map.map { Class.forName(it.key).kotlin to it.value }.toMap()
 
 	override fun get(clazz: KClass<out Entity<*>>, id: UUID): Entity<UUID>? =
 			if (Asset::class.java.isAssignableFrom(clazz.java)) {

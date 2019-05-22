@@ -15,7 +15,7 @@ import org.junit.Test
 
 class AuditManagerImplTest {
 
-	val auditDao: AuditEntryDao = mock()
+	private val auditDao: AuditEntryDao = mock()
 
 	@Test
 	fun testAuditUpdate() {

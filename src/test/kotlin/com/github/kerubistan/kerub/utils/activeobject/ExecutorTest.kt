@@ -8,7 +8,7 @@ import org.mockito.Mockito
 import org.springframework.context.ApplicationContext
 
 class ExecutorTest {
-	var appCtx: ApplicationContext = mock()
+	private var appCtx: ApplicationContext = mock()
 	var service : HelloService = mock()
 
 	var executor: Executor? = null

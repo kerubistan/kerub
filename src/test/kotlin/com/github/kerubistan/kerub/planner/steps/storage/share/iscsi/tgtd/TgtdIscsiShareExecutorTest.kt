@@ -26,10 +26,10 @@ import java.util.UUID
 
 class TgtdIscsiShareExecutorTest {
 
-	val hostConfigDao: HostConfigurationDao = mock()
+	private val hostConfigDao: HostConfigurationDao = mock()
 	val hostManager: HostManager = mock()
-	val firewall: FireWall = mock()
-	val serviceManager: ServiceManager = mock()
+	private val firewall: FireWall = mock()
+	private val serviceManager: ServiceManager = mock()
 	val session: ClientSession = mock()
 	val channel: ChannelExec = mock()
 	val sftp: SftpClient = mock()

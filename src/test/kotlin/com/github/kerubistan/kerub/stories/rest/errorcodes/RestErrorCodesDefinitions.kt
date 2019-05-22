@@ -18,10 +18,10 @@ import org.junit.Assert
 
 class RestErrorCodesDefinitions {
 
-	var hostAddress: String? = null
-	var publicKeyFingerPrint = ""
+	private var hostAddress: String? = null
+	private var publicKeyFingerPrint = ""
 	var client: WebClient? = null
-	var hostService: HostService? = null
+	private var hostService: HostService? = null
 	var exception: RestException? = null
 
 	@Before

@@ -17,12 +17,12 @@ import kotlin.test.assertEquals
 
 class VirtualMachineDynamicDaoImplTest {
 
-	val eventListener: EventListener = mock()
+	private val eventListener: EventListener = mock()
 
-	var cacheManager: DefaultCacheManager? = null
-	var cache: Cache<UUID, VirtualMachineDynamic>? = null
-	var historyDao = mock<HistoryDao<VirtualMachineDynamic>>()
-	var dao: VirtualMachineDynamicDao? = null
+	private var cacheManager: DefaultCacheManager? = null
+	private var cache: Cache<UUID, VirtualMachineDynamic>? = null
+	private var historyDao = mock<HistoryDao<VirtualMachineDynamic>>()
+	private var dao: VirtualMachineDynamicDao? = null
 
 	@Before
 	fun setup() {

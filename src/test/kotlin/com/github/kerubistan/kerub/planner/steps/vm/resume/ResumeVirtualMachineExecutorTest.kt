@@ -20,7 +20,7 @@ import java.util.UUID
 class ResumeVirtualMachineExecutorTest{
 	val hostManager: HostManager = mock()
 	val hypervisor: Hypervisor = mock()
-	val vmDynDao : VirtualMachineDynamicDao = mock()
+	private val vmDynDao : VirtualMachineDynamicDao = mock()
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),
@@ -34,7 +34,7 @@ class ResumeVirtualMachineExecutorTest{
 			dedicated = true
 	)
 
-	val vmDyn = VirtualMachineDynamic(
+	private val vmDyn = VirtualMachineDynamic(
 			id = vm.id,
 			hostId = host.id,
 			status = VirtualMachineStatus.Paused,

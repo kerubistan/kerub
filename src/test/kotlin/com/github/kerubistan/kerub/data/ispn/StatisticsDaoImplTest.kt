@@ -85,7 +85,7 @@ class StatisticsDaoImplTest {
 			)
 	)
 
-	val gvinumCapability = GvinumStorageCapability(
+	private val gvinumCapability = GvinumStorageCapability(
 			id = UUID.randomUUID(),
 			devices = listOf(
 					GvinumStorageCapabilityDrive(
@@ -122,12 +122,12 @@ class StatisticsDaoImplTest {
 			)
 	)
 
-	val vDisk1 = testVirtualDisk.copy(
+	private val vDisk1 = testVirtualDisk.copy(
 			id = UUID.randomUUID(),
 			size = 128.GB
 	)
 
-	val vDisk2 = testVirtualDisk.copy(
+	private val vDisk2 = testVirtualDisk.copy(
 			id = UUID.randomUUID(),
 			size = 128.GB
 	)

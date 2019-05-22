@@ -11,7 +11,7 @@ class BridgeCtlTest {
 
 	val session : ClientSession = mock()
 
-	val testOutput = """bridge name	bridge id		STP enabled	interfaces
+	private val testOutput = """bridge name	bridge id		STP enabled	interfaces
 virbr0		8000.fe5400194644	yes		vnet0
 							vnet1
 							vnet2

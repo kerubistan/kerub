@@ -14,7 +14,7 @@ import org.junit.Test
 class IfConfigTest {
 
 	val session: ClientSession = mock()
-	val exec: ChannelExec = mock()
+	private val exec: ChannelExec = mock()
 	val future: OpenFuture = mock()
 
 	@Test

@@ -15,7 +15,7 @@ class LsPciTest {
 
 	val session : ClientSession = mock()
 	val execChannel : ChannelExec = mock()
-	val channelOpenFuture : OpenFuture = mock()
+	private val channelOpenFuture : OpenFuture = mock()
 
 	object samples {
 		const val nuc =

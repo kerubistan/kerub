@@ -25,8 +25,8 @@ import kotlin.test.assertNull
 
 class EntityAccessControllerImplTest {
 
-	val assetAccessController: AssetAccessController = mock()
-	val anyEntityDao: AnyEntityDao = mock()
+	private val assetAccessController: AssetAccessController = mock()
+	private val anyEntityDao: AnyEntityDao = mock()
 
 	@Test
 	fun statClassOf() {

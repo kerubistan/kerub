@@ -35,7 +35,7 @@ open class IpmiClient {
 				}
 			}
 
-	internal fun makeRmcpHeader(type: Byte): ByteArray =
+	private fun makeRmcpHeader(type: Byte): ByteArray =
 			ByteArray(4) {
 				idx ->
 				when (idx) {

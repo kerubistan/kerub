@@ -41,30 +41,30 @@ import kotlin.test.assertTrue
 
 class HostManagerImplTest {
 
-	val hostDao: HostDao = mock()
+	private val hostDao: HostDao = mock()
 
-	val hostDynamicDao: HostDynamicDao = mock()
+	private val hostDynamicDao: HostDynamicDao = mock()
 
-	val vmDynDao: VirtualMachineDynamicDao = mock()
+	private val vmDynDao: VirtualMachineDynamicDao = mock()
 
-	val sshClientService: SshClientService = mock()
+	private val sshClientService: SshClientService = mock()
 
-	val controllerManager: ControllerManager = mock()
+	private val controllerManager: ControllerManager = mock()
 
-	val hostAssignmentDao: AssignmentDao = mock()
+	private val hostAssignmentDao: AssignmentDao = mock()
 
-	val hostAssigner: ControllerAssigner = mock()
+	private val hostAssigner: ControllerAssigner = mock()
 
-	val discoverer: HostCapabilitiesDiscoverer = mock()
+	private val discoverer: HostCapabilitiesDiscoverer = mock()
 
-	val clientSession: ClientSession = mock()
+	private val clientSession: ClientSession = mock()
 
 	val hypervisor: Hypervisor = mock()
 
 	var hostManager: HostManagerImpl? = null
 
-	var sshServer: SshServer? = null
-	var shell: TestShellCommand? = null
+	private var sshServer: SshServer? = null
+	private var shell: TestShellCommand? = null
 
 	val distro: Distribution = mock()
 
@@ -73,8 +73,8 @@ class HostManagerImplTest {
 		var input: InputStream? = null
 		var output: OutputStream? = null
 		var error: OutputStream? = null
-		var env: Environment? = null
-		var destroyed: Boolean = false
+		private var env: Environment? = null
+		private var destroyed: Boolean = false
 
 		override fun setInputStream(`in`: InputStream?) {
 			input = `in`

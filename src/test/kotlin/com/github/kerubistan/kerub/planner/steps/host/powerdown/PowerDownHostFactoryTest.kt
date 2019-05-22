@@ -27,7 +27,7 @@ class PowerDownHostFactoryTest : AbstractFactoryVerifications(PowerDownHostFacto
 			publicKey = ""
 	)
 
-	val hostWithPowerManagement = host.copy(
+	private val hostWithPowerManagement = host.copy(
 			capabilities = HostCapabilities(
 					powerManagment = listOf(WakeOnLanInfo()),
 					totalMemory = 16.GB,

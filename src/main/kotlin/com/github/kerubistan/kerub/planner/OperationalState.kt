@@ -40,23 +40,21 @@ data class OperationalState(
 
 	companion object {
 
-		fun <T : Entity<I>, I> mapById(entities: List<T>): Map<I, T> = entities.associateBy { it.id }
-
 		private fun mapHostData(
 				hosts: List<Host> = listOf(),
 				hostDyns: List<HostDynamic> = listOf(),
 				hostCfgs: List<HostConfiguration> = listOf()
 		): Map<UUID, HostDataCollection> {
-			val hostDynMap = mapById(hostDyns)
-			val hostCfgMap = mapById(hostCfgs)
+			val hostDynMap = hostDyns.byId()
+			val hostCfgMap = hostCfgs.byId()
 			return hosts.map {
 				it.id to HostDataCollection(it, hostDynMap[it.id], hostCfgMap[it.id] ?: HostConfiguration(id = it.id))
 			}.toMap()
 		}
 
-		fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<I, T, D>>
+		private fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<I, T, D>>
 				mapToCollection(staticData: List<T>, dynamicData: List<D>, transform: (static: T, dynamic: D?) -> C): Map<I, C> {
-			val dynMap: Map<UUID, D> = mapById(dynamicData)
+			val dynMap: Map<UUID, D> = dynamicData.byId()
 			return staticData.map { transform(it, dynMap[it.id as UUID]) }.byId()
 		}
 

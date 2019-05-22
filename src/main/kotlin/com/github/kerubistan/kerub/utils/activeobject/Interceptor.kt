@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.utils.activeobject
 import org.aopalliance.intercept.MethodInterceptor
 import org.aopalliance.intercept.MethodInvocation
 
-class Interceptor(val bean: String, val queue: InvocationQueue) : MethodInterceptor {
+class Interceptor(private val bean: String, val queue: InvocationQueue) : MethodInterceptor {
 	override fun invoke(invocation: MethodInvocation?): Any? {
 		queue.send(
 				AsyncInvocation(

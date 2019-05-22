@@ -64,14 +64,14 @@ class AuthorizationDefs {
 
 	var exception: RestException? = null
 
-	var entities = mapOf<String, Entity<UUID>>()
+	private var entities = mapOf<String, Entity<UUID>>()
 	private var originalConfig: ControllerConfig? = null
 
 	companion object {
 		private val logger = getLogger(AuthorizationDefs::class)
 	}
 
-	fun <X : Any> WebClient.tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
+	private fun <X : Any> WebClient.tryRunRestAction(clientClass: KClass<X>, action: (X) -> Unit) {
 		try {
 			val serviceClient = JAXRSClientFactory.fromClient(this, clientClass.java)
 			action(serviceClient)
@@ -92,7 +92,7 @@ class AuthorizationDefs {
 		}
 	}
 
-	var accounts: Map<String, Account> = mapOf()
+	private var accounts: Map<String, Account> = mapOf()
 
 	@Given("accounts:")
 	fun createAccounts(table: DataTable) {
@@ -335,7 +335,7 @@ class AuthorizationDefs {
 		}
 	}
 
-	val actions = mapOf<String, (RestCrud<Entity<UUID>>, Entity<UUID>) -> Any>(
+	private val actions = mapOf<String, (RestCrud<Entity<UUID>>, Entity<UUID>) -> Any>(
 			"add" to { x, obj -> x.add(obj) },
 			"see" to { x, obj -> x.getById(obj.id) },
 			"list" to {
@@ -383,7 +383,7 @@ class AuthorizationDefs {
 			}
 	)
 
-	val clients = mapOf(
+	private val clients = mapOf(
 			"vm" to VirtualMachineService::class as KClass<RestCrud<Entity<UUID>>>,
 			"virtual disk" to VirtualStorageDeviceService::class as KClass<RestCrud<Entity<UUID>>>,
 			"virtual network" to VirtualNetworkService::class as KClass<RestCrud<Entity<UUID>>>
@@ -547,7 +547,7 @@ class AuthorizationDefs {
 		}
 	}
 
-	val listFnMap = mapOf<String, (WebClient) -> SortResultPage<*>>(
+	private val listFnMap = mapOf<String, (WebClient) -> SortResultPage<*>>(
 			"vm" to {
 				client ->
 				client.runRestAction(VirtualMachineService::class) { it.listAll(0, 10, Named::name.name) }

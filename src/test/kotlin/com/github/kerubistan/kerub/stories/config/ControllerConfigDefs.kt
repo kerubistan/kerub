@@ -11,7 +11,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 
 class ControllerConfigDefs {
 
-	var originalConfig: ControllerConfig? = null
+	private var originalConfig: ControllerConfig? = null
 	var service: ControllerConfigService? = null
 
 	companion object {

@@ -19,7 +19,7 @@ enum class AppCommand(val code: Int) {
 	GetAuthCode(0x3F);
 
 	companion object {
-		private val commandsByCode = AppCommand.values().map { it.code to it }.toMap()
+		private val commandsByCode = values().map { it.code to it }.toMap()
 		fun getByCode(code: Int): AppCommand =
 				commandsByCode[code] ?: throw IllegalArgumentException("Code not known: $code")
 	}

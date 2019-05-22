@@ -24,10 +24,10 @@ import java.util.UUID
 
 class ValidatorImplTest {
 
-	val anyAssetDao: AnyAssetDao = mock()
+	private val anyAssetDao: AnyAssetDao = mock()
 
-	val account1 = UUID.randomUUID()
-	val account2 = UUID.randomUUID()
+	private val account1 = UUID.randomUUID()
+	private val account2 = UUID.randomUUID()
 
 
 	@Test

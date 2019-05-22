@@ -10,8 +10,8 @@ import org.springframework.jms.core.MessageCreator
 import javax.jms.Session
 
 class MqInvocationQueueTest {
-	val template: JmsTemplate = mock()
-	val session: Session = mock()
+	private val template: JmsTemplate = mock()
+	private val session: Session = mock()
 	@Test
 	fun send() {
 		val queue = MqInvocationQueue(template)

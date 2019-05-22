@@ -13,7 +13,7 @@ object MPStat : OsCommand {
 
 	class MPStatOutput(private val handler: (List<CpuStat>) -> Unit) : OutputStream() {
 		private val buff: StringBuilder = StringBuilder(128)
-		var cpuStats = listOf<CpuStat>()
+		private var cpuStats = listOf<CpuStat>()
 		override fun write(data: Int) {
 			if (data == 10) {
 				parseOutput()

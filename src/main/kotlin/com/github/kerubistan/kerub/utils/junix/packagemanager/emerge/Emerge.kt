@@ -7,7 +7,7 @@ import org.apache.sshd.client.session.ClientSession
 
 object Emerge {
 
-	val releasePattern = "r\\d+".toRegex()
+	private val releasePattern = "r\\d+".toRegex()
 
 	fun listPackages(session: ClientSession): List<SoftwarePackage> =
 			session.executeOrDie("ls -d /var/db/pkg/*/*| cut -f5- -d/").lines().map {

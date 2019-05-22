@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 
 import com.github.kerubistan.kerub.model.config.HostConfiguration
-import com.github.kerubistan.kerub.model.services.HostService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
@@ -30,7 +29,7 @@ class UnshareNfsTest {
 				)
 		)
 
-		assertTrue(state.hosts.getValue(testHost.id).config!!.services == listOf<HostService>())
+		assertTrue(state.hosts.getValue(testHost.id).config!!.services.isEmpty())
 	}
 
 }

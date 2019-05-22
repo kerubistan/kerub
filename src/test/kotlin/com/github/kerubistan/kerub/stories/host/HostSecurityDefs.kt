@@ -17,7 +17,7 @@ import org.junit.Assert
 
 class HostSecurityDefs {
 	var user: String = "admin"
-	var responseCode = 200
+	private var responseCode = 200
 
 	companion object {
 		private val logger = getLogger(HostSecurityDefs::class)

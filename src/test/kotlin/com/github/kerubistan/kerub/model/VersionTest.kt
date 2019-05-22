@@ -6,7 +6,7 @@ import kotlin.test.assertNotNull
 
 class VersionTest {
 
-	fun params(): List<Pair<Version, String>> {
+	private fun params(): List<Pair<Version, String>> {
 		return listOf(
 				Pair(Version("1", "2", "3"), "1.2.3"),
 				Pair(Version("0", "8", "13"), "0.8-13.fc20.x86_64"),

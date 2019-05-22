@@ -14,8 +14,8 @@ import org.mockito.ArgumentMatchers.startsWith
 class CygwinPackageManagerTest {
 
 	val session: ClientSession = mock()
-	val wmicExecChannel: ChannelExec = mock()
-	val cygchheckChannel: ChannelExec = mock()
+	private val wmicExecChannel: ChannelExec = mock()
+	private val cygchheckChannel: ChannelExec = mock()
 	val openFuture: OpenFuture = mock()
 
 

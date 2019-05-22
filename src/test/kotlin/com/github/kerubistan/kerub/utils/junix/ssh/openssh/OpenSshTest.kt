@@ -9,7 +9,6 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
@@ -18,11 +17,10 @@ import kotlin.test.assertEquals
 
 class OpenSshTest {
 
-	val client: SshClient = mock()
-	val session: ClientSession = mock()
-	val sftpClient: SftpClient = mock()
-	val handle: SftpClient.CloseableHandle = mock()
-	val attrs: SftpClient.Attributes = mock()
+	private val session: ClientSession = mock()
+	private val sftpClient: SftpClient = mock()
+	private val handle: SftpClient.CloseableHandle = mock()
+	private val attrs: SftpClient.Attributes = mock()
 
 	@Test
 	fun keyGen() {

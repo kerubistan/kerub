@@ -45,7 +45,7 @@ class EntityDefs {
 		entities = entities.filterValues { it.id != entity.id }
 	}
 
-	val entityTypes = mapOf<KClass<out Any>, KClass<out RestCrud<*>>>(
+	private val entityTypes = mapOf<KClass<out Any>, KClass<out RestCrud<*>>>(
 			VirtualMachine::class to VirtualMachineService::class,
 			VirtualNetwork::class to VirtualNetworkService::class,
 			VirtualStorageDevice::class to VirtualStorageDeviceService::class,

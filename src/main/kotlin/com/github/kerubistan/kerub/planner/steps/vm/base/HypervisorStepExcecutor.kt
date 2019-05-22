@@ -10,7 +10,7 @@ abstract class HypervisorStepExcecutor<T : HostStep, U>(protected val hostManage
 	override fun perform(step: T) =
 			execute(getHypervisor(step), step)
 
-	protected fun getHypervisor(step: T) = requireNotNull(hostManager.getHypervisor(step.host)
+	private fun getHypervisor(step: T) = requireNotNull(hostManager.getHypervisor(step.host)
 	) { "No hypervisor found on host ${step.host}" }
 
 	abstract fun execute(hypervisor: Hypervisor, step: T): U

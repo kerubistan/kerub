@@ -94,7 +94,7 @@ Built-in Pointing Device
 		assertEquals("Single-bit ECC", l1Cache.errorCorrection)
 
 		val l2Cache = processor.l2cache!!
-		assertEquals(512.KB.toInt(), l2Cache.size.toInt())
+		assertEquals(512.KB.toInt(), l2Cache.size)
 		assertNull(l2Cache.speedNs)
 		assertEquals("Single-bit ECC", l2Cache.errorCorrection)
 

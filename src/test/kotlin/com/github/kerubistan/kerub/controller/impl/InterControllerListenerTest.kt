@@ -18,11 +18,11 @@ class InterControllerListenerTest {
 
 	val hostManager: HostManager = mock()
 
-	var hostDao: HostDao = mock()
+	private var hostDao: HostDao = mock()
 
 	val message : ObjectMessage = mock()
 
-	val listener : InternalMessageListener = mock()
+	private val listener : InternalMessageListener = mock()
 
 	var impl : InterControllerListener? = null
 

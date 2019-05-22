@@ -19,9 +19,9 @@ import java.util.UUID
 
 class PauseVirtualMachineExecutorTest {
 
-	val hostManager: HostManager = mock()
-	var hypervisor: Hypervisor = mock()
-	var vmDynDao: VirtualMachineDynamicDao = mock()
+	private val hostManager: HostManager = mock()
+	private var hypervisor: Hypervisor = mock()
+	private var vmDynDao: VirtualMachineDynamicDao = mock()
 
 
 	val vm = VirtualMachine(
@@ -36,7 +36,7 @@ class PauseVirtualMachineExecutorTest {
 			dedicated = true
 	)
 
-	val vmDyn = VirtualMachineDynamic(
+	private val vmDyn = VirtualMachineDynamic(
 			id = vm.id,
 			hostId = host.id,
 			status = VirtualMachineStatus.Up,

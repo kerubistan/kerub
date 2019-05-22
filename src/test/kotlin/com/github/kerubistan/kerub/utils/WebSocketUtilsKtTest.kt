@@ -10,8 +10,8 @@ import kotlin.test.assertEquals
 
 class WebSocketUtilsKtTest {
 
-	val session: WebSocketSession = mock()
-	val headers: HttpHeaders = mock()
+	private val session: WebSocketSession = mock()
+	private val headers: HttpHeaders = mock()
 
 	@Test
 	fun servletSessionId() {

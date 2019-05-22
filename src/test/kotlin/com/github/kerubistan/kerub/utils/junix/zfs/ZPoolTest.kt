@@ -15,9 +15,9 @@ import org.junit.Test
 
 class ZPoolTest {
 
-	val session: ClientSession = mock()
-	val openFuture: OpenFuture = mock()
-	val channelExec: ChannelExec = mock()
+	private val session: ClientSession = mock()
+	private val openFuture: OpenFuture = mock()
+	private val channelExec: ChannelExec = mock()
 
 	@Test
 	fun listWithFreeBsd11() {

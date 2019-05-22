@@ -154,7 +154,7 @@ class FreeBSD : Distribution {
 	}
 
 	//BSD distributions have different naming conventions for architectures
-	val cpuTypeMap = mapOf(
+	private val cpuTypeMap = mapOf(
 			"amd64" to "X86_64"
 	)
 

@@ -102,7 +102,7 @@ object VBoxManage : OsCommand {
 			fun netRate(input: String?): Int
 					= input?.substringBefore("/s")?.toSize()?.toInt() ?: 0
 
-			fun size(input: String?): BigInteger = input?.toSize() ?: BigInteger.ZERO
+			fun size(input: String?): BigInteger = input?.toSize() ?: ZERO
 			fun percent(input: String?): Float = input?.percent() ?: 0.toFloat()
 
 			if (buffer.endsWith("---------\n")) {

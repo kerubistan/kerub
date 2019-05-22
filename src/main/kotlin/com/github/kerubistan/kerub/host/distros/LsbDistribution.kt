@@ -7,13 +7,13 @@ import org.apache.sshd.client.session.ClientSession
 import java.io.StringReader
 import java.util.Properties
 
-abstract class LsbDistribution(val distroName: String) : AbstractLinux() {
+abstract class LsbDistribution(private val distroName: String) : AbstractLinux() {
 
 	override fun name(): String {
 		return distroName
 	}
 
-	fun <T> enforce(value: T?, msg: String): T {
+	private fun <T> enforce(value: T?, msg: String): T {
 		if (value == null) {
 			throw IllegalArgumentException("$msg - value is null")
 		} else {
