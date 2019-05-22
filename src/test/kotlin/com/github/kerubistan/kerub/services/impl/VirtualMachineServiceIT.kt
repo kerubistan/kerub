@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.model.expectations.ClockFrequencyExpectation
 import com.github.kerubistan.kerub.model.expectations.MemoryClockFrequencyExpectation
 import com.github.kerubistan.kerub.services.LoginService
 import com.github.kerubistan.kerub.services.VirtualMachineService
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.KB
 import org.junit.Assert
 import org.junit.Test
 import java.math.BigInteger
@@ -52,7 +52,7 @@ class VirtualMachineServiceIT {
 						),
 						CacheSizeExpectation(
 								level = ExpectationLevel.Wish,
-								minL1 = "1024 KB".toSize().toLong()
+								minL1 = 1024.KB.toLong()
 						)
 				)
 		)

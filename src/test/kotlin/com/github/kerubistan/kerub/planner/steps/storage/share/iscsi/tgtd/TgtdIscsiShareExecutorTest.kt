@@ -9,12 +9,12 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.junix.iscsi.tgtd.TgtAdmin
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
 import org.apache.commons.io.input.NullInputStream
 import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -46,7 +46,7 @@ class TgtdIscsiShareExecutorTest {
 			id = UUID.randomUUID(),
 			name = "disk-1",
 			expectations = listOf(),
-			size = "16 GB".toSize()
+			size = 16.GB
 	)
 
 	@Test

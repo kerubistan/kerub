@@ -10,7 +10,6 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
-import com.github.kerubistan.kerub.utils.toSize
 import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID
@@ -30,7 +29,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 										)
 								)
 						)
-				), size = "2 TB".toSize(), vgName = "test-vg", name = "pool-1")
+				), size = 2.TB, vgName = "test-vg", name = "pool-1")
 
 	@Test
 	fun take() {
@@ -46,7 +45,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 						)
 				)
 		)
-		val state = CreateLvmPool(host = host, size = "2 TB".toSize(), vgName = "test-vg", name = "pool-1").take(
+		val state = CreateLvmPool(host = host, size = 2.TB, vgName = "test-vg", name = "pool-1").take(
 				OperationalState.fromLists(
 						hosts = listOf(
 								host
@@ -69,7 +68,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 		assertTrue {
 			val poolConfig = (state.hosts.getValue(testHost.id).config!!.storageConfiguration.single() as LvmPoolConfiguration)
 			poolConfig.poolName == "pool-1"
-					&& poolConfig.size == "2 TB".toSize()
+					&& poolConfig.size == 2.TB
 					&& poolConfig.vgName == "test-vg"
 		}
 	}

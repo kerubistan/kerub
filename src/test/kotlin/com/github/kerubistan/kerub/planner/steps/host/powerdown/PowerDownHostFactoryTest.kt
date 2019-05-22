@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertTrue
@@ -30,7 +30,7 @@ class PowerDownHostFactoryTest : AbstractFactoryVerifications(PowerDownHostFacto
 	val hostWithPowerManagement = host.copy(
 			capabilities = HostCapabilities(
 					powerManagment = listOf(WakeOnLanInfo()),
-					totalMemory = "16 GB".toSize(),
+					totalMemory = 16.GB,
 					cpuArchitecture = "X86_64",
 					distribution = null,
 					os = null

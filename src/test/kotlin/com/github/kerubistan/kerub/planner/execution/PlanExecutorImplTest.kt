@@ -17,13 +17,13 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Test
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
@@ -59,7 +59,7 @@ class PlanExecutorImplTest {
 				steps = listOf(CreateImage(
 						host = host,
 						disk = VirtualStorageDevice(
-								size = "100 MB".toSize(),
+								size = 100.MB,
 								name = "foo"
 						),
 						format = VirtualDiskFormat.qcow2,

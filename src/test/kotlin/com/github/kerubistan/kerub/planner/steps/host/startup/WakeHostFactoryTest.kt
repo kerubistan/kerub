@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert
 import org.junit.Test
 import kotlin.test.assertTrue
@@ -23,7 +23,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 					os = null,
 					cpuArchitecture = "X86_64",
 					distribution = null,
-					totalMemory = "2 GB".toSize(),
+					totalMemory = 2.GB,
 					powerManagment = listOf(WakeOnLanInfo())
 			)
 	)
@@ -36,7 +36,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 					os = null,
 					cpuArchitecture = "X86_64",
 					distribution = null,
-					totalMemory = "2 GB".toSize(),
+					totalMemory = 2.GB,
 					powerManagment = listOf(WakeOnLanInfo())
 			)
 	)
@@ -49,7 +49,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 					os = null,
 					cpuArchitecture = "X86_64",
 					distribution = null,
-					totalMemory = "2 GB".toSize()
+					totalMemory = 2.GB
 			)
 	)
 

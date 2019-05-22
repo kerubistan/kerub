@@ -13,12 +13,12 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVirtualDisk
 import com.github.kerubistan.kerub.testVirtualNetwork
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import kotlin.test.assertNull
@@ -47,7 +47,7 @@ class EntityAccessControllerImplTest {
 	fun statFromDynamic() {
 		val dyn = VirtualMachineDynamic(
 				id = testVm.id,
-				memoryUsed = "1 GB".toSize(),
+				memoryUsed = 1.GB,
 				status = VirtualMachineStatus.Up,
 				hostId = testHost.id
 		)

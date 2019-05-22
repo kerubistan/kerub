@@ -14,7 +14,7 @@ import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testLvmCapability
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
@@ -32,7 +32,7 @@ class TgtdIscsiShareFactoryTest : AbstractFactoryVerifications(TgtdIscsiShareFac
 							SoftwarePackage("scsi-target-utils", Version.fromVersionString("1.0.55"))
 					),
 					cpuArchitecture = "X86_64",
-					totalMemory = "1 GB".toSize()
+					totalMemory = 1.GB
 			)
 	)
 
@@ -45,7 +45,7 @@ class TgtdIscsiShareFactoryTest : AbstractFactoryVerifications(TgtdIscsiShareFac
 			id = UUID.randomUUID(),
 			name = "disk-1",
 			expectations = listOf(),
-			size = "16 GB".toSize()
+			size = 16.GB
 	)
 
 	val vStorageDyn = VirtualStorageDeviceDynamic(

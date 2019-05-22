@@ -12,7 +12,8 @@ import com.github.kerubistan.kerub.runRestAction
 import com.github.kerubistan.kerub.services.LoginService
 import com.github.kerubistan.kerub.services.VirtualStorageDeviceService
 import com.github.kerubistan.kerub.testDisk
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Assert
 import org.junit.Test
 import java.util.UUID
@@ -30,7 +31,7 @@ class VirtualStorageDeviceServiceImplIT {
 		val deviceToSave = VirtualStorageDevice(
 				id = randomUUID,
 				name = "virtual disk $randomUUID",
-				size = "100 GB".toSize(),
+				size = 100.GB,
 				readOnly = false,
 				expectations = listOf(
 						StorageRedundancyExpectation(
@@ -48,7 +49,7 @@ class VirtualStorageDeviceServiceImplIT {
 		val savedDevice = vsd.getById(deviceToSave.id)
 		Assert.assertEquals(deviceToSave, savedDevice)
 
-		val update: VirtualStorageDevice = savedDevice.copy(size = deviceToSave.size + "200 MB".toSize())
+		val update: VirtualStorageDevice = savedDevice.copy(size = deviceToSave.size + 200.MB)
 		vsd.update(update.id, update)
 
 		val updated = vsd.getById(deviceToSave.id)

@@ -20,7 +20,7 @@ import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertFalse
@@ -49,7 +49,7 @@ class KvmStartVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmStartV
 									voltage = null
 							)),
 					cpuArchitecture = "x86_64",
-					totalMemory = "8 GB".toSize(),
+					totalMemory = 8.GB,
 					installedSoftware = listOf(
 							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
 							SoftwarePackage(name = "libvirt-bin", version = Version.fromVersionString("1.2.18"))
@@ -79,7 +79,7 @@ class KvmStartVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmStartV
 	private val hostDyn = HostDynamic(
 			id = host.id,
 			status = HostStatus.Up,
-			memFree = "8 GB".toSize()
+			memFree = 8.GB
 	)
 
 
@@ -87,7 +87,7 @@ class KvmStartVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmStartV
 			id = vm.id,
 			status = VirtualMachineStatus.Up,
 			hostId = host.id,
-			memoryUsed = "1 GB".toSize()
+			memoryUsed = 1.GB
 	)
 
 	@Test

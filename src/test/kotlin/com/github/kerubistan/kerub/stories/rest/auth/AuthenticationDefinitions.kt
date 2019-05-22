@@ -11,11 +11,11 @@ import com.github.kerubistan.kerub.services.MotdService
 import com.github.kerubistan.kerub.services.VersionService
 import com.github.kerubistan.kerub.services.VirtualMachineService
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.utils.toSize
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.size.GB
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.WebClient
 import org.hamcrest.CoreMatchers
@@ -103,7 +103,7 @@ class AuthenticationDefinitions {
 					name = "test",
 					expectations = listOf(),
 					nrOfCpus = 2,
-					memory = Range(min = "1 GB".toSize(), max = "2 GB".toSize())
+					memory = Range(min = 1.GB, max = 2.GB)
 			))
 		}
 	}

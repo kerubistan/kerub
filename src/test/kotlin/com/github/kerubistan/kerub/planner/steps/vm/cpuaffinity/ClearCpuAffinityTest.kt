@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -28,7 +28,7 @@ class ClearCpuAffinityTest {
 						id = testVm.id,
 						status = VirtualMachineStatus.Up,
 						hostId = testHost.id,
-						memoryUsed = "1 GB".toSize()
+						memoryUsed = 1.GB
 				))
 		))
 

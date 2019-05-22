@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testLvmCapability
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.UUID
@@ -34,7 +34,7 @@ class TgtdIscsiShareTest {
 			id = UUID.randomUUID(),
 			name = "disk-1",
 			expectations = listOf(),
-			size = "16 GB".toSize()
+			size = 16.GB
 	)
 
 	val vStorageDyn = VirtualStorageDeviceDynamic(

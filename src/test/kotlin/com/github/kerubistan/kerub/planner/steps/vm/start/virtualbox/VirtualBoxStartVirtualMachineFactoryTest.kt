@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertTrue
 
@@ -31,7 +31,7 @@ class VirtualBoxStartVirtualMachineFactoryTest : AbstractFactoryVerifications(Vi
 									)
 							),
 							cpuArchitecture = "X86_64",
-							totalMemory = "256 GB".toSize()
+							totalMemory = 256.GB
 					)
 			)
 			val steps = VirtualBoxStartVirtualMachineFactory.produce(
@@ -40,7 +40,7 @@ class VirtualBoxStartVirtualMachineFactoryTest : AbstractFactoryVerifications(Vi
 							hostDyns = listOf(
 									HostDynamic(
 											id = host.id,
-											memFree = "128 GB".toSize()
+											memFree = 128.GB
 									)
 							),
 							vms = listOf(vm)

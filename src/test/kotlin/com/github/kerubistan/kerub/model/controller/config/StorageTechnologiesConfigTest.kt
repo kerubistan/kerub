@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.model.controller.config
 
 import com.github.kerubistan.kerub.model.FsStorageCapability
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -22,13 +22,13 @@ class StorageTechnologiesConfigTest {
 
 	@Test
 	fun enabledCapabilities() {
-		val shouldPass = FsStorageCapability(size = "128 GB".toSize(), mountPoint = "/kerub", fsType = "ext4")
+		val shouldPass = FsStorageCapability(size = 128.GB, mountPoint = "/kerub", fsType = "ext4")
 		val capabilities = StorageTechnologiesConfig(fsPathEnabled = listOf("/var", "/kerub"), fsTypeEnabled = listOf("ext4", "ext3"))
 				.enabledCapabilities(
 						listOf(
-								FsStorageCapability(size = "128 GB".toSize(), mountPoint = "/home", fsType = "ext4"),
+								FsStorageCapability(size = 128.GB, mountPoint = "/home", fsType = "ext4"),
 								shouldPass,
-								FsStorageCapability(size = "128 GB".toSize(), mountPoint = "/var", fsType = "xfs")
+								FsStorageCapability(size = 128.GB, mountPoint = "/var", fsType = "xfs")
 						)
 				)
 		assertEquals(capabilities,

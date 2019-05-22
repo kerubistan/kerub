@@ -2,10 +2,11 @@ package com.github.kerubistan.kerub.services.impl
 
 import com.github.kerubistan.kerub.data.stat.BasicBalanceReport
 import com.github.kerubistan.kerub.data.stat.StatisticsDao
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
+import io.github.kerubistan.kroki.size.GB
+import io.github.kerubistan.kroki.size.MB
 import org.junit.Test
 
 class UsageStatisticsServiceImplTest {
@@ -21,13 +22,13 @@ class UsageStatisticsServiceImplTest {
 				totalDedicatedVmCpus = 0,
 				totalVmCpus = 1,
 				totalHostCpus = 1,
-				totalHostMemory = "1 GB".toSize(),
-				totalDiskStorageActual = "1 GB".toSize(),
-				totalDiskStorageRequested = "1 GB".toSize(),
-				totalHostStorage = "1 GB".toSize(),
-				totalHostStorageFree = "500MB".toSize(),
-				totalMaxVmMemory = "1 GB".toSize(),
-				totalMinVmMemory = "1 GB".toSize()
+				totalHostMemory = 1.GB,
+				totalDiskStorageActual = 1.GB,
+				totalDiskStorageRequested = 1.GB,
+				totalHostStorage = 1.GB,
+				totalHostStorageFree = 500.MB,
+				totalMaxVmMemory = 1.GB,
+				totalMinVmMemory = 1.GB
 		)
 		whenever(statDao.basicBalanceReport()).thenReturn(report)
 

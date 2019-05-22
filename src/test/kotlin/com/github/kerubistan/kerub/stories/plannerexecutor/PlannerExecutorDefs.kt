@@ -30,14 +30,15 @@ import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.size.PB
+import io.github.kerubistan.kroki.size.TB
 import io.github.kerubistan.kroki.time.now
 import java.math.BigDecimal
 import java.util.UUID
@@ -70,7 +71,7 @@ class PlannerExecutorDefs {
 			publicKey = "",
 			capabilities = HostCapabilities(
 					os = OperatingSystem.Linux,
-					totalMemory = "1 TB".toSize(),
+					totalMemory = 1.TB,
 					distribution = SoftwarePackage(name = "CentOS Linux", version = Version.fromVersionString("7.0")),
 					installedSoftware = listOf(
 							SoftwarePackage(name = "qemu-kvm", version = Version.fromVersionString("2.4.1")),
@@ -143,11 +144,11 @@ class PlannerExecutorDefs {
 				hosts = mapOf(host.id to /*host*/ HostDataCollection(stat = host, dynamic = HostDynamic(
 						id = host.id,
 						status = HostStatus.Up,
-						memFree = "1 TB".toSize(),
+						memFree = 1.TB,
 						storageStatus = listOf(
 								SimpleStorageDeviceDynamic(
 										id = host.capabilities!!.storageCapabilities[0].id,
-										freeCapacity = "1 PB".toSize()
+										freeCapacity = 1.PB
 								)
 						)
 				)))
@@ -159,7 +160,7 @@ class PlannerExecutorDefs {
 		val disk = VirtualStorageDevice(
 				id = UUID.randomUUID(),
 				name = "test-disk",
-				size = "100 GB".toSize(),
+				size = 100.GB,
 				expectations = listOf()
 		)
 

@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.io.resource
+import io.github.kerubistan.kroki.size.KB
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals
@@ -12,8 +12,8 @@ import org.junit.Test
 
 class MemInfoTest {
 
-	val session : ClientSession = mock()
-	val sftpClient : SftpClient = mock()
+	private val session: ClientSession = mock()
+	private val sftpClient: SftpClient = mock()
 
 	@Test
 	fun totalWithCygwin() {
@@ -21,7 +21,7 @@ class MemInfoTest {
 		whenever(sftpClient.read(any())).then {
 			resource("com/github/kerubistan/kerub/utils/junix/procfs/cygwin-meminfo.txt")
 		}
-		assertEquals("4193780 kB".toSize(), MemInfo.total(session))
+		assertEquals(4193780.KB, MemInfo.total(session))
 	}
 
 	@Test
@@ -30,7 +30,7 @@ class MemInfoTest {
 		whenever(sftpClient.read(any())).then {
 			resource("com/github/kerubistan/kerub/utils/junix/procfs/linux-meminfo.txt")
 		}
-		assertEquals("16345292 kB".toSize(), MemInfo.total(session))
+		assertEquals(16345292.KB, MemInfo.total(session))
 	}
 
 }

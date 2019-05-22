@@ -2,12 +2,12 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
-import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.io.resourceToString
+import io.github.kerubistan.kroki.size.GB
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Assert.assertEquals
@@ -19,8 +19,8 @@ import kotlin.test.assertFalse
 
 class GVinumTest {
 
-	val session : ClientSession = mock()
-	val ftp : SftpClient = mock()
+	private val session : ClientSession = mock()
+	private val ftp : SftpClient = mock()
 
 	@Test
 	fun parseDriveList() {
@@ -40,12 +40,12 @@ class GVinumTest {
 
 	private fun verifyDrivesList(list: List<GvinumDrive>) {
 		assertEquals(2, list.size)
-		assertEquals("5368573440 B".toSize(), list[0].size)
+		assertEquals(5368573440.toBigInteger(), list[0].size)
 		assertEquals("ada2", list[0].device)
 		assertEquals("b", list[0].name)
 		assertTrue(list[0].up)
 		assertEquals(BigInteger.ZERO, list[0].used)
-		assertEquals("5368573440 B".toSize(), list[0].available)
+		assertEquals(5368573440.toBigInteger(), list[0].available)
 	}
 
 	@Test
@@ -136,7 +136,7 @@ class GVinumTest {
 		val outputStream = ByteArrayOutputStream()
 		whenever(ftp.write(any())).thenReturn(outputStream)
 
-		GVinum.createSimpleVolume(session, "test-vol", "ada1", "100 GB".toSize())
+		GVinum.createSimpleVolume(session, "test-vol", "ada1", 100.GB)
 
 		verify(ftp).remove(any())
 		assertTrue(outputStream.toByteArray().isNotEmpty())

@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Risk
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import kotlin.test.assertNull
@@ -35,7 +35,7 @@ class StopVirtualMachineTest {
 				id = vm.id,
 				hostId = host.id,
 				status = VirtualMachineStatus.Up,
-				memoryUsed = "1 GB".toSize(),
+				memoryUsed = 1.GB,
 				lastUpdated = now()
 		                                 )
 		val originalState = OperationalState.fromLists(

@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -24,7 +24,7 @@ class SetCpuAffinityTest {
 				vmDyns = listOf(VirtualMachineDynamic(
 						id = testVm.id,
 						status = VirtualMachineStatus.Up,
-						memoryUsed = "1 GB".toSize(),
+						memoryUsed = 1.GB,
 						hostId = testHost.id
 				))
 		))

@@ -5,14 +5,14 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testFsCapability
-import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.size.GB
 import org.junit.Assert
 import org.junit.Test
 
 class CreateImageTest {
 
 	val device = VirtualStorageDevice(
-			size = "128 GB".toSize(),
+			size = 128.GB,
 			readOnly = false,
 			name = "test"
 	)
