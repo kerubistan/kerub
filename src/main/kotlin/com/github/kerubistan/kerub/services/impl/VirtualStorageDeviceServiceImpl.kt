@@ -47,17 +47,17 @@ class VirtualStorageDeviceServiceImpl(
 			)
 		}
 		dynDao.waitFor(id) { dyn ->
-			hostDynDao[dyn.allocations.filter { it.type == type }.map { it.hostId }].firstOrNull { it.status == HostStatus.Up }?.let {
-				hostDyn ->
-				val host = requireNotNull(hostDao[hostDyn.id])
-				val storageDeviceDyn = dyn.allocations.firstOrNull { it.hostId == host.id && it.type == type }
-				storageDeviceDyn != null &&
-						async.resume(
-								ok(
-										executor.readRemoteFile(host, storageDeviceDyn.getPath(dyn.id)),
-										MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
-						)
-			} ?: false
+			hostDynDao[dyn.allocations.filter { it.type == type }.map { it.hostId }]
+					.firstOrNull { it.status == HostStatus.Up }?.let { hostDyn ->
+						val host = requireNotNull(hostDao[hostDyn.id])
+						val storageDeviceDyn = dyn.allocations.firstOrNull { it.hostId == host.id && it.type == type }
+						storageDeviceDyn != null &&
+								async.resume(
+										ok(
+												executor.readRemoteFile(host, storageDeviceDyn.getPath(dyn.id)),
+												MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
+								)
+					} ?: false
 		}
 	}
 
@@ -87,29 +87,33 @@ class VirtualStorageDeviceServiceImpl(
 					device.size
 				}
 
-				dao.update(device.copy(
-						expectations = device.expectations.filterNot { it is StorageAvailabilityExpectation },
-						size = virtualSize
-				))
+				dao.update(
+						device.copy(
+								expectations = device.expectations.filterNot { it is StorageAvailabilityExpectation },
+								size = virtualSize
+						))
 				async.resume(null)
 			}
 
 		}
 
-		dao.update(device.copy(
-				expectations = device.expectations + StorageAvailabilityExpectation(format = type)
-		))
+		dao.update(
+				device.copy(
+						expectations = device.expectations + StorageAvailabilityExpectation(format = type)
+				))
 	}
 
 	override fun load(id: UUID, async: AsyncResponse, data: InputStream) {
 		load(id, VirtualDiskFormat.raw, async, data)
 	}
 
-	private fun pump(data: InputStream,
-					 device: VirtualStorageDevice,
-					 dyn: VirtualStorageDeviceDynamic,
-					 session: ClientSession,
-					 allocation: VirtualStorageAllocation) {
+	private fun pump(
+			data: InputStream,
+			device: VirtualStorageDevice,
+			dyn: VirtualStorageDeviceDynamic,
+			session: ClientSession,
+			allocation: VirtualStorageAllocation
+	) {
 		uploadRaw(data, device, allocation.getPath(dyn.id), session)
 	}
 
@@ -131,9 +135,10 @@ class VirtualStorageDeviceServiceImpl(
 
 	override fun doRemove(entity: VirtualStorageDevice) {
 		// since the persistent data needs to be removed, we just mark this here for deletion
-		dao.update(entity.copy(
-				expectations = listOf(),
-				recycling = true
-		))
+		dao.update(
+				entity.copy(
+						expectations = listOf(),
+						recycling = true
+				))
 	}
 }
