@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
@@ -46,10 +47,17 @@ class VirtualStorageDeviceServiceImpl(
 			)
 		}
 		dynDao.waitFor(id) { dyn ->
-			val host = requireNotNull(hostDao[dyn.allocation.hostId])
-			async.resume(
-					ok(executor.readRemoteFile(host, dyn.allocation.getPath(dyn.id)), MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
-			)
+			hostDynDao[dyn.allocations.filter { it.type == type }.map { it.hostId }].firstOrNull { it.status == HostStatus.Up }?.let {
+				hostDyn ->
+				val host = requireNotNull(hostDao[hostDyn.id])
+				val storageDeviceDyn = dyn.allocations.firstOrNull { it.hostId == host.id && it.type == type }
+				storageDeviceDyn != null &&
+						async.resume(
+								ok(
+										executor.readRemoteFile(host, storageDeviceDyn.getPath(dyn.id)),
+										MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
+						)
+			} ?: false
 		}
 	}
 

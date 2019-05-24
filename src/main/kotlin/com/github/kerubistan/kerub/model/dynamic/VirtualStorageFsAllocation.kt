@@ -14,7 +14,7 @@ data class VirtualStorageFsAllocation(
 		override val capabilityId: UUID,
 		override val actualSize: BigInteger,
 		val mountPoint: String,
-		val type: VirtualDiskFormat,
+		override val type: VirtualDiskFormat,
 		val fileName: String,
 		val backingFile: String? = null
 ) : VirtualStorageAllocation {
