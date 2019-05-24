@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -17,9 +16,4 @@ data class VirtualStorageDeviceDynamic(
 		override val id: UUID,
 		override val lastUpdated: Long = now(),
 		val allocations: List<VirtualStorageAllocation>
-) : DynamicEntity {
-	@Deprecated("Use allocations", replaceWith = ReplaceWith(expression = "allocations"))
-	val allocation : VirtualStorageAllocation
-		@JsonIgnore
-		get() = allocations.first()
-}
+) : DynamicEntity

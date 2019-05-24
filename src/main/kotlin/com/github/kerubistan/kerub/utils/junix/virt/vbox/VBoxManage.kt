@@ -145,27 +145,25 @@ object VBoxManage : OsCommand {
 		}
 	}
 
-	private fun medium(dyn: VirtualStorageDeviceDynamic, storageHost: Host, targetHost: Host): String {
-		if (targetHost.id == storageHost.id) {
-			val allocation = dyn.allocation
-			return when (allocation) {
-				is VirtualStorageLvmAllocation -> {
-					allocation.path
+	private fun medium(dyn: VirtualStorageDeviceDynamic, storageHost: Host, targetHost: Host): String =
+			if (targetHost.id == storageHost.id) {
+				when (val allocation = dyn.allocations.first { it.hostId == storageHost.id }) {
+					is VirtualStorageLvmAllocation -> {
+						allocation.path
+					}
+					is VirtualStorageGvinumAllocation -> {
+						"/dev/gvinum/${dyn.id}"
+					}
+					is VirtualStorageFsAllocation -> {
+						"${allocation.mountPoint}/${dyn.id}"
+					}
+					else -> {
+						TODO("Unknown allocation type: $allocation")
+					}
 				}
-				is VirtualStorageGvinumAllocation -> {
-					"/dev/gvinum/${dyn.id}"
-				}
-				is VirtualStorageFsAllocation -> {
-					"${allocation.mountPoint}/${dyn.id}"
-				}
-				else -> {
-					TODO("Unknown allocation type: $allocation")
-				}
+			} else {
+				"iscsi --server ${storageHost.address} --target ${iscsiStorageId(dyn.id)}"
 			}
-		} else {
-			return "iscsi --server ${storageHost.address} --target ${iscsiStorageId(dyn.id)}"
-		}
-	}
 
 	fun stopVm(session: ClientSession, vm: VirtualMachine) {
 		controlVm(session, vm, "poweroff")
