@@ -35,13 +35,13 @@ import kotlin.test.assertEquals
 
 class StatisticsDaoImplTest {
 
-	protected var cacheManager: DefaultCacheManager? = null
-	protected var vmCache: Cache<UUID, VirtualMachine>? = null
-	protected var hostCache: Cache<UUID, Host>? = null
-	protected var hostDynCache: Cache<UUID, HostDynamic>? = null
-	protected var vdiskCache: Cache<UUID, VirtualStorageDevice>? = null
-	protected var vdiskDynCache: Cache<UUID, VirtualStorageDeviceDynamic>? = null
-	protected var controllerConfigDao : ControllerConfigDao = mock()
+	private var cacheManager: DefaultCacheManager? = null
+	private var vmCache: Cache<UUID, VirtualMachine>? = null
+	private var hostCache: Cache<UUID, Host>? = null
+	private var hostDynCache: Cache<UUID, HostDynamic>? = null
+	private var vdiskCache: Cache<UUID, VirtualStorageDevice>? = null
+	private var vdiskDynCache: Cache<UUID, VirtualStorageDeviceDynamic>? = null
+	private var controllerConfigDao : ControllerConfigDao = mock()
 
 	@Before
 	fun setUp() {

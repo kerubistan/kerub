@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 
 class WebSocketSecurityIT {
 
-	var socketClient: WebSocketClient? = null
+	private var socketClient: WebSocketClient? = null
 
 	@Before
 	fun setup() {

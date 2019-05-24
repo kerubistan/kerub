@@ -54,7 +54,11 @@ class OpenIndiana : Distribution {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 
-	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> {
+	override fun detectStorageCapabilities(
+			session: ClientSession,
+			osVersion: SoftwarePackage,
+			packages: List<SoftwarePackage>
+	): List<StorageCapability> {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
 

@@ -49,12 +49,12 @@ import kotlin.test.fail
 
 class WebsocketNotificationsDefs {
 
-	var socketClient: WebSocketClient? = null
-	var session: Session? = null
-	val events: BlockingQueue<Any> = ArrayBlockingQueue<Any>(1024)
+	private var socketClient: WebSocketClient? = null
+	private var session: Session? = null
+	private val events: BlockingQueue<Any> = ArrayBlockingQueue<Any>(1024)
 
-	var entities = listOf<Any>()
-	var listener: Listener? = null
+	private var entities = listOf<Any>()
+	private var listener: Listener? = null
 
 	data class ConnectEvent(val time: Long = now())
 
@@ -123,7 +123,7 @@ class WebsocketNotificationsDefs {
 		session!!.remote.sendString(mapper.writeValueAsString(SubscribeMessage(channel = messageFeed)))
 	}
 
-	val actions = mapOf<String, (RestCrud<Entity<UUID>>, Entity<UUID>) -> Any>(
+	private val actions = mapOf<String, (RestCrud<Entity<UUID>>, Entity<UUID>) -> Any>(
 			"creates" to { x, obj ->
 				entities += x.add(obj)
 				obj
@@ -135,7 +135,7 @@ class WebsocketNotificationsDefs {
 			}
 	)
 
-	val entityTypes = mapOf<String, KClass<*>>(
+	private val entityTypes = mapOf<String, KClass<*>>(
 			"vm" to VirtualMachineService::class,
 			"virtual network" to VirtualNetworkService::class,
 			"virtual disk" to VirtualStorageDeviceService::class,
@@ -209,7 +209,7 @@ class WebsocketNotificationsDefs {
 		fail("expected ${expectedType ?: ""} message not received\n got instead: $eventsReceived")
 	}
 
-	val eventTypes = mapOf(
+	private val eventTypes = mapOf(
 			"update" to EntityUpdateMessage::class,
 			"delete" to EntityRemoveMessage::class,
 			"create" to EntityAddMessage::class

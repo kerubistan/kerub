@@ -61,10 +61,10 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 	object ControllerAssignmentStepFactory : StepFactory<ControllerAssignmentStep, ControllerAssignmentState> {
 		override fun produce(state: ControllerAssignmentState): List<ControllerAssignmentStep> {
 			val host = state.hostsToAssign.firstOrNull()
-			if (host == null) {
-				return listOf()
+			return if (host == null) {
+				listOf()
 			} else {
-				return state.controllers.filter {
+				state.controllers.filter {
 					//TODO: filter out overloaded controllers (is this needed at all?)
 					true
 				}

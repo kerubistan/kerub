@@ -8,7 +8,7 @@ import org.junit.Test
 
 class StatisticsServiceImplTest {
 
-	protected var cacheManager: DefaultCacheManager? = null
+	private var cacheManager: DefaultCacheManager? = null
 
 	@Before
 	fun setUp() {

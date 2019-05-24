@@ -59,9 +59,9 @@ class EntityDefs {
 				name = "TEST"
 		)
 		details.forEachPair { name, value ->
-			when (name) {
-				Account::name.name -> account = account.copy(name = value)
-				Account::requireProjects.name -> account = account.copy(requireProjects = value.toBoolean())
+			account = when (name) {
+				Account::name.name -> account.copy(name = value)
+				Account::requireProjects.name -> account.copy(requireProjects = value.toBoolean())
 				else -> TODO("Not mapped property for account: $name")
 			}
 		}
@@ -74,10 +74,10 @@ class EntityDefs {
 	fun createVirtualDisk(details: DataTable) {
 		var disk = testDisk.copy(id = UUID.randomUUID())
 		details.forEachPair { name, value ->
-			when (name) {
-				VirtualStorageDevice::name.name -> disk = disk.copy(name = value)
-				VirtualStorageDevice::size.name -> disk = disk.copy(size = value.toSize())
-				VirtualStorageDevice::readOnly.name -> disk = disk.copy(readOnly = value.toBoolean())
+			disk = when (name) {
+				VirtualStorageDevice::name.name -> disk.copy(name = value)
+				VirtualStorageDevice::size.name -> disk.copy(size = value.toSize())
+				VirtualStorageDevice::readOnly.name -> disk.copy(readOnly = value.toBoolean())
 				else -> TODO("Not mapped property for virtual disk: $name")
 			}
 		}

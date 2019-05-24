@@ -138,10 +138,10 @@ object VBoxManage : OsCommand {
 	internal fun round(amount: BigInteger): String {
 		val accurate = BigDecimal(amount).divide(MB)
 		val round = accurate.toBigInteger()
-		if (accurate > BigDecimal(round)) {
-			return (round + BigInteger.ONE).toString()
+		return if (accurate > BigDecimal(round)) {
+			(round + BigInteger.ONE).toString()
 		} else {
-			return round.toString()
+			round.toString()
 		}
 	}
 

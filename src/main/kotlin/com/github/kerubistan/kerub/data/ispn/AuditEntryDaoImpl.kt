@@ -13,7 +13,7 @@ import org.infinispan.query.dsl.QueryBuilder
 import java.util.UUID
 import kotlin.reflect.KClass
 
-class AuditEntryDaoImpl(protected val cache: AdvancedCache<UUID, AuditEntry>) : AuditEntryDao {
+class AuditEntryDaoImpl(private val cache: AdvancedCache<UUID, AuditEntry>) : AuditEntryDao {
 	override fun addAll(entities: Collection<AuditEntry>) {
 		cache.putAllAsync(entities.byId())
 	}

@@ -9,21 +9,12 @@ fun getFreePort(): Int =
 
 
 fun getBaseUrl(): String {
-	val url = System.getProperty("kerub.it.url")
-	if (url == null) {
-		return "http://localhost:${getPort()}/"
-	} else {
-		return url
-	}
+	return System.getProperty("kerub.it.url") ?: "http://localhost:${getPort()}/"
 }
 
 fun getPort(): Int {
 	val portStr = System.getProperty("kerub.it.port")
-	if (portStr == null) {
-		return 8080
-	} else {
-		return portStr.toInt()
-	}
+	return portStr?.toInt() ?: 8080
 }
 
 fun getServiceBaseUrl(): String {

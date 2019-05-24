@@ -15,9 +15,9 @@ import org.junit.Test
 import org.mockito.Mockito
 
 class WakeHostExecutorTest {
-	val hostManager : HostManager = mock()
+	private val hostManager : HostManager = mock()
 
-	val hostDynDao : HostDynamicDao = mock()
+	private val hostDynDao : HostDynamicDao = mock()
 
 	val host = testHost.copy(
 			capabilities = testHostCapabilities.copy(

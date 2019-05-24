@@ -17,7 +17,7 @@ import java.util.UUID
 
 class VmCrudPerformanceIT {
 
-	var totalVms = listOf<UUID>()
+	private var totalVms = listOf<UUID>()
 
 	@Before
 	fun check() {

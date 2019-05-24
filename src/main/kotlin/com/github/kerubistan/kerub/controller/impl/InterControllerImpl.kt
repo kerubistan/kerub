@@ -23,19 +23,17 @@ class InterControllerImpl(private val jmsTemplate: JmsTemplate) : InterControlle
 		return objMsg
 	}
 
-	private fun deliveryModeForMsgType(msg: Serializable): Int {
-		when (msg) {
-			is EntityEventMessage -> return DeliveryMode.NON_PERSISTENT
-			else -> return DeliveryMode.PERSISTENT
-		}
-	}
+	private fun deliveryModeForMsgType(msg: Serializable): Int =
+			when (msg) {
+				is EntityEventMessage -> DeliveryMode.NON_PERSISTENT
+				else -> DeliveryMode.PERSISTENT
+			}
 
-	private fun priorityForMsgType(msg: Serializable): Int {
-		when (msg) {
-			is EntityEventMessage -> return 6
-			else -> return 5
-		}
-	}
+	private fun priorityForMsgType(msg: Serializable): Int =
+			when (msg) {
+				is EntityEventMessage -> 6
+				else -> 5
+			}
 
 	override fun broadcast(msg: Serializable) {
 		jmsTemplate.send("jms.topic.kerub-broadcast") {

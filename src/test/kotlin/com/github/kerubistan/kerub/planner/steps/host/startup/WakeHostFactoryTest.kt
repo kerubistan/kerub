@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
 
 class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 
-	val host1 = Host(
+	private val host1 = Host(
 			address = "host-1.example.com",
 			dedicated = true,
 			publicKey = "test",
@@ -28,7 +28,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 			)
 	)
 
-	val host2 = Host(
+	private val host2 = Host(
 			address = "host-2.example.com",
 			dedicated = true,
 			publicKey = "test",
@@ -41,7 +41,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 			)
 	)
 
-	val host3 = Host(
+	private val host3 = Host(
 			address = "host-3.example.com",
 			dedicated = true,
 			publicKey = "test",
@@ -53,7 +53,7 @@ class WakeHostFactoryTest : AbstractFactoryVerifications(WakeHostFactory) {
 			)
 	)
 
-	val host4 = Host(
+	private val host4 = Host(
 			address = "host-4.example.com",
 			dedicated = true,
 			publicKey = "test"

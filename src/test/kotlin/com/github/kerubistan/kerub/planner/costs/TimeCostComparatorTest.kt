@@ -5,9 +5,9 @@ import org.junit.Test
 
 class TimeCostComparatorTest {
 
-	val cost1 = TimeCost(minMs = 100, maxMs = 200)
-	val cost2 = TimeCost(minMs = 110, maxMs = 190)
-	val cost3 = TimeCost(minMs = 200, maxMs = 400)
+	private val cost1 = TimeCost(minMs = 100, maxMs = 200)
+	private val cost2 = TimeCost(minMs = 110, maxMs = 190)
+	private val cost3 = TimeCost(minMs = 200, maxMs = 400)
 
 	@Test
 	fun compare() {

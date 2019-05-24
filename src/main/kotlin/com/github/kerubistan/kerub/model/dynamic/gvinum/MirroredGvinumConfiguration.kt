@@ -6,6 +6,5 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 data class MirroredGvinumConfiguration(
 		val disks: List<String>
 ) : GvinumConfiguration {
-	override val diskNames: Collection<String>
-		get() = diskNames
+	override val diskNames: Collection<String> get() = disks
 }

@@ -18,8 +18,8 @@ import java.util.UUID
 
 class VirtualMachineDynamicServiceImplTest {
 
-	val dao: VirtualMachineDynamicDao = mock()
-	val vmDao : VirtualMachineDao = mock()
+	private val dao: VirtualMachineDynamicDao = mock()
+	private val vmDao : VirtualMachineDao = mock()
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),
@@ -27,7 +27,7 @@ class VirtualMachineDynamicServiceImplTest {
 			nrOfCpus = 1
 	)
 
-	val vmDyn = VirtualMachineDynamic(
+	private val vmDyn = VirtualMachineDynamic(
 			id = vm.id,
 			status = VirtualMachineStatus.Up,
 			displaySetting = DisplaySettings(
