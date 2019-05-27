@@ -30,7 +30,6 @@ import com.github.kerubistan.kerub.model.expectations.StorageWritePerformanceExp
 import com.github.kerubistan.kerub.model.expectations.SystemManufacturerExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VmDependency
-import com.github.kerubistan.kerub.model.expectations.internals.NoGarbageExpectation
 import java.io.Serializable
 
 /**
@@ -53,8 +52,6 @@ import java.io.Serializable
 		JsonSubTypes.Type(CacheSizeExpectation::class),
 		JsonSubTypes.Type(SystemManufacturerExpectation::class),
 		JsonSubTypes.Type(SiteFeaturesExpectation::class),
-		JsonSubTypes.Type(WorkingHostExpectation::class),
-		JsonSubTypes.Type(NoGarbageExpectation::class),
 		JsonSubTypes.Type(VmDependency::class),
 		// virtual storage expectations
 		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
