@@ -338,7 +338,7 @@ abstract class AbstractLinux : Distribution {
 			} else listOf()
 
 	private fun detectNetworkInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
-			listInterfaces(capabilities, session) + listBonds(capabilities, session)
+			listInterfaces(capabilities, session) + (silent { listBonds(capabilities, session) } ?: listOf())
 
 	private fun listInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
 			listOf()
