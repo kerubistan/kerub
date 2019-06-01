@@ -18,6 +18,7 @@ val sizePostfixes = mapOf(
 		"BYTES" to { l: BigDecimal -> l },
 		"BYTE" to { l: BigDecimal -> l },
 		"B" to { l: BigDecimal -> l },
+		"K" to { l: BigDecimal -> l * KB },
 		"KB" to { l: BigDecimal -> l * KB },
 		"M" to { l: BigDecimal -> l * MB },
 		"MB" to { l: BigDecimal -> l * MB },
