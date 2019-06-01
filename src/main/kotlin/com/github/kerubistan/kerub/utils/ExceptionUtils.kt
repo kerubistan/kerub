@@ -1,8 +1,5 @@
 package com.github.kerubistan.kerub.utils
 
-import java.io.PrintWriter
-import java.io.StringWriter
-
 private val logger = getLogger("com.github.kerubistan.kerub.utils")
 
 enum class LogLevel {
@@ -12,17 +9,6 @@ enum class LogLevel {
 	Warning,
 	Error
 }
-
-/**
- * moved to kroki-utils
- */
-fun Throwable.getStackTraceAsString(): String =
-		StringWriter().use { stringWriter ->
-			PrintWriter(stringWriter).use {
-				this.printStackTrace(it)
-			}
-			stringWriter.toString()
-		}
 
 fun <T> silent(level: LogLevel = LogLevel.Info, actionName: String = "", body: () -> T): T? {
 	return try {

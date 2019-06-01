@@ -1,15 +1,9 @@
 package com.github.kerubistan.kerub.utils
 
 import org.junit.Test
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class ExceptionUtilsTest {
-
-	@Test
-	fun getStackTraceAsString() {
-		assertNotNull(IllegalStateException().getStackTraceAsString())
-	}
 
 	@Test
 	fun silentFail() {

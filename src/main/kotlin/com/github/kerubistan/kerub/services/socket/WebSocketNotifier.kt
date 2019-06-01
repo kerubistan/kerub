@@ -9,13 +9,13 @@ import com.github.kerubistan.kerub.security.EntityAccessController
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.servletSessionId
+import io.github.kerubistan.kroki.io.EasyStringWriter
 import org.apache.shiro.subject.Subject
 import org.slf4j.Logger
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
-import java.io.StringWriter
 
 class WebSocketNotifier(
 		private val internalListener: InternalMessageListener,
@@ -27,7 +27,7 @@ class WebSocketNotifier(
 	}
 
 	fun send(session: WebSocketSession, message: Message) {
-		StringWriter().use {
+		EasyStringWriter().use {
 			objectMapper.writeValue(it, message)
 			session.sendMessage(TextMessage(it.toString()))
 		}

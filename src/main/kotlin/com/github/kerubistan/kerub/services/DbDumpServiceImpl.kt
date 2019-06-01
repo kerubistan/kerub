@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.services
 
 import com.github.kerubistan.kerub.utils.createObjectMapper
-import com.github.kerubistan.kerub.utils.getStackTraceAsString
+import io.github.kerubistan.kroki.exceptions.getStackTraceAsString
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
 import org.infinispan.manager.EmbeddedCacheManager
