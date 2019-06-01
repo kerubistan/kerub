@@ -14,12 +14,12 @@ class EthernetUtilsKtTest {
 
 	@Test(expected = IllegalArgumentException::class)
 	fun stringToMacWithWrongLength() {
-		val mac = stringToMac("52:54:00:b5:75:bb:ff")
+		stringToMac("52:54:00:b5:75:bb:ff")
 	}
 
 	@Test(expected = IllegalArgumentException::class)
 	fun stringToMacWithWrongByteLength() {
-		val mac = stringToMac("52:54:00:b5:75:bbbb:ff")
+		stringToMac("52:54:00:b5:75:bbbb:ff")
 	}
 
 	@Test
