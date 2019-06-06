@@ -21,13 +21,13 @@ class TemplateServiceImpl(
 		val storageDevices = virtualStorageDeviceDao.list(vm.virtualStorageLinks.map { it.virtualStorageId })
 		val storageDeicesById = storageDevices.byId()
 
-		val clonedStorageDevices = storageDevices.filterNot { it.readOnly }.map {
-			val oldId = it.id
-			val newDevice = it.copy(
+		val clonedStorageDevices = storageDevices.filterNot { it.readOnly }.map { sourceStorageDevice ->
+			val newDevice = sourceStorageDevice.copy(
 					id = UUID.randomUUID(),
-					expectations = it.expectations + CloneOfStorageExpectation(sourceStorageId = it.id)
+					expectations = sourceStorageDevice.expectations
+							+ CloneOfStorageExpectation(sourceStorageId = sourceStorageDevice.id)
 			)
-			oldId to newDevice
+			sourceStorageDevice.id to newDevice
 		}.toMap()
 		virtualStorageDeviceDao.addAll(clonedStorageDevices.values)
 
