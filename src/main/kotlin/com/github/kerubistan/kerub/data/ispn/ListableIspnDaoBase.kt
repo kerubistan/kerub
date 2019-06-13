@@ -70,8 +70,12 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 	}
 
 	override fun list(ids: Collection<I>): List<T> =
-			cache.advancedCache.queryBuilder(getEntityClass().kotlin)
-					.having(Entity<Any>::idStr.name).`in`(ids.map { it.toString() })
-					.list()
+			if (ids.isEmpty()) {
+				listOf()
+			} else {
+				cache.advancedCache.queryBuilder(getEntityClass().kotlin)
+						.having(Entity<Any>::idStr.name).`in`(ids.map { it.toString() })
+						.list()
+			}
 
 }

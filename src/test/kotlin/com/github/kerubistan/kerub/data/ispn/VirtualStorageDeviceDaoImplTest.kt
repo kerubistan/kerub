@@ -65,5 +65,11 @@ class VirtualStorageDeviceDaoImplTest :AbstractIspnDaoTest<UUID, VirtualStorageD
 		}
 	}
 
+	@Test
+	fun getEmptyList() {
+		VirtualStorageDeviceDaoImpl(cache!!, mock(), mock()).apply {
+			assertEquals(listOf<VirtualStorageDevice>(), list(listOf()))
+		}
+	}
 
 }
