@@ -105,6 +105,14 @@
 							        uib-tooltip="Take snapshot from this VM"
 							        tooltip-placement="bottom">
 							</button>
+							<button type="button"
+							        class="btn btn-default glyphicon glyphicon-duplicate"
+							        ng-click="templateFromVm()"
+							        ng-if="vmdyn.status != 'Up'"
+							        ng-disabled="workingprg"
+							        uib-tooltip="Make a template out of this VM"
+							        tooltip-placement="bottom">
+							</button>
 						</td>
 					</tr>
 					</tbody>

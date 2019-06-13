@@ -17,6 +17,12 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
     $scope.spiceConnect = function() {
 		window.open('s/r/vm-dyn/'+$scope.vm.id+'/connection/spice', '__new')
     };
+    $scope.templateFromVm = function() {
+    	$scope.workingprg = true;
+    	appsession.put('s/r/template/helpers/from-vm/' + $scope.vm.id).then(function() {
+    		$scope.workingprg = false;
+    	});
+    };
     $scope.stopVm = function() {
     	$scope.workingprg = true;
     	appsession.post('s/r/vm/' + $scope.vm.id + '/stop').then(function() {
