@@ -11,7 +11,6 @@ class OperationalStateIndex(
 
 	val runningHosts by lazy { indexOf.hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
-
 	val runningHostIds by lazy { runningHosts.map { it.stat.id }.toSet() }
 
 	val connectionTargets by lazy {
@@ -24,11 +23,10 @@ class OperationalStateIndex(
 						server.stat
 					else null
 				}
-				if(acceptedByServer.isEmpty()) null else client.id to acceptedByServer
+				if (acceptedByServer.isEmpty()) null else client.id to acceptedByServer
 			}
 		}.toMap()
 	}
-
 
 
 	val recyclingHosts by lazy {
@@ -55,8 +53,6 @@ class OperationalStateIndex(
 			} && vm.dynamic?.status != VirtualMachineStatus.Up
 		}
 	}
-
-
 
 
 }
