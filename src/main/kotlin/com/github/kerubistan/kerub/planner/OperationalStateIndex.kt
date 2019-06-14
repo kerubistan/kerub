@@ -5,9 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.utils.contains
 
-class OperationalStateIndex(
-		val indexOf: OperationalState
-) {
+class OperationalStateIndex(val indexOf: OperationalState) {
 
 	val runningHosts by lazy { indexOf.hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
 
