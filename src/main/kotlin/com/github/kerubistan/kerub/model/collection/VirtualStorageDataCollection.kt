@@ -9,6 +9,13 @@ data class VirtualStorageDataCollection(
 		override val stat: VirtualStorageDevice,
 		override val dynamic: VirtualStorageDeviceDynamic? = null
 ) : DataCollection<UUID, VirtualStorageDevice, VirtualStorageDeviceDynamic>, Serializable {
+
+	inline fun updateDynamic(update: (VirtualStorageDeviceDynamic) -> VirtualStorageDeviceDynamic) =
+			update(this.dynamic ?: VirtualStorageDeviceDynamic(id = stat.id, allocations = listOf()))
+
+	inline fun updateWithDynamic(update: (VirtualStorageDeviceDynamic) -> VirtualStorageDeviceDynamic) =
+			this.copy(dynamic = this.updateDynamic(update))
+
 	init {
 		this.validate()
 		dynamic?.apply {
@@ -18,4 +25,6 @@ data class VirtualStorageDataCollection(
 			}
 		}
 	}
+
+
 }

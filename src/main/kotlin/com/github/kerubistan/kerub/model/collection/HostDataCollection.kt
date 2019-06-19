@@ -10,6 +10,15 @@ data class HostDataCollection(
 		override val dynamic: HostDynamic? = null,
 		val config: HostConfiguration? = null
 ) : DataCollection<UUID, Host, HostDynamic> {
+
+	fun updateDynamic(update: (HostDynamic) -> HostDynamic): HostDynamic =
+			update(this.dynamic ?: HostDynamic(id = this.stat.id))
+
+	fun updateWithDynamic(update: (HostDynamic) -> HostDynamic): HostDataCollection = this.copy(
+			dynamic = update(this.dynamic ?: HostDynamic(id = this.stat.id))
+	)
+
+
 	init {
 		this.validate()
 		config?.apply {
