@@ -11,31 +11,25 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
 
 abstract class AbstractUnAllocate<T : VirtualStorageAllocation> : AbstractOperationalStep {
-	abstract val vstorage : VirtualStorageDevice
-	abstract val allocation : T
-	abstract val host : Host
+	abstract val vstorage: VirtualStorageDevice
+	abstract val allocation: T
+	abstract val host: Host
 
 	override fun take(state: OperationalState) =
 			state.copy(
-					vStorage = state.vStorage.update(vstorage.id) {
-						it.copy(
-								dynamic = requireNotNull(it.dynamic).let {
-									it.copy(
-											allocations = it.allocations - allocation
-									)
-								}
-						)
+					vStorage = state.vStorage.update(vstorage.id) { vStorage ->
+						vStorage.updateWithDynamic {dyn ->
+							dyn.copy(allocations = dyn.allocations - allocation)
+						}
 					},
-					hosts = state.hosts.update(host.id) {
-						it.copy(
-								dynamic = requireNotNull(it.dynamic).let {
-									it.copy(
-											storageStatus = it.storageStatus.map {
-												it // TODO update host storage
-											}
-									)
-								}
-						)
+					hosts = state.hosts.update(host.id) { host ->
+						host.updateWithDynamic {
+							it.copy(
+									storageStatus = it.storageStatus.map {
+										it // TODO update host storage
+									}
+							)
+						}
 					}
 			)
 
