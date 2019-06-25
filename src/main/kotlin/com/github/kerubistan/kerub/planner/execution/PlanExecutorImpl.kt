@@ -109,7 +109,7 @@ class PlanExecutorImpl(
 		vssDao: VirtualStorageDeviceDao,
 		virtualStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 		hostConfigurationDao: HostConfigurationDao
-) : PlanExecutor {
+) : PlanExecutor, StepExecutor<AbstractOperationalStep> {
 
 	companion object {
 		private val logger = getLogger(PlanExecutorImpl::class)
@@ -181,7 +181,7 @@ class PlanExecutorImpl(
 
 	)
 
-	fun execute(step: AbstractOperationalStep) {
+	override fun execute(step: AbstractOperationalStep) {
 		val executor = stepExecutors[step.javaClass.kotlin]
 		if (executor == null) {
 			throw IllegalArgumentException("No executor for step $step")
