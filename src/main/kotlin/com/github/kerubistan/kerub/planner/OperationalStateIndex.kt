@@ -2,8 +2,10 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
+import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.utils.contains
+import com.github.kerubistan.kerub.utils.hasAny
 
 class OperationalStateIndex(val indexOf: OperationalState) {
 
@@ -41,6 +43,10 @@ class OperationalStateIndex(val indexOf: OperationalState) {
 
 	val allocatedStorage by lazy {
 		indexOf.vStorage.values.filter { it.dynamic?.allocations?.isNotEmpty() ?: false }
+	}
+
+	val storageCloneRequirement by lazy {
+		indexOf.vStorage.values.filter { it.stat.expectations.hasAny<CloneOfStorageExpectation>() }
 	}
 
 	val vmsThatMustStart by lazy {
