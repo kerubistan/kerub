@@ -21,7 +21,7 @@ import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 class MigrateBlockAllocationExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val vssDynDao: VirtualStorageDeviceDynamicDao,
-		private val hostDynDao: HostDynamicDao
+		hostDynDao: HostDynamicDao
 ) : AbstractStepExecutor<MigrateBlockAllocation, Pair<Any, Any>>() {
 
 	private val logger = getLogger(MigrateBlockAllocationExecutor::class)
