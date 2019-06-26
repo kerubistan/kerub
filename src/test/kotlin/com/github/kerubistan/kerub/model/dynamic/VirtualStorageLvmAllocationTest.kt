@@ -22,7 +22,7 @@ class VirtualStorageLvmAllocationTest {
 			VirtualStorageLvmAllocation(
 					hostId = UUID.randomUUID(),
 					capabilityId = UUID.randomUUID(),
-					actualSize = (-1).TB,
+					actualSize = 1.TB,
 					path = "",
 					vgName = "vg-1",
 					mirrors = -1
