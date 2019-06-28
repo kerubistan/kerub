@@ -16,7 +16,8 @@ data class RemoteBlockCopy(
 		override val targetDevice: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageBlockDeviceAllocation,
 		val sourceHost: Host,
-		override val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>) : AbstractBlockCopy() {
+		override val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>
+) : AbstractBlockCopy() {
 
 	init {
 		validate()
