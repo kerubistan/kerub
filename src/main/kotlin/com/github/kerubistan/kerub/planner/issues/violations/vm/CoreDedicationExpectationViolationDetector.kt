@@ -9,14 +9,16 @@ import com.github.kerubistan.kerub.utils.any
 import io.github.kerubistan.kroki.collections.join
 
 object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetector<CoreDedicationExpectation>() {
-	override fun checkWithHost(entity: VirtualMachine,
-							   expectation: CoreDedicationExpectation,
-							   state: OperationalState,
-							   host: Host): Boolean {
+	override fun checkWithHost(
+			entity: VirtualMachine,
+			expectation: CoreDedicationExpectation,
+			state: OperationalState,
+			host: Host
+	): Boolean {
 		val vmsOnHost = lazy { state.vmDataOnHost(host.id) }
 		val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
-		val coredDedicated: (VirtualMachineDataCollection) -> Boolean
-				= { it.stat.expectations.any<CoreDedicationExpectation>() }
+		val coredDedicated: (VirtualMachineDataCollection) -> Boolean =
+				{ it.stat.expectations.any<CoreDedicationExpectation>() }
 		val vmNrOfCpus: (VirtualMachineDataCollection) -> Int = { it.stat.nrOfCpus }
 
 		// if this vm has CPU affinity to a smaller nr of cores, than the number of vcpus, that
@@ -40,7 +42,8 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 			vmsOnHost: Lazy<List<VirtualMachineDataCollection>>,
 			coredDedicated: (VirtualMachineDataCollection) -> Boolean,
 			vmNrOfCpus: (VirtualMachineDataCollection) -> Int,
-			hostCoreCnt: Lazy<Int>): Boolean {
+			hostCoreCnt: Lazy<Int>
+	): Boolean {
 
 		val vmsByDedication = vmsOnHost.value.groupBy(coredDedicated)
 		val dedicatedCoreVms = vmsByDedication[true] ?: listOf()
@@ -62,6 +65,7 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 	private fun isUnderUtilized(
 			vmsOnHost: Lazy<List<VirtualMachineDataCollection>>,
 			vmNrOfCpus: (VirtualMachineDataCollection) -> Int,
-			hostCoreCnt: Lazy<Int>) = vmsOnHost.value.sumBy(vmNrOfCpus) <= hostCoreCnt.value
+			hostCoreCnt: Lazy<Int>
+	) = vmsOnHost.value.sumBy(vmNrOfCpus) <= hostCoreCnt.value
 
 }

@@ -27,10 +27,11 @@ data class CreateLv(
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			vStorage = state.vStorage.update(disk.id) {
-				it.copy(dynamic = VirtualStorageDeviceDynamic(
-						id = disk.id,
-						allocations = listOf(allocation)
-				))
+				it.copy(
+						dynamic = VirtualStorageDeviceDynamic(
+								id = disk.id,
+								allocations = listOf(allocation)
+						))
 			},
 			hosts = state.hosts.update(host.id) {
 				it.copy(dynamic = updateHostDynLvmWithAllocation(state, host, volumeGroupName, disk.size))

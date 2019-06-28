@@ -21,7 +21,9 @@ object CreateImageFactory : AbstractCreateFileVirtualStorageFactory<CreateImage>
 		get() = QemuImg
 
 	override
-	fun createStep(storage: VirtualStorageDevice, hostData: HostDataCollection, mount: FsStorageCapability): CreateImage =
+	fun createStep(
+			storage: VirtualStorageDevice, hostData: HostDataCollection, mount: FsStorageCapability
+	): CreateImage =
 			CreateImage(
 					disk = storage,
 					host = hostData.stat,

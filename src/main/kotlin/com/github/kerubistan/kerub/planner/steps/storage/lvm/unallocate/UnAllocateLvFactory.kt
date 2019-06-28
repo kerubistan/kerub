@@ -13,7 +13,10 @@ object UnAllocateLvFactory : AbstractUnAllocateFactory<UnAllocateLv, VirtualStor
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
-	override fun unAllocate(allocation: VirtualStorageLvmAllocation, vStorage: VirtualStorageDataCollection, state: OperationalState) =
+	override fun unAllocate(
+			allocation: VirtualStorageLvmAllocation,
+			vStorage: VirtualStorageDataCollection, state: OperationalState
+	) =
 			UnAllocateLv(
 					vstorage = vStorage.stat,
 					host = requireNotNull(state.hosts[allocation.hostId]).stat,

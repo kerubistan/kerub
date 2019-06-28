@@ -10,10 +10,12 @@ abstract class AbstractVmHostViolationDetector<in E : VirtualMachineExpectation>
 	override fun check(
 			entity: VirtualMachine,
 			expectation: E,
-			state: OperationalState): Boolean
-			= state.vmHost(entity)?.let {
+			state: OperationalState
+	): Boolean = state.vmHost(entity)?.let {
 		checkWithHost(entity, expectation, state, it)
 	} ?: true
 
-	internal abstract fun checkWithHost(entity: VirtualMachine, expectation: E, state: OperationalState, host: Host): Boolean
+	internal abstract fun checkWithHost(
+			entity: VirtualMachine, expectation: E, state: OperationalState, host: Host
+	): Boolean
 }

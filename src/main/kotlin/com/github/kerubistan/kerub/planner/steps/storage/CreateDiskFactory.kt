@@ -22,5 +22,7 @@ object CreateDiskFactory : StepFactoryCollection(
 				CreateGvinumVolumeFactory
 		)
 ) {
-	override val expectationHints = super.expectationHints + setOf(VirtualMachineAvailabilityExpectation::class, StorageAvailabilityExpectation::class)
+	override val expectationHints =
+			super.expectationHints + setOf(
+					VirtualMachineAvailabilityExpectation::class, StorageAvailabilityExpectation::class)
 }

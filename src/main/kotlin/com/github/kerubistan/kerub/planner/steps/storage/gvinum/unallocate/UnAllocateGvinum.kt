@@ -8,7 +8,8 @@ import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 data class UnAllocateGvinum(
 		override val vstorage: VirtualStorageDevice,
 		override val allocation: VirtualStorageGvinumAllocation,
-		override val host: Host) : AbstractUnAllocate<VirtualStorageGvinumAllocation>() {
+		override val host: Host
+) : AbstractUnAllocate<VirtualStorageGvinumAllocation>() {
 	init {
 		check(allocation.hostId == host.id) {
 			"allocation host id (${allocation.hostId} must be equal to the host id (${host.id}))"

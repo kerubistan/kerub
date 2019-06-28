@@ -10,7 +10,7 @@ object ClockFrequencyExpectationViolationDetector : AbstractVmHostViolationDetec
 			entity: VirtualMachine,
 			expectation: ClockFrequencyExpectation,
 			state: OperationalState,
-			host: Host): Boolean
-			= host.capabilities?.cpus?.firstOrNull()?.maxSpeedMhz ?: 0 >= expectation.minimalClockFrequency
+			host: Host
+	): Boolean = host.capabilities?.cpus?.firstOrNull()?.maxSpeedMhz ?: 0 >= expectation.minimalClockFrequency
 
 }

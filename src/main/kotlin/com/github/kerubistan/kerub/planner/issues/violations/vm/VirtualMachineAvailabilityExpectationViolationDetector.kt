@@ -5,9 +5,11 @@ import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailability
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.violations.VmViolationDetector
 
-object VirtualMachineAvailabilityExpectationViolationDetector : VmViolationDetector<VirtualMachineAvailabilityExpectation> {
-	override fun check(entity: VirtualMachine,
-					   expectation: VirtualMachineAvailabilityExpectation,
-					   state: OperationalState): Boolean
-			= state.isVmRunning(entity) == expectation.up
+object VirtualMachineAvailabilityExpectationViolationDetector :
+		VmViolationDetector<VirtualMachineAvailabilityExpectation> {
+	override fun check(
+			entity: VirtualMachine,
+			expectation: VirtualMachineAvailabilityExpectation,
+			state: OperationalState
+	): Boolean = state.isVmRunning(entity) == expectation.up
 }

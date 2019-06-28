@@ -36,7 +36,9 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 			}
 
 
-	private fun concatenatedGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> =
+	private fun concatenatedGvinumAllocations(
+			host: HostDataCollection, virtualStorage: VirtualStorageDevice
+	): List<CreateGvinumVolume> =
 			combineConcatenations(
 					host = host,
 					size = virtualStorage.size
@@ -47,8 +49,9 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 						config = ConcatenatedGvinumConfiguration(
 								disks = concat
 						),
-						capability = requireNotNull(host.stat.capabilities?.storageCapabilities
-								?.filterIsInstance<GvinumStorageCapability>()?.single())
+						capability = requireNotNull(
+								host.stat.capabilities?.storageCapabilities
+										?.filterIsInstance<GvinumStorageCapability>()?.single())
 				)
 			}
 
@@ -64,19 +67,23 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 				}.toMap()
 			}?.let { diskFreeMap -> combineConcatenations(diskFreeMap, size) } ?: listOf()
 
-	private fun combineConcatenations(gvinumDisks: Map<String, BigInteger>, size: BigInteger): List<Map<String, BigInteger>> =
-		gvinumDisks.map { diskCap ->
-			if (diskCap.value > size) {
-				listOf(mapOf(diskCap.key to size))
-			} else {
-				combineConcatenations(
-						gvinumDisks = gvinumDisks.filterKeys { it != diskCap.key },
-						size = (size - diskCap.value).coerceAtLeast(BigInteger.ZERO)
-				).map { it + (diskCap.key to diskCap.value) }
-			}
-		}.join().toSet().toList()
+	private fun combineConcatenations(
+			gvinumDisks: Map<String, BigInteger>, size: BigInteger
+	): List<Map<String, BigInteger>> =
+			gvinumDisks.map { diskCap ->
+				if (diskCap.value > size) {
+					listOf(mapOf(diskCap.key to size))
+				} else {
+					combineConcatenations(
+							gvinumDisks = gvinumDisks.filterKeys { it != diskCap.key },
+							size = (size - diskCap.value).coerceAtLeast(BigInteger.ZERO)
+					).map { it + (diskCap.key to diskCap.value) }
+				}
+			}.join().toSet().toList()
 
-	private fun simpleGvinumAllocations(host: HostDataCollection, virtualStorage: VirtualStorageDevice): List<CreateGvinumVolume> =
+	private fun simpleGvinumAllocations(
+			host: HostDataCollection, virtualStorage: VirtualStorageDevice
+	): List<CreateGvinumVolume> =
 			gvinumCapability(host.stat)?.let { capability ->
 				filterByFreeSpace(
 						host = host,
@@ -101,7 +108,8 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 
 	private fun filterBySize(
 			drives: List<GvinumStorageCapabilityDrive>,
-			size: BigInteger): List<GvinumStorageCapabilityDrive> = drives.filter { it.size > size }
+			size: BigInteger
+	): List<GvinumStorageCapabilityDrive> = drives.filter { it.size > size }
 
 	private fun filterByFreeSpace(
 			host: HostDataCollection,

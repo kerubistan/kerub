@@ -31,19 +31,23 @@ class PlannerImpl(
 		private val backtrack: BacktrackService,
 		private val executor: PlanExecutor,
 		private val builder: OperationalStateBuilder,
-		private val violationDetector : PlanViolationDetector
+		private val violationDetector: PlanViolationDetector
 ) : Planner {
 
 	private val timer = Timer()
 	private var timerTask: TimerTask? = null
 	private val reservations = ConcurrentHashMap<Plan, List<Reservation<*>>>()
-	@Volatile var inProgress: Boolean = false
-	@Volatile var lastRun: Long? = null
+	@Volatile
+	var inProgress: Boolean = false
+	@Volatile
+	var lastRun: Long? = null
 
 	companion object {
-		fun checkReservations(planReservations: Collection<Reservation<*>>,
-							  reservations: List<Reservation<*>>,
-							  state: OperationalState): Boolean =
+		fun checkReservations(
+				planReservations: Collection<Reservation<*>>,
+				reservations: List<Reservation<*>>,
+				state: OperationalState
+		): Boolean =
 				planReservations.all {
 					checkReservation(it, reservations, state)
 				}
@@ -51,32 +55,34 @@ class PlannerImpl(
 		/**
 		 * Return true if the requested reservation is not in collission with the existing list of reservations.
 		 */
-		fun checkReservation(requestedReservation: Reservation<*>, reservations: List<Reservation<*>>, state: OperationalState): Boolean =
-			when (requestedReservation) {
-				is FullHostReservation -> {
-					reservations.none {
-						reservation ->
-						reservation is HostReservation && reservation.host == requestedReservation.host
+		fun checkReservation(
+				requestedReservation: Reservation<*>, reservations: List<Reservation<*>>, state: OperationalState
+		): Boolean =
+				when (requestedReservation) {
+					is FullHostReservation -> {
+						reservations.none { reservation ->
+							reservation is HostReservation && reservation.host == requestedReservation.host
+						}
 					}
+					is VmReservation -> {
+						!reservations.contains(requestedReservation)
+					}
+					is UseHostReservation -> {
+						!reservations.contains(requestedReservation)
+					}
+					is VirtualStorageReservation -> {
+						!reservations.contains(requestedReservation)
+					}
+					is HostMemoryReservation -> {
+						true //TODO: correct verification needed
+					}
+					is HostStorageReservation -> {
+						state.hosts[requestedReservation.host.id]?.dynamic?.storageStatus
+								?.singleOrNull { it.id == requestedReservation.storageCapabilityId }
+						true // TODO need the state here to see the free space and decide
+					}
+					else -> TODO("check not implemented: $requestedReservation")
 				}
-				is VmReservation -> {
-					!reservations.contains(requestedReservation)
-				}
-				is UseHostReservation -> {
-					!reservations.contains(requestedReservation)
-				}
-				is VirtualStorageReservation -> {
-					!reservations.contains(requestedReservation)
-				}
-				is HostMemoryReservation -> {
-					true //TODO: correct verification needed
-				}
-				is HostStorageReservation -> {
-					state.hosts[requestedReservation.host.id]?.dynamic?.storageStatus?.singleOrNull { it.id == requestedReservation.storageCapabilityId }
-					true // TODO need the state here to see the free space and
-				}
-				else -> TODO("check not implemented: $requestedReservation")
-			}
 
 		private val logger = getLogger(PlannerImpl::class)
 	}
@@ -116,18 +122,21 @@ class PlannerImpl(
 				reservations = reservations.values.join()
 		)
 	}
+
 	private fun plan(state: OperationalState) {
 		val stepFactory = CompositeStepFactory(violationDetector)
 
 		val listener = RationalizedFirstSolutionTerminationStrategy(
-				PlanRationalizerImpl(problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
-									 violationDetector = violationDetector)
+				PlanRationalizerImpl(
+						problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
+						violationDetector = violationDetector)
 		)
-		val strategy = OrTerminationStrategy(listOf(
-				listener
+		val strategy = OrTerminationStrategy(
+				listOf(
+						listener
 //				,
 //				TimeoutTerminationStrategy(now() + 2000)
-		))
+				))
 
 		val initialPlan = Plan(states = listOf(state))
 

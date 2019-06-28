@@ -24,7 +24,10 @@ object RemoveLvmPoolFactory : AbstractOperationalStepFactory<RemoveLvmPool>() {
 					?.filterNot { it.poolName in usedPools }?.map { host to it }
 		}.join()
 
-		return notUsedPools.map { RemoveLvmPool(pool = it.second.poolName, vgName = it.second.vgName, host = it.first.value.stat) }
+		return notUsedPools.map {
+			RemoveLvmPool(
+					pool = it.second.poolName, vgName = it.second.vgName, host = it.first.value.stat)
+		}
 
 	}
 }

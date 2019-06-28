@@ -13,12 +13,12 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 interface AbstractCreateVirtualStorage<A : VirtualStorageAllocation, C : StorageCapability> : AbstractOperationalStep {
 	val host: Host
 	val disk: VirtualStorageDevice
-	val allocation : A
-	val capability : C
-	override fun reservations(): List<Reservation<*>>
-			= listOf(
+	val allocation: A
+	val capability: C
+	override fun reservations(): List<Reservation<*>> = listOf(
 			VirtualStorageReservation(disk),
 			UseHostReservation(host)
 	)
+
 	val format: VirtualDiskFormat
 }

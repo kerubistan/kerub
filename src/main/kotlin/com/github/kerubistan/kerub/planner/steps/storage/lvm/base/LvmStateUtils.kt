@@ -10,10 +10,17 @@ import java.math.BigInteger
 
 
 // TODO: A generic (not lvm-specific) version of this could be a replacement
-fun updateHostDynLvmWithAllocation(state: OperationalState, host: Host, volumeGroupName: String, size: BigInteger): HostDynamic {
+fun updateHostDynLvmWithAllocation(
+		state: OperationalState, host: Host, volumeGroupName: String, size: BigInteger
+): HostDynamic {
 
 	val originalHostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
-	val volGroup = requireNotNull(host.capabilities?.storageCapabilities?.first { it is LvmStorageCapability && it.volumeGroupName == volumeGroupName })
+	val volGroup =
+			requireNotNull(
+					host.capabilities?.storageCapabilities?.first {
+						it is LvmStorageCapability && it.volumeGroupName == volumeGroupName
+					}
+			)
 	return originalHostDyn.copy(
 			storageStatus = originalHostDyn.storageStatus.replace({ it.id == volGroup.id }, {
 				(it as SimpleStorageDeviceDynamic).copy(

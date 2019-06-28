@@ -8,11 +8,14 @@ import com.github.kerubistan.kerub.planner.steps.storage.fs.unallocate.UnAllocat
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.unallocate.UnAllocateGvinumFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvFactory
 
-object UnallocateDiskFactory : StepFactoryCollection(listOf(
-		UnAllocateLvFactory,
-		UnAllocateFsFactory,
-		UnAllocateGvinumFactory
-)) {
-	override val expectationHints = super.expectationHints + setOf(VirtualMachineAvailabilityExpectation::class, StorageAvailabilityExpectation::class)
+object UnallocateDiskFactory : StepFactoryCollection(
+		listOf(
+				UnAllocateLvFactory,
+				UnAllocateFsFactory,
+				UnAllocateGvinumFactory
+		)) {
+	override val expectationHints =
+			super.expectationHints + setOf(
+					VirtualMachineAvailabilityExpectation::class, StorageAvailabilityExpectation::class)
 	override val problemHints = super.problemHints + RecyclingStorageDevice::class
 }

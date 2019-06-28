@@ -13,7 +13,9 @@ object UnAllocateGvinumFactory : AbstractUnAllocateFactory<UnAllocateGvinum, Vir
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
-	override fun unAllocate(allocation: VirtualStorageGvinumAllocation, vStorage: VirtualStorageDataCollection, state: OperationalState) =
+	override fun unAllocate(
+			allocation: VirtualStorageGvinumAllocation, vStorage: VirtualStorageDataCollection, state: OperationalState
+	) =
 			UnAllocateGvinum(
 					host = requireNotNull(state.hosts[allocation.hostId]).stat,
 					allocation = allocation,

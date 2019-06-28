@@ -13,7 +13,8 @@ class CreateLvExecutor(
 
 	override fun perform(step: CreateLv): LogicalVolume =
 			hostCommandExecutor.execute(step.host) { session ->
-				LvmLv.create(session,
+				LvmLv.create(
+						session,
 						vgName = step.volumeGroupName,
 						name = step.disk.id.toString(),
 						size = step.disk.size)

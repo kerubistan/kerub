@@ -21,7 +21,9 @@ abstract class AbstractCreateLvExecutor<T : AbstractCreateLv>(
 		}
 	}
 
-	fun transformVirtualStorageDynamic(dyn: VirtualStorageDeviceDynamic, step: T, updates: LogicalVolume): VirtualStorageDeviceDynamic {
+	fun transformVirtualStorageDynamic(
+			dyn: VirtualStorageDeviceDynamic, step: T, updates: LogicalVolume
+	): VirtualStorageDeviceDynamic {
 		return dyn.copy(
 				allocations = dyn.allocations + step.allocation.copy(
 						actualSize = updates.size,

@@ -13,7 +13,8 @@ data class CreateThinLv(
 		override val host: Host,
 		override val capability: LvmStorageCapability,
 		override val disk: VirtualStorageDevice,
-		val poolName: String) : AbstractCreateLv() {
+		val poolName: String
+) : AbstractCreateLv() {
 	override val allocation: VirtualStorageLvmAllocation by lazy {
 		VirtualStorageLvmAllocation(
 				hostId = host.id,
@@ -27,10 +28,11 @@ data class CreateThinLv(
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			vStorage = state.vStorage.update(disk.id) {
-				it.copy(dynamic = VirtualStorageDeviceDynamic(
-						id = disk.id,
-						allocations = listOf(allocation)
-				))
+				it.copy(
+						dynamic = VirtualStorageDeviceDynamic(
+								id = disk.id,
+								allocations = listOf(allocation)
+						))
 			}
 	)
 }

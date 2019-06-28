@@ -12,21 +12,22 @@ abstract class AbstractCreateVirtualStorageFactory<S : AbstractOperationalStep> 
 	companion object {
 		fun listStorageNotAllocated(
 				state: OperationalState,
-				types: List<VirtualDiskFormat> = VirtualDiskFormat.values().toList()): List<VirtualStorageDevice> =
+				types: List<VirtualDiskFormat> = VirtualDiskFormat.values().toList()
+		): List<VirtualStorageDevice> =
 
 				state.vStorage.values.filter { it.dynamic?.allocations?.isEmpty() ?: true }
-				.filter { storage ->
-					storage.stat.expectations.any {
-						it is StorageAvailabilityExpectation
-								&& types.contains(it.format)
-					}
-							||
-							state.index.vmsThatMustStart.any { vm ->
-								vm.stat.virtualStorageLinks.any { link ->
-									link.virtualStorageId == storage.stat.id
-								}
+						.filter { storage ->
+							storage.stat.expectations.any {
+								it is StorageAvailabilityExpectation
+										&& types.contains(it.format)
 							}
-				}.map { it.stat }
+									||
+									state.index.vmsThatMustStart.any { vm ->
+										vm.stat.virtualStorageLinks.any { link ->
+											link.virtualStorageId == storage.stat.id
+										}
+									}
+						}.map { it.stat }
 	}
 
 }

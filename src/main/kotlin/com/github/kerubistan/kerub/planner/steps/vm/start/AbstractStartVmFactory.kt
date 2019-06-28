@@ -15,24 +15,25 @@ import com.github.kerubistan.kerub.utils.hasAny
 abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
 
 	fun getWorkingHosts(state: OperationalState, filter: (HostDataCollection) -> Boolean): List<HostDataCollection> =
-		state.hosts.values.mapNotNull {
-			hostData ->
-			if (hostData.dynamic != null && hostData.dynamic.status == HostStatus.Up && filter(hostData))
-				hostData
-			else
-				null
-		}
+			state.hosts.values.mapNotNull { hostData ->
+				if (hostData.dynamic != null && hostData.dynamic.status == HostStatus.Up && filter(hostData))
+					hostData
+				else
+					null
+			}
 
 	fun getWorkingHosts(state: OperationalState): List<HostDataCollection> = getWorkingHosts(state) { true }
 
 	private fun getVmsToStart(state: OperationalState, filter: (VirtualMachine) -> Boolean): List<VirtualMachine> {
-		val vmsToRun = state.vms.values.filter {
-			vm ->
+		val vmsToRun = state.vms.values.filter { vm ->
 			vm.stat.expectations.hasAny<VirtualMachineAvailabilityExpectation> { it.up }
 					&& filter(vm.stat)
 		}
-		val vmsActuallyRunning = state.vms.values.filter { it.dynamic?.status == VirtualMachineStatus.Up }.map { it.stat.id }
-		val vmsToStart = vmsToRun.filter { !vmsActuallyRunning.contains(it.stat.id) }.filter { checkStartRequirements(it.stat, state) }
+		val vmsActuallyRunning =
+				state.vms.values.filter { it.dynamic?.status == VirtualMachineStatus.Up }.map { it.stat.id }
+		val vmsToStart =
+				vmsToRun.filter { !vmsActuallyRunning.contains(it.stat.id) }
+						.filter { checkStartRequirements(it.stat, state) }
 		return vmsToStart.map { it.stat }
 	}
 
@@ -43,8 +44,7 @@ abstract class AbstractStartVmFactory<S : AbstractOperationalStep> : AbstractOpe
 	}
 
 	private fun allDisksAvailable(virtualMachine: VirtualMachine, state: OperationalState): Boolean =
-			virtualMachine.virtualStorageLinks.all {
-				link ->
+			virtualMachine.virtualStorageLinks.all { link ->
 				state.vStorage[link.virtualStorageId]?.dynamic != null
 
 			}

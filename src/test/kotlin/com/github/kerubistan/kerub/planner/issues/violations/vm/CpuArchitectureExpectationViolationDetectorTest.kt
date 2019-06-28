@@ -20,17 +20,20 @@ class CpuArchitectureExpectationViolationDetectorTest {
 	@Test
 	fun check() {
 		assertTrue("Not running VM must pass") {
-			val expectation = CpuArchitectureExpectation(cpuArchitecture = "x86_64",
-														 level = ExpectationLevel.DealBreaker)
+			val expectation = CpuArchitectureExpectation(
+					cpuArchitecture = "x86_64",
+					level = ExpectationLevel.DealBreaker)
 			val vm = testVm.copy(
 					expectations = listOf(expectation)
 			)
-			CpuArchitectureExpectationViolationDetector.check(vm, expectation,
-																	  OperationalState.fromLists(vms = listOf(vm)))
+			CpuArchitectureExpectationViolationDetector.check(
+					vm, expectation,
+					OperationalState.fromLists(vms = listOf(vm)))
 		}
 		assertFalse("VM running on a PPC wit X86_64 requirement must create violation") {
-			val expectation = CpuArchitectureExpectation(cpuArchitecture = "x86_64",
-														 level = ExpectationLevel.DealBreaker)
+			val expectation = CpuArchitectureExpectation(
+					cpuArchitecture = "x86_64",
+					level = ExpectationLevel.DealBreaker)
 			val vm = testVm.copy(
 					expectations = listOf(expectation)
 			)
@@ -43,11 +46,12 @@ class CpuArchitectureExpectationViolationDetectorTest {
 					vms = listOf(vm),
 					hosts = listOf(host),
 					vmDyns = listOf(
-							VirtualMachineDynamic(id = vm.id, status = VirtualMachineStatus.Up, lastUpdated = now(),
-												  memoryUsed = 1.GB, hostId = host.id)
+							VirtualMachineDynamic(
+									id = vm.id, status = VirtualMachineStatus.Up, lastUpdated = now(),
+									memoryUsed = 1.GB, hostId = host.id)
 					),
 					hostDyns = listOf(
-						HostDynamic(id = host.id, lastUpdated = now(), status = HostStatus.Up)
+							HostDynamic(id = host.id, lastUpdated = now(), status = HostStatus.Up)
 					)
 			)
 			CpuArchitectureExpectationViolationDetector.check(vm, expectation, state)

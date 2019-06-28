@@ -56,7 +56,7 @@ class ClockFrequencyExpectationViolationDetectorTest {
 							vms = listOf(vm),
 							vmDyns = listOf(
 									VirtualMachineDynamic(
-											id =vm.id,
+											id = vm.id,
 											status = VirtualMachineStatus.Up,
 											lastUpdated = now(),
 											memoryUsed = 1.GB,
@@ -91,7 +91,7 @@ class ClockFrequencyExpectationViolationDetectorTest {
 							vms = listOf(vm),
 							vmDyns = listOf(
 									VirtualMachineDynamic(
-											id =vm.id,
+											id = vm.id,
 											status = VirtualMachineStatus.Up,
 											lastUpdated = now(),
 											memoryUsed = 1.GB,

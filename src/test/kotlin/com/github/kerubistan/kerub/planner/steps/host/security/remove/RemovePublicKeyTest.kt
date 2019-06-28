@@ -16,7 +16,8 @@ class RemovePublicKeyTest {
 	fun isInverseOf() {
 		assertTrue("remove public key is inverse operation of installing the same key on the same host") {
 			RemovePublicKey(host = testHost, publicKey = "ssh-rsa AAAAlofasz", hostOfKey = testFreeBsdHost).isInverseOf(
-					InstallPublicKey(targetHost = testHost, publicKey = "ssh-rsa AAAAlofasz", sourceHost = testFreeBsdHost)
+					InstallPublicKey(
+							targetHost = testHost, publicKey = "ssh-rsa AAAAlofasz", sourceHost = testFreeBsdHost)
 			)
 		}
 	}

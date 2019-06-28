@@ -54,7 +54,8 @@ class CreateGvinumVolumeExecutor(
 												if (updatedDisksByName.value.containsKey(item.name)) {
 													item.copy(
 															freeCapacity =
-															requireNotNull(updatedDisksByName.value[item.name]).available
+															requireNotNull(updatedDisksByName.value[item.name])
+																	.available
 													)
 												} else {
 													item
@@ -72,16 +73,18 @@ class CreateGvinumVolumeExecutor(
 		}
 	}
 
-	fun transformVirtualStorageDynamic(dynamic: VirtualStorageDeviceDynamic, step: CreateGvinumVolume): VirtualStorageDeviceDynamic {
-		return dynamic.copy(
-				allocations = dynamic.allocations + VirtualStorageGvinumAllocation(
-						hostId = step.host.id,
-						actualSize = step.disk.size,
-						configuration = step.config,
-						capabilityId = step.capability.id
-				)
-		)
-	}
+	fun transformVirtualStorageDynamic(
+			dynamic: VirtualStorageDeviceDynamic,
+			step: CreateGvinumVolume
+	): VirtualStorageDeviceDynamic =
+			dynamic.copy(
+					allocations = dynamic.allocations + VirtualStorageGvinumAllocation(
+							hostId = step.host.id,
+							actualSize = step.disk.size,
+							configuration = step.config,
+							capabilityId = step.capability.id
+					)
+			)
 
 	override fun perform(step: CreateGvinumVolume) {
 		hostCommandExecutor.execute(step.host) { session ->

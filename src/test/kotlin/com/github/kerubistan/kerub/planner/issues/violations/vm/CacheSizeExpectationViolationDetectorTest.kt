@@ -67,13 +67,14 @@ class CacheSizeExpectationViolationDetectorTest {
 					expectation,
 					OperationalState.fromLists(
 							vms = listOf(vm),
-							vmDyns = listOf(VirtualMachineDynamic(
-									id = vm.id,
-									status = VirtualMachineStatus.Up,
-									hostId = host.id,
-									memoryUsed = 1.GB,
-									lastUpdated = now()
-							)),
+							vmDyns = listOf(
+									VirtualMachineDynamic(
+											id = vm.id,
+											status = VirtualMachineStatus.Up,
+											hostId = host.id,
+											memoryUsed = 1.GB,
+											lastUpdated = now()
+									)),
 							hosts = listOf(host),
 							hostDyns = listOf(HostDynamic(id = host.id, status = HostStatus.Up))
 					)
@@ -107,13 +108,14 @@ class CacheSizeExpectationViolationDetectorTest {
 					expectation,
 					OperationalState.fromLists(
 							vms = listOf(vm),
-							vmDyns = listOf(VirtualMachineDynamic(
-									id = vm.id,
-									status = VirtualMachineStatus.Up,
-									hostId = host.id,
-									memoryUsed = 1.GB,
-									lastUpdated = now()
-							)),
+							vmDyns = listOf(
+									VirtualMachineDynamic(
+											id = vm.id,
+											status = VirtualMachineStatus.Up,
+											hostId = host.id,
+											memoryUsed = 1.GB,
+											lastUpdated = now()
+									)),
 							hosts = listOf(host),
 							hostDyns = listOf(HostDynamic(id = host.id, status = HostStatus.Up))
 					)

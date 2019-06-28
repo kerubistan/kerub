@@ -8,7 +8,8 @@ import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
 import java.math.BigInteger
 
-class RemoveDiskFromVGExecutor(private val hostCommandExecutor: HostCommandExecutor, private val hostDao: HostDao) : AbstractStepExecutor<RemoveDiskFromVG, BigInteger>() {
+class RemoveDiskFromVGExecutor(private val hostCommandExecutor: HostCommandExecutor, private val hostDao: HostDao) :
+		AbstractStepExecutor<RemoveDiskFromVG, BigInteger>() {
 	override fun perform(step: RemoveDiskFromVG): BigInteger =
 			hostCommandExecutor.execute(step.host) { session ->
 				LvmPv.move(session = session, pv = step.device)

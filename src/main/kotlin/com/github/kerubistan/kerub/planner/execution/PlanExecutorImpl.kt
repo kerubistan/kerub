@@ -177,7 +177,8 @@ class PlanExecutorImpl(
 			InstallPublicKey::class to InstallPublicKeyExecutor(hostCommandExecutor, hostManager, hostConfigurationDao),
 			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 
-			MigrateBlockAllocation::class to MigrateBlockAllocationExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao)
+			MigrateBlockAllocation::class to MigrateBlockAllocationExecutor(
+					hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao)
 
 	)
 
@@ -206,7 +207,8 @@ class PlanExecutorImpl(
 				results += StepExecutionPass(executionStep = step)
 			}
 		} fail { exc ->
-			logger.warn("plan execution failed: {}\nat step:{}\n{}", stepList, stepOnExec?.javaClass?.simpleName, plan, exc)
+			logger.warn(
+					"plan execution failed: {}\nat step:{}\n{}", stepList, stepOnExec?.javaClass?.simpleName, plan, exc)
 			stepOnExec?.let {
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
 			}
