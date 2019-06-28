@@ -1,4 +1,6 @@
 *.class
+.attach_pid*
+*.swp
 
 #maven target dir
 target
