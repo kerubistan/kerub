@@ -100,7 +100,9 @@ interface RestOperations {
 		@POST
 		@Path("/{id}")
 		@RequiresAuthentication
-		fun update(@ApiParam(value = "ID of the object", name = "id", required = true) @PathParam("id") id: UUID, entity: T): T
+		fun update(
+				@ApiParam(value = "ID of the object", name = "id", required = true) @PathParam("id") id: UUID, entity: T
+		): T
 	}
 
 	/**
@@ -111,20 +113,22 @@ interface RestOperations {
 		@GET
 		@Path("/")
 		@RequiresAuthentication
-		fun listAll(@ApiParam("First returned entity", defaultValue = "0", required = false)
-					@QueryParam("start")
-					@DefaultValue("0") start: Long,
-					@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
-					@QueryParam("limit")
-					@DefaultValue("20") limit: Int,
-					@ApiParam("Property name to sort by", defaultValue = "id", required = false)
-					@QueryParam("sort")
-					@DefaultValue("id") sort: String
+		fun listAll(
+				@ApiParam("First returned entity", defaultValue = "0", required = false)
+				@QueryParam("start")
+				@DefaultValue("0") start: Long,
+				@ApiParam("Maximum number of returned entities", defaultValue = "20", required = false)
+				@QueryParam("limit")
+				@DefaultValue("20") limit: Int,
+				@ApiParam("Property name to sort by", defaultValue = "id", required = false)
+				@QueryParam("sort")
+				@DefaultValue("id") sort: String
 		): SortResultPage<T>
 	}
 
 	interface SimpleSearch<T> {
-		@ApiOperation("Search objects based on a field name and a value", notes = "The actual result is filterd by security")
+		@ApiOperation(
+				"Search objects based on a field name and a value", notes = "The actual result is filterd by security")
 		@GET
 		@Path("/search")
 		@RequiresAuthentication
