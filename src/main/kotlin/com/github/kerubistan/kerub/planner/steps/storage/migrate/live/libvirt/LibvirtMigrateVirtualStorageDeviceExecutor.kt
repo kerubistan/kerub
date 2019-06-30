@@ -10,16 +10,17 @@ class LibvirtMigrateVirtualStorageDeviceExecutor(private val hostCommandExecutor
 		AbstractStepExecutor<LibvirtMigrateVirtualStorageDevice, Unit>() {
 	override fun perform(step: LibvirtMigrateVirtualStorageDevice) {
 		hostCommandExecutor.execute(step.source) {
-			Virsh.blockCopy(session = it,
-							blockDev = step.targetAllocation is VirtualStorageBlockDeviceAllocation,
-							destination = TODO(),
-							format = if (step.targetAllocation is VirtualStorageFsAllocation) {
-								step.targetAllocation.type.name
-							} else {
-								null
-							},
-							path = TODO(),
-							domaindId = step.vm.id)
+			Virsh.blockCopy(
+					session = it,
+					blockDev = step.targetAllocation is VirtualStorageBlockDeviceAllocation,
+					destination = TODO(),
+					format = if (step.targetAllocation is VirtualStorageFsAllocation) {
+						step.targetAllocation.type.name
+					} else {
+						null
+					},
+					path = TODO(),
+					domaindId = step.vm.id)
 		}
 	}
 

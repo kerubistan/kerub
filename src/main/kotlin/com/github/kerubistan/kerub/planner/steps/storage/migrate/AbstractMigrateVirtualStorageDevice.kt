@@ -19,7 +19,7 @@ abstract class AbstractMigrateVirtualStorageDevice : AbstractOperationalStep {
 	abstract val targetAllocation: VirtualStorageAllocation
 	abstract val source: Host
 	abstract val target: Host
-	abstract val targetStorageCapabilityId : UUID
+	abstract val targetStorageCapabilityId: UUID
 
 	override fun reservations(): List<Reservation<*>> = listOf(
 			VirtualStorageReservation(device),

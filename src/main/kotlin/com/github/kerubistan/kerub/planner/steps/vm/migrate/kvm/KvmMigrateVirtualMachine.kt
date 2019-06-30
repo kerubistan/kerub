@@ -26,13 +26,14 @@ import java.util.HashMap
 data class KvmMigrateVirtualMachine(
 		override val vm: VirtualMachine,
 		override val source: Host,
-		override val target: Host) : AbstractOperationalStep, MigrateVirtualMachine, InvertibleStep {
+		override val target: Host
+) : AbstractOperationalStep, MigrateVirtualMachine, InvertibleStep {
 
 	override fun isInverseOf(other: AbstractOperationalStep) =
 			other is KvmMigrateVirtualMachine && other.vm == vm && other.source == target && other.target == source
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(VmReservation(vm),
+	override fun reservations(): List<Reservation<*>> = listOf(
+			VmReservation(vm),
 			UseHostReservation(target),
 			UseHostReservation(source)
 	)
@@ -51,7 +52,7 @@ data class KvmMigrateVirtualMachine(
 					if (state.vmsOnHost(target.id).any { expectation.otherVmId == it.id }) {
 						vmViolations.add(expectation)
 					}
-			//TODO: and so on
+				//TODO: and so on
 			}
 		}
 		return ret
@@ -63,9 +64,10 @@ data class KvmMigrateVirtualMachine(
 		val sourceHostDyn = requireNotNull(state.hosts[source.id]?.dynamic)
 		return state.copy(
 				vms = state.vms.update(vm.id) {
-					it.copy(dynamic = vmDyn.copy(
-							hostId = target.id
-					)
+					it.copy(
+							dynamic = vmDyn.copy(
+									hostId = target.id
+							)
 					)
 				},
 				hosts = state.hosts

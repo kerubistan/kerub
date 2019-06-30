@@ -11,7 +11,8 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import kotlin.reflect.KClass
 
-abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocation> : AbstractOperationalStepFactory<T>() {
+abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocation> :
+		AbstractOperationalStepFactory<T>() {
 
 	abstract val allocationFactories: List<AbstractOperationalStepFactory<AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>>>
 

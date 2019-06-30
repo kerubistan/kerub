@@ -39,7 +39,7 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 				}
 			}.join()
 
-	private fun allStorageShared(vm : VirtualMachineDataCollection, state: OperationalState) : Boolean =
+	private fun allStorageShared(vm: VirtualMachineDataCollection, state: OperationalState): Boolean =
 			vm.stat.virtualStorageLinks.all { link ->
 				val storage = requireNotNull(state.vStorage[link.virtualStorageId])
 				// this attached have an allocation that is shared with some protocol
@@ -47,7 +47,7 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 				// target server
 				storage.dynamic?.allocations?.any { allocation ->
 					val storageHost = requireNotNull(state.hosts[allocation.hostId])
-					when(allocation) {
+					when (allocation) {
 						is VirtualStorageBlockDeviceAllocation ->
 							storageHost.config?.services?.any { service ->
 								service is IscsiService && service.vstorageId == storage.stat.id

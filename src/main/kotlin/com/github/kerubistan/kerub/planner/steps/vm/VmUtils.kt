@@ -19,7 +19,9 @@ import java.util.UUID
  * Give a list of storage link information of the virtual storage links
  * #targetHostId the host where the service should be available
  */
-fun virtualStorageLinkInfo(state: OperationalState, links: List<VirtualStorageLink>, targetHostId: UUID): List<VirtualStorageLinkInfo> =
+fun virtualStorageLinkInfo(
+		state: OperationalState, links: List<VirtualStorageLink>, targetHostId: UUID
+): List<VirtualStorageLinkInfo> =
 		links.mapNotNull { link ->
 			state.vStorage[link.virtualStorageId]?.let { storage ->
 				storage.dynamic?.allocations?.filter { state.hosts[it.hostId]?.dynamic?.status == HostStatus.Up }
@@ -83,9 +85,7 @@ fun allStorageAvailable(vm: VirtualMachine, links: List<VirtualStorageLinkInfo>)
  * Checks if the virtual machine is <strong>technically</strong> able to run on the host.
  * It does not check on the vm, virtual storage, network expectations, that's the planner's business.
  */
-fun match(
-		host: HostDataCollection,
-		vm: VirtualMachine): Boolean {
+fun match(host: HostDataCollection, vm: VirtualMachine): Boolean {
 
 	//host not running or not known
 	if (host.dynamic == null) {

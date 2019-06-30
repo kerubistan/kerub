@@ -11,7 +11,8 @@ import com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm.KvmMigrateVirtua
 import kotlin.reflect.KClass
 
 object MigrateVirtualMachineFactory : StepFactoryCollection(listOf(KvmMigrateVirtualMachineFactory)) {
-	override val expectationHints: Set<KClass<out Expectation>> = setOf(NotSameStorageExpectation::class, StorageAvailabilityExpectation::class)
-	override val problemHints: Set<KClass<out Problem>>
-			= super.problemHints + setOf(RecyclingHost::class, VmOnRecyclingHost::class)
+	override val expectationHints: Set<KClass<out Expectation>> =
+			setOf(NotSameStorageExpectation::class, StorageAvailabilityExpectation::class)
+	override val problemHints: Set<KClass<out Problem>> =
+			super.problemHints + setOf(RecyclingHost::class, VmOnRecyclingHost::class)
 }

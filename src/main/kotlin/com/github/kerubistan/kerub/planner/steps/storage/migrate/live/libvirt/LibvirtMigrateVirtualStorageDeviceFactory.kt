@@ -13,6 +13,5 @@ object LibvirtMigrateVirtualStorageDeviceFactory :
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf(NotSameStorageExpectation::class)
 
-	override fun produce(state: OperationalState): List<AbstractMigrateVirtualStorageDevice>
-			= TODO()
+	override fun produce(state: OperationalState): List<AbstractMigrateVirtualStorageDevice> = TODO()
 }

@@ -17,7 +17,7 @@ abstract class AbstractMigrateAllocation : AbstractOperationalStep {
 	abstract val virtualStorage: VirtualStorageDevice
 	abstract val sourceAllocation: VirtualStorageAllocation
 	abstract val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>
-	abstract val deAllocationStep : AbstractUnAllocate<*>
+	abstract val deAllocationStep: AbstractUnAllocate<*>
 
 	override fun take(state: OperationalState): OperationalState =
 			deAllocationStep.take(allocationStep.take(state.copy()))
@@ -36,7 +36,7 @@ abstract class AbstractMigrateAllocation : AbstractOperationalStep {
 		}
 	}
 
-	override fun reservations() : List<Reservation<*>> = listOf(
+	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(sourceHost),
 			UseHostReservation(targetHost)
 	)
