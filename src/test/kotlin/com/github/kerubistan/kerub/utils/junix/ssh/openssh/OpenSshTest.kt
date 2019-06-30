@@ -12,6 +12,8 @@ import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import java.io.IOException
 import java.util.EnumSet
 import kotlin.test.assertEquals
 
@@ -76,6 +78,23 @@ class OpenSshTest {
 				sourceDevice = "/dev/mapper/vg-1/vol-1",
 				targetDevice = "/dev/mapper/vg-2/vol-2",
 				targetAddress = "host-2.example.com")
+
+		session.verifyCommandExecution(".*ssh.*".toRegex())
+
+	}
+
+	@Test
+	fun copyBlockDeviceError() {
+		session.mockCommandExecution(".*".toRegex(), "", "dd: failed to open '/dev/sda': Permission denied")
+
+		assertThrows<IOException> {
+			OpenSsh.copyBlockDevice(
+					session,
+					sourceDevice = "/dev/sda",
+					targetDevice = "/dev/sdb",
+					targetAddress = "host-2.example.com")
+
+		}
 
 		session.verifyCommandExecution(".*ssh.*".toRegex())
 

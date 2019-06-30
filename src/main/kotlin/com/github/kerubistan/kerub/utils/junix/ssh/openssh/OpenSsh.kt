@@ -20,7 +20,14 @@ object OpenSsh {
 	private val ddOutputRecordsLineFormat = "\\d+\\+\\d+ records out".toRegex()
 	private val ddInputRecordsLineFormat = "\\d+\\+\\d+ records in".toRegex()
 
-	fun verifySshConnection(session: ClientSession, targetAddress : String) {
+	private val copyBlockDeviceErrorMatcher = mapOf(
+			0 to ddInputRecordsLineFormat,
+			1 to ddOutputRecordsLineFormat,
+			3 to ddInputRecordsLineFormat,
+			4 to ddOutputRecordsLineFormat
+	)
+
+	fun verifySshConnection(session: ClientSession, targetAddress: String) {
 		session.executeOrDie("""bash -c "ssh -o BatchMode=true $targetAddress echo connected" """)
 	}
 
@@ -104,13 +111,15 @@ object OpenSsh {
 	) {
 		session.executeOrDie(
 				"""bash -c "dd if=$sourceDevice ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """,
-				isError = { it.lines().let { lines ->
-					lines.size == 6
-							&& lines[0].matches(ddInputRecordsLineFormat)
-							&& lines[1].matches(ddOutputRecordsLineFormat)
-							&& lines[3].matches(ddInputRecordsLineFormat)
-							&& lines[4].matches(ddOutputRecordsLineFormat)
-				} }
+				isError = {
+					it.isNotBlank() &&
+							it.trim().lines().filter(String::isNotBlank).let { lines ->
+								lines.size != 6
+								!copyBlockDeviceErrorMatcher.all { (lineNr, regexp) ->
+									lines[lineNr].matches(regexp)
+								}
+							}
+				}
 		)
 	}
 
