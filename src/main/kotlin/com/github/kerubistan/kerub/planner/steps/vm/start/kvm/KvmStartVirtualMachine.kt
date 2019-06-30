@@ -16,12 +16,12 @@ import io.github.kerubistan.kroki.time.now
 data class KvmStartVirtualMachine(
 		val vm: VirtualMachine,
 		override val host: Host,
-		val storageLinks : List<VirtualStorageLinkInfo> = listOf()) : HostStep {
+		val storageLinks: List<VirtualStorageLinkInfo> = listOf()
+) : HostStep {
 	override fun take(state: OperationalState): OperationalState {
 		val hostDyn = requireNotNull(state.hosts[host.id]?.dynamic)
 		return state.copy(
-				vms = state.vms.update(vm.id) {
-					vmData ->
+				vms = state.vms.update(vm.id) { vmData ->
 					vmData.copy(
 							dynamic = VirtualMachineDynamic(
 									status = VirtualMachineStatus.Up,
@@ -33,8 +33,7 @@ data class KvmStartVirtualMachine(
 							)
 					)
 				},
-				hosts = state.hosts.update(host.id) {
-					hostData ->
+				hosts = state.hosts.update(host.id) { hostData ->
 					hostData.copy(
 							dynamic = hostDyn.copy(
 									idleCpu = hostDyn.idleCpu, // TODO - estimate on the virtual machine CPU usage

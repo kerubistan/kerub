@@ -35,7 +35,8 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 							&& isKvmInstalled(hostData.stat)
 							&& isKvmCapable(hostData.stat.capabilities.hypervisorCapabilities, vm)
 							&& match(hostData, vm)
-							&& allStorageAvailable(vm, virtualStorageLinks.value)) {
+							&& allStorageAvailable(vm, virtualStorageLinks.value)
+					) {
 						KvmStartVirtualMachine(
 								vm = vm,
 								host = hostData.stat,

@@ -11,13 +11,11 @@ import com.github.kerubistan.kerub.utils.update
 
 data class ResumeVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(VmReservation(vm))
+	override fun reservations(): List<Reservation<*>> = listOf(VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState {
 		return state.copy(
-				vms = state.vms.update(vm.id) {
-					vmData ->
+				vms = state.vms.update(vm.id) { vmData ->
 					vmData.copy(
 							dynamic = requireNotNull(vmData.dynamic).copy(status = VirtualMachineStatus.Up)
 					)

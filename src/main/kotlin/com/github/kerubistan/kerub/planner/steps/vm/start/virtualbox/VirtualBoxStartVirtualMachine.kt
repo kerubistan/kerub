@@ -13,8 +13,7 @@ import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
 data class VirtualBoxStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
-	override fun reservations(): List<Reservation<*>>
-			= listOf(UseHostReservation(host), VmReservation(vm))
+	override fun reservations(): List<Reservation<*>> = listOf(UseHostReservation(host), VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			vms = state.vms.update(vm.id) {
@@ -27,8 +26,7 @@ data class VirtualBoxStartVirtualMachine(val vm: VirtualMachine, override val ho
 						)
 				)
 			},
-			hosts = state.hosts.update(host.id) {
-				hostData ->
+			hosts = state.hosts.update(host.id) { hostData ->
 				val dynamic = requireNotNull(hostData.dynamic)
 				hostData.copy(
 						dynamic = dynamic.copy(

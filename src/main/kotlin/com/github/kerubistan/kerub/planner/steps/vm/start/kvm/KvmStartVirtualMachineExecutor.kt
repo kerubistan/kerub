@@ -15,10 +15,11 @@ import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import com.github.kerubistan.kerub.utils.kick
 import java.math.BigInteger
 
-class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
-									 private val vmDynDao: VirtualMachineDynamicDao,
-									 private val hostCommandExecutor: HostCommandExecutor)
-	: AbstractStepExecutor<KvmStartVirtualMachine, DisplaySettings?>() {
+class KvmStartVirtualMachineExecutor(
+		private val hostManager: HostManager,
+		private val vmDynDao: VirtualMachineDynamicDao,
+		private val hostCommandExecutor: HostCommandExecutor
+) : AbstractStepExecutor<KvmStartVirtualMachine, DisplaySettings?>() {
 
 	override fun update(step: KvmStartVirtualMachine, updates: DisplaySettings?) {
 		val dyn = VirtualMachineDynamic(
@@ -32,37 +33,37 @@ class KvmStartVirtualMachineExecutor(private val hostManager: HostManager,
 	}
 
 	override fun perform(step: KvmStartVirtualMachine): DisplaySettings? =
-		hostCommandExecutor.execute(step.host) { client ->
-			val consolePwd = genPassword(length = 16)
+			hostCommandExecutor.execute(step.host) { client ->
+				val consolePwd = genPassword(length = 16)
 
-			step.storageLinks.forEach {
-				storageLink ->
-				when(storageLink.hostServiceUsed) {
-					is IscsiService ->
-						if(storageLink.hostServiceUsed.password != null) {
-							Virsh.setSecret(client,
-									storageLink.hostServiceUsed.vstorageId,
-									SecretType.iscsi,
-									storageLink.hostServiceUsed.password)
-						}
+				step.storageLinks.forEach { storageLink ->
+					when (storageLink.hostServiceUsed) {
+						is IscsiService ->
+							if (storageLink.hostServiceUsed.password != null) {
+								Virsh.setSecret(
+										client,
+										storageLink.hostServiceUsed.vstorageId,
+										SecretType.iscsi,
+										storageLink.hostServiceUsed.password)
+							}
+					}
+				}
+				Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
+				val display = kick(8) {
+					// why kicking it again? it does happen sometimes that this fails after successful vm start
+					// (noticed on opensuse 42)
+					Virsh.getDisplay(session = client, vmId = step.vm.id)
+				}
+
+				display?.let {
+					hostManager.getFireWall(step.host).open(it.second, "tcp")
+
+					DisplaySettings(
+							hostAddr = step.host.address,
+							password = consolePwd,
+							ca = "",
+							port = it.second
+					)
 				}
 			}
-			Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
-			val display = kick(8) {
-				// why kicking it again? it does happen sometimes that this fails after successful vm start
-				// (noticed on opensuse 42)
-				Virsh.getDisplay(session = client, vmId = step.vm.id)
-			}
-
-			display?.let {
-				hostManager.getFireWall(step.host).open(it.second, "tcp")
-
-				DisplaySettings(
-						hostAddr = step.host.address,
-						password = consolePwd,
-						ca = "",
-						port = it.second
-				)
-			}
-		}
 }

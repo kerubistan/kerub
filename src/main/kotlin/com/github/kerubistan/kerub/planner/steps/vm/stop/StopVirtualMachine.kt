@@ -39,7 +39,8 @@ data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) :
 				hosts = state.hosts.update(host.id) {
 					it.copy(
 							dynamic = hostDyn.copy(
-									memFree = ((hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max).coerceAtLeast(BigInteger.ZERO)
+									memFree = ((hostDyn.memFree ?: BigInteger.ZERO) - vm.memory.max).coerceAtLeast(
+											BigInteger.ZERO)
 							)
 					)
 				}
@@ -48,8 +49,9 @@ data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) :
 	}
 
 	override fun getCost(): List<Cost> {
-		val availablityExpectation = vm.expectations.firstOrNull { it is VirtualMachineAvailabilityExpectation && it.up }
-				as VirtualMachineAvailabilityExpectation?
+		val availablityExpectation =
+				vm.expectations.firstOrNull { it is VirtualMachineAvailabilityExpectation && it.up }
+						as VirtualMachineAvailabilityExpectation?
 		return if (availablityExpectation == null) {
 			listOf()
 		} else {

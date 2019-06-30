@@ -13,12 +13,11 @@ object ResumeVirtualMachineFactory : AbstractForEachVmStepFactory<ResumeVirtualM
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
-	override fun filter(vmDyn: VirtualMachineDynamic): Boolean
-			= vmDyn.status == VirtualMachineStatus.Paused
+	override fun filter(vmDyn: VirtualMachineDynamic): Boolean = vmDyn.status == VirtualMachineStatus.Paused
 
-	override fun create(vmData: VirtualMachineDataCollection, state: OperationalState): ResumeVirtualMachine
-			= ResumeVirtualMachine(
-			vm = vmData.stat,
-			host = getHost(requireNotNull(vmData.dynamic).hostId, state).stat
-	)
+	override fun create(vmData: VirtualMachineDataCollection, state: OperationalState): ResumeVirtualMachine =
+			ResumeVirtualMachine(
+					vm = vmData.stat,
+					host = getHost(requireNotNull(vmData.dynamic).hostId, state).stat
+			)
 }
