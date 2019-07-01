@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.host.security.clear
 
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
+import com.github.kerubistan.kerub.host.mockHost
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.testHost
 import com.nhaarman.mockito_kotlin.any
@@ -23,9 +24,7 @@ class ClearSshKeyExecutorTest {
 		val session = mock<ClientSession>()
 		val sftpClient = mock<SftpClient>()
 		whenever(session.createSftpClient()).thenReturn(sftpClient)
-		whenever(hostCommandExecutor.execute(eq(testHost), any<(ClientSession) -> Any>())).then {
-			(it.arguments[1] as (ClientSession) -> Any).invoke(session)
-		}
+		hostCommandExecutor.mockHost(testHost, session)
 		whenever(hostCfgDao.update(any(), any(), any())).then {
 			val updated = (it.arguments[2] as (HostConfiguration) -> HostConfiguration).invoke(
 					HostConfiguration(id = testHost.id)
