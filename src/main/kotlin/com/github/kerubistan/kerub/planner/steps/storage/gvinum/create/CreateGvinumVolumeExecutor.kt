@@ -47,7 +47,7 @@ class CreateGvinumVolumeExecutor(
 							if (deviceDynamic.id == step.capability.id) {
 								when (deviceDynamic) {
 									is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
-											freeCapacity = updatedDisks.sumBy { it.available }
+											freeCapacity = updatedDisks.sumBy { drive -> drive.available }
 									)
 									is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
 											items = deviceDynamic.items.map { item ->
