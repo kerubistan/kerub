@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.host.recycle
 
 import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.RecyclingHost
@@ -18,12 +19,17 @@ object RecycleHostFactory : AbstractOperationalStepFactory<RecycleHost>() {
 				//the host is being recycled
 				host.recycling &&
 						isHostFree(host, state) &&
-						//it is either dedicated and shut down, or not dedicated
-						((host.dedicated && (dyn == null || dyn.status == HostStatus.Down))
-								|| !host.dedicated)
+						canDropFreeHost(host, dyn)
 			}.map {
 				RecycleHost(it.stat)
 			}
+
+	private fun canDropFreeHost(
+			host: Host, dyn: HostDynamic?
+	) =
+			//it is either dedicated and shut down, or not dedicated
+			((host.dedicated && (dyn == null || dyn.status == HostStatus.Down))
+					|| !host.dedicated)
 
 	private fun isHostFree(host: Host, state: OperationalState) =
 			//no more disk allocations on it
