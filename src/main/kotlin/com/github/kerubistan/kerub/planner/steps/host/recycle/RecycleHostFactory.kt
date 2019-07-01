@@ -24,7 +24,7 @@ object RecycleHostFactory : AbstractOperationalStepFactory<RecycleHost>() {
 							} ?: false
 						} &&
 						//no vms running on it
-						state.vms.values.none {
+						state.index.runningVms.none {
 							it.dynamic?.hostId == stat.id
 						} &&
 						//it is either dedicated and shut down, or not dedicated
