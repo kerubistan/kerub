@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualMachine
+import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.vm.allStorageAvailable
@@ -30,11 +31,8 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 								links = vm.virtualStorageLinks,
 								targetHostId = hostData.stat.id)
 					}
-					if (hostData.stat.capabilities?.os == OperatingSystem.Linux
-							&& isHwVirtualizationSupported(hostData.stat)
-							&& isKvmInstalled(hostData.stat)
-							&& isKvmCapable(hostData.stat.capabilities.hypervisorCapabilities, vm)
-							&& match(hostData, vm)
+					if (isHostKvmReady(hostData)
+							&& isHostCapableOfVm(hostData, vm)
 							&& allStorageAvailable(vm, virtualStorageLinks.value)
 					) {
 						KvmStartVirtualMachine(
@@ -46,7 +44,18 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 				}
 			}.join()
 
-	internal fun isKvmCapable(hypervisorCapabilities: List<Any>, vm: VirtualMachine): Boolean {
+	private fun isHostKvmReady(hostData: HostDataCollection): Boolean {
+		return (hostData.stat.capabilities?.os == OperatingSystem.Linux
+				&& isHwVirtualizationSupported(hostData.stat)
+				&& isKvmInstalled(hostData.stat))
+	}
+
+	private fun isHostCapableOfVm(hostData: HostDataCollection, vm: VirtualMachine) =
+			isKvmCapableVmArch(hostData.stat.capabilities?.hypervisorCapabilities ?: listOf(), vm)
+					&& match(hostData, vm)
+
+
+	internal fun isKvmCapableVmArch(hypervisorCapabilities: List<Any>, vm: VirtualMachine): Boolean {
 		return hypervisorCapabilities.any {
 			it is LibvirtCapabilities && it.guests.any { it.arch.name == vm.architecture }
 		}

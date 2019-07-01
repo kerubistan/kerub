@@ -143,11 +143,11 @@ class KvmStartVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmStartV
 	@Test
 	fun isKvmCapable() {
 		assertFalse("if no capabilities, the VM may not be ok on the host") {
-			KvmStartVirtualMachineFactory.isKvmCapable(listOf(), testVm)
+			KvmStartVirtualMachineFactory.isKvmCapableVmArch(listOf(), testVm)
 		}
 
 		assertTrue("matching capability") {
-			KvmStartVirtualMachineFactory.isKvmCapable(
+			KvmStartVirtualMachineFactory.isKvmCapableVmArch(
 					listOf(
 							LibvirtCapabilities(
 									guests = listOf(
