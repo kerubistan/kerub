@@ -35,6 +35,11 @@ fun ClientSession.verifyCommandExecution(commandMatcher: Regex) {
 	verify(this).createExecChannel(argThat { commandMatcher.matches(this) })
 }
 
+fun ClientSession.verifyCommandExecution(commandMatcher: Regex, mode: org.mockito.verification.VerificationMode) {
+	verify(this, mode).createExecChannel(argThat { commandMatcher.matches(this) })
+}
+
+
 fun ClientSession.mockProcess(commandMatcher: Regex, output: String, stderr : String = "") {
 	val execChannel: ChannelExec = mock()
 	val openFuture : OpenFuture = mock()
