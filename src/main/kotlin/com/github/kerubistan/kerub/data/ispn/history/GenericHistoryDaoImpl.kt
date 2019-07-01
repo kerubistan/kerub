@@ -190,19 +190,23 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 								}
 
 						val maxSelector: (HistoryEntry) -> BigDecimal = genericSelector {
-							bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).max)
-									?: BigDecimal.ZERO
+							bd((it.changes.single { changeSummary ->
+								changeSummary.property == changedProperty
+							} as NumericPropertyChangeSummary).max) ?: BigDecimal.ZERO
 						}
 						val minSelector: (HistoryEntry) -> BigDecimal = genericSelector {
-							bd((it.changes.single { it.property == changedProperty } as NumericPropertyChangeSummary).min)
-									?: BigDecimal.ZERO
+							bd((it.changes.single { changeSummary ->
+								changeSummary.property == changedProperty
+							} as NumericPropertyChangeSummary).min) ?: BigDecimal.ZERO
 						}
 
 						NumericPropertyChangeSummary(
 								property = changedProperty,
 								average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/},
-								max = requireNotNull(propertyChanges.map(maxSelector).max()), //there is at least one element, therefore there must be a maximum
-								min = requireNotNull(propertyChanges.map(minSelector).min()), //and same for minimums
+								//there is at least one element, therefore there must be a maximum
+								max = requireNotNull(propertyChanges.map(maxSelector).max()),
+								//and same for minimums
+								min = requireNotNull(propertyChanges.map(minSelector).min()),
 								extremes = listOf()
 						)
 

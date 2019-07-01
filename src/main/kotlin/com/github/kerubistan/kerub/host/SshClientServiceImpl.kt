@@ -75,7 +75,9 @@ class SshClientServiceImpl(
 		return session
 	}
 
-	override fun loginWithPassword(address: String, userName: String, password: String, hostPublicKey: String): ClientSession {
+	override fun loginWithPassword(
+			address: String, userName: String, password: String, hostPublicKey: String
+	): ClientSession {
 		logger.debug("connecting to {} with password", address)
 		val session = createVerifiedSession(address, userName, hostPublicKey)
 		logger.debug("sending password {}", address)
@@ -89,9 +91,9 @@ class SshClientServiceImpl(
 	override fun getPublicKey(): String = "ssh-rsa ${encodePublicKey(keyPair.public as RSAPublicKey)}"
 
 	override fun getHostPublicKey(addr: String): PublicKey = client.connect("test", addr, sshPort).let { future ->
-		if(future.await(maxWait, maxWaitUnit)) {
+		if (future.await(maxWait, maxWaitUnit)) {
 			val state = future.session.waitFor(listOf(ClientSession.ClientSessionEvent.WAIT_AUTH), maxWait)
-			if(ClientSession.ClientSessionEvent.WAIT_AUTH in state) {
+			if (ClientSession.ClientSessionEvent.WAIT_AUTH in state) {
 				future.session.kex.serverKey
 			} else {
 				throw SecurityException("Session communication timed out: $state")

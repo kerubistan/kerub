@@ -3,7 +3,8 @@ package com.github.kerubistan.kerub.data
 import com.github.kerubistan.kerub.model.Entity
 
 interface CrudDao<T : Entity<I>, I>
-	: DaoOperations.Read<T, I>, DaoOperations.Add<T, I>, DaoOperations.Remove<T, I>, DaoOperations.Update<T, I>, DaoOperations.Listen<I, T> {
+	: DaoOperations.Read<T, I>, DaoOperations.Add<T, I>, DaoOperations.Remove<T, I>, DaoOperations.Update<T, I>,
+		DaoOperations.Listen<I, T> {
 
 	fun requireGet(id: I): T = requireNotNull(get(id))
 

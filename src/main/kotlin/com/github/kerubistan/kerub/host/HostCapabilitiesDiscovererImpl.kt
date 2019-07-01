@@ -36,7 +36,8 @@ import kotlin.reflect.KClass
 /**
  * Helper class to detect host capabilities through an established SSH session.
  */
-class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: ControllerConfigDao) : HostCapabilitiesDiscoverer {
+class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: ControllerConfigDao) :
+		HostCapabilitiesDiscoverer {
 
 	companion object {
 		private val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
@@ -70,7 +71,8 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 					if (controllerConfig.storageTechnologies.storageBenchmarkingEnabled) {
 						logger.info("benchmarking enabled storage")
 						it.map {
-							distro.storageBenchmark(session, it, distribution, packages, controllerConfig.storageTechnologies)
+							distro.storageBenchmark(
+									session, it, distribution, packages, controllerConfig.storageTechnologies)
 						}
 					} else
 						it
@@ -131,7 +133,9 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 		return distro.detectHostCapabilities(hostCapabilities, session)
 	}
 
-	private fun installDmi(dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession): Boolean {
+	private fun installDmi(
+			dedicated: Boolean, distro: Distribution?, packages: List<SoftwarePackage>, session: ClientSession
+	): Boolean {
 		val dmiDecodeInstalled = isDmiDecodeInstalled(packages)
 		if (!dmiDecodeInstalled && dedicated && distro != null) {
 			distro.getPackageManager(session).install("dmidecode")

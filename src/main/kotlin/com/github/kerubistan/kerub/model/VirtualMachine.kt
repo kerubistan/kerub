@@ -107,6 +107,7 @@ data class VirtualMachine constructor(
 		memory.min.validateSize("memory.min")
 	}
 
-	override fun toString(): String = "VM(id=$id,name=$name${if (expectations.isEmpty()) "" else "exp=" + expectations.size})"
+	override fun toString(): String =
+			"VM(id=$id,name=$name${if (expectations.isEmpty()) "" else "exp=" + expectations.size})"
 }
 

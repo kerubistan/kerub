@@ -41,7 +41,9 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 				it.toByteArray()
 			}
 
-	private fun byteArrayToObject(objectMapper: ObjectMapper, bytes: ByteArray, start: Int? = null, len: Int? = null): Any? =
+	private fun byteArrayToObject(
+			objectMapper: ObjectMapper, bytes: ByteArray, start: Int? = null, len: Int? = null
+	): Any? =
 			objectMapper.readValue(bytes, start ?: 1, len ?: bytes.size, Entity::class.java)
 
 	override fun objectToBuffer(o: Any?): ByteBuffer? {

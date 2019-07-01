@@ -53,7 +53,9 @@ class FreeBSD : Distribution {
 				.toBigInteger()
 	}
 
-	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> {
+	override fun detectStorageCapabilities(
+			session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>
+	): List<StorageCapability> {
 		return GVinum.listDrives(session).let { gvinumDrives ->
 			if(gvinumDrives.isEmpty()) {
 				listOf()

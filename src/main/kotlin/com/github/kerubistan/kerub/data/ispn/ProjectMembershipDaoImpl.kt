@@ -7,9 +7,11 @@ import com.github.kerubistan.kerub.model.ProjectMembership
 import org.infinispan.Cache
 import java.util.UUID
 
-class ProjectMembershipDaoImpl(cache: Cache<UUID, ProjectMembership>,
-							   eventListener: EventListener,
-							   auditManager: AuditManager) : ProjectMembershipDao, ListableIspnDaoBase<ProjectMembership, UUID>(cache, eventListener, auditManager) {
+class ProjectMembershipDaoImpl(
+		cache: Cache<UUID, ProjectMembership>,
+		eventListener: EventListener,
+		auditManager: AuditManager
+) : ProjectMembershipDao, ListableIspnDaoBase<ProjectMembership, UUID>(cache, eventListener, auditManager) {
 
 	override fun listByUsername(userName: String): List<ProjectMembership> =
 			cache.queryBuilder(ProjectMembership::class)
