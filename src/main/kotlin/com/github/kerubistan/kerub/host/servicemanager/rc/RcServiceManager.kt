@@ -35,7 +35,8 @@ class RcServiceManager(private val session: ClientSession) : ServiceManager {
 		internal fun disable(serviceName: String, config: String): String =
 				config.remove(regex(serviceName))
 
-		internal fun serviceName(service: OsCommand) = requireNotNull(serviceMap[service]) { "service $service not registered" }
+		internal fun serviceName(service: OsCommand) =
+				requireNotNull(serviceMap[service]) { "service $service not registered" }
 
 	}
 

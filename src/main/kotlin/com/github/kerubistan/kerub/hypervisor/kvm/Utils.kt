@@ -100,7 +100,9 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 
 fun isRemoteHost(linkInfo: VirtualStorageLinkInfo, targetHost: Host) = linkInfo.allocation.hostId != targetHost.id
 
-fun vmDefinitiontoXml(vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password: String, targetHost: Host): String =
+fun vmDefinitiontoXml(
+		vm: VirtualMachine, disks: List<VirtualStorageLinkInfo>, password: String, targetHost: Host
+): String =
 		"""
 	<domain type='kvm'>
 		<name>${vm.id}</name>
