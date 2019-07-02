@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.host.mockHost
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecutionSequence
 import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.nhaarman.mockito_kotlin.mock
@@ -50,7 +51,7 @@ class CreateLvExecutorTest {
 		val session = mock<ClientSession>()
 		hostCommandExecutor.mockHost(host, session)
 
-		session.mockCommandExecution(
+		session.mockCommandExecutionSequence(
 				"lvm lvs.*".toRegex(),
 				listOf(
 						"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:

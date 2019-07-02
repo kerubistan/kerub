@@ -31,7 +31,7 @@ fun ClientSession.mockCommandExecution(
 			exec
 		}
 
-fun ClientSession.mockCommandExecution(
+fun ClientSession.mockCommandExecutionSequence(
 		commandMatcher: Regex,
 		outputs : List<String> = listOf()
 		) : ChannelExec =
