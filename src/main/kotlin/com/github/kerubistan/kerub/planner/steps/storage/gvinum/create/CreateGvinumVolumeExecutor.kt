@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfigurati
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.kerubistan.kerub.utils.sumBy
+import com.github.kerubistan.kerub.utils.update
 
 class CreateGvinumVolumeExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
@@ -43,31 +44,31 @@ class CreateGvinumVolumeExecutor(
 			val updatedDisksByName = lazy { updatedDisks.associateBy { it.name } }
 			hostDynamicDao.update(step.host.id) {
 				it.copy(
-						storageStatus = it.storageStatus.map { deviceDynamic ->
-							if (deviceDynamic.id == step.capability.id) {
-								when (deviceDynamic) {
-									is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
-											freeCapacity = updatedDisks.sumBy { drive -> drive.available }
-									)
-									is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
-											items = deviceDynamic.items.map { item ->
-												if (updatedDisksByName.value.containsKey(item.name)) {
-													item.copy(
-															freeCapacity =
-															requireNotNull(updatedDisksByName.value[item.name])
-																	.available
-													)
-												} else {
-													item
-												}
-											}
-									)
-									else -> TODO("Not handled deviceDynamic type: $deviceDynamic")
+						storageStatus = it.storageStatus.update(
+								selector = { deviceDynamic -> deviceDynamic.id == step.capability.id },
+								map = { deviceDynamic ->
+									when (deviceDynamic) {
+										is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
+												freeCapacity = updatedDisks.sumBy { drive -> drive.available }
+										)
+										is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
+												items = deviceDynamic.items.update(
+														selector = { item ->
+															updatedDisksByName.value.containsKey(item.name)
+														},
+														map = { item ->
+															item.copy(
+																	freeCapacity =
+																	requireNotNull(updatedDisksByName.value[item.name])
+																			.available
+															)
+														}
+												)
+										)
+										else -> TODO("Not handled deviceDynamic type: $deviceDynamic")
+									}
 								}
-							} else {
-								deviceDynamic
-							}
-						}
+						)
 				)
 			}
 		}
