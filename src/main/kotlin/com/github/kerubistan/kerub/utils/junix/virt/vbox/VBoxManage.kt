@@ -40,7 +40,10 @@ object VBoxManage : OsCommand {
 			DeviceType.floppy to "floppy"
 	)
 
-	fun startVm(session: ClientSession, vm: VirtualMachine, targetHost: Host, storageMap: Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>) {
+	fun startVm(
+			session: ClientSession, vm: VirtualMachine, targetHost: Host,
+			storageMap: Map<UUID, Triple<VirtualStorageDevice, VirtualStorageDeviceDynamic, Host>>
+	) {
 		var success = false
 		try {
 			session.executeOrDie("VBoxManage createvm --name ${vm.id} --uuid ${vm.id} --register")
@@ -71,7 +74,8 @@ object VBoxManage : OsCommand {
 		}
 	}
 
-	private class VBoxMonitorInputStream(private val callback: (ts: Long, metrics: VBoxMetrics) -> Unit) : OutputStream() {
+	private class VBoxMonitorInputStream(private val callback: (ts: Long, metrics: VBoxMetrics) -> Unit) :
+			OutputStream() {
 		companion object {
 			private val spaces = "\\s+".toRegex()
 		}
@@ -204,7 +208,8 @@ object VBoxManage : OsCommand {
 		check(format in supportedFormats) {
 			"format ($format) not supported, only $supportedFormats"
 		}
-		session.executeOrDie("VBoxManage createmedium ${vboxType(type)} --filename $path --format $format --sizebyte ${round(size)}")
+		session.executeOrDie(
+				"VBoxManage createmedium ${vboxType(type)} --filename $path --format $format --sizebyte ${round(size)}")
 	}
 
 }
