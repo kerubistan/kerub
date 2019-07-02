@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.fs.create
 
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
+import com.github.kerubistan.kerub.host.mockHost
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
@@ -9,9 +10,7 @@ import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.utils.junix.qemu.ImageInfo
 import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -31,7 +30,8 @@ class CreateImageExecutorTest {
 
 		session.mockCommandExecution("qemu-img create.*".toRegex())
 
-		session.mockCommandExecution("qemu-img info.*".toRegex(),
+		session.mockCommandExecution(
+				"qemu-img info.*".toRegex(),
 				output = """
 {
     "virtual-size": 104857600,
@@ -59,10 +59,7 @@ class CreateImageExecutorTest {
 				capability = testFsCapability
 		)
 
-		whenever(hostCommandExecutor.execute(eq(testHost), any<(ClientSession) -> ImageInfo>()))
-				.thenAnswer {
-					(it.arguments[1] as (ClientSession) -> ImageInfo).invoke(session)
-				}
+		hostCommandExecutor.mockHost(testHost, session)
 
 		whenever(virtualStorageDynamicDao.add(any())).thenAnswer {
 			val value = it.arguments[0] as VirtualStorageDeviceDynamic
