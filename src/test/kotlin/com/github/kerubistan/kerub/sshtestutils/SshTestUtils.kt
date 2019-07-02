@@ -31,6 +31,22 @@ fun ClientSession.mockCommandExecution(
 			exec
 		}
 
+fun ClientSession.mockCommandExecution(
+		commandMatcher: Regex,
+		outputs : List<String> = listOf()
+		) : ChannelExec =
+		mock<ChannelExec>().let {exec ->
+			val iterator = outputs.iterator()
+			whenever(this.createExecChannel(argThat { matches(commandMatcher) })).thenReturn(exec)
+			whenever(exec.open()).thenReturn(mock())
+			whenever(exec.invertedOut).then {
+				iterator.next().toInputStream()
+			}
+			whenever(exec.invertedErr).then { NullInputStream(0) }
+			exec
+		}
+
+
 fun ClientSession.verifyCommandExecution(commandMatcher: Regex) {
 	verify(this).createExecChannel(argThat { commandMatcher.matches(this) })
 }
