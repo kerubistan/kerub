@@ -77,7 +77,9 @@ class Cygwin : Distribution {
 
 	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> = listOf()
 
-	override fun detectStorageCapabilities(session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>): List<StorageCapability> = listOf()
+	override fun detectStorageCapabilities(
+			session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>
+	): List<StorageCapability> = listOf()
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> = listOf() // TODO
 

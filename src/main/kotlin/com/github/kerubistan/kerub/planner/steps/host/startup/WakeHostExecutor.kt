@@ -47,7 +47,9 @@ open class WakeHostExecutor(
 				lastException = e
 			}
 		}
-		throw Exception("Could not connect host ${step.host.address} ${step.host.id} in $defaultMaxRetries attempts", lastException)
+		throw WakeHostException(
+				"Could not connect host ${step.host.address} ${step.host.id} in $defaultMaxRetries attempts",
+				lastException)
 	}
 
 	internal open fun wakeOnLoan(host: Host) {

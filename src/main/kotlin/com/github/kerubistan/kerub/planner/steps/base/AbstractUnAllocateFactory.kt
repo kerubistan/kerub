@@ -8,7 +8,8 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import io.github.kerubistan.kroki.collections.join
 import kotlin.reflect.KClass
 
-abstract class AbstractUnAllocateFactory<T : AbstractUnAllocate<S>, S : VirtualStorageAllocation> : AbstractOperationalStepFactory<T>() {
+abstract class AbstractUnAllocateFactory<T : AbstractUnAllocate<S>, S : VirtualStorageAllocation> :
+		AbstractOperationalStepFactory<T>() {
 
 	final override fun produce(state: OperationalState): List<T> =
 			state.vStorage.values.filter { it.stat.recycling || hasOverAllocation(it) }.mapNotNull { coll ->
