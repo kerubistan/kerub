@@ -85,19 +85,78 @@ abstract class AbstractLinux : Distribution {
 			hostDynDao: HostDynamicDao,
 			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 	) {
-		val id = host.id
+		startFsMonitoring(host, session, hostDynDao)
 
-		val lvmStorageCapabilities = host
-				.capabilities
-				?.storageCapabilities
-				?.filter { it is LvmStorageCapability }
-		val lvmVgsById = lvmStorageCapabilities
-				?.map { (it as LvmStorageCapability).id to it }
-				?.toMap()
-		val lvmVgsByName = lvmStorageCapabilities
-				?.map { (it as LvmStorageCapability).volumeGroupName to it }
-				?.toMap()
+		startLvmMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao)
 
+		startHwHealthMonitoring(host, session, hostDynDao)
+
+		startCpuUsageMonitoring(session, hostDynDao, host)
+	}
+
+	private fun startCpuUsageMonitoring(
+			session: ClientSession,
+			hostDynDao: HostDynamicDao,
+			host: Host
+	) {
+		MPStat.monitor(session, { stats ->
+			hostDynDao.doWithDyn(host.id) {
+				it.copy(
+						cpuStats = stats
+				)
+			}
+		})
+		//TODO: if mpstat is available, vmstat should only update the memory information
+		VmStat.vmstat(session, { event ->
+			hostDynDao.doWithDyn(host.id) {
+				val memFree = (event.freeMem
+						+ event.cacheMem
+						+ event.ioBuffMem)
+				it.copy(
+						status = HostStatus.Up,
+						idleCpu = event.idleCpu,
+						systemCpu = event.systemCpu,
+						userCpu = event.userCpu,
+						memFree = memFree,
+						memUsed = (host.capabilities?.totalMemory?.minus(memFree))?.coerceAtLeast(BigInteger.ZERO),
+						memSwapped = event.swapMem
+				)
+			}
+		})
+	}
+
+	private fun startHwHealthMonitoring(
+			host: Host, session: ClientSession,
+			hostDynDao: HostDynamicDao
+	) {
+		if (Sensors.available(host.capabilities)) {
+			Sensors.monitorCpuTemperatures(session) { temperatures ->
+				hostDynDao.doWithDyn(host.id) {
+					it.copy(
+							cpuTemperature = temperatures.map(CpuTemperatureInfo::temperature)
+					)
+				}
+			}
+		}
+
+		if (SmartCtl.available(host.capabilities)) {
+			host.capabilities?.blockDevices?.forEach { storageDevice ->
+				SmartCtl.monitor(session, device = "/dev/${storageDevice.deviceName}") { healthy ->
+					hostDynDao.doWithDyn(host.id) {
+						it.copy(
+								storageDeviceHealth = it.storageDeviceHealth + (storageDevice.deviceName to healthy)
+						)
+					}
+				}
+			}
+		}
+	}
+
+	private fun startFsMonitoring(
+			host: Host,
+			session: ClientSession,
+			hostDynDao: HostDynamicDao
+	) {
 		val storageIdToMount = host.capabilities?.storageCapabilities
 				?.filter { it is FsStorageCapability }
 				?.map { it.id to (it as FsStorageCapability).mountPoint }?.toMap() ?: mapOf()
@@ -105,7 +164,7 @@ abstract class AbstractLinux : Distribution {
 		val storageMountToId = storageIdToMount.map { it.value to it.key }.toMap()
 
 		DF.monitor(session) { mounts ->
-			hostDynDao.doWithDyn(id) { hostDyn ->
+			hostDynDao.doWithDyn(host.id) { hostDyn ->
 				hostDyn.copy(
 						storageStatus = hostDyn.storageStatus.update(
 								updateList = mounts,
@@ -125,10 +184,24 @@ abstract class AbstractLinux : Distribution {
 				)
 			}
 		}
+	}
+
+	private fun startLvmMonitoring(
+			host: Host, session: ClientSession,
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	) {
+
+		val lvmStorageCapabilities = host
+				.capabilities
+				?.storageCapabilities
+				?.filterIsInstance<LvmStorageCapability>()
+		val lvmVgsById = lvmStorageCapabilities?.associateBy { it.id }
+		val lvmVgsByName = lvmStorageCapabilities?.associateBy { it.volumeGroupName }
 
 		if (LvmVg.available(host.capabilities)) {
 			LvmVg.monitor(session) { volGroups ->
-				hostDynDao.doWithDyn(id) {
+				hostDynDao.doWithDyn(host.id) {
 					it.copy(
 							storageStatus =
 							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
@@ -183,53 +256,6 @@ abstract class AbstractLinux : Distribution {
 				}
 			}
 		}
-
-		if (Sensors.available(host.capabilities)) {
-			Sensors.monitorCpuTemperatures(session) { temperatures ->
-				hostDynDao.doWithDyn(id) {
-					it.copy(
-							cpuTemperature = temperatures.map(CpuTemperatureInfo::temperature)
-					)
-				}
-			}
-		}
-
-		if (SmartCtl.available(host.capabilities)) {
-			host.capabilities?.blockDevices?.forEach { storageDevice ->
-				SmartCtl.monitor(session, device = "/dev/${storageDevice.deviceName}") { healthy ->
-					hostDynDao.doWithDyn(id) {
-						it.copy(
-								storageDeviceHealth = it.storageDeviceHealth + (storageDevice.deviceName to healthy)
-						)
-					}
-				}
-			}
-		}
-
-		MPStat.monitor(session, { stats ->
-			hostDynDao.doWithDyn(id) {
-				it.copy(
-						cpuStats = stats
-				)
-			}
-		})
-		//TODO: if mpstat is available, vmstat should only update the memory information
-		VmStat.vmstat(session, { event ->
-			hostDynDao.doWithDyn(id) {
-				val memFree = (event.freeMem
-						+ event.cacheMem
-						+ event.ioBuffMem)
-				it.copy(
-						status = HostStatus.Up,
-						idleCpu = event.idleCpu,
-						systemCpu = event.systemCpu,
-						userCpu = event.userCpu,
-						memFree = memFree,
-						memUsed = (host.capabilities?.totalMemory?.minus(memFree))?.coerceAtLeast(BigInteger.ZERO),
-						memSwapped = event.swapMem
-				)
-			}
-		})
 	}
 
 	override fun getRequiredPackages(osCommand: OsCommand, capabilities: HostCapabilities?): List<String> =
