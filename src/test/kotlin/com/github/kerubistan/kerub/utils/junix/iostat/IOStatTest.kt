@@ -4,6 +4,9 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage.Companion.pack
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.utils.junix.common.Centos
+import com.github.kerubistan.kerub.utils.junix.common.Debian
+import com.github.kerubistan.kerub.utils.junix.common.Fedora
 import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -16,18 +19,19 @@ import kotlin.test.assertTrue
 
 class IOStatTest {
 
-
 	@Test
 	fun available() {
-		assertTrue("iostat on ubuntu") {
-			IOStat.available(
-					testHostCapabilities.copy(
-							os = OperatingSystem.Linux,
-							distribution = pack(Ubuntu, "18.04"),
-							installedSoftware = listOf(
-									pack("sysstat", "11.1.2")
-							)
-					))
+		for (linuxDistro in listOf(Ubuntu, Centos, Fedora, Debian)) {
+			assertTrue("iostat on ubuntu") {
+				IOStat.available(
+						testHostCapabilities.copy(
+								os = OperatingSystem.Linux,
+								distribution = pack(linuxDistro, "18.04"),
+								installedSoftware = listOf(
+										pack("sysstat", "11.1.2")
+								)
+						))
+			}
 		}
 	}
 
