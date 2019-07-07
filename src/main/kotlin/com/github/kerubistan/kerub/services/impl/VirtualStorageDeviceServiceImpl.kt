@@ -27,7 +27,7 @@ import javax.ws.rs.container.AsyncResponse
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response.ok
 
-class VirtualStorageDeviceServiceImpl(
+open class VirtualStorageDeviceServiceImpl(
 		dao: VirtualStorageDeviceDao,
 		accessController: AssetAccessController,
 		private val dynDao: VirtualStorageDeviceDynamicDao,
@@ -39,32 +39,30 @@ class VirtualStorageDeviceServiceImpl(
 		AbstractAssetService<VirtualStorageDevice>(accessController, dao, "virtual disk") {
 
 	override fun download(id: UUID, type: VirtualDiskFormat, async: AsyncResponse) {
-		dao.update(id) { stat ->
-			stat.copy(
-					expectations =
-					stat.expectations.filterNot { it is StorageAvailabilityExpectation }
-							+ StorageAvailabilityExpectation(format = type)
-			)
+		val device = getById(id)
+		accessController.checkAndDo(device) {
+			dao.update(id) { stat ->
+				stat.copy(
+						expectations =
+						stat.expectations.filterNot { it is StorageAvailabilityExpectation }
+								+ StorageAvailabilityExpectation(format = type)
+				)
+			}
+			dynDao.waitFor(id) { dyn ->
+				hostDynDao[dyn.allocations.filter { it.type == type }.map { it.hostId }]
+						.firstOrNull { it.status == HostStatus.Up }?.let { hostDyn ->
+							val host = requireNotNull(hostDao[hostDyn.id])
+							val storageDeviceDyn =
+									dyn.allocations.firstOrNull { it.hostId == host.id && it.type == type }
+							storageDeviceDyn != null &&
+									async.resume(
+											ok(
+													executor.readRemoteFile(host, storageDeviceDyn.getPath(dyn.id)),
+													MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
+									)
+						} ?: false
+			}
 		}
-		dynDao.waitFor(id) { dyn ->
-			hostDynDao[dyn.allocations.filter { it.type == type }.map { it.hostId }]
-					.firstOrNull { it.status == HostStatus.Up }?.let { hostDyn ->
-						val host = requireNotNull(hostDao[hostDyn.id])
-						val storageDeviceDyn = dyn.allocations.firstOrNull { it.hostId == host.id && it.type == type }
-						storageDeviceDyn != null &&
-								async.resume(
-										ok(
-												executor.readRemoteFile(host, storageDeviceDyn.getPath(dyn.id)),
-												MediaType.APPLICATION_OCTET_STREAM_TYPE).build()
-								)
-					} ?: false
-		}
-	}
-
-	override fun add(entity: VirtualStorageDevice): VirtualStorageDevice {
-		return accessController.checkAndDo(asset = entity) {
-			super.add(entity)
-		} ?: entity
 	}
 
 	override fun load(id: UUID, type: VirtualDiskFormat, async: AsyncResponse, data: InputStream) {
