@@ -8,8 +8,6 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
@@ -71,7 +69,7 @@ open class VirtualStorageDeviceServiceImpl(
 			val virtualStorageAllocation = dyn.allocations.single()
 			val host = requireNotNull(hostDao[virtualStorageAllocation.hostId])
 			executor.dataConnection(host) { session ->
-				pump(data, device, dyn, session, virtualStorageAllocation)
+				uploadRaw(data, device, virtualStorageAllocation.getPath(dyn.id), session)
 
 				val virtualSize = if (type != VirtualDiskFormat.raw) {
 					val size: Long = QemuImg.info(
@@ -103,16 +101,6 @@ open class VirtualStorageDeviceServiceImpl(
 
 	override fun load(id: UUID, async: AsyncResponse, data: InputStream) {
 		load(id, VirtualDiskFormat.raw, async, data)
-	}
-
-	private fun pump(
-			data: InputStream,
-			device: VirtualStorageDevice,
-			dyn: VirtualStorageDeviceDynamic,
-			session: ClientSession,
-			allocation: VirtualStorageAllocation
-	) {
-		uploadRaw(data, device, allocation.getPath(dyn.id), session)
 	}
 
 	private fun uploadRaw(data: InputStream, device: VirtualStorageDevice, path: String, session: ClientSession) {
