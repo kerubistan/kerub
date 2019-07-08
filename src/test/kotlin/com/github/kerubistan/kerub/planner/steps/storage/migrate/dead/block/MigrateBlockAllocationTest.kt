@@ -191,7 +191,7 @@ class MigrateBlockAllocationTest {
 	fun take() {
 		// this is quite a bit dependent on the allocation and de-allocation steps, the implementation
 		// only concatenates them, so let's try just with some mocking
-		assertTrue("first allocate, the deallocate") {
+		assertTrue("first allocate, then deallocate") {
 			val sourceHost = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							installedSoftware = listOf(
