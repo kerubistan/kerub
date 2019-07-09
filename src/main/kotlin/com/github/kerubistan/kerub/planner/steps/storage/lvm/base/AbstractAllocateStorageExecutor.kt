@@ -6,6 +6,4 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 
 abstract class AbstractAllocateStorageExecutor<T : AbstractOperationalStep, U>(
 		protected val virtualDiskDynDao: VirtualStorageDeviceDynamicDao
-) : AbstractStepExecutor<T, U>() {
-
-}
+) : AbstractStepExecutor<T, U>()
