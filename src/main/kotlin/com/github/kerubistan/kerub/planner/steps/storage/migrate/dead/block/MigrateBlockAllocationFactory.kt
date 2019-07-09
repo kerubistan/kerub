@@ -1,11 +1,9 @@
 package com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block
 
 import com.github.kerubistan.kerub.model.VolumeManagerStorageCapability
-import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolumeFactory
@@ -36,31 +34,9 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 	 */
 	override fun produce(state: OperationalState): List<MigrateBlockAllocation> =
 			state.vStorage.values.filter { canMigrate(it, state) }.map { candidateStorage ->
-				val unAllocatedState = state.copy(
-						vStorage = state.vStorage + (candidateStorage.id to candidateStorage.copy(
-								stat = candidateStorage.stat.copy(
-										expectations = listOf(
-												// 'raw' is specific to block allocation
-												StorageAvailabilityExpectation()
-										)
-								),
-								dynamic = VirtualStorageDeviceDynamic(
-										id = candidateStorage.id,
-										allocations = listOf(), // there is only one anyway, as this is RW for sure
-										lastUpdated = now()
-								)
-						))
-				)
-				val notOnOriginalHost: (AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out VolumeManagerStorageCapability>) -> Boolean =
-						{ step ->
-							candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
-									?: false
-						}
-				val allocationSteps =
-						allocationFactories.map { it.produce(unAllocatedState) }.join().filter(notOnOriginalHost)
+				val unAllocatedState = unallocatedState(state, candidateStorage)
 
-
-				allocationSteps.map { allocationStep ->
+				generateAllocationSteps(candidateStorage, unAllocatedState).map { allocationStep ->
 					val deAllocationSteps = deAllocationFactories.map {
 						val unallocationState = state.copy(
 								vStorage = state.vStorage + (candidateStorage.id to candidateStorage.copy(
@@ -92,18 +68,19 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 
 				}
 
-			}.join().join().filter { it.targetHost in (state.index.connectionTargets[it.sourceHost.id] ?: listOf()) }
+			}.join().join().filter { isSslKeyInstalled(it, state) }
 
-	private fun canMigrate(vstorage: VirtualStorageDataCollection, state: OperationalState): Boolean {
-		val requiresVstorage: (VirtualMachineDataCollection) -> Boolean =
-				{ vm -> vm.stat.virtualStorageLinks.any { link -> link.virtualStorageId == vstorage.id } }
-		return (!vstorage.stat.readOnly
-				&& !hasAnyAllocations(vstorage)
-				&& state.index.runningVms.none(requiresVstorage)
-				&& state.index.vmsThatMustStart.none(requiresVstorage))
+	private fun generateAllocationSteps(
+			candidateStorage: VirtualStorageDataCollection,
+			unAllocatedState: OperationalState
+	): List<AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out VolumeManagerStorageCapability>> {
+		val notOnOriginalHost: (AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out VolumeManagerStorageCapability>) -> Boolean =
+				{ step ->
+					candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
+							?: false
+				}
+		return allocationFactories.map { it.produce(unAllocatedState) }.join().filter(notOnOriginalHost)
 	}
 
 
-	private fun hasAnyAllocations(it: VirtualStorageDataCollection) =
-			it.dynamic?.allocations?.isEmpty() ?: true
 }
