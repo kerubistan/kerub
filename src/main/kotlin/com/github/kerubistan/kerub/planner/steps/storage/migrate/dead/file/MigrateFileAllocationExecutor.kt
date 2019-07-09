@@ -13,6 +13,7 @@ class MigrateFileAllocationExecutor(
 		private val stepExecutor: StepExecutor<AbstractOperationalStep>
 ) : AbstractStepExecutor<MigrateFileAllocation, Unit>() {
 	override fun perform(step: MigrateFileAllocation) {
+		stepExecutor.execute(step.allocationStep)
 		hostCommandExecutor.execute(step.sourceHost) {session ->
 			OpenSsh.copyBlockDevice(
 				session = session,
