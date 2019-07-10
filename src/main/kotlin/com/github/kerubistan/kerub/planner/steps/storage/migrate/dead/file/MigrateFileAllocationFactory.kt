@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageFa
 import com.github.kerubistan.kerub.planner.steps.storage.fs.truncate.TruncateImageFactory
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.AbstractMigrateAllocationFactory
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocationFactory
+import io.github.kerubistan.kroki.collections.join
 
 object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFileAllocation>() {
 
@@ -12,10 +13,18 @@ object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFi
 		state.vStorage.values.filter { MigrateBlockAllocationFactory.canMigrate(it, state) }.map { candidateStorage ->
 			val unAllocatedState = unallocatedState(state, candidateStorage)
 
-			TODO()
+			allocationFactories.map { it.produce(unAllocatedState) }.join().filter { step ->
+				candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
+						?: false
+			}.map { allocationStep ->
+
+					}
+
+					TODO()
 		}
 
 	override val allocationFactories
 			= listOf(TruncateImageFactory, CreateImageFactory)
+
 
 }
