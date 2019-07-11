@@ -14,7 +14,6 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.Failin
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
-import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocationFactory
 import io.github.kerubistan.kroki.time.now
 import kotlin.reflect.KClass
 
@@ -54,7 +53,7 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 		val requiresVstorage: (VirtualMachineDataCollection) -> Boolean =
 				{ vm -> vm.stat.virtualStorageLinks.any { link -> link.virtualStorageId == vstorage.id } }
 		return (!vstorage.stat.readOnly
-				&& !MigrateBlockAllocationFactory.hasAnyAllocations(vstorage)
+				&& !hasAnyAllocations(vstorage)
 				&& state.index.runningVms.none(requiresVstorage)
 				&& state.index.vmsThatMustStart.none(requiresVstorage))
 	}
