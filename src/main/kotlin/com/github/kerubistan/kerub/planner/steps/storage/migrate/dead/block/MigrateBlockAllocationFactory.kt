@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block
 
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolumeFactory
@@ -12,7 +11,6 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.AbstractMigrateAllocationFactory
 import io.github.kerubistan.kroki.collections.join
-import io.github.kerubistan.kroki.time.now
 
 object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateBlockAllocation>() {
 
@@ -56,23 +54,12 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 			state: OperationalState,
 			candidateStorage: VirtualStorageDataCollection
 	): List<AbstractUnAllocate<*>> {
-		val unallocationState = state.copy(
-				vStorage = state.vStorage + (candidateStorage.id to candidateStorage.copy(
-						stat = candidateStorage.stat.copy(
-								expectations = listOf(),
-								recycling = true
-						),
-						dynamic = VirtualStorageDeviceDynamic(
-								id = candidateStorage.id,
-								allocations = candidateStorage.dynamic!!.allocations, // there is only one anyway, as this is RW for sure
-								lastUpdated = now()
-						)
-				))
-		)
+		val unallocationState = generteUnallocationState(state, candidateStorage)
 		return deAllocationFactories.map { factory ->
 			factory.produce(unallocationState)
 		}.join().filter { it.vstorage.id == candidateStorage.id }
 	}
+
 
 	private fun generateAllocationSteps(
 			candidateStorage: VirtualStorageDataCollection,

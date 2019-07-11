@@ -22,6 +22,23 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 
 	abstract val allocationFactories: List<AbstractOperationalStepFactory<AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>>>
 
+	internal fun generteUnallocationState(
+			state: OperationalState,
+			candidateStorage: VirtualStorageDataCollection
+	): OperationalState = state.copy(
+			vStorage = state.vStorage + (candidateStorage.id to candidateStorage.copy(
+					stat = candidateStorage.stat.copy(
+							expectations = listOf(),
+							recycling = true
+					),
+					dynamic = VirtualStorageDeviceDynamic(
+							id = candidateStorage.id,
+							allocations = candidateStorage.dynamic!!.allocations, // there is only one anyway, as this is RW for sure
+							lastUpdated = now()
+					)
+			))
+	)
+
 	internal fun unallocatedState(
 			state: OperationalState,
 			candidateStorage: VirtualStorageDataCollection
