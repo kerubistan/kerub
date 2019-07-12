@@ -30,7 +30,7 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 		is installed on the target host
 	 */
 	override fun produce(state: OperationalState): List<MigrateBlockAllocation> =
-			state.vStorage.values.filter { canMigrate(it, state) }.map { candidateStorage ->
+			listMigrateableVirtualDisks(state).map { candidateStorage ->
 				val unAllocatedState = unallocatedState(state, candidateStorage)
 
 				generateAllocationSteps(candidateStorage, unAllocatedState).map { allocationStep ->
@@ -40,7 +40,7 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 								allocationStep = allocationStep,
 								virtualStorage = candidateStorage.stat,
 								compression = null,
-								sourceAllocation = candidateStorage.dynamic!!.allocations.single() as VirtualStorageBlockDeviceAllocation,
+								sourceAllocation = it.allocation as VirtualStorageBlockDeviceAllocation,
 								sourceHost = it.host,
 								targetHost = allocationStep.host
 						)

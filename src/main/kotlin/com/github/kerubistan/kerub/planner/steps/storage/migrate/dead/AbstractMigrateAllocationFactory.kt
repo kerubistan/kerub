@@ -22,6 +22,9 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 
 	abstract val allocationFactories: List<AbstractOperationalStepFactory<AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>>>
 
+	internal fun listMigrateableVirtualDisks(state: OperationalState) =
+			state.vStorage.values.filter { canMigrate(it, state) }
+
 	internal fun generteUnallocationState(
 			state: OperationalState,
 			candidateStorage: VirtualStorageDataCollection
@@ -63,10 +66,10 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 			state: OperationalState
 	) = it.targetHost in (state.index.connectionTargets[it.sourceHost.id] ?: listOf())
 
-	internal fun hasAnyAllocations(it: VirtualStorageDataCollection) =
+	private fun hasAnyAllocations(it: VirtualStorageDataCollection) =
 			it.dynamic?.allocations?.isEmpty() ?: true
 
-	internal fun canMigrate(vstorage: VirtualStorageDataCollection, state: OperationalState): Boolean {
+	private fun canMigrate(vstorage: VirtualStorageDataCollection, state: OperationalState): Boolean {
 		val requiresVstorage: (VirtualMachineDataCollection) -> Boolean =
 				{ vm -> vm.stat.virtualStorageLinks.any { link -> link.virtualStorageId == vstorage.id } }
 		return (!vstorage.stat.readOnly
