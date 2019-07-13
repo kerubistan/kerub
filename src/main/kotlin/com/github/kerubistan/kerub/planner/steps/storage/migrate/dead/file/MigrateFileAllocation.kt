@@ -21,7 +21,7 @@ data class MigrateFileAllocation(
 		validate()
 		check(sourceAllocation.type == allocationStep.allocation.type) {
 			"source allocation (${sourceAllocation.type}) must match target allocation" +
-					"${allocationStep.allocation.type}"
+					" (${allocationStep.allocation.type})"
 		}
 	}
 }
