@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import java.math.BigInteger
 
-data class PoolAlmostFull(
+data class LvmPoolAlmostFull(
 		val host: Host,
 		val pool: LvmPoolConfiguration,
 		val freeSpace: BigInteger
