@@ -31,15 +31,17 @@ class VirtualMachineServiceImpl(
 	}
 
 	override fun listByVirtualDisk(virtualDiskId: UUID): List<VirtualMachine> =
-			accessController.filter((dao as VirtualMachineDao).listByAttachedStorage(virtualDiskId).map { accessController.checkAndDo(it) { it }!! })
+			accessController.filter((dao as VirtualMachineDao)
+					.listByAttachedStorage(virtualDiskId)
+					.map { accessController.checkAndDo(it) { it }!! })
 
-	private fun alterAvailabilityExpectations(newExpectation: VirtualMachineAvailabilityExpectation, vm: VirtualMachine): VirtualMachine {
-		return vm.copy(
-				expectations = vm.expectations
-						.filterNot { it is VirtualMachineAvailabilityExpectation }
-						+ newExpectation
-		)
-	}
+	private fun alterAvailabilityExpectations(
+			newExpectation: VirtualMachineAvailabilityExpectation, vm: VirtualMachine
+	): VirtualMachine = vm.copy(
+			expectations = vm.expectations
+					.filterNot { it is VirtualMachineAvailabilityExpectation }
+					+ newExpectation
+	)
 
 	internal fun doWithVm(id: UUID, action: (VirtualMachine) -> VirtualMachine) {
 		update(id, action(getById(id)))
