@@ -10,7 +10,8 @@ import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKey
 import com.github.kerubistan.kerub.utils.update
 
-data class InstallPublicKey(val sourceHost : Host, val targetHost: Host, val publicKey: String) : AbstractOperationalStep, InvertibleStep {
+data class InstallPublicKey(val sourceHost: Host, val targetHost: Host, val publicKey: String) :
+		AbstractOperationalStep, InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean = other is RemovePublicKey
 			&& other.host == targetHost
 			&& other.publicKey == publicKey
