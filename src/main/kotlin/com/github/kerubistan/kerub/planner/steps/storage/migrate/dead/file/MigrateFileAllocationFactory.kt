@@ -62,12 +62,12 @@ object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFi
 	private fun generateAllocationSteps(
 			unAllocatedState: OperationalState,
 			candidateStorage: VirtualStorageDataCollection
-	): List<AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability>> {
-		return allocationFactories.map { it.produce(unAllocatedState) }.join().filter { step ->
-			candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
-					?: false
-		}
-	}
-
+	): List<AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability>> =
+			allocationFactories.map { it.produce(unAllocatedState) }.join().filter { step ->
+				candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
+						?: false
+			}.filter { targetAllocation ->
+				filterAllocationSteps(candidateStorage, unAllocatedState, targetAllocation)
+			}
 
 }

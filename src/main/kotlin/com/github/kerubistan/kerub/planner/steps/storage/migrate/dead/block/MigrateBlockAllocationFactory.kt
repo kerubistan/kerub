@@ -67,6 +67,8 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 	) = allocationFactories.map { it.produce(unAllocatedState) }.join().filter { step ->
 		candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
 				?: false
+	}.filter { targetAllocation ->
+		filterAllocationSteps(candidateStorage, unAllocatedState, targetAllocation)
 	}
 
 }

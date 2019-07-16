@@ -14,6 +14,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.Failin
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
+import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import kotlin.reflect.KClass
 
@@ -74,6 +75,19 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 				&& !hasAnyAllocations(vstorage)
 				&& state.index.runningVms.none(requiresVstorage)
 				&& state.index.vmsThatMustStart.none(requiresVstorage))
+	}
+
+	// TODO this should bs safe, but suboptimal: calculates the biggest allocation rather than the source allocation
+	internal fun filterAllocationSteps(
+			candidateStorage: VirtualStorageDataCollection,
+			unAllocatedState: OperationalState,
+			targetAllocation: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>
+	): Boolean {
+		val sizeNeededOnTarget = candidateStorage.dynamic?.allocations?.maxBy { it.actualSize }?.actualSize
+		return unAllocatedState.hosts[targetAllocation.host.id]?.dynamic
+				?.storageStatus
+				?.singleOrNull { it.id == targetAllocation.allocation.capabilityId }
+				?.freeCapacity ?: 0.GB > sizeNeededOnTarget
 	}
 
 
