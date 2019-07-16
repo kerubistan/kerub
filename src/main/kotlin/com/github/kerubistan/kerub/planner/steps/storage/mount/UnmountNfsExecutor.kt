@@ -17,6 +17,8 @@ class UnmountNfsExecutor(override val hostCommandExecutor: HostCommandExecutor,
 
 	override fun updateHostConfiguration(hostConfiguration: HostConfiguration, step: UnmountNfs): HostConfiguration =
 			hostConfiguration.copy(
-					services = hostConfiguration.services.filterNot { it is NfsMount && it.localDirectory == step.mountDir.normalizePath() }
+					services = hostConfiguration.services.filterNot {
+						it is NfsMount && it.localDirectory == step.mountDir.normalizePath()
+					}
 			)
 }
