@@ -10,7 +10,8 @@ import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualSt
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import io.github.kerubistan.kroki.collections.join
 
-abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalStep> : AbstractOperationalStepFactory<S>() {
+abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalStep> :
+		AbstractOperationalStepFactory<S>() {
 
 	abstract val requiredOsCommand : OsCommand
 
