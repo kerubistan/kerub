@@ -280,8 +280,8 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 							hosts = listOf(host1, host2),
 							hostDyns = listOf(host1dyn, host2dyn),
 							hostCfgs = listOf(
-									HostConfiguration(id = host1.id, publicKey = "host1-pibkey"),
-									HostConfiguration(id = host2.id, acceptedPublicKeys = listOf("host1-pibkey"))
+									HostConfiguration(id = host1.id, publicKey = "host1-public-key"),
+									HostConfiguration(id = host2.id, acceptedPublicKeys = listOf("host1-public-key"))
 							),
 							vStorage = listOf(testDisk),
 							vStorageDyns = listOf(

@@ -44,14 +44,12 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 
 	internal fun unallocatedState(
 			state: OperationalState,
-			candidateStorage: VirtualStorageDataCollection
+			candidateStorage: VirtualStorageDataCollection,
+			expectation: StorageAvailabilityExpectation = StorageAvailabilityExpectation()
 	): OperationalState = state.copy(
 			vStorage = state.vStorage + (candidateStorage.id to candidateStorage.copy(
 					stat = candidateStorage.stat.copy(
-							expectations = listOf(
-									// 'raw' is specific to block allocation
-									StorageAvailabilityExpectation()
-							)
+							expectations = listOf(expectation)
 					),
 					dynamic = VirtualStorageDeviceDynamic(
 							id = candidateStorage.id,
@@ -67,7 +65,7 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 	) = it.targetHost in (state.index.connectionTargets[it.sourceHost.id] ?: listOf())
 
 	private fun hasAnyAllocations(it: VirtualStorageDataCollection) =
-			it.dynamic?.allocations?.isEmpty() ?: true
+			it.dynamic?.allocations?.isEmpty() ?: false
 
 	private fun canMigrate(vstorage: VirtualStorageDataCollection, state: OperationalState): Boolean {
 		val requiresVstorage: (VirtualMachineDataCollection) -> Boolean =

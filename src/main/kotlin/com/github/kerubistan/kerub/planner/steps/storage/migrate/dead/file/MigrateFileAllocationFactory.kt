@@ -3,6 +3,8 @@ package com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.file
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
+import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
+import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageFactory
@@ -21,22 +23,32 @@ object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFi
 
 	override fun produce(state: OperationalState): List<MigrateFileAllocation> =
 			listMigrateableVirtualDisks(state).map { candidateStorage ->
-				val unAllocatedState = unallocatedState(state, candidateStorage)
+				// TODO this is not the right way to find out the source allocation format
+				// the logic has to be transformed here
+				// one does not migrate a virtual disk, one migrates an allocation of a virtual disk
+				val format = candidateStorage.dynamic?.allocations?.map { it.type }?.toSet()?.singleOrNull()
+				candidateStorage.dynamic?.allocations?.map { it.actualSize }
+				val unAllocatedState =
+						unallocatedState(state, candidateStorage,
+								expectation = StorageAvailabilityExpectation(format = format ?: VirtualDiskFormat.raw))
 
-				generateAllocationSteps(unAllocatedState, candidateStorage).map { allocationStep ->
-					generateDeAllocationSteps(state, candidateStorage).map {
+				generateAllocationSteps(unAllocatedState, candidateStorage)
+						.filter { format == null || it.format == format }
+						.map { allocationStep ->
+					generateDeAllocationSteps(state, candidateStorage)
+							.map { deAllocationStep ->
 						MigrateFileAllocation(
-								sourceHost = it.host,
-								deAllocationStep = it,
+								sourceHost = deAllocationStep.host,
+								deAllocationStep = deAllocationStep,
 								allocationStep = allocationStep,
 								targetHost = allocationStep.host,
 								virtualStorage = candidateStorage.stat,
-								sourceAllocation = it.allocation
+								sourceAllocation = deAllocationStep.allocation
 						)
 					}
 
 				}
-			}.join().join()
+			}.join().join().filter { isSslKeyInstalled(it, state) }
 
 	private fun generateDeAllocationSteps(
 			state: OperationalState, candidateStorage: VirtualStorageDataCollection
