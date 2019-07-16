@@ -192,6 +192,38 @@ abstract class AbstractLinux : Distribution {
 			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 	) {
 
+		if (LvmLv.available(host.capabilities)) {
+			startLvmVgMonitoring(host, session, hostDynDao)
+			startLvmLvMonitoring(host, session, vStorageDeviceDynamicDao)
+		}
+	}
+
+	private fun startLvmLvMonitoring(
+			host: Host, session: ClientSession,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	) {
+		LvmLv.monitor(session) { volumes ->
+			volumes.filter { it.name.isUUID() }.forEach { volume ->
+				vStorageDeviceDynamicDao.update(volume.name.toUUID()) { oldDyn ->
+					oldDyn.copy(
+							allocations = oldDyn.allocations.map { allocation ->
+								if (allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {
+									allocation.copy(
+											actualSize = volume.size
+									)
+								} else allocation
+
+							}
+					)
+				}
+			}
+		}
+	}
+
+	private fun startLvmVgMonitoring(
+			host: Host, session: ClientSession,
+			hostDynDao: HostDynamicDao
+	) {
 		val lvmStorageCapabilities = host
 				.capabilities
 				?.storageCapabilities
@@ -199,61 +231,23 @@ abstract class AbstractLinux : Distribution {
 		val lvmVgsById = lvmStorageCapabilities?.associateBy { it.id }
 		val lvmVgsByName = lvmStorageCapabilities?.associateBy { it.volumeGroupName }
 
-		if (LvmVg.available(host.capabilities)) {
-			LvmVg.monitor(session) { volGroups ->
-				hostDynDao.doWithDyn(host.id) {
-					it.copy(
-							storageStatus =
-							it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
-									+ volGroups.mapNotNull { volGroup ->
-								val storageDevice = lvmVgsByName?.get(volGroup.name)
-								if (storageDevice == null) {
-									null
-								} else {
-									SimpleStorageDeviceDynamic(
-											id = storageDevice.id,
-											freeCapacity = volGroup.freeSize
-									)
-								}
+		LvmVg.monitor(session) { volGroups ->
+			hostDynDao.doWithDyn(host.id) {
+				it.copy(
+						storageStatus =
+						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
+								+ volGroups.mapNotNull { volGroup ->
+							val storageDevice = lvmVgsByName?.get(volGroup.name)
+							if (storageDevice == null) {
+								null
+							} else {
+								SimpleStorageDeviceDynamic(
+										id = storageDevice.id,
+										freeCapacity = volGroup.freeSize
+								)
 							}
-					)
-				}
-			}
-		}
-
-		if (LvmLv.available(host.capabilities)) {
-			LvmLv.monitor(session) { volumes ->
-				volumes.filter { it.name.isUUID() }.forEach { volume ->
-					vStorageDeviceDynamicDao.update(volume.name.toUUID()) { oldDyn ->
-						oldDyn.copy(
-								allocations = oldDyn.allocations.map { allocation ->
-									if (allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {
-										allocation.copy(
-												actualSize = volume.size
-										)
-									} else allocation
-
-								}
-						)
-					}
-				}
-			}
-		}
-
-		if (LvmVg.available(host.capabilities)) {
-			LvmVg.monitor(session) { volGroups ->
-				hostDynDao.update(host.id) { hostDyn ->
-					volGroups.forEach { volGroup ->
-						println("${volGroup.name}		${volGroup.freeSize}")
-					}
-					val lvmGroupsByName = volGroups.associateBy { it.name }
-					hostDyn.copy(
-							storageStatus = hostDyn.storageStatus.map { status ->
-								//TODO
-								status
-							}
-					)
-				}
+						}
+				)
 			}
 		}
 	}
