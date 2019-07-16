@@ -16,7 +16,9 @@ abstract class AbstractAssetService<T : Asset>(
 		entityType: String
 ) : ListableBaseService<T>(entityType), AssetService<T> {
 
-	override fun listByOwner(start: Long, limit: Int, sort: String, ownerType: AssetOwnerType, ownerId: UUID): SortResultPage<T> {
+	override fun listByOwner(
+			start: Long, limit: Int, sort: String, ownerType: AssetOwnerType, ownerId: UUID
+	): SortResultPage<T> {
 		val list = dao.listByOwner(
 				owner = AssetOwner(ownerId, ownerType),
 				start = start,
@@ -32,7 +34,9 @@ abstract class AbstractAssetService<T : Asset>(
 		)
 	}
 
-	override fun search(field: String, value: String, start: Long, limit: Int, ownerType: AssetOwnerType, ownerId: UUID): SearchResultPage<T> {
+	override fun search(
+			field: String, value: String, start: Long, limit: Int, ownerType: AssetOwnerType, ownerId: UUID
+	): SearchResultPage<T> {
 		val list = dao.fieldSearch(
 				setOf(AssetOwner(ownerId, ownerType)),
 				field,
