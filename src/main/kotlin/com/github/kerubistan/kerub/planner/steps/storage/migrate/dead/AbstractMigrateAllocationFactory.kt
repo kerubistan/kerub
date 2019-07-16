@@ -21,7 +21,10 @@ import kotlin.reflect.KClass
 abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocation> :
 		AbstractOperationalStepFactory<T>() {
 
-	abstract val allocationFactories: List<AbstractOperationalStepFactory<AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>>>
+	abstract val allocationFactories:
+			List<AbstractOperationalStepFactory<
+					AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>>
+					>
 
 	internal fun listMigrateableVirtualDisks(state: OperationalState) =
 			state.vStorage.values.filter { canMigrate(it, state) }

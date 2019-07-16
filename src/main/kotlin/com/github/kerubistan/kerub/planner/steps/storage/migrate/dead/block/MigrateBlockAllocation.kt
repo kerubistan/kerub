@@ -17,7 +17,10 @@ data class MigrateBlockAllocation(
 		val compression: CompressionFormat? = null,
 		override val virtualStorage: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageBlockDeviceAllocation,
-		override val allocationStep: AbstractCreateVirtualStorage<out VirtualStorageBlockDeviceAllocation, out StorageCapability>,
+		override val allocationStep: AbstractCreateVirtualStorage<
+				out VirtualStorageBlockDeviceAllocation,
+				out StorageCapability
+				>,
 		override val deAllocationStep: AbstractUnAllocate<*>
 ) : AbstractMigrateAllocation() {
 
