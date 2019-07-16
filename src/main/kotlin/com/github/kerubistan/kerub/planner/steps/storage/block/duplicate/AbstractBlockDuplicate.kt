@@ -17,7 +17,8 @@ import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
-abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation>: AbstractOperationalStep, InvertibleStep {
+abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> : AbstractOperationalStep,
+		InvertibleStep {
 
 	abstract val vStorageDevice: VirtualStorageDevice
 	abstract val source: VirtualStorageBlockDeviceAllocation
