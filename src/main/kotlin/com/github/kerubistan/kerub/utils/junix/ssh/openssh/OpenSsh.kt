@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.client.subsystem.sftp.SftpClient
 import org.apache.sshd.common.subsystem.sftp.SftpConstants
+import java.math.BigInteger
 
 /**
  * junix utility wrapper to manipulate the configuration files of openssh client and server
@@ -102,15 +103,22 @@ object OpenSsh {
 
 	private val String?.pipeOut get() = if (this == null) "" else "$this |"
 
+	private fun Any?.flag(paramName : String) = if(this == null) {
+		""
+	} else {
+		"$paramName=$this"
+	}
+
 	fun copyBlockDevice(
 			session: ClientSession,
 			sourceDevice: String,
 			targetAddress: String,
 			targetDevice: String,
-			filters: Pair<String, String>? = null
+			filters: Pair<String, String>? = null,
+			bytes : BigInteger? = null
 	) {
 		session.executeOrDie(
-				"""bash -c "dd if=$sourceDevice ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """,
+				"""bash -c "dd if=$sourceDevice ${bytes.flag("count")} ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """,
 				isError = {
 					it.isNotBlank() &&
 							it.trim().lines().filter(String::isNotBlank).let { lines ->

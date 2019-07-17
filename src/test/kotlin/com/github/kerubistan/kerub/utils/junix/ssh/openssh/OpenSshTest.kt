@@ -65,6 +65,25 @@ class OpenSshTest {
 	}
 
 	@Test
+	fun copyBlockDeviceWithBytes() {
+		session.mockCommandExecution(".*".toRegex(), "", """106496+0 records in
+106496+0 records out
+54525952 bytes (55 MB, 52 MiB) copied, 5.61393 s, 9.7 MB/s
+106496+0 records in
+106496+0 records out
+54525952 bytes (55 MB) copied, 5.50037 s, 9.9 MB/s
+""")
+		OpenSsh.copyBlockDevice(
+				session,
+				sourceDevice = "/dev/mapper/vg-1/vol-1",
+				targetDevice = "/dev/mapper/vg-2/vol-2",
+				targetAddress = "host-2.example.com",
+				bytes = 54525952.toBigInteger())
+
+		session.verifyCommandExecution(".*dd if=.* count=54525952 .*ssh.*".toRegex())
+	}
+
+	@Test
 	fun copyBlockDevice() {
 		session.mockCommandExecution(".*".toRegex(), "", """106496+0 records in
 106496+0 records out
