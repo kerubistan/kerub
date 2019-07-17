@@ -204,7 +204,7 @@ abstract class AbstractLinux : Distribution {
 	) {
 		LvmLv.monitor(session) { volumes ->
 			volumes.filter { it.name.isUUID() }.forEach { volume ->
-				vStorageDeviceDynamicDao.update(volume.name.toUUID()) { oldDyn ->
+				vStorageDeviceDynamicDao.updateIfExists(volume.name.toUUID()) { oldDyn ->
 					oldDyn.copy(
 							allocations = oldDyn.allocations.map { allocation ->
 								if (allocation is VirtualStorageLvmAllocation && allocation.hostId == host.id) {

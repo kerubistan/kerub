@@ -12,6 +12,10 @@ interface CrudDao<T : Entity<I>, I>
 		update(change(retrieve(id)))
 	}
 
+	fun updateIfExists(id: I, change: (T) -> T) {
+		this[id]?.let { update(change(it)) }
+	}
+
 	fun updateWithDefault(id: I, defaultValue: () -> T, change: (T) -> T) {
 		update(change(get(id) ?: defaultValue()))
 	}
