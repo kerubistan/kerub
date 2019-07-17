@@ -46,7 +46,9 @@ class MigrateBlockAllocationExecutor(
 					session = it,
 					sourceDevice = step.sourceAllocation.getPath(step.virtualStorage.id),
 					targetAddress = step.targetHost.address,
-					targetDevice = step.allocationStep.allocation.getPath(step.virtualStorage.id))
+					targetDevice = step.allocationStep.allocation.getPath(step.virtualStorage.id),
+					bytes = step.virtualStorage.size
+			)
 		}
 		logger.info("removing allocation on {}", step.deAllocationStep.host)
 		val deAllocationResult = when (step.deAllocationStep) {
