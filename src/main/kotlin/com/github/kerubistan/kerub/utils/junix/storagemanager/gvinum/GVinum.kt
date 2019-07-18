@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.KB
+import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.toSize
 import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
@@ -10,6 +11,8 @@ import java.io.OutputStream
 import java.math.BigInteger
 
 object GVinum {
+
+	private val logger = getLogger(GVinum::class)
 
 	fun listDrives(session: ClientSession) = parseDriveList(gvinum("ld", session))
 	fun listSubDisks(session: ClientSession): List<GvinumSubDisk> = parseSubDiskList(gvinum("ls", session))
@@ -108,6 +111,7 @@ object GVinum {
 	}
 
 	private fun createVolume(config: String, session: ClientSession, volName: String) {
+		logger.debug("creating gvinum volume $volName with config $config")
 		session.createSftpClient().use {
 			sftp ->
 			val tempConfigFile = "/tmp/$volName"
