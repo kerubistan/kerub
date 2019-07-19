@@ -15,7 +15,7 @@ data class ShareNfs(
 	override fun isInverseOf(other: AbstractOperationalStep) =
 			other is UnshareNfs && other.directory == directory && other.host == host
 
-	override val useBefore by lazy { listOf(MountNfs::class) }
+	override val useBefore get() = listOf(MountNfs::class)
 
 	override fun updateHostConfig(config: HostConfiguration): HostConfiguration = config.copy(
 			services = config.services + NfsService(directory, write)
