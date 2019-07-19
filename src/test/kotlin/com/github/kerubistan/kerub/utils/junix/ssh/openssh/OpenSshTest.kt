@@ -80,7 +80,7 @@ class OpenSshTest {
 				targetAddress = "host-2.example.com",
 				bytes = 54525952.toBigInteger())
 
-		session.verifyCommandExecution(".*dd if=.* count=54525952 .*ssh.*".toRegex())
+		session.verifyCommandExecution(".*dd if=.* count=54525952.*iflag=.*count_bytes.*ssh.*".toRegex())
 	}
 
 	@Test

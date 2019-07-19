@@ -118,7 +118,12 @@ object OpenSsh {
 			bytes : BigInteger? = null
 	) {
 		session.executeOrDie(
-				"""bash -c "dd if=$sourceDevice ${bytes.flag("count")} ${filters?.first.pipeIn} | ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice" """,
+				"""
+					bash -c "
+					dd if=$sourceDevice ${bytes.flag("count")} ${filters?.first.pipeIn} 
+					${if (bytes != null) "iflag=count_bytes" else "" }
+					| ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice
+					" """.trimIndent().replace("\n", ""),
 				isError = {
 					it.isNotBlank() &&
 							it.trim().lines().filter(String::isNotBlank).let { lines ->
