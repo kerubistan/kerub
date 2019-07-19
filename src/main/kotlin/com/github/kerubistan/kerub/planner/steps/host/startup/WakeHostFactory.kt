@@ -17,7 +17,10 @@ import kotlin.reflect.KClass
  */
 object WakeHostFactory : AbstractOperationalStepFactory<AbstractWakeHost>() {
 	override val problemHints = setOf<KClass<out Problem>>()
-	override val expectationHints = setOf(VirtualMachineAvailabilityExpectation::class, NotSameStorageExpectation::class, StorageAvailabilityExpectation::class)
+	override val expectationHints =
+			setOf(
+					VirtualMachineAvailabilityExpectation::class, NotSameStorageExpectation::class,
+					StorageAvailabilityExpectation::class)
 
 	override fun produce(state: OperationalState): List<AbstractWakeHost> =
 			factoryFeature(state.controllerConfig.powerManagementEnabled) {
