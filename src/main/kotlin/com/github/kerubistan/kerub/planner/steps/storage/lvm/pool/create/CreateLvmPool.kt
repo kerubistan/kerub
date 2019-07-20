@@ -27,7 +27,7 @@ data class CreateLvmPool(
 	override fun isLikeStep(other: Step<Plan>)
 			= other is CreateLvmPool && other.host == host && other.vgName == vgName
 
-	override val useBefore by lazy { listOf(CreateThinLv::class, MigrateBlockAllocation::class) }
+	override val useBefore get() = listOf(CreateThinLv::class, MigrateBlockAllocation::class)
 
 	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(host),
