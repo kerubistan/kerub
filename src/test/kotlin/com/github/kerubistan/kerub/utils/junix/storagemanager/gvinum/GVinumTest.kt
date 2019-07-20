@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -162,6 +163,25 @@ class GVinumTest {
 		}
 
 		assertFalse(drives.isEmpty())
+	}
+
+	@Test
+	fun createConcatenatedVolume() {
+		session.mockCommandExecution("gvinum create.*".toRegex())
+		whenever(session.createSftpClient()).thenReturn(ftp)
+		val outputStream = ByteArrayOutputStream()
+		whenever(ftp.write(any())).thenReturn(outputStream)
+
+		GVinum.createConcatenatedVolume(session, "test-vol", mapOf("ada1" to 10.GB, "adb1" to 20.GB))
+
+		verify(ftp).remove(any())
+		session.verifyCommandExecution("gvinum create.*".toRegex())
+		assertTrue(outputStream.toByteArray().toString(Charsets.US_ASCII).let {
+			it.contains("plex org concat")
+					&& it.contains("volume test-vol")
+					&& it.contains("sd length 10485761 drive ada1")
+					&& it.contains("sd length 20971521 drive adb1")
+		})
 	}
 
 }
