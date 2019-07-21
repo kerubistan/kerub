@@ -10,12 +10,47 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.testOtherHost
 import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class CreateLvmPoolTest : OperationalStepVerifications() {
+
+	@Test
+	fun isLikeStep() {
+		val step = CreateLvmPool(
+				host = testHost.copy(
+						capabilities = testHostCapabilities.copy(
+								storageCapabilities = listOf(
+										LvmStorageCapability(
+												id = UUID.randomUUID(),
+												size = 8.TB,
+												volumeGroupName = "test-vg",
+												physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
+										)
+								)
+						)
+				), size = 2.TB, vgName = "test-vg", name = "pool-1")
+		val otherStep = CreateLvmPool(
+				host = testOtherHost.copy(
+						capabilities = testHostCapabilities.copy(
+								storageCapabilities = listOf(
+										LvmStorageCapability(
+												id = UUID.randomUUID(),
+												size = 8.TB,
+												volumeGroupName = "test-vg",
+												physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
+										)
+								)
+						)
+				), size = 2.TB, vgName = "test-vg", name = "pool-1")
+		assertTrue(step.isLikeStep(step))
+		assertFalse(step.isLikeStep(otherStep))
+	}
+
 	override val step: AbstractOperationalStep
 		get() = CreateLvmPool(
 				host = testHost.copy(
