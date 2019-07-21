@@ -4,6 +4,8 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.MathContext
 
+/* move all this to kroki --> */
+
 operator fun BigDecimal.div(divider: Int) = this / BigDecimal(divider)
 
 operator fun BigDecimal.div(divider: Double) = this / BigDecimal(divider)
@@ -12,10 +14,15 @@ operator fun BigInteger.div(divider: Int) = BigDecimal(this) / BigDecimal.valueO
 
 operator fun BigInteger.div(divider: BigDecimal) = BigDecimal(this) / divider
 
-operator fun BigInteger.div(divider: Double) = this / BigDecimal(divider.toString())
+operator fun BigInteger.div(divider: Double) = this / divider.toBigDecimal()
+
+operator fun BigInteger.times(multiplier : Double) = this.toBigDecimal() * multiplier.toBigDecimal()
+
+operator fun BigInteger.compareTo(other : BigDecimal) = this.toBigDecimal().compareTo(other)
 
 fun <T : Comparable<T>> T.between(lower: T, higher: T): Boolean =
 		this >= lower && this <= higher
+
 
 fun Collection<BigInteger>.sum(): BigInteger {
 	var sum: BigInteger = BigInteger.ZERO
@@ -57,6 +64,9 @@ fun <T> Iterable<T>.decimalAvgBy(selector: (T) -> BigDecimal): BigDecimal {
 		BigDecimal.ZERO
 	}
 }
+
+/* <-- move all this to kroki */
+
 
 /**
  * Whatever we get in a numeric property change, let's just make a BigDecimal from it
