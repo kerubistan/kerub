@@ -5,13 +5,27 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
+import com.github.kerubistan.kerub.utils.compareTo
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
+import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
+import com.github.kerubistan.kerub.utils.times
 
 class CreateLvmPoolExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val hostCfgDao: HostConfigurationDao
 ) : AbstractStepExecutor<CreateLvmPool, LogicalVolume>() {
+
+	override fun prepare(step: CreateLvmPool) = hostCommandExecutor.execute(step.host) {
+		LvmVg.list(session = it, vgName = step.vgName).single().let {
+			val expectedFreeSpace = step.size * 1.01
+			check(it.freeSize >= expectedFreeSpace) {
+				"volume group ${step.vgName} on host ${step.host.address} is expected to have at least " +
+						"$expectedFreeSpace but only have ${it.freeSize}"
+			}
+		}
+	}
+
 	override fun perform(step: CreateLvmPool) =
 			hostCommandExecutor.execute(step.host) {
 				LvmLv.createPool(it, step.vgName, step.name, step.size, step.size / 100.toBigInteger())

@@ -2,9 +2,12 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create
 
 import com.github.kerubistan.kerub.data.config.HostConfigurationDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
+import com.github.kerubistan.kerub.host.mockHost
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecutionSequence
 import com.github.kerubistan.kerub.testHost
-import com.github.kerubistan.kerub.toInputStream
+import com.github.kerubistan.kerub.testLvmCapability
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
@@ -13,23 +16,56 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.size.GB
-import org.apache.commons.io.input.NullInputStream
-import org.apache.sshd.client.channel.ChannelExec
-import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import java.math.BigInteger
 import java.util.UUID
+import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
 
 class CreateLvmPoolExecutorTest {
+
+	@Test
+	fun prepare() {
+		assertThrows<IllegalStateException>("requesting more space than what is available") {
+			simulateWithCapability(vgFree = 128.GB, poolSize = 512.GB)
+		}
+		assertThrows<IllegalStateException>("requesting all available (nothing left for meta)") {
+			simulateWithCapability(vgFree = 512.GB, poolSize = 512.GB)
+		}
+		assertThrows<IllegalStateException>("requesting almos all available (not enough left for meta)") {
+			simulateWithCapability(vgFree = 512.GB, poolSize = 511.GB)
+		}
+
+		// should work
+		simulateWithCapability(vgFree = 512.GB, poolSize = 400.GB)
+
+	}
+
+	private fun simulateWithCapability(vgFree: BigInteger, poolSize: BigInteger) {
+		val hostCommandExecutor = mock<HostCommandExecutor>()
+		val session = mock<ClientSession>()
+		hostCommandExecutor.mockHost(testHost, session)
+		session.mockCommandExecution(
+				"lvm vgs.*".toRegex(),
+				output = "uPPT5K-Rtym-cxQX-f3iu-oiZf-M4Z3-t8v4We:${testLvmCapability.volumeGroupName}" +
+						":${testLvmCapability.size}B:${vgFree}B:1022:254\n")
+		CreateLvmPoolExecutor(hostCommandExecutor, mock()).prepare(
+				CreateLvmPool(
+						host = testHost,
+						vgName = testLvmCapability.volumeGroupName,
+						size = poolSize,
+						name = randomUUID().toString()
+				)
+		)
+	}
 
 	@Test
 	fun perform() {
 		val hostCommandExecutor = mock<HostCommandExecutor>()
 		val hostCfgDao = mock<HostConfigurationDao>()
 		val session = mock<ClientSession>()
-		val execChannel = mock<ChannelExec>()
-		val future = mock<OpenFuture>()
 		val host = testHost.copy(
 
 		)
@@ -38,17 +74,12 @@ class CreateLvmPoolExecutorTest {
 		)
 
 		whenever(hostCfgDao[host.id]).thenReturn(hostCfg)
-		whenever(session.createExecChannel(any())).thenReturn(execChannel)
-		whenever(execChannel.open()).thenReturn(future)
-		whenever(execChannel.invertedErr).then { NullInputStream(0) }
-		whenever(execChannel.invertedOut)
-				.then { "\n".toInputStream() }
-				.then { "la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00\n".toInputStream() }
-
-		doAnswer { (it.arguments[1] as (ClientSession) -> LogicalVolume).invoke(session) }.whenever(hostCommandExecutor).execute(
-				host = eq(host),
-				closure = any<(ClientSession) -> LogicalVolume>()
-		)
+		session.mockCommandExecutionSequence(
+				".*".toRegex(), outputs = listOf(
+				"\n",
+				"la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00\n"
+		))
+		hostCommandExecutor.mockHost(host, session)
 
 		val update = CreateLvmPoolExecutor(hostCommandExecutor, hostCfgDao).perform(
 				CreateLvmPool(
@@ -76,7 +107,7 @@ class CreateLvmPoolExecutorTest {
 		doAnswer {
 			val cfg = (it.arguments[1] as (UUID) -> HostConfiguration).invoke(it.arguments[0] as UUID)
 			(it.arguments[2] as (HostConfiguration) -> HostConfiguration).invoke(cfg)
-		} .whenever(hostCfgDao).update(eq(host.id), any(), any())
+		}.whenever(hostCfgDao).update(eq(host.id), any(), any())
 
 		CreateLvmPoolExecutor(mock(), hostCfgDao).update(
 				CreateLvmPool(
