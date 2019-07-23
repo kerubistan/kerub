@@ -88,7 +88,7 @@ class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumV
 						GvinumStorageCapabilityDrive(
 								device = "ada1",
 								name = "a",
-								size = 10.GB
+								size = 20.GB
 						)
 				)
 		)

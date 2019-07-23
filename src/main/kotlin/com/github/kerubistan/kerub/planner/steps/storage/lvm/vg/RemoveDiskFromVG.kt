@@ -2,12 +2,13 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
-import java.math.BigInteger
+import java.math.BigInteger.ZERO
 
 data class RemoveDiskFromVG(
 		val capability: LvmStorageCapability,
@@ -34,6 +35,8 @@ data class RemoveDiskFromVG(
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			hosts = state.hosts.update(host.id) { host ->
+				val failingPeSize = capability.physicalVolumes
+						.getValue(device)
 				host.copy(
 						stat = host.stat.copy(
 								capabilities = host.stat.capabilities!!.copy(
@@ -42,13 +45,20 @@ data class RemoveDiskFromVG(
 												map = {
 													capability.copy(
 															physicalVolumes = capability.physicalVolumes - device,
-															size = (capability.size - capability.physicalVolumes
-																	.getValue(device)).coerceAtLeast(BigInteger.ZERO)
+															size = (capability.size - failingPeSize).coerceAtLeast(ZERO)
 													)
-
 												}
 										)
 								)
+						),
+						dynamic = host.dynamic?.copy(
+								storageStatus = host.dynamic.storageStatus.map {
+									if (it is SimpleStorageDeviceDynamic && it.id == capability.id) {
+										it.copy(
+												freeCapacity = (it.freeCapacity - failingPeSize).coerceAtLeast(ZERO)
+										)
+									} else it
+								}
 						)
 				)
 			}

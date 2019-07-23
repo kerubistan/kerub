@@ -13,11 +13,36 @@ import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
 import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
-import java.util.UUID
+import org.junit.jupiter.api.assertThrows
+import java.util.UUID.randomUUID
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class CreateLvmPoolTest : OperationalStepVerifications() {
+
+	@Test
+	fun validations() {
+		assertThrows<IllegalStateException>("Pool bigger than the VG") {
+			val capability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 8.TB,
+					volumeGroupName = "test-vg",
+					physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
+			)
+			CreateLvmPool(
+					host = testHost.copy(
+							capabilities = testHostCapabilities.copy(
+									storageCapabilities = listOf(
+											capability
+									)
+							)
+					),
+					size = 10.TB,
+					vgName = capability.volumeGroupName,
+					name = randomUUID().toString()
+			)
+		}
+	}
 
 	@Test
 	fun isLikeStep() {
@@ -26,7 +51,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 						capabilities = testHostCapabilities.copy(
 								storageCapabilities = listOf(
 										LvmStorageCapability(
-												id = UUID.randomUUID(),
+												id = randomUUID(),
 												size = 8.TB,
 												volumeGroupName = "test-vg",
 												physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
@@ -39,7 +64,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 						capabilities = testHostCapabilities.copy(
 								storageCapabilities = listOf(
 										LvmStorageCapability(
-												id = UUID.randomUUID(),
+												id = randomUUID(),
 												size = 8.TB,
 												volumeGroupName = "test-vg",
 												physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
@@ -57,7 +82,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 						capabilities = testHostCapabilities.copy(
 								storageCapabilities = listOf(
 										LvmStorageCapability(
-												id = UUID.randomUUID(),
+												id = randomUUID(),
 												size = 8.TB,
 												volumeGroupName = "test-vg",
 												physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)
@@ -72,7 +97,7 @@ class CreateLvmPoolTest : OperationalStepVerifications() {
 				capabilities = testHostCapabilities.copy(
 						storageCapabilities = listOf(
 								LvmStorageCapability(
-										id = UUID.randomUUID(),
+										id = randomUUID(),
 										size = 8.TB,
 										volumeGroupName = "test-vg",
 										physicalVolumes = mapOf("/dev/sda" to 4.TB, "/dev/sdb" to 4.TB)

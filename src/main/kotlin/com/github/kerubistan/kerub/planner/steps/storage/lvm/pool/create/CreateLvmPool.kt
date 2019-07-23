@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create
 
 import com.github.k0zka.finder4j.backtrack.Step
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -23,6 +24,16 @@ data class CreateLvmPool(
 		val vgName: String,
 		val name: String,
 		val size: BigInteger) : AbstractOperationalStep, SimilarStep {
+
+	init {
+		val capability = requireNotNull(host.capabilities?.storageCapabilities)
+				.filterIsInstance<LvmStorageCapability>()
+				.first {it.volumeGroupName == vgName }
+		check(capability.size > size) {
+			"lvm capability ${host.address}/${capability.volumeGroupName} size (${capability.size})" +
+					" is less than the requested pool size $size"
+		}
+	}
 
 	override fun isLikeStep(other: Step<Plan>)
 			= other is CreateLvmPool && other.host == host && other.vgName == vgName
