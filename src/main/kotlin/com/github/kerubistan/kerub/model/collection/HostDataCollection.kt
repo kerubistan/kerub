@@ -23,16 +23,16 @@ data class HostDataCollection(
 	init {
 		this.validate()
 		config?.apply {
-			check(id == stat.id) {"stat (${stat.id}) and config ($id) ids must match"}
+			check(id == stat.id) { "stat (${stat.id}) and config ($id) ids must match" }
 		}
-		stat.capabilities?.storageCapabilities?.forEach {
-			capability ->
+		stat.capabilities?.storageCapabilities?.forEach { capability ->
 			val freeCapacity = dynamic?.storageStatus
 					?.firstOrNull { it.id == capability.id }
 					?.freeCapacity
-			check(
-					freeCapacity ?: ZERO <= capability.size
-			) {"free capacity ($freeCapacity) of ${stat.address}/${capability.id} is more than total capability ${capability.size}"}
+			check(freeCapacity ?: ZERO <= capability.size) {
+				"free capacity ($freeCapacity) of ${stat.address}/${capability.id} " +
+						"is more than total capability ${capability.size}"
+			}
 		}
 	}
 }
