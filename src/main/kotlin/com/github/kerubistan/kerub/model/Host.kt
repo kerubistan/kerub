@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.kerubistan.kerub.model.views.Detailed
@@ -36,10 +37,12 @@ data class Host constructor(
 		@JsonView(Simple::class)
 		@Field
 		@JsonProperty("eol")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val endOfPlannedLifetime : Date? = null,
 		@Field
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val capabilities: HostCapabilities? = null,
 		override val recycling: Boolean = false,
 		val dead: Boolean = false

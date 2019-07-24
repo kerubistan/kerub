@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.github.kerubistan.kerub.utils.elemOrNull
 import org.hibernate.search.annotations.Field
 import java.io.Serializable
@@ -7,7 +8,9 @@ import java.util.regex.Pattern
 
 data class Version(
 		@Field val major: String,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@Field val minor: String?,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		@Field val build: String?
 ) : Serializable, Comparable<Version> {
 	override fun compareTo(other: Version): Int {

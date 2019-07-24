@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.kerubistan.kroki.time.now
@@ -27,6 +28,7 @@ import kotlin.reflect.KClass
 		override val expectations: List<Expectation> = listOf(),
 		@Field
 		@JsonProperty("quota")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val quota: Quota? = null,
 		override val owner: AssetOwner? = null
 )

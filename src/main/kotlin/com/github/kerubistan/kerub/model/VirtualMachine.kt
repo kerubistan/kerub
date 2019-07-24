@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
@@ -74,6 +75,7 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Simple::class)
 		@JsonProperty("owner")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		override val owner: AssetOwner? = null,
 
 		@Field

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.utils.sumBy
 import java.io.Serializable
@@ -14,6 +15,7 @@ import java.util.UUID
 data class GvinumStorageCapability(
 		override val id: UUID = UUID.randomUUID(),
 		val devices: List<GvinumStorageCapabilityDrive>,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		override val performanceInfo: Serializable? = null
 ) : VolumeManagerStorageCapability {
 

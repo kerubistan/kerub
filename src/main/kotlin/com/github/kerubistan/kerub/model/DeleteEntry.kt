@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.kerubistan.kroki.time.now
@@ -19,6 +20,7 @@ data class DeleteEntry(
 		override val date: Long = now(),
 		@Field
 		@JsonProperty("user")
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		override val user: String?,
 		@Field
 		@JsonProperty("old")

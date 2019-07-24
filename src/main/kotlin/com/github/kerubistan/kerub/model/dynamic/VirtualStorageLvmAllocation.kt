@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model.dynamic
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import java.math.BigInteger
@@ -13,6 +14,7 @@ data class VirtualStorageLvmAllocation(
 		override val capabilityId: UUID,
 		override val actualSize: BigInteger,
 		val path: String,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val pool: String? = null,
 		val vgName : String,
 		val mirrors : Byte = 0

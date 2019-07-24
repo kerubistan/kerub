@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.model.dynamic
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
@@ -24,11 +25,17 @@ data class HostDynamic(
 		override val lastUpdated: Long = now(),
 		@Field
 		val status: HostStatus = HostStatus.Up,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val userCpu: Byte? = null,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val systemCpu: Byte? = null,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val idleCpu: Byte? = null,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val memFree: BigInteger? = null,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val memUsed: BigInteger? = null,
+		@JsonInclude(JsonInclude.Include.NON_NULL)
 		val memSwapped: BigInteger? = null,
 		val ksmEnabled: Boolean = false,
 		val cpuStats: List<CpuStat> = listOf(),
