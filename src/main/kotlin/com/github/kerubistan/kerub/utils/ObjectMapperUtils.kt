@@ -7,5 +7,3 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 fun createObjectMapper(prettyPrint: Boolean = true): ObjectMapper =
 		ObjectMapper().registerModule(KotlinModule())
 				.configure(SerializationFeature.INDENT_OUTPUT, prettyPrint)
-
-

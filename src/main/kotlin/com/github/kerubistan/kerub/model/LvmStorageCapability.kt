@@ -1,6 +1,5 @@
 package com.github.kerubistan.kerub.model
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.utils.validateSize
 import java.io.Serializable
@@ -13,7 +12,6 @@ data class LvmStorageCapability(
 		override val size: BigInteger,
 		val volumeGroupName: String,
 		val physicalVolumes: Map<String, BigInteger>,
-		@JsonInclude(JsonInclude.Include.NON_NULL)
 		override val performanceInfo: Serializable? = null
 ) : VolumeManagerStorageCapability {
 
