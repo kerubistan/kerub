@@ -6,18 +6,6 @@ import java.math.MathContext
 
 /* move all this to kroki --> */
 
-operator fun BigDecimal.div(divider: Int) = this / BigDecimal(divider)
-
-operator fun BigDecimal.div(divider: Double) = this / BigDecimal(divider)
-
-operator fun BigInteger.div(divider: Int) = BigDecimal(this) / BigDecimal.valueOf(divider.toLong())
-
-operator fun BigInteger.div(divider: BigDecimal) = BigDecimal(this) / divider
-
-operator fun BigInteger.div(divider: Double) = this / divider.toBigDecimal()
-
-operator fun BigInteger.times(multiplier : Double) = this.toBigDecimal() * multiplier.toBigDecimal()
-
 operator fun BigInteger.compareTo(other : BigDecimal) = this.toBigDecimal().compareTo(other)
 
 fun <T : Comparable<T>> T.between(lower: T, higher: T): Boolean =

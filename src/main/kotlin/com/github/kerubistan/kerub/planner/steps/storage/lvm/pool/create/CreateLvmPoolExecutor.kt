@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.utils.compareTo
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
-import com.github.kerubistan.kerub.utils.times
+import io.github.kerubistan.kroki.numbers.times
 
 class CreateLvmPoolExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
