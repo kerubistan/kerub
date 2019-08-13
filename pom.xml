@@ -371,6 +371,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<cacheRoot>default</cacheRoot>
 					<includes>
 						<file>packages.md</file>
 					</includes>
