@@ -1,10 +1,14 @@
 package com.github.kerubistan.kerub.jackson
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.github.kerubistan.kerub.model.dynamic.HostDynamic
+import com.github.kerubistan.kerub.utils.createObjectMapper
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
+import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -19,7 +23,7 @@ class JacksonFuckIT {
 
 	@Test
 	fun nullThroughJackson() {
-		val something = ObjectMapper().registerModule(KotlinModule())
+		val something = createObjectMapper()
 				.readValue("""
 					{
 						"listOfNotNulls":["foo","bar",null,"baz"]
@@ -36,7 +40,7 @@ class JacksonFuckIT {
 	fun invalidThroughJackson() {
 		// at least this one is good, we can't inject invalid values
 		assertThrows<InvalidFormatException>("string in an int array") {
-			ObjectMapper().registerModule(KotlinModule())
+			createObjectMapper()
 					.readValue("""
 					{
 						"listOfNotNulls":[1, 2,"surprise"]
@@ -46,7 +50,7 @@ class JacksonFuckIT {
 
 		//this is also good
 		assertThrows<InvalidFormatException>("string as value in map") {
-			ObjectMapper().registerModule(KotlinModule())
+			createObjectMapper()
 					.readValue("""
 					{
 						"map": {"A":1, "B":"surprise"}
@@ -56,7 +60,7 @@ class JacksonFuckIT {
 
 		// TODO https://github.com/kerubistan/kerub/issues/205 - nulls injected through json
 		// this should not work either, but it does
-		ObjectMapper().registerModule(KotlinModule())
+		createObjectMapper()
 				.readValue("""
 				{
 					"map": {"A":1, "B":null}
@@ -65,12 +69,54 @@ class JacksonFuckIT {
 
 		// TODO https://github.com/kerubistan/kerub/issues/205 - nulls injected through json
 		// and again, this is a wtf
-		ObjectMapper().registerModule(KotlinModule())
+		createObjectMapper()
 				.readValue("""
 				{
 					"map": {"A":1, "B":""}
 				}
 				""".trimIndent(), DataWithMap::class.java)
+
+	}
+
+	@Test
+	fun deserializationSettings() {
+		assertThrows<InvalidFormatException>("enum as number not allowed") {
+			createObjectMapper().readValue<HostDynamic>("""
+			{
+				"@type": "host-dyn",
+				"id": "${randomUUID()}",
+				"status": 1
+			}
+		""".trimIndent())
+		}
+
+		assertThrows<UnrecognizedPropertyException>("no random properties") {
+			createObjectMapper().readValue<HostDynamic>("""
+			{
+				"@type": "host-dyn",
+				"id": "${randomUUID()}",
+				"status": "Up",
+				"blah-${randomUUID()}": "yes please"
+			}
+		""".trimIndent())
+		}
+	}
+
+	@Ignore
+	@Test
+	fun otherProblems() {
+		// TODO this too should fail, but it does not
+		assertThrows<InvalidFormatException>("duplicate keys not allowed") {
+			createObjectMapper().readValue<HostDynamic>("""
+			{
+				"@type": "host-dyn",
+				"id": "${randomUUID()}",
+				"id": "${randomUUID()}",
+				"status": "Up",
+				"status": "Down"
+			}
+		""".trimIndent())
+		}
 
 	}
 
