@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.jackson
 
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
@@ -122,6 +123,15 @@ class JacksonFuckIT {
 			{
 				"minMs": null,
 				"maxMs": null
+			}
+		""".trimIndent())
+		}
+
+		assertThrows<InvalidDefinitionException>("test that we do not bypass the validation") {
+			createObjectMapper().readValue<TimeCost>("""
+			{
+				"minMs": 1000,
+				"maxMs": 100
 			}
 		""".trimIndent())
 		}
