@@ -25,6 +25,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(VirtualNetwork::class),
 		JsonSubTypes.Type(VirtualStorageDevice::class),
 		JsonSubTypes.Type(Project::class),
+		JsonSubTypes.Type(ProjectMembership::class),
 		JsonSubTypes.Type(Pool::class),
 		JsonSubTypes.Type(Template::class),
 		JsonSubTypes.Type(Network::class),

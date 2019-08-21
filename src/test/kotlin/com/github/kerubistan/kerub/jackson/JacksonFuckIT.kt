@@ -1,8 +1,10 @@
 package com.github.kerubistan.kerub.jackson
 
+import com.fasterxml.jackson.databind.exc.IgnoredPropertyException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.github.kerubistan.kerub.model.ProjectMembership
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import org.junit.Ignore
@@ -100,6 +102,19 @@ class JacksonFuckIT {
 			}
 		""".trimIndent())
 		}
+
+		assertThrows<IgnoredPropertyException>("no ignored properties") {
+			createObjectMapper().readValue<ProjectMembership>("""
+			{
+				"@type": "project-membership",
+				"id":"${randomUUID()}",
+				"groupId":"${randomUUID()}",
+				"user":"eugene",
+				"groupIdStr" : "${randomUUID()}"
+			}
+		""".trimIndent())
+		}
+
 	}
 
 	@Ignore
