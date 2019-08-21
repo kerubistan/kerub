@@ -2,10 +2,12 @@ package com.github.kerubistan.kerub.jackson
 
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kerubistan.kerub.model.ProjectMembership
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
+import com.github.kerubistan.kerub.planner.costs.TimeCost
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import org.junit.Ignore
 import org.junit.Test
@@ -111,6 +113,15 @@ class JacksonFuckIT {
 				"groupId":"${randomUUID()}",
 				"user":"eugene",
 				"groupIdStr" : "${randomUUID()}"
+			}
+		""".trimIndent())
+		}
+
+		assertThrows<MismatchedInputException>("primitives must not be nulls") {
+			createObjectMapper().readValue<TimeCost>("""
+			{
+				"minMs": null,
+				"maxMs": null
 			}
 		""".trimIndent())
 		}
