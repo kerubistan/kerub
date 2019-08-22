@@ -2,9 +2,10 @@ package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.othercap
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
+import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
@@ -52,28 +53,28 @@ data class ConvertImage(
 					hostDataCollection.copy(
 							dynamic = requireNotNull(hostDataCollection.dynamic).let { hostDyn ->
 								hostDyn.copy(
-										storageStatus = hostDyn.storageStatus.map { storageStatus ->
-											if (storageStatus.id == targetAllocation.capabilityId) {
-												when (storageStatus) {
-													is SimpleStorageDeviceDynamic -> storageStatus.copy(
-															// TODO this is again an inaccurate estimate
-															// as it depends on the target format and
-															// the actual size
-															freeCapacity = (storageStatus.freeCapacity
-																	- virtualStorage.size)
-																	.coerceAtLeast(BigInteger.ZERO)
-													)
-													is CompositeStorageDeviceDynamic -> storageStatus.copy(
-															items = storageStatus.items.map {
-																TODO("map the allocations")
-															}
-													)
-													else -> TODO("Not implemented with ${storageStatus.javaClass.name}")
-												}
-											} else {
-												storageStatus
-											}
-										}
+										storageStatus = hostDyn.storageStatus.update(
+												selector = { storageStatus -> storageStatus.id == targetAllocation.capabilityId },
+												map = { storageStatus ->
+													when (storageStatus) {
+														is SimpleStorageDeviceDynamic -> storageStatus.copy(
+																// TODO this is again an inaccurate but safe estimate
+																// as it depends on the target format and
+																// the actual size
+																freeCapacity = (storageStatus.freeCapacity
+																		- virtualStorage.size)
+																		.coerceAtLeast(BigInteger.ZERO)
+														)
+														is GvinumStorageDeviceDynamic -> TODO()
+														is LvmStorageDeviceDynamic -> storageStatus.copy(
+																items = storageStatus.items.map {
+																	TODO("map the allocations")
+																}
+														)
+														else -> TODO(
+																"Not implemented with ${storageStatus.javaClass.name}")
+													}
+												})
 								)
 							}
 					)

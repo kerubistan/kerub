@@ -3,7 +3,6 @@ package com.github.kerubistan.kerub.planner.steps.storage.gvinum.create
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
@@ -11,6 +10,7 @@ import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfig
 import com.github.kerubistan.kerub.model.dynamic.gvinum.MirroredGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.kerubistan.kerub.utils.sumBy
@@ -51,7 +51,7 @@ class CreateGvinumVolumeExecutor(
 										is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
 												freeCapacity = updatedDisks.sumBy { drive -> drive.available }
 										)
-										is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
+										is LvmStorageDeviceDynamic -> deviceDynamic.copy(
 												items = deviceDynamic.items.update(
 														selector = { item ->
 															updatedDisksByName.value.containsKey(item.name)

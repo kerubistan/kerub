@@ -4,10 +4,10 @@ import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
+import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
@@ -55,14 +55,14 @@ class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumV
 										id = testFreeBsdHost.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												CompositeStorageDeviceDynamic(
+												GvinumStorageDeviceDynamic(
 														id = gvinum1.id,
 														items = listOf(
-																CompositeStorageDeviceDynamicItem(
+																GvinumStorageDeviceDynamicItem(
 																		name = "ada1",
 																		freeCapacity = 2.GB
 																),
-																CompositeStorageDeviceDynamicItem(
+																GvinumStorageDeviceDynamicItem(
 																		name = "adb1",
 																		freeCapacity = 2.GB
 																)
@@ -113,9 +113,9 @@ class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumV
 										id = testFreeBsdHost.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												CompositeStorageDeviceDynamic(
+												GvinumStorageDeviceDynamic(
 														id = gvinum1.id,
-														items = listOf(CompositeStorageDeviceDynamicItem(
+														items = listOf(GvinumStorageDeviceDynamicItem(
 																name = "ada1",
 																freeCapacity = 20.GB
 														))
@@ -151,10 +151,10 @@ class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumV
 										id = testFreeBsdHost.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												CompositeStorageDeviceDynamic(
+												GvinumStorageDeviceDynamic(
 														id = gvinum1.id,
 														items = listOf(
-																CompositeStorageDeviceDynamicItem(
+																GvinumStorageDeviceDynamicItem(
 																		name = "ada1",
 																		freeCapacity = 20.GB
 																)
@@ -194,10 +194,10 @@ class CreateGvinumVolumeFactoryTest : AbstractFactoryVerifications(CreateGvinumV
 										id = testFreeBsdHost.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												CompositeStorageDeviceDynamic(
+												GvinumStorageDeviceDynamic(
 														id = gvinum1.id,
 														items = listOf(
-																CompositeStorageDeviceDynamicItem(
+																GvinumStorageDeviceDynamicItem(
 																		name = "ada1",
 																		freeCapacity = 100.MB
 																)

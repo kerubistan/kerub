@@ -20,8 +20,6 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -32,6 +30,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
+import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
@@ -805,11 +805,11 @@ class PlannerDefs {
 			dyn.copy(
 					storageStatus = dyn.storageStatus.update(
 							selector = { it.id == disk.id },
-							default = { CompositeStorageDeviceDynamic(items = listOf(), id = disk.id) },
+							default = { GvinumStorageDeviceDynamic(items = listOf(), id = disk.id) },
 							map = {
-								it as CompositeStorageDeviceDynamic
+								it as GvinumStorageDeviceDynamic
 								it.copy(
-										items = it.items.filterNot { it.name == diskName } + CompositeStorageDeviceDynamicItem(
+										items = it.items.filterNot { it.name == diskName } + GvinumStorageDeviceDynamicItem(
 												name = diskName,
 												freeCapacity = capacity.toSize()
 										)

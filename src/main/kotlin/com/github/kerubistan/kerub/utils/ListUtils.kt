@@ -35,7 +35,7 @@ fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
 	return sum.toDouble() / this.size
 }
 
-fun <T> List<T>.update(
+inline fun <T> List<T>.update(
 		selector: (T) -> Boolean, default: () -> T = { throw IllegalArgumentException("key not found") }, map: (T) -> T
 ): List<T> =
 		this.firstOrNull(selector)?.let {
