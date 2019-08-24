@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.sensors
 
+import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.HostCapabilities
@@ -50,10 +51,7 @@ object Sensors : OsCommand {
 	}
 
 	fun monitorCpuTemperatures(session: ClientSession, interval: Int = 1, handler: (List<CpuTemperatureInfo>) -> Unit) {
-		session.process(
-				command = """bash -c "while true; do sensors; echo $separator; sleep $interval; done" """,
-				output = SensorsOutputStream(handler)
-		)
+		session.bashMonitor("sensors", interval, separator, SensorsOutputStream(handler))
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum
 
+import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
-import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.KB
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.toSize
@@ -140,10 +140,7 @@ object GVinum {
 	}
 
 	fun monitorDrives(session: ClientSession, callback: (List<GvinumDrive>) -> Unit) {
-		session.process(
-				""" bash -c " while true; do gvinum ld -v; echo $separator; sleep 60; done " """,
-				GvinumDriveMonitorOutputStream(callback)
-		)
+		session.bashMonitor("gvinum ld -v", 60, separator, GvinumDriveMonitorOutputStream(callback))
 	}
 
 }

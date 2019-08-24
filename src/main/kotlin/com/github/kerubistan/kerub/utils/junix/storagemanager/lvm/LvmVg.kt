@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
+import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.toSize
@@ -7,6 +8,8 @@ import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
 object LvmVg : Lvm() {
+
+	private const val listVgs = "lvm vgs -o $vgFields $listOptions"
 
 	class LvmVgMonitorOutputStream(
 			private val callback: (List<VolumeGroup>) -> Unit
@@ -31,10 +34,7 @@ object LvmVg : Lvm() {
 	}
 
 	fun monitor(session: ClientSession, callback: (List<VolumeGroup>) -> Unit) {
-		session.process(
-				"""bash -c "while true; do lvm vgs -o $vgFields $listOptions; echo $separator; sleep 60; done" """,
-				LvmVgMonitorOutputStream(callback)
-		)
+		session.bashMonitor("lvm vgs -o $vgFields $listOptions", 60, separator, LvmVgMonitorOutputStream(callback))
 	}
 
 	fun list(session: ClientSession, vgName : String? = null): List<VolumeGroup> =

@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.utils.junix.procfs
 
-import com.github.kerubistan.kerub.host.process
+import com.github.kerubistan.kerub.host.bashMonitor
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
@@ -34,10 +34,7 @@ object Stat : AbstractProcFs {
 	}
 
 	fun cpuLoadMonitor(session: ClientSession, handler: (Map<String, CpuStat>) -> Unit) {
-		session.process(
-				"""bash -c "while true; do grep cpu /proc/stat; echo $separator; sleep 1; done;" """,
-						CpuLoadMonitorOutputStream(handler)
-		)
+		session.bashMonitor("grep cpu /proc/stat", 1, separator, CpuLoadMonitorOutputStream(handler))
 	}
 
 	fun cpuLoadMonitorIncremental(session: ClientSession, handler: (Map<String, CpuStat>) -> Unit) {

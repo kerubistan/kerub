@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.smartmontools
 
+import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
-import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.utils.equalsAnyIgnoreCase
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -60,9 +60,7 @@ object SmartCtl : OsCommand {
 	}
 
 	fun monitor(session: ClientSession, device: String, interval: Int = 60, update: (Boolean) -> Unit) =
-			session.process(
-					"""bash -c " while true; do smartctl -H $device; echo $separator; sleep $interval; done" """,
-					SmartCtlMonitorOutputStream(update))
+			session.bashMonitor("smartctl -H $device", interval, separator, SmartCtlMonitorOutputStream(update))
 
 	private fun parseCheckResult(result: String) = result.lines().last(String::isNotEmpty)
 			.substringAfter(":").trim().equalsAnyIgnoreCase("ok", "passed")

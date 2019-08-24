@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
+import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
-import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.utils.emptyString
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.toSize
@@ -79,11 +79,8 @@ object LvmLv : Lvm() {
 				input.toInt()
 			}
 
-	fun monitor(session: ClientSession, callback: (List<LogicalVolume>) -> Unit) {
-		session.process(
-				"""bash -c "while true; do lvm lvs -o $fields $listOptions; echo $separator; sleep 60; done;"  """,
-				LvmMonitorOutputStream(callback)
-		)
+	fun monitor(session: ClientSession, interval: Int = 60, callback: (List<LogicalVolume>) -> Unit) {
+		session.bashMonitor("lvm lvs -o $fields $listOptions", interval, separator, LvmMonitorOutputStream(callback))
 	}
 
 	/**
