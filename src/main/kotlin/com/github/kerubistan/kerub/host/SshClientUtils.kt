@@ -85,6 +85,8 @@ fun ClientSession.process(command: String, output : OutputStream) {
 	exec.open().verify()
 }
 
+fun ClientSession.bashMonitor(command: String, interval: Int, separator : String, output: OutputStream)
+		= this.process("""bash -c "while true; do $command; echo $separator; sleep $interval; done;" """, output)
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
 	val execChannel = this.createExecChannel(command)

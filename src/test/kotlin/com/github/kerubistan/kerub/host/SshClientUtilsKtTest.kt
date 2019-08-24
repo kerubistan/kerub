@@ -12,9 +12,11 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.net.SocketAddress
 import java.nio.charset.Charset
+import kotlin.test.assertEquals
 
 class SshClientUtilsKtTest {
 
@@ -52,6 +54,23 @@ class SshClientUtilsKtTest {
 		whenever(session.connectAddress).thenReturn(socketAddress)
 		session.mockProcess(".*".toRegex(), output = "", stderr = "this error will show up in the log\n")
 		session.process("TEST", mock {  })
+	}
+
+	@Test
+	fun bashMonitor() {
+		val socketAddress = mock<SocketAddress>()
+		whenever(socketAddress.toString()).thenReturn("test")
+		whenever(session.connectAddress).thenReturn(socketAddress)
+		session.mockProcess("bash .*".toRegex(), output = "TEST-result", stderr = "this error will show up in the log\n")
+		val output = ByteArrayOutputStream()
+		session.bashMonitor(
+				command = "TEST-command",
+				separator = "--separator--",
+				interval = 10,
+				output = output
+		)
+
+		assertEquals("TEST-result", output.toByteArray().toString(Charsets.US_ASCII))
 	}
 
 }
