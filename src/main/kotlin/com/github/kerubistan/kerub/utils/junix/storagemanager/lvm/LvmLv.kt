@@ -4,10 +4,10 @@ import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.emptyString
 import com.github.kerubistan.kerub.utils.getLogger
+import com.github.kerubistan.kerub.utils.junix.common.MonitorOutputStream
 import com.github.kerubistan.kerub.utils.toSize
 import io.github.kerubistan.kroki.size.MB
 import org.apache.sshd.client.session.ClientSession
-import java.io.OutputStream
 import java.math.BigInteger
 
 object LvmLv : Lvm() {
@@ -26,32 +26,7 @@ object LvmLv : Lvm() {
 				newSize
 			}
 
-	class LvmMonitorOutputStream(
-			private val callback: (List<LogicalVolume>) -> Unit
-	) : OutputStream() {
-
-		private val buff = StringBuilder()
-		private var lvStats = listOf<LogicalVolume>()
-
-		override fun write(data: Int) {
-			if (data == 10) {
-				parseOutput()
-				buff.clear()
-			} else {
-				buff.append(data.toChar())
-			}
-		}
-
-		private fun parseOutput() {
-			val row = buff.toString()
-			if (row.trim() == separator) {
-				callback(lvStats)
-				lvStats = listOf()
-			} else {
-				lvStats += parseRow(row)
-			}
-		}
-	}
+	private fun parseRows(rows: String) = rows.trim().lines().map(this::parseRow)
 
 	private fun parseRow(row: String): LogicalVolume {
 		val fields = row.trim().split(fieldSeparator)
@@ -80,7 +55,7 @@ object LvmLv : Lvm() {
 			}
 
 	fun monitor(session: ClientSession, interval: Int = 60, callback: (List<LogicalVolume>) -> Unit) {
-		session.bashMonitor("lvm lvs -o $fields $listOptions", interval, separator, LvmMonitorOutputStream(callback))
+		session.bashMonitor("lvm lvs -o $fields $listOptions", interval, separator, MonitorOutputStream(separator, callback, this::parseRows))
 	}
 
 	/**
