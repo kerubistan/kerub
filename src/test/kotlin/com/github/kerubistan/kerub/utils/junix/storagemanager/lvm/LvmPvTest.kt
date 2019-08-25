@@ -1,10 +1,13 @@
 package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.mockProcess
 import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.utils.toSize
 import com.nhaarman.mockito_kotlin.argThat
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
+import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.channel.ChannelExec
@@ -63,5 +66,46 @@ class LvmPvTest {
 		session.mockCommandExecution("lvm pvmove.*".toRegex())
 		LvmPv.move(session, "/dev/sdd")
 		session.verifyCommandExecution("lvm pvmove.*".toRegex())
+	}
+
+	@Test
+	fun monitor() {
+		session.mockProcess("bash.*".toRegex(), output ="""  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda1:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  orJJdF-SU8F-iDHw-5Lu4-aLcn-hSAT-eTrB4J:/dev/sda2:678076350464B:98213822464B:vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ
+  gmPpnr-DoLB-67uq-iEw3-B5lc-FL9D-6qBcl2:/dev/sdb:256058064896B:63854084096B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  7A1M6r-BiSs-AnCC-5Vje-RbY5-TW0k-WQOg8W:/dev/system/centos-7-6:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  y5cxol-Z2gH-4Bne-BaWm-jWER-Y7YE-7wIW80:/dev/system/centos-7-7:2143289344B:1065353216B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  5todQQ-nqmh-l9Qt-GxWl-d8is-wu6k-EQDWWN:/dev/system/centos-7-8:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  YziNH8-gaaG-9cXP-XESg-WleJ-BMs5-V2ks1V:/dev/system/centos-7-9:2143289344B:528482304B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+--end
+  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda1:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  orJJdF-SU8F-iDHw-5Lu4-aLcn-hSAT-eTrB4J:/dev/sda2:678076350464B:98213822464B:vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ
+  gmPpnr-DoLB-67uq-iEw3-B5lc-FL9D-6qBcl2:/dev/sdb:256058064896B:63854084096B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  7A1M6r-BiSs-AnCC-5Vje-RbY5-TW0k-WQOg8W:/dev/system/centos-7-6:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  y5cxol-Z2gH-4Bne-BaWm-jWER-Y7YE-7wIW80:/dev/system/centos-7-7:2143289344B:1065353216B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  5todQQ-nqmh-l9Qt-GxWl-d8is-wu6k-EQDWWN:/dev/system/centos-7-8:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  YziNH8-gaaG-9cXP-XESg-WleJ-BMs5-V2ks1V:/dev/system/centos-7-9:2143289344B:528482304B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+--end
+  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda1:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  orJJdF-SU8F-iDHw-5Lu4-aLcn-hSAT-eTrB4J:/dev/sda2:678076350464B:98213822464B:vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ
+  gmPpnr-DoLB-67uq-iEw3-B5lc-FL9D-6qBcl2:/dev/sdb:256058064896B:63854084096B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  7A1M6r-BiSs-AnCC-5Vje-RbY5-TW0k-WQOg8W:/dev/system/centos-7-6:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  y5cxol-Z2gH-4Bne-BaWm-jWER-Y7YE-7wIW80:/dev/system/centos-7-7:2143289344B:1065353216B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  5todQQ-nqmh-l9Qt-GxWl-d8is-wu6k-EQDWWN:/dev/system/centos-7-8:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  YziNH8-gaaG-9cXP-XESg-WleJ-BMs5-V2ks1V:/dev/system/centos-7-9:2143289344B:528482304B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+--end
+  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda1:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  orJJdF-SU8F-iDHw-5Lu4-aLcn-hSAT-eTrB4J:/dev/sda2:678076350464B:98213822464B:vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ
+  gmPpnr-DoLB-67uq-iEw3-B5lc-FL9D-6qBcl2:/dev/sdb:256058064896B:63854084096B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43
+  7A1M6r-BiSs-AnCC-5Vje-RbY5-TW0k-WQOg8W:/dev/system/centos-7-6:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  y5cxol-Z2gH-4Bne-BaWm-jWER-Y7YE-7wIW80:/dev/system/centos-7-7:2143289344B:1065353216B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  5todQQ-nqmh-l9Qt-GxWl-d8is-wu6k-EQDWWN:/dev/system/centos-7-8:2143289344B:0B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+  YziNH8-gaaG-9cXP-XESg-WleJ-BMs5-V2ks1V:/dev/system/centos-7-9:2143289344B:528482304B:NzWoaN-pcHP-qAd5-VYYP-r0zn-yEqh-79fS2t
+--end
+""")
+		val callback = mock<(List<PhysicalVolume>) -> Unit>()
+		LvmPv.monitor(session, callback)
+
+		verify(callback, times(4)).invoke(argThat { size == 7 })
 	}
 }
