@@ -2,15 +2,14 @@ package com.github.kerubistan.kerub.utils.junix.sensors
 
 import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
-import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
+import com.github.kerubistan.kerub.utils.junix.common.MonitorOutputStream
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
 import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
-import java.io.OutputStream
 
 object Sensors : OsCommand {
 
@@ -38,20 +37,8 @@ object Sensors : OsCommand {
 
 	fun senseCpuTemperatures(session: ClientSession) = parseOutput(session.executeOrDie("sensors"))
 
-	class SensorsOutputStream(val handler: (List<CpuTemperatureInfo>) -> Unit) : OutputStream() {
-
-		private val buff = StringBuilder()
-		override fun write(data: Int) {
-			buff.append(data.toChar())
-			if(buff.endsWith(separator)) {
-				handler(parseOutput(buff.toString().substringBefore(separator)))
-				buff.clear()
-			}
-		}
-	}
-
 	fun monitorCpuTemperatures(session: ClientSession, interval: Int = 1, handler: (List<CpuTemperatureInfo>) -> Unit) {
-		session.bashMonitor("sensors", interval, separator, SensorsOutputStream(handler))
+		session.bashMonitor("sensors", interval, separator, MonitorOutputStream(separator, handler, this::parseOutput))
 	}
 
 }
