@@ -10,11 +10,28 @@ class MonitorOutputStream<T>(
 
 	private val buffer = StringBuilder()
 
+	override fun write(data: ByteArray) {
+		buffer.append(CharArray(data.size) { data[it].toChar() })
+		checkBuffer()
+	}
+
+	override fun write(data: ByteArray, offset: Int, length: Int) {
+		buffer.append(CharArray(length) { data[offset + it].toChar() })
+		checkBuffer()
+	}
+
 	override fun write(data: Int) {
 		buffer.append(data.toChar())
-		if(buffer.endsWith(separator)) {
-			callback(parser(buffer.removeSuffix(separator).toString()))
-			buffer.clear()
+		checkBuffer()
+	}
+
+	private fun checkBuffer() {
+		var separatorIndex = buffer.indexOf(separator)
+		while (separatorIndex >= 0) {
+			val content = buffer.substring(0, separatorIndex)
+			buffer.delete(0, separatorIndex + separator.length)
+			callback(parser(content))
+			separatorIndex = buffer.indexOf(separator)
 		}
 	}
 }
