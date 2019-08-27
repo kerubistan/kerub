@@ -26,6 +26,9 @@ class MonitorOutputStream<T>(
 	}
 
 	private fun checkBuffer() {
+		// TODO maybe this could be improved a bit by tracking in the instance
+		// the position up to where we have already checked the separator
+		// so that we do not have to re-check the whole buffer always
 		var separatorIndex = buffer.indexOf(separator)
 		while (separatorIndex >= 0) {
 			val content = buffer.substring(0, separatorIndex)
