@@ -26,7 +26,7 @@ object LvmLv : Lvm() {
 				newSize
 			}
 
-	private fun parseRows(rows: String) = rows.trim().lines().map(this::parseRow)
+	private fun parseRows(rows: String) = rows.trim().lines().filterNot { it.isBlank() }.map(this::parseRow)
 
 	private fun parseRow(row: String): LogicalVolume {
 		val fields = row.trim().split(fieldSeparator)
