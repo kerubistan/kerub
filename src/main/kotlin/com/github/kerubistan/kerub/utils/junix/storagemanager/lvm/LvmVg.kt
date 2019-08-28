@@ -8,8 +8,6 @@ import org.apache.sshd.client.session.ClientSession
 
 object LvmVg : Lvm() {
 
-	private const val listVgs = "lvm vgs -o $vgFields $listOptions"
-
 	fun monitor(session: ClientSession, callback: (List<VolumeGroup>) -> Unit) {
 		session.bashMonitor("lvm vgs -o $vgFields $listOptions", 60, separator,
 				MonitorOutputStream(separator, callback, ::parseOutput)
