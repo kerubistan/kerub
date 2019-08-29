@@ -35,12 +35,22 @@ fun <T> Collection<T>.avgBy(fn: (T) -> Int): Double {
 	return sum.toDouble() / this.size
 }
 
+// TODO should be moved to kroki
 inline fun <T> List<T>.update(
 		selector: (T) -> Boolean, default: () -> T = { throw IllegalArgumentException("key not found") }, map: (T) -> T
 ): List<T> =
 		this.firstOrNull(selector)?.let {
 			this.filterNot(selector) + map(it)
 		} ?: this + map(default())
+
+// TODO should be moved to kroki
+inline fun <X, reified T : X> List<X>.updateInstances(
+		selector: (T) -> Boolean = { true },
+		map : (T) -> T ) : List<X> = this.map { item ->
+	if(item is T && selector(item)) {
+		map(item) as X
+	} else item
+}
 
 /**
  * Update a list with another, different type of items. Not updated items will remain the same, updates
