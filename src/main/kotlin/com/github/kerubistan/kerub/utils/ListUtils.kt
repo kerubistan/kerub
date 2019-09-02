@@ -52,6 +52,34 @@ inline fun <X, reified T : X> List<X>.updateInstances(
 	} else item
 }
 
+// I need to think about this, but this may be just too specific for kroki
+inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
+		leftItems: Iterable<L>,
+		crossinline rightValue: (SUB) -> P,
+		crossinline leftValue: (L) -> P,
+		merge: (SUB, L) -> SUB,
+		miss: (SUB) -> R? = { _ -> null },
+		missLeft: (L) -> R? = { _ -> null }
+): List<R> {
+	val leftValuesByProp = leftItems.associateBy(leftValue)
+	val rightValuesByProp = this.filterIsInstance<SUB>().associateBy(rightValue)
+
+	return leftValuesByProp.filterKeys { it !in rightValuesByProp.keys }.mapNotNull { (_, v) -> missLeft(v) } +
+			this.mapNotNull { item ->
+				if (item is SUB) {
+					val rightCounterpart = leftValuesByProp[rightValue(item)]
+					if (rightCounterpart != null) {
+						merge(item, rightCounterpart)
+					} else {
+						miss(item)
+					}
+				} else {
+					item
+				}
+			}
+}
+
+
 /**
  * Update a list with another, different type of items. Not updated items will remain the same, updates
  * not matching a data will be ignored.
