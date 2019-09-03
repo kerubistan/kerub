@@ -6,5 +6,6 @@ data class PhysicalVolume(
 		val device: String,
 		val size: BigInteger,
 		val freeSize: BigInteger,
-		val volumeGroupId: String
+		val volumeGroupId: String,
+		val volumeGroupName: String
 )

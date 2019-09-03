@@ -11,7 +11,7 @@ import org.apache.sshd.client.session.ClientSession
  */
 object LvmPv : Lvm() {
 
-	private const val listPvs = "lvm pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid $listOptions"
+	private const val listPvs = "lvm pvs -o pv_uuid,pv_name,pv_size,pv_free,vg_uuid,vg_name $listOptions"
 
 	fun list(session: ClientSession): List<PhysicalVolume> = toPvList(session.executeOrDie(listPvs))
 
@@ -24,7 +24,8 @@ object LvmPv : Lvm() {
 								device = fields[1],
 								size = fields[2].toSize(),
 								freeSize = fields[3].toSize(),
-								volumeGroupId = fields[4]
+								volumeGroupId = fields[4],
+								volumeGroupName = fields[5]
 						)
 					}
 
