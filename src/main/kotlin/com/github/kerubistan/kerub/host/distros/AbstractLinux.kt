@@ -20,6 +20,8 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
+import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
@@ -43,8 +45,10 @@ import com.github.kerubistan.kerub.utils.junix.smartmontools.SmartCtl
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
+import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
 import com.github.kerubistan.kerub.utils.junix.sysfs.Net
 import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
+import com.github.kerubistan.kerub.utils.mergeInstancesWith
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.update
@@ -228,26 +232,62 @@ abstract class AbstractLinux : Distribution {
 				.capabilities
 				?.storageCapabilities
 				?.filterIsInstance<LvmStorageCapability>()
-		val lvmVgsById = lvmStorageCapabilities?.associateBy { it.id }
-		val lvmVgsByName = lvmStorageCapabilities?.associateBy { it.volumeGroupName }
+		val lvmVgsById = lvmStorageCapabilities?.associateBy { it.id } ?: mapOf()
+		val lvmCapsByName = lvmStorageCapabilities?.associateBy { it.volumeGroupName }
 
 		LvmVg.monitor(session) { volGroups ->
-			hostDynDao.doWithDyn(host.id) {
+			hostDynDao.update(host.id) {
 				it.copy(
 						storageStatus =
-						it.storageStatus.filterNot { lvmVgsById?.contains(it.id) != false }
-								+ volGroups.mapNotNull { volGroup ->
-							val storageDevice = lvmVgsByName?.get(volGroup.name)
-							if (storageDevice == null) {
-								null
-							} else {
-								SimpleStorageDeviceDynamic(
-										id = storageDevice.id,
-										freeCapacity = volGroup.freeSize
-								)
-							}
-						}
+								it.storageStatus.mergeInstancesWith(
+										leftItems = volGroups,
+										rightValue = LvmStorageDeviceDynamic::id,
+										leftValue = { volumeGroup -> lvmCapsByName?.get(volumeGroup.name)?.id },
+										merge = {
+											storageDeviceDynamic : LvmStorageDeviceDynamic, volumeGroup ->
+											storageDeviceDynamic.copy(
+												reportedFreeCapacity = volumeGroup.freeSize
+											)
+										},
+										missLeft = {
+											volGroup ->
+											if(lvmCapsByName != null) {
+												lvmCapsByName[volGroup.name]?.let {
+													lvmCap ->
+													LvmStorageDeviceDynamic(
+															id = lvmCap.id,
+															reportedFreeCapacity = volGroup.freeSize,
+															items = listOf() // lvm pvs monitor should fill it
+													)
+												}
+											} else null
+										})
 				)
+			}
+		}
+		LvmPv.monitor(session) {
+			physicalVolumes ->
+			val physicalVolumesByVg: Map<String, List<PhysicalVolume>> = physicalVolumes.groupBy(PhysicalVolume::volumeGroupName)
+			hostDynDao.update(host.id) { hostDynamic ->
+				val copy = hostDynamic.copy(
+						storageStatus = hostDynamic.storageStatus.mergeInstancesWith(
+								rightValue = { dynamic -> lvmVgsById[dynamic.id]?.volumeGroupName },
+								leftItems = physicalVolumesByVg.entries,
+								leftValue = Map.Entry<String, List<PhysicalVolume>>::key,
+								miss = { it },
+								merge = { dyn: LvmStorageDeviceDynamic, updates ->
+									dyn.copy(
+											items = updates.value.map { volume ->
+												LvmStorageDeviceDynamicItem(
+														name = volume.device,
+														freeCapacity = volume.freeSize
+												)
+											}
+									)
+								}
+						)
+				)
+				copy
 			}
 		}
 	}

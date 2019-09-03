@@ -1,8 +1,9 @@
 package com.github.kerubistan.kerub.model.dynamic
 
+import java.io.Serializable
 import java.math.BigInteger
 
-abstract class CompositeStorageDeviceDynamicItem {
-	abstract val name : String
-	abstract val freeCapacity: BigInteger
+interface CompositeStorageDeviceDynamicItem : Serializable {
+	val name : String
+	val freeCapacity: BigInteger
 }

@@ -8,7 +8,7 @@ import java.math.BigInteger
 @JsonTypeName("pv")
 data class LvmStorageDeviceDynamicItem(
 		override val name: String, override val freeCapacity: BigInteger
-) : CompositeStorageDeviceDynamicItem() {
+) : CompositeStorageDeviceDynamicItem {
 	init {
 		freeCapacity.validateSize("freeCapacity")
 	}
