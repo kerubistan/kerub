@@ -55,8 +55,8 @@ inline fun <X, reified T : X> List<X>.updateInstances(
 // I need to think about this, but this may be just too specific for kroki
 inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
 		leftItems: Iterable<L>,
-		crossinline rightValue: (SUB) -> P,
-		crossinline leftValue: (L) -> P,
+		rightValue: (SUB) -> P,
+		leftValue: (L) -> P,
 		merge: (SUB, L) -> SUB,
 		miss: (SUB) -> R? = { _ -> null },
 		missLeft: (L) -> R? = { _ -> null }
