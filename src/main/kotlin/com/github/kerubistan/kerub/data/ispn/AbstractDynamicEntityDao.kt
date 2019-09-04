@@ -12,9 +12,10 @@ abstract class AbstractDynamicEntityDao<T : DynamicEntity>(
 		eventListener: EventListener)
 	: IspnDaoBase<T, UUID>(cache, eventListener) {
 
+	@Suppress("UNCHECKED_CAST")
 	override fun update(id: UUID, retrieve: (UUID) -> T, change: (T) -> T) {
 		val oldData = retrieve(id)
-		val newData = change(oldData)
+		val newData : T = change(oldData).updatedNow() as T
 
 		historyDao.log(oldData, newData)
 		update(

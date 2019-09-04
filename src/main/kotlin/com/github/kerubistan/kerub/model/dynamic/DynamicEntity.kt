@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface DynamicEntity : Entity<UUID> {
 	val lastUpdated: Long
-
+	fun updatedNow() : DynamicEntity
 }

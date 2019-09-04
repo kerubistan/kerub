@@ -16,4 +16,6 @@ data class VirtualStorageDeviceDynamic(
 		override val id: UUID,
 		override val lastUpdated: Long = now(),
 		val allocations: List<VirtualStorageAllocation>
-) : DynamicEntity
+) : DynamicEntity {
+	override fun updatedNow() = this.copy(lastUpdated = now())
+}

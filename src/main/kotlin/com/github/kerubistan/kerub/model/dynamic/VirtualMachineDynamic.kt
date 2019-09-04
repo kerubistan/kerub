@@ -38,6 +38,7 @@ data class VirtualMachineDynamic(
 		 */
 		val coreAffinity: List<Int>? = null
 ) : DynamicEntity {
+	override fun updatedNow() = this.copy(lastUpdated = now())
 
 	init {
 		memoryUsed.validateSize("memoryUsed")

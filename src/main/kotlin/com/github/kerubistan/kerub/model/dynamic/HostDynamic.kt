@@ -36,6 +36,7 @@ data class HostDynamic(
 		val storageDeviceHealth: Map<String, Boolean> = mapOf(),
 		val cpuTemperature: List<Int> = listOf()
 ) : DynamicEntity {
+	override fun updatedNow() = this.copy(lastUpdated = now())
 
 	init {
 		memFree?.validateSize("memFree")
