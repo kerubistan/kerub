@@ -36,7 +36,7 @@ private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 
 fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
 	try {
-		this.open().await()
+		this.open().await(GLOBAL_SSH_TIMEOUT_MS)
 		return fn(this)
 	} finally {
 		this.close(true)
@@ -74,6 +74,8 @@ class StdErrLoggingOutputStream(private val session : ClientSession) : OutputStr
 
 }
 
+const val GLOBAL_SSH_TIMEOUT_MS = 10_000.toLong()
+
 /**
  * Starts a process that runs on the output.
  */
@@ -82,7 +84,7 @@ fun ClientSession.process(command: String, output : OutputStream) {
 	exec.`in` = NullInputStream(0)
 	exec.err = StdErrLoggingOutputStream(this)
 	exec.out = output
-	exec.open().verify()
+	exec.open().verify(GLOBAL_SSH_TIMEOUT_MS)
 }
 
 fun ClientSession.bashMonitor(command: String, interval: Int, separator : String, output: OutputStream)
