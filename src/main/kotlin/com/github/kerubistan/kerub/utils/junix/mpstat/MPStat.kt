@@ -1,9 +1,8 @@
 package com.github.kerubistan.kerub.utils.junix.mpstat
 
+import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.dynamic.CpuStat
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import org.apache.commons.io.input.NullInputStream
-import org.apache.commons.io.output.NullOutputStream
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 
@@ -48,10 +47,6 @@ object MPStat : OsCommand {
 	}
 
 	fun monitor(session: ClientSession, handler: (List<CpuStat>) -> Unit, interval: Short = 1) {
-		val channel = session.createExecChannel("mpstat $interval -P ALL")
-		channel.`in` = NullInputStream(0)
-		channel.err = NullOutputStream()
-		channel.out = MPStatOutput(handler)
-		channel.open().verify()
+		session.process("mpstat $interval -P ALL", MPStatOutput(handler))
 	}
 }
