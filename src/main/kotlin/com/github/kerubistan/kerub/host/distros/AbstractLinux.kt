@@ -269,7 +269,7 @@ abstract class AbstractLinux : Distribution {
 			physicalVolumes ->
 			val physicalVolumesByVg: Map<String, List<PhysicalVolume>> = physicalVolumes.groupBy(PhysicalVolume::volumeGroupName)
 			hostDynDao.update(host.id) { hostDynamic ->
-				val copy = hostDynamic.copy(
+				hostDynamic.copy(
 						storageStatus = hostDynamic.storageStatus.mergeInstancesWith(
 								rightValue = { dynamic -> lvmVgsById[dynamic.id]?.volumeGroupName },
 								leftItems = physicalVolumesByVg.entries,
@@ -287,7 +287,6 @@ abstract class AbstractLinux : Distribution {
 								}
 						)
 				)
-				copy
 			}
 		}
 	}
