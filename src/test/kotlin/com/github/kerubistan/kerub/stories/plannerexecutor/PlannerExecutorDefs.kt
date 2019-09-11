@@ -12,9 +12,9 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
@@ -54,7 +54,7 @@ class PlannerExecutorDefs {
 		var plans = listOf<Plan>()
 		override fun execute(plan: Plan, callback: (Plan) -> Unit) {
 			synchronized(this) {
-				plans += plan
+				plans = plans + plan
 			}
 		}
 	}
@@ -141,14 +141,14 @@ class PlannerExecutorDefs {
 	@Given("a host")
 	fun addHostToSituation() {
 		state = state.copy(
-				hosts = mapOf(host.id to /*host*/ HostDataCollection(stat = host, dynamic = HostDynamic(
+				hosts = mapOf(host.id to HostDataCollection(stat = host, dynamic = HostDynamic(
 						id = host.id,
 						status = HostStatus.Up,
 						memFree = 1.TB,
 						storageStatus = listOf(
-								SimpleStorageDeviceDynamic(
+								CompositeStorageDeviceDynamic(
 										id = host.capabilities!!.storageCapabilities[0].id,
-										freeCapacity = 1.PB
+										reportedFreeCapacity = 1.PB
 								)
 						)
 				)))

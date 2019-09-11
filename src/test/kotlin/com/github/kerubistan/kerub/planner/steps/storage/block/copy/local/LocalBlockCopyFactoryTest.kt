@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.GvinumStorageCapabilityDrive
 import com.github.kerubistan.kerub.model.LvmStorageCapability
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -74,9 +74,10 @@ class LocalBlockCopyFactoryTest : AbstractFactoryVerifications(LocalBlockCopyFac
 							hostDyns = listOf(
 									hostUp(host).copy(
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = lvmCapability.id,
-															freeCapacity = 10.KB)
+															reportedFreeCapacity = 10.KB
+													)
 											)
 									)),
 							vStorage = listOf(sourceDisk, targetDisk),
@@ -140,9 +141,10 @@ class LocalBlockCopyFactoryTest : AbstractFactoryVerifications(LocalBlockCopyFac
 							hostDyns = listOf(
 									hostUp(host).copy(
 											storageStatus = listOf(
- 													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = lvmCapability.id,
-															freeCapacity = 2.TB)
+															reportedFreeCapacity = 2.TB
+													)
 											)
 									)),
 							vStorage = listOf(sourceDisk, targetDisk),
@@ -207,9 +209,10 @@ class LocalBlockCopyFactoryTest : AbstractFactoryVerifications(LocalBlockCopyFac
 							hostDyns = listOf(
 									hostUp(host).copy(
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = gvinumCapability.id,
-															freeCapacity = 2.TB)
+															reportedFreeCapacity = 2.TB
+													)
 											)
 									)),
 							vStorage = listOf(sourceDisk, targetDisk),

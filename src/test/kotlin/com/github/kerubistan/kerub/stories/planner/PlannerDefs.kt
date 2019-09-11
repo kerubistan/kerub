@@ -20,9 +20,10 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
@@ -30,8 +31,6 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageGvinumAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfiguration
-import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
@@ -329,7 +328,7 @@ class PlannerDefs {
 			val blockDevices = lvmCapabilities.map { it.physicalVolumes.map { it.key to true } }.join().toMap()
 			dyn.copy(
 					storageStatus = dyn.storageStatus + lvmCapabilities.map {
-						SimpleStorageDeviceDynamic(id = it.id, freeCapacity = it.size)
+						CompositeStorageDeviceDynamic(id = it.id, reportedFreeCapacity = it.size)
 					},
 					storageDeviceHealth = dyn.storageDeviceHealth + blockDevices
 			)
@@ -805,11 +804,11 @@ class PlannerDefs {
 			dyn.copy(
 					storageStatus = dyn.storageStatus.update(
 							selector = { it.id == disk.id },
-							default = { GvinumStorageDeviceDynamic(items = listOf(), id = disk.id) },
+							default = { CompositeStorageDeviceDynamic(id = disk.id) },
 							map = {
-								it as GvinumStorageDeviceDynamic
+								it as CompositeStorageDeviceDynamic
 								it.copy(
-										items = it.items.filterNot { it.name == diskName } + GvinumStorageDeviceDynamicItem(
+										items = it.items.filterNot { it.name == diskName } + CompositeStorageDeviceDynamicItem(
 												name = diskName,
 												freeCapacity = capacity.toSize()
 										)
@@ -823,10 +822,9 @@ class PlannerDefs {
 	private fun setStorageCapabilityFreeCapacity(capacity: String, capId: UUID, host: Host) {
 		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
 			dyn.copy(
-					//TODO but this 'Simple' is not right for gvinum for example
-					storageStatus = dyn.storageStatus + SimpleStorageDeviceDynamic(
+					storageStatus = dyn.storageStatus + CompositeStorageDeviceDynamic(
 							id = capId,
-							freeCapacity = capacity.toSize()
+							reportedFreeCapacity = capacity.toSize()
 					)
 			)
 		})

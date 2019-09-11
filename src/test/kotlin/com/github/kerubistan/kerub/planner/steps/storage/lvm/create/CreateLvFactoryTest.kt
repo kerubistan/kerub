@@ -12,9 +12,9 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -78,9 +78,9 @@ class CreateLvFactoryTest : AbstractFactoryVerifications(CreateLvFactory) {
 										id = host.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												SimpleStorageDeviceDynamic(
+												CompositeStorageDeviceDynamic(
 														id = volumeGroup.id,
-														freeCapacity = 1.TB
+														reportedFreeCapacity = 1.TB
 												)
 										)
 								)),
@@ -105,9 +105,9 @@ class CreateLvFactoryTest : AbstractFactoryVerifications(CreateLvFactory) {
 										id = host.id,
 										status = HostStatus.Up,
 										storageStatus = listOf(
-												SimpleStorageDeviceDynamic(
+												CompositeStorageDeviceDynamic(
 														id = volumeGroup.id,
-														freeCapacity = 1.TB
+														reportedFreeCapacity = 1.TB
 												)
 										)
 								)),
@@ -132,9 +132,9 @@ class CreateLvFactoryTest : AbstractFactoryVerifications(CreateLvFactory) {
 												id = host.id,
 												status = HostStatus.Up,
 												storageStatus = listOf(
-														SimpleStorageDeviceDynamic(
+														CompositeStorageDeviceDynamic(
 																id = volumeGroup.id,
-																freeCapacity = 1.TB
+																reportedFreeCapacity = 1.TB
 														)
 												)
 										)),

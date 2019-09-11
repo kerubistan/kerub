@@ -9,9 +9,10 @@ import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.VirtualStorageLinkInfo
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualStorageDataCollection
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
@@ -104,9 +105,19 @@ class PlanRationalizerImplTest {
 		)
 		val hostDyn = hostUp(host).copy(
 				storageStatus = listOf(
-						SimpleStorageDeviceDynamic(
+						CompositeStorageDeviceDynamic(
 								id = lvmStorageCapability.id,
-								freeCapacity = lvmStorageCapability.size
+								reportedFreeCapacity = lvmStorageCapability.size,
+								items = listOf(
+										CompositeStorageDeviceDynamicItem(
+												name = "/dev/sda",
+												freeCapacity = 1.TB
+										),
+										CompositeStorageDeviceDynamicItem(
+												name = "/dev/sdb",
+												freeCapacity = 1.TB
+										)
+								)
 						)
 				),
 				memFree = 4.GB

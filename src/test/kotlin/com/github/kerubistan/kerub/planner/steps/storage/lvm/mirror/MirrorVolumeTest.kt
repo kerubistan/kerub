@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
@@ -78,9 +78,9 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 		)
 		val hostDynamic = hostUp(testHost).copy(
 				storageStatus = listOf(
-						SimpleStorageDeviceDynamic(
+						CompositeStorageDeviceDynamic(
 								id = lvmStorageCapability.id,
-								freeCapacity = 1.TB
+								reportedFreeCapacity = 1.TB
 						)
 				)
 		)

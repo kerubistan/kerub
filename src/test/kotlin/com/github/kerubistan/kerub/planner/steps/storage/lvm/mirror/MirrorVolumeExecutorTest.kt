@@ -5,8 +5,8 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
@@ -56,9 +56,9 @@ class MirrorVolumeExecutorTest {
 		)
 		val hostDynamic = hostUp(testHost).copy(
 				storageStatus = listOf(
-						SimpleStorageDeviceDynamic(
+						CompositeStorageDeviceDynamic(
 								id = lvmStorageCapability.id,
-								freeCapacity = 1.TB
+								reportedFreeCapacity = 1.TB
 						)
 				)
 		)

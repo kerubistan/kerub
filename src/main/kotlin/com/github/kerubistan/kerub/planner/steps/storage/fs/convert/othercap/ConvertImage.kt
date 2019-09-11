@@ -2,10 +2,9 @@ package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.othercap
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
-import com.github.kerubistan.kerub.model.dynamic.gvinum.GvinumStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
@@ -65,11 +64,13 @@ data class ConvertImage(
 																		- virtualStorage.size)
 																		.coerceAtLeast(BigInteger.ZERO)
 														)
-														is GvinumStorageDeviceDynamic -> TODO()
-														is LvmStorageDeviceDynamic -> storageStatus.copy(
-																items = storageStatus.items.map {
-																	TODO("map the allocations")
-																}
+														is CompositeStorageDeviceDynamic -> storageStatus.copy(
+																/*
+																 TODO
+																 here the implementation should update the
+																 storage devices with the data retrieved (pvs,
+																 gvinum ld, whatever else...)
+																 */
 														)
 														else -> TODO(
 																"Not implemented with ${storageStatus.javaClass.name}")

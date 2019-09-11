@@ -3,9 +3,9 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.remove
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
@@ -62,9 +62,9 @@ class RemoveLvmPoolTest : OperationalStepVerifications() {
 											id = host.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = vgId,
-															freeCapacity = 20.GB
+															reportedFreeCapacity = 20.GB
 													)
 											)
 									)

@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -45,9 +45,9 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 			)
 			val host1dyn = hostUp(host1).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host1cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
@@ -103,17 +103,17 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 			)
 			val host1dyn = hostUp(host1).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host1cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
 			val host2dyn = hostUp(host2).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host2cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
@@ -188,17 +188,17 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 			)
 			val host1dyn = hostUp(host1).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host1cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
 			val host2dyn = hostUp(host2).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host2cap.id,
-									freeCapacity = 0.TB
+									reportedFreeCapacity = 0.TB
 							)
 					)
 			)
@@ -254,17 +254,17 @@ class MigrateBlockAllocationFactoryTest : AbstractFactoryVerifications(MigrateBl
 			)
 			val host1dyn = hostUp(host1).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host1cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
 			val host2dyn = hostUp(host2).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = host2cap.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)

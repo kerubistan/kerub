@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
@@ -41,8 +41,8 @@ class MirrorVolumeExecutor(
 					storageStatus = dyn.storageStatus.update(
 							selector = { it.id == step.capability.id },
 							map = {
-								(it as SimpleStorageDeviceDynamic).copy(
-										freeCapacity = vg.freeSize
+								(it as CompositeStorageDeviceDynamic).copy(
+										reportedFreeCapacity = vg.freeSize
 								)
 							}
 					)

@@ -18,6 +18,7 @@ fun Collection<BigInteger>.sum(): BigInteger {
 	return sum
 }
 
+// TODO: migrated to kroki
 inline fun <T> Iterable<T>.sumBy(selector: (T) -> BigInteger): BigInteger {
 	var sum = BigInteger.ZERO
 	for (element in this) {

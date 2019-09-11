@@ -3,9 +3,9 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -129,9 +129,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = targetCapacity.id,
-															freeCapacity = targetCapacity.size // all free
+															reportedFreeCapacity = targetCapacity.size // all free
 													)
 											)
 									)
@@ -203,9 +203,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = sourceCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									),
@@ -213,9 +213,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = targetCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									)
@@ -294,9 +294,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = sourceCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									),
@@ -304,9 +304,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = targetCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									)
@@ -375,9 +375,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = sourceHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = sourceCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									),
@@ -385,9 +385,9 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 											id = targetHost.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = targetCapability.id,
-															freeCapacity = targetCapability.size // all free
+															reportedFreeCapacity = targetCapability.size // all free
 													)
 											)
 									)

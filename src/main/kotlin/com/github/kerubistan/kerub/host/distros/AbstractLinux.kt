@@ -16,12 +16,12 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
-import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
-import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
@@ -241,10 +241,10 @@ abstract class AbstractLinux : Distribution {
 						storageStatus =
 								it.storageStatus.mergeInstancesWith(
 										leftItems = volGroups,
-										rightValue = LvmStorageDeviceDynamic::id,
+										rightValue = StorageDeviceDynamic::id,
 										leftValue = { volumeGroup -> lvmCapsByName?.get(volumeGroup.name)?.id },
 										merge = {
-											storageDeviceDynamic : LvmStorageDeviceDynamic, volumeGroup ->
+											storageDeviceDynamic : CompositeStorageDeviceDynamic, volumeGroup ->
 											storageDeviceDynamic.copy(
 												reportedFreeCapacity = volumeGroup.freeSize
 											)
@@ -254,7 +254,7 @@ abstract class AbstractLinux : Distribution {
 											if(lvmCapsByName != null) {
 												lvmCapsByName[volGroup.name]?.let {
 													lvmCap ->
-													LvmStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = lvmCap.id,
 															reportedFreeCapacity = volGroup.freeSize,
 															items = listOf() // lvm pvs monitor should fill it
@@ -275,10 +275,10 @@ abstract class AbstractLinux : Distribution {
 								leftItems = physicalVolumesByVg.entries,
 								leftValue = Map.Entry<String, List<PhysicalVolume>>::key,
 								miss = { it },
-								merge = { dyn: LvmStorageDeviceDynamic, updates ->
+								merge = { dyn: CompositeStorageDeviceDynamic, updates ->
 									dyn.copy(
 											items = updates.value.map { volume ->
-												LvmStorageDeviceDynamicItem(
+												CompositeStorageDeviceDynamicItem(
 														name = volume.device,
 														freeCapacity = volume.freeSize
 												)

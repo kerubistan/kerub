@@ -8,9 +8,10 @@ import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
@@ -51,9 +52,15 @@ class CreateLvTest : OperationalStepVerifications() {
 			id = host.id,
 			status = HostStatus.Up,
 			storageStatus = listOf(
-					SimpleStorageDeviceDynamic(
-							freeCapacity = 200.GB,
-							id = volume.id
+					CompositeStorageDeviceDynamic(
+							reportedFreeCapacity = 200.GB,
+							id = volume.id,
+							items = listOf(
+									CompositeStorageDeviceDynamicItem(
+											name = "/dev/sda",
+											freeCapacity = 200.GB
+									)
+							)
 					)
 			)
 	)

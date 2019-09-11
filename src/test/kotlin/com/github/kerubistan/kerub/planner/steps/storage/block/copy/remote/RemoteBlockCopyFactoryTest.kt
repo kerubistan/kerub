@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.block.copy.remote
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
@@ -103,16 +103,18 @@ class RemoteBlockCopyFactoryTest : AbstractFactoryVerifications(RemoteBlockCopyF
 							hostDyns = listOf(
 									hostUp(sourceHost).copy(
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = sourceCapability.id,
-															freeCapacity = 1.TB)
+															reportedFreeCapacity = 1.TB
+													)
 											)
 									),
 									hostUp(targetHost).copy(
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(
+													CompositeStorageDeviceDynamic(
 															id = targetCapability.id,
-															freeCapacity = 2.TB)
+															reportedFreeCapacity = 2.TB
+													)
 											)
 									)),
 							vStorage = listOf(sourceDisk, targetDisk),

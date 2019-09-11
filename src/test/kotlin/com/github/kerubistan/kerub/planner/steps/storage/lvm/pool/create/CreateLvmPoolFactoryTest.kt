@@ -3,9 +3,9 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.create
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.config.HostConfiguration
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
@@ -43,7 +43,10 @@ class CreateLvmPoolFactoryTest : AbstractFactoryVerifications(CreateLvmPoolFacto
 											id = host.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(id = storageId, freeCapacity = 0.TB)
+													CompositeStorageDeviceDynamic(
+															id = storageId,
+															reportedFreeCapacity = 0.TB
+													)
 											)
 
 									)
@@ -83,7 +86,10 @@ class CreateLvmPoolFactoryTest : AbstractFactoryVerifications(CreateLvmPoolFacto
 											id = host.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(id = storageId, freeCapacity = 15.GB)
+													CompositeStorageDeviceDynamic(
+															id = storageId,
+															reportedFreeCapacity = 15.GB
+													)
 											)
 									)
 							),
@@ -123,7 +129,10 @@ class CreateLvmPoolFactoryTest : AbstractFactoryVerifications(CreateLvmPoolFacto
 											id = host.id,
 											status = HostStatus.Up,
 											storageStatus = listOf(
-													SimpleStorageDeviceDynamic(id = storageId, freeCapacity = 3.TB)
+													CompositeStorageDeviceDynamic(
+															id = storageId,
+															reportedFreeCapacity = 3.TB
+													)
 											)
 
 									)

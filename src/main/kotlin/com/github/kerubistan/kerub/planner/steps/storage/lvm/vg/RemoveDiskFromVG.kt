@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
@@ -53,9 +53,9 @@ data class RemoveDiskFromVG(
 						),
 						dynamic = host.dynamic?.copy(
 								storageStatus = host.dynamic.storageStatus.map {
-									if (it is SimpleStorageDeviceDynamic && it.id == capability.id) {
+									if (it is CompositeStorageDeviceDynamic && it.id == capability.id) {
 										it.copy(
-												freeCapacity = (it.freeCapacity - failingPeSize).coerceAtLeast(ZERO)
+												reportedFreeCapacity = (it.freeCapacity - failingPeSize).coerceAtLeast(ZERO)
 										)
 									} else it
 								}

@@ -6,9 +6,9 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -67,13 +67,13 @@ class RemoveLvmPoolExecutorTest {
 				id = host.id,
 				status = HostStatus.Up,
 				storageStatus = listOf(
-						SimpleStorageDeviceDynamic(
+						CompositeStorageDeviceDynamic(
 								id = vg1.id,
-								freeCapacity = 100.GB
+								reportedFreeCapacity = 100.GB
 						),
-						SimpleStorageDeviceDynamic(
+						CompositeStorageDeviceDynamic(
 								id = vg2.id,
-								freeCapacity = 1500.GB
+								reportedFreeCapacity = 1500.GB
 						)
 				)
 		)

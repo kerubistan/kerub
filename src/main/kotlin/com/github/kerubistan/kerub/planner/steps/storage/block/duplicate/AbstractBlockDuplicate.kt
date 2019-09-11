@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.block.duplicate
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -54,10 +55,20 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> :
 										storageStatus = it.dynamic.storageStatus.map {
 											storageStatus ->
 											if(storageStatus.id == targetCapability.id) {
-												(storageStatus as SimpleStorageDeviceDynamic).copy(
-														freeCapacity = (storageStatus.freeCapacity - target.actualSize)
-																.coerceAtLeast(BigInteger.ZERO)
-												)
+												when(storageStatus) {
+													is SimpleStorageDeviceDynamic ->
+														storageStatus.copy(
+																freeCapacity = (storageStatus.freeCapacity - target.actualSize)
+																		.coerceAtLeast(BigInteger.ZERO)
+														)
+													is CompositeStorageDeviceDynamic ->
+														storageStatus.copy(
+																reportedFreeCapacity = (storageStatus.freeCapacity - target.actualSize)
+																		.coerceAtLeast(BigInteger.ZERO)
+														)
+													else ->
+														TODO("Unhandled type: ${storageStatus.javaClass.name}")
+												}
 											} else {
 												storageStatus
 											}

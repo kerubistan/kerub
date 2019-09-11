@@ -4,7 +4,8 @@ import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
@@ -63,9 +64,15 @@ class ExtendLvmPoolFactoryTest : AbstractFactoryVerifications(ExtendLvmPoolFacto
 			)
 			val hostDyn = hostUp(host).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 0.GB
+									reportedFreeCapacity = 0.GB,
+									items = listOf(
+											CompositeStorageDeviceDynamicItem(
+													name = "/dev/sdb",
+													freeCapacity = 0.GB
+											)
+									)
 							)
 					)
 			)
@@ -101,9 +108,9 @@ class ExtendLvmPoolFactoryTest : AbstractFactoryVerifications(ExtendLvmPoolFacto
 			)
 			val hostDyn = hostUp(host).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 0.GB
+									reportedFreeCapacity = 0.GB
 							)
 					)
 			)
@@ -146,9 +153,15 @@ class ExtendLvmPoolFactoryTest : AbstractFactoryVerifications(ExtendLvmPoolFacto
 			)
 			val hostDyn = hostUp(host).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 0.GB
+									reportedFreeCapacity = 0.GB,
+									items = listOf(
+											CompositeStorageDeviceDynamicItem(
+													name = "/dev/sdb",
+													freeCapacity = 1.TB
+											)
+									)
 							)
 					)
 			)
@@ -191,9 +204,9 @@ class ExtendLvmPoolFactoryTest : AbstractFactoryVerifications(ExtendLvmPoolFacto
 			)
 			val hostDyn = hostUp(host).copy(
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 500.GB
+									reportedFreeCapacity = 500.GB
 							)
 					)
 			)

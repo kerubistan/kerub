@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.HostStorageReservation
@@ -43,9 +43,9 @@ data class MirrorVolume @ExperimentalUnsignedTypes constructor(
 								storageStatus = hostColl.dynamic.storageStatus.update(
 										selector = { it.id == capability.id },
 										map = {
-											SimpleStorageDeviceDynamic(
-													id = it.id,
-													freeCapacity = (it.freeCapacity - extraSpaceNeeded())
+											it as CompositeStorageDeviceDynamic
+											it.copy(
+													reportedFreeCapacity = (it.freeCapacity - extraSpaceNeeded())
 															.coerceAtLeast(BigInteger.ZERO)
 											)
 										})

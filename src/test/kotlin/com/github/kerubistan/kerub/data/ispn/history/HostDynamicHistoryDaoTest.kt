@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.history.HistoryEntry
-import com.github.kerubistan.kerub.testDisk
+import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.size.MB
@@ -51,7 +51,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						memFree = 129.MB,
 						storageStatus = listOf(
 								SimpleStorageDeviceDynamic(
-										id = testDisk.id,
+										id = testFsCapability.id,
 										freeCapacity = 600.GB
 								)
 						)
@@ -63,7 +63,7 @@ class HostDynamicHistoryDaoTest : AbstractIspnDaoTest<UUID, HistoryEntry>() {
 						memFree = 128.MB,
 						storageStatus = listOf(
 								SimpleStorageDeviceDynamic(
-										id = testDisk.id,
+										id = testFsCapability.id,
 										freeCapacity = 580.GB
 								)
 						)

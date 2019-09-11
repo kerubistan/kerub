@@ -8,6 +8,9 @@ import java.util.UUID
 @JsonTypeName("simple")
 data class SimpleStorageDeviceDynamic(override val id: UUID, override val freeCapacity: BigInteger) :
 		StorageDeviceDynamic {
+
+	override fun withFreeCapacity(freeCapacity: BigInteger) = this.copy(freeCapacity = freeCapacity)
+
 	init {
 		freeCapacity.validateSize("freeCapacity")
 	}

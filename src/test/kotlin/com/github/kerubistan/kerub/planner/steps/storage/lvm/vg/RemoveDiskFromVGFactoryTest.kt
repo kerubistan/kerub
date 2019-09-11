@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
 import com.github.kerubistan.kerub.hostUp
 import com.github.kerubistan.kerub.model.LvmStorageCapability
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
@@ -69,9 +69,9 @@ class RemoveDiskFromVGFactoryTest : AbstractFactoryVerifications(RemoveDiskFromV
 							sdb.deviceName to false
 					),
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 1.TB
+									reportedFreeCapacity = 1.TB
 							)
 					)
 			)
@@ -105,9 +105,9 @@ class RemoveDiskFromVGFactoryTest : AbstractFactoryVerifications(RemoveDiskFromV
 							sdb.deviceName to false
 					),
 					storageStatus = listOf(
-							SimpleStorageDeviceDynamic(
+							CompositeStorageDeviceDynamic(
 									id = lvmStorageCapability.id,
-									freeCapacity = 7.TB
+									reportedFreeCapacity = 7.TB
 							)
 					)
 			)

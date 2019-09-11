@@ -2,8 +2,8 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.base
 
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
-import com.github.kerubistan.kerub.model.dynamic.lvm.LvmStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.replace
 import java.math.BigInteger
@@ -23,7 +23,7 @@ fun updateHostDynLvmWithAllocation(
 			)
 	return originalHostDyn.copy(
 			storageStatus = originalHostDyn.storageStatus.replace({ it.id == volGroup.id }, {
-				(it as LvmStorageDeviceDynamic).copy(
+				(it as CompositeStorageDeviceDynamic).copy(
 						reportedFreeCapacity = (it.freeCapacity - size).coerceAtLeast(BigInteger.ZERO)
 				)
 			})

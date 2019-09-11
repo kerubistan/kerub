@@ -3,9 +3,10 @@ package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.extend
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
-import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
@@ -54,9 +55,15 @@ class ExtendLvmPoolTest : OperationalStepVerifications() {
 							id = testHost.id,
 							status = HostStatus.Up,
 							storageStatus = listOf(
-									SimpleStorageDeviceDynamic(
+									CompositeStorageDeviceDynamic(
 											id = lvmStorageId,
-											freeCapacity = 600.GB
+											reportedFreeCapacity = 600.GB,
+											items = listOf(
+													CompositeStorageDeviceDynamicItem(
+															name = "/dev/sda",
+															freeCapacity = 600.GB
+													)
+											)
 									)
 							)
 					)
