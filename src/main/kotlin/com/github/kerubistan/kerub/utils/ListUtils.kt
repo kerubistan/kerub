@@ -48,7 +48,7 @@ inline fun <X, reified T : X> List<X>.updateInstances(
 		selector: (T) -> Boolean = { true },
 		map : (T) -> T ) : List<X> = this.map { item ->
 	if(item is T && selector(item)) {
-		map(item) as X
+		map(item)
 	} else item
 }
 

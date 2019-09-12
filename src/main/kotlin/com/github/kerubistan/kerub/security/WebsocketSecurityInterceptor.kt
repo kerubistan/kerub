@@ -1,7 +1,6 @@
 package com.github.kerubistan.kerub.security
 
 import com.github.kerubistan.kerub.utils.LogLevel
-import com.github.kerubistan.kerub.utils.NOP
 import com.github.kerubistan.kerub.utils.silent
 import org.apache.shiro.SecurityUtils
 import org.springframework.http.server.ServerHttpRequest
@@ -14,7 +13,9 @@ class WebsocketSecurityInterceptor : HandshakeInterceptor {
 			request: ServerHttpRequest,
 			response: ServerHttpResponse,
 			wsHandler: WebSocketHandler,
-			exception: Exception?) = NOP()
+			exception: Exception?) {
+		// intentionally nothing
+	}
 
 	override fun beforeHandshake(
 			request: ServerHttpRequest,

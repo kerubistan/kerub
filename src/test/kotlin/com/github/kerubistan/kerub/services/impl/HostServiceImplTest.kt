@@ -54,7 +54,7 @@ class HostServiceImplTest {
 
 	@Test
 	fun getByAddress() {
-		whenever(dao.byAddress(eq("test.example.com") ?: "")).thenReturn(listOf(testHost))
+		whenever(dao.byAddress(eq("test.example.com"))).thenReturn(listOf(testHost))
 		val byAddress = service!!.getByAddress("test.example.com")
 		assertEquals(listOf(testHost), byAddress)
 		verify(dao).byAddress(eq("test.example.com"))

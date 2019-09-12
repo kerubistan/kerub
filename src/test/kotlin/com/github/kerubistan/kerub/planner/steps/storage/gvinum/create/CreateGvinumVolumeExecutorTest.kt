@@ -60,7 +60,7 @@ class CreateGvinumVolumeExecutorTest {
 					hostUp(host).copy(
 							storageStatus = listOf(
 									SimpleStorageDeviceDynamic(id = testGvinumCapability.id, freeCapacity = 2.TB))))
-		}.whenever(hostDynamicDao).update(eq(host.id), retrieve = any(), change = any<(HostDynamic) -> HostDynamic>())
+		}.whenever(hostDynamicDao).update(eq(host.id), retrieve = any(), change = any())
 		CreateGvinumVolumeExecutor(hostCommandExecutor, virtualDiskDynDao, hostDynamicDao).execute(
 				CreateGvinumVolume(
 						host = host,
@@ -72,7 +72,7 @@ class CreateGvinumVolumeExecutorTest {
 				)
 		)
 
-		verify(hostDynamicDao).update(eq(host.id), retrieve = any(), change = any<(HostDynamic) -> HostDynamic>())
+		verify(hostDynamicDao).update(eq(host.id), retrieve = any(), change = any())
 		session.verifyCommandExecution("gvinum create .*".toRegex())
 	}
 
