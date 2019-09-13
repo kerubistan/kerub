@@ -13,13 +13,7 @@ abstract class LsbDistribution(private val distroName: String) : AbstractLinux()
 		return distroName
 	}
 
-	private fun <T> enforce(value: T?, msg: String): T {
-		if (value == null) {
-			throw IllegalArgumentException("$msg - value is null")
-		} else {
-			return value
-		}
-	}
+	private fun <T : Any> enforce(value: T?, msg: String): T = requireNotNull(value) { "$msg - value is null" }
 
 	override fun getVersion(session: ClientSession): Version {
 		return Version.fromVersionString(
