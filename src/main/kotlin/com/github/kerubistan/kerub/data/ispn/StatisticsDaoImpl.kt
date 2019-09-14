@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.data.stat.BasicBalanceReport
 import com.github.kerubistan.kerub.data.stat.StatisticsDao
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.Host
+import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -12,7 +13,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.utils.equalsAnyOf
-import com.github.kerubistan.kerub.utils.sumBy
+import io.github.kerubistan.kroki.numbers.sumBy
 import nl.komponents.kovenant.task
 import org.infinispan.Cache
 import java.math.BigInteger
@@ -96,7 +97,7 @@ class StatisticsDaoImpl(
 		val totalHostStorage = task {
 			hostCache.parallelStream().map {
 				config.storageTechnologies.enabledCapabilities(it.value.capabilities?.storageCapabilities ?: listOf())
-						.sumBy { it.size }
+						.sumBy(StorageCapability::size)
 			}.reduce(bigIntSum).orElse(BigInteger.ZERO)
 		}
 

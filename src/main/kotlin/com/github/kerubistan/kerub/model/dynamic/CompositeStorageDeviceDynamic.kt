@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.model.dynamic
 
-import com.github.kerubistan.kerub.utils.sumBy
+import io.github.kerubistan.kroki.numbers.sumBy
 import java.math.BigInteger
 import java.util.UUID
 
@@ -10,7 +10,8 @@ data class CompositeStorageDeviceDynamic(
 		val items: List<CompositeStorageDeviceDynamicItem> = listOf()
 ) : StorageDeviceDynamic {
 
-	override val freeCapacity: BigInteger = reportedFreeCapacity ?: items.sumBy { it.freeCapacity }
+	override val freeCapacity: BigInteger = reportedFreeCapacity
+			?: items.sumBy(CompositeStorageDeviceDynamicItem::freeCapacity)
 
 	override fun withFreeCapacity(freeCapacity: BigInteger) = this.copy(
 			reportedFreeCapacity = freeCapacity

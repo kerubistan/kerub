@@ -13,8 +13,9 @@ import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguratio
 import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfiguration
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
-import com.github.kerubistan.kerub.utils.sumBy
+import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GvinumDrive
 import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.numbers.sumBy
 
 class CreateGvinumVolumeExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
@@ -49,7 +50,7 @@ class CreateGvinumVolumeExecutor(
 								map = { deviceDynamic ->
 									when (deviceDynamic) {
 										is SimpleStorageDeviceDynamic -> deviceDynamic.copy(
-												freeCapacity = updatedDisks.sumBy { drive -> drive.available }
+												freeCapacity = updatedDisks.sumBy(GvinumDrive::available)
 										)
 										is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
 												items = deviceDynamic.items.update(

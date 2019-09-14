@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.model
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
-import com.github.kerubistan.kerub.utils.sumBy
+import io.github.kerubistan.kroki.numbers.sumBy
 import java.io.Serializable
 import java.util.UUID
 
@@ -28,5 +28,5 @@ data class GvinumStorageCapability(
 	@get:JsonIgnore
 	val devicesByName by lazy { devices.associateBy { it.name } }
 	@get:JsonIgnore
-	override val size by lazy { devices.sumBy { it.size } }
+	override val size by lazy { devices.sumBy(GvinumStorageCapabilityDrive::size) }
 }
