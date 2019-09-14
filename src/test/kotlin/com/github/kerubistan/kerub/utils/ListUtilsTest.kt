@@ -2,7 +2,6 @@ package com.github.kerubistan.kerub.utils
 
 import com.github.kerubistan.kerub.model.Entity
 import org.junit.Test
-import java.math.BigDecimal
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -38,25 +37,6 @@ class ListUtilsTest {
 		assertEquals(listOf(), listOf<String>() * listOf(1, 2))
 		assertEquals(listOf(), listOf("A", "B") * (listOf<Any>()))
 		assertEquals(listOf(), listOf<String>() * (listOf<Int>()))
-	}
-
-	@Test
-	fun updateInstances() {
-		assertEquals(
-				listOf<Number>(2, 1.5, BigDecimal("1.7"), 2.toShort()),
-				listOf(1, 1.5, BigDecimal("1.7"), 2.toShort()).updateInstances { nr : Int -> nr * 2 }
-		)
-		assertTrue {
-			listOf<Number>().updateInstances { it }.isEmpty()
-		}
-
-		assertEquals(
-				listOf(1, 2, 3, 4),
-				listOf(1, 2, 3, 4).updateInstances(selector = { false }) {
-					nr : Int -> nr / 0 // whatever, it will never get called
-				}
-		)
-
 	}
 
 	data class Hat (val color : String)

@@ -43,15 +43,6 @@ inline fun <T> List<T>.update(
 			this.filterNot(selector) + map(it)
 		} ?: this + map(default())
 
-// TODO should be moved to kroki
-inline fun <X, reified T : X> List<X>.updateInstances(
-		selector: (T) -> Boolean = { true },
-		map : (T) -> T ) : List<X> = this.map { item ->
-	if(item is T && selector(item)) {
-		map(item)
-	} else item
-}
-
 // I need to think about this, but this may be just too specific for kroki
 inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
 		leftItems: Iterable<L>,
