@@ -21,8 +21,11 @@ import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicIt
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
+import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.network.BondInterface
@@ -31,6 +34,7 @@ import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
+import com.github.kerubistan.kerub.utils.junix.du.DU
 import com.github.kerubistan.kerub.utils.junix.lsblk.Lsblk
 import com.github.kerubistan.kerub.utils.junix.lshw.HardwareItem
 import com.github.kerubistan.kerub.utils.junix.lshw.Lshw
@@ -89,7 +93,7 @@ abstract class AbstractLinux : Distribution {
 			hostDynDao: HostDynamicDao,
 			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 	) {
-		startFsMonitoring(host, session, hostDynDao)
+		startFsMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao)
 
 		startLvmMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao)
 
@@ -156,10 +160,11 @@ abstract class AbstractLinux : Distribution {
 		}
 	}
 
-	private fun startFsMonitoring(
+	internal fun startFsMonitoring(
 			host: Host,
 			session: ClientSession,
-			hostDynDao: HostDynamicDao
+			hostDynDao: HostDynamicDao,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
 	) {
 		val storageIdToMount = host.capabilities?.storageCapabilities
 				?.filter { it is FsStorageCapability }
@@ -188,6 +193,55 @@ abstract class AbstractLinux : Distribution {
 				)
 			}
 		}
+
+		host.capabilities?.storageCapabilities?.filterIsInstance<FsStorageCapability>()?.forEach {
+			fsCapability ->
+			DU.monitor(session, fsCapability.mountPoint) {
+				fileSizes ->
+				fun String.virtualDiskName() = this.substringAfterLast("/").substringBeforeLast(".")
+				fileSizes.entries.filter { it.key.virtualDiskName().isUUID() }.forEach {
+					(fileName, fileSize) ->
+					val vDiskId = fileName.virtualDiskName().toUUID()
+					val type = fileName.substringAfterLast(".")
+					vStorageDeviceDynamicDao.update(
+							vDiskId,
+							retrieve = {
+								vStorageDeviceDynamicDao[it]
+									?: VirtualStorageDeviceDynamic(id = vDiskId, allocations = listOf())
+							},
+							change = {
+								dyn ->
+								dyn.copy(
+										allocations = dyn.allocations.update(
+												selector = {
+													it is VirtualStorageFsAllocation
+															&& it.hostId == host.id
+															&& it.capabilityId == fsCapability.id
+												},
+												default = {
+													VirtualStorageFsAllocation(
+															hostId = host.id,
+															actualSize = fileSize,
+															type = silent { VirtualDiskFormat.valueOf(type) }
+																	?: VirtualDiskFormat.raw,
+															capabilityId = fsCapability.id,
+															fileName = fileName,
+															mountPoint = fsCapability.mountPoint
+													)
+												},
+												map = {
+													(it as VirtualStorageFsAllocation).copy(
+															actualSize = fileSize
+													)
+												}
+										)
+								)
+							}
+					)
+				}
+			}
+		}
+
 	}
 
 	private fun startLvmMonitoring(

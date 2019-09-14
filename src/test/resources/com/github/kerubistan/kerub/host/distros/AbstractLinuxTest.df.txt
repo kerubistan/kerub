@@ -1,0 +1,55 @@
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+udev                489040       0    489040       0% /dev
+tmpfs               101100    2980     98120       3% /run
+/dev/vda2          4707844 1028784   3420196      24% /
+tmpfs               505484       0    505484       0% /dev/shm
+tmpfs                 5120       0      5120       0% /run/lock
+tmpfs               505484       0    505484       0% /sys/fs/cgroup
+/dev/vda1           369631   49934    296094      15% /boot
+tmpfs               101096       0    101096       0% /run/user/0
+/dev/vdb           1998672    6144   1871288       1% /kerub
+--separator
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+udev                489040       0    489040       0% /dev
+tmpfs               101100    2980     98120       3% /run
+/dev/vda2          4707844 1028788   3420192      24% /
+tmpfs               505484       0    505484       0% /dev/shm
+tmpfs                 5120       0      5120       0% /run/lock
+tmpfs               505484       0    505484       0% /sys/fs/cgroup
+/dev/vda1           369631   49934    296094      15% /boot
+tmpfs               101096       0    101096       0% /run/user/0
+/dev/vdb           1998672    6144   1871288       1% /kerub
+--separator
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+udev                489040       0    489040       0% /dev
+tmpfs               101100    2980     98120       3% /run
+/dev/vda2          4707844 1028788   3420192      24% /
+tmpfs               505484       0    505484       0% /dev/shm
+tmpfs                 5120       0      5120       0% /run/lock
+tmpfs               505484       0    505484       0% /sys/fs/cgroup
+/dev/vda1           369631   49934    296094      15% /boot
+tmpfs               101096       0    101096       0% /run/user/0
+/dev/vdb           1998672    6144   1871288       1% /kerub
+--separator
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+udev                489040       0    489040       0% /dev
+tmpfs               101100    2980     98120       3% /run
+/dev/vda2          4707844 1028788   3420192      24% /
+tmpfs               505484       0    505484       0% /dev/shm
+tmpfs                 5120       0      5120       0% /run/lock
+tmpfs               505484       0    505484       0% /sys/fs/cgroup
+/dev/vda1           369631   49934    296094      15% /boot
+tmpfs               101096       0    101096       0% /run/user/0
+/dev/vdb           1998672    6144   1871288       1% /kerub
+--separator
+Filesystem     1024-blocks    Used Available Capacity Mounted on
+udev                489040       0    489040       0% /dev
+tmpfs               101100    2980     98120       3% /run
+/dev/vda2          4707844 1028788   3420192      24% /
+tmpfs               505484       0    505484       0% /dev/shm
+tmpfs                 5120       0      5120       0% /run/lock
+tmpfs               505484       0    505484       0% /sys/fs/cgroup
+/dev/vda1           369631   49934    296094      15% /boot
+tmpfs               101096       0    101096       0% /run/user/0
+/dev/vdb           1998672    6144   1871288       1% /kerub
+--separator
