@@ -31,5 +31,5 @@ data class VirtualStorageFsAllocation(
 	override fun resize(newSize: BigInteger): VirtualStorageAllocation = this.copy(actualSize = newSize)
 
 	override fun getPath(id: UUID) =
-			"$mountPoint/$id"
+			"$mountPoint/$id.$type"
 }
