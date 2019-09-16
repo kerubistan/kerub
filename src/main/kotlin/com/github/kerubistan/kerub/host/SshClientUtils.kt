@@ -33,15 +33,15 @@ private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 	return x
 }
 
-
-fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T {
+fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T =
 	try {
-		this.open().await(GLOBAL_SSH_TIMEOUT_MS)
-		return fn(this)
+		if(!this.open().await(GLOBAL_SSH_TIMEOUT_MS)) {
+			logger.warn("Channel await $GLOBAL_SSH_TIMEOUT_MS returned false")
+		}
+		fn(this)
 	} finally {
 		this.close(true)
 	}
-}
 
 fun ClientSession.execute(command: String): String {
 	return this.createExecChannel(command).use {
@@ -91,9 +91,8 @@ fun ClientSession.bashMonitor(command: String, interval: Int, separator : String
 		= this.process("""bash -c "while true; do $command; echo $separator; sleep $interval; done;" """, output)
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
-	val execChannel = this.createExecChannel(command)
 	logger.debug("executing command on host {}: {}",this.connectAddress, command)
-	return execChannel.use {
+	return createExecChannel(command).use {
 		it.invertedErr?.reader(cs)?.readText()?.let {
 			error ->
 			if (isError(error)) {
