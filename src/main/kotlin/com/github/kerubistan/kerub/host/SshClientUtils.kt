@@ -56,7 +56,7 @@ fun ClientSession.execute(command: String): String {
  * output on stderr is considered error.
  */
 fun ClientSession.executeOrDie(command: String): String =
-	this.executeOrDie(command, { it.isNotBlank() })
+	this.executeOrDie(command, String::isNotBlank)
 
 class StdErrLoggingOutputStream(private val session : ClientSession) : OutputStream() {
 
@@ -94,11 +94,13 @@ fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs
 	val execChannel = this.createExecChannel(command)
 	logger.debug("executing command on host {}: {}",this.connectAddress, command)
 	return execChannel.use {
-		val error = it.invertedErr.reader(cs).readText()
-		if (isError(error)) {
-			throw IOException(error)
-		} else if (error.isNotBlank()) {
-			logger.info("Error output ignored by command {} : {}", command, error)
+		it.invertedErr?.reader(cs)?.readText()?.let {
+			error ->
+			if (isError(error)) {
+				throw IOException(error)
+			} else if (error.isNotBlank()) {
+				logger.info("Error output ignored by command {} : {}", command, error)
+			}
 		}
 		it.invertedOut.reader(cs).use {
 			logger.debugAndReturn("result of command $command: ", it.readText())

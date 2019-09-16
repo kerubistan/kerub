@@ -2,7 +2,12 @@ package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.getTestKey
 import com.github.kerubistan.kerub.services.getFreePort
+import com.github.kerubistan.kerub.toInputStream
+import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.whenever
 import org.apache.sshd.client.SshClient
+import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.session.ClientSession
 import org.apache.sshd.common.NamedFactory
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory
@@ -16,6 +21,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import java.io.File
+import java.io.IOException
 import java.net.SocketAddress
 import java.nio.file.FileSystems
 import java.nio.file.Files
@@ -24,6 +30,7 @@ import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.test.fail
 import org.apache.sshd.client.auth.UserAuth as ClientUserAuth
 import org.apache.sshd.client.auth.password.UserAuthPasswordFactory as ClientUserAuthPasswordFactory
 
@@ -120,6 +127,44 @@ class SshClientUtilsTest {
 	fun appendToNotExistingFile() {
 		session?.appendToFile("test-new.txt", "PASS")
 		assertEquals("PASS", session?.getFileContents("test-new.txt"))
+	}
+
+	@Test
+	fun executeOrDieWithNullErrStream() {
+		// GIVEN
+		val clientSession = mock<ClientSession>()
+		val execChannel = mock<ChannelExec>()
+		whenever(clientSession.createExecChannel(any())).thenReturn(execChannel)
+		whenever(execChannel.invertedErr).thenReturn(null)
+		whenever(execChannel.invertedOut).thenReturn("all ok".toInputStream())
+		whenever(execChannel.open()).thenReturn(mock())
+
+		// WHEN
+		val result = clientSession.executeOrDie("TEST or DIE")
+
+		// THEN
+		assertEquals("all ok", result)
+	}
+
+	@Test
+	fun executeOrDieWithErrorOutput() {
+		// GIVEN
+		val clientSession = mock<ClientSession>()
+		val execChannel = mock<ChannelExec>()
+		whenever(clientSession.createExecChannel(any())).thenReturn(execChannel)
+		whenever(execChannel.invertedErr).thenReturn("test error output".toInputStream())
+		whenever(execChannel.invertedOut).thenReturn("all ok".toInputStream())
+		whenever(execChannel.open()).thenReturn(mock())
+
+		try {
+			// WHEN
+			val result = clientSession.executeOrDie("TEST or DIE")
+			fail("should have thrown exception")
+		} catch (exc : IOException) {
+			// expected
+			assertEquals("test error output", exc.message)
+		}
+
 	}
 
 }
