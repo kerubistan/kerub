@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.controller.config.StorageTechnologiesConfig
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
@@ -67,7 +68,8 @@ interface Distribution {
 			session: ClientSession,
 			host: Host,
 			hostDynDao: HostDynamicDao,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			controllerConfig: ControllerConfig
 	)
 
 	/**

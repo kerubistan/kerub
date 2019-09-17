@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
@@ -144,8 +145,10 @@ vda     1  0 4096  0    512      0 disk    8G
 				output = resourceToString("com/github/kerubistan/kerub/host/distros/AbstractLinuxTest.du.txt")
 		)
 
-		linux.startFsMonitoring(host = host, hostDynDao = hostDynDao,
-				session = session, vStorageDeviceDynamicDao = vStorageDeviceDynamicDao
+		linux.startFsMonitoring(host = host, session = session,
+				hostDynDao = hostDynDao,
+				vStorageDeviceDynamicDao = vStorageDeviceDynamicDao,
+				controllerConfig = ControllerConfig()
 		)
 
 		assertEquals(7, vStorageDynamicUpdates.size) // see 'du' test input file for quantities

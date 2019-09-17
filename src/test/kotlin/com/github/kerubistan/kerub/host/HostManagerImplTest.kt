@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.data.AssignmentDao
+import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -42,22 +43,15 @@ import kotlin.test.assertTrue
 class HostManagerImplTest {
 
 	private val hostDao: HostDao = mock()
-
 	private val hostDynamicDao: HostDynamicDao = mock()
-
 	private val vmDynDao: VirtualMachineDynamicDao = mock()
-
 	private val sshClientService: SshClientService = mock()
-
 	private val controllerManager: ControllerManager = mock()
-
 	private val hostAssignmentDao: AssignmentDao = mock()
-
 	private val hostAssigner: ControllerAssigner = mock()
-
 	private val discoverer: HostCapabilitiesDiscoverer = mock()
-
 	private val clientSession: ClientSession = mock()
+	private val controllerConfigDao = mock<ControllerConfigDao>()
 
 	val hypervisor: Hypervisor = mock()
 
@@ -114,7 +108,8 @@ class HostManagerImplTest {
 						controllerManager,
 						hostAssignmentDao,
 						discoverer,
-						hostAssigner
+						hostAssigner,
+						controllerConfigDao
 				)
 		)
 		hostManager!!.sshServerPort = 2022

@@ -316,6 +316,7 @@
 		<constructor-arg ref="assignmentDao"/>
 		<constructor-arg ref="hostDiscoverer"/>
 		<constructor-arg ref="hostAssigner"/>
+		<constructor-arg ref="controllerConfigDao"/>
 	</bean>
 
 	<bean id="hostDiscoverer" class="com.github.kerubistan.kerub.host.HostCapabilitiesDiscovererImpl">

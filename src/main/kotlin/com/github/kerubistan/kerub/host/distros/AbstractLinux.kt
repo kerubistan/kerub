@@ -16,6 +16,7 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
@@ -91,9 +92,10 @@ abstract class AbstractLinux : Distribution {
 			session: ClientSession,
 			host: Host,
 			hostDynDao: HostDynamicDao,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			controllerConfig: ControllerConfig
 	) {
-		startFsMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao)
+		startFsMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao, controllerConfig)
 
 		startLvmMonitoring(host, session, hostDynDao, vStorageDeviceDynamicDao)
 
@@ -164,7 +166,8 @@ abstract class AbstractLinux : Distribution {
 			host: Host,
 			session: ClientSession,
 			hostDynDao: HostDynamicDao,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			controllerConfig: ControllerConfig
 	) {
 		val storageIdToMount = host.capabilities?.storageCapabilities
 				?.filter { it is FsStorageCapability }
@@ -194,8 +197,14 @@ abstract class AbstractLinux : Distribution {
 			}
 		}
 
-		host.capabilities?.storageCapabilities?.filterIsInstance<FsStorageCapability>()?.forEach {
-			fsCapability ->
+		host.capabilities?.storageCapabilities
+				?.filterIsInstance<FsStorageCapability>()
+				?.filter { fsCapability ->
+					controllerConfig.storageTechnologies.fsPathEnabled.any {
+						enabledPath -> fsCapability.mountPoint.startsWith(enabledPath)
+					}
+				}
+				?.forEach { fsCapability ->
 			DU.monitor(session, fsCapability.mountPoint) {
 				fileSizes ->
 				fun String.virtualDiskName() = this.substringAfterLast("/").substringBeforeLast(".")

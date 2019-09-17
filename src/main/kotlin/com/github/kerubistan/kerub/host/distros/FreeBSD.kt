@@ -18,6 +18,7 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -101,7 +102,8 @@ class FreeBSD : Distribution {
 			session: ClientSession,
 			host: Host,
 			hostDynDao: HostDynamicDao,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			controllerConfig: ControllerConfig
 	) {
 		BsdVmStat.vmstat(session, {
 			event ->

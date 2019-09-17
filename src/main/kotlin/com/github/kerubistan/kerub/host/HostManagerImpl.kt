@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.data.AssignmentDao
+import com.github.kerubistan.kerub.data.ControllerConfigDao
 import com.github.kerubistan.kerub.data.HostDao
 import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
@@ -40,7 +41,8 @@ open class HostManagerImpl(
 		private val controllerManager: ControllerManager,
 		private val hostAssignmentDao: AssignmentDao,
 		private val discoverer: HostCapabilitiesDiscoverer,
-		private val hostAssigner: ControllerAssigner) : HostManager, HostCommandExecutor {
+		private val hostAssigner: ControllerAssigner,
+		private val controllerConfigDao: ControllerConfigDao) : HostManager, HostCommandExecutor {
 
 	private val timer = Timer("host-manager")
 
@@ -223,7 +225,7 @@ open class HostManagerImpl(
 				distro.installMonitorPackages(session, host)
 				hostDao.update(host)
 			}
-			distro.startMonitorProcesses(session, host, hostDynamicDao, vStorageDeviceDynamicDao)
+			distro.startMonitorProcesses(session, host, hostDynamicDao, vStorageDeviceDynamicDao, controllerConfigDao.get())
 		}
 		val hypervisor = getHypervisor(host)
 		if (hypervisor != null) {

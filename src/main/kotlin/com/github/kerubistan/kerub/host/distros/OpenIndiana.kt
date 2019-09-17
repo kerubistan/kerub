@@ -12,6 +12,7 @@ import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -45,7 +46,8 @@ class OpenIndiana : Distribution {
 			session: ClientSession,
 			host: Host,
 			hostDynDao: HostDynamicDao,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			controllerConfig: ControllerConfig
 	) {
 		TODO("https://github.com/kerubistan/kerub/issues/180")
 	}
