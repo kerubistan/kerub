@@ -55,7 +55,7 @@ data class OperationalState(
 		private fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<I, T, D>>
 				mapToCollection(staticData: List<T>, dynamicData: List<D>, transform: (static: T, dynamic: D?) -> C): Map<I, C> {
 			val dynMap: Map<UUID, D> = dynamicData.byId()
-			return staticData.map { transform(it, dynMap[it.id as UUID]) }.byId()
+			return staticData.map { transform(it, dynMap[it.id as UUID]) }.associateBy { it.id }
 		}
 
 		fun fromLists(

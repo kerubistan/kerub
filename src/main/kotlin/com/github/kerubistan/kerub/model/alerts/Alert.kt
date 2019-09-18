@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.data.alerts
+package com.github.kerubistan.kerub.model.alerts
 
 import com.github.kerubistan.kerub.model.Entity
 import java.util.UUID

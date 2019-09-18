@@ -8,7 +8,8 @@ import java.io.Serializable
 @JsonSubTypes(
 		JsonSubTypes.Type(NumericPropertyChangeSummary::class),
 		JsonSubTypes.Type(DataPropertyChangeSummary::class),
-		JsonSubTypes.Type(ListPropertyChangeSummary::class)
+		JsonSubTypes.Type(ListPropertyChangeSummary::class),
+		JsonSubTypes.Type(EnumChangeSummary::class)
 )
 interface PropertyChangeSummary : Serializable {
 	val property: String

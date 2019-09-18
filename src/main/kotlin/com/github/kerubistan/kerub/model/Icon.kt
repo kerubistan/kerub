@@ -1,7 +1,9 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import java.util.UUID
 
+@JsonTypeName("icon")
 data class Icon(
 		override val id: UUID,
 		val mediaType: String,

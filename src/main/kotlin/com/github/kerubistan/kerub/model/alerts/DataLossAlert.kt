@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.data.alerts
+package com.github.kerubistan.kerub.model.alerts
 
 import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.kerubistan.kroki.time.now

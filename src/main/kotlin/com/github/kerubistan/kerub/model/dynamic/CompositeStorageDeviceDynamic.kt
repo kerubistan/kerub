@@ -1,7 +1,7 @@
 package com.github.kerubistan.kerub.model.dynamic
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import io.github.kerubistan.kroki.numbers.sumBy
-import org.codehaus.jackson.annotate.JsonTypeName
 import java.math.BigInteger
 import java.util.UUID
 

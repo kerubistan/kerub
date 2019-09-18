@@ -1,15 +1,14 @@
-package com.github.kerubistan.kerub.data.alerts
+package com.github.kerubistan.kerub.model.alerts
 
 import com.fasterxml.jackson.annotation.JsonTypeName
 import java.util.UUID
 
-@JsonTypeName("data-loss-alert")
-data class NetworkLinkDownAlert(
+@JsonTypeName("host-overheat-alert")
+data class HostOverheatingAlert(
 		override val id: UUID,
 		override val created: Long,
 		override val resolved: Long?,
-		override val open: Boolean,
-		val hostId : UUID
+		override val open: Boolean
 ) : InfrastructureAlert {
 	init {
 		this.validate()

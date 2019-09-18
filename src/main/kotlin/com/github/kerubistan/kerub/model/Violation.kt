@@ -1,10 +1,12 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import java.util.UUID
 
 /**
  * Tracks a violation of the SLA.
  */
+@JsonTypeName("violation")
 data class Violation(
 		override val id: UUID = UUID.randomUUID(),
 		val entity: Constrained<out Expectation>,

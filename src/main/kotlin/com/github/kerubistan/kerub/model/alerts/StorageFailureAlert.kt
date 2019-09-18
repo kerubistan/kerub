@@ -1,7 +1,9 @@
-package com.github.kerubistan.kerub.data.alerts
+package com.github.kerubistan.kerub.model.alerts
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import java.util.UUID
 
+@JsonTypeName("storage-failure-alert")
 data class StorageFailureAlert(
 		override val id: UUID,
 		override val created: Long,

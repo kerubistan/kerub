@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.expectations.BandwidthExpectation
 import com.github.kerubistan.kerub.model.expectations.CacheSizeExpectation
 import com.github.kerubistan.kerub.model.expectations.ChassisManufacturerExpectation
 import com.github.kerubistan.kerub.model.expectations.ClockFrequencyExpectation
+import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.model.expectations.CpuArchitectureExpectation
 import com.github.kerubistan.kerub.model.expectations.EccMemoryExpectation
@@ -22,7 +23,6 @@ import com.github.kerubistan.kerub.model.expectations.PoolRunningVmsExpectation
 import com.github.kerubistan.kerub.model.expectations.PowerRedundancyExpectation
 import com.github.kerubistan.kerub.model.expectations.SiteFeaturesExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
-import com.github.kerubistan.kerub.model.expectations.StoragePerformanceExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageReadPerformanceExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageReadWritePerformance
 import com.github.kerubistan.kerub.model.expectations.StorageRedundancyExpectation
@@ -57,10 +57,10 @@ import java.io.Serializable
 		JsonSubTypes.Type(StorageAvailabilityExpectation::class),
 		JsonSubTypes.Type(NotSameStorageExpectation::class),
 		JsonSubTypes.Type(StorageRedundancyExpectation::class),
-		JsonSubTypes.Type(StoragePerformanceExpectation::class),
 		JsonSubTypes.Type(StorageReadPerformanceExpectation::class),
 		JsonSubTypes.Type(StorageReadWritePerformance::class),
 		JsonSubTypes.Type(StorageWritePerformanceExpectation::class),
+		JsonSubTypes.Type(CloneOfStorageExpectation::class),
 		// pool expectations
 		JsonSubTypes.Type(PoolAllVmExpectation::class),
 		JsonSubTypes.Type(PoolAverageLoadExpectation::class),
