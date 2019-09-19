@@ -36,7 +36,7 @@ class UnAllocateFsExecutorTest {
 								hostId = testHost.id,
 								actualSize = 10.GB,
 								mountPoint = "/kerub",
-								fileName = "test.qcow2",
+								fileName = "${testDisk.id}.qcow2",
 								type = VirtualDiskFormat.qcow2,
 								capabilityId = testFsCapability.id
 						),
@@ -44,6 +44,6 @@ class UnAllocateFsExecutorTest {
 				)
 		)
 
-		verify(sftpClient).remove(eq("/kerub/test.qcow2"))
+		verify(sftpClient).remove(eq("/kerub/${testDisk.id}.qcow2"))
 	}
 }

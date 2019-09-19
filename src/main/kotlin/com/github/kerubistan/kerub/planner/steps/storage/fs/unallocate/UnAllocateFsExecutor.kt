@@ -11,7 +11,7 @@ class UnAllocateFsExecutor(
 ) : AbstractUnAllocateExecutor<UnAllocateFs, VirtualStorageFsAllocation>() {
 	override fun perform(step: UnAllocateFs): Unit = hostExecutor.execute(step.host) { session ->
 		session.createSftpClient().use { sftpClient ->
-			val fileName = "${step.allocation.mountPoint}/${step.allocation.fileName}"
+			val fileName = step.allocation.getPath(step.vstorage.id)
 			sftpClient.remove(fileName)
 		}
 	}
