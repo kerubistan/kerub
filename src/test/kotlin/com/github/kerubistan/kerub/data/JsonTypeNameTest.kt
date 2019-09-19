@@ -17,7 +17,7 @@ import kotlin.test.assertTrue
  * - All subtypes must be listed
  * - All subtypes must have a JsonTypeName annotation - therefore not the class name is used as a value
  * - And the actual value of that annotation must follow a naming pattern:
- * 		small letters with line separation, whitespaces not acceptable or whitespaces not acceptable
+ * 		small letters with line separation, whitespaces not acceptable and empty string not acceptable
  */
 class JsonTypeNameTest {
 
