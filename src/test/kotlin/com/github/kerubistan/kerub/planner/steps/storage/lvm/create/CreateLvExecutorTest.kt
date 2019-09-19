@@ -8,10 +8,8 @@ import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecutionSequence
 import com.github.kerubistan.kerub.testLvmCapability
-import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.nhaarman.mockito_kotlin.mock
 import io.github.kerubistan.kroki.size.GB
-import io.github.kerubistan.kroki.size.MB
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
 import java.util.UUID
@@ -32,17 +30,6 @@ class CreateLvExecutorTest {
 			id = UUID.randomUUID(),
 			name = "system disk",
 			size = 16.GB
-	)
-
-	private val lv = LogicalVolume(
-			id = UUID.randomUUID().toString(),
-			layout = "",
-			name = "test-lv",
-			path = "/dev/test/test-lv",
-			size = 128.MB,
-			dataPercent = null,
-			maxRecovery = 0,
-			minRecovery = 0
 	)
 
 	@Test

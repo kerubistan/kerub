@@ -166,7 +166,7 @@ class CreateLvmPoolExecutorTest {
 						size = 12.GB,
 						path = "",
 						name = "test-pool",
-						layout = "",
+						layout = listOf(),
 						dataPercent = null,
 						maxRecovery = null,
 						minRecovery = null

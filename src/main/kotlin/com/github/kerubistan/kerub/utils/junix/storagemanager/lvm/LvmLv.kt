@@ -36,7 +36,7 @@ object LvmLv : Lvm() {
 				name = fields[1],
 				path = fields[2],
 				size = fields[3].toSize(),
-				layout = fields[6],
+				layout = fields[6].split(","),
 				dataPercent = if (fields[7].isEmpty()) {
 					null
 				} else {

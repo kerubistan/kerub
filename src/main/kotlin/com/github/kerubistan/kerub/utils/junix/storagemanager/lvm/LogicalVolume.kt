@@ -7,7 +7,7 @@ data class LogicalVolume(
 		val name: String,
 		val path: String,
 		val size: BigInteger,
-		val layout: String,
+		val layout: List<String>,
 		val dataPercent: Double?,
 		val minRecovery: Int?,
 		val maxRecovery: Int?
