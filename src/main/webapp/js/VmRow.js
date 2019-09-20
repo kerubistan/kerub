@@ -35,6 +35,15 @@ kerubApp.controller('VmRow', function($location, $scope, $log, socket, appsessio
 			sum += cpu.user + cpu.system;
 		});
     };
+    $scope.hasAvailabilityExpectation = function() {
+    	var upExpectation = false;
+    	angular.forEach($scope.vm.expectations, function(expectation) {
+    		if(expectation['@type'] == 'availability' && expectation.up) {
+    			upExpectation = true;
+    		}
+    	});
+    	return upExpectation;
+    };
     $scope.init = function(vm) {
     	$scope.vm = vm;
     	socket.subscribe('/vm-dyn/'+$scope.vm.id, function(event) {

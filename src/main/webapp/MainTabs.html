@@ -81,7 +81,7 @@
 							<button type="button"
 							        class="btn btn-default glyphicon glyphicon-stop"
 							        ng-click="stopVm()"
-							        ng-if="vmdyn.status == 'Up'"
+							        ng-if="vmdyn.status == 'Up' || hasAvailabilityExpectation()"
 							        ng-disabled="workingprg"
 							        uib-tooltip="Stop this VM"
 							        tooltip-placement="bottom">
