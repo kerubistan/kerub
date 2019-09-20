@@ -44,22 +44,19 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 				}
 			}.join()
 
-	private fun isHostKvmReady(hostData: HostDataCollection): Boolean {
-		return (hostData.stat.capabilities?.os == OperatingSystem.Linux
-				&& isHwVirtualizationSupported(hostData.stat)
-				&& isKvmInstalled(hostData.stat))
-	}
+	private fun isHostKvmReady(hostData: HostDataCollection): Boolean =
+			(hostData.stat.capabilities?.os == OperatingSystem.Linux
+					&& isHwVirtualizationSupported(hostData.stat)
+					&& isKvmInstalled(hostData.stat))
 
 	private fun isHostCapableOfVm(hostData: HostDataCollection, vm: VirtualMachine) =
 			isKvmCapableVmArch(hostData.stat.capabilities?.hypervisorCapabilities ?: listOf(), vm)
 					&& match(hostData, vm)
 
-
-	internal fun isKvmCapableVmArch(hypervisorCapabilities: List<Any>, vm: VirtualMachine): Boolean {
-		return hypervisorCapabilities.any {
-			it is LibvirtCapabilities && it.guests.any { it.arch.name == vm.architecture }
-		}
-	}
+	internal fun isKvmCapableVmArch(hypervisorCapabilities: List<Any>, vm: VirtualMachine): Boolean =
+			hypervisorCapabilities.any {
+				it is LibvirtCapabilities && it.guests.any { it.arch.name == vm.architecture }
+			}
 
 	internal fun isKvmInstalled(host: Host) = Virsh.available(host.capabilities)
 			&& host.capabilities.anyPackageNamed("qemu-kvm")
