@@ -9,7 +9,8 @@ import java.util.UUID
 data class CompositeStorageDeviceDynamic(
 		override val id: UUID,
 		val reportedFreeCapacity: BigInteger? = null,
-		val items: List<CompositeStorageDeviceDynamicItem> = listOf()
+		val items: List<CompositeStorageDeviceDynamicItem> = listOf(),
+		val pools: List<StoragePoolDynamic> = listOf()
 ) : StorageDeviceDynamic {
 
 	override val freeCapacity: BigInteger = reportedFreeCapacity
@@ -18,6 +19,4 @@ data class CompositeStorageDeviceDynamic(
 	override fun withFreeCapacity(freeCapacity: BigInteger) = this.copy(
 			reportedFreeCapacity = freeCapacity
 	)
-
-
 }
