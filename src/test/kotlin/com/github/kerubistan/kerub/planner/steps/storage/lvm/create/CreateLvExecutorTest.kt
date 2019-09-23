@@ -41,12 +41,12 @@ class CreateLvExecutorTest {
 		session.mockCommandExecutionSequence(
 				"lvm lvs.*".toRegex(),
 				listOf(
-						"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
-  U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:""",
-						"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
-  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${vDisk.id}:/dev/test/${vDisk.id}:1073741824B:::linear:
-  U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:""",
-						"  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${vDisk.id}:/dev/test/${vDisk.id}:1073741824B:::linear:"
+						"""  fedora:Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
+  test:U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:""",
+						"""  fedora:Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
+  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${vDisk.id}:/dev/test/${vDisk.id}:1073741824B:::linear:
+  test:U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:""",
+						"  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${vDisk.id}:/dev/test/${vDisk.id}:1073741824B:::linear:"
 				)
 		)
 

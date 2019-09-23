@@ -5,6 +5,7 @@ import java.math.BigInteger
 data class LogicalVolume(
 		val id: String,
 		val name: String,
+		val volumeGroupName: String,
 		val path: String,
 		val size: BigInteger,
 		val layout: List<String>,

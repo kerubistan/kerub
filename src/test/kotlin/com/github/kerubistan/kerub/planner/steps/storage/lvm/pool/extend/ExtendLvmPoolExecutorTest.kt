@@ -70,7 +70,7 @@ class ExtendLvmPoolExecutorTest {
 					"""uPPT5K-Rtym-cxQX-f3iu-oiZf-M4Z3-t8v4We:test-vg:4286578688B:1065353216B:1022:254
 """.toInputStream()
 				}.then {
-			"""la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00
+			"""test-vg:la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00
 """.toInputStream()
 		}
 		doAnswer {

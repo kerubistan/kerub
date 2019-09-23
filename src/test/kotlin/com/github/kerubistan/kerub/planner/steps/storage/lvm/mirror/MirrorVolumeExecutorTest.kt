@@ -67,7 +67,7 @@ class MirrorVolumeExecutorTest {
 		var updatedVirtualStorageDynamic : VirtualStorageDeviceDynamic? = null
 
 		session.mockCommandExecution("lvm lvconvert.*".toRegex())
-		session.mockCommandExecution("lvm lvs.*".toRegex(), "  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:${testDisk.id}:/dev/vg-1/${testDisk.id}:9135194112B:::linear:\n")
+		session.mockCommandExecution("lvm lvs.*".toRegex(), "  vg-1:Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:${testDisk.id}:/dev/vg-1/${testDisk.id}:9135194112B:::linear:\n")
 		session.mockCommandExecution("lvm vgs.*".toRegex(),"  WfbuiJ-KniK-WBF9-h2ae-IwgM-k1Jh-671l51:vg-1:9139388416B:4194304B:2179:1\n")
 
 		doAnswer {

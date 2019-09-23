@@ -92,7 +92,7 @@ class MigrateBlockAllocationExecutorTest {
 		}.whenever(vssDynDao).update(id = any(), retrieve = any(), change = any())
 
 		targetSession.mockCommandExecution("lvm lvcreate.*".toRegex())
-		targetSession.mockCommandExecution("lvm lvs.*".toRegex(), """  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${testDisk.id}:/dev/test/${testDisk.id}:1073741824B:::linear:
+		targetSession.mockCommandExecution("lvm lvs.*".toRegex(), """  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:${testDisk.id}:/dev/test/${testDisk.id}:1073741824B:::linear:
 """)
 		sourceSession.mockCommandExecution("bash -c.*".toRegex())
 		sourceSession.mockCommandExecution("lvm lvremove.*".toRegex())

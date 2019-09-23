@@ -29,14 +29,14 @@ class CreateThinLvExecutorTest {
 		val firstListChannel = mock<ChannelExec>()
 		whenever(firstListChannel.invertedErr).then { NullInputStream(0) }
 		whenever(
-				firstListChannel.invertedOut).then { """  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:""".toInputStream() }
+				firstListChannel.invertedOut).then { """  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:""".toInputStream() }
 		whenever(firstListChannel.open()).thenReturn(future)
 
 		val secondListChannel = mock<ChannelExec>()
 		whenever(secondListChannel.invertedErr).then { NullInputStream(0) }
 		whenever(secondListChannel.invertedOut).then {
-			"""  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:
-			|  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLA:${testDisk.id}:/dev/test/${testDisk.id}:1073741824B:::linear:
+			"""  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:
+			|  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLA:${testDisk.id}:/dev/test/${testDisk.id}:1073741824B:::linear:
 		""".trimMargin().toInputStream()
 		}
 		whenever(secondListChannel.open()).thenReturn(future)

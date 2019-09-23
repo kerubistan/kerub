@@ -30,20 +30,24 @@ object LvmLv : Lvm() {
 
 	private fun parseRow(row: String): LogicalVolume {
 		val fields = row.trim().split(fieldSeparator)
-		require(fields.size == 8) { "This row does not look any good: \n$row\n" }
+		require(fields.size == nrOfLvsOutputColumns) {
+			"This row does not look any good: \n$row\n, expected $nrOfLvsOutputColumns separated by $fieldSeparator," +
+					" but found ${fields.size}"
+		}
 		return LogicalVolume(
-				id = fields[0],
-				name = fields[1],
-				path = fields[2],
-				size = fields[3].toSize(),
-				layout = fields[6].split(","),
-				dataPercent = if (fields[7].isEmpty()) {
+				id = fields[lvUuid],
+				volumeGroupName = fields[vgName],
+				name = fields[lvName],
+				path = fields[lvPath],
+				size = fields[lvSize].toSize(),
+				layout = fields[lvLayout].split(","),
+				dataPercent = if (fields[dataPercent].isEmpty()) {
 					null
 				} else {
-					fields[7].toDouble()
+					fields[dataPercent].toDouble()
 				},
-				minRecovery = optionalInt(fields[4]),
-				maxRecovery = optionalInt(fields[5])
+				minRecovery = optionalInt(fields[raidMinRecoveryRate]),
+				maxRecovery = optionalInt(fields[raidMaxRecoveryRate])
 		)
 	}
 

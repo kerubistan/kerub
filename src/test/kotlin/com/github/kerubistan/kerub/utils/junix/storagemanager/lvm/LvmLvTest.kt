@@ -34,9 +34,9 @@ class LvmLvTest {
 	var openFuture: OpenFuture = mock()
 
 	private val testListOutput =
-			"""  Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
-  eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:
-  U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:"""
+			"""  fedora:Mvd5u6-pTbR-SUS2-sd2l-kx41-a0bx-YGuWcK:root:/dev/fedora/root:9135194112B:::linear:
+  test:eCuTKA-rIDz-dzJq-48pK-DtqJ-X77p-YStcLS:testlv1:/dev/test/testlv1:1073741824B:::linear:
+  test:U3xf04-DJFM-nXD5-682c-9w32-rcjS-pne6t2:testlv2:/dev/test/testlv2:1073741824B:::linear:"""
 
 
 	@Test
@@ -188,37 +188,37 @@ class LvmLvTest {
 	}
 
 	private val monitorOutput =
-			"""  ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
-  0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
-  Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
-  3KdPRQ-syT1-FGdd-hWk5-DcHV-Vc5f-cH7CEl:var:/dev/fedora_localshot/var:214748364800B:::linear:
-  qCnzcG-whyN-9eUF-CW5M-4Cqu-M1Kf-16eFui:full:/dev/testarea/full:1073741824B:::linear:
-  aw2aFK-KdGF-06mj-W6wj-pmLH-JWTO-dqE0iI:full2:/dev/testarea/full2:1073741824B:::linear:
-  HdL4jg-i7Gu-twJ3-rg6I-uFzO-9NGG-em2RXe:full3:/dev/testarea/full3:10737418240B:::linear:
-  440OEU-CyMy-KZHL-r4o9-13xY-lL78-R31Puz:lvol0:/dev/testarea/lvol0:10737418240B:::linear:
-  BD5Dr0-JqCr-fN8l-fWcm-pXSt-CPd8-ZqBQrG:lvol2::1073741824B:::thin,pool:0.00
-  XkMLO9-aSM5-dR6t-W760-D6cg-ucqC-bHbhpi:lvol3::1073741824B:::thin,pool:0.00
-  R5AD2Q-WbgX-7eXa-0Igf-r73C-nIIV-ShAYdF:lvol4::1073741824B:::thin,pool:0.00
-  euH6zz-1u82-zogo-tdV1-8MQ9-uSqz-sx8Idv:lvol5::1073741824B:::thin,pool:0.00
-  W2ELLW-MwtG-0NMa-f1RL-P4Qb-ze9g-0HGhOg:lvol6::1073741824B:::thin,pool:0.00
-  MUwsIR-aYQV-tQVU-8K9r-mUI4-CX6d-9OE10H:thn1:/dev/testarea/thn1:6755399441055744B:::thin,sparse:0.00
-  U4arGv-h6Qu-8hrm-nAtd-b8w1-ICeI-w7aMuK:thn6:/dev/testarea/thn6:15762598695796736B:::thin,sparse:0.00
+			"""  fedora_localshot:ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
+  fedora_localshot:0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
+  fedora_localshot:Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
+  fedora_localshot:3KdPRQ-syT1-FGdd-hWk5-DcHV-Vc5f-cH7CEl:var:/dev/fedora_localshot/var:214748364800B:::linear:
+  testarea:qCnzcG-whyN-9eUF-CW5M-4Cqu-M1Kf-16eFui:full:/dev/testarea/full:1073741824B:::linear:
+  testarea:aw2aFK-KdGF-06mj-W6wj-pmLH-JWTO-dqE0iI:full2:/dev/testarea/full2:1073741824B:::linear:
+  testarea:HdL4jg-i7Gu-twJ3-rg6I-uFzO-9NGG-em2RXe:full3:/dev/testarea/full3:10737418240B:::linear:
+  testarea:440OEU-CyMy-KZHL-r4o9-13xY-lL78-R31Puz:lvol0:/dev/testarea/lvol0:10737418240B:::linear:
+  testarea:BD5Dr0-JqCr-fN8l-fWcm-pXSt-CPd8-ZqBQrG:lvol2::1073741824B:::thin,pool:0.00
+  testarea:XkMLO9-aSM5-dR6t-W760-D6cg-ucqC-bHbhpi:lvol3::1073741824B:::thin,pool:0.00
+  testarea:R5AD2Q-WbgX-7eXa-0Igf-r73C-nIIV-ShAYdF:lvol4::1073741824B:::thin,pool:0.00
+  testarea:euH6zz-1u82-zogo-tdV1-8MQ9-uSqz-sx8Idv:lvol5::1073741824B:::thin,pool:0.00
+  testarea:W2ELLW-MwtG-0NMa-f1RL-P4Qb-ze9g-0HGhOg:lvol6::1073741824B:::thin,pool:0.00
+  testarea:MUwsIR-aYQV-tQVU-8K9r-mUI4-CX6d-9OE10H:thn1:/dev/testarea/thn1:6755399441055744B:::thin,sparse:0.00
+  testarea:U4arGv-h6Qu-8hrm-nAtd-b8w1-ICeI-w7aMuK:thn6:/dev/testarea/thn6:15762598695796736B:::thin,sparse:0.00
 --end
-  ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
-  0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
-  Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
-  3KdPRQ-syT1-FGdd-hWk5-DcHV-Vc5f-cH7CEl:var:/dev/fedora_localshot/var:214748364800B:::linear:
-  qCnzcG-whyN-9eUF-CW5M-4Cqu-M1Kf-16eFui:full:/dev/testarea/full:1073741824B:::linear:
-  aw2aFK-KdGF-06mj-W6wj-pmLH-JWTO-dqE0iI:full2:/dev/testarea/full2:1073741824B:::linear:
-  HdL4jg-i7Gu-twJ3-rg6I-uFzO-9NGG-em2RXe:full3:/dev/testarea/full3:10737418240B:::linear:
-  440OEU-CyMy-KZHL-r4o9-13xY-lL78-R31Puz:lvol0:/dev/testarea/lvol0:10737418240B:::linear:
-  BD5Dr0-JqCr-fN8l-fWcm-pXSt-CPd8-ZqBQrG:lvol2::1073741824B:::thin,pool:0.00
-  XkMLO9-aSM5-dR6t-W760-D6cg-ucqC-bHbhpi:lvol3::1073741824B:::thin,pool:0.00
-  R5AD2Q-WbgX-7eXa-0Igf-r73C-nIIV-ShAYdF:lvol4::1073741824B:::thin,pool:0.00
-  euH6zz-1u82-zogo-tdV1-8MQ9-uSqz-sx8Idv:lvol5::1073741824B:::thin,pool:0.00
-  W2ELLW-MwtG-0NMa-f1RL-P4Qb-ze9g-0HGhOg:lvol6::1073741824B:::thin,pool:0.00
-  MUwsIR-aYQV-tQVU-8K9r-mUI4-CX6d-9OE10H:thn1:/dev/testarea/thn1:6755399441055744B:::thin,sparse:0.00
-  U4arGv-h6Qu-8hrm-nAtd-b8w1-ICeI-w7aMuK:thn6:/dev/testarea/thn6:15762598695796736B:::thin,sparse:0.00
+  fedora_localshot:ZiVgic-SEyk-g4Ji-T9fV-fPJO-LAeA-E0yZz8:home:/dev/fedora_localshot/home:161069662208B:::linear:
+  fedora_localshot:0ICQXN-L7Vf-kFSO-n0UG-dV16-RvFb-DQ1tde:root:/dev/fedora_localshot/root:53687091200B:::linear:
+  fedora_localshot:Dhbb1k-32MW-1Sui-Jiaz-4Bgg-euQ4-b2lF7c:swap:/dev/fedora_localshot/swap:4290772992B:::linear:
+  fedora_localshot:3KdPRQ-syT1-FGdd-hWk5-DcHV-Vc5f-cH7CEl:var:/dev/fedora_localshot/var:214748364800B:::linear:
+  testarea:qCnzcG-whyN-9eUF-CW5M-4Cqu-M1Kf-16eFui:full:/dev/testarea/full:1073741824B:::linear:
+  testarea:aw2aFK-KdGF-06mj-W6wj-pmLH-JWTO-dqE0iI:full2:/dev/testarea/full2:1073741824B:::linear:
+  testarea:HdL4jg-i7Gu-twJ3-rg6I-uFzO-9NGG-em2RXe:full3:/dev/testarea/full3:10737418240B:::linear:
+  testarea:440OEU-CyMy-KZHL-r4o9-13xY-lL78-R31Puz:lvol0:/dev/testarea/lvol0:10737418240B:::linear:
+  testarea:BD5Dr0-JqCr-fN8l-fWcm-pXSt-CPd8-ZqBQrG:lvol2::1073741824B:::thin,pool:0.00
+  testarea:XkMLO9-aSM5-dR6t-W760-D6cg-ucqC-bHbhpi:lvol3::1073741824B:::thin,pool:0.00
+  testarea:R5AD2Q-WbgX-7eXa-0Igf-r73C-nIIV-ShAYdF:lvol4::1073741824B:::thin,pool:0.00
+  testarea:euH6zz-1u82-zogo-tdV1-8MQ9-uSqz-sx8Idv:lvol5::1073741824B:::thin,pool:0.00
+  testarea:W2ELLW-MwtG-0NMa-f1RL-P4Qb-ze9g-0HGhOg:lvol6::1073741824B:::thin,pool:0.00
+  testarea:MUwsIR-aYQV-tQVU-8K9r-mUI4-CX6d-9OE10H:thn1:/dev/testarea/thn1:6755399441055744B:::thin,sparse:0.00
+  testarea:U4arGv-h6Qu-8hrm-nAtd-b8w1-ICeI-w7aMuK:thn6:/dev/testarea/thn6:15762598695796736B:::thin,sparse:0.00
 --end
 """
 

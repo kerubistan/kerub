@@ -109,7 +109,7 @@ class CreateLvmPoolExecutorTest {
 		session.mockCommandExecutionSequence(
 				".*".toRegex(), outputs = listOf(
 				"\n",
-				"la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00\n"
+				"vg-1:la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk:test-pool::21474836480B:::thin,pool:0.00\n"
 		))
 		hostCommandExecutor.mockHost(host, session)
 
@@ -164,6 +164,7 @@ class CreateLvmPoolExecutorTest {
 				LogicalVolume(
 						id = "la6xp4-En1K-fkhX-0Zus-PWp7-1cat-mBXKUk",
 						size = 12.GB,
+						volumeGroupName = "vg-1",
 						path = "",
 						name = "test-pool",
 						layout = listOf(),
