@@ -16,6 +16,11 @@ data class HostCapabilitiesIndex(val indexOf: HostCapabilities) : Serializable {
 	@get:JsonIgnore
 	val storageCapabilitiesById by lazy { indexOf.storageCapabilities.associateBy { it.id } }
 
+	@get:JsonIgnore
+	val lvmStorageCapabilitiesByVolumeGroupName by lazy {
+		indexOf.storageCapabilities.filterIsInstance<LvmStorageCapability>().associateBy { it.volumeGroupName }
+	}
+
 	companion object {
 		private val compressionPackages = listOf(GZip, BZip2, Lz4, Xz)
 	}
