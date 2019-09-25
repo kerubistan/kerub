@@ -19,9 +19,11 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
+import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.StorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.StoragePoolDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
@@ -47,6 +49,7 @@ import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfoRecord
 import com.github.kerubistan.kerub.utils.junix.sensors.CpuTemperatureInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.Sensors
 import com.github.kerubistan.kerub.utils.junix.smartmontools.SmartCtl
+import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
@@ -211,7 +214,7 @@ abstract class AbstractLinux : Distribution {
 				fileSizes.entries.filter { it.key.virtualDiskName().isUUID() }.forEach {
 					(fileName, fileSize) ->
 					val vDiskId = fileName.virtualDiskName().toUUID()
-					val type = fileName.substringAfterLast(".")
+					val type = fileName.substringAfterLast(".", "raw")
 					vStorageDeviceDynamicDao.update(
 							vDiskId,
 							retrieve = {
@@ -261,15 +264,55 @@ abstract class AbstractLinux : Distribution {
 
 		if (LvmLv.available(host.capabilities)) {
 			startLvmVgMonitoring(host, session, hostDynDao)
-			startLvmLvMonitoring(host, session, vStorageDeviceDynamicDao)
+			startLvmLvMonitoring(host, session, vStorageDeviceDynamicDao, hostDynDao)
 		}
 	}
 
-	private fun startLvmLvMonitoring(
-			host: Host, session: ClientSession,
-			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao
+	fun LogicalVolume.freeSize(): BigInteger = (this.size.toBigDecimal()
+			* (this.dataPercent
+			?: 0.toDouble()).toBigDecimal())
+			.toBigInteger()
+
+	internal fun startLvmLvMonitoring(
+			host: Host,
+			session: ClientSession,
+			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
+			hostDynDao: HostDynamicDao
 	) {
 		LvmLv.monitor(session) { volumes ->
+			val pools = volumes.filter { it.layout.contains("pool") }
+			if(pools.isNotEmpty()) {
+				val poolsByVolumeGroup = pools.groupBy { it.volumeGroupName }
+				hostDynDao.update(
+						host.id,
+						retrieve = { hostDynDao[host.id] ?: HostDynamic(id = host.id, status = HostStatus.Up) } ) { dyn ->
+					dyn.copy(
+							storageStatus = dyn.storageStatus.mergeInstancesWith(
+									leftItems = poolsByVolumeGroup.entries,
+									merge = {
+										devDyn : CompositeStorageDeviceDynamic,
+										(_, volumes: List<LogicalVolume>) ->
+										devDyn.copy(
+												pools = volumes.map {
+													poolVolume ->
+													StoragePoolDynamic(
+															name = poolVolume.name,
+															size = poolVolume.size,
+															freeSize = poolVolume.freeSize()
+													)
+												}
+										)
+									},
+									rightValue = CompositeStorageDeviceDynamic::id,
+									leftValue = {
+										(volumeGroupName, _) ->
+										host.capabilities?.index?.lvmStorageCapabilitiesByVolumeGroupName
+												?.get(volumeGroupName)?.id
+									}
+							)
+					)
+				}
+			}
 			volumes.filter { it.name.isUUID() }.forEach { volume ->
 				vStorageDeviceDynamicDao.updateIfExists(volume.name.toUUID()) { oldDyn ->
 					oldDyn.copy(

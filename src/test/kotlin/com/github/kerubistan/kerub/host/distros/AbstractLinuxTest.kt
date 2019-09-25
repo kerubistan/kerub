@@ -5,6 +5,8 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
+import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
@@ -14,6 +16,7 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
+import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.spy
@@ -152,6 +155,65 @@ vda     1  0 4096  0    512      0 disk    8G
 		)
 
 		assertEquals(7, vStorageDynamicUpdates.size) // see 'du' test input file for quantities
+	}
+
+	@Test
+	fun startLvmLvMonitoring() {
+		val linux = spy<AbstractLinux>()
+		val lvmCap = LvmStorageCapability(
+				id = randomUUID(),
+				size = 1.TB,
+				volumeGroupName = "vg-1",
+				physicalVolumes = mapOf("/dev/sda" to 1.TB)
+		)
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(lvmCap),
+						blockDevices = listOf(
+								BlockDevice("/dev/sda", 1.TB)
+						)
+				)
+		)
+
+		val hostDynDao = mock<HostDynamicDao>()
+		var hostDynamic = HostDynamic(
+				id = host.id,
+				storageStatus = listOf(
+						CompositeStorageDeviceDynamic(
+								id = lvmCap.id,
+								reportedFreeCapacity = 800.GB
+						)
+				)
+		)
+
+		doAnswer {
+			val hostId = it.arguments[0] as UUID
+			val retrieve = it.arguments[1] as (UUID) -> HostDynamic
+			val change = it.arguments[2] as (HostDynamic) -> HostDynamic
+			hostDynamic = change(retrieve(hostId))
+			hostDynamic
+		}.whenever(hostDynDao).update(id = any(), retrieve = any(), change = any())
+
+		doReturn(hostDynamic).whenever(hostDynDao)[eq(host.id)]
+		doAnswer {
+			hostDynamic = it.arguments[0] as HostDynamic
+		}.whenever(hostDynDao).update(any())
+
+		session.mockProcess(".*lvm lvs.*".toRegex(),
+				output = """  vg-1:BUCw3V-1Bd3-LWzT-H5bA-GW0k-iuma-9Yf0hY:libvirt:/dev/vg-1/libvirt:216895848448B:::linear:
+  vg-1:Kju0Bg-bLWB-TPBZ-VUfl-aFQq-1G1e-kfMbku:pool-1::21474836480B:::thin,pool:
+--end
+""")
+		linux.startLvmLvMonitoring(
+				host = host,
+				session = session,
+				hostDynDao = hostDynDao,
+				vStorageDeviceDynamicDao = mock()
+		)
+
+		assertTrue("there must be pools synced into the data structure") {
+			(hostDynamic.storageStatus.single() as CompositeStorageDeviceDynamic).pools.isNotEmpty()
+		}
 	}
 
 }
