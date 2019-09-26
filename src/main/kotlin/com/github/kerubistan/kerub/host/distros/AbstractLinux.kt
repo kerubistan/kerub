@@ -5,7 +5,6 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.ServiceManager
-import com.github.kerubistan.kerub.host.execute
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.fw.IptablesFireWall
 import com.github.kerubistan.kerub.host.servicemanager.systemd.SystemdServiceManager
@@ -55,6 +54,7 @@ import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmPv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
 import com.github.kerubistan.kerub.utils.junix.sysfs.Net
+import com.github.kerubistan.kerub.utils.junix.uname.UName
 import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
 import com.github.kerubistan.kerub.utils.mergeInstancesWith
 import com.github.kerubistan.kerub.utils.silent
@@ -466,9 +466,9 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	override fun detectHostCpuType(session: ClientSession): String {
-		val processorType = session.execute("uname -p").trim()
+		val processorType = UName.processorType(session)
 		return if (processorType == "unknown") {
-			session.execute("uname -m").trim()
+			UName.machineType(session)
 		} else {
 			processorType
 		}

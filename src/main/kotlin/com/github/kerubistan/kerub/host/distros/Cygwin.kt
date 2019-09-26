@@ -6,7 +6,6 @@ import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.PackageManager
 import com.github.kerubistan.kerub.host.ServiceManager
-import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.packman.CygwinPackageManager
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.HostCapabilities
@@ -22,6 +21,7 @@ import com.github.kerubistan.kerub.utils.asPercentOf
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.procfs.MemInfo
 import com.github.kerubistan.kerub.utils.junix.procfs.Stat
+import com.github.kerubistan.kerub.utils.junix.uname.UName
 import io.github.kerubistan.kroki.time.now
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
@@ -32,7 +32,7 @@ class Cygwin : Distribution {
 			= listOf()
 
 	override fun getVersion(session: ClientSession) =
-			Version.fromVersionString(session.executeOrDie("uname -r").substringBefore("("))
+			Version.fromVersionString(UName.kernelVersion(session).substringBefore("("))
 
 	override fun name(): String =
 			"Cygwin"
@@ -41,7 +41,7 @@ class Cygwin : Distribution {
 			= version.major.toInt() >= 2
 
 	override fun detect(session: ClientSession): Boolean
-			= session.executeOrDie("uname -o").trim() == "Cygwin"
+			= UName.operatingSystem(session) == "Cygwin"
 
 	override fun getPackageManager(session: ClientSession): PackageManager = CygwinPackageManager(session)
 
@@ -85,7 +85,7 @@ class Cygwin : Distribution {
 
 	override fun detectPowerManagement(session: ClientSession): List<PowerManagementInfo> = listOf() // TODO
 
-	override fun detectHostCpuType(session: ClientSession): String = session.executeOrDie("uname -p").toUpperCase()
+	override fun detectHostCpuType(session: ClientSession): String = UName.processorType(session).toUpperCase()
 
 	override fun getTotalMemory(session: ClientSession): BigInteger =
 			MemInfo.total(session)

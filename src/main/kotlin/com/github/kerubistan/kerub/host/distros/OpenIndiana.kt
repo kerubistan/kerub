@@ -16,6 +16,7 @@ import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
+import com.github.kerubistan.kerub.utils.junix.uname.UName
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
@@ -27,7 +28,7 @@ class OpenIndiana : Distribution {
 	override val operatingSystem: OperatingSystem = OperatingSystem.Unix
 
 	override fun getVersion(session: ClientSession): Version
-			= Version.fromVersionString(session.executeOrDie("uname -r"))
+			= Version.fromVersionString(UName.kernelVersion(session))
 
 	override fun name(): String = "openindiana"
 

@@ -5,7 +5,6 @@ import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.doWithDyn
 import com.github.kerubistan.kerub.host.FireWall
 import com.github.kerubistan.kerub.host.ServiceManager
-import com.github.kerubistan.kerub.host.execute
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.fw.IpfwFireWall
 import com.github.kerubistan.kerub.host.packman.PkgPackageManager
@@ -31,6 +30,7 @@ import com.github.kerubistan.kerub.utils.junix.geom.Geom
 import com.github.kerubistan.kerub.utils.junix.ifconfig.IfConfig
 import com.github.kerubistan.kerub.utils.junix.storagemanager.gvinum.GVinum
 import com.github.kerubistan.kerub.utils.junix.sysctl.BsdSysCtl
+import com.github.kerubistan.kerub.utils.junix.uname.UName
 import com.github.kerubistan.kerub.utils.junix.vmstat.BsdVmStat
 import com.github.kerubistan.kerub.utils.stringToMac
 import com.github.kerubistan.kerub.utils.toBigInteger
@@ -88,13 +88,13 @@ class FreeBSD : Distribution {
 
 	override val operatingSystem = OperatingSystem.BSD
 
-	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(session.execute("uname -r"))
+	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(UName.kernelVersion(session))
 
 	override fun name(): String = "FreeBSD"
 
 	override fun handlesVersion(version: Version): Boolean = version.major >= "10"
 
-	override fun detect(session: ClientSession): Boolean = session.executeOrDie("uname -s").trim() == "FreeBSD"
+	override fun detect(session: ClientSession): Boolean = UName.kernelName(session) == "FreeBSD"
 
 	override fun getPackageManager(session: ClientSession) = PkgPackageManager(session)
 
@@ -171,9 +171,9 @@ class FreeBSD : Distribution {
 			= BsdDmesg.listCpuFlags(session)
 
 	private fun cpuTypeByOS(session: ClientSession): String {
-		val processorType = session.execute("uname -p").trim()
+		val processorType = UName.processorType(session)
 		return if (processorType == "unknown") {
-			session.execute("uname -m").trim()
+			UName.machineType(session)
 		} else {
 			processorType
 		}
