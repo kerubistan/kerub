@@ -8,10 +8,12 @@ import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
+import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
@@ -198,9 +200,31 @@ vda     1  0 4096  0    512      0 disk    8G
 		doAnswer {
 			hostDynamic = it.arguments[0] as HostDynamic
 		}.whenever(hostDynDao).update(any())
+		val vStorageDynDao = mock<VirtualStorageDeviceDynamicDao>()
+
+		var testDiskDyn = VirtualStorageDeviceDynamic(
+				id = testDisk.id,
+				allocations = listOf(
+						VirtualStorageLvmAllocation(
+								capabilityId = lvmCap.id,
+								actualSize = testDisk.size,
+								vgName = lvmCap.volumeGroupName,
+								hostId = host.id,
+								path = "/dev/${lvmCap.volumeGroupName}/${testDisk.id}"
+						)
+				)
+		)
+
+		doAnswer {
+			invocation ->
+			val change = invocation.arguments[1] as (VirtualStorageDeviceDynamic) -> VirtualStorageDeviceDynamic
+			testDiskDyn = change(testDiskDyn)
+			testDiskDyn
+		}.whenever(vStorageDynDao).updateIfExists(eq(testDisk.id), any())
 
 		session.mockProcess(".*lvm lvs.*".toRegex(),
 				output = """  vg-1:BUCw3V-1Bd3-LWzT-H5bA-GW0k-iuma-9Yf0hY:libvirt:/dev/vg-1/libvirt:216895848448B:::linear:
+  vg-1:BUCw3V-bLWB-LWzT-H5bA-GW0k-iuma-9Yf0hY:${testDisk.id}:/dev/vg-1/${testDisk.id}:216895848448B:::linear:
   vg-1:Kju0Bg-bLWB-TPBZ-VUfl-aFQq-1G1e-kfMbku:pool-1::21474836480B:::thin,pool:
 --end
 """)
@@ -208,12 +232,13 @@ vda     1  0 4096  0    512      0 disk    8G
 				host = host,
 				session = session,
 				hostDynDao = hostDynDao,
-				vStorageDeviceDynamicDao = mock()
+				vStorageDeviceDynamicDao = vStorageDynDao
 		)
 
 		assertTrue("there must be pools synced into the data structure") {
 			(hostDynamic.storageStatus.single() as CompositeStorageDeviceDynamic).pools.isNotEmpty()
 		}
+		assertTrue { testDiskDyn.allocations.single().actualSize == 216895848448.toBigInteger() }
 	}
 
 }
