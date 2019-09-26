@@ -330,7 +330,7 @@ abstract class AbstractLinux : Distribution {
 		}
 	}
 
-	private fun startLvmVgMonitoring(
+	internal fun startLvmVgMonitoring(
 			host: Host, session: ClientSession,
 			hostDynDao: HostDynamicDao
 	) {

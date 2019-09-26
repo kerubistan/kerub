@@ -241,4 +241,56 @@ vda     1  0 4096  0    512      0 disk    8G
 		assertTrue { testDiskDyn.allocations.single().actualSize == 216895848448.toBigInteger() }
 	}
 
+	@Test
+	fun startLvmVgMonitoring() {
+		val linux = spy<AbstractLinux>()
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(
+								LvmStorageCapability(
+										id = randomUUID(),
+										volumeGroupName = "vg-1",
+										physicalVolumes = mapOf("/dev/sda" to 1.TB),
+										size = 1.TB
+								)
+						)
+				)
+		)
+		val hostDynDao = mock<HostDynamicDao>()
+		session.mockProcess("bash.*lvm vgs.*".toRegex(),
+				output =  """  RsDNYC-Un0h-QvhF-hMqe-dEny-Bjlg-qbeeZa:vg-1:433800085504B:4194304B:103426:1
+--end
+  RsDNYC-Un0h-QvhF-hMqe-dEny-Bjlg-qbeeZa:vg-1:433800085504B:4194304B:103426:1
+--end
+""")
+
+		var hostDynamic = HostDynamic(
+				id = host.id
+		)
+
+		doAnswer {
+			hostDynamic
+		}.whenever(hostDynDao)[eq(host.id)]
+
+		doAnswer {
+			val change = it.arguments[2] as (HostDynamic) -> HostDynamic
+			hostDynamic = change(hostDynamic)
+			hostDynamic
+		}.whenever(hostDynDao).update(id = eq(host.id), retrieve = any(), change = any())
+
+		session.mockProcess("bash.*lvm pvs.*".toRegex(), output = """  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43:vg-1
+--end
+""")
+
+
+		linux.startLvmVgMonitoring(host, session, hostDynDao)
+
+		assertTrue {
+			hostDynamic.storageStatus.let {
+						it.single().freeCapacity == 4194304.toBigInteger()
+						&& (it.single() as CompositeStorageDeviceDynamic).items.single().freeCapacity == 36498833408.toBigInteger()
+			}
+		}
+	}
+
 }
