@@ -213,7 +213,7 @@ class PlanExecutorImpl(
 				results += StepExecutionError(error = exc.getStackTraceAsString(), executionStep = it)
 			}
 		} always {
-			logger.debug("Plan execution finished: {}", stepList)
+			logger.info("Plan execution finished: {}", stepList)
 			synchronized(results) {
 				executionResultDao.add(
 						ExecutionResult(
