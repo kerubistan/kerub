@@ -1,10 +1,21 @@
 package com.github.kerubistan.kerub.utils.junix.common
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-
 internal class MonitorOutputStreamTest {
+
+	@Test
+	fun exceptionTest() {
+		class TestException(msg: String) : Exception(msg)
+		try {
+			MonitorOutputStream(".",  callback = { throw TestException(it) }, parser = { it.toUpperCase() }).use {
+				it.write("hello.world.".toByteArray(Charsets.US_ASCII))
+			}
+		} catch (ex : TestException) {
+			assertEquals("HELLO", ex.message)
+		}
+	}
 
 	@Test
 	fun writeByteArray() {

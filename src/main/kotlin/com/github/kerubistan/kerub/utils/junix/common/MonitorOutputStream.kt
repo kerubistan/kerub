@@ -1,7 +1,8 @@
 package com.github.kerubistan.kerub.utils.junix.common
 
+import com.github.kerubistan.kerub.utils.doOrLog
+import com.github.kerubistan.kerub.utils.getLogger
 import java.io.OutputStream
-import java.lang.StringBuilder
 
 class MonitorOutputStream<T>(
 		private val separator : String,
@@ -9,6 +10,10 @@ class MonitorOutputStream<T>(
 		private val parser: (String) -> T) : OutputStream() {
 
 	private val buffer = StringBuilder()
+
+	companion object {
+		private val logger = getLogger(MonitorOutputStream::class)
+	}
 
 	override fun write(data: ByteArray) {
 		buffer.append(CharArray(data.size) { data[it].toChar() })
@@ -33,7 +38,9 @@ class MonitorOutputStream<T>(
 		while (separatorIndex >= 0) {
 			val content = buffer.substring(0, separatorIndex)
 			buffer.delete(0, separatorIndex + separator.length)
-			callback(parser(content))
+			logger.doOrLog("error parsing input %s", content) {
+				callback(parser(content))
+			}
 			separatorIndex = buffer.indexOf(separator)
 		}
 	}
