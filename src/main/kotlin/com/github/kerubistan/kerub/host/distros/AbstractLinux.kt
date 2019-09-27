@@ -269,8 +269,8 @@ abstract class AbstractLinux : Distribution {
 	}
 
 	fun LogicalVolume.freeSize(): BigInteger = (this.size.toBigDecimal()
-			* (this.dataPercent
-			?: 0.toDouble()).toBigDecimal())
+			* ((this.dataPercent
+			?: 0.toDouble()) / 100).toBigDecimal())
 			.toBigInteger()
 
 	internal fun startLvmLvMonitoring(
