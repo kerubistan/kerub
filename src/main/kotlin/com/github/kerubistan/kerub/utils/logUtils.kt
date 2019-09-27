@@ -5,6 +5,18 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
+inline fun Logger.doOrLog(pattern: String, vararg data : Any, action : () -> Unit) {
+	var pass = false
+	try {
+		action()
+		pass = true
+	} finally {
+		if(!pass && isWarnEnabled) {
+			this.warn(String.format(pattern, *data))
+		}
+	}
+}
+
 fun getLogger(cl: KClass<*>): Logger {
 	return LoggerFactory.getLogger(cl.java)!!
 }
