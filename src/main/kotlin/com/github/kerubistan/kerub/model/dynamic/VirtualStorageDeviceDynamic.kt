@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.annotations.Dynamic
+import com.github.kerubistan.kerub.model.history.IgnoreDiff
 import io.github.kerubistan.kroki.time.now
 import org.hibernate.search.annotations.DocumentId
 import java.util.UUID
@@ -14,6 +15,7 @@ data class VirtualStorageDeviceDynamic(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID,
+		@IgnoreDiff
 		override val lastUpdated: Long = now(),
 		val allocations: List<VirtualStorageAllocation>
 ) : DynamicEntity {
