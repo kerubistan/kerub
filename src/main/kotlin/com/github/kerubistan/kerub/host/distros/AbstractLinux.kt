@@ -310,7 +310,8 @@ abstract class AbstractLinux : Distribution {
 										(volumeGroupName, _) ->
 										host.capabilities?.index?.lvmStorageCapabilitiesByVolumeGroupName
 												?.get(volumeGroupName)?.id
-									}
+									},
+									miss = { it }
 							)
 					)
 				}
