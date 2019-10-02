@@ -37,6 +37,7 @@ class MonitorOutputStream<T>(
 		var separatorIndex = buffer.indexOf(separator)
 		while (separatorIndex >= 0) {
 			val content = buffer.substring(0, separatorIndex)
+			logger.debug("content:\n{}", content)
 			buffer.delete(0, separatorIndex + separator.length)
 			logger.doOrLog("error parsing input %s", content) {
 				callback(parser(content))

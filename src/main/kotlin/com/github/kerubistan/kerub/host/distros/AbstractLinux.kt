@@ -34,6 +34,7 @@ import com.github.kerubistan.kerub.network.BondInterface
 import com.github.kerubistan.kerub.network.EthernetPort
 import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
+import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
 import com.github.kerubistan.kerub.utils.junix.df.DF
 import com.github.kerubistan.kerub.utils.junix.du.DU
@@ -77,6 +78,7 @@ abstract class AbstractLinux : Distribution {
 	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
+		private val logger = getLogger(AbstractLinux::class)
 		private val nonStorageFilesystems = listOf("proc", "devtmpfs", "tmpfs", "cgroup", "debugfs", "pstore")
 	}
 
@@ -343,6 +345,7 @@ abstract class AbstractLinux : Distribution {
 
 		LvmVg.monitor(session) { volGroups ->
 			hostDynDao.update(host.id) {
+				logger.debug( "updating {} vgs", host.id)
 				it.copy(
 						storageStatus =
 								it.storageStatus.mergeInstancesWith(
@@ -358,6 +361,7 @@ abstract class AbstractLinux : Distribution {
 										missLeft = {
 											volGroup ->
 											if(lvmCapsByName != null) {
+												logger.debug("vol group new: {}", volGroup.name)
 												lvmCapsByName[volGroup.name]?.let {
 													lvmCap ->
 													CompositeStorageDeviceDynamic(
