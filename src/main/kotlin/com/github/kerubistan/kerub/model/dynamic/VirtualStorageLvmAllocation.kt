@@ -18,6 +18,7 @@ data class VirtualStorageLvmAllocation(
 		val mirrors : Byte = 0
 ) : VirtualStorageBlockDeviceAllocation {
 
+	@JsonIgnore
 	override fun getRedundancyLevel(): Byte = mirrors
 
 	init {
