@@ -114,8 +114,9 @@ object LvmLv : Lvm() {
 	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
 			session.executeOrDie(
 					("lvm lvcreate $vgName -n $name -L ${roundUp(size)}B -Wn -Zy " +
-							"&& lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy" +
-							"&& lvm lvconvert --type thin-pool ${name}_meta $name").trimIndent()
+							" && lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy" +
+							" && lvm lvconvert --type thin-pool $vgName/$name --poolmetadata ${name}_meta -Zy")
+							.trimIndent()
 					, ::checkErrorOutput)
 
 	fun extend(session: ClientSession, vgName: String,
