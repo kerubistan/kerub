@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.PciDevice
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
 import com.github.kerubistan.kerub.model.hardware.SystemInformation
+import com.github.kerubistan.kerub.model.hypervisor.HypervisorCapabilities
 import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.views.Detailed
@@ -66,7 +67,7 @@ data class HostCapabilities(
 		val storageCapabilities: List<StorageCapability> = listOf(),
 		@Field
 		@JsonView(Detailed::class)
-		val hypervisorCapabilities: List<Any> = listOf()
+		val hypervisorCapabilities: List<HypervisorCapabilities> = listOf()
 ) : Serializable, Indexed<HostCapabilitiesIndex> {
 
 	@get:JsonIgnore

@@ -4,6 +4,9 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.host.process
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.display.RemoteConsoleProtocol
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.base64
 import com.github.kerubistan.kerub.utils.equalsAnyOf

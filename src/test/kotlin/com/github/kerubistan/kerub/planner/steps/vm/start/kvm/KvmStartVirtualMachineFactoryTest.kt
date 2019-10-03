@@ -13,13 +13,13 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractFactoryVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import java.util.UUID

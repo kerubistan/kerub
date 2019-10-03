@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.utils.junix.virt.virsh
+package com.github.kerubistan.kerub.model.hypervisor
 
 import java.io.Serializable
 

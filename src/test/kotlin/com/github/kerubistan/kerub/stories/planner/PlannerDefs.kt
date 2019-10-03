@@ -49,6 +49,9 @@ import com.github.kerubistan.kerub.model.hardware.CacheInformation
 import com.github.kerubistan.kerub.model.hardware.ChassisInformation
 import com.github.kerubistan.kerub.model.hardware.MemoryInformation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.model.lom.IpmiInfo
@@ -88,9 +91,6 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.kvm.KvmStartVirtualMac
 import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxStartVirtualMachine
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize

@@ -17,6 +17,9 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.BlockDevice
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.model.io.BusType
 import com.github.kerubistan.kerub.model.io.DeviceType
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
@@ -32,9 +35,6 @@ import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.junix.common.Centos
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever

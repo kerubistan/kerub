@@ -18,6 +18,9 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.model.hardware.ProcessorInformation
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
+import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.model.messages.EntityUpdateMessage
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.OperationalStateBuilder
@@ -27,9 +30,6 @@ import com.github.kerubistan.kerub.planner.PlanViolationDetectorImpl
 import com.github.kerubistan.kerub.planner.Planner
 import com.github.kerubistan.kerub.planner.PlannerImpl
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtArch
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtCapabilities
-import com.github.kerubistan.kerub.utils.junix.virt.virsh.LibvirtGuest
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
 import cucumber.api.java.Before
