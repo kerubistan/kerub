@@ -1,0 +1,3719 @@
+{
+  "@type" : "host",
+  "id" : "e9565f02-429e-41a8-887a-e7b7f9fea6ca",
+  "address" : "192.168.123.31",
+  "publicKey" : "29:5f:73:92:4e:68:b9:71:8d:2c:14:41:b8:a8:e7:80",
+  "dedicated" : true,
+  "endOfPlannedLifetime" : null,
+  "capabilities" : {
+    "os" : "Linux",
+    "distribution" : {
+      "name" : "CentOS Linux",
+      "ver" : {
+        "major" : "7",
+        "minor" : null,
+        "build" : null
+      }
+    },
+    "installedSoftware" : [ {
+      "name" : "parted",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "apache-commons-collections",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "ethtool",
+      "ver" : {
+        "major" : "4",
+        "minor" : "8",
+        "build" : null
+      }
+    }, {
+      "name" : "libunwind",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "nmap-ncat",
+      "ver" : {
+        "major" : "6",
+        "minor" : "40",
+        "build" : null
+      }
+    }, {
+      "name" : "avalon-framework",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : null
+      }
+    }, {
+      "name" : "glusterfs-cli",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "ldns",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "16"
+      }
+    }, {
+      "name" : "nss-sysinit",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "grub2-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "rpm-libs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "11",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libuser",
+      "ver" : {
+        "major" : "0",
+        "minor" : "60",
+        "build" : null
+      }
+    }, {
+      "name" : "yum-plugin-fastestmirror",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "31"
+      }
+    }, {
+      "name" : "bzip2-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "openssl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "2k"
+      }
+    }, {
+      "name" : "pcre",
+      "ver" : {
+        "major" : "8",
+        "minor" : "32",
+        "build" : null
+      }
+    }, {
+      "name" : "mozjs17",
+      "ver" : {
+        "major" : "17",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "tomcat-el-2.2-api",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "76"
+      }
+    }, {
+      "name" : "libcap",
+      "ver" : {
+        "major" : "2",
+        "minor" : "22",
+        "build" : null
+      }
+    }, {
+      "name" : "libpath_utils",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "grep",
+      "ver" : {
+        "major" : "2",
+        "minor" : "20",
+        "build" : null
+      }
+    }, {
+      "name" : "xz-libs",
+      "ver" : {
+        "major" : "5",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "sqlite",
+      "ver" : {
+        "major" : "3",
+        "minor" : "7",
+        "build" : "17"
+      }
+    }, {
+      "name" : "procps-ng",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libgcrypt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libcap-ng",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "5"
+      }
+    }, {
+      "name" : "systemd-libs",
+      "ver" : {
+        "major" : "219",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "celt051",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "elfutils-default-yama-scope",
+      "ver" : {
+        "major" : "0",
+        "minor" : "170",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-podlators",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "polkit",
+      "ver" : {
+        "major" : "0",
+        "minor" : "112",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-Encode",
+      "ver" : {
+        "major" : "2",
+        "minor" : "51",
+        "build" : null
+      }
+    }, {
+      "name" : "file",
+      "ver" : {
+        "major" : "5",
+        "minor" : "11",
+        "build" : null
+      }
+    }, {
+      "name" : "libunistring",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "3"
+      }
+    }, {
+      "name" : "rpcbind",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "0"
+      }
+    }, {
+      "name" : "perl-threads",
+      "ver" : {
+        "major" : "1",
+        "minor" : "87",
+        "build" : null
+      }
+    }, {
+      "name" : "libnl3",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "28"
+      }
+    }, {
+      "name" : "xz",
+      "ver" : {
+        "major" : "5",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "slang",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "cronie",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "11"
+      }
+    }, {
+      "name" : "perl-Carp",
+      "ver" : {
+        "major" : "1",
+        "minor" : "26",
+        "build" : null
+      }
+    }, {
+      "name" : "tcp_wrappers-libs",
+      "ver" : {
+        "major" : "7",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "NetworkManager",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "perl-Scalar-List-Utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "27",
+        "build" : null
+      }
+    }, {
+      "name" : "keyutils-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "8"
+      }
+    }, {
+      "name" : "dhcp-common",
+      "ver" : {
+        "major" : "4",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "perl-File-Path",
+      "ver" : {
+        "major" : "2",
+        "minor" : "09",
+        "build" : null
+      }
+    }, {
+      "name" : "python-schedutils",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : null
+      }
+    }, {
+      "name" : "pinentry",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "less",
+      "ver" : {
+        "major" : "458",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "rdma-core",
+      "ver" : {
+        "major" : "15",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "perl",
+      "ver" : {
+        "major" : "5",
+        "minor" : "16",
+        "build" : "3"
+      }
+    }, {
+      "name" : "fipscheck",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "GeoIP",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-client",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libsndfile",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "25"
+      }
+    }, {
+      "name" : "make",
+      "ver" : {
+        "major" : "3",
+        "minor" : "82",
+        "build" : null
+      }
+    }, {
+      "name" : "ebtables",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libcgroup",
+      "ver" : {
+        "major" : "0",
+        "minor" : "41",
+        "build" : null
+      }
+    }, {
+      "name" : "sgabios-bin",
+      "ver" : {
+        "major" : "0",
+        "minor" : "20110622svn",
+        "build" : null
+      }
+    }, {
+      "name" : "shadow-utils",
+      "ver" : {
+        "major" : "4",
+        "minor" : "1",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libvirt-daemon-config-nwfilter",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libtool-ltdl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-nodedev",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "plymouth-scripts",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libssh2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-lxc",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "gmp",
+      "ver" : {
+        "major" : "6",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "quota-nls",
+      "ver" : {
+        "major" : "4",
+        "minor" : "01",
+        "build" : null
+      }
+    }, {
+      "name" : "libxcb",
+      "ver" : {
+        "major" : "1",
+        "minor" : "12",
+        "build" : null
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-qemu",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libXrender",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "10"
+      }
+    }, {
+      "name" : "cracklib-dicts",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-disk",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libnetfilter_conntrack",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "stix-fonts",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "centos-logos",
+      "ver" : {
+        "major" : "70",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libibverbs",
+      "ver" : {
+        "major" : "15",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "java-1.8.0-openjdk",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "0"
+      }
+    }, {
+      "name" : "yum-metadata-parser",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "dhclient",
+      "ver" : {
+        "major" : "4",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "qemu-kvm",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "os-prober",
+      "ver" : {
+        "major" : "1",
+        "minor" : "58",
+        "build" : null
+      }
+    }, {
+      "name" : "selinux-policy-targeted",
+      "ver" : {
+        "major" : "3",
+        "minor" : "13",
+        "build" : "1"
+      }
+    }, {
+      "name" : "iputils",
+      "ver" : {
+        "major" : "20160308",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "NetworkManager-ppp",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "avahi-autoipd",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "31"
+      }
+    }, {
+      "name" : "haproxy",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "18"
+      }
+    }, {
+      "name" : "rsyslog",
+      "ver" : {
+        "major" : "8",
+        "minor" : "24",
+        "build" : "0"
+      }
+    }, {
+      "name" : "grub2-pc",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "python-urlgrabber",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : null
+      }
+    }, {
+      "name" : "e2fsprogs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "9"
+      }
+    }, {
+      "name" : "kernel",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "xfsprogs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glib-networking",
+      "ver" : {
+        "major" : "2",
+        "minor" : "50",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libgomp",
+      "ver" : {
+        "major" : "4",
+        "minor" : "8",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl6000-firmware",
+      "ver" : {
+        "major" : "9",
+        "minor" : "221",
+        "build" : "4"
+      }
+    }, {
+      "name" : "kbd",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl1000-firmware",
+      "ver" : {
+        "major" : "39",
+        "minor" : "31",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl3945-firmware",
+      "ver" : {
+        "major" : "15",
+        "minor" : "32",
+        "build" : "2"
+      }
+    }, {
+      "name" : "iwl6000g2a-firmware",
+      "ver" : {
+        "major" : "17",
+        "minor" : "168",
+        "build" : "5"
+      }
+    }, {
+      "name" : "epel-release",
+      "ver" : {
+        "major" : "7",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "perl-Config-General",
+      "ver" : {
+        "major" : "2",
+        "minor" : "61",
+        "build" : null
+      }
+    }, {
+      "name" : "device-mapper-event",
+      "ver" : {
+        "major" : "1",
+        "minor" : "02",
+        "build" : "146"
+      }
+    }, {
+      "name" : "polkit-pkla-compat",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "python-six",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "PyYAML",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : null
+      }
+    }, {
+      "name" : "tzdata",
+      "ver" : {
+        "major" : "2018e",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "btrfs-progs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "9",
+        "build" : "1"
+      }
+    }, {
+      "name" : "bash",
+      "ver" : {
+        "major" : "4",
+        "minor" : "2",
+        "build" : "46"
+      }
+    }, {
+      "name" : "libselinux",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "alsa-firmware",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "28"
+      }
+    }, {
+      "name" : "libdb",
+      "ver" : {
+        "major" : "5",
+        "minor" : "3",
+        "build" : "21"
+      }
+    }, {
+      "name" : "python-javapackages",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libaio",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : "109"
+      }
+    }, {
+      "name" : "libstdc++",
+      "ver" : {
+        "major" : "4",
+        "minor" : "8",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libjpeg-turbo",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "90"
+      }
+    }, {
+      "name" : "iptables",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "21"
+      }
+    }, {
+      "name" : "pciutils-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "boost-system",
+      "ver" : {
+        "major" : "1",
+        "minor" : "53",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libSM",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "e2fsprogs-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "9"
+      }
+    }, {
+      "name" : "openssl-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "2k"
+      }
+    }, {
+      "name" : "cyrus-sasl-lib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "26"
+      }
+    }, {
+      "name" : "glib2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "54",
+        "build" : "2"
+      }
+    }, {
+      "name" : "centos-release",
+      "ver" : {
+        "major" : "7",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "netcf-libs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "8"
+      }
+    }, {
+      "name" : "apache-commons-pool",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "geronimo-jms",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "alsa-lib",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "xml-commons-resolver",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "libbasicobjects",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "basesystem",
+      "ver" : {
+        "major" : "10",
+        "minor" : "0",
+        "build" : null
+      }
+    }, {
+      "name" : "xerces-j2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "passwd",
+      "ver" : {
+        "major" : "0",
+        "minor" : "79",
+        "build" : null
+      }
+    }, {
+      "name" : "javamail",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libiscsi",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "avalon-logkit",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "apache-commons-logging",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "rootfiles",
+      "ver" : {
+        "major" : "8",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "apache-commons-dbcp",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : null
+      }
+    }, {
+      "name" : "lzop",
+      "ver" : {
+        "major" : "1",
+        "minor" : "03",
+        "build" : null
+      }
+    }, {
+      "name" : "ivtv-firmware",
+      "ver" : {
+        "major" : "20080701",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "libX11-common",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "5"
+      }
+    }, {
+      "name" : "sed",
+      "ver" : {
+        "major" : "4",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "kbd-legacy",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "5"
+      }
+    }, {
+      "name" : "popt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "13",
+        "build" : null
+      }
+    }, {
+      "name" : "ncurses-base",
+      "ver" : {
+        "major" : "5",
+        "minor" : "9",
+        "build" : null
+      }
+    }, {
+      "name" : "gpg-pubkey",
+      "ver" : {
+        "major" : "f4a80eb5",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "keyutils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "8"
+      }
+    }, {
+      "name" : "gnutls-utils",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : "26"
+      }
+    }, {
+      "name" : "ncurses-libs",
+      "ver" : {
+        "major" : "5",
+        "minor" : "9",
+        "build" : null
+      }
+    }, {
+      "name" : "libgpg-error",
+      "ver" : {
+        "major" : "1",
+        "minor" : "12",
+        "build" : null
+      }
+    }, {
+      "name" : "gawk",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "pixman",
+      "ver" : {
+        "major" : "0",
+        "minor" : "34",
+        "build" : "0"
+      }
+    }, {
+      "name" : "freetype",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "11"
+      }
+    }, {
+      "name" : "findutils",
+      "ver" : {
+        "major" : "4",
+        "minor" : "5",
+        "build" : "11"
+      }
+    }, {
+      "name" : "p11-kit",
+      "ver" : {
+        "major" : "0",
+        "minor" : "23",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libidn",
+      "ver" : {
+        "major" : "1",
+        "minor" : "28",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-HTTP-Tiny",
+      "ver" : {
+        "major" : "0",
+        "minor" : "033",
+        "build" : null
+      }
+    }, {
+      "name" : "nss-pem",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "lua",
+      "ver" : {
+        "major" : "5",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "perl-Pod-Perldoc",
+      "ver" : {
+        "major" : "3",
+        "minor" : "20",
+        "build" : null
+      }
+    }, {
+      "name" : "file-libs",
+      "ver" : {
+        "major" : "5",
+        "minor" : "11",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-Pod-Escapes",
+      "ver" : {
+        "major" : "1",
+        "minor" : "04",
+        "build" : null
+      }
+    }, {
+      "name" : "groff-base",
+      "ver" : {
+        "major" : "1",
+        "minor" : "22",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libcroco",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "11"
+      }
+    }, {
+      "name" : "perl-Pod-Usage",
+      "ver" : {
+        "major" : "1",
+        "minor" : "63",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-libs",
+      "ver" : {
+        "major" : "5",
+        "minor" : "16",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libxml2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "1"
+      }
+    }, {
+      "name" : "perl-Time-HiRes",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9725",
+        "build" : null
+      }
+    }, {
+      "name" : "libtasn1",
+      "ver" : {
+        "major" : "4",
+        "minor" : "10",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-Socket",
+      "ver" : {
+        "major" : "2",
+        "minor" : "010",
+        "build" : null
+      }
+    }, {
+      "name" : "newt",
+      "ver" : {
+        "major" : "0",
+        "minor" : "52",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libffi",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "13"
+      }
+    }, {
+      "name" : "perl-Storable",
+      "ver" : {
+        "major" : "2",
+        "minor" : "45",
+        "build" : null
+      }
+    }, {
+      "name" : "lzo",
+      "ver" : {
+        "major" : "2",
+        "minor" : "06",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-threads-shared",
+      "ver" : {
+        "major" : "1",
+        "minor" : "43",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-Time-Local",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2300",
+        "build" : null
+      }
+    }, {
+      "name" : "nettle",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "perl-File-Temp",
+      "ver" : {
+        "major" : "0",
+        "minor" : "23",
+        "build" : "01"
+      }
+    }, {
+      "name" : "perl-Filter",
+      "ver" : {
+        "major" : "1",
+        "minor" : "49",
+        "build" : null
+      }
+    }, {
+      "name" : "gdbm",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : null
+      }
+    }, {
+      "name" : "fipscheck-lib",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "pkgconfig",
+      "ver" : {
+        "major" : "0",
+        "minor" : "27",
+        "build" : "1"
+      }
+    }, {
+      "name" : "gettext-libs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "19",
+        "build" : "8"
+      }
+    }, {
+      "name" : "gsm",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "13"
+      }
+    }, {
+      "name" : "dbus-glib",
+      "ver" : {
+        "major" : "0",
+        "minor" : "100",
+        "build" : null
+      }
+    }, {
+      "name" : "ipxe-roms-qemu",
+      "ver" : {
+        "major" : "20170123",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "libedit",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : null
+      }
+    }, {
+      "name" : "grubby",
+      "ver" : {
+        "major" : "8",
+        "minor" : "28",
+        "build" : null
+      }
+    }, {
+      "name" : "libmodman",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "snappy",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "ustr",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libverto",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "dmidecode",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : null
+      }
+    }, {
+      "name" : "libX11",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libXtst",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "3"
+      }
+    }, {
+      "name" : "cracklib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libfastjson",
+      "ver" : {
+        "major" : "0",
+        "minor" : "99",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libfontenc",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "3"
+      }
+    }, {
+      "name" : "fontconfig",
+      "ver" : {
+        "major" : "2",
+        "minor" : "10",
+        "build" : "95"
+      }
+    }, {
+      "name" : "python-iniparse",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : null
+      }
+    }, {
+      "name" : "ecj",
+      "ver" : {
+        "major" : "4",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "dbus-python",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "newt-python",
+      "ver" : {
+        "major" : "0",
+        "minor" : "52",
+        "build" : "15"
+      }
+    }, {
+      "name" : "pyxattr",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "pth",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "7"
+      }
+    }, {
+      "name" : "gpgme",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libmnl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libdaemon",
+      "ver" : {
+        "major" : "0",
+        "minor" : "14",
+        "build" : null
+      }
+    }, {
+      "name" : "qrencode-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "gpg-pubkey",
+      "ver" : {
+        "major" : "352c64e5",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "device-mapper-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "02",
+        "build" : "146"
+      }
+    }, {
+      "name" : "sg3_utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "37",
+        "build" : null
+      }
+    }, {
+      "name" : "device-mapper-event-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "02",
+        "build" : "146"
+      }
+    }, {
+      "name" : "lsof",
+      "ver" : {
+        "major" : "4",
+        "minor" : "87",
+        "build" : null
+      }
+    }, {
+      "name" : "lvm2-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "177"
+      }
+    }, {
+      "name" : "python-kmod",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : null
+      }
+    }, {
+      "name" : "python-rtslib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "fb63"
+      }
+    }, {
+      "name" : "crontabs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : null
+      }
+    }, {
+      "name" : "libyaml",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "targetd",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libgcc",
+      "ver" : {
+        "major" : "4",
+        "minor" : "8",
+        "build" : "5"
+      }
+    }, {
+      "name" : "ppp",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "5"
+      }
+    }, {
+      "name" : "nss-softokn-freebl",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glibc",
+      "ver" : {
+        "major" : "2",
+        "minor" : "17",
+        "build" : null
+      }
+    }, {
+      "name" : "nspr",
+      "ver" : {
+        "major" : "4",
+        "minor" : "19",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libsepol",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "libuuid",
+      "ver" : {
+        "major" : "2",
+        "minor" : "23",
+        "build" : "2"
+      }
+    }, {
+      "name" : "fxload",
+      "ver" : {
+        "major" : "2002",
+        "minor" : "04",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libcom_err",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "9"
+      }
+    }, {
+      "name" : "python-lxml",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "info",
+      "ver" : {
+        "major" : "5",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "libpipeline",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "3"
+      }
+    }, {
+      "name" : "javapackages-tools",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "elfutils-libelf",
+      "ver" : {
+        "major" : "0",
+        "minor" : "170",
+        "build" : null
+      }
+    }, {
+      "name" : "lksctp-tools",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "17"
+      }
+    }, {
+      "name" : "cpio",
+      "ver" : {
+        "major" : "2",
+        "minor" : "11",
+        "build" : null
+      }
+    }, {
+      "name" : "json-c",
+      "ver" : {
+        "major" : "0",
+        "minor" : "11",
+        "build" : null
+      }
+    }, {
+      "name" : "nss-softokn",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "iproute",
+      "ver" : {
+        "major" : "4",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libacl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "51"
+      }
+    }, {
+      "name" : "libevent",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "21"
+      }
+    }, {
+      "name" : "xorg-x11-font-utils",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "kmod-libs",
+      "ver" : {
+        "major" : "20",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "boost-thread",
+      "ver" : {
+        "major" : "1",
+        "minor" : "53",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libdb-utils",
+      "ver" : {
+        "major" : "5",
+        "minor" : "3",
+        "build" : "21"
+      }
+    }, {
+      "name" : "librbd1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "94",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libXau",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libsemanage",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "krb5-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "1"
+      }
+    }, {
+      "name" : "coreutils",
+      "ver" : {
+        "major" : "8",
+        "minor" : "22",
+        "build" : null
+      }
+    }, {
+      "name" : "libtirpc",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "giflib",
+      "ver" : {
+        "major" : "4",
+        "minor" : "1",
+        "build" : "6"
+      }
+    }, {
+      "name" : "pam",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libverto-libevent",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libblkid",
+      "ver" : {
+        "major" : "2",
+        "minor" : "23",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libmount",
+      "ver" : {
+        "major" : "2",
+        "minor" : "23",
+        "build" : "2"
+      }
+    }, {
+      "name" : "kernel",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "fontpackages-filesystem",
+      "ver" : {
+        "major" : "1",
+        "minor" : "44",
+        "build" : null
+      }
+    }, {
+      "name" : "shared-mime-info",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : null
+      }
+    }, {
+      "name" : "postfix",
+      "ver" : {
+        "major" : "2",
+        "minor" : "10",
+        "build" : "1"
+      }
+    }, {
+      "name" : "xorg-x11-fonts-Type1",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "python",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "5"
+      }
+    }, {
+      "name" : "bridge-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "gzip",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "aic94xx-firmware",
+      "ver" : {
+        "major" : "30",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "bzip2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libpcap",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libcollection",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "0"
+      }
+    }, {
+      "name" : "tomcat-jsp-2.2-api",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "76"
+      }
+    }, {
+      "name" : "python-perf",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glusterfs-client-xlators",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "nss",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "nss-tools",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "curl",
+      "ver" : {
+        "major" : "7",
+        "minor" : "29",
+        "build" : "0"
+      }
+    }, {
+      "name" : "rpm",
+      "ver" : {
+        "major" : "4",
+        "minor" : "11",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libnfsidmap",
+      "ver" : {
+        "major" : "0",
+        "minor" : "25",
+        "build" : null
+      }
+    }, {
+      "name" : "gnupg2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "22"
+      }
+    }, {
+      "name" : "rpm-python",
+      "ver" : {
+        "major" : "4",
+        "minor" : "11",
+        "build" : "3"
+      }
+    }, {
+      "name" : "yum",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "3"
+      }
+    }, {
+      "name" : "logrotate",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "6"
+      }
+    }, {
+      "name" : "tar",
+      "ver" : {
+        "major" : "1",
+        "minor" : "26",
+        "build" : null
+      }
+    }, {
+      "name" : "vim-minimal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "4",
+        "build" : "160"
+      }
+    }, {
+      "name" : "libss",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libselinux-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "tomcat-lib",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "76"
+      }
+    }, {
+      "name" : "kernel-tools-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libini_config",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "1"
+      }
+    }, {
+      "name" : "util-linux",
+      "ver" : {
+        "major" : "2",
+        "minor" : "23",
+        "build" : "2"
+      }
+    }, {
+      "name" : "dracut",
+      "ver" : {
+        "major" : "033",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "elfutils-libs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "170",
+        "build" : null
+      }
+    }, {
+      "name" : "dbus-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "24"
+      }
+    }, {
+      "name" : "dbus",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "24"
+      }
+    }, {
+      "name" : "systemd-sysv",
+      "ver" : {
+        "major" : "219",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "avahi-libs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "31"
+      }
+    }, {
+      "name" : "hwdata",
+      "ver" : {
+        "major" : "0",
+        "minor" : "252",
+        "build" : null
+      }
+    }, {
+      "name" : "wpa_supplicant",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "iscsi-initiator-utils-iscsiuio",
+      "ver" : {
+        "major" : "6",
+        "minor" : "2",
+        "build" : "0"
+      }
+    }, {
+      "name" : "cronie-anacron",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libusbx",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "21"
+      }
+    }, {
+      "name" : "NetworkManager-libnm",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "openssh",
+      "ver" : {
+        "major" : "7",
+        "minor" : "4p1",
+        "build" : null
+      }
+    }, {
+      "name" : "selinux-policy",
+      "ver" : {
+        "major" : "3",
+        "minor" : "13",
+        "build" : "1"
+      }
+    }, {
+      "name" : "usbredir",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "pciutils",
+      "ver" : {
+        "major" : "3",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "numad",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "libvirt-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "dnsmasq",
+      "ver" : {
+        "major" : "2",
+        "minor" : "76",
+        "build" : null
+      }
+    }, {
+      "name" : "qemu-kvm-common",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "glusterfs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "qemu-img",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libvirt-daemon",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-nwfilter",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-config-network",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-secret",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "lm_sensors-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "gssproxy",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "0"
+      }
+    }, {
+      "name" : "plymouth-core-libs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "9"
+      }
+    }, {
+      "name" : "plymouth",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "9"
+      }
+    }, {
+      "name" : "fuse-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "opus",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "seavgabios-bin",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "quota",
+      "ver" : {
+        "major" : "4",
+        "minor" : "01",
+        "build" : null
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-core",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-logical",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-rbd",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-iscsi",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-gluster",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "seabios-bin",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "perl-Getopt-Long",
+      "ver" : {
+        "major" : "2",
+        "minor" : "40",
+        "build" : null
+      }
+    }, {
+      "name" : "librdmacm",
+      "ver" : {
+        "major" : "15",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "java-1.8.0-openjdk-headless",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "0"
+      }
+    }, {
+      "name" : "apache-commons-daemon",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "13"
+      }
+    }, {
+      "name" : "bind-libs-lite",
+      "ver" : {
+        "major" : "9",
+        "minor" : "9",
+        "build" : "4"
+      }
+    }, {
+      "name" : "dracut-network",
+      "ver" : {
+        "major" : "033",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "tomcat",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "76"
+      }
+    }, {
+      "name" : "kernel",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "tuned",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "openssh-clients",
+      "ver" : {
+        "major" : "7",
+        "minor" : "4p1",
+        "build" : null
+      }
+    }, {
+      "name" : "NetworkManager-tui",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "grub2-tools-minimal",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "NetworkManager-wifi",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "grub2-tools",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "lshw",
+      "ver" : {
+        "major" : "B",
+        "minor" : "02",
+        "build" : "18"
+      }
+    }, {
+      "name" : "audit",
+      "ver" : {
+        "major" : "2",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "biosdevname",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "microcode_ctl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "unbound-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "6"
+      }
+    }, {
+      "name" : "grub2-tools-extra",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "libgudev1",
+      "ver" : {
+        "major" : "219",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "python-pycurl",
+      "ver" : {
+        "major" : "7",
+        "minor" : "19",
+        "build" : "0"
+      }
+    }, {
+      "name" : "kernel-tools",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "sudo",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "19p2"
+      }
+    }, {
+      "name" : "gsettings-desktop-schemas",
+      "ver" : {
+        "major" : "3",
+        "minor" : "24",
+        "build" : "1"
+      }
+    }, {
+      "name" : "gnutls",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : "26"
+      }
+    }, {
+      "name" : "mariadb-libs",
+      "ver" : {
+        "major" : "5",
+        "minor" : "5",
+        "build" : "60"
+      }
+    }, {
+      "name" : "libproxy",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "11"
+      }
+    }, {
+      "name" : "python-pyudev",
+      "ver" : {
+        "major" : "0",
+        "minor" : "15",
+        "build" : null
+      }
+    }, {
+      "name" : "augeas-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvorbis",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "3"
+      }
+    }, {
+      "name" : "kbd-misc",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl135-firmware",
+      "ver" : {
+        "major" : "18",
+        "minor" : "168",
+        "build" : "6"
+      }
+    }, {
+      "name" : "kernel",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "iwl5150-firmware",
+      "ver" : {
+        "major" : "8",
+        "minor" : "24",
+        "build" : "2"
+      }
+    }, {
+      "name" : "iwl4965-firmware",
+      "ver" : {
+        "major" : "228",
+        "minor" : "61",
+        "build" : "2"
+      }
+    }, {
+      "name" : "grub2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "iwl7260-firmware",
+      "ver" : {
+        "major" : "22",
+        "minor" : "0",
+        "build" : "7"
+      }
+    }, {
+      "name" : "iwl100-firmware",
+      "ver" : {
+        "major" : "39",
+        "minor" : "31",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl2030-firmware",
+      "ver" : {
+        "major" : "18",
+        "minor" : "168",
+        "build" : "6"
+      }
+    }, {
+      "name" : "iwl5000-firmware",
+      "ver" : {
+        "major" : "8",
+        "minor" : "83",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl2000-firmware",
+      "ver" : {
+        "major" : "18",
+        "minor" : "168",
+        "build" : "6"
+      }
+    }, {
+      "name" : "authconfig",
+      "ver" : {
+        "major" : "6",
+        "minor" : "2",
+        "build" : "8"
+      }
+    }, {
+      "name" : "log4j",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "17"
+      }
+    }, {
+      "name" : "libICE",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "9"
+      }
+    }, {
+      "name" : "xml-commons-apis",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "01"
+      }
+    }, {
+      "name" : "tomcat-servlet-3.0-api",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "76"
+      }
+    }, {
+      "name" : "xalan-j2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libref_array",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "5"
+      }
+    }, {
+      "name" : "filesystem",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "geronimo-jta",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "cyrus-sasl-gssapi",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "26"
+      }
+    }, {
+      "name" : "gnutls-dane",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : "26"
+      }
+    }, {
+      "name" : "libcurl",
+      "ver" : {
+        "major" : "7",
+        "minor" : "29",
+        "build" : "0"
+      }
+    }, {
+      "name" : "grub2-pc-modules",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : null
+      }
+    }, {
+      "name" : "openldap",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "44"
+      }
+    }, {
+      "name" : "rpm-build-libs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "11",
+        "build" : "3"
+      }
+    }, {
+      "name" : "binutils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "27",
+        "build" : null
+      }
+    }, {
+      "name" : "autogen-libopts",
+      "ver" : {
+        "major" : "5",
+        "minor" : "18",
+        "build" : null
+      }
+    }, {
+      "name" : "acl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "51"
+      }
+    }, {
+      "name" : "chkconfig",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "4"
+      }
+    }, {
+      "name" : "cryptsetup-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "4"
+      }
+    }, {
+      "name" : "copy-jdk-configs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : null
+      }
+    }, {
+      "name" : "zlib",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "7"
+      }
+    }, {
+      "name" : "kpartx",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libogg",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "readline",
+      "ver" : {
+        "major" : "6",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "diffutils",
+      "ver" : {
+        "major" : "3",
+        "minor" : "3",
+        "build" : null
+      }
+    }, {
+      "name" : "kmod",
+      "ver" : {
+        "major" : "20",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "flac-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "systemd",
+      "ver" : {
+        "major" : "219",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "perl-parent",
+      "ver" : {
+        "major" : "0",
+        "minor" : "225",
+        "build" : null
+      }
+    }, {
+      "name" : "expat",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libassuan",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "initscripts",
+      "ver" : {
+        "major" : "9",
+        "minor" : "49",
+        "build" : "41"
+      }
+    }, {
+      "name" : "perl-Text-ParseWords",
+      "ver" : {
+        "major" : "3",
+        "minor" : "29",
+        "build" : null
+      }
+    }, {
+      "name" : "jansson",
+      "ver" : {
+        "major" : "2",
+        "minor" : "10",
+        "build" : null
+      }
+    }, {
+      "name" : "which",
+      "ver" : {
+        "major" : "2",
+        "minor" : "20",
+        "build" : null
+      }
+    }, {
+      "name" : "libpciaccess",
+      "ver" : {
+        "major" : "0",
+        "minor" : "14",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-macros",
+      "ver" : {
+        "major" : "5",
+        "minor" : "16",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libnfnetlink",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "iscsi-initiator-utils",
+      "ver" : {
+        "major" : "6",
+        "minor" : "2",
+        "build" : "0"
+      }
+    }, {
+      "name" : "perl-Exporter",
+      "ver" : {
+        "major" : "5",
+        "minor" : "68",
+        "build" : null
+      }
+    }, {
+      "name" : "p11-kit-trust",
+      "ver" : {
+        "major" : "0",
+        "minor" : "23",
+        "build" : "5"
+      }
+    }, {
+      "name" : "sysvinit-tools",
+      "ver" : {
+        "major" : "2",
+        "minor" : "88",
+        "build" : null
+      }
+    }, {
+      "name" : "dhcp-libs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "perl-PathTools",
+      "ver" : {
+        "major" : "3",
+        "minor" : "40",
+        "build" : null
+      }
+    }, {
+      "name" : "hostname",
+      "ver" : {
+        "major" : "3",
+        "minor" : "13",
+        "build" : null
+      }
+    }, {
+      "name" : "policycoreutils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : null
+      }
+    }, {
+      "name" : "perl-constant",
+      "ver" : {
+        "major" : "1",
+        "minor" : "27",
+        "build" : null
+      }
+    }, {
+      "name" : "python-linux-procfs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libdrm",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "83"
+      }
+    }, {
+      "name" : "perl-Pod-Simple",
+      "ver" : {
+        "major" : "3",
+        "minor" : "28",
+        "build" : null
+      }
+    }, {
+      "name" : "cyrus-sasl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "26"
+      }
+    }, {
+      "name" : "gettext",
+      "ver" : {
+        "major" : "0",
+        "minor" : "19",
+        "build" : "8"
+      }
+    }, {
+      "name" : "radvd",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "gobject-introspection",
+      "ver" : {
+        "major" : "1",
+        "minor" : "50",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glusterfs-api",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libasyncns",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : null
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-network",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libseccomp",
+      "ver" : {
+        "major" : "2",
+        "minor" : "3",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-interface",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "pulseaudio-libs",
+      "ver" : {
+        "major" : "10",
+        "minor" : "0",
+        "build" : null
+      }
+    }, {
+      "name" : "virt-what",
+      "ver" : {
+        "major" : "1",
+        "minor" : "18",
+        "build" : null
+      }
+    }, {
+      "name" : "spice-server",
+      "ver" : {
+        "major" : "0",
+        "minor" : "14",
+        "build" : "0"
+      }
+    }, {
+      "name" : "lsscsi",
+      "ver" : {
+        "major" : "0",
+        "minor" : "27",
+        "build" : null
+      }
+    }, {
+      "name" : "nfs-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libXi",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-scsi",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libndp",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-mpath",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-firmware",
+      "ver" : {
+        "major" : "20180220",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "python-gobject-base",
+      "ver" : {
+        "major" : "3",
+        "minor" : "22",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python-decorator",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "tzdata-java",
+      "ver" : {
+        "major" : "2018e",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "python-configobj",
+      "ver" : {
+        "major" : "4",
+        "minor" : "7",
+        "build" : "2"
+      }
+    }, {
+      "name" : "bind-license",
+      "ver" : {
+        "major" : "9",
+        "minor" : "9",
+        "build" : "4"
+      }
+    }, {
+      "name" : "pyliblzma",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "kexec-tools",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libutempter",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libvirt",
+      "ver" : {
+        "major" : "3",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "openssh-server",
+      "ver" : {
+        "major" : "7",
+        "minor" : "4p1",
+        "build" : null
+      }
+    }, {
+      "name" : "sysstat",
+      "ver" : {
+        "major" : "10",
+        "minor" : "1",
+        "build" : "5"
+      }
+    }, {
+      "name" : "openldap-servers",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "44"
+      }
+    }, {
+      "name" : "irqbalance",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "7"
+      }
+    }, {
+      "name" : "dracut-config-rescue",
+      "ver" : {
+        "major" : "033",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "libsoup",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "0"
+      }
+    }, {
+      "name" : "trousers",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : "14"
+      }
+    }, {
+      "name" : "hardlink",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : null
+      }
+    }, {
+      "name" : "device-mapper-persistent-data",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "pygpgme",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : null
+      }
+    }, {
+      "name" : "iprutils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "15"
+      }
+    }, {
+      "name" : "iwl3160-firmware",
+      "ver" : {
+        "major" : "22",
+        "minor" : "0",
+        "build" : "7"
+      }
+    }, {
+      "name" : "iwl6050-firmware",
+      "ver" : {
+        "major" : "41",
+        "minor" : "28",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iwl105-firmware",
+      "ver" : {
+        "major" : "18",
+        "minor" : "168",
+        "build" : "6"
+      }
+    }, {
+      "name" : "alsa-tools-firmware",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "iwl6000g2b-firmware",
+      "ver" : {
+        "major" : "17",
+        "minor" : "168",
+        "build" : "5"
+      }
+    }, {
+      "name" : "kernel",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "0"
+      }
+    }, {
+      "name" : "sg3_utils-libs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "37",
+        "build" : null
+      }
+    }, {
+      "name" : "device-mapper",
+      "ver" : {
+        "major" : "1",
+        "minor" : "02",
+        "build" : "146"
+      }
+    }, {
+      "name" : "scsi-target-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "55"
+      }
+    }, {
+      "name" : "lvm2-python-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "177"
+      }
+    }, {
+      "name" : "python-setproctitle",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libXfont",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "lvm2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "177"
+      }
+    }, {
+      "name" : "glibc-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "17",
+        "build" : null
+      }
+    }, {
+      "name" : "ncurses",
+      "ver" : {
+        "major" : "5",
+        "minor" : "9",
+        "build" : null
+      }
+    }, {
+      "name" : "nss-util",
+      "ver" : {
+        "major" : "3",
+        "minor" : "36",
+        "build" : "0"
+      }
+    }, {
+      "name" : "audit-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libxslt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "28"
+      }
+    }, {
+      "name" : "numactl-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "9"
+      }
+    }, {
+      "name" : "gperftools-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libestr",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libattr",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "46"
+      }
+    }, {
+      "name" : "yajl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "lz4",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "5"
+      }
+    }, {
+      "name" : "librados2",
+      "ver" : {
+        "major" : "0",
+        "minor" : "94",
+        "build" : "5"
+      }
+    }, {
+      "name" : "ca-certificates",
+      "ver" : {
+        "major" : "2018",
+        "minor" : "2",
+        "build" : "22"
+      }
+    }, {
+      "name" : "libXext",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libpwquality",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libXcomposite",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "4"
+      }
+    }, {
+      "name" : "man-db",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : "3"
+      }
+    }, {
+      "name" : "glusterfs-libs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "ttmkfdir",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "9"
+      }
+    }, {
+      "name" : "python-libs",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "5"
+      }
+    }, {
+      "name" : "tcp_wrappers",
+      "ver" : {
+        "major" : "7",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "libpng",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "13"
+      }
+    }, {
+      "name" : "setup",
+      "ver" : {
+        "major" : "2",
+        "minor" : "8",
+        "build" : "71"
+      }
+    } ],
+    "devices" : [ {
+      "address" : "00:00.0",
+      "devClass" : "Host bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "440FX - 82441FX PMC [Natoma]"
+    }, {
+      "address" : "00:01.0",
+      "devClass" : "ISA bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "82371SB PIIX3 ISA [Natoma/Triton II]"
+    }, {
+      "address" : "00:01.1",
+      "devClass" : "IDE interface",
+      "vendor" : "Intel Corporation",
+      "device" : "82371SB PIIX3 IDE [Natoma/Triton II]"
+    }, {
+      "address" : "00:01.3",
+      "devClass" : "Bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "82371AB/EB/MB PIIX4 ACPI"
+    }, {
+      "address" : "00:02.0",
+      "devClass" : "VGA compatible controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "QXL paravirtual graphic card"
+    }, {
+      "address" : "00:03.0",
+      "devClass" : "Ethernet controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio network device"
+    }, {
+      "address" : "00:04.0",
+      "devClass" : "Unclassified device [00ff]",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio memory balloon"
+    }, {
+      "address" : "00:05.0",
+      "devClass" : "Communication controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio console"
+    }, {
+      "address" : "00:06.0",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #1"
+    }, {
+      "address" : "00:06.1",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #2"
+    }, {
+      "address" : "00:06.2",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #3"
+    }, {
+      "address" : "00:06.7",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB2 EHCI Controller #1"
+    }, {
+      "address" : "00:07.0",
+      "devClass" : "SCSI storage controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio block device"
+    }, {
+      "address" : "00:08.0",
+      "devClass" : "Unclassified device [00ff]",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio RNG"
+    }, {
+      "address" : "00:09.0",
+      "devClass" : "SCSI storage controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio block device"
+    } ],
+    "blockDevices" : [ {
+      "deviceName" : "vda",
+      "storageCapacity" : 5368709120
+    }, {
+      "deviceName" : "vdb",
+      "storageCapacity" : 1099511627776
+    } ],
+    "networkPorts" : [ {
+      "device" : "",
+      "portSpeed" : 0,
+      "switchId" : null
+    }, {
+      "device" : "eth0",
+      "portSpeed" : 0,
+      "switchId" : null
+    }, {
+      "device" : "virbr0-nic",
+      "portSpeed" : 0,
+      "switchId" : null
+    }, {
+      "device" : "virbr0",
+      "portSpeed" : 0,
+      "switchId" : null
+    } ],
+    "networkInterfaces" : [ ],
+    "cpuArchitecture" : "x86_64",
+    "totalMemory" : 1927888896,
+    "memoryDevices" : [ {
+      "size" : 2147483648,
+      "type" : "RAM",
+      "formFactor" : "DIMM",
+      "locator" : "DIMM 0",
+      "bankLocator" : "Not Specified",
+      "speedMhz" : null,
+      "manufacturer" : "QEMU",
+      "serialNumber" : "Not Specified",
+      "partNumber" : "Not Specified",
+      "configuredSpeedMhz" : null
+    } ],
+    "system" : {
+      "manufacturer" : "QEMU",
+      "version" : "pc-i440fx-bionic",
+      "family" : "Not Specified",
+      "uuid" : "ad169207-afd4-4e79-9d8e-1bf23f5a278b"
+    },
+    "cpus" : [ {
+      "manufacturer" : "QEMU",
+      "flags" : [ "fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8", "apic", "sep", "mtrr", "pge", "mca", "cmov", "pat", "pse36", "clflush", "mmx", "fxsr", "sse", "sse2", "ss", "syscall", "nx", "pdpe1gb", "rdtscp", "lm", "constant_tsc", "arch_perfmon", "rep_good", "nopl", "xtopology", "eagerfpu", "pni", "pclmulqdq", "vmx", "ssse3", "fma", "cx16", "pcid", "sse4_1", "sse4_2", "x2apic", "movbe", "popcnt", "tsc_deadline_timer", "aes", "xsave", "avx", "f16c", "rdrand", "hypervisor", "lahf_lm", "abm", "3dnowprefetch", "ssbd", "ibrs", "ibpb", "tpr_shadow", "vnmi", "flexpriority", "ept", "vpid", "fsgsbase", "tsc_adjust", "bmi1", "avx2", "smep", "bmi2", "erms", "invpcid", "rdseed", "adx", "smap", "xsaveopt", "arat", "spec_ctrl" ],
+      "socket" : "CPU 0",
+      "version" : "pc-i440fx-bionic",
+      "maxSpeedMhz" : 2000,
+      "coreCount" : 1,
+      "threadCount" : 1,
+      "voltage" : null,
+      "l1cache" : null,
+      "l2cache" : null,
+      "l3cache" : null
+    } ],
+    "chassis" : {
+      "manufacturer" : "QEMU",
+      "type" : "Other",
+      "height" : null,
+      "nrOfPowerCords" : null
+    },
+    "powerManagment" : [ {
+      "@type" : "wake-on-lan",
+      "macAddresses" : [ "UlQAL3ec", "UlQAL3ec", "AAAAAAIB", "AAAAAAAA" ]
+    } ],
+    "storageCapabilities" : [ {
+      "@type" : "lvm",
+      "id" : "612faff4-17ea-41cb-9f29-a0b1a2f355b4",
+      "size" : 4840226816,
+      "volumeGroupName" : "centos",
+      "physicalVolumes" : {
+        "/dev/vda2" : 4840226816
+      },
+      "performanceInfo" : null,
+      "storageDevices" : [ "/dev/vda2" ]
+    }, {
+      "@type" : "lvm",
+      "id" : "9b9cbecf-8969-4219-b8ce-3d1fb9e7e81b",
+      "size" : 1099507433472,
+      "volumeGroupName" : "kerub-storage",
+      "physicalVolumes" : {
+        "/dev/vdb" : 1099507433472
+      },
+      "performanceInfo" : null,
+      "storageDevices" : [ "/dev/vdb" ]
+    }, {
+      "@type" : "fs",
+      "id" : "b74aa301-1502-4a45-a981-26080b7b61be",
+      "size" : 4019716096,
+      "mountPoint" : "/",
+      "fsType" : "xfs",
+      "performanceInfo" : null
+    }, {
+      "@type" : "fs",
+      "id" : "ad5de791-f7a1-4546-9f6c-0d73047f9de2",
+      "size" : 520794112,
+      "mountPoint" : "/boot",
+      "fsType" : "xfs",
+      "performanceInfo" : null
+    } ],
+    "hypervisorCapabilities" : [ {
+      "@type" : "libvirt-capabilities",
+      "guests" : [ {
+        "osType" : "hvm",
+        "arch" : {
+          "name" : "i686",
+          "wordsize" : 32,
+          "emulator" : "/usr/libexec/qemu-kvm"
+        }
+      }, {
+        "osType" : "hvm",
+        "arch" : {
+          "name" : "x86_64",
+          "wordsize" : 64,
+          "emulator" : "/usr/libexec/qemu-kvm"
+        }
+      } ]
+    } ]
+  },
+  "recycling" : false,
+  "dead" : false
+}

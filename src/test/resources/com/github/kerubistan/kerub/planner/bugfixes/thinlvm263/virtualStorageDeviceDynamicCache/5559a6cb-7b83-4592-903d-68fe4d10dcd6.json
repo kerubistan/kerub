@@ -1,0 +1,15 @@
+{
+  "@type" : "virtual-storage-dyn",
+  "id" : "5559a6cb-7b83-4592-903d-68fe4d10dcd6",
+  "lastUpdated" : 1569943524578,
+  "allocations" : [ {
+    "@type" : "lvm-allocation",
+    "hostId" : "90b46da0-eddb-4e17-9091-27df9043f3d9",
+    "capabilityId" : "64d70316-3755-46e4-a1ea-6adadcb66b3f",
+    "actualSize" : 20971520,
+    "path" : "/dev/centos/5559a6cb-7b83-4592-903d-68fe4d10dcd6",
+    "pool" : null,
+    "vgName" : "centos",
+    "mirrors" : 0
+  } ]
+}

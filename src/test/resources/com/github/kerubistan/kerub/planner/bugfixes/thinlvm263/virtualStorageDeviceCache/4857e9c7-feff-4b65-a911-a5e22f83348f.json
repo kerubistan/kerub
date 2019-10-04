@@ -1,0 +1,10 @@
+{
+  "@type" : "virtual-storage",
+  "id" : "4857e9c7-feff-4b65-a911-a5e22f83348f",
+  "size" : 4398046511104,
+  "readOnly" : false,
+  "expectations" : [ ],
+  "name" : "disk-4857e9c7-feff-4b65-a911-a5e22f83348f",
+  "owner" : null,
+  "recycling" : false
+}

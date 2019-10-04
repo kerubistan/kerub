@@ -1,0 +1,55 @@
+{
+  "@type" : "host-dyn",
+  "id" : "e9565f02-429e-41a8-887a-e7b7f9fea6ca",
+  "lastUpdated" : 1570080376675,
+  "status" : "Up",
+  "userCpu" : 1,
+  "systemCpu" : 0,
+  "idleCpu" : 99,
+  "memFree" : 1798791168,
+  "memUsed" : 129097728,
+  "memSwapped" : 0,
+  "ksmEnabled" : false,
+  "cpuStats" : [ {
+    "cpuNr" : 0,
+    "user" : 1.0,
+    "system" : 1.0,
+    "ioWait" : 0.0,
+    "idle" : 98.0
+  } ],
+  "storageStatus" : [ {
+    "@type" : "composite",
+    "id" : "612faff4-17ea-41cb-9f29-a0b1a2f355b4",
+    "reportedFreeCapacity" : 780140544,
+    "items" : [ {
+      "name" : "/dev/vda2",
+      "freeCapacity" : 780140544
+    } ],
+    "pools" : [ {
+      "name" : "pool00",
+      "size" : 4030726144,
+      "freeSize" : 1738049113
+    } ],
+    "freeCapacity" : 780140544
+  }, {
+    "@type" : "composite",
+    "id" : "9b9cbecf-8969-4219-b8ce-3d1fb9e7e81b",
+    "reportedFreeCapacity" : 1099507433472,
+    "items" : [ {
+      "name" : "/dev/vdb",
+      "freeCapacity" : 1099507433472
+    } ],
+    "pools" : [ ],
+    "freeCapacity" : 1099507433472
+  }, {
+    "@type" : "simple",
+    "id" : "b74aa301-1502-4a45-a981-26080b7b61be",
+    "freeCapacity" : 2303643648
+  }, {
+    "@type" : "simple",
+    "id" : "ad5de791-f7a1-4546-9f6c-0d73047f9de2",
+    "freeCapacity" : 235085824
+  } ],
+  "storageDeviceHealth" : { },
+  "cpuTemperature" : [ ]
+}

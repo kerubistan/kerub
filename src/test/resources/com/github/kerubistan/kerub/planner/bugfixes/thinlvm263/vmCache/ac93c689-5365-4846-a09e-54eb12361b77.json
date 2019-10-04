@@ -1,0 +1,32 @@
+{
+  "@type" : "vm",
+  "id" : "ac93c689-5365-4846-a09e-54eb12361b77",
+  "name" : "vm-ac93c689-5365-4846-a09e-54eb12361b77",
+  "architecture" : "x86_64",
+  "nrOfCpus" : 1,
+  "memory" : {
+    "min" : 1073741824,
+    "max" : 1073741824
+  },
+  "expectations" : [ {
+    "@type" : "availability",
+    "level" : "DealBreaker",
+    "desktop" : false,
+    "up" : true
+  } ],
+  "virtualStorageLinks" : [ {
+    "virtualStorageId" : "5559a6cb-7b83-4592-903d-68fe4d10dcd6",
+    "bus" : "sata",
+    "expectations" : [ ],
+    "device" : "cdrom",
+    "readOnly" : false
+  }, {
+    "virtualStorageId" : "4857e9c7-feff-4b65-a911-a5e22f83348f",
+    "bus" : "virtio",
+    "expectations" : [ ],
+    "device" : "disk",
+    "readOnly" : false
+  } ],
+  "owner" : null,
+  "devices" : [ ]
+}
