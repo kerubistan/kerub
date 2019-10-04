@@ -100,10 +100,10 @@ object LvmLv : Lvm() {
 
 	fun createCache(session: ClientSession, vgName: String, cacheVg: String, name: String, cacheSize: BigInteger,
 					originSize: BigInteger) {
-		session.executeOrDie("""lvm lvcreate -n ${name.cache()} -L ${roundUp(cacheSize)}B vg $cacheVg
-			&& lvm lvcreate -n ${name.cacheMeta()} -L ${roundUp(originSize, minimum = cacheMetaMinSize)}B vg $cacheVg
-			&& lvm lvconvert --type cache-pool --poolmetadata $cacheVg/${name.cacheMeta()} $cacheVg/${name.cache()}
-			&& lvm lvconvert --type cache --cachepool $cacheVg/${name.cache()} $vgName/$name
+		session.executeOrDie("""lvm lvcreate -n ${name.cache()} -L ${roundUp(cacheSize)}B vg $cacheVg -y
+			&& lvm lvcreate -n ${name.cacheMeta()} -L ${roundUp(originSize, minimum = cacheMetaMinSize)}B vg $cacheVg -y
+			&& lvm lvconvert --type cache-pool --poolmetadata $cacheVg/${name.cacheMeta()} $cacheVg/${name.cache()} -y
+			&& lvm lvconvert --type cache --cachepool $cacheVg/${name.cache()} $vgName/$name -y
 		""".trimIndent())
 	}
 
@@ -113,9 +113,9 @@ object LvmLv : Lvm() {
 
 	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
 			session.executeOrDie(
-					("lvm lvcreate $vgName -n $name -L ${roundUp(size)}B -Wn -Zy " +
-							" && lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy" +
-							" && lvm lvconvert --type thin-pool $vgName/$name --poolmetadata ${name}_meta -Zy")
+					("lvm lvcreate $vgName -n $name -L ${roundUp(size)}B -Wn -Zy -y" +
+							" && lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy -y" +
+							" && lvm lvconvert --type thin-pool $vgName/$name --poolmetadata ${name}_meta -Zy -y")
 							.trimIndent()
 					, ::checkErrorOutput)
 
