@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 @JsonTypeName("project") data class Project @JsonCreator constructor(
 		@DocumentId
 		@JsonProperty("id")
-		override var id: UUID = UUID.randomUUID(),
+		override val id: UUID = UUID.randomUUID(),
 		@Field
 		@JsonProperty("name")
 		override val name: String,

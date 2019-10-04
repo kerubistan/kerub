@@ -5,5 +5,5 @@ import java.io.Serializable
 
 @JsonTypeName("libvirt-capabilities")
 data class LibvirtCapabilities(
-		var guests: List<LibvirtGuest> = listOf()
+		val guests: List<LibvirtGuest> = listOf()
 ) : Serializable, HypervisorCapabilities

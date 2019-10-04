@@ -10,9 +10,9 @@ data class Event(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),
-		var userId: UUID,
-		var message: String,
-		var date: Long,
-		var messageType: EventType
+		val userId: UUID,
+		val message: String,
+		val date: Long,
+		val messageType: EventType
 )
 	: Entity<UUID>
