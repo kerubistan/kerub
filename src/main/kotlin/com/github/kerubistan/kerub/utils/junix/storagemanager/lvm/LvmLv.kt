@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.storagemanager.lvm
 import com.github.kerubistan.kerub.host.bashMonitor
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.emptyString
+import com.github.kerubistan.kerub.utils.flag
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.MonitorOutputStream
 import com.github.kerubistan.kerub.utils.toSize
@@ -166,7 +167,7 @@ object LvmLv : Lvm() {
 		}
 		session.executeOrDie(
 				"lvm lvcreate $vgName -n $name " +
-						"-Wn -Zy " +
+						"-Wn ${(poolName == null).flag("-Zy")} " +
 						"$sizeParam ${roundUp(size)}B ${minRecovery(minRecovery)} ${maxRecovery(maxRecovery)}" +
 						if (poolName != null) {
 							"--thinpool $poolName"
