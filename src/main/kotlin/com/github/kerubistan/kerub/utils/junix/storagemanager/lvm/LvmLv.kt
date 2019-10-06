@@ -16,7 +16,7 @@ object LvmLv : Lvm() {
 	private val minimalSize = 4.MB
 	private val logger = getLogger(LvmLv::class)
 
-	private fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
+	internal fun checkErrorOutput(err: String): Boolean = err.isNotBlank() && !err.trim().startsWith("WARNING")
 
 	fun roundUp(size: BigInteger, minimum: BigInteger = minimalSize): BigInteger =
 			if (size.mod(minimum) == BigInteger.ZERO && size != BigInteger.ZERO) {
@@ -111,14 +111,6 @@ object LvmLv : Lvm() {
 	fun removeCache(session: ClientSession, vgName: String, cacheVg: String, name: String) {
 		session.executeOrDie("lvm lvconvert --uncache $cacheVg/${name.cache()}")
 	}
-
-	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
-			session.executeOrDie(
-					("lvm lvcreate $vgName -n $name -L ${roundUp(size)}B -Wn -Zy -y" +
-							" && lvm lvcreate $vgName -n ${name}_meta -L ${roundUp(metaSize)}B -Wn -Zy -y" +
-							" && lvm lvconvert --type thin-pool $vgName/$name --poolmetadata ${name}_meta -Zy -y")
-							.trimIndent()
-					, ::checkErrorOutput)
 
 	fun extend(session: ClientSession, vgName: String,
 			   lvName: String,

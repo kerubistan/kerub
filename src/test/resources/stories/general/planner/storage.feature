@@ -272,6 +272,10 @@ Feature: storage management
 	And host host-1.example.com volume groups are:
 	  | vg name | size   | pvs              |
 	  | vg-1    | 500 GB | /dev/sda: 500 GB |
+	And software installed on host host-1.example.com:
+	  | package                       | version |
+	  | lvm2                          | 2.4.1   |
+	  | device-mapper-persistent-data | 1.2.3   |
 	And virtual storage devices:
 	  | name        | size | ro    |
 	  | test-disk-1 | 1 TB | false |

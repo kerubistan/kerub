@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.percents
+import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmThinLv
 
 import io.github.kerubistan.kroki.collections.join
 import io.github.kerubistan.kroki.size.GB
@@ -31,9 +32,9 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 			//all lvm volume groups where there is no pool
 			hostData.stat.capabilities?.storageCapabilities?.filterIsInstance(LvmStorageCapability::class.java)
 					?.filter { lvmCapability ->
-						hostData.config?.storageConfiguration?.none {
+						(hostData.config?.storageConfiguration?.none {
 							it is LvmPoolConfiguration && !pools.containsKey(lvmCapability.volumeGroupName)
-						} ?: false
+						} ?: false) && LvmThinLv.available(hostData.stat.capabilities)
 					}?.mapNotNull { lvmCapability ->
 						val freeCapacity: BigInteger? = hostData.dynamic?.storageStatus
 								?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity

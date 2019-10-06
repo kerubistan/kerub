@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.compareTo
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
+import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmThinLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
 import io.github.kerubistan.kroki.numbers.times
 
@@ -28,7 +29,7 @@ class CreateLvmPoolExecutor(
 
 	override fun perform(step: CreateLvmPool) =
 			hostCommandExecutor.execute(step.host) {
-				LvmLv.createPool(it, step.vgName, step.name, step.size, step.size / 100.toBigInteger())
+				LvmThinLv.createPool(it, step.vgName, step.name, step.size, step.size / 100.toBigInteger())
 				LvmLv.list(it, step.vgName, step.name).single()
 			}
 

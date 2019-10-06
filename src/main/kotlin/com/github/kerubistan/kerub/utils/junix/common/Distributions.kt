@@ -6,3 +6,6 @@ const val openSuse = "openSUSE"
 const val Fedora = "Fedora"
 const val Centos = "CentOS Linux"
 const val FreeBSD = "FreeBSD"
+
+val debianFamily = setOf(Debian, Ubuntu)
+val redHatFamily = setOf(Centos, Fedora)
