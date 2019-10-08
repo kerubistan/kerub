@@ -29,7 +29,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 				QemuImg.create(
 						session = it,
 						format = step.format,
-						path = "${step.path}/${step.disk.id}",
+						path = step.allocation.getPath(step.disk.id),
 						size = step.disk.size
 				)
 				logger.info("Created virtual disk")
@@ -46,7 +46,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 										actualSize = BigInteger.valueOf(updates.diskSize),
 										mountPoint = step.path,
 										type = step.format,
-										fileName = "${step.path}/${step.disk.id}",
+										fileName = step.allocation.getPath(step.disk.id),
 										capabilityId = step.capability.id
 								))
 				))
