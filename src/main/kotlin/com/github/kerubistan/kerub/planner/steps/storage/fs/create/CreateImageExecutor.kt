@@ -33,7 +33,7 @@ class CreateImageExecutor(private val exec: HostCommandExecutor, private val dyn
 						size = step.disk.size
 				)
 				logger.info("Created virtual disk")
-				QemuImg.info(session = it, path = "${step.path}/${step.disk.id}")
+				QemuImg.info(session = it, path = step.allocation.getPath(step.disk.id))
 			}
 
 	override fun update(step: CreateImage, updates: ImageInfo) {

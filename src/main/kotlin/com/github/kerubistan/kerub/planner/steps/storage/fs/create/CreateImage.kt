@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.create
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -22,11 +23,12 @@ data class CreateImage(
 				actualSize = disk.size, //TODO not true when thin provisioning
 				mountPoint = path,
 				type = format,
-				fileName = "$path/${disk.id}",
+				fileName = "$path/${disk.id}.${format}",
 				capabilityId = capability.id
 		)
 	}
 
+	@get:JsonIgnore
 	val path get() = capability.mountPoint
 
 	/*
