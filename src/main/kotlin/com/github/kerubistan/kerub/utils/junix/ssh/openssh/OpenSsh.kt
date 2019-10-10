@@ -39,7 +39,7 @@ object OpenSsh {
 					logger.warn("The file already exists, skipping generation")
 				} else {
 					session.executeOrDie(
-							"ssh-keygen -t rsa -N '${(password?.let { "$it" }) ?: ""}' -f /root/.ssh/id_rsa ")
+							"ssh-keygen -t rsa -N '${password ?: ""}' -f /root/.ssh/id_rsa ")
 				}
 				it.getFileContents("/root/.ssh/id_rsa.pub")
 			}
