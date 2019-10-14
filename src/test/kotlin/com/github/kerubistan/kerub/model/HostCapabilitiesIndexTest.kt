@@ -7,6 +7,7 @@ import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import java.util.UUID.randomUUID
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class HostCapabilitiesIndexTest {
@@ -48,5 +49,17 @@ class HostCapabilitiesIndexTest {
 					)
 			).index.compressionCapabilities == setOf(CompressionFormat.Gzip)
 		}
+	}
+
+	@Test
+	fun installedPackageNames() {
+		assertEquals(
+				setOf("gzip"),
+				testHostCapabilities.copy(
+						installedSoftware = listOf(
+								pack("gzip", "1.2.3")
+						)
+				).index.installedPackageNames
+		)
 	}
 }

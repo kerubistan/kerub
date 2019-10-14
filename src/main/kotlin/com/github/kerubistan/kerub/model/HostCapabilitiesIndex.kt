@@ -13,6 +13,10 @@ data class HostCapabilitiesIndex(val indexOf: HostCapabilities) : Serializable {
 		indexOf.installedSoftware.associateBy { it.name }
 	}
 
+	val installedPackageNames by lazy(LazyThreadSafetyMode.PUBLICATION) {
+		indexOf.installedSoftware.map { it.name }.toSet()
+	}
+
 	@get:JsonIgnore
 	val storageCapabilitiesById by lazy { indexOf.storageCapabilities.associateBy { it.id } }
 
