@@ -1,10 +1,12 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.kerubistan.kerub.model.expectations.VirtualStorageDeviceReference
 import com.github.kerubistan.kerub.model.expectations.VirtualStorageExpectation
+import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.model.views.Simple
 import com.github.kerubistan.kerub.utils.validateSize
 import io.github.kerubistan.kroki.collections.join
@@ -38,7 +40,7 @@ VirtualStorageDevice(
 
 		override val recycling: Boolean = false
 
-) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset, Recyclable {
+) : Entity<UUID>, Constrained<VirtualStorageExpectation>, Named, Asset, Recyclable, Indexed<VirtualStorageDeviceIndex> {
 
 	init {
 		size.validateSize("size")
@@ -53,4 +55,8 @@ VirtualStorageDevice(
 		)
 		return mapOf.filter { it.value.isNotEmpty() }
 	}
+
+	@get:JsonIgnore
+	override val index by lazy { VirtualStorageDeviceIndex(this) }
+
 }
