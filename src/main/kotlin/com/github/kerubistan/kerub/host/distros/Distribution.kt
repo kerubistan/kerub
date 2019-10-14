@@ -89,13 +89,10 @@ interface Distribution {
 
 	fun getTotalMemory(session: ClientSession): BigInteger
 
-	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean {
-		return getRequiredPackages(osCommand, host.capabilities).all { pack ->
-			host.capabilities?.installedSoftware?.any {
-				it.name == pack
-			} ?: false
-		}
-	}
+	fun isUtilityAvailable(osCommand: OsCommand, host: Host): Boolean =
+			host.capabilities?.index?.installedPackageNames
+					?.containsAll(getRequiredPackages(osCommand, host.capabilities))
+					?: false
 
 	fun getFireWall(session: ClientSession): FireWall
 

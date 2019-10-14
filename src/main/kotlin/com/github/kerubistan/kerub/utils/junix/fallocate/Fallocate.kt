@@ -9,7 +9,7 @@ import org.apache.sshd.client.session.ClientSession
 object Fallocate : OsCommand {
 	override fun available(hostCapabilities: HostCapabilities?): Boolean
 			= hostCapabilities?.os == OperatingSystem.Linux
-			&& hostCapabilities.installedSoftware.any { it.name == "util-linux" }
+			&& "util-linux" in hostCapabilities.index.installedPackageNames
 
 	fun dig(session : ClientSession, file : String) {
 		session.executeOrDie("fallocate -d $file")
