@@ -1,11 +1,11 @@
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=coverage)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=security_rating)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=sqale_index)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=kerubistan_kerub&metric=ncloc)](https://sonarcloud.io/dashboard?id=kerubistan_kerub)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=coverage)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=security_rating)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=sqale_index)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=ncloc)](https://sonarcloud.io/dashboard?id=Debugistan)
 
 [![FreeBSD](https://img.shields.io/badge/FreeBSD-10+-red.svg)](http://freebsd.org)
 [![CentOs](https://img.shields.io/badge/CentOs-6+-blue.svg)](https://centos.org/)
