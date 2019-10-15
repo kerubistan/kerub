@@ -571,6 +571,8 @@
 				<constructor-arg ref="vmDao"/>
 				<constructor-arg ref="assetAccessController"/>
 				<constructor-arg ref="vmDynDao"/>
+				<constructor-arg ref="templateDao"/>
+				<constructor-arg ref="virtualStorageDeviceDao"/>
 			</bean>
 			<bean id="pool" class="com.github.kerubistan.kerub.services.impl.PoolServiceImpl">
 				<constructor-arg ref="poolDao"/>

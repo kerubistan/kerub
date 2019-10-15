@@ -8,6 +8,7 @@ import java.util.UUID
 import javax.ws.rs.Consumes
 import javax.ws.rs.GET
 import javax.ws.rs.POST
+import javax.ws.rs.PUT
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
@@ -21,6 +22,10 @@ import javax.ws.rs.core.MediaType
 interface VirtualMachineService
 	: RestCrud<VirtualMachine>, RestOperations.List<VirtualMachine>,
 		AssetService<VirtualMachine> {
+
+	@PUT
+	@Path("from-template")
+	fun createFromTemplate(request: VmFromTemplateRequest)
 
 	@ApiOperation(value = "start a virtual machine", notes = "Changes vm-availability expectation to ON on the VM")
 	@Path("{id}/start")
