@@ -43,7 +43,7 @@ inline fun <T> List<T>.update(
 			this.filterNot(selector) + map(it)
 		} ?: this + map(default())
 
-// I need to think about this, but this may be just too specific for kroki
+// moved to kroki
 inline fun <R : Any, L, reified SUB : R, reified P> List<R>.mergeInstancesWith(
 		leftItems: Iterable<L>,
 		rightValue: (SUB) -> P,
