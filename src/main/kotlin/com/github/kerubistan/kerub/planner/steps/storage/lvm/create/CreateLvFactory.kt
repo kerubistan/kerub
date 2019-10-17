@@ -16,7 +16,7 @@ object CreateLvFactory : AbstractCreateVirtualStorageFactory<CreateLv>() {
 
 	override fun produce(state: OperationalState): List<CreateLv> =
 			factoryFeature(state.controllerConfig.storageTechnologies.lvmCreateVolumeEnabled) {
-				val storageNotAllocated = listStorageNotAllocated(state)
+				val storageNotAllocated = state.index.virtualStorageNotAllocated
 				var steps = listOf<CreateLv>()
 
 				state.index.runningHosts.forEach { host ->

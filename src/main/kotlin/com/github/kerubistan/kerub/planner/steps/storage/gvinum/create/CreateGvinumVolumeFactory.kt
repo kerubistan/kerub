@@ -24,7 +24,7 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 
 	override fun produce(state: OperationalState): List<CreateGvinumVolume> =
 			factoryFeature(state.controllerConfig.storageTechnologies.gvinumCreateVolumeEnabled) {
-				listStorageNotAllocated(state).map { virtualStorage ->
+				state.index.virtualStorageNotAllocated.map { virtualStorage ->
 
 					hostsWithGvinumCapabilities(state).map { host ->
 
