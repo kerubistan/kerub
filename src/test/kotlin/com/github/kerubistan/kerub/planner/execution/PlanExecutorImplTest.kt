@@ -17,6 +17,7 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
+import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
@@ -43,11 +44,15 @@ class PlanExecutorImplTest {
 	@Test
 	fun execute() {
 		whenever(controllerManager.getControllerId()).thenReturn("TEST-CONTROLLER")
+		val fsCapability = FsStorageCapability(id = UUID.randomUUID(), size = 100.GB, fsType = "ext4", mountPoint = "/var/")
 		val host = Host(
 				id = UUID.randomUUID(),
 				address = "127.0.0.1",
 				dedicated = true,
-				publicKey = ""
+				publicKey = "",
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(fsCapability)
+				)
 		)
 		val plan = Plan(
 				state = OperationalState.fromLists(
@@ -63,7 +68,7 @@ class PlanExecutorImplTest {
 								name = "foo"
 						),
 						format = VirtualDiskFormat.qcow2,
-						capability = FsStorageCapability(id = UUID.randomUUID(), size = 100.GB, fsType = "ext4", mountPoint = "/var/")
+						capability = fsCapability
 				))
 		)
 		val callback = mock<(Plan) -> Unit>()

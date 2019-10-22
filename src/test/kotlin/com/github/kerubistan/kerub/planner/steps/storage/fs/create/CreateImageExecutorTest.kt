@@ -10,6 +10,7 @@ import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -52,14 +53,19 @@ class CreateImageExecutorTest {
 }
 """
 		)
+		val host = testHost.copy(
+				capabilities = testHostCapabilities.copy(
+						storageCapabilities = listOf(testFsCapability)
+				)
+		)
 		val step = CreateImage(
 				disk = testDisk,
-				host = testHost,
+				host = host,
 				format = VirtualDiskFormat.qcow2,
 				capability = testFsCapability
 		)
 
-		hostCommandExecutor.mockHost(testHost, session)
+		hostCommandExecutor.mockHost(host, session)
 
 		whenever(virtualStorageDynamicDao.add(any())).thenAnswer {
 			val value = it.arguments[0] as VirtualStorageDeviceDynamic

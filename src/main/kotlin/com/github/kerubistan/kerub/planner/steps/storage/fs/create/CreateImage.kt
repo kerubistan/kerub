@@ -4,19 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
-import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
-import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
-import com.github.kerubistan.kerub.utils.update
 
 data class CreateImage(
 		override val disk: VirtualStorageDevice,
 		override val capability: FsStorageCapability,
 		override val host: Host,
 		override val format: VirtualDiskFormat
-) : AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
+) : AbstractCreateImage() {
+
+	init {
+		require(host.capabilities?.storageCapabilities?.contains(capability) ?: false) {
+			"host (${host.id}) capabilities (${host.capabilities?.storageCapabilities}) must include ${capability.id}"
+		}
+	}
+
+	@get:JsonIgnore
 	override val allocation: VirtualStorageFsAllocation by lazy {
 		VirtualStorageFsAllocation(
 				hostId = host.id,
@@ -28,26 +32,5 @@ data class CreateImage(
 		)
 	}
 
-	@get:JsonIgnore
-	val path get() = capability.mountPoint
-
-	/*
-	 * TODO: add costs here:
-	 * - overallocation and underallocation of
-	 * - bandwidth and storage capacity
-	 */
-
-	override fun take(state: OperationalState): OperationalState =
-			state.copy(
-					vStorage = state.vStorage.update(disk.id) {
-						it.copy(
-								dynamic =
-								VirtualStorageDeviceDynamic(
-										id = disk.id,
-										allocations = listOf(allocation)
-								)
-						)
-					}
-			)
 
 }

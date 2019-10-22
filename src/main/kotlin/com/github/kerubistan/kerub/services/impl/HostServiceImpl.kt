@@ -20,7 +20,7 @@ class HostServiceImpl(
 	: ListableBaseService<Host>("host"), HostService {
 
 	override fun getFeatures(id: UUID): List<HostService.HostFeatureSummary>
-			= assertExist("host",getById(id), id).let {
+			= assertExist("host", getById(id), id).capabilities.let {
 		listOf()
 	}
 

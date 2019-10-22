@@ -4,10 +4,14 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
+import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
 import io.github.kerubistan.kroki.size.GB
-import org.junit.Assert
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertTrue
 
 class CreateImageTest {
 
@@ -20,7 +24,10 @@ class CreateImageTest {
 	val host = Host(
 			address = "host-1.example.com",
 			publicKey = "",
-			dedicated = true
+			dedicated = true,
+			capabilities = testHostCapabilities.copy(
+					storageCapabilities = listOf(testFsCapability)
+			)
 	)
 
 	@Test
@@ -30,9 +37,21 @@ class CreateImageTest {
 				vStorage = listOf(device)
 		))
 
-		Assert.assertTrue(state.vStorage.values.any {
+		assertTrue(state.vStorage.values.any {
 			it.dynamic?.allocations?.single()?.hostId == host.id
 					&& it.dynamic?.id == device.id
 		})
+	}
+
+	@Test
+	fun validations() {
+		assertThrows<IllegalArgumentException> {
+			CreateImage(
+					host = testHost,
+					capability = testFsCapability,
+					disk = testDisk,
+					format = VirtualDiskFormat.qcow2
+			)
+		}
 	}
 }
