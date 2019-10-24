@@ -93,7 +93,7 @@ class VirtualStorageDeviceServiceImplTest {
 				capabilityId = testFsCapability.id,
 				mountPoint = testFsCapability.mountPoint,
 				type = VirtualDiskFormat.raw,
-				fileName = "${testDisk.id}"
+				fileName = "${testFsCapability.mountPoint}/${testDisk.id}.raw"
 		)
 		val testDiskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,
@@ -159,7 +159,7 @@ class VirtualStorageDeviceServiceImplTest {
 				capabilityId = testFsCapability.id,
 				mountPoint = testFsCapability.mountPoint,
 				type = VirtualDiskFormat.raw,
-				fileName = "${testDisk.id}"
+				fileName = "${testFsCapability.mountPoint}/${testDisk.id}.raw"
 		)
 		val testDiskDyn = VirtualStorageDeviceDynamic(
 				id = testDisk.id,

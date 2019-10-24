@@ -54,7 +54,7 @@ class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory
 															hostId = testHost.id,
 															actualSize = 1.GB,
 															mountPoint = "/kerub",
-															fileName = "",
+															fileName = "/kerub/${testVirtualDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2,
 															capabilityId = testFsCapability.id
 													)
@@ -97,7 +97,7 @@ class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory
 															hostId = host.id,
 															actualSize = 1.GB,
 															mountPoint = "/kerub",
-															fileName = "",
+															fileName = "/kerub/${virtualDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2,
 															capabilityId = testFsCapability.id
 													)
@@ -124,7 +124,7 @@ class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory
 					hostId = host.id,
 					actualSize = 1.GB,
 					mountPoint = "/kerub",
-					fileName = "",
+					fileName = "/kerub/${testVirtualDisk.id}.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					capabilityId = testFsCapability.id
 			)
@@ -185,7 +185,7 @@ class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory
 					hostId = host.id,
 					actualSize = 1.GB,
 					mountPoint = "/kerub",
-					fileName = "",
+					fileName = "/kerub/${testVirtualDisk.id}.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					capabilityId = testFsCapability.id
 			)
@@ -240,7 +240,7 @@ class ConvertImageFactoryTest : AbstractFactoryVerifications(ConvertImageFactory
 					hostId = host.id,
 					actualSize = 1.GB,
 					mountPoint = "/kerub",
-					fileName = "",
+					fileName = "/kerub/${testVirtualDisk.id}.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					capabilityId = testFsCapability.id
 			)

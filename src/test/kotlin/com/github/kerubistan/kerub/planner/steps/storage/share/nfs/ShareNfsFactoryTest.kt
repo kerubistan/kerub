@@ -62,7 +62,7 @@ class ShareNfsFactoryTest : AbstractFactoryVerifications(ShareNfsFactory) {
 															hostId = testHost.id,
 															actualSize = 100.MB,
 															mountPoint = "/kerub",
-															fileName = "${testDisk.id}.qcow",
+															fileName = "/kerub/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2,
 															capabilityId = testFsCapability.id
 													)
@@ -103,7 +103,8 @@ class ShareNfsFactoryTest : AbstractFactoryVerifications(ShareNfsFactory) {
 															hostId = testHost.id,
 															actualSize = 100.MB,
 															mountPoint = testFsCapability.mountPoint,
-															fileName = "${testDisk.id}.qcow",
+															fileName =
+															"${testFsCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2,
 															capabilityId = testFsCapability.id
 													)

@@ -5,14 +5,14 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.du.DU
-import com.github.kerubistan.kerub.utils.junix.file.Mv
+import com.github.kerubistan.kerub.utils.junix.file.Rm
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger
 
 class InPlaceConvertImageExecutor(
 		private val hostCommandExecutor: HostCommandExecutor,
 		private val virtualStorageDynamicDao: VirtualStorageDeviceDynamicDao)
-	: AbstractStepExecutor<InPlaceConvertImage, BigInteger>() {
+	: AbstractStepExecutor<InPlaceConvertImage, Pair<String, BigInteger>>() {
 
 	companion object {
 		private val logger = getLogger(InPlaceConvertImageExecutor::class)
@@ -21,22 +21,22 @@ class InPlaceConvertImageExecutor(
 	override fun perform(step: InPlaceConvertImage) =
 		hostCommandExecutor.execute(step.host) {session ->
 			val sourcePath = step.sourceAllocation.getPath(step.virtualStorage.id)
-			val targetTempPath = "${sourcePath}_ipc_.${step.targetFormat}"
+			val targetPath = sourcePath.replaceAfter(step.virtualStorage.id.toString(), ".${step.targetFormat}")
 			QemuImg.convert(
 					session = session,
 					path = sourcePath,
-					targetPath = targetTempPath,
+					targetPath = targetPath,
 					targetFormat = step.targetFormat
 			)
-			logger.info("done with conversion to $targetTempPath, checking")
-			QemuImg.check(session, path = targetTempPath, format = step.targetFormat)
-			logger.info("done checking $targetTempPath, moving to $sourcePath")
-			Mv.move(session, targetTempPath, sourcePath)
+			logger.info("done with conversion to $targetPath, checking")
+			QemuImg.check(session, path = targetPath, format = step.targetFormat)
+			logger.info("done checking $targetPath, moving to $sourcePath")
+			Rm.remove(session, sourcePath)
 
-			DU.du(session, sourcePath)
+			targetPath to DU.du(session, targetPath)
 		}
 
-	override fun update(step: InPlaceConvertImage, updates: BigInteger) {
+	override fun update(step: InPlaceConvertImage, updates: Pair<String, BigInteger>) {
 		virtualStorageDynamicDao.update(step.virtualStorage.id) {
 			it.copy(
 					allocations = it.allocations.map {
@@ -44,7 +44,8 @@ class InPlaceConvertImageExecutor(
 						if(allocation == step.sourceAllocation) {
 							step.sourceAllocation.copy(
 									type = step.targetFormat,
-									actualSize = updates
+									fileName = updates.first,
+									actualSize = updates.second
 							)
 						} else allocation
 					}

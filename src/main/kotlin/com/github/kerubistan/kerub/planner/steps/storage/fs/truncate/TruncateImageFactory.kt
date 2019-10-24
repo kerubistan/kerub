@@ -30,7 +30,7 @@ object TruncateImageFactory : AbstractCreateFileVirtualStorageFactory<TruncateIm
 			allocation = VirtualStorageFsAllocation(
 					hostId = hostData.stat.id,
 					actualSize = BigInteger.ZERO,
-					fileName = "${storage.id}.raw",
+					fileName = "${mount.mountPoint}/${storage.id}.raw",
 					mountPoint = mount.mountPoint,
 					type = VirtualDiskFormat.raw,
 					capabilityId = mount.id

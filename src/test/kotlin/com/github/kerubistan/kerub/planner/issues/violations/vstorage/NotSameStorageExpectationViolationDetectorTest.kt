@@ -44,7 +44,7 @@ class NotSameStorageExpectationViolationDetectorTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(
 															actualSize = 10.GB,
-															fileName = "first-disk.raw",
+															fileName = "${testFsCapability.mountPoint}/first-disk.raw",
 															type = VirtualDiskFormat.raw,
 															mountPoint = testFsCapability.mountPoint,
 															hostId = testHost.id,
@@ -88,7 +88,7 @@ class NotSameStorageExpectationViolationDetectorTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(
 															actualSize = 10.GB,
-															fileName = "second-disk.raw",
+															fileName = "${testFsCapability.mountPoint}/second-disk.raw",
 															type = VirtualDiskFormat.raw,
 															mountPoint = testFsCapability.mountPoint,
 															hostId = testHost.id,
@@ -123,7 +123,7 @@ class NotSameStorageExpectationViolationDetectorTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(
 															actualSize = 10.GB,
-															fileName = "first-disk.raw",
+															fileName = "${testFsCapability.mountPoint}/first-disk.raw",
 															type = VirtualDiskFormat.raw,
 															mountPoint = testFsCapability.mountPoint,
 															hostId = testHost.id,
@@ -136,7 +136,7 @@ class NotSameStorageExpectationViolationDetectorTest {
 											allocations = listOf(
 													VirtualStorageFsAllocation(
 															actualSize = 10.GB,
-															fileName = "second-disk.qcow2",
+															fileName = "${testFsCapability.mountPoint}/second-disk.qcow2",
 															type = VirtualDiskFormat.qcow2,
 															mountPoint = testFsCapability.mountPoint,
 															hostId = testHost.id,

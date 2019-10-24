@@ -38,6 +38,8 @@ import com.github.kerubistan.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.kerubistan.kerub.planner.steps.host.startup.WolWakeHost
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
+import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageBasedOnTemplate
+import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageBasedOnTemplateExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.fs.truncate.TruncateImage
 import com.github.kerubistan.kerub.planner.steps.storage.fs.truncate.TruncateImageExecutor
@@ -129,6 +131,8 @@ class PlanExecutorImpl(
 			EnableKsm::class to EnableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			DisableKsm::class to DisableKsmExecutor(hostCommandExecutor, hostDynamicDao),
 			CreateImage::class to CreateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
+			CreateImageBasedOnTemplate::class
+					to CreateImageBasedOnTemplateExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			TruncateImage::class to TruncateImageExecutor(hostCommandExecutor, virtualStorageDeviceDynamicDao),
 			CreateGvinumVolume::class to CreateGvinumVolumeExecutor(
 					hostCommandExecutor, virtualStorageDeviceDynamicDao,

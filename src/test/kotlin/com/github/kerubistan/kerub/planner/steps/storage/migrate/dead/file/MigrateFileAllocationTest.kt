@@ -52,7 +52,7 @@ class MigrateFileAllocationTest {
 					capabilityId = sourceCapability.id,
 					mountPoint = sourceCapability.mountPoint,
 					type = VirtualDiskFormat.qcow2,
-					fileName = "${testDisk.id}.qcow2",
+					fileName = "${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 					actualSize = testDisk.size,
 					hostId = sourceHost.id
 			)
@@ -106,7 +106,7 @@ class MigrateFileAllocationTest {
 				capabilityId = sourceCapability.id,
 				mountPoint = sourceCapability.mountPoint,
 				type = VirtualDiskFormat.qcow2,
-				fileName = "${testDisk.id}.qcow2",
+				fileName = "${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 				actualSize = testDisk.size,
 				hostId = sourceHost.id
 		)

@@ -111,7 +111,8 @@ class UnshareNfsFactoryTest : AbstractFactoryVerifications(UnshareNfsFactory) {
 															hostId = nfsServer.id,
 															mountPoint = testFsCapability.mountPoint,
 															type = VirtualDiskFormat.qcow2,
-															fileName = "",
+															fileName =
+															"${testFsCapability.mountPoint}/${testDisk.id}.qcow2",
 															actualSize = 100.GB,
 															capabilityId = testFsCapability.id
 													)

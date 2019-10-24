@@ -46,7 +46,7 @@ class FallocateImageTest {
 						capabilityId = capability.id,
 						mountPoint = "/kerub",
 						type = VirtualDiskFormat.raw,
-						fileName = "blah.raw"
+						fileName = "/kerub/blah.raw"
 				),
 				expectedFree = 1.GB
 		).take(
@@ -60,7 +60,7 @@ class FallocateImageTest {
 										allocations = listOf(
 												VirtualStorageFsAllocation(
 														capabilityId = capability.id,
-														fileName = "test.qcow2",
+														fileName = "${capability.mountPoint}/test.qcow2",
 														type = VirtualDiskFormat.qcow2,
 														mountPoint = capability.mountPoint,
 														actualSize = 10.GB,

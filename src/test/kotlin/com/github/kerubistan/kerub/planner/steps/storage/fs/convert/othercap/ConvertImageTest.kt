@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -25,7 +26,7 @@ class ConvertImageTest {
 					sourceAllocation = VirtualStorageFsAllocation(
 							hostId = testHost.id,
 							type = VirtualDiskFormat.qcow2,
-							fileName = "",
+							fileName = "/kerub/${testDisk.id}.qcow2",
 							mountPoint = "/kerub",
 							actualSize = 1.GB,
 							capabilityId = testFsCapability.id
@@ -33,7 +34,7 @@ class ConvertImageTest {
 					targetAllocation = VirtualStorageFsAllocation(
 							hostId = testOtherHost.id,
 							type = VirtualDiskFormat.raw,
-							fileName = "",
+							fileName = "/kerub/${testDisk.id}.raw",
 							mountPoint = "/kerub",
 							actualSize = 1.GB,
 							capabilityId = testFsCapability.id
@@ -48,7 +49,7 @@ class ConvertImageTest {
 					targetAllocation = VirtualStorageFsAllocation(
 							hostId = testHost.id,
 							type = VirtualDiskFormat.qcow2,
-							fileName = "",
+							fileName = "/kerub/${testDisk.id}.qcow2",
 							mountPoint = "/kerub",
 							actualSize = 1.GB,
 							capabilityId = testFsCapability.id
@@ -56,7 +57,7 @@ class ConvertImageTest {
 					sourceAllocation  = VirtualStorageFsAllocation(
 							hostId = testOtherHost.id,
 							type = VirtualDiskFormat.raw,
-							fileName = "",
+							fileName = "/kerub/${testDisk.id}.raw",
 							mountPoint = "/kerub",
 							actualSize = 1.GB,
 							capabilityId = testFsCapability.id
@@ -77,7 +78,7 @@ class ConvertImageTest {
 		val targetAllocation = VirtualStorageFsAllocation(
 				hostId = host.id,
 				type = VirtualDiskFormat.qcow2,
-				fileName = "",
+				fileName = "/kerub-2/${testVirtualDisk.id}.qcow2",
 				mountPoint = "/kerub-2",
 				actualSize = 1.GB,
 				capabilityId = testFsCapability.id
@@ -85,7 +86,7 @@ class ConvertImageTest {
 		val sourceAllocation = VirtualStorageFsAllocation(
 				hostId = host.id,
 				type = VirtualDiskFormat.raw,
-				fileName = "",
+				fileName = "/kerub-1/${testVirtualDisk.id}.raw",
 				mountPoint = "/kerub-1",
 				actualSize = 1.GB,
 				capabilityId = testFsCapability.id

@@ -71,7 +71,7 @@ class StorageRedundancyExpectationViolationDetectorTest {
 															actualSize = testCdrom.size,
 															hostId = host1.id,
 															type = VirtualDiskFormat.raw,
-															fileName = "blah.iso"
+															fileName = "${host1FsCap.mountPoint}/blah.raw"
 													),
 													VirtualStorageFsAllocation(
 															capabilityId = host2FsCap.id,
@@ -79,7 +79,7 @@ class StorageRedundancyExpectationViolationDetectorTest {
 															actualSize = testCdrom.size,
 															hostId = host2.id,
 															type = VirtualDiskFormat.raw,
-															fileName = "blah.iso"
+															fileName = "${host2FsCap.mountPoint}/blah.raw"
 													)
 											)
 									)
@@ -134,7 +134,7 @@ class StorageRedundancyExpectationViolationDetectorTest {
 															actualSize = testCdrom.size,
 															hostId = host1.id,
 															type = VirtualDiskFormat.raw,
-															fileName = "blah.iso"
+															fileName = "${host1FsCap.mountPoint}/blah.raw"
 													),
 													VirtualStorageFsAllocation(
 															capabilityId = host2FsCap.id,
@@ -142,7 +142,7 @@ class StorageRedundancyExpectationViolationDetectorTest {
 															actualSize = testCdrom.size,
 															hostId = host2.id,
 															type = VirtualDiskFormat.raw,
-															fileName = "blah.iso"
+															fileName = "${host2FsCap.mountPoint}/blah.raw"
 													)
 											)
 									)
@@ -346,7 +346,7 @@ class StorageRedundancyExpectationViolationDetectorTest {
 															actualSize = testCdrom.size,
 															hostId = host2.id,
 															type = VirtualDiskFormat.raw,
-															fileName = "blah.iso"
+															fileName = "${host2FsCap.mountPoint}/blah.raw"
 													)
 											)
 									)

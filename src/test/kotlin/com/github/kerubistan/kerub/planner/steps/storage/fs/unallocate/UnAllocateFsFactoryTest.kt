@@ -43,7 +43,7 @@ class UnAllocateFsFactoryTest : AbstractFactoryVerifications(UnAllocateFsFactory
 					mountPoint = host1capability.mountPoint,
 					actualSize = testCdrom.size,
 					hostId = host1.id,
-					fileName = "test.iso",
+					fileName = "${host1capability.mountPoint}/test.raw",
 					type = VirtualDiskFormat.raw
 			)
 			UnAllocateFsFactory.produce(
@@ -81,7 +81,7 @@ class UnAllocateFsFactoryTest : AbstractFactoryVerifications(UnAllocateFsFactory
 					mountPoint = host1capability.mountPoint,
 					actualSize = testDisk.size,
 					hostId = host1.id,
-					fileName = "test.iso",
+					fileName = "${host1capability.mountPoint}/test.raw",
 					type = VirtualDiskFormat.raw
 			)
 			UnAllocateFsFactory.produce(
@@ -122,7 +122,7 @@ class UnAllocateFsFactoryTest : AbstractFactoryVerifications(UnAllocateFsFactory
 					mountPoint = host1capability.mountPoint,
 					actualSize = disk.size,
 					hostId = host1.id,
-					fileName = "test.iso",
+					fileName = "${host1capability.mountPoint}/test.raw",
 					type = VirtualDiskFormat.raw
 			)
 			UnAllocateFsFactory.produce(
@@ -183,7 +183,7 @@ class UnAllocateFsFactoryTest : AbstractFactoryVerifications(UnAllocateFsFactory
 					mountPoint = host1capability.mountPoint,
 					actualSize = testCdrom.size,
 					hostId = host1.id,
-					fileName = "test.iso",
+					fileName = "${host1capability.mountPoint}/test.raw",
 					type = VirtualDiskFormat.raw
 			)
 			val lvmAllocation = VirtualStorageLvmAllocation(

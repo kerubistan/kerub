@@ -618,7 +618,7 @@ class PlannerDefs {
 					hostId = host.id,
 					mountPoint = mountPoint,
 					actualSize = 10.GB,
-					fileName = "test.qcow2",
+					fileName = "${mountPoint}/${stat.id}.qcow2",
 					type = VirtualDiskFormat.qcow2,
 					capabilityId = getStorageCapabilityId<FsStorageCapability>(hostAddr) {it.mountPoint == mountPoint}
 			)
@@ -707,7 +707,7 @@ class PlannerDefs {
 						actualSize = storage.size,
 						mountPoint = directory,
 						type = VirtualDiskFormat.qcow2,
-						fileName = "$directory/${storage.id}",
+						fileName = "$directory/${storage.id}.qcow2",
 						capabilityId = getStorageCapabilityId<FsStorageCapability>(hostAddr) {
 							it.mountPoint == directory
 						}

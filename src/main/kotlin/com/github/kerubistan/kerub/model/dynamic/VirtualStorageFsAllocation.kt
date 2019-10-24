@@ -21,6 +21,12 @@ data class VirtualStorageFsAllocation(
 
 	init {
 		actualSize.validateSize("actualSize")
+		require(fileName.startsWith(mountPoint)) {
+			"The file name ($fileName) must be a full path starting with the mount point ($mountPoint)"
+		}
+		require(fileName.endsWith(type.name)) {
+			"the file name ($fileName) must be postfixed by the file type ($type)"
+		}
 	}
 
 	override fun getRedundancyLevel(): Byte = 0

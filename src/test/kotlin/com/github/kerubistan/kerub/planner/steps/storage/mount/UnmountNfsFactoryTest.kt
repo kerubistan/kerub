@@ -90,7 +90,7 @@ class UnmountNfsFactoryTest : AbstractFactoryVerifications(UnmountNfsFactory) {
 											VirtualStorageFsAllocation(
 													hostId = nfsServer.id,
 													mountPoint = "/kerub",
-													fileName = "blah.qcow2",
+													fileName = "/kerub/blah.qcow2",
 													actualSize = 1.GB,
 													type = VirtualDiskFormat.qcow2,
 													capabilityId = testFsCapability.id

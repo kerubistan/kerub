@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.steps.StepFactoryCollection
+import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageBasedOnTemplateFactory
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageFactory
 import com.github.kerubistan.kerub.planner.steps.storage.fs.truncate.TruncateImageFactory
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolumeFactory
@@ -18,6 +19,7 @@ object CreateDiskFactory : StepFactoryCollection(
 				ExtendLvmPoolFactory,
 				CreateThinLvFactory,
 				CreateImageFactory,
+				CreateImageBasedOnTemplateFactory,
 				TruncateImageFactory,
 				CreateGvinumVolumeFactory
 		)

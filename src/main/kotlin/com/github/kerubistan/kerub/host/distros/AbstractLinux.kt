@@ -239,7 +239,7 @@ abstract class AbstractLinux : Distribution {
 															type = silent { VirtualDiskFormat.valueOf(type) }
 																	?: VirtualDiskFormat.raw,
 															capabilityId = fsCapability.id,
-															fileName = fileName,
+															fileName = "${fsCapability.mountPoint}/$fileName",
 															mountPoint = fsCapability.mountPoint
 													)
 												},

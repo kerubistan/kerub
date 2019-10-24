@@ -35,7 +35,10 @@ data class InPlaceConvertImage(
 			vStorage = state.vStorage.update(virtualStorage.id) {
 				it.copy(
 						dynamic = it.dynamic!!.copy(
-								allocations = it.dynamic.allocations - sourceAllocation + sourceAllocation.copy(type = targetFormat)
+								allocations = it.dynamic.allocations - sourceAllocation + sourceAllocation.copy(
+										type = targetFormat,
+										fileName = "${sourceAllocation.mountPoint}/${virtualStorage.id}.$targetFormat"
+								)
 						)
 				)
 			}

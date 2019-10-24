@@ -115,7 +115,7 @@ class UnAllocateGvinumFactoryTest : AbstractFactoryVerifications(UnAllocateGvinu
 					mountPoint = otherCapability.mountPoint,
 					actualSize = testCdrom.size,
 					type = VirtualDiskFormat.raw,
-					fileName = "cdrom.iso"
+					fileName = "${otherCapability.mountPoint}/cdrom.raw"
 			)
 			UnAllocateGvinumFactory.produce(
 					OperationalState.fromLists(

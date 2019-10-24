@@ -73,7 +73,8 @@ class CreateImageBasedOnTemplateFactoryTest : AbstractFactoryVerifications(Creat
 													hostId = host.id,
 													type = VirtualDiskFormat.qcow2,
 													actualSize = 3.GB,
-													fileName = "${templateDisk.id}.qcow2",
+													fileName =
+													"${testFsCapability.mountPoint}/${templateDisk.id}.qcow2",
 													capabilityId = testFsCapability.id,
 													mountPoint = testFsCapability.mountPoint
 											)
@@ -129,7 +130,7 @@ class CreateImageBasedOnTemplateFactoryTest : AbstractFactoryVerifications(Creat
 													hostId = host.id,
 													type = VirtualDiskFormat.raw,
 													actualSize = 3.GB,
-													fileName = "${templateDisk.id}.raw",
+													fileName = "${testFsCapability.mountPoint}/${templateDisk.id}.raw",
 													capabilityId = testFsCapability.id,
 													mountPoint = testFsCapability.mountPoint
 											)
@@ -184,7 +185,8 @@ class CreateImageBasedOnTemplateFactoryTest : AbstractFactoryVerifications(Creat
 													hostId = host.id,
 													type = VirtualDiskFormat.qcow2,
 													actualSize = 3.GB,
-													fileName = "${templateDisk.id}.qcow2",
+													fileName =
+													"${testFsCapability.mountPoint}/${templateDisk.id}.qcow2",
 													capabilityId = testFsCapability.id,
 													mountPoint = testFsCapability.mountPoint
 											)

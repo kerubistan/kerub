@@ -36,11 +36,11 @@ class InPlaceConvertImageExecutorTest {
 		session.mockCommandExecution("qemu-img convert .*".toRegex())
 		session.mockCommandExecution("qemu-img check .*".toRegex())
 		session.mockCommandExecution("du .*".toRegex(), "123456	thatfile")
-		session.mockCommandExecution("mv .*".toRegex())
+		session.mockCommandExecution("rm .*".toRegex())
 		val fsAllocation = VirtualStorageFsAllocation(
 				capabilityId = testFsCapability.id,
 				mountPoint = testFsCapability.mountPoint,
-				fileName = "",
+				fileName = "${testFsCapability.mountPoint}/${testDisk.id}.raw",
 				type = VirtualDiskFormat.raw,
 				actualSize = testDisk.size,
 				hostId = host.id

@@ -101,7 +101,7 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName = "${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -185,7 +185,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -265,7 +266,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -345,7 +347,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -437,7 +440,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -529,7 +533,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)
@@ -609,7 +614,8 @@ class MigrateFileAllocationFactoryTest : AbstractFactoryVerifications(MigrateFil
 															mountPoint = sourceCapability.mountPoint,
 															hostId = sourceHost.id,
 															actualSize = testDisk.size,
-															fileName = "${testDisk.id}.qcow2",
+															fileName =
+															"${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
 															type = VirtualDiskFormat.qcow2
 													)
 											)

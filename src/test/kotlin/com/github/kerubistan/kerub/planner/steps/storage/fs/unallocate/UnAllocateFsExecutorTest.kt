@@ -36,7 +36,7 @@ class UnAllocateFsExecutorTest {
 								hostId = testHost.id,
 								actualSize = 10.GB,
 								mountPoint = "/kerub",
-								fileName = "${testDisk.id}.qcow2",
+								fileName = "/kerub/${testDisk.id}.qcow2",
 								type = VirtualDiskFormat.qcow2,
 								capabilityId = testFsCapability.id
 						),

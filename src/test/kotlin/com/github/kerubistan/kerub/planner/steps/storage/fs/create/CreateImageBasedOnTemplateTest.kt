@@ -122,7 +122,7 @@ internal class CreateImageBasedOnTemplateTest {
 						actualSize = 100.GB,
 						capabilityId = testFsCapability.id,
 						mountPoint = "/kerub",
-						fileName = "${testDisk.id}.qcow2",
+						fileName = "/kerub/${testDisk.id}.qcow2",
 						type = VirtualDiskFormat.qcow2
 				),
 				baseDisk = testCdrom
@@ -139,7 +139,8 @@ internal class CreateImageBasedOnTemplateTest {
 													capabilityId = testFsCapability.id,
 														hostId = testHost.id,
 														type = VirtualDiskFormat.qcow2,
-														fileName = "${testCdrom.id}.qcow2",
+														fileName =
+														"${testFsCapability.mountPoint}/${testCdrom.id}.qcow2",
 														actualSize = 1.GB,
 														mountPoint = testFsCapability.mountPoint
 												)

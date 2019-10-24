@@ -161,7 +161,7 @@ class KvmMigrateVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmMigr
 															hostId = testHost1.id,
 															mountPoint = host1FsCapability.mountPoint,
 															type = VirtualDiskFormat.qcow2,
-															fileName = testDisk.id.toString(),
+															fileName = "${host1FsCapability.mountPoint}/${testDisk.id}.qcow2",
 															actualSize = 20.GB,
 															capabilityId = testFsCapability.id
 													)
@@ -238,7 +238,8 @@ class KvmMigrateVirtualMachineFactoryTest : AbstractFactoryVerifications(KvmMigr
 															hostId = testHost1.id,
 															mountPoint = host1FsCapability.mountPoint,
 															type = VirtualDiskFormat.qcow2,
-															fileName = testDisk.id.toString(),
+															fileName =
+																"${host1FsCapability.mountPoint}/${testDisk.id}/.qcow2",
 															actualSize = 20.GB,
 															capabilityId = testFsCapability.id
 													)

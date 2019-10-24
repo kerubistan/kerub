@@ -53,7 +53,7 @@ class TruncateImageFactoryTest : AbstractFactoryVerifications(TruncateImageFacto
 					allocation = VirtualStorageFsAllocation(
 							type = VirtualDiskFormat.raw,
 							mountPoint = "/kerub",
-							fileName = "${disk.id}.raw",
+							fileName = "/kerub/${disk.id}.raw",
 							actualSize = 0.GB,
 							hostId = host.id,
 							capabilityId = capability.id

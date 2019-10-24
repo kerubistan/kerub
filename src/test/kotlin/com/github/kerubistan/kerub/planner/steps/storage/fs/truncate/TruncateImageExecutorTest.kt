@@ -45,7 +45,7 @@ class TruncateImageExecutorTest {
 		val fsAllocation = VirtualStorageFsAllocation(
 				hostId = testHost.id,
 				actualSize = 10.GB,
-				fileName = "${testDisk.id}.raw",
+				fileName = "/kerub/${testDisk.id}.raw",
 				mountPoint = "/kerub",
 				type = VirtualDiskFormat.raw,
 				capabilityId = testFsCapability.id

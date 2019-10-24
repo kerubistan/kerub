@@ -57,7 +57,7 @@ internal class CreateImageBasedOnTemplateExecutorTest {
 						baseAllocation = VirtualStorageFsAllocation(
 								hostId = host.id,
 								type = VirtualDiskFormat.qcow2,
-								fileName = "",
+								fileName = "/kerub/${testDisk.id}.qcow2",
 								mountPoint = "/kerub",
 								capabilityId = testFsCapability.id,
 								actualSize = 100.GB

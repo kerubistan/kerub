@@ -23,7 +23,7 @@ class TruncateImageTest {
 							hostId = testHost.id,
 							type = VirtualDiskFormat.qcow2, //intentionally wrong
 							mountPoint = "/kerub",
-							fileName = "XXX.qcow2",
+							fileName = "/kerub/XXX.qcow2",
 							actualSize = 100.GB,
 							capabilityId = testFsCapability.id),
 					disk = testDisk,
@@ -37,7 +37,7 @@ class TruncateImageTest {
 							hostId = testOtherHost.id, //intentionally wrong
 							type = VirtualDiskFormat.raw,
 							mountPoint = "/kerub",
-							fileName = "XXX.qcow2",
+							fileName = "/kerub/XXX.raw",
 							actualSize = 100.GB,
 							capabilityId = testFsCapability.id),
 					disk = testDisk,
@@ -52,7 +52,7 @@ class TruncateImageTest {
 				hostId = testHost.id,
 				type = VirtualDiskFormat.raw,
 				mountPoint = "/kerub",
-				fileName = "XXX.qcow2",
+				fileName = "/kerub/XXX.raw",
 				actualSize = 100.GB,
 				capabilityId = testFsCapability.id
 		)

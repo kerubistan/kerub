@@ -188,7 +188,7 @@ class VmUtilsKtTest {
 				actualSize = 10.GB,
 				mountPoint = "/kerub",
 				type = VirtualDiskFormat.qcow2,
-				fileName = "${testDisk.id}.qcow2",
+				fileName = "/kerub/${testDisk.id}.qcow2",
 				capabilityId = testFsCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
@@ -263,7 +263,7 @@ class VmUtilsKtTest {
 				actualSize = 10.GB,
 				mountPoint = "/kerub",
 				type = VirtualDiskFormat.qcow2,
-				fileName = "${testDisk.id}.qcow2",
+				fileName = "/kerub/${testDisk.id}.qcow2",
 				capabilityId = testFsCapability.id
 		)
 		val dynamic = VirtualStorageDeviceDynamic(
@@ -361,7 +361,7 @@ class VmUtilsKtTest {
 											hostId = testHost.id,
 											actualSize = 10.GB,
 											type = VirtualDiskFormat.qcow2,
-											fileName = "test.qcow2",
+											fileName = "/kerub/test.qcow2",
 											mountPoint = "/kerub",
 											capabilityId = testFsCapability.id
 									),

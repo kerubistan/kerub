@@ -44,7 +44,7 @@ class FallocateImageExecutorTest {
 
 		val allocation = VirtualStorageFsAllocation(
 				actualSize = 0.GB,
-				fileName = "test.raw",
+				fileName = "/kerub/test.raw",
 				hostId = testHost.id,
 				mountPoint = "/kerub/",
 				type = VirtualDiskFormat.raw,

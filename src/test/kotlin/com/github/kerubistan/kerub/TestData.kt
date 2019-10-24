@@ -175,7 +175,7 @@ fun diskAllocated(vdisk : VirtualStorageDevice, host : Host, capability: FsStora
 						capabilityId = capability.id,
 						actualSize = vdisk.size,
 						type = format,
-						fileName = "${vdisk.id}.$format",
+						fileName = "${capability.mountPoint}/${vdisk.id}.$format",
 						mountPoint = capability.mountPoint
 				)
 		)

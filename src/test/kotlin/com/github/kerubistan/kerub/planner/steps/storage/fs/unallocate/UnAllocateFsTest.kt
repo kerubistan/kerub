@@ -19,7 +19,7 @@ class UnAllocateFsTest {
 	fun take() {
 		val allocation = VirtualStorageFsAllocation(
 				type = VirtualDiskFormat.qcow2,
-				fileName = "test.qcow2",
+				fileName = "/mnt/test.qcow2",
 				mountPoint = "/mnt",
 				hostId = testHost.id,
 				actualSize = 10.GB,

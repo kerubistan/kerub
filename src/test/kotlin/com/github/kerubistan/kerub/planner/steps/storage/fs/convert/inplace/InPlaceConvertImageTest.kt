@@ -26,7 +26,7 @@ class InPlaceConvertImageTest {
 							mountPoint = "/kerub",
 							hostId = testOtherHost.id,
 							type = VirtualDiskFormat.qcow2,
-							fileName = "${testDisk.id}.qcow2",
+							fileName = "/kerub/${testDisk.id}.qcow2",
 							actualSize = testDisk.size
 					),
 					testHost,
@@ -40,7 +40,7 @@ class InPlaceConvertImageTest {
 							mountPoint = "/kerub",
 							hostId = testHost.id,
 							type = VirtualDiskFormat.qcow2,
-							fileName = "${testDisk.id}.qcow2",
+							fileName = "/kerub/${testDisk.id}.qcow2",
 							actualSize = testDisk.size
 					),
 					testHost,
@@ -60,7 +60,7 @@ class InPlaceConvertImageTest {
 							mountPoint = "/kerub",
 							hostId = host.id,
 							type = VirtualDiskFormat.qcow2,
-							fileName = "${testDisk.id}.qcow2",
+							fileName = "/kerub/${testDisk.id}.qcow2",
 							actualSize = testDisk.size
 					),
 					host,
@@ -81,7 +81,7 @@ class InPlaceConvertImageTest {
 						mountPoint = "/kerub",
 						hostId = host.id,
 						type = VirtualDiskFormat.qcow2,
-						fileName = "${testDisk.id}.qcow2",
+						fileName = "/kerub/${testDisk.id}.qcow2",
 						actualSize = testDisk.size
 				),
 				host,
@@ -102,7 +102,7 @@ class InPlaceConvertImageTest {
 					mountPoint = "/kerub",
 					hostId = host.id,
 					type = VirtualDiskFormat.qcow2,
-					fileName = "${testDisk.id}.qcow2",
+					fileName = "/kerub/${testDisk.id}.qcow2",
 					actualSize = testDisk.size
 			)
 			val state = InPlaceConvertImage(testDisk, sourceAllocation, host, VirtualDiskFormat.raw).take(OperationalState.fromLists(

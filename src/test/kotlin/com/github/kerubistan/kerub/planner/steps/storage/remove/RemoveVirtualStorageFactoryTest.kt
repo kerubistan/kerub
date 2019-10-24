@@ -29,7 +29,7 @@ class RemoveVirtualStorageFactoryTest : AbstractFactoryVerifications(RemoveVirtu
 											VirtualStorageFsAllocation(
 													hostId = testHost.id,
 													type = VirtualDiskFormat.qcow2,
-													fileName = "blah.qcow2",
+													fileName = "/mnt/blah.qcow2",
 													mountPoint = "/mnt",
 													actualSize = 100.GB,
 													capabilityId = testFsCapability.id
