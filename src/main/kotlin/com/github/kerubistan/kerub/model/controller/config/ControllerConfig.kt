@@ -12,6 +12,11 @@ import com.github.kerubistan.kerub.utils.emptyString
 @JsonTypeName("config")
 data class ControllerConfig(
 		/**
+		 * The amount of time in milliseconds after which the controller should give up trying to satisfy a requirement.
+		 */
+		val plannerTimeout : Int? = null,
+
+		/**
 		 * If accounts are required, the controller allows creating virtual resources only in accounts
 		 * Also users can only see the accounts/projects they are assigned to
 		 */

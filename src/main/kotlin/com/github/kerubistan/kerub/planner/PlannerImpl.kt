@@ -2,6 +2,7 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.k0zka.finder4j.backtrack.BacktrackService
 import com.github.k0zka.finder4j.backtrack.termination.OrTerminationStrategy
+import com.github.k0zka.finder4j.backtrack.termination.TimeoutTerminationStrategy
 import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.planner.issues.problems.CompositeProblemDetectorImpl
@@ -131,12 +132,14 @@ class PlannerImpl(
 						problemDetector = CompositeProblemDetectorImpl, stepFactory = stepFactory,
 						violationDetector = violationDetector)
 		)
-		val strategy = OrTerminationStrategy(
-				listOf(
-						listener
-//				,
-//				TimeoutTerminationStrategy(now() + 2000)
-				))
+		val strategy = if (state.controllerConfig.plannerTimeout == null) {
+			listener
+		} else {
+			OrTerminationStrategy(
+					listOf(
+							listener, TimeoutTerminationStrategy<Any>(now() + state.controllerConfig.plannerTimeout)
+					))
+		}
 
 		val initialPlan = Plan(states = listOf(state))
 
