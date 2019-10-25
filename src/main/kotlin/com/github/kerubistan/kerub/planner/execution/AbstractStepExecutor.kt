@@ -13,7 +13,8 @@ abstract class AbstractStepExecutor<T : AbstractOperationalStep, U> : StepExecut
 	 * Default implementation does nothing, since most commands can be executed without pre-check.
 	 */
 	open fun prepare(step: T) {
-
+		// most step may not need any check before trying to execute the operation
+		// therefore the default implementation is doing nothing
 	}
 
 	/**
@@ -26,7 +27,8 @@ abstract class AbstractStepExecutor<T : AbstractOperationalStep, U> : StepExecut
 	 * By default does nothing, since most junix commands should fail on error, specific tools can use this if not.
 	 */
 	open fun verify(step: T) {
-
+		// optionally the step executors can verify if the execution is successful, but this is most of the time
+		// not needed, therefore the default implementation is not doing anything
 	}
 
 	/**
