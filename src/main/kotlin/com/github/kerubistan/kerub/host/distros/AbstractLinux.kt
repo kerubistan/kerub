@@ -57,11 +57,11 @@ import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.PhysicalVolume
 import com.github.kerubistan.kerub.utils.junix.sysfs.Net
 import com.github.kerubistan.kerub.utils.junix.uname.UName
 import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
-import com.github.kerubistan.kerub.utils.mergeInstancesWith
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.update
 import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.mergeInstancesWith
 import io.github.kerubistan.kroki.objects.find
 import io.github.kerubistan.kroki.strings.isUUID
 import io.github.kerubistan.kroki.strings.toUUID
