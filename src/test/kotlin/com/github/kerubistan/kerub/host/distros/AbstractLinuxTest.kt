@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.data.dynamic.HostDynamicDao
 import com.github.kerubistan.kerub.data.dynamic.VirtualStorageDeviceDynamicDao
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.LvmStorageCapability
+import com.github.kerubistan.kerub.model.SoftwarePackage.Companion.pack
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -13,9 +14,11 @@ import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
 import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.mockProcess
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
+import com.github.kerubistan.kerub.utils.junix.common.Centos
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.doReturn
@@ -293,4 +296,49 @@ vda     1  0 4096  0    512      0 disk    8G
 		}
 	}
 
+	@Test
+	fun detectHostCpuType() {
+		session.mockCommandExecution("^uname -p$".toRegex(),"x86_64")
+		val linux = spy<AbstractLinux>()
+
+		val cpuType = linux.detectHostCpuType(session)
+
+		assertEquals("x86_64", cpuType)
+		session.verifyCommandExecution("^uname -p$".toRegex())
+	}
+
+	@Test
+	fun detectHostCpuTypeFallback() {
+		session.mockCommandExecution("^uname -p$".toRegex(),"unknown")
+		session.mockCommandExecution("^uname -m$".toRegex(),"aarch64")
+		val linux = spy<AbstractLinux>()
+
+		val cpuType = linux.detectHostCpuType(session)
+
+		assertEquals("aarch64", cpuType)
+		session.verifyCommandExecution("^uname -p$".toRegex())
+	}
+
+	@Test
+	fun listLvmVolumes() {
+		session.mockCommandExecution("^lvm vgs.*".toRegex(),
+				"""  HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43:system:578176417792B:100352917504B:137848:23926
+  vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ:testarea:678076350464B:98213822464B:161666:23416
+""")
+		session.mockCommandExecution("^lvm pvs.*".toRegex(),
+				"""  9pySAz-Uot3-JrcR-IJXJ-moDI-c3GF-02hPgW:/dev/sda1:322118352896B:36498833408B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43:system
+  orJJdF-SU8F-iDHw-5Lu4-aLcn-hSAT-eTrB4J:/dev/sda2:678076350464B:98213822464B:vLC3jw-pbd1-cTyH-PMS1-OxCO-CvRi-VyXxYQ:testarea
+  gmPpnr-DoLB-67uq-iEw3-B5lc-FL9D-6qBcl2:/dev/sdb:256058064896B:63854084096B:HS7Pxs-uWRe-9fj6-IMQ7-teEP-C5pZ-2M2a43:system
+""")
+
+		val linux = spy<AbstractLinux>()
+
+		val capabilities = linux.listLvmVolumes(session, pack(Centos, "7.5"), listOf(
+				pack("lvm2", "1.2.3")
+		))
+
+		assertEquals(2, capabilities.size)
+		assertEquals(2, capabilities.single { it.volumeGroupName == "system" }.physicalVolumes.size)
+
+	}
 }

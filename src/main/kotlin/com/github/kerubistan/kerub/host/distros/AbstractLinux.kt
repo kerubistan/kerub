@@ -45,7 +45,6 @@ import com.github.kerubistan.kerub.utils.junix.mount.Mount
 import com.github.kerubistan.kerub.utils.junix.mpstat.MPStat
 import com.github.kerubistan.kerub.utils.junix.procfs.Bonding
 import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfo
-import com.github.kerubistan.kerub.utils.junix.procfs.CpuInfoRecord
 import com.github.kerubistan.kerub.utils.junix.sensors.CpuTemperatureInfo
 import com.github.kerubistan.kerub.utils.junix.sensors.Sensors
 import com.github.kerubistan.kerub.utils.junix.smartmontools.SmartCtl
@@ -430,7 +429,7 @@ abstract class AbstractLinux : Distribution {
 			)
 
 
-	private fun listLvmVolumes(
+	internal fun listLvmVolumes(
 			session: ClientSession,
 			osVersion: SoftwarePackage,
 			packages: List<SoftwarePackage>
@@ -479,14 +478,11 @@ abstract class AbstractLinux : Distribution {
 		}
 	}
 
-	override fun detectHostCpuFlags(session: ClientSession): List<String> {
-		val cpuInfoRecordFlags: (CpuInfoRecord) -> List<String> = { it.flags }
-		return when (detectHostCpuType(session)) {
-			"aarch64" -> CpuInfo.listArm(session).map { it.flags }
-			"x86_64" -> CpuInfo.list(session).map(cpuInfoRecordFlags)
-			else -> CpuInfo.listPpc(session).map(cpuInfoRecordFlags)
-		}.join().toSet().toList()
-	} // which isn't true
+	override fun detectHostCpuFlags(session: ClientSession): List<String> = when (detectHostCpuType(session)) {
+		"aarch64" -> CpuInfo.listArm(session).map { it.flags }
+		"x86_64" -> CpuInfo.list(session).map { it.flags }
+		else -> CpuInfo.listPpc(session).map { it.flags }
+	}.join().toSet().toList()
 
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux
