@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model.dynamic
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -25,5 +26,6 @@ interface VirtualStorageAllocation : Serializable {
 	// I would not need this with data class hierarchy
 	// promissed for kotlin 1.2 - still not here with kotlin 1.3
 	fun resize(newSize : BigInteger) : VirtualStorageAllocation
+	@JsonIgnore
 	fun getRedundancyLevel(): Byte
 }
