@@ -1,0 +1,10 @@
+{
+  "@type" : "virtual-storage",
+  "id" : "f38d57f2-9932-4cb2-862a-472cced82e2f",
+  "size" : 18874368,
+  "readOnly" : false,
+  "expectations" : [ ],
+  "name" : "TinyCore-current.iso",
+  "owner" : null,
+  "recycling" : false
+}

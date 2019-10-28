@@ -1,0 +1,15 @@
+{
+  "@type" : "virtual-storage-dyn",
+  "id" : "f38d57f2-9932-4cb2-862a-472cced82e2f",
+  "lastUpdated" : 1572117694730,
+  "allocations" : [ {
+    "@type" : "fs-allocation",
+    "hostId" : "71bcd334-c893-468a-a2de-a6241ef3f511",
+    "capabilityId" : "78db9668-f891-4e11-82dc-f9747659d33b",
+    "actualSize" : 18874368,
+    "mountPoint" : "/kerub",
+    "type" : "raw",
+    "fileName" : "/kerub/f38d57f2-9932-4cb2-862a-472cced82e2f.raw",
+    "backingFile" : null
+  } ]
+}

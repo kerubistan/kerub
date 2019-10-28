@@ -1,0 +1,5084 @@
+{
+  "@type" : "host",
+  "id" : "71bcd334-c893-468a-a2de-a6241ef3f511",
+  "address" : "192.168.123.31",
+  "publicKey" : "06:ba:32:be:64:78:a5:f8:8d:46:cb:da:1f:86:49:1c",
+  "dedicated" : true,
+  "endOfPlannedLifetime" : null,
+  "capabilities" : {
+    "os" : "Linux",
+    "distribution" : {
+      "name" : "Ubuntu",
+      "ver" : {
+        "major" : "18",
+        "minor" : "04",
+        "build" : null
+      }
+    },
+    "installedSoftware" : [ {
+      "name" : "accountsservice",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "45"
+      }
+    }, {
+      "name" : "acl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "52"
+      }
+    }, {
+      "name" : "acpid",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "0",
+        "build" : "28"
+      }
+    }, {
+      "name" : "adduser",
+      "ver" : {
+        "major" : "3",
+        "minor" : "116ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "amd64-microcode",
+      "ver" : {
+        "major" : "3",
+        "minor" : "20180524",
+        "build" : "1~ubuntu0"
+      }
+    }, {
+      "name" : "apache2-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "29"
+      }
+    }, {
+      "name" : "apparmor",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "4ubuntu5"
+      }
+    }, {
+      "name" : "apport",
+      "ver" : {
+        "major" : "2",
+        "minor" : "20",
+        "build" : "9"
+      }
+    }, {
+      "name" : "apport-symptoms",
+      "ver" : {
+        "major" : "0",
+        "minor" : "20",
+        "build" : null
+      }
+    }, {
+      "name" : "apt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "12"
+      }
+    }, {
+      "name" : "apt-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "12"
+      }
+    }, {
+      "name" : "at",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "20"
+      }
+    }, {
+      "name" : "augeas-lenses",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "1"
+      }
+    }, {
+      "name" : "authbind",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "base-files",
+      "ver" : {
+        "major" : "10",
+        "minor" : "1ubuntu2",
+        "build" : "6"
+      }
+    }, {
+      "name" : "base-passwd",
+      "ver" : {
+        "major" : "3",
+        "minor" : "5",
+        "build" : "44"
+      }
+    }, {
+      "name" : "bash",
+      "ver" : {
+        "major" : "4",
+        "minor" : "4",
+        "build" : "18"
+      }
+    }, {
+      "name" : "bash-completion",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "8",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "bc",
+      "ver" : {
+        "major" : "1",
+        "minor" : "07",
+        "build" : "1"
+      }
+    }, {
+      "name" : "bcache-tools",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "8"
+      }
+    }, {
+      "name" : "bind9-host",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "bonnie++",
+      "ver" : {
+        "major" : "1",
+        "minor" : "97",
+        "build" : "3"
+      }
+    }, {
+      "name" : "bridge-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "15ubuntu1"
+      }
+    }, {
+      "name" : "bsdmainutils",
+      "ver" : {
+        "major" : "11",
+        "minor" : "1",
+        "build" : "2ubuntu1"
+      }
+    }, {
+      "name" : "bsdutils",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "btrfs-progs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "1"
+      }
+    }, {
+      "name" : "btrfs-tools",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "1"
+      }
+    }, {
+      "name" : "busybox-initramfs",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "27",
+        "build" : "2"
+      }
+    }, {
+      "name" : "busybox-static",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "27",
+        "build" : "2"
+      }
+    }, {
+      "name" : "byobu",
+      "ver" : {
+        "major" : "5",
+        "minor" : "125",
+        "build" : "0ubuntu1"
+      }
+    }, {
+      "name" : "bzip2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "ca-certificates",
+      "ver" : {
+        "major" : "20180409",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "ca-certificates-java",
+      "ver" : {
+        "major" : "20180516ubuntu1~18",
+        "minor" : "04",
+        "build" : "1"
+      }
+    }, {
+      "name" : "cloud-guest-utils",
+      "ver" : {
+        "major" : "0",
+        "minor" : "30",
+        "build" : "0ubuntu5"
+      }
+    }, {
+      "name" : "cloud-init",
+      "ver" : {
+        "major" : "19",
+        "minor" : "2",
+        "build" : "36"
+      }
+    }, {
+      "name" : "cloud-initramfs-copymods",
+      "ver" : {
+        "major" : "0",
+        "minor" : "40ubuntu1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "cloud-initramfs-dyn-netconf",
+      "ver" : {
+        "major" : "0",
+        "minor" : "40ubuntu1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "command-not-found",
+      "ver" : {
+        "major" : "18",
+        "minor" : "04",
+        "build" : "5"
+      }
+    }, {
+      "name" : "command-not-found-data",
+      "ver" : {
+        "major" : "18",
+        "minor" : "04",
+        "build" : "5"
+      }
+    }, {
+      "name" : "console-setup",
+      "ver" : {
+        "major" : "1",
+        "minor" : "178ubuntu2",
+        "build" : "9"
+      }
+    }, {
+      "name" : "console-setup-linux",
+      "ver" : {
+        "major" : "1",
+        "minor" : "178ubuntu2",
+        "build" : "9"
+      }
+    }, {
+      "name" : "coreutils",
+      "ver" : {
+        "major" : "8",
+        "minor" : "28",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "cpio",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12+dfsg",
+        "build" : "6"
+      }
+    }, {
+      "name" : "cpu-checker",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "0ubuntu7"
+      }
+    }, {
+      "name" : "crda",
+      "ver" : {
+        "major" : "3",
+        "minor" : "18",
+        "build" : "1build1"
+      }
+    }, {
+      "name" : "cron",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0pl1",
+        "build" : "128"
+      }
+    }, {
+      "name" : "cryptsetup",
+      "ver" : {
+        "major" : "2:2",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "cryptsetup-bin",
+      "ver" : {
+        "major" : "2:2",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "curl",
+      "ver" : {
+        "major" : "7",
+        "minor" : "58",
+        "build" : "0"
+      }
+    }, {
+      "name" : "dash",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : "8"
+      }
+    }, {
+      "name" : "dbus",
+      "ver" : {
+        "major" : "1",
+        "minor" : "12",
+        "build" : "2"
+      }
+    }, {
+      "name" : "dconf-gsettings-backend",
+      "ver" : {
+        "major" : "0",
+        "minor" : "26",
+        "build" : "0"
+      }
+    }, {
+      "name" : "dconf-service",
+      "ver" : {
+        "major" : "0",
+        "minor" : "26",
+        "build" : "0"
+      }
+    }, {
+      "name" : "debconf",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "66ubuntu1"
+      }
+    }, {
+      "name" : "debconf-i18n",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "66ubuntu1"
+      }
+    }, {
+      "name" : "debianutils",
+      "ver" : {
+        "major" : "4",
+        "minor" : "8",
+        "build" : "4"
+      }
+    }, {
+      "name" : "default-jre-headless",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "11",
+        "build" : "68ubuntu1~18"
+      }
+    }, {
+      "name" : "diffutils",
+      "ver" : {
+        "major" : "1:3",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "dirmngr",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "distro-info-data",
+      "ver" : {
+        "major" : "0",
+        "minor" : "37ubuntu0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "dmeventd",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "02",
+        "build" : "145"
+      }
+    }, {
+      "name" : "dmidecode",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "dmsetup",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "02",
+        "build" : "145"
+      }
+    }, {
+      "name" : "dns-root-data",
+      "ver" : {
+        "major" : "2018013001",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "dnsmasq-base",
+      "ver" : {
+        "major" : "2",
+        "minor" : "79",
+        "build" : "1"
+      }
+    }, {
+      "name" : "dnsutils",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "dosfstools",
+      "ver" : {
+        "major" : "4",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "dpkg",
+      "ver" : {
+        "major" : "1",
+        "minor" : "19",
+        "build" : "0"
+      }
+    }, {
+      "name" : "e2fsprogs",
+      "ver" : {
+        "major" : "1",
+        "minor" : "44",
+        "build" : "1"
+      }
+    }, {
+      "name" : "eatmydata",
+      "ver" : {
+        "major" : "105",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "ebtables",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "10"
+      }
+    }, {
+      "name" : "ed",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "eject",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "5+deb1+cvs20081104"
+      }
+    }, {
+      "name" : "ethtool",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "15",
+        "build" : "0ubuntu1"
+      }
+    }, {
+      "name" : "fdisk",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "file",
+      "ver" : {
+        "major" : "1:5",
+        "minor" : "32",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "findutils",
+      "ver" : {
+        "major" : "4",
+        "minor" : "6",
+        "build" : "0+git+20170828"
+      }
+    }, {
+      "name" : "fio",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "fontconfig",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "6"
+      }
+    }, {
+      "name" : "fontconfig-config",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "6"
+      }
+    }, {
+      "name" : "fonts-dejavu-core",
+      "ver" : {
+        "major" : "2",
+        "minor" : "37",
+        "build" : "1"
+      }
+    }, {
+      "name" : "fonts-ubuntu-console",
+      "ver" : {
+        "major" : "0",
+        "minor" : "83",
+        "build" : "2"
+      }
+    }, {
+      "name" : "friendly-recovery",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "38ubuntu1"
+      }
+    }, {
+      "name" : "ftp",
+      "ver" : {
+        "major" : "0",
+        "minor" : "17",
+        "build" : "34"
+      }
+    }, {
+      "name" : "fuse",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "7"
+      }
+    }, {
+      "name" : "gawk",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "1",
+        "build" : "4+dfsg"
+      }
+    }, {
+      "name" : "gcc-8-base",
+      "ver" : {
+        "major" : "8",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "gdisk",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "geoip-database",
+      "ver" : {
+        "major" : "20180315",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "gettext-base",
+      "ver" : {
+        "major" : "0",
+        "minor" : "19",
+        "build" : "8"
+      }
+    }, {
+      "name" : "gir1.2-glib-2.0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "56",
+        "build" : "1"
+      }
+    }, {
+      "name" : "git",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "17",
+        "build" : "1"
+      }
+    }, {
+      "name" : "git-man",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "17",
+        "build" : "1"
+      }
+    }, {
+      "name" : "glib-networking",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glib-networking-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "0"
+      }
+    }, {
+      "name" : "glib-networking-services",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "0"
+      }
+    }, {
+      "name" : "gnupg",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gnupg-l10n",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gnupg-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpg",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpg-agent",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpg-wks-client",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpg-wks-server",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpgconf",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpgsm",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "gpgv",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "4"
+      }
+    }, {
+      "name" : "grep",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "2build1"
+      }
+    }, {
+      "name" : "groff-base",
+      "ver" : {
+        "major" : "1",
+        "minor" : "22",
+        "build" : "3"
+      }
+    }, {
+      "name" : "grub-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "2ubuntu8"
+      }
+    }, {
+      "name" : "grub-gfxpayload-lists",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : null
+      }
+    }, {
+      "name" : "grub-legacy-ec2",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "grub-pc",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "2ubuntu8"
+      }
+    }, {
+      "name" : "grub-pc-bin",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "2ubuntu8"
+      }
+    }, {
+      "name" : "grub2-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "2ubuntu8"
+      }
+    }, {
+      "name" : "gsettings-desktop-schemas",
+      "ver" : {
+        "major" : "3",
+        "minor" : "28",
+        "build" : "0"
+      }
+    }, {
+      "name" : "gstreamer1.0-plugins-base",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "gstreamer1.0-plugins-good",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "gstreamer1.0-x",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "gzip",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "5ubuntu1"
+      }
+    }, {
+      "name" : "hdparm",
+      "ver" : {
+        "major" : "9",
+        "minor" : "54+ds",
+        "build" : "1"
+      }
+    }, {
+      "name" : "hostname",
+      "ver" : {
+        "major" : "3",
+        "minor" : "20",
+        "build" : null
+      }
+    }, {
+      "name" : "htop",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "ibverbs-providers",
+      "ver" : {
+        "major" : "17",
+        "minor" : "1",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "info",
+      "ver" : {
+        "major" : "6",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "init",
+      "ver" : {
+        "major" : "1",
+        "minor" : "51",
+        "build" : null
+      }
+    }, {
+      "name" : "init-system-helpers",
+      "ver" : {
+        "major" : "1",
+        "minor" : "51",
+        "build" : null
+      }
+    }, {
+      "name" : "initramfs-tools",
+      "ver" : {
+        "major" : "0",
+        "minor" : "130ubuntu3",
+        "build" : "8"
+      }
+    }, {
+      "name" : "initramfs-tools-bin",
+      "ver" : {
+        "major" : "0",
+        "minor" : "130ubuntu3",
+        "build" : "8"
+      }
+    }, {
+      "name" : "initramfs-tools-core",
+      "ver" : {
+        "major" : "0",
+        "minor" : "130ubuntu3",
+        "build" : "8"
+      }
+    }, {
+      "name" : "install-info",
+      "ver" : {
+        "major" : "6",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "intel-microcode",
+      "ver" : {
+        "major" : "3",
+        "minor" : "20190618",
+        "build" : "0ubuntu0"
+      }
+    }, {
+      "name" : "iproute2",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "iptables",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "iputils-ping",
+      "ver" : {
+        "major" : "3:20161105",
+        "minor" : "1ubuntu3",
+        "build" : null
+      }
+    }, {
+      "name" : "iputils-tracepath",
+      "ver" : {
+        "major" : "3:20161105",
+        "minor" : "1ubuntu3",
+        "build" : null
+      }
+    }, {
+      "name" : "ipxe-qemu",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "0+git"
+      }
+    }, {
+      "name" : "ipxe-qemu-256k-compat-efi-roms",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "0+git"
+      }
+    }, {
+      "name" : "irqbalance",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "isc-dhcp-client",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : "5"
+      }
+    }, {
+      "name" : "isc-dhcp-common",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : "5"
+      }
+    }, {
+      "name" : "iso-codes",
+      "ver" : {
+        "major" : "3",
+        "minor" : "79",
+        "build" : "1"
+      }
+    }, {
+      "name" : "iucode-tool",
+      "ver" : {
+        "major" : "2",
+        "minor" : "3",
+        "build" : "1"
+      }
+    }, {
+      "name" : "iw",
+      "ver" : {
+        "major" : "4",
+        "minor" : "14",
+        "build" : "0"
+      }
+    }, {
+      "name" : "java-common",
+      "ver" : {
+        "major" : "0",
+        "minor" : "68ubuntu1~18",
+        "build" : "04"
+      }
+    }, {
+      "name" : "jetty9",
+      "ver" : {
+        "major" : "9",
+        "minor" : "4",
+        "build" : "15"
+      }
+    }, {
+      "name" : "kbd",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "keyboard-configuration",
+      "ver" : {
+        "major" : "1",
+        "minor" : "178ubuntu2",
+        "build" : "9"
+      }
+    }, {
+      "name" : "klibc-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "kmod",
+      "ver" : {
+        "major" : "24",
+        "minor" : "1ubuntu3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "krb5-locales",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "landscape-common",
+      "ver" : {
+        "major" : "18",
+        "minor" : "01",
+        "build" : "0ubuntu3"
+      }
+    }, {
+      "name" : "language-selector-common",
+      "ver" : {
+        "major" : "0",
+        "minor" : "188",
+        "build" : "3"
+      }
+    }, {
+      "name" : "less",
+      "ver" : {
+        "major" : "487",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libaa1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4p5",
+        "build" : "44build2"
+      }
+    }, {
+      "name" : "libaccountsservice0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "45"
+      }
+    }, {
+      "name" : "libacl1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "52"
+      }
+    }, {
+      "name" : "libactivation-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libaio1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : "110"
+      }
+    }, {
+      "name" : "libapache-pom-java",
+      "ver" : {
+        "major" : "18",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "libapparmor1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "4ubuntu5"
+      }
+    }, {
+      "name" : "libapr1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libaprutil1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libapt-inst2.0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "12"
+      }
+    }, {
+      "name" : "libapt-pkg5.0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "12"
+      }
+    }, {
+      "name" : "libargon2-0",
+      "ver" : {
+        "major" : "0~20161029",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libasm-java",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "1~18"
+      }
+    }, {
+      "name" : "libasn1-8-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libasound2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libasound2-data",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libassuan0",
+      "ver" : {
+        "major" : "2",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libasyncns0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libatinject-jsr330-api-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0+ds1",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libatm1",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "5",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libattr1",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "4",
+        "build" : "47"
+      }
+    }, {
+      "name" : "libaudit-common",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "8",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libaudit1",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "8",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libaugeas0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libavahi-client3",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libavahi-common-data",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libavahi-common3",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libavc1394-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "5",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libbind9-160",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libblkid1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libbluetooth3",
+      "ver" : {
+        "major" : "5",
+        "minor" : "48",
+        "build" : "0ubuntu3"
+      }
+    }, {
+      "name" : "libbrlapi0.6",
+      "ver" : {
+        "major" : "5",
+        "minor" : "5",
+        "build" : "4ubuntu2"
+      }
+    }, {
+      "name" : "libbsd0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "8",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libbz2-1.0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libc-bin",
+      "ver" : {
+        "major" : "2",
+        "minor" : "27",
+        "build" : "3ubuntu1"
+      }
+    }, {
+      "name" : "libc6",
+      "ver" : {
+        "major" : "2",
+        "minor" : "27",
+        "build" : "3ubuntu1"
+      }
+    }, {
+      "name" : "libcaca0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "99",
+        "build" : "beta19"
+      }
+    }, {
+      "name" : "libcacard0",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libcairo-gobject2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libcairo2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "15",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libcap-ng0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libcap2",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "25",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libcap2-bin",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "25",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libcdparanoia0",
+      "ver" : {
+        "major" : "3",
+        "minor" : "10",
+        "build" : "2+debian"
+      }
+    }, {
+      "name" : "libcom-err2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "44",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libcommons-collections3-java",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libcommons-logging-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libcommons-parent-java",
+      "ver" : {
+        "major" : "43",
+        "minor" : "1",
+        "build" : null
+      }
+    }, {
+      "name" : "libconfig-general-perl",
+      "ver" : {
+        "major" : "2",
+        "minor" : "63",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libcryptsetup12",
+      "ver" : {
+        "major" : "2:2",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libcups2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libcurl3-gnutls",
+      "ver" : {
+        "major" : "7",
+        "minor" : "58",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libcurl4",
+      "ver" : {
+        "major" : "7",
+        "minor" : "58",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libdatrie1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libdb5.3",
+      "ver" : {
+        "major" : "5",
+        "minor" : "3",
+        "build" : "28"
+      }
+    }, {
+      "name" : "libdbus-1-3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "12",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libdbus-glib-1-2",
+      "ver" : {
+        "major" : "0",
+        "minor" : "110",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libdconf1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "26",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libdebconfclient0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "213ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "libdevmapper-event1.02.1",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "02",
+        "build" : "145"
+      }
+    }, {
+      "name" : "libdevmapper1.02.1",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "02",
+        "build" : "145"
+      }
+    }, {
+      "name" : "libdns-export1100",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libdns1100",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libdrm-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "97"
+      }
+    }, {
+      "name" : "libdrm2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "97"
+      }
+    }, {
+      "name" : "libdumbnet1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "12",
+        "build" : "7build1"
+      }
+    }, {
+      "name" : "libdv4",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libeatmydata1",
+      "ver" : {
+        "major" : "105",
+        "minor" : "6",
+        "build" : null
+      }
+    }, {
+      "name" : "libeclipse-jdt-core-java",
+      "ver" : {
+        "major" : "3",
+        "minor" : "15",
+        "build" : "0+eclipse4"
+      }
+    }, {
+      "name" : "libedit2",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "20170329"
+      }
+    }, {
+      "name" : "libel-api-java",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libelf1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "170",
+        "build" : "0"
+      }
+    }, {
+      "name" : "liberror-perl",
+      "ver" : {
+        "major" : "0",
+        "minor" : "17025",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libestr0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libevent-2.1-6",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libexpat1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libext2fs2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "44",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libfastjson4",
+      "ver" : {
+        "major" : "0",
+        "minor" : "99",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libfdisk1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libfdt1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libffi6",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libflac8",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libfontconfig1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libfreetype6",
+      "ver" : {
+        "major" : "2",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libfribidi0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "19",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libfuse2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libgcc1",
+      "ver" : {
+        "major" : "1:8",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libgcrypt20",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libgdbm-compat4",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libgdbm5",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libgdk-pixbuf2.0-0",
+      "ver" : {
+        "major" : "2",
+        "minor" : "36",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libgdk-pixbuf2.0-bin",
+      "ver" : {
+        "major" : "2",
+        "minor" : "36",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libgdk-pixbuf2.0-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "36",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libgeoip1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "12"
+      }
+    }, {
+      "name" : "libgirepository-1.0-1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "56",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libglib2.0-0",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libglib2.0-data",
+      "ver" : {
+        "major" : "2",
+        "minor" : "56",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libgmp10",
+      "ver" : {
+        "major" : "2:6",
+        "minor" : "1",
+        "build" : "2+dfsg"
+      }
+    }, {
+      "name" : "libgnutls30",
+      "ver" : {
+        "major" : "3",
+        "minor" : "5",
+        "build" : "18"
+      }
+    }, {
+      "name" : "libgpg-error0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "27",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libgpm2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "20",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libgraphite2-3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libgssapi-krb5-2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libgssapi3-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libgstreamer-plugins-base1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libgstreamer-plugins-good1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libgstreamer1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libgudev-1.0-0",
+      "ver" : {
+        "major" : "1:232",
+        "minor" : "2",
+        "build" : null
+      }
+    }, {
+      "name" : "libharfbuzz0b",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libhcrypto4-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libheimbase1-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libheimntlm0-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libhogweed4",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libhx509-5-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libibverbs1",
+      "ver" : {
+        "major" : "17",
+        "minor" : "1",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "libicu60",
+      "ver" : {
+        "major" : "60",
+        "minor" : "2",
+        "build" : "3ubuntu3"
+      }
+    }, {
+      "name" : "libidn11",
+      "ver" : {
+        "major" : "1",
+        "minor" : "33",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libidn2-0",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libiec61883-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libip4tc0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libip6tc0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libiptc0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libirs160",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libisc-export169",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libisc169",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libisccc160",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libisccfg160",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "libiscsi7",
+      "ver" : {
+        "major" : "1",
+        "minor" : "17",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libisns0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "97",
+        "build" : "2build1"
+      }
+    }, {
+      "name" : "libjack-jackd2-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9",
+        "build" : "12~dfsg"
+      }
+    }, {
+      "name" : "libjaxb-api-java",
+      "ver" : {
+        "major" : "2",
+        "minor" : "3",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libjbig0",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libjetty9-extra-java",
+      "ver" : {
+        "major" : "9",
+        "minor" : "4",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libjetty9-java",
+      "ver" : {
+        "major" : "9",
+        "minor" : "4",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libjffi-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libjffi-jni",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libjnr-constants-java",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libjnr-enxio-java",
+      "ver" : {
+        "major" : "0",
+        "minor" : "16",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libjnr-ffi-java",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libjnr-posix-java",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "45"
+      }
+    }, {
+      "name" : "libjnr-unixsocket-java",
+      "ver" : {
+        "major" : "0",
+        "minor" : "18",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libjnr-x86asm-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libjpeg-turbo8",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libjpeg8",
+      "ver" : {
+        "major" : "8c",
+        "minor" : "2ubuntu8",
+        "build" : null
+      }
+    }, {
+      "name" : "libjson-c3",
+      "ver" : {
+        "major" : "0",
+        "minor" : "12",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libjsp-api-java",
+      "ver" : {
+        "major" : "2",
+        "minor" : "3",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libk5crypto3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libkeyutils1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libklibc",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libkmod2",
+      "ver" : {
+        "major" : "24",
+        "minor" : "1ubuntu3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libkrb5-26-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libkrb5-3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libkrb5support0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libksba8",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "5"
+      }
+    }, {
+      "name" : "liblcms2-2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "libldap-2.4-2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "45+dfsg"
+      }
+    }, {
+      "name" : "libldap-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "45+dfsg"
+      }
+    }, {
+      "name" : "liblocale-gettext-perl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "07",
+        "build" : "3build2"
+      }
+    }, {
+      "name" : "liblvm2app2.2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "176"
+      }
+    }, {
+      "name" : "liblvm2cmd2.02",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "176"
+      }
+    }, {
+      "name" : "liblwres160",
+      "ver" : {
+        "major" : "1:9",
+        "minor" : "11",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "liblxc-common",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "liblxc1",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "liblz4-1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "0~r131",
+        "build" : "2ubuntu3"
+      }
+    }, {
+      "name" : "liblz4-tool",
+      "ver" : {
+        "major" : "0",
+        "minor" : "0~r131",
+        "build" : "2ubuntu3"
+      }
+    }, {
+      "name" : "liblzma5",
+      "ver" : {
+        "major" : "5",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "liblzo2-2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "08",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libmagic-mgc",
+      "ver" : {
+        "major" : "1:5",
+        "minor" : "32",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libmagic1",
+      "ver" : {
+        "major" : "1:5",
+        "minor" : "32",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "libmail-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libmnl0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libmount1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libmp3lame0",
+      "ver" : {
+        "major" : "3",
+        "minor" : "100",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libmpdec2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libmpfr6",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libmpg123-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "25",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libmspack0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "3ubuntu0"
+      }
+    }, {
+      "name" : "libncurses5",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "libncursesw5",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "libnetcf1",
+      "ver" : {
+        "major" : "1:0",
+        "minor" : "2",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libnetfilter-conntrack3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libnettle6",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libnewt0.52",
+      "ver" : {
+        "major" : "0",
+        "minor" : "52",
+        "build" : "20"
+      }
+    }, {
+      "name" : "libnfnetlink0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libnghttp2-14",
+      "ver" : {
+        "major" : "1",
+        "minor" : "30",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libnih1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libnl-3-200",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libnl-genl-3-200",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libnl-route-3-200",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libnpth0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libnspr4",
+      "ver" : {
+        "major" : "2:4",
+        "minor" : "18",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "libnss-systemd",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libnss3",
+      "ver" : {
+        "major" : "2:3",
+        "minor" : "35",
+        "build" : "2ubuntu2"
+      }
+    }, {
+      "name" : "libntfs-3g88",
+      "ver" : {
+        "major" : "1:2017",
+        "minor" : "3",
+        "build" : "23"
+      }
+    }, {
+      "name" : "libnuma1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libogg0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libopus0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "liborc-0.4-0",
+      "ver" : {
+        "major" : "1:0",
+        "minor" : "4",
+        "build" : "28"
+      }
+    }, {
+      "name" : "libp11-kit0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "23",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libpam-cap",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "25",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libpam-modules",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpam-modules-bin",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpam-runtime",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpam-systemd",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libpam0g",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpango-1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "40",
+        "build" : "14"
+      }
+    }, {
+      "name" : "libpangocairo-1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "40",
+        "build" : "14"
+      }
+    }, {
+      "name" : "libpangoft2-1.0-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "40",
+        "build" : "14"
+      }
+    }, {
+      "name" : "libparted2",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "libpcap0.8",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libpci3",
+      "ver" : {
+        "major" : "1:3",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libpciaccess0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "14",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libpcre3",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "39",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libpcsclite1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "23"
+      }
+    }, {
+      "name" : "libperl5.26",
+      "ver" : {
+        "major" : "5",
+        "minor" : "26",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libpipeline1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libpixman-1-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "34",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libplymouth4",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libpng16-16",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "34"
+      }
+    }, {
+      "name" : "libpolkit-agent-1-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "105",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "libpolkit-backend-1-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "105",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "libpolkit-gobject-1-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "105",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "libpopt0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "16",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libprocps6",
+      "ver" : {
+        "major" : "2:3",
+        "minor" : "3",
+        "build" : "12"
+      }
+    }, {
+      "name" : "libproxy1v5",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libpsl5",
+      "ver" : {
+        "major" : "0",
+        "minor" : "19",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libpulse0",
+      "ver" : {
+        "major" : "1:11",
+        "minor" : "1",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "libpython-stdlib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15~rc1"
+      }
+    }, {
+      "name" : "libpython2.7-minimal",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libpython2.7-stdlib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15"
+      }
+    }, {
+      "name" : "libpython3-stdlib",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libpython3.6",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpython3.6-minimal",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libpython3.6-stdlib",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "librados2",
+      "ver" : {
+        "major" : "12",
+        "minor" : "2",
+        "build" : "12"
+      }
+    }, {
+      "name" : "libraw1394-11",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "librbd1",
+      "ver" : {
+        "major" : "12",
+        "minor" : "2",
+        "build" : "12"
+      }
+    }, {
+      "name" : "librdmacm1",
+      "ver" : {
+        "major" : "17",
+        "minor" : "1",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "libreadline5",
+      "ver" : {
+        "major" : "5",
+        "minor" : "2+dfsg",
+        "build" : "3build1"
+      }
+    }, {
+      "name" : "libreadline7",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libroken18-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "librtmp1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4+20151223",
+        "build" : "gitfa8646d"
+      }
+    }, {
+      "name" : "libsamplerate0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libsasl2-2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "27~101"
+      }
+    }, {
+      "name" : "libsasl2-modules",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "27~101"
+      }
+    }, {
+      "name" : "libsasl2-modules-db",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "27~101"
+      }
+    }, {
+      "name" : "libsdl1.2debian",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "15+dfsg2"
+      }
+    }, {
+      "name" : "libseccomp2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libselinux1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "2build2"
+      }
+    }, {
+      "name" : "libsemanage-common",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "2build2"
+      }
+    }, {
+      "name" : "libsemanage1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "2build2"
+      }
+    }, {
+      "name" : "libsensors4",
+      "ver" : {
+        "major" : "1:3",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libsepol1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libservlet-api-java",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libservlet3.1-java",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libsgutils2-2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "2ubuntu1"
+      }
+    }, {
+      "name" : "libshout3",
+      "ver" : {
+        "major" : "2",
+        "minor" : "4",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libsigsegv2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "12",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libslang2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "3",
+        "build" : "1a"
+      }
+    }, {
+      "name" : "libsmartcols1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libsndfile1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "28"
+      }
+    }, {
+      "name" : "libsoup2.4-1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "62",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libspeex1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2~rc1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libspice-server1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "14",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libspring-beans-java",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : "22"
+      }
+    }, {
+      "name" : "libspring-core-java",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : "22"
+      }
+    }, {
+      "name" : "libsqlite3-0",
+      "ver" : {
+        "major" : "3",
+        "minor" : "22",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libss2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "44",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libssl1.0.0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "2n"
+      }
+    }, {
+      "name" : "libssl1.1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libstdc++6",
+      "ver" : {
+        "major" : "8",
+        "minor" : "3",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libsystemd0",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libtag1v5",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "1+dfsg"
+      }
+    }, {
+      "name" : "libtag1v5-vanilla",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "1+dfsg"
+      }
+    }, {
+      "name" : "libtaglibs-standard-impl-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libtaglibs-standard-spec-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libtasn1-6",
+      "ver" : {
+        "major" : "4",
+        "minor" : "13",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libtext-charwidth-perl",
+      "ver" : {
+        "major" : "0",
+        "minor" : "04",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libtext-iconv-perl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "5build6"
+      }
+    }, {
+      "name" : "libtext-wrapi18n-perl",
+      "ver" : {
+        "major" : "0",
+        "minor" : "06",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libthai-data",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "27"
+      }
+    }, {
+      "name" : "libthai0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "27"
+      }
+    }, {
+      "name" : "libtheora0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1+dfsg"
+      }
+    }, {
+      "name" : "libtiff5",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libtinfo5",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "libtomcat9-java",
+      "ver" : {
+        "major" : "9",
+        "minor" : "0",
+        "build" : "16"
+      }
+    }, {
+      "name" : "libtwolame0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : "13"
+      }
+    }, {
+      "name" : "libudev1",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libunistring2",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libunwind8",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libusb-1.0-0",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "0",
+        "build" : "21"
+      }
+    }, {
+      "name" : "libusbredirparser1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libutempter0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "6"
+      }
+    }, {
+      "name" : "libuuid1",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libuv1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "18",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libv4l-0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libv4lconvert0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "14",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libvirt-bin",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-clients",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-driver-storage-rbd",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt-daemon-system",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvirt0",
+      "ver" : {
+        "major" : "4",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvisual-0.4-0",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libvorbis0a",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libvorbisenc2",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "5"
+      }
+    }, {
+      "name" : "libvpx5",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libwavpack1",
+      "ver" : {
+        "major" : "5",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libwebsocket-api-java",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1~18"
+      }
+    }, {
+      "name" : "libwind0-heimdal",
+      "ver" : {
+        "major" : "7",
+        "minor" : "5",
+        "build" : "0+dfsg"
+      }
+    }, {
+      "name" : "libwrap0",
+      "ver" : {
+        "major" : "7",
+        "minor" : "6",
+        "build" : "q"
+      }
+    }, {
+      "name" : "libx11-6",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "6",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libx11-data",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "6",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libxau6",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "0",
+        "build" : "8"
+      }
+    }, {
+      "name" : "libxcb-render0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "13",
+        "build" : "2~ubuntu18"
+      }
+    }, {
+      "name" : "libxcb-shm0",
+      "ver" : {
+        "major" : "1",
+        "minor" : "13",
+        "build" : "2~ubuntu18"
+      }
+    }, {
+      "name" : "libxcb1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "13",
+        "build" : "2~ubuntu18"
+      }
+    }, {
+      "name" : "libxdamage1",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "libxdmcp6",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libxen-4.9",
+      "ver" : {
+        "major" : "4",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libxenstore3.0",
+      "ver" : {
+        "major" : "4",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libxext6",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "3",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libxfixes3",
+      "ver" : {
+        "major" : "1:5",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libxi6",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "7",
+        "build" : "9"
+      }
+    }, {
+      "name" : "libxml2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "4+dfsg1"
+      }
+    }, {
+      "name" : "libxml2-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "4+dfsg1"
+      }
+    }, {
+      "name" : "libxmlsec1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "25"
+      }
+    }, {
+      "name" : "libxmlsec1-openssl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "25"
+      }
+    }, {
+      "name" : "libxmuu1",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "libxrender1",
+      "ver" : {
+        "major" : "1:0",
+        "minor" : "9",
+        "build" : "10"
+      }
+    }, {
+      "name" : "libxslt1.1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "29"
+      }
+    }, {
+      "name" : "libxtables12",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "libxtst6",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "2",
+        "build" : "3"
+      }
+    }, {
+      "name" : "libxv1",
+      "ver" : {
+        "major" : "2:1",
+        "minor" : "0",
+        "build" : "11"
+      }
+    }, {
+      "name" : "libyajl2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "libyaml-0-2",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "7"
+      }
+    }, {
+      "name" : "libzstd1",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "3+dfsg"
+      }
+    }, {
+      "name" : "linux-base",
+      "ver" : {
+        "major" : "4",
+        "minor" : "5ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "linux-firmware",
+      "ver" : {
+        "major" : "1",
+        "minor" : "173",
+        "build" : "9"
+      }
+    }, {
+      "name" : "linux-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-headers-4.15.0-47",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-headers-4.15.0-47-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-headers-4.15.0-65",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-headers-4.15.0-65-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-headers-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-image-4.15.0-47-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-image-4.15.0-65-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-image-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-modules-4.15.0-47-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-modules-4.15.0-65-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-modules-extra-4.15.0-47-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "linux-modules-extra-4.15.0-65-generic",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "0"
+      }
+    }, {
+      "name" : "locales",
+      "ver" : {
+        "major" : "2",
+        "minor" : "27",
+        "build" : "3ubuntu1"
+      }
+    }, {
+      "name" : "login",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "5",
+        "build" : "1ubuntu2"
+      }
+    }, {
+      "name" : "logrotate",
+      "ver" : {
+        "major" : "3",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "lsb-base",
+      "ver" : {
+        "major" : "9",
+        "minor" : "20170808ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "lsb-release",
+      "ver" : {
+        "major" : "9",
+        "minor" : "20170808ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "lshw",
+      "ver" : {
+        "major" : "02",
+        "minor" : "18",
+        "build" : "0"
+      }
+    }, {
+      "name" : "lsof",
+      "ver" : {
+        "major" : "4",
+        "minor" : "89+dfsg",
+        "build" : "0"
+      }
+    }, {
+      "name" : "ltrace",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "lvm2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "02",
+        "build" : "176"
+      }
+    }, {
+      "name" : "lxcfs",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "lxd",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "lxd-client",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "man-db",
+      "ver" : {
+        "major" : "2",
+        "minor" : "8",
+        "build" : "3"
+      }
+    }, {
+      "name" : "manpages",
+      "ver" : {
+        "major" : "4",
+        "minor" : "15",
+        "build" : "1"
+      }
+    }, {
+      "name" : "mawk",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "3"
+      }
+    }, {
+      "name" : "mdadm",
+      "ver" : {
+        "major" : "4",
+        "minor" : "1~rc1",
+        "build" : "3~ubuntu18"
+      }
+    }, {
+      "name" : "mime-support",
+      "ver" : {
+        "major" : "3",
+        "minor" : "60ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "mlocate",
+      "ver" : {
+        "major" : "0",
+        "minor" : "26",
+        "build" : "2ubuntu3"
+      }
+    }, {
+      "name" : "mount",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "msr-tools",
+      "ver" : {
+        "major" : "1",
+        "minor" : "3",
+        "build" : "2build1"
+      }
+    }, {
+      "name" : "mtr-tiny",
+      "ver" : {
+        "major" : "0",
+        "minor" : "92",
+        "build" : "1"
+      }
+    }, {
+      "name" : "multiarch-support",
+      "ver" : {
+        "major" : "2",
+        "minor" : "27",
+        "build" : "3ubuntu1"
+      }
+    }, {
+      "name" : "nano",
+      "ver" : {
+        "major" : "2",
+        "minor" : "9",
+        "build" : "3"
+      }
+    }, {
+      "name" : "ncurses-base",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "ncurses-bin",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "ncurses-term",
+      "ver" : {
+        "major" : "6",
+        "minor" : "1",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "net-tools",
+      "ver" : {
+        "major" : "1",
+        "minor" : "60+git20161116",
+        "build" : "90da8a0"
+      }
+    }, {
+      "name" : "netbase",
+      "ver" : {
+        "major" : "5",
+        "minor" : "4",
+        "build" : null
+      }
+    }, {
+      "name" : "netcat-openbsd",
+      "ver" : {
+        "major" : "1",
+        "minor" : "187",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "netplan.io",
+      "ver" : {
+        "major" : "0",
+        "minor" : "98",
+        "build" : "0ubuntu1~18"
+      }
+    }, {
+      "name" : "networkd-dispatcher",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "0ubuntu3"
+      }
+    }, {
+      "name" : "nplan",
+      "ver" : {
+        "major" : "0",
+        "minor" : "98",
+        "build" : "0ubuntu1~18"
+      }
+    }, {
+      "name" : "ntfs-3g",
+      "ver" : {
+        "major" : "1:2017",
+        "minor" : "3",
+        "build" : "23"
+      }
+    }, {
+      "name" : "open-iscsi",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "874"
+      }
+    }, {
+      "name" : "open-vm-tools",
+      "ver" : {
+        "major" : "2:10",
+        "minor" : "3",
+        "build" : "10"
+      }
+    }, {
+      "name" : "openjdk-11-jre-headless",
+      "ver" : {
+        "major" : "11",
+        "minor" : "0",
+        "build" : "4+11"
+      }
+    }, {
+      "name" : "openjdk-8-jdk-headless",
+      "ver" : {
+        "major" : "8u222",
+        "minor" : "b10",
+        "build" : "1ubuntu1~18"
+      }
+    }, {
+      "name" : "openjdk-8-jre-headless",
+      "ver" : {
+        "major" : "8u222",
+        "minor" : "b10",
+        "build" : "1ubuntu1~18"
+      }
+    }, {
+      "name" : "openssh-client",
+      "ver" : {
+        "major" : "1:7",
+        "minor" : "6p1",
+        "build" : "4ubuntu0"
+      }
+    }, {
+      "name" : "openssh-server",
+      "ver" : {
+        "major" : "1:7",
+        "minor" : "6p1",
+        "build" : "4ubuntu0"
+      }
+    }, {
+      "name" : "openssh-sftp-server",
+      "ver" : {
+        "major" : "1:7",
+        "minor" : "6p1",
+        "build" : "4ubuntu0"
+      }
+    }, {
+      "name" : "openssl",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "os-prober",
+      "ver" : {
+        "major" : "1",
+        "minor" : "74ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "overlayroot",
+      "ver" : {
+        "major" : "0",
+        "minor" : "40ubuntu1",
+        "build" : "1"
+      }
+    }, {
+      "name" : "parted",
+      "ver" : {
+        "major" : "3",
+        "minor" : "2",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "passwd",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "5",
+        "build" : "1ubuntu2"
+      }
+    }, {
+      "name" : "pastebinit",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "patch",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "6"
+      }
+    }, {
+      "name" : "pciutils",
+      "ver" : {
+        "major" : "1:3",
+        "minor" : "5",
+        "build" : "2"
+      }
+    }, {
+      "name" : "perl",
+      "ver" : {
+        "major" : "5",
+        "minor" : "26",
+        "build" : "1"
+      }
+    }, {
+      "name" : "perl-base",
+      "ver" : {
+        "major" : "5",
+        "minor" : "26",
+        "build" : "1"
+      }
+    }, {
+      "name" : "perl-modules-5.26",
+      "ver" : {
+        "major" : "5",
+        "minor" : "26",
+        "build" : "1"
+      }
+    }, {
+      "name" : "pinentry-curses",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "plymouth",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "3"
+      }
+    }, {
+      "name" : "plymouth-theme-ubuntu-text",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "3"
+      }
+    }, {
+      "name" : "policykit-1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "105",
+        "build" : "20ubuntu0"
+      }
+    }, {
+      "name" : "pollinate",
+      "ver" : {
+        "major" : "4",
+        "minor" : "33",
+        "build" : "0ubuntu1~18"
+      }
+    }, {
+      "name" : "popularity-contest",
+      "ver" : {
+        "major" : "1",
+        "minor" : "66ubuntu1",
+        "build" : null
+      }
+    }, {
+      "name" : "powermgmt-base",
+      "ver" : {
+        "major" : "1",
+        "minor" : "33",
+        "build" : null
+      }
+    }, {
+      "name" : "procps",
+      "ver" : {
+        "major" : "2:3",
+        "minor" : "3",
+        "build" : "12"
+      }
+    }, {
+      "name" : "psmisc",
+      "ver" : {
+        "major" : "23",
+        "minor" : "1",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "publicsuffix",
+      "ver" : {
+        "major" : "20180223",
+        "minor" : "1310",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15~rc1"
+      }
+    }, {
+      "name" : "python-apt-common",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python-minimal",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15~rc1"
+      }
+    }, {
+      "name" : "python2.7",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15"
+      }
+    }, {
+      "name" : "python2.7-minimal",
+      "ver" : {
+        "major" : "2",
+        "minor" : "7",
+        "build" : "15"
+      }
+    }, {
+      "name" : "python3",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "7"
+      }
+    }, {
+      "name" : "python3-apport",
+      "ver" : {
+        "major" : "2",
+        "minor" : "20",
+        "build" : "9"
+      }
+    }, {
+      "name" : "python3-apt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "6",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python3-asn1crypto",
+      "ver" : {
+        "major" : "0",
+        "minor" : "24",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-attr",
+      "ver" : {
+        "major" : "17",
+        "minor" : "4",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-automat",
+      "ver" : {
+        "major" : "0",
+        "minor" : "6",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-blinker",
+      "ver" : {
+        "major" : "1",
+        "minor" : "4+dfsg1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-certifi",
+      "ver" : {
+        "major" : "2018",
+        "minor" : "1",
+        "build" : "18"
+      }
+    }, {
+      "name" : "python3-cffi-backend",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "5"
+      }
+    }, {
+      "name" : "python3-chardet",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python3-click",
+      "ver" : {
+        "major" : "6",
+        "minor" : "7",
+        "build" : "3"
+      }
+    }, {
+      "name" : "python3-colorama",
+      "ver" : {
+        "major" : "0",
+        "minor" : "3",
+        "build" : "7"
+      }
+    }, {
+      "name" : "python3-commandnotfound",
+      "ver" : {
+        "major" : "18",
+        "minor" : "04",
+        "build" : "5"
+      }
+    }, {
+      "name" : "python3-configobj",
+      "ver" : {
+        "major" : "5",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "python3-constantly",
+      "ver" : {
+        "major" : "15",
+        "minor" : "1",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-cryptography",
+      "ver" : {
+        "major" : "2",
+        "minor" : "1",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python3-dbus",
+      "ver" : {
+        "major" : "1",
+        "minor" : "2",
+        "build" : "6"
+      }
+    }, {
+      "name" : "python3-debconf",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "66ubuntu1"
+      }
+    }, {
+      "name" : "python3-debian",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "32"
+      }
+    }, {
+      "name" : "python3-distro-info",
+      "ver" : {
+        "major" : "0",
+        "minor" : "18ubuntu0",
+        "build" : "18"
+      }
+    }, {
+      "name" : "python3-distupgrade",
+      "ver" : {
+        "major" : "1:18",
+        "minor" : "04",
+        "build" : "34"
+      }
+    }, {
+      "name" : "python3-gdbm",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "python3-gi",
+      "ver" : {
+        "major" : "3",
+        "minor" : "26",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-httplib2",
+      "ver" : {
+        "major" : "0",
+        "minor" : "9",
+        "build" : "2+dfsg"
+      }
+    }, {
+      "name" : "python3-hyperlink",
+      "ver" : {
+        "major" : "17",
+        "minor" : "3",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-idna",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-incremental",
+      "ver" : {
+        "major" : "16",
+        "minor" : "10",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-jinja2",
+      "ver" : {
+        "major" : "2",
+        "minor" : "10",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "python3-json-pointer",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-jsonpatch",
+      "ver" : {
+        "major" : "1",
+        "minor" : "19+really1",
+        "build" : "16"
+      }
+    }, {
+      "name" : "python3-jsonschema",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-jwt",
+      "ver" : {
+        "major" : "1",
+        "minor" : "5",
+        "build" : "3+ds1"
+      }
+    }, {
+      "name" : "python3-markupsafe",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "1build1"
+      }
+    }, {
+      "name" : "python3-minimal",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "7"
+      }
+    }, {
+      "name" : "python3-netifaces",
+      "ver" : {
+        "major" : "0",
+        "minor" : "10",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python3-newt",
+      "ver" : {
+        "major" : "0",
+        "minor" : "52",
+        "build" : "20"
+      }
+    }, {
+      "name" : "python3-oauthlib",
+      "ver" : {
+        "major" : "2",
+        "minor" : "0",
+        "build" : "6"
+      }
+    }, {
+      "name" : "python3-openssl",
+      "ver" : {
+        "major" : "17",
+        "minor" : "5",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-pam",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "python3-pkg-resources",
+      "ver" : {
+        "major" : "39",
+        "minor" : "0",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-problem-report",
+      "ver" : {
+        "major" : "2",
+        "minor" : "20",
+        "build" : "9"
+      }
+    }, {
+      "name" : "python3-pyasn1",
+      "ver" : {
+        "major" : "0",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "python3-pyasn1-modules",
+      "ver" : {
+        "major" : "0",
+        "minor" : "2",
+        "build" : "1"
+      }
+    }, {
+      "name" : "python3-requests",
+      "ver" : {
+        "major" : "2",
+        "minor" : "18",
+        "build" : "4"
+      }
+    }, {
+      "name" : "python3-requests-unixsocket",
+      "ver" : {
+        "major" : "0",
+        "minor" : "1",
+        "build" : "5"
+      }
+    }, {
+      "name" : "python3-serial",
+      "ver" : {
+        "major" : "3",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "python3-service-identity",
+      "ver" : {
+        "major" : "16",
+        "minor" : "0",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-six",
+      "ver" : {
+        "major" : "1",
+        "minor" : "11",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-software-properties",
+      "ver" : {
+        "major" : "0",
+        "minor" : "96",
+        "build" : "24"
+      }
+    }, {
+      "name" : "python3-systemd",
+      "ver" : {
+        "major" : "234",
+        "minor" : "1build1",
+        "build" : null
+      }
+    }, {
+      "name" : "python3-twisted",
+      "ver" : {
+        "major" : "17",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-twisted-bin",
+      "ver" : {
+        "major" : "17",
+        "minor" : "9",
+        "build" : "0"
+      }
+    }, {
+      "name" : "python3-update-manager",
+      "ver" : {
+        "major" : "1:18",
+        "minor" : "04",
+        "build" : "11"
+      }
+    }, {
+      "name" : "python3-urllib3",
+      "ver" : {
+        "major" : "1",
+        "minor" : "22",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "python3-yaml",
+      "ver" : {
+        "major" : "3",
+        "minor" : "12",
+        "build" : "1build2"
+      }
+    }, {
+      "name" : "python3-zope.interface",
+      "ver" : {
+        "major" : "4",
+        "minor" : "3",
+        "build" : "2"
+      }
+    }, {
+      "name" : "python3.6",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "python3.6-minimal",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "8"
+      }
+    }, {
+      "name" : "qemu-block-extra",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "11+dfsg",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "qemu-kvm",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "11+dfsg",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "qemu-system-common",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "11+dfsg",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "qemu-system-x86",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "11+dfsg",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "qemu-utils",
+      "ver" : {
+        "major" : "1:2",
+        "minor" : "11+dfsg",
+        "build" : "1ubuntu7"
+      }
+    }, {
+      "name" : "readline-common",
+      "ver" : {
+        "major" : "7",
+        "minor" : "0",
+        "build" : "3"
+      }
+    }, {
+      "name" : "rsync",
+      "ver" : {
+        "major" : "3",
+        "minor" : "1",
+        "build" : "2"
+      }
+    }, {
+      "name" : "rsyslog",
+      "ver" : {
+        "major" : "8",
+        "minor" : "32",
+        "build" : "0"
+      }
+    }, {
+      "name" : "run-one",
+      "ver" : {
+        "major" : "1",
+        "minor" : "17",
+        "build" : "0ubuntu1"
+      }
+    }, {
+      "name" : "screen",
+      "ver" : {
+        "major" : "4",
+        "minor" : "6",
+        "build" : "2"
+      }
+    }, {
+      "name" : "seabios",
+      "ver" : {
+        "major" : "1",
+        "minor" : "10",
+        "build" : "2"
+      }
+    }, {
+      "name" : "sed",
+      "ver" : {
+        "major" : "4",
+        "minor" : "4",
+        "build" : "2"
+      }
+    }, {
+      "name" : "sensible-utils",
+      "ver" : {
+        "major" : "0",
+        "minor" : "0",
+        "build" : "12"
+      }
+    }, {
+      "name" : "sg3-utils",
+      "ver" : {
+        "major" : "1",
+        "minor" : "42",
+        "build" : "2ubuntu1"
+      }
+    }, {
+      "name" : "shared-mime-info",
+      "ver" : {
+        "major" : "1",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "sharutils",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "15",
+        "build" : "2"
+      }
+    }, {
+      "name" : "software-properties-common",
+      "ver" : {
+        "major" : "0",
+        "minor" : "96",
+        "build" : "24"
+      }
+    }, {
+      "name" : "sosreport",
+      "ver" : {
+        "major" : "3",
+        "minor" : "6",
+        "build" : "1ubuntu0"
+      }
+    }, {
+      "name" : "squashfs-tools",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "3",
+        "build" : "6ubuntu0"
+      }
+    }, {
+      "name" : "ssh-import-id",
+      "ver" : {
+        "major" : "5",
+        "minor" : "7",
+        "build" : "0ubuntu1"
+      }
+    }, {
+      "name" : "strace",
+      "ver" : {
+        "major" : "4",
+        "minor" : "21",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "sudo",
+      "ver" : {
+        "major" : "1",
+        "minor" : "8",
+        "build" : "21p2"
+      }
+    }, {
+      "name" : "sysstat",
+      "ver" : {
+        "major" : "11",
+        "minor" : "6",
+        "build" : "1"
+      }
+    }, {
+      "name" : "systemd",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "systemd-sysv",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "sysvinit-utils",
+      "ver" : {
+        "major" : "2",
+        "minor" : "88dsf",
+        "build" : "59"
+      }
+    }, {
+      "name" : "tar",
+      "ver" : {
+        "major" : "1",
+        "minor" : "29b",
+        "build" : "2ubuntu0"
+      }
+    }, {
+      "name" : "tcpdump",
+      "ver" : {
+        "major" : "4",
+        "minor" : "9",
+        "build" : "2"
+      }
+    }, {
+      "name" : "telnet",
+      "ver" : {
+        "major" : "0",
+        "minor" : "17",
+        "build" : "41"
+      }
+    }, {
+      "name" : "tgt",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "0",
+        "build" : "72"
+      }
+    }, {
+      "name" : "thermald",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "0"
+      }
+    }, {
+      "name" : "thin-provisioning-tools",
+      "ver" : {
+        "major" : "0",
+        "minor" : "7",
+        "build" : "4"
+      }
+    }, {
+      "name" : "time",
+      "ver" : {
+        "major" : "1",
+        "minor" : "7",
+        "build" : "25"
+      }
+    }, {
+      "name" : "tmux",
+      "ver" : {
+        "major" : "2",
+        "minor" : "6",
+        "build" : "3ubuntu0"
+      }
+    }, {
+      "name" : "tzdata",
+      "ver" : {
+        "major" : "2019c",
+        "minor" : "0ubuntu0",
+        "build" : "18"
+      }
+    }, {
+      "name" : "ubuntu-advantage-tools",
+      "ver" : {
+        "major" : "17",
+        "minor" : null,
+        "build" : null
+      }
+    }, {
+      "name" : "ubuntu-keyring",
+      "ver" : {
+        "major" : "2018",
+        "minor" : "09",
+        "build" : "18"
+      }
+    }, {
+      "name" : "ubuntu-minimal",
+      "ver" : {
+        "major" : "1",
+        "minor" : "417",
+        "build" : "3"
+      }
+    }, {
+      "name" : "ubuntu-release-upgrader-core",
+      "ver" : {
+        "major" : "1:18",
+        "minor" : "04",
+        "build" : "34"
+      }
+    }, {
+      "name" : "ubuntu-server",
+      "ver" : {
+        "major" : "1",
+        "minor" : "417",
+        "build" : "3"
+      }
+    }, {
+      "name" : "ubuntu-standard",
+      "ver" : {
+        "major" : "1",
+        "minor" : "417",
+        "build" : "3"
+      }
+    }, {
+      "name" : "ucf",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0038",
+        "build" : null
+      }
+    }, {
+      "name" : "udev",
+      "ver" : {
+        "major" : "237",
+        "minor" : "3ubuntu10",
+        "build" : "29"
+      }
+    }, {
+      "name" : "ufw",
+      "ver" : {
+        "major" : "0",
+        "minor" : "36",
+        "build" : "0ubuntu0"
+      }
+    }, {
+      "name" : "uidmap",
+      "ver" : {
+        "major" : "1:4",
+        "minor" : "5",
+        "build" : "1ubuntu2"
+      }
+    }, {
+      "name" : "unattended-upgrades",
+      "ver" : {
+        "major" : "1",
+        "minor" : "1ubuntu1",
+        "build" : "18"
+      }
+    }, {
+      "name" : "update-manager-core",
+      "ver" : {
+        "major" : "1:18",
+        "minor" : "04",
+        "build" : "11"
+      }
+    }, {
+      "name" : "update-notifier-common",
+      "ver" : {
+        "major" : "3",
+        "minor" : "192",
+        "build" : "1"
+      }
+    }, {
+      "name" : "ureadahead",
+      "ver" : {
+        "major" : "0",
+        "minor" : "100",
+        "build" : "0"
+      }
+    }, {
+      "name" : "usbutils",
+      "ver" : {
+        "major" : "1:007",
+        "minor" : "4build1",
+        "build" : null
+      }
+    }, {
+      "name" : "util-linux",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "uuid-runtime",
+      "ver" : {
+        "major" : "2",
+        "minor" : "31",
+        "build" : "1"
+      }
+    }, {
+      "name" : "vim",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "0",
+        "build" : "1453"
+      }
+    }, {
+      "name" : "vim-common",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "0",
+        "build" : "1453"
+      }
+    }, {
+      "name" : "vim-runtime",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "0",
+        "build" : "1453"
+      }
+    }, {
+      "name" : "vim-tiny",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "0",
+        "build" : "1453"
+      }
+    }, {
+      "name" : "wget",
+      "ver" : {
+        "major" : "1",
+        "minor" : "19",
+        "build" : "4"
+      }
+    }, {
+      "name" : "whiptail",
+      "ver" : {
+        "major" : "0",
+        "minor" : "52",
+        "build" : "20"
+      }
+    }, {
+      "name" : "wireless-regdb",
+      "ver" : {
+        "major" : "2018",
+        "minor" : "05",
+        "build" : "09"
+      }
+    }, {
+      "name" : "x11-common",
+      "ver" : {
+        "major" : "1:7",
+        "minor" : "7+19ubuntu7",
+        "build" : "1"
+      }
+    }, {
+      "name" : "xauth",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "0",
+        "build" : "10"
+      }
+    }, {
+      "name" : "xdelta3",
+      "ver" : {
+        "major" : "3",
+        "minor" : "0",
+        "build" : "11"
+      }
+    }, {
+      "name" : "xdg-user-dirs",
+      "ver" : {
+        "major" : "0",
+        "minor" : "17",
+        "build" : "1ubuntu1"
+      }
+    }, {
+      "name" : "xfsprogs",
+      "ver" : {
+        "major" : "4",
+        "minor" : "9",
+        "build" : "0+nmu1ubuntu2"
+      }
+    }, {
+      "name" : "xkb-data",
+      "ver" : {
+        "major" : "2",
+        "minor" : "23",
+        "build" : "1"
+      }
+    }, {
+      "name" : "xxd",
+      "ver" : {
+        "major" : "2:8",
+        "minor" : "0",
+        "build" : "1453"
+      }
+    }, {
+      "name" : "xz-utils",
+      "ver" : {
+        "major" : "5",
+        "minor" : "2",
+        "build" : "2"
+      }
+    }, {
+      "name" : "zerofree",
+      "ver" : {
+        "major" : "1",
+        "minor" : "0",
+        "build" : "4"
+      }
+    }, {
+      "name" : "zlib1g",
+      "ver" : {
+        "major" : "1:1",
+        "minor" : "2",
+        "build" : "11"
+      }
+    } ],
+    "devices" : [ {
+      "address" : "00:00.0",
+      "devClass" : "Host bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "440FX - 82441FX PMC [Natoma]"
+    }, {
+      "address" : "00:01.0",
+      "devClass" : "ISA bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "82371SB PIIX3 ISA [Natoma/Triton II]"
+    }, {
+      "address" : "00:01.1",
+      "devClass" : "IDE interface",
+      "vendor" : "Intel Corporation",
+      "device" : "82371SB PIIX3 IDE [Natoma/Triton II]"
+    }, {
+      "address" : "00:01.3",
+      "devClass" : "Bridge",
+      "vendor" : "Intel Corporation",
+      "device" : "82371AB/EB/MB PIIX4 ACPI"
+    }, {
+      "address" : "00:02.0",
+      "devClass" : "VGA compatible controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "QXL paravirtual graphic card"
+    }, {
+      "address" : "00:03.0",
+      "devClass" : "Ethernet controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio network device"
+    }, {
+      "address" : "00:04.0",
+      "devClass" : "Unclassified device [00ff]",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio memory balloon"
+    }, {
+      "address" : "00:05.0",
+      "devClass" : "Communication controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio console"
+    }, {
+      "address" : "00:06.0",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #1"
+    }, {
+      "address" : "00:06.1",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #2"
+    }, {
+      "address" : "00:06.2",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB UHCI Controller #3"
+    }, {
+      "address" : "00:06.7",
+      "devClass" : "USB controller",
+      "vendor" : "Intel Corporation",
+      "device" : "82801I (ICH9 Family) USB2 EHCI Controller #1"
+    }, {
+      "address" : "00:07.0",
+      "devClass" : "SCSI storage controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio block device"
+    }, {
+      "address" : "00:08.0",
+      "devClass" : "Unclassified device [00ff]",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio RNG"
+    }, {
+      "address" : "00:09.0",
+      "devClass" : "SCSI storage controller",
+      "vendor" : "Red Hat, Inc.",
+      "device" : "Virtio block device"
+    } ],
+    "blockDevices" : [ {
+      "deviceName" : "vda",
+      "storageCapacity" : 5368709120
+    }, {
+      "deviceName" : "vdb",
+      "storageCapacity" : 107374182400
+    } ],
+    "networkPorts" : [ {
+      "device" : "",
+      "portSpeed" : 0,
+      "switchId" : null
+    }, {
+      "device" : "ens3",
+      "portSpeed" : 0,
+      "switchId" : null
+    } ],
+    "networkInterfaces" : [ ],
+    "cpuArchitecture" : "x86_64",
+    "totalMemory" : 504770560,
+    "memoryDevices" : [ {
+      "size" : 536870912,
+      "type" : "RAM",
+      "formFactor" : "DIMM",
+      "locator" : "DIMM 0",
+      "bankLocator" : "Not Specified",
+      "speedMhz" : null,
+      "manufacturer" : "QEMU",
+      "serialNumber" : "Not Specified",
+      "partNumber" : "Not Specified",
+      "configuredSpeedMhz" : null
+    } ],
+    "system" : {
+      "manufacturer" : "QEMU",
+      "version" : "pc-i440fx-bionic",
+      "family" : "Not Specified",
+      "uuid" : "455626d8-a9aa-4f61-b17d-65255786a992"
+    },
+    "cpus" : [ {
+      "manufacturer" : "QEMU",
+      "flags" : [ "fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8", "apic", "sep", "mtrr", "pge", "mca", "cmov", "pat", "pse36", "clflush", "mmx", "fxsr", "sse", "sse2", "ss", "syscall", "nx", "pdpe1gb", "rdtscp", "lm", "constant_tsc", "arch_perfmon", "rep_good", "nopl", "xtopology", "cpuid", "tsc_known_freq", "pni", "pclmulqdq", "vmx", "ssse3", "fma", "cx16", "pcid", "sse4_1", "sse4_2", "x2apic", "movbe", "popcnt", "tsc_deadline_timer", "aes", "xsave", "avx", "f16c", "rdrand", "hypervisor", "lahf_lm", "abm", "3dnowprefetch", "cpuid_fault", "invpcid_single", "pti", "ssbd", "ibrs", "ibpb", "tpr_shadow", "vnmi", "flexpriority", "ept", "vpid", "fsgsbase", "tsc_adjust", "bmi1", "avx2", "smep", "bmi2", "erms", "invpcid", "rdseed", "adx", "smap", "xsaveopt", "arat", "md_clear" ],
+      "socket" : "CPU 0",
+      "version" : "pc-i440fx-bionic",
+      "maxSpeedMhz" : 2000,
+      "coreCount" : 1,
+      "threadCount" : 1,
+      "voltage" : null,
+      "l1cache" : null,
+      "l2cache" : null,
+      "l3cache" : null
+    } ],
+    "chassis" : {
+      "manufacturer" : "QEMU",
+      "type" : "Other",
+      "height" : null,
+      "nrOfPowerCords" : null
+    },
+    "powerManagment" : [ {
+      "@type" : "wake-on-lan",
+      "macAddresses" : [ "AAAAAAAA", "AAAAAAIB" ]
+    } ],
+    "storageCapabilities" : [ {
+      "@type" : "fs",
+      "id" : "a3596830-f5f4-4591-9b1c-236cec12fac0",
+      "size" : 4929122304,
+      "mountPoint" : "/",
+      "fsType" : "ext4",
+      "performanceInfo" : null
+    }, {
+      "@type" : "fs",
+      "id" : "78db9668-f891-4e11-82dc-f9747659d33b",
+      "size" : 99766689792,
+      "mountPoint" : "/kerub",
+      "fsType" : "ext4",
+      "performanceInfo" : null
+    } ],
+    "hypervisorCapabilities" : [ {
+      "@type" : "libvirt-capabilities",
+      "guests" : [ {
+        "osType" : "hvm",
+        "arch" : {
+          "name" : "i686",
+          "wordsize" : 32,
+          "emulator" : "/usr/bin/qemu-system-i386"
+        }
+      }, {
+        "osType" : "hvm",
+        "arch" : {
+          "name" : "x86_64",
+          "wordsize" : 64,
+          "emulator" : "/usr/bin/qemu-system-x86_64"
+        }
+      } ]
+    } ]
+  },
+  "recycling" : false,
+  "dead" : false
+}

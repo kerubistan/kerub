@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.bugfixes
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.k0zka.finder4j.backtrack.BacktrackServiceImpl
+import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
 import com.github.kerubistan.kerub.model.messages.PingMessage
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.OperationalStateBuilder
@@ -57,6 +58,25 @@ class BugFixIT {
 		verify(executor).execute(any(), any())
 	}
 
+	@Test
+	fun ubuntu16Nfs() {
+		val state: OperationalState = loadFrom("com.github.kerubistan.kerub.planner.bugfixes.ubuntu16nfs")
+		val builder = mock<OperationalStateBuilder>()
+		whenever(builder.buildState()).thenReturn(state)
+		val executor = mock<PlanExecutor>()
+		PlannerImpl(
+				backtrack = BacktrackServiceImpl(),
+				builder = builder,
+				executor = executor,
+				violationDetector = PlanViolationDetectorImpl
+		).onEvent(msg = PingMessage(sent = now()))
+
+		// no solution and correctly as no nfs server installed on host
+		// while all other solution is ruled out by config
+		verify(executor, never()).execute(any(), any())
+
+	}
+
 	inline fun <reified T> load(resources: List<Resource>, cacheName: String, objectMapper: ObjectMapper) =
 			resources.filter { it.uri.toString().contains(cacheName) }
 					.map { objectMapper.readValue<T>(it.url) }
@@ -74,7 +94,9 @@ class BugFixIT {
 				vms = load(resources, "vmCache", objectMapper),
 				vmDyns = load(resources, "vmDynCache", objectMapper),
 				vStorage = load(resources, "virtualStorageDeviceCache", objectMapper),
-				vStorageDyns = load(resources, "virtualStorageDeviceDynamicCache", objectMapper)
+				vStorageDyns = load(resources, "virtualStorageDeviceDynamicCache", objectMapper),
+				config = load<ControllerConfig>(resources, "controllerConfigCache", objectMapper)
+						.singleOrNull() ?: ControllerConfig()
 		)
 	}
 

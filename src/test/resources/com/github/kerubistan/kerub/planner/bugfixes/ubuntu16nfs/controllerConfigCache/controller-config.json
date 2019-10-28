@@ -1,0 +1,36 @@
+{
+  "@type" : "config",
+  "plannerTimeout" : null,
+  "accountsRequired" : false,
+  "powerManagementEnabled" : true,
+  "wakeOnLanEnabled" : false,
+  "ksmEnabled" : true,
+  "installSoftwareEnabled" : false,
+  "storageTechnologies" : {
+    "fsPathEnabled" : [ "/kerub", "/storage" ],
+    "fsTypeEnabled" : [ "ext4", "ext3", "zfs", "btrfs", "ufs" ],
+    "lvmCreateVolumeEnabled" : false,
+    "lvmVGPattern" : ".*",
+    "gvinumCreateVolumeEnabled" : false,
+    "cephEnabled" : false,
+    "glusterEnabled" : false,
+    "nfsEnabled" : true,
+    "iscsiEnabled" : false,
+    "storageBenchmarkingEnabled" : false
+  },
+  "maximumRedundancyAllowed" : 4,
+  "hypervisorTechnologies" : {
+    "kvmEnabled" : true,
+    "xenEnabled" : false,
+    "bhyveEnabled" : false,
+    "virtualBoxEnabled" : false
+  },
+  "archiverConfig" : {
+    "compressDayJobCron" : "0 0 * * *",
+    "keepDays" : 7
+  },
+  "cpuNormalTemperature" : {
+    "min" : 20,
+    "max" : 70
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "@type" : "host-dyn",
+  "id" : "71bcd334-c893-468a-a2de-a6241ef3f511",
+  "lastUpdated" : 1572117761190,
+  "status" : "Up",
+  "userCpu" : 47,
+  "systemCpu" : 45,
+  "idleCpu" : 0,
+  "memFree" : 270868480,
+  "memUsed" : 233902080,
+  "memSwapped" : 50544640,
+  "ksmEnabled" : false,
+  "cpuStats" : [ {
+    "cpuNr" : 0,
+    "user" : 19.19,
+    "system" : 28.28,
+    "ioWait" : 52.53,
+    "idle" : 0.0
+  } ],
+  "storageStatus" : [ {
+    "@type" : "simple",
+    "id" : "a3596830-f5f4-4591-9b1c-236cec12fac0",
+    "freeCapacity" : 953032704
+  }, {
+    "@type" : "simple",
+    "id" : "78db9668-f891-4e11-82dc-f9747659d33b",
+    "freeCapacity" : 99684876288
+  } ],
+  "storageDeviceHealth" : { },
+  "cpuTemperature" : [ ]
+}
