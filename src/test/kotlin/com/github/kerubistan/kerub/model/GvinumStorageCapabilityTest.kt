@@ -5,7 +5,20 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class GvinumStorageCapabilityTest {
+class GvinumStorageCapabilityTest : AbstractDataRepresentationTest<GvinumStorageCapability>(){
+
+	override val testInstances = listOf(
+			GvinumStorageCapability(devices = listOf(
+					GvinumStorageCapabilityDrive(
+							name = "test-disk",
+							size = 4.TB,
+							device = "/dev/sda" // whatever
+					)
+			)
+			)
+	)
+	override val clazz = GvinumStorageCapability::class.java
+
 	@Test
 	fun validations() {
 		assertThrows<IllegalStateException>("No disk, no gvinum storage capability") {

@@ -6,7 +6,10 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class HostCapabilitiesTest {
+class HostCapabilitiesTest : AbstractDataRepresentationTest<HostCapabilities>() {
+	override val testInstances = listOf(testHostCapabilities)
+	override val clazz = HostCapabilities::class.java
+
 	@Test
 	fun validations() {
 		assertThrows<IllegalStateException>("invalid value for totalMemory") {

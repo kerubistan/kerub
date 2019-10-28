@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.model.dynamic
 
+import com.github.kerubistan.kerub.model.AbstractDataRepresentationTest
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
@@ -11,7 +12,19 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 
-class VirtualStorageFsAllocationTest {
+class VirtualStorageFsAllocationTest : AbstractDataRepresentationTest<VirtualStorageFsAllocation>() {
+
+	override val testInstances = listOf(
+			VirtualStorageFsAllocation(
+					capabilityId = randomUUID(),
+					actualSize = 1.TB,
+					hostId = randomUUID(),
+					fileName = "/kerub/${randomUUID()}.raw",
+					type = VirtualDiskFormat.raw,
+					mountPoint = "/kerub"
+			)
+	)
+	override val clazz: Class<VirtualStorageFsAllocation> = VirtualStorageFsAllocation::class.java
 
 	@Test
 	fun validations() {
