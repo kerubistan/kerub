@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -13,8 +14,7 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
-class CreateImageTest {
-
+class CreateImageTest : OperationalStepVerifications() {
 	val device = VirtualStorageDevice(
 			size = 128.GB,
 			readOnly = false,
@@ -29,6 +29,8 @@ class CreateImageTest {
 					storageCapabilities = listOf(testFsCapability)
 			)
 	)
+
+	override val step= CreateImage(device, testFsCapability, host, VirtualDiskFormat.qcow2)
 
 	@Test
 	fun take() {

@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.host.security.install
 
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKey
 import com.github.kerubistan.kerub.testFreeBsdHost
@@ -9,7 +10,8 @@ import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class InstallPublicKeyTest {
+class InstallPublicKeyTest : OperationalStepVerifications() {
+	override val step = RemovePublicKey(host = testHost, publicKey = "TEST", hostOfKey = testFreeBsdHost)
 
 	@Test
 	fun isInverseOf() {

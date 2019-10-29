@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.host.security.generate
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHost
 import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
 import com.github.kerubistan.kerub.testFreeBsdHost
@@ -11,7 +12,8 @@ import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class GenerateSshKeyTest {
+class GenerateSshKeyTest : OperationalStepVerifications() {
+	override val step = GenerateSshKey(host = testHost)
 
 	@Test
 	fun isInverseOf() {

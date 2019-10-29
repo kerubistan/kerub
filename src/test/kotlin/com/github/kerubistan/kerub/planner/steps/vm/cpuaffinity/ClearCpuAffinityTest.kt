@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testVm
 import io.github.kerubistan.kroki.size.GB
@@ -12,7 +13,9 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class ClearCpuAffinityTest {
+class ClearCpuAffinityTest : OperationalStepVerifications() {
+	override val step = ClearCpuAffinity(vm = testVm, host = testHost)
+
 	@Test
 	fun take() {
 		val state = ClearCpuAffinity(vm = testVm, host = testHost).take(OperationalState.fromLists(

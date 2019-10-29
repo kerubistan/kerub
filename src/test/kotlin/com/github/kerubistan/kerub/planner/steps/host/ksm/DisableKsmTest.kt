@@ -1,12 +1,14 @@
 package com.github.kerubistan.kerub.planner.steps.host.ksm
 
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class DisableKsmTest {
+class DisableKsmTest : OperationalStepVerifications() {
+	override val step = DisableKsm(host = testHost)
 
 	@Test
 	fun isInverseOf() {

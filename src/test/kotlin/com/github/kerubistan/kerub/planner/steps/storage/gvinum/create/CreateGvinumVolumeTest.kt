@@ -12,6 +12,8 @@ import com.github.kerubistan.kerub.model.dynamic.gvinum.ConcatenatedGvinumConfig
 import com.github.kerubistan.kerub.model.dynamic.gvinum.SimpleGvinumConfiguration
 import com.github.kerubistan.kerub.model.dynamic.gvinum.StripedGvinumConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testGvinumCapability
@@ -24,7 +26,34 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
-class CreateGvinumVolumeTest {
+class CreateGvinumVolumeTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val gvinumStorageCapability = GvinumStorageCapability(
+					devices = listOf(
+							GvinumStorageCapabilityDrive(
+									size = 1.TB,
+									name = "test-disk",
+									device = "/dev/sda"
+							)
+					)
+			)
+			val host = testFreeBsdHost.copy(
+					capabilities = testFreeBsdHost.capabilities!!.copy(
+							storageCapabilities = listOf(gvinumStorageCapability)
+					)
+			)
+			val disk = testDisk.copy(
+					size = 100.GB
+
+			)
+			return CreateGvinumVolume(
+					host = host,
+					disk = disk,
+					config = SimpleGvinumConfiguration(diskName = gvinumStorageCapability.devices.first().name),
+					capability = gvinumStorageCapability
+			)
+		}
 
 	@Test
 	fun validations() {

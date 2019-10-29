@@ -6,6 +6,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -17,7 +19,37 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
-class ConvertImageTest {
+class ConvertImageTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get()  {
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testFsCapability)
+					)
+			)
+			val targetAllocation = VirtualStorageFsAllocation(
+					hostId = host.id,
+					type = VirtualDiskFormat.qcow2,
+					fileName = "/kerub-2/${testVirtualDisk.id}.qcow2",
+					mountPoint = "/kerub-2",
+					actualSize = 1.GB,
+					capabilityId = testFsCapability.id
+			)
+			val sourceAllocation = VirtualStorageFsAllocation(
+					hostId = host.id,
+					type = VirtualDiskFormat.raw,
+					fileName = "/kerub-1/${testVirtualDisk.id}.raw",
+					mountPoint = "/kerub-1",
+					actualSize = 1.GB,
+					capabilityId = testFsCapability.id
+			)
+			return ConvertImage(
+					sourceAllocation  = sourceAllocation,
+					targetAllocation = targetAllocation,
+					host = host,
+					virtualStorage = testVirtualDisk
+			)
+		}
 
 	@Test
 	fun validations() {

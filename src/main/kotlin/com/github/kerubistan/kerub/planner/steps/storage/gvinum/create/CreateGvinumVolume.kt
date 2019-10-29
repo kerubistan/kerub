@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.gvinum.create
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.Host
@@ -34,9 +35,11 @@ data class CreateGvinumVolume(
 		}
 	}
 
+	@get:JsonIgnore
 	override val format: VirtualDiskFormat
 		get() = VirtualDiskFormat.raw
 
+	@get:JsonIgnore
 	override val allocation: VirtualStorageGvinumAllocation by lazy {
 		VirtualStorageGvinumAllocation(
 				hostId = host.id,

@@ -4,13 +4,15 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.testFreeBsdHost
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class RemovePublicKeyTest {
+class RemovePublicKeyTest : OperationalStepVerifications() {
+	override val step = RemovePublicKey(host = testHost, publicKey = "ssh-rsa AAAAlofasz", hostOfKey = testFreeBsdHost)
 
 	@Test
 	fun isInverseOf() {
