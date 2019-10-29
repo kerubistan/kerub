@@ -7,6 +7,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -15,7 +17,33 @@ import io.github.kerubistan.kroki.size.TB
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class FallocateImageTest {
+class FallocateImageTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val capability = FsStorageCapability(
+					size = 1.TB,
+					mountPoint = "/kerub",
+					fsType = "ext4"
+			)
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(capability)
+					)
+			)
+			return FallocateImage(
+					host = host,
+					virtualStorage = testDisk,
+					allocation = VirtualStorageFsAllocation(
+							hostId = host.id,
+							actualSize = 10.GB,
+							capabilityId = capability.id,
+							mountPoint = "/kerub",
+							type = VirtualDiskFormat.raw,
+							fileName = "/kerub/blah.raw"
+					),
+					expectedFree = 1.GB
+			)
+		}
 
 	@Test
 	fun take() {

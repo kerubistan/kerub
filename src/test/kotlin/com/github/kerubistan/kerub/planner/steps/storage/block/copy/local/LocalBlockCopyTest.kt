@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.HostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
@@ -20,7 +21,24 @@ import java.util.UUID.randomUUID
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class LocalBlockCopyTest {
+class LocalBlockCopyTest : OperationalStepVerifications() {
+	override val step = LocalBlockCopy(
+			sourceDevice = testDisk,
+			targetDevice = testDisk.copy(id = randomUUID()),
+			sourceAllocation = VirtualStorageLvmAllocation(
+					capabilityId = testLvmCapability.id,
+					actualSize = testDisk.size,
+					path = "",
+					vgName = testLvmCapability.volumeGroupName,
+					hostId = testHost.id
+			),
+			allocationStep = CreateLv(
+					host = testHost,
+					disk = testDisk,
+					capability = testLvmCapability
+			)
+	)
+
 
 	@Test
 	fun validate() {
@@ -153,7 +171,7 @@ class LocalBlockCopyTest {
 	}
 
 	@Test
-	fun reservations() {
+	fun otherReservations() {
 		assertTrue("reservation for the copied disk allocation, non-exclusive reservation for the host") {
 			val lvmVg1 = LvmStorageCapability(
 					id = randomUUID(),

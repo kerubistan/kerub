@@ -5,6 +5,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -14,11 +16,33 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
-class InPlaceConvertImageTest {
+class InPlaceConvertImageTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(testFsCapability)
+					)
+			)
+			return InPlaceConvertImage(
+					testDisk,
+					VirtualStorageFsAllocation(
+							capabilityId = testFsCapability.id,
+							mountPoint = "/kerub",
+							hostId = host.id,
+							type = VirtualDiskFormat.qcow2,
+							fileName = "/kerub/${testDisk.id}.qcow2",
+							actualSize = testDisk.size
+					),
+					host,
+					VirtualDiskFormat.raw
+			)
+		}
 
 	@Test
 	fun validation() {
-		assertThrows<IllegalStateException>("should get exception when the allocation host is not the same as the host") {
+		assertThrows<IllegalStateException>(
+				"should get exception when the allocation host is not the same as the host") {
 			InPlaceConvertImage(
 					testDisk,
 					VirtualStorageFsAllocation(
@@ -32,7 +56,7 @@ class InPlaceConvertImageTest {
 					testHost,
 					VirtualDiskFormat.raw)
 		}
-		assertThrows<IllegalStateException> ("capability not registered in the host, should throw exception") {
+		assertThrows<IllegalStateException>("capability not registered in the host, should throw exception") {
 			InPlaceConvertImage(
 					testDisk,
 					VirtualStorageFsAllocation(
@@ -47,7 +71,7 @@ class InPlaceConvertImageTest {
 					VirtualDiskFormat.raw)
 		}
 
-		assertThrows<IllegalStateException> ("same format for source and target - does not make sense") {
+		assertThrows<IllegalStateException>("same format for source and target - does not make sense") {
 			val host = testHost.copy(
 					capabilities = testHostCapabilities.copy(
 							storageCapabilities = listOf(testFsCapability)

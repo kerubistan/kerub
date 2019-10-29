@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.create
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
@@ -17,6 +18,7 @@ data class CreateThinLv(
 		override val disk: VirtualStorageDevice,
 		val poolName: String
 ) : AbstractCreateLv() {
+	@get:JsonIgnore
 	override val allocation: VirtualStorageLvmAllocation by lazy {
 		VirtualStorageLvmAllocation(
 				hostId = host.id,

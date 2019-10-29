@@ -3,6 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.fs.truncate
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
 import com.github.kerubistan.kerub.testHost
@@ -12,7 +13,20 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class TruncateImageTest {
+class TruncateImageTest : OperationalStepVerifications() {
+	override val step = TruncateImage(
+			host = testHost,
+			allocation = VirtualStorageFsAllocation(
+					hostId = testHost.id,
+					type = VirtualDiskFormat.raw,
+					mountPoint = "/kerub",
+					fileName = "/kerub/XXX.raw",
+					actualSize = 100.GB,
+					capabilityId = testFsCapability.id
+			),
+			disk = testDisk,
+			capability = testFsCapability
+	)
 
 	@Test
 	fun validations() {

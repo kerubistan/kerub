@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testCdrom
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testFsCapability
@@ -15,7 +16,22 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertTrue
 
-internal class CreateImageBasedOnTemplateTest {
+internal class CreateImageBasedOnTemplateTest : OperationalStepVerifications() {
+	override val step = CreateImageBasedOnTemplate(
+			format = VirtualDiskFormat.qcow2,
+			disk = testDisk,
+			capability = testFsCapability,
+			host = testHost,
+			baseAllocation = VirtualStorageFsAllocation(
+					hostId = testHost.id,
+					actualSize = 100.GB,
+					capabilityId = testFsCapability.id,
+					mountPoint = "/kerub",
+					fileName = "/kerub/${testDisk.id}.qcow2",
+					type = VirtualDiskFormat.qcow2
+			),
+			baseDisk = testCdrom
+	)
 
 	@Test
 	fun validations() {
@@ -136,7 +152,7 @@ internal class CreateImageBasedOnTemplateTest {
 										id = testCdrom.id,
 										allocations = listOf(
 												VirtualStorageFsAllocation(
-													capabilityId = testFsCapability.id,
+														capabilityId = testFsCapability.id,
 														hostId = testHost.id,
 														type = VirtualDiskFormat.qcow2,
 														fileName =

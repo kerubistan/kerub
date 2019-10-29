@@ -8,6 +8,8 @@ import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
@@ -20,7 +22,59 @@ import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-class RemoteBlockCopyTest {
+class RemoteBlockCopyTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val sourceCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 1.TB,
+					volumeGroupName = "vg-1",
+					physicalVolumes = mapOf(
+							"/dev/sda" to 1.TB
+					)
+			)
+			val sourceHost = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							blockDevices = listOf(BlockDevice(deviceName = "/dev/sda", storageCapacity = 1.TB)),
+							storageCapabilities = listOf(sourceCapability)
+					)
+			)
+			val targetCapability = LvmStorageCapability(
+					id = randomUUID(),
+					size = 1.TB,
+					volumeGroupName = "vg-1",
+					physicalVolumes = mapOf(
+							"/dev/sda" to 1.TB
+					)
+			)
+			val targetHost = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							blockDevices = listOf(BlockDevice(deviceName = "/dev/sda", storageCapacity = 1.TB)),
+							storageCapabilities = listOf(targetCapability)
+					)
+			)
+			val sourceDisk = testDisk.copy(id = randomUUID())
+			val targetDisk = testDisk.copy(id = randomUUID())
+			return RemoteBlockCopy(
+					sourceDevice = sourceDisk,
+					targetDevice = targetDisk,
+					sourceAllocation = VirtualStorageLvmAllocation(
+							hostId = sourceHost.id,
+							capabilityId = sourceCapability.id,
+							path = "",
+							actualSize = sourceDisk.size,
+							vgName = sourceCapability.volumeGroupName
+					),
+					sourceHost = sourceHost,
+					allocationStep = CreateLv(
+							host = targetHost,
+							disk = targetDisk,
+							capability = targetCapability
+					)
+			)
+		}
 
 	@Test
 	fun validate() {
@@ -176,7 +230,7 @@ class RemoteBlockCopyTest {
 	}
 
 	@Test
-	fun reservations() {
+	fun otherReservations() {
 		assertTrue("check reservation for source and target vdisk and host") {
 			val sourceHost = testHost.copy(
 					id = randomUUID()

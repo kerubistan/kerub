@@ -5,6 +5,8 @@ import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testHostCapabilities
@@ -14,7 +16,30 @@ import org.junit.Test
 import java.math.BigInteger
 import kotlin.test.assertTrue
 
-class CreateThinLvTest {
+class CreateThinLvTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val lvmCapability = LvmStorageCapability(
+					volumeGroupName = "vg-1",
+					physicalVolumes = mapOf("/dev/sda" to 1.TB, "/dev/sdb" to 1.TB),
+					size = 2.TB
+			)
+			return CreateThinLv(
+					host = testHost.copy(
+							capabilities = testHostCapabilities.copy(
+									storageCapabilities = listOf(
+											lvmCapability
+									)
+							)
+					),
+					disk = testDisk.copy(
+							size = 1.TB
+					),
+					capability = lvmCapability,
+					poolName = "pool-1")
+
+		}
+
 	@Test
 	fun take() {
 		assertTrue("") {
