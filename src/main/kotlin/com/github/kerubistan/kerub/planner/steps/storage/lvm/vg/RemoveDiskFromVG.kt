@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.vg
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger.ZERO
 
+@JsonTypeName("vg-remove-disk")
 data class RemoveDiskFromVG(
 		val capability: LvmStorageCapability,
 		val device: String,

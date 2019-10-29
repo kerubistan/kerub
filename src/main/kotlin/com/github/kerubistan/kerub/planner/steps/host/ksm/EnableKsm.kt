@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.host.ksm
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.ComputationCost
@@ -11,6 +12,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.update
 
 @ProducedBy(KsmFactory::class)
+@JsonTypeName("enable-ksm")
 data class EnableKsm(override val host: Host, val cycles: Long) : HostStep, InvertibleStep {
 
 	override fun isInverseOf(other: AbstractOperationalStep) = other is DisableKsm && other.host == this.host

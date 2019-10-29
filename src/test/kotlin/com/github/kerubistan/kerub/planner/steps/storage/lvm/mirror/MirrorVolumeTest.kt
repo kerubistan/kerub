@@ -41,7 +41,7 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 			)
 			return MirrorVolume(
 					host = host,
-					mirrors = 1.toUShort(),
+					mirrors = 1.toShort(),
 					allocation = VirtualStorageLvmAllocation(
 							capabilityId = lvmStorageCapability.id,
 							path = "",
@@ -88,7 +88,7 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 				host = host,
 				vStorage = testDisk,
 				capability = lvmStorageCapability,
-				mirrors = 1.toUShort(),
+				mirrors = 1.toShort(),
 				allocation = VirtualStorageLvmAllocation(
 						capabilityId = lvmStorageCapability.id,
 						mirrors = 0,
@@ -138,7 +138,7 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 					host = testHost,
 					vStorage = testDisk,
 					capability = testLvmCapability,
-					mirrors = 1.toUShort(),
+					mirrors = 1.toShort(),
 					allocation = VirtualStorageLvmAllocation(
 							capabilityId = testLvmCapability.id,
 							mirrors = 0,
@@ -185,10 +185,45 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 					host = host,
 					vStorage = testDisk,
 					capability = lvmStorageCapability,
-					mirrors = 6.toUShort(),
+					mirrors = 6.toShort(),
 					allocation = VirtualStorageLvmAllocation(
 							capabilityId = lvmStorageCapability.id,
 							mirrors = 0,
+							hostId = host.id,
+							vgName = lvmStorageCapability.volumeGroupName,
+							path = "",
+							actualSize = 1.GB
+					)
+			)
+		}
+		assertThrows<IllegalStateException>("not enough mirrors") {
+			val lvmStorageCapability = LvmStorageCapability(
+					size = 8.TB,
+					volumeGroupName = "vg-1",
+					physicalVolumes = mapOf(
+							"/dev/sda" to 1.TB,
+							"/dev/sdb" to 1.TB
+					)
+			)
+			val host = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							blockDevices = listOf(
+									BlockDevice("/dev/sda", 1.TB),
+									BlockDevice("/dev/sdb", 1.TB)
+							),
+							storageCapabilities = listOf(
+									lvmStorageCapability
+							)
+					)
+			)
+			MirrorVolume(
+					host = host,
+					vStorage = testDisk,
+					capability = lvmStorageCapability,
+					mirrors = 2.toShort(),
+					allocation = VirtualStorageLvmAllocation(
+							capabilityId = lvmStorageCapability.id,
+							mirrors = -1,
 							hostId = host.id,
 							vgName = lvmStorageCapability.volumeGroupName,
 							path = "",
@@ -220,7 +255,7 @@ class MirrorVolumeTest : OperationalStepVerifications() {
 					host = host,
 					vStorage = testDisk,
 					capability = lvmStorageCapability,
-					mirrors = 2.toUShort(),
+					mirrors = 2.toShort(),
 					allocation = VirtualStorageLvmAllocation(
 							capabilityId = lvmStorageCapability.id,
 							mirrors = 0,

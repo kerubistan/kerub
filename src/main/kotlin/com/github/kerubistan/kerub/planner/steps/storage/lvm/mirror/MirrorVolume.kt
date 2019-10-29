@@ -1,5 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.mirror
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -12,13 +14,14 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
-@ExperimentalUnsignedTypes
-data class MirrorVolume @ExperimentalUnsignedTypes constructor(
+@JsonTypeName("mirror-volume")
+data class MirrorVolume constructor(
 		val host: Host,
 		val capability: LvmStorageCapability,
+		@JsonProperty("vstorage")
 		val vStorage: VirtualStorageDevice,
 		val allocation: VirtualStorageLvmAllocation,
-		val mirrors: UShort
+		val mirrors: Short
 ) : AbstractOperationalStep {
 
 	init {
@@ -30,7 +33,10 @@ data class MirrorVolume @ExperimentalUnsignedTypes constructor(
 		check(mirrors < maxMirrors) {
 			"$mirrors nr of copies How does it make sense to have that many mirrors?"
 		}
-		check(mirrors < capability.physicalVolumes.size.toUShort()) {
+		check(mirrors >= 0) {
+			"mirrors ($mirrors) must be at least 0"
+		}
+		check(mirrors < capability.physicalVolumes.size) {
 			"requested $mirrors mirrors, but only have ${capability.physicalVolumes.size} " +
 					"in the vg ${capability.volumeGroupName}"
 		}

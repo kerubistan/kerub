@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vm.stop
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
@@ -18,6 +19,7 @@ import java.math.BigInteger
  * Stop virtual machine.
  * Operation cost is considered negligible.
  */
+@JsonTypeName("stop-vm")
 data class StopVirtualMachine(val vm: VirtualMachine, override val host: Host) : AbstractOperationalStep, HostStep {
 
 	companion object {

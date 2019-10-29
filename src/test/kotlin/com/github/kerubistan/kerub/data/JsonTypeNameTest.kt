@@ -26,7 +26,13 @@ class JsonTypeNameTest {
 	@ExperimentalStdlibApi
 	@Test
 	fun checkAnnotations() {
-		val reflections = Reflections("com.github.kerubistan.kerub.model", SubTypesScanner(false))
+		checkPackage("com.github.kerubistan.kerub.model")
+		checkPackage("com.github.kerubistan.kerub.planner.steps")
+	}
+
+	@ExperimentalStdlibApi
+	private fun checkPackage(model: String) {
+		val reflections = Reflections(model, SubTypesScanner(false))
 		reflections.allTypes
 				.map { Class.forName(it).kotlin }
 				.filter { it.java.isInterface }

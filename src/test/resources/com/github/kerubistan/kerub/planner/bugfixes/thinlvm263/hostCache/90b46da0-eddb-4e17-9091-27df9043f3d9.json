@@ -3668,8 +3668,7 @@
       "physicalVolumes" : {
         "/dev/vda2" : 4840226816
       },
-      "performanceInfo" : null,
-      "storageDevices" : [ "/dev/vda2" ]
+      "performanceInfo" : null
     }, {
       "@type" : "lvm",
       "id" : "a6c519b5-dfef-4072-8d5f-34e239bafc67",
@@ -3678,8 +3677,7 @@
       "physicalVolumes" : {
         "/dev/vdb" : 1099507433472
       },
-      "performanceInfo" : null,
-      "storageDevices" : [ "/dev/vdb" ]
+      "performanceInfo" : null
     }, {
       "@type" : "fs",
       "id" : "a020865f-3305-4397-875d-f8104adf186f",

@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.host.security.remove
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.Reservation
@@ -9,6 +10,7 @@ import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.utils.update
 
+@JsonTypeName("remove-public-key")
 data class RemovePublicKey(val hostOfKey: Host, val host: Host, val publicKey: String) : AbstractOperationalStep,
 		InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean =

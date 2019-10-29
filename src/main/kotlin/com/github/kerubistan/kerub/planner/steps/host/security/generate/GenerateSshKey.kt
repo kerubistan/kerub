@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.host.security.generate
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -11,6 +12,7 @@ import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.utils.update
 
+@JsonTypeName("generate-ssh-key")
 data class GenerateSshKey(val host: Host) : AbstractOperationalStep, InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean = other is ClearSshKey && other.host == host
 

@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -8,6 +9,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAlloca
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.steps.storage.block.duplicate.AbstractBlockDuplicate
 
+@JsonTypeName("duplicate-to-lvm")
 data class DuplicateToLvm(
 		override val vStorageDevice: VirtualStorageDevice,
 		override val source: VirtualStorageBlockDeviceAllocation,

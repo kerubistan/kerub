@@ -4,6 +4,7 @@ import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
 import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.never
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.github.kerubistan.kroki.size.GB
@@ -14,6 +15,7 @@ import org.apache.sshd.client.channel.ChannelExec
 import org.apache.sshd.client.future.OpenFuture
 import org.apache.sshd.client.session.ClientSession
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.ArgumentMatchers.startsWith
 import org.mockito.Mockito
@@ -249,14 +251,24 @@ class LvmLvTest {
 		verify(session).createExecChannel(startsWith("lvm lvremove"))
 	}
 
-	@ExperimentalUnsignedTypes
 	@Test
 	fun mirror() {
 		session.mockCommandExecution("lvm lvconvert .*".toRegex())
 
-		LvmLv.mirror(session, "test-lv", "test-vg", 1.toUShort())
+		LvmLv.mirror(session, "test-lv", "test-vg", 1.toShort())
 
 		session.verifyCommandExecution("lvm lvconvert .*".toRegex())
+	}
+
+	@Test
+	fun mirrorWithNegative() {
+		session.mockCommandExecution("lvm lvconvert .*".toRegex())
+
+		assertThrows<IllegalArgumentException> {
+			LvmLv.mirror(session, "test-lv", "test-vg", (-1).toShort())
+		}
+
+		session.verifyCommandExecution("lvm lvconvert .*".toRegex(), never())
 	}
 
 }

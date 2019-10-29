@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
@@ -12,6 +13,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
 import com.github.kerubistan.kerub.utils.update
 import java.math.BigInteger
 
+@JsonTypeName("vbox-start-vm")
 data class VirtualBoxStartVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun reservations(): List<Reservation<*>> = listOf(UseHostReservation(host), VmReservation(vm))
 

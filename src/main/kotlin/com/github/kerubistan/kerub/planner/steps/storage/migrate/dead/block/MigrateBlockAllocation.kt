@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.CompressionFormat
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.StorageCapability
@@ -11,6 +12,7 @@ import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.AbstractMigrateAllocation
 
+@JsonTypeName("migrate-block-allocation")
 data class MigrateBlockAllocation(
 		override val sourceHost: Host,
 		override val targetHost: Host,

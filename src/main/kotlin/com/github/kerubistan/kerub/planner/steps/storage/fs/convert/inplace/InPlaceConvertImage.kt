@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.inplace
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
@@ -11,6 +12,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.storage.fs.convert.AbstractConvertImage
 import com.github.kerubistan.kerub.utils.update
 
+@JsonTypeName("in-place-convert-image")
 data class InPlaceConvertImage(
 		override val virtualStorage: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageFsAllocation,

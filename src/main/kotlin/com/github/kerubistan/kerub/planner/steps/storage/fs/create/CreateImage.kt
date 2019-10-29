@@ -1,12 +1,14 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.create
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 
+@JsonTypeName("create-image")
 data class CreateImage(
 		override val disk: VirtualStorageDevice,
 		override val capability: FsStorageCapability,

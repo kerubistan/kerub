@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.create
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -9,6 +10,7 @@ import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.IOCost
 
+@JsonTypeName("create-image-from-template")
 data class CreateImageBasedOnTemplate(
 		override val host: Host,
 		override val disk: VirtualStorageDevice,

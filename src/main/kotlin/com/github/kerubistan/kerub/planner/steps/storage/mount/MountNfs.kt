@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.mount
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.HostService
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.ProducedBy
 
+@JsonTypeName("mount-nfs")
 @ProducedBy(MountNfsFactory::class)
 data class MountNfs(override val host: Host, val remoteHost: Host, val directory: String, val remoteDirectory: String) :
 		AbstractNfsMount(), InvertibleStep {

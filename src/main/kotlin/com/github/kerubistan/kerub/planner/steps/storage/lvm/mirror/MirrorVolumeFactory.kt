@@ -23,10 +23,9 @@ import kotlin.reflect.KClass
  * if the host is running and there is enough disk and free capacity on
  * the VG.
  */
-@ExperimentalUnsignedTypes
 object MirrorVolumeFactory : AbstractOperationalStepFactory<MirrorVolume>() {
 
-	private val mirrorRange = (0.toUByte()..maxMirrors)
+	private val mirrorRange = (0.toByte()..maxMirrors)
 
 	override fun produce(state: OperationalState): List<MirrorVolume> =
 			state.vStorage.values.mapNotNull { virtualStorage ->
@@ -43,7 +42,7 @@ object MirrorVolumeFactory : AbstractOperationalStepFactory<MirrorVolume>() {
 									// sometimes of course it is not a bright idea
 									// but that's not the problem for the step factory
 									MirrorVolume(
-											mirrors = mirrors.toUShort(),
+											mirrors = mirrors.toShort(),
 											vStorage = virtualStorage.stat,
 											allocation = allocation,
 											capability = capability,
@@ -52,9 +51,9 @@ object MirrorVolumeFactory : AbstractOperationalStepFactory<MirrorVolume>() {
 								change > 0 ->
 									// we have to check if the size fits, there are enough PVs
 									produceIf(capability.physicalVolumes.size > mirrors.toByte()
-											&& freeCapacity > allocation.actualSize * mirrors.toInt().toBigInteger()) {
+											&& freeCapacity > allocation.actualSize * mirrors.toBigInteger()) {
 										MirrorVolume(
-												mirrors = mirrors.toUShort(),
+												mirrors = mirrors.toShort(),
 												vStorage = virtualStorage.stat,
 												allocation = allocation,
 												capability = capability,

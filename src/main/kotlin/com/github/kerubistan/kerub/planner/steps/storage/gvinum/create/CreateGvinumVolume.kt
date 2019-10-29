@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.gvinum.create
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.GvinumStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
@@ -16,6 +17,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualSt
 import com.github.kerubistan.kerub.utils.update
 import io.github.kerubistan.kroki.time.now
 
+@JsonTypeName("create-gvinum-volume")
 data class CreateGvinumVolume(
 		override val host: Host,
 		override val capability: GvinumStorageCapability,

@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.remove
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
@@ -9,6 +10,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.base.updateHostDynLvmWithAllocation
 import com.github.kerubistan.kerub.utils.update
 
+@JsonTypeName("remove-lvm-pool")
 data class RemoveLvmPool(
 		val host: Host,
 		val pool: String,

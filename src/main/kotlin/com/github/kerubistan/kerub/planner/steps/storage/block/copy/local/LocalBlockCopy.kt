@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.block.copy.local
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservatio
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.AbstractBlockCopy
 
+@JsonTypeName("local-block-copy")
 data class LocalBlockCopy(
 		override val sourceDevice: VirtualStorageDevice,
 		override val targetDevice: VirtualStorageDevice,

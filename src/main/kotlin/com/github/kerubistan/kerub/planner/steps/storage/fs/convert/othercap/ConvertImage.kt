@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.convert.othercap
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
@@ -15,6 +16,7 @@ import java.math.BigInteger
 /**
  * This conversion moves the
  */
+@JsonTypeName("convert-image")
 data class ConvertImage(
 		override val virtualStorage: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageAllocation,

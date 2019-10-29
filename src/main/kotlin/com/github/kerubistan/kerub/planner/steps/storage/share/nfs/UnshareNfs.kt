@@ -1,11 +1,13 @@
 package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 
+@JsonTypeName("unshare-nfs")
 data class UnshareNfs(
 		override val directory: String,
 		override val host: Host

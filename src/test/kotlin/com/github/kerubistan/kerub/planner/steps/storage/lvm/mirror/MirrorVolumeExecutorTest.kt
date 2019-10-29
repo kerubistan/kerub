@@ -27,7 +27,6 @@ import kotlin.test.assertTrue
 
 class MirrorVolumeExecutorTest {
 
-	@ExperimentalUnsignedTypes
 	@Test
 	fun execute() {
 		val session = mock<ClientSession>()
@@ -101,7 +100,7 @@ class MirrorVolumeExecutorTest {
 						host = host,
 						vStorage = testDisk,
 						capability = lvmStorageCapability,
-						mirrors = 1.toUShort(),
+						mirrors = 1.toShort(),
 						allocation = VirtualStorageLvmAllocation(
 								capabilityId = lvmStorageCapability.id,
 								mirrors = 0,

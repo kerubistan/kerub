@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.extend
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.planner.reservations.HostStorageReservation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
@@ -8,6 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.Abstrac
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.volumeGroupId
 import java.math.BigInteger
 
+@JsonTypeName("extend-lvm-pool")
 data class ExtendLvmPool(
 		override val host: Host,
 		override val vgName: String,

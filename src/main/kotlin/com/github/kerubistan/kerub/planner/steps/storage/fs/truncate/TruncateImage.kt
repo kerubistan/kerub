@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.truncate
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -10,6 +11,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.utils.update
 
+@JsonTypeName("truncate-image")
 data class TruncateImage(override val host: Host,
 						 override val capability: FsStorageCapability,
 					override val disk: VirtualStorageDevice,

@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.block.copy.remote
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
@@ -11,6 +12,7 @@ import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservatio
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.AbstractBlockCopy
 
+@JsonTypeName("remote-block-copy")
 data class RemoteBlockCopy(
 		override val sourceDevice: VirtualStorageDevice,
 		override val targetDevice: VirtualStorageDevice,

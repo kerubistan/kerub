@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Constrained
 import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.Host
@@ -23,6 +24,7 @@ import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap
 
+@JsonTypeName("kvm-migrate-vm")
 data class KvmMigrateVirtualMachine(
 		override val vm: VirtualMachine,
 		override val source: Host,

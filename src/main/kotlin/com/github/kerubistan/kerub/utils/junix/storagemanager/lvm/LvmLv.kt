@@ -174,8 +174,10 @@ object LvmLv : Lvm() {
 		session.executeOrDie("lvm lvremove -f $volumeName")
 	}
 
-	@ExperimentalUnsignedTypes
-	fun mirror(session: ClientSession, volumeName: String, vgName : String, mirrors : UShort) {
+	fun mirror(session: ClientSession, volumeName: String, vgName : String, mirrors : Short) {
+		require(mirrors >= 0) {
+			"mirrors ($mirrors) must be at least 0"
+		}
 		session.executeOrDie("lvm lvconvert -m$mirrors $vgName/$volumeName")
 	}
 

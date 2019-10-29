@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps.storage.fs.fallocate
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.dynamic.SimpleStorageDeviceDynamic
@@ -19,6 +20,7 @@ import java.math.BigInteger
  * fallocate can run on existing files and free unused blocks.
  * Execution es heavily read-intensive, the bigger the allocated size is, the more
  */
+@JsonTypeName("fallocate-image")
 data class FallocateImage(
 		val virtualStorage: VirtualStorageDevice,
 		val expectedFree: BigInteger,
