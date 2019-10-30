@@ -2,12 +2,19 @@ package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class ShareNfsTest {
+class ShareNfsTest : OperationalStepVerifications() {
+
+	override val step = ShareNfs(
+			host = testHost,
+			directory = "/kerub",
+			write = true
+	)
 
 	@Test
 	fun isInverseOf() {

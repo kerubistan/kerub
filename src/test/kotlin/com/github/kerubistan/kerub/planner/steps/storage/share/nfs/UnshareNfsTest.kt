@@ -3,11 +3,13 @@ package com.github.kerubistan.kerub.planner.steps.storage.share.nfs
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class UnshareNfsTest {
+class UnshareNfsTest : OperationalStepVerifications() {
+	override val step = UnshareNfs(directory = "/kerub", host = testHost)
 
 	@Test
 	fun isInverseOf() {

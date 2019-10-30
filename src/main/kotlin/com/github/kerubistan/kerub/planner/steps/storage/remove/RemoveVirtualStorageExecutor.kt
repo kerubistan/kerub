@@ -8,8 +8,8 @@ class RemoveVirtualStorageExecutor(private val vsdDao: VirtualStorageDeviceDao,
 								   private val vsdDynDao: VirtualStorageDeviceDynamicDao)
 	: AbstractStepExecutor<RemoveVirtualStorage, Unit>() {
 	override fun perform(step: RemoveVirtualStorage) {
-		vsdDao.remove(step.vStorage.id)
-		vsdDynDao.remove(step.vStorage.id)
+		vsdDao.remove(step.virtualStorage.id)
+		vsdDynDao.remove(step.virtualStorage.id)
 	}
 
 	override fun update(step: RemoveVirtualStorage, updates: Unit) {

@@ -5,12 +5,13 @@ import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigInteger
 import java.util.UUID
 
-class ResumeVirtualMachineTest {
+class ResumeVirtualMachineTest : OperationalStepVerifications() {
 
 	val vm = VirtualMachine(
 			id = UUID.randomUUID(),
@@ -36,6 +37,8 @@ class ResumeVirtualMachineTest {
 			),
 			hosts = listOf(host)
 	)
+
+	override val step = ResumeVirtualMachine(vm, host)
 
 	@Test
 	fun take() {

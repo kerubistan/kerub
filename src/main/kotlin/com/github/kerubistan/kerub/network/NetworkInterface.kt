@@ -1,6 +1,6 @@
 package com.github.kerubistan.kerub.network
 
-import org.codehaus.jackson.annotate.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonSubTypes
 import java.io.Serializable
 
 @JsonSubTypes(

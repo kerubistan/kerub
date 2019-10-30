@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.kerubistan.kerub.model.Entity
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.Pool
@@ -21,7 +22,6 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.utils.byId
-import org.codehaus.jackson.annotate.JsonIgnore
 import java.util.UUID
 
 data class OperationalState(

@@ -6,26 +6,31 @@ import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class KvmStartVirtualMachineTest {
+class KvmStartVirtualMachineTest : OperationalStepVerifications() {
+
+	val host = Host(
+			address = "host-1.example.com",
+			dedicated = true,
+			publicKey = "test"
+	)
+	val hostDyn = HostDynamic(
+			id = host.id,
+			status = HostStatus.Up
+	)
+	val vm = VirtualMachine(
+			name = "text-vm"
+	)
+
+	override val step = KvmStartVirtualMachine(vm = vm, host = host)
+
 	@Test
 	fun take() {
-		val host = Host(
-				address = "host-1.example.com",
-				dedicated = true,
-				publicKey = "test"
-		)
-		val hostDyn = HostDynamic(
-				id = host.id,
-				status = HostStatus.Up
-		)
-		val vm = VirtualMachine(
-				name = "text-vm"
-		)
 		val originalState = OperationalState.fromLists(
 				vms = listOf(vm),
 				hosts = listOf(host),

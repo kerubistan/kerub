@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.fasterxml.jackson.annotation.JsonView
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Simple
-import org.codehaus.jackson.annotate.JsonProperty
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
@@ -27,7 +27,7 @@ data class Host constructor(
 		val address: String,
 		@JsonView(Detailed::class)
 		@Field
-		@JsonProperty("publickey")
+		@JsonProperty("publicKey")
 		val publicKey: String,
 		@JsonView(Simple::class)
 		@Field

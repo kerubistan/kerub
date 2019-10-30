@@ -3,13 +3,16 @@ package com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.NfsDaemonService
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.UnshareNfs
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class StartNfsDaemonTest {
+class StartNfsDaemonTest : OperationalStepVerifications() {
+
+	override val step = StartNfsDaemon(testHost)
 
 	@Test
 	fun isInverseOf() {

@@ -667,7 +667,7 @@ class PlannerDefs {
 	@Then("disk (\\S+) will be deleted as step (\\d+)")
 	fun verifyDiskRemove(name: String, index: Int) {
 		executedPlans.first().steps[index - 1].let {
-			assertTrue(it is RemoveVirtualStorage && it.vStorage.name == name)
+			assertTrue(it is RemoveVirtualStorage && it.virtualStorage.name == name)
 		}
 	}
 

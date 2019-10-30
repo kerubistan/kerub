@@ -8,10 +8,10 @@ import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservatio
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 
 @JsonTypeName("remove-virtual-storage")
-data class RemoveVirtualStorage(val vStorage: VirtualStorageDevice) : AbstractOperationalStep {
+data class RemoveVirtualStorage(val virtualStorage: VirtualStorageDevice) : AbstractOperationalStep {
 	override fun take(state: OperationalState): OperationalState = state.copy(
-			vStorage = state.vStorage - vStorage.id
+			vStorage = state.vStorage - virtualStorage.id
 	)
 
-	override fun reservations(): List<Reservation<*>> = listOf(VirtualStorageReservation(vStorage))
+	override fun reservations(): List<Reservation<*>> = listOf(VirtualStorageReservation(virtualStorage))
 }

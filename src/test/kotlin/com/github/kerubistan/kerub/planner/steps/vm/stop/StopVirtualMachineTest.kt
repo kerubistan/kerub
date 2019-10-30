@@ -9,13 +9,18 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Risk
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
+import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testVm
 import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Test
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-class StopVirtualMachineTest {
+class StopVirtualMachineTest : OperationalStepVerifications() {
+	override val step = StopVirtualMachine(vm = testVm, host = testHost)
+
 	@Test
 	fun take() {
 		val host = Host(

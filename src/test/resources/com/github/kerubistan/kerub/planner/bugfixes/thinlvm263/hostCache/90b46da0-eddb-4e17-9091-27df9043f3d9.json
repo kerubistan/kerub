@@ -4,7 +4,7 @@
   "address" : "192.168.123.31",
   "publicKey" : "29:5f:73:92:4e:68:b9:71:8d:2c:14:41:b8:a8:e7:80",
   "dedicated" : true,
-  "endOfPlannedLifetime" : null,
+  "eol": null,
   "capabilities" : {
     "os" : "Linux",
     "distribution" : {

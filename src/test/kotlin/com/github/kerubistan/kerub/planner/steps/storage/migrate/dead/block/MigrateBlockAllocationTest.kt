@@ -8,6 +8,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAlloca
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
@@ -25,7 +27,47 @@ import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-class MigrateBlockAllocationTest {
+class MigrateBlockAllocationTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val sourceHost = testHost.copy(
+					capabilities = testHostCapabilities.copy(
+							installedSoftware = listOf(
+									SoftwarePackage("lz4", Version.fromVersionString("1.2.3"))
+							)
+					)
+			)
+			val targetHost = testOtherHost.copy(
+					capabilities = testHostCapabilities.copy(
+							installedSoftware = listOf(
+									SoftwarePackage("gzip", Version.fromVersionString("1.2.3"))
+							)
+					)
+			)
+			val allocation = VirtualStorageLvmAllocation(
+					actualSize = testDisk.size,
+					capabilityId = testLvmCapability.id,
+					hostId = sourceHost.id,
+					path = "",
+					vgName = testLvmCapability.volumeGroupName
+			)
+			return MigrateBlockAllocation(
+					sourceHost = sourceHost,
+					targetHost = targetHost,
+					allocationStep = CreateLv(
+							host = targetHost,
+							capability = testLvmCapability.copy(id = randomUUID()),
+							disk = testDisk
+					),
+					deAllocationStep = UnAllocateLv(
+							host = sourceHost,
+							vstorage = testDisk,
+							allocation = allocation
+					),
+					sourceAllocation = allocation,
+					virtualStorage = testDisk
+			)
+		}
 
 	@Test
 	fun validations() {

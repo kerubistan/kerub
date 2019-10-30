@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testLvmCapability
@@ -16,7 +17,7 @@ import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class TgtdIscsiShareTest {
+class TgtdIscsiShareTest : OperationalStepVerifications() {
 
 	private val host = Host(
 			id = UUID.randomUUID(),
@@ -46,6 +47,18 @@ class TgtdIscsiShareTest {
 					vgName = "test",
 					capabilityId = testLvmCapability.id
 			))
+	)
+
+	override val step = TgtdIscsiShare(
+			host = host,
+			vstorage = vStorage,
+			allocation = VirtualStorageLvmAllocation(
+					vgName = "test",
+					actualSize = testDisk.size,
+					hostId = testHost.id,
+					path = "",
+					capabilityId = testLvmCapability.id
+			)
 	)
 
 	@Test

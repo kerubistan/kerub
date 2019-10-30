@@ -7,6 +7,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.fs.unallocate.UnAllocateFs
 import com.github.kerubistan.kerub.testDisk
@@ -19,7 +21,59 @@ import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 import kotlin.test.assertTrue
 
-class MigrateFileAllocationTest {
+class MigrateFileAllocationTest : OperationalStepVerifications() {
+	override val step: AbstractOperationalStep
+		get() {
+			val sourceCapability = FsStorageCapability(
+					id = randomUUID(),
+					mountPoint = "/kerub",
+					fsType = "ext4",
+					size = 1.TB
+			)
+			val targetCapability = FsStorageCapability(
+					id = randomUUID(),
+					mountPoint = "/kerub",
+					fsType = "ext4",
+					size = 1.TB
+			)
+			val sourceHost = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(sourceCapability)
+					)
+			)
+			val targetHost = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(targetCapability)
+					)
+			)
+			val sourceAllocation = VirtualStorageFsAllocation(
+					capabilityId = sourceCapability.id,
+					mountPoint = sourceCapability.mountPoint,
+					type = VirtualDiskFormat.qcow2,
+					fileName = "${sourceCapability.mountPoint}/${testDisk.id}.qcow2",
+					actualSize = testDisk.size,
+					hostId = sourceHost.id
+			)
+			return MigrateFileAllocation(
+					sourceHost = sourceHost,
+					targetHost = targetHost,
+					sourceAllocation = sourceAllocation,
+					virtualStorage = testDisk,
+					allocationStep = CreateImage(
+							host = targetHost,
+							disk = testDisk,
+							capability = targetCapability,
+							format = VirtualDiskFormat.qcow2
+					),
+					deAllocationStep = UnAllocateFs(
+							vstorage = testDisk,
+							host = sourceHost,
+							allocation = sourceAllocation
+					)
+			)
+		}
 
 	@Test
 	fun validate() {

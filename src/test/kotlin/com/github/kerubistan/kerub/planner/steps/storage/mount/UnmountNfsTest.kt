@@ -5,12 +5,14 @@ import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.services.NfsMount
 import com.github.kerubistan.kerub.planner.OperationalState
+import com.github.kerubistan.kerub.planner.steps.OperationalStepVerifications
 import com.github.kerubistan.kerub.testHost
 import org.junit.Test
 import java.util.UUID
 import kotlin.test.assertTrue
 
-class UnmountNfsTest {
+class UnmountNfsTest : OperationalStepVerifications() {
+	override val step = UnmountNfs(host = testHost, mountDir = "/mnt")
 
 	@Test
 	fun take() {
