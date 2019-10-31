@@ -21,26 +21,25 @@ import java.math.BigInteger
 abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> : AbstractOperationalStep,
 		InvertibleStep {
 
-	abstract val vStorageDevice: VirtualStorageDevice
+	abstract val virtualStorageDevice: VirtualStorageDevice
 	abstract val source: VirtualStorageBlockDeviceAllocation
 	abstract val sourceHost: Host
 	abstract val target: T
 	abstract val targetHost: Host
 	abstract val targetCapability : StorageCapability
 
-
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean =
 			(other is AbstractUnAllocate<*>
-					&& other.vstorage == vStorageDevice
+					&& other.vstorage == virtualStorageDevice
 					&& other.allocation == target
 					&& other.host == targetHost)
 
 	override fun take(state: OperationalState): OperationalState =
 			state.copy(
-					vStorage = state.vStorage.update(vStorageDevice.id) {
+					vStorage = state.vStorage.update(virtualStorageDevice.id) {
 						it.copy(
 								dynamic = requireNotNull(it.dynamic) {
-									"can't duplicate storage ${vStorageDevice.id}, it is not yet allocated"
+									"can't duplicate storage ${virtualStorageDevice.id}, it is not yet allocated"
 								}.let {
 									it.copy(
 											allocations = it.allocations + target
@@ -79,10 +78,11 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> :
 			)
 
 	override fun reservations(): List<Reservation<*>> = listOf(
-			UseHostReservation(targetHost), UseHostReservation(sourceHost), VirtualStorageReservation(vStorageDevice)
+			UseHostReservation(targetHost), UseHostReservation(sourceHost),
+			VirtualStorageReservation(virtualStorageDevice)
 	)
 
 	override fun getCost(): List<Cost> = listOf(
-			NetworkCost(hosts = listOf(sourceHost, targetHost), bytes = vStorageDevice.size.toLong())
+			NetworkCost(hosts = listOf(sourceHost, targetHost), bytes = virtualStorageDevice.size.toLong())
 	)
 }

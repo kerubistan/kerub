@@ -15,9 +15,9 @@ abstract class AbstractBlockDuplicateExecutor<T : AbstractBlockDuplicate<*>>: Ab
 		hostCommandExecutor.execute(step.sourceHost) {
 			OpenSsh.copyBlockDevice(
 					session = it,
-					sourceDevice = step.source.getPath(step.vStorageDevice.id),
+					sourceDevice = step.source.getPath(step.virtualStorageDevice.id),
 					targetAddress = step.targetHost.address,
-					targetDevice = step.target.getPath(step.vStorageDevice.id)
+					targetDevice = step.target.getPath(step.virtualStorageDevice.id)
 			)
 		}
 	}
@@ -25,7 +25,7 @@ abstract class AbstractBlockDuplicateExecutor<T : AbstractBlockDuplicate<*>>: Ab
 	abstract fun allocate(step: T)
 
 	override fun update(step: T, updates: Unit) {
-		virtualStorageDynamicDao.update(step.vStorageDevice.id) {
+		virtualStorageDynamicDao.update(step.virtualStorageDevice.id) {
 			it.copy(
 					allocations = it.allocations + step.target
 			)

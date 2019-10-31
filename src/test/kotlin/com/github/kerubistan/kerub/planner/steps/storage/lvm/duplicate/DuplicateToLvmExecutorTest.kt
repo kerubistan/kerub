@@ -39,7 +39,7 @@ class DuplicateToLvmExecutorTest {
 								hostId = testHost.id,
 								capabilityId = testLvmCapability.id
 						),
-						vStorageDevice = testDisk
+						virtualStorageDevice = testDisk
 				)
 		)
 

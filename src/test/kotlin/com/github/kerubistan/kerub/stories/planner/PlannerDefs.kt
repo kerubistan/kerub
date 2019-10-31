@@ -1241,7 +1241,7 @@ class PlannerDefs {
 					it is DuplicateToLvm
 						&& it.targetHost.address == targetHostAddr
 						&& it.target.vgName == targetVg
-						&& it.vStorageDevice.name == diskName
+							&& it.virtualStorageDevice.name == diskName
 				} ?: false
 			}
 		}

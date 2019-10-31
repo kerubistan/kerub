@@ -163,7 +163,7 @@ class DuplicateToLvmFactoryTest : AbstractFactoryVerifications(DuplicateToLvmFac
 							sourceHost = sourceHost,
 							target = targetAllocation,
 							targetHost = targetHost,
-							vStorageDevice = readOnlyDisk
+							virtualStorageDevice = readOnlyDisk
 					)
 			)
 		}

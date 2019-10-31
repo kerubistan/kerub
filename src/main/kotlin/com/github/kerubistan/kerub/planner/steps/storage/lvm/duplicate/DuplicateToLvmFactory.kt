@@ -39,7 +39,7 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 															&& isHostkeyInstalled(sourceHost, targetHostColl)
 												}?.map {
 													DuplicateToLvm(
-															vStorageDevice = vstorage.value.stat,
+															virtualStorageDevice = vstorage.value.stat,
 															targetHost = targetHostColl.stat,
 															target = VirtualStorageLvmAllocation(
 																	hostId = targetHostColl.stat.id,

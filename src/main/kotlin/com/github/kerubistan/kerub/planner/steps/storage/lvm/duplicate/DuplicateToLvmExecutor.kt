@@ -13,8 +13,8 @@ class DuplicateToLvmExecutor(
 		hostCommandExecutor.execute(step.targetHost) {
 			LvmLv.create(session = it,
 					vgName = step.target.vgName,
-					size = step.vStorageDevice.size,
-					name = step.vStorageDevice.id.toString()
+					size = step.virtualStorageDevice.size,
+					name = step.virtualStorageDevice.id.toString()
 			)
 		}
 	}
