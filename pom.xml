@@ -562,6 +562,25 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.1</version>
 			</plugin>
+			<plugin>
+				<groupId>com.trivago.rta</groupId>
+				<artifactId>cluecumber-report-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<id>report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>reporting</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceJsonReportDirectory>${project.build.directory}/test-reports</sourceJsonReportDirectory>
+					<generatedHtmlReportDirectory>${project.build.directory}/generated-report
+					</generatedHtmlReportDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
