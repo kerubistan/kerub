@@ -1,25 +1,37 @@
 package com.github.kerubistan.kerub.utils.junix.ovs
 
+import com.github.kerubistan.kerub.sshtestutils.mockCommandExecution
+import com.github.kerubistan.kerub.sshtestutils.verifyCommandExecution
 import com.github.kerubistan.kerub.utils.junix.AbstractJunixCommandVerification
-import com.nhaarman.mockito_kotlin.whenever
-import io.github.kerubistan.kroki.io.resource
-import org.apache.commons.io.input.NullInputStream
+import io.github.kerubistan.kroki.io.resourceToString
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class VsctlTest : AbstractJunixCommandVerification() {
+
+	@Test
+	fun createBridge() {
+		session.mockCommandExecution("ovs-vsctl.*".toRegex())
+		Vsctl.createBridge(session, "br0")
+		session.verifyCommandExecution("ovs-vsctl.*br0.*".toRegex())
+	}
+
 	@Test
 	fun listBridges() {
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/ovs/singlebridge.csv") }
+		session.mockCommandExecution(
+				commandMatcher = "^ovs-vsctl list br$".toRegex(),
+				output = resourceToString("com/github/kerubistan/kerub/utils/junix/ovs/singlebridge.csv")
+		)
 		val bridges = Vsctl.listBridges(session)
 		assertEquals(1, bridges.size)
 	}
 
 	@Test
 	fun listPorts() {
-		whenever(execChannel.invertedErr).thenReturn(NullInputStream(0))
-		whenever(execChannel.invertedOut).then { resource("com/github/kerubistan/kerub/utils/junix/ovs/singleport.csv") }
+		session.mockCommandExecution(
+				commandMatcher = "^ovs-vsctl list port$".toRegex(),
+				output = resourceToString("com/github/kerubistan/kerub/utils/junix/ovs/singleport.csv")
+		)
 		val ports = Vsctl.listPorts(session)
 		assertEquals(1, ports.size)
 	}

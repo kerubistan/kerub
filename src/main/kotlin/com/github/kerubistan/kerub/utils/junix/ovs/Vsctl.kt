@@ -9,11 +9,8 @@ import org.apache.sshd.client.session.ClientSession
 
 object Vsctl : OsCommand {
 
-	fun listPorts(session: ClientSession): List<OvsPort>
-			= parseAsCsv(session.executeOrDie("ovs-vsctl list port")).map {
-		OvsPort(
-				id = it.want("_uuid").toUUID()
-		)
+	fun createBridge(session: ClientSession, bridgeName: String) {
+		session.executeOrDie("ovs-vsctl add-br $bridgeName")
 	}
 
 	fun listBridges(session: ClientSession): List<OvsBridge>
@@ -21,6 +18,12 @@ object Vsctl : OsCommand {
 		OvsBridge(
 				id = it.want("_uuid").toUUID(),
 				name = it.want("name")
+		)
+	}
+
+	fun listPorts(session: ClientSession): List<OvsPort> = parseAsCsv(session.executeOrDie("ovs-vsctl list port")).map {
+		OvsPort(
+				id = it.want("_uuid").toUUID()
 		)
 	}
 
