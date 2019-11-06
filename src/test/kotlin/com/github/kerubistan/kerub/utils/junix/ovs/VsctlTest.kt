@@ -50,6 +50,18 @@ class VsctlTest : AbstractJunixCommandVerification() {
 	}
 
 	@Test
+	fun createGrePort() {
+		session.mockCommandExecution(
+				"^ovs-vsctl add-port br0 gre0 -- set Interface gre0 type=gre .*".toRegex()
+		)
+		Vsctl.createGrePort(session, "br0", "gre0", "example.com")
+		session.verifyCommandExecution(
+				"^ovs-vsctl add-port br0 gre0 -- set Interface gre0 type=gre .*".toRegex()
+		)
+
+	}
+
+	@Test
 	fun removeBridge() {
 		session.mockCommandExecution("^ovs-vsctl del-br br0$".toRegex())
 		Vsctl.removeBridge(session, "br0")

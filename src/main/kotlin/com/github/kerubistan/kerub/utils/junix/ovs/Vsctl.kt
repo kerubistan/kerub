@@ -21,12 +21,16 @@ object Vsctl : OsCommand {
 		session.executeOrDie("ovs-vsctl del-br $bridgeName")
 	}
 
-	fun createPort(session: ClientSession, bridgeName: String, portName: String) {
-		session.executeOrDie("ovs-vsctl add-port $bridgeName $portName")
+	fun createPort(session: ClientSession, bridgeName: String, portName: String, options: String? = null) {
+		session.executeOrDie("ovs-vsctl add-port $bridgeName $portName" + (options ?: ""))
+	}
+
+	fun createGrePort(session: ClientSession, bridgeName: String, portName: String, remoteIp: String) {
+		createPort(session, bridgeName, portName, " -- set Interface $portName type=gre options:remote_ip=$remoteIp")
 	}
 
 	fun createInternalPort(session: ClientSession, bridgeName: String, portName: String) {
-		session.executeOrDie("ovs-vsctl add-port $bridgeName $portName -- set Interface $portName type=internal")
+		createPort(session, bridgeName, portName, " -- set Interface $portName type=internal")
 	}
 
 	fun removePort(session: ClientSession, bridgeName: String, portName: String) {
