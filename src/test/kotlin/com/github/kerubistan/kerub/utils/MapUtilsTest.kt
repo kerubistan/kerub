@@ -1,18 +1,9 @@
 package com.github.kerubistan.kerub.utils
 
 import org.junit.Test
-import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 class MapUtilsTest {
-
-	@Test
-	fun want() {
-		assertEquals("value", mapOf("key" to "value").want("key"))
-		assertThrows<IllegalArgumentException>  {
-			mapOf("key-1" to "value-1").want("key-2")
-		}
-	}
 
 	@Test
 	fun toPairList() {

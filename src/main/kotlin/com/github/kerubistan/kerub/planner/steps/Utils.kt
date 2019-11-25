@@ -19,7 +19,7 @@ inline fun <T> produceIf(condition: Boolean, producer: () -> T): T? =
 /*
  * TODO: issue #120 - move this whole thing to utils package
  */
-
+// moved to kroki
 fun <T> Collection<T>.replace(
 		filter: (T) -> Boolean,
 		replacer: (T) -> T

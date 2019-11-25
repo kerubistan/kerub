@@ -14,6 +14,7 @@ inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
 inline fun <reified C : Any> Iterable<*>.none() = this.none { it is C }
 
+// move to kroki
 fun <T> List<T>.skip(): List<T> =
 		if (this.isEmpty()) {
 			listOf()
@@ -110,7 +111,7 @@ fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<L
 
 fun <I, E : Entity<I>> Collection<E>.byId() = this.associateBy { it.id }
 
-inline fun <reified C : Any, R : Any> Iterable<*>.mapInstances(predicate: (C) -> R?) = this.mapNotNull {
+inline fun <reified C : Any, reified R : Any> Iterable<*>.mapInstances(predicate: (C) -> R?) = this.mapNotNull {
 	if (it is C) {
 		predicate(it)
 	} else null
@@ -118,3 +119,13 @@ inline fun <reified C : Any, R : Any> Iterable<*>.mapInstances(predicate: (C) ->
 
 operator fun <T> Collection<T>?.contains(element: T): Boolean =
 		this?.contains(element) ?: false
+
+/**
+ * Creates multiple groups out of a list. Each item can be grouped into more than one group.
+ */
+// move this to kroki
+// this should be checked for performance and likely there is a better solution
+inline fun <V : Any, K : Any> Collection<V>.groupsBy(keys: (V) -> Iterable<K>): Map<K, Set<V>> =
+		map(keys).map { it.toList() }.join().map { key ->
+			key to this.filter { keys(it).contains(key) }.toSet()
+		}.toMap()

@@ -1,12 +1,20 @@
 package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
+import com.github.kerubistan.kerub.model.collection.HostDataCollection
+import com.github.kerubistan.kerub.model.config.OvsGrePort
+import com.github.kerubistan.kerub.model.config.OvsNetworkConfiguration
+import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.utils.contains
+import com.github.kerubistan.kerub.utils.groupsBy
 import com.github.kerubistan.kerub.utils.hasAny
+import com.github.kerubistan.kerub.utils.mapInstances
+import io.github.kerubistan.kroki.collections.join
+import java.util.UUID
 
 class OperationalStateIndex(private val indexOf: OperationalState) {
 
@@ -15,6 +23,10 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 	// -----
 
 	val runningHosts by lazy { indexOf.hosts.values.filter { it.dynamic?.status == HostStatus.Up } }
+
+	val hostsByAddress by lazy {
+		indexOf.hosts.values.associateBy { it.stat.address }
+	}
 
 	val runningHostIds by lazy { runningHosts.map { it.stat.id }.toSet() }
 
@@ -43,10 +55,25 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 	// VMs
 	// ---
 
-	val runningVms by lazy {
-		indexOf.vms.values.filter {
-			it.dynamic?.status == VirtualMachineStatus.Up
+	val vmsWithAvailabilityExpectation by lazy {
+		indexOf.vms.values.filter { vm ->
+			vm.stat.expectations.any { expectation ->
+				expectation is VirtualMachineAvailabilityExpectation
+						&& expectation.up
+			}
 		}
+	}
+
+	val runningVms by lazy {
+		runningVmsToHost.keys.map { vmId -> indexOf.vms.getValue(vmId) }
+	}
+
+	val runningVmsToHost by lazy {
+		indexOf.vms.values.mapNotNull {
+			if (it.dynamic?.status == VirtualMachineStatus.Up) {
+				it.id to it.dynamic.hostId
+			} else null
+		}.toMap()
 	}
 
 	val vmsThatMustStart by lazy {
@@ -85,5 +112,58 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 				}.map { it.stat }
 
 	}
+
+	// ----------------
+	// virtual networks
+	// ----------------
+
+	val virtualNetworksNeeded by lazy {
+		vmsWithAvailabilityExpectation.mapNotNull { vm ->
+			vm.stat.devices.mapNotNull { device ->
+				if (device is NetworkDevice) {
+					device.networkId
+				} else null
+			}
+		}.join().toSet()
+	}
+
+	/**
+	 * Map of virtual network Id -> set of host
+	 */
+	val hostsByVirtualNetworks: Map<UUID, Set<HostDataCollection>> by lazy {
+		runningHosts.groupsBy {
+			it.config?.networkConfiguration?.map { netConfig -> netConfig.virtualNetworkId } ?: listOf()
+		}
+	}
+
+	val hostVirtualNetworks by lazy {
+		runningHosts.mapNotNull { host ->
+			if (host.config == null || host.config.networkConfiguration.isEmpty()) {
+				null
+			} else {
+				host.id to host.config.networkConfiguration.map { it.virtualNetworkId }.toSet()
+			}
+		}.toMap()
+	}
+
+	/**
+	 * Map of source hostId -> ( network Id -> target host id)
+	 */
+	val hostVirtualNetworkConnections: Map<UUID, Map<UUID, Set<UUID>>> by lazy {
+		runningHosts.mapNotNull { sourceHost ->
+			if (sourceHost.config == null) null else {
+				val networkIdsToRemoteHostIds = sourceHost.config.networkConfiguration.mapInstances { ovsConfig: OvsNetworkConfiguration ->
+					val remoteHostIds = ovsConfig.ports.mapInstances { grePort: OvsGrePort ->
+						hostsByAddress[grePort.remoteAddress]?.id
+					}.toSet()
+					if (remoteHostIds.isEmpty()) null else
+						ovsConfig.virtualNetworkId to remoteHostIds
+				}.toMap()
+				if (networkIdsToRemoteHostIds.isEmpty()) null else
+					sourceHost.id to networkIdsToRemoteHostIds
+			}
+		}.toMap()
+	}
+
 
 }

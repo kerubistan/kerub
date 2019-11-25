@@ -2,8 +2,10 @@ package com.github.kerubistan.kerub.planner.steps
 
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kerubistan.kerub.utils.createObjectMapper
+import org.junit.Assume.assumeTrue
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 abstract class OperationalStepVerifications {
@@ -33,6 +35,14 @@ abstract class OperationalStepVerifications {
 		val copyJson = objectMapper.writeValueAsString(copy)
 		assertEquals(json, copyJson)
 
+	}
+
+	@Test
+	fun notInverseOfItself() {
+		assumeTrue(step is InvertibleStep)
+		assertFalse("No step are it's own inverse") {
+			(step as InvertibleStep).isInverseOf(step)
+		}
 	}
 
 }

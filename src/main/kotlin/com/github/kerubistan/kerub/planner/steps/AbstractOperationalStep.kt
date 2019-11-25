@@ -24,6 +24,11 @@ import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPu
 import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePublicKey
 import com.github.kerubistan.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.WolWakeHost
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.gre.CreateOvsGrePort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.remove.RemoveOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitch
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.remove.RemoveOvsSwitch
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.local.LocalBlockCopy
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.remote.RemoteBlockCopy
 import com.github.kerubistan.kerub.planner.steps.storage.fs.convert.inplace.InPlaceConvertImage
@@ -124,7 +129,12 @@ import kotlin.reflect.KClass
 		JsonSubTypes.Type(ResumeVirtualMachine::class),
 		JsonSubTypes.Type(KvmStartVirtualMachine::class),
 		JsonSubTypes.Type(VirtualBoxStartVirtualMachine::class),
-		JsonSubTypes.Type(StopVirtualMachine::class)
+		JsonSubTypes.Type(StopVirtualMachine::class),
+		JsonSubTypes.Type(CreateOvsSwitch::class),
+		JsonSubTypes.Type(RemoveOvsSwitch::class),
+		JsonSubTypes.Type(CreateOvsPort::class),
+		JsonSubTypes.Type(RemoveOvsPort::class),
+		JsonSubTypes.Type(CreateOvsGrePort::class)
 )
 interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 

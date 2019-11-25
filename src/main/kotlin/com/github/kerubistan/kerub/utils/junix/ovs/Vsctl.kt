@@ -4,7 +4,6 @@ import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.utils.csv.parseAsCsv
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.want
 import io.github.kerubistan.kroki.strings.toUUID
 import org.apache.sshd.client.session.ClientSession
 
@@ -39,14 +38,15 @@ object Vsctl : OsCommand {
 
 	fun listBridges(session: ClientSession): List<OvsBridge> = parseAsCsv(session.executeOrDie("ovs-vsctl list br")).map {
 		OvsBridge(
-				id = it.want("_uuid").toUUID(),
-				name = it.want("name")
+				id = it.getValue("_uuid").toUUID(),
+				name = it.getValue("name")
 		)
 	}
 
 	fun listPorts(session: ClientSession): List<OvsPort> = parseAsCsv(session.executeOrDie("ovs-vsctl list port")).map {
 		OvsPort(
-				id = it.want("_uuid").toUUID()
+				id = it.getValue("_uuid").toUUID(),
+				name = it.getValue("name")
 		)
 	}
 }

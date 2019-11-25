@@ -66,6 +66,7 @@ data class OperationalState(
 				vmDyns: List<VirtualMachineDynamic> = listOf(),
 				vStorage: List<VirtualStorageDevice> = listOf(),
 				vStorageDyns: List<VirtualStorageDeviceDynamic> = listOf(),
+				virtualNetworks: List<VirtualNetwork> = listOf(),
 				pools: List<Pool> = listOf(),
 				templates: List<Template> = listOf(),
 				reservations: List<Reservation<*>> = listOf(),
@@ -79,6 +80,7 @@ data class OperationalState(
 									stat,
 									dyn)
 						},
+						vNet = virtualNetworks.associateBy { it.id },
 						pools = pools.associateBy { it.id },
 						templates = templates.associateBy { it.id },
 						reservations = reservations,

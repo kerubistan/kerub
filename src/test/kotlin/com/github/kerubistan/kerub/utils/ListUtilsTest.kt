@@ -39,12 +39,13 @@ class ListUtilsTest {
 		assertEquals(listOf(), listOf<String>() * (listOf<Int>()))
 	}
 
-	data class Hat (val color : String)
+	data class Hat(val color: String)
 	abstract class Creature {
-		abstract val weight : Double
+		abstract val weight: Double
 	}
+
 	data class Human(val name: String, override val weight: Double, val favoriteColor: String, val hat: Hat? = null) : Creature()
-	data class Crocodile(val id : String, override val weight: Double) : Creature()
+	data class Crocodile(val id: String, override val weight: Double) : Creature()
 
 	@Test
 	fun update() {
@@ -119,7 +120,7 @@ class ListUtilsTest {
 	fun mapInstances() {
 		assertEquals(listOf("A", 1, "B", 2).mapInstances<Int, Int> { it + 1 }, listOf(2, 3))
 		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, Int> { it.length }, listOf(1, 1))
-		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, String> { if(it == "B") "X" else null }, listOf("X"))
+		assertEquals(listOf("A", 1, "B", 2).mapInstances<String, String> { if (it == "B") "X" else null }, listOf("X"))
 	}
 
 	@Test
@@ -128,6 +129,59 @@ class ListUtilsTest {
 		assertFalse("something is not in empty set") { "something" in setOf<String>() }
 		assertFalse("something is not in empty set") { "something" in setOf("something else") }
 		assertTrue("something is in empty set") { "something" in setOf("something") }
+	}
+
+	@Test
+	fun groupsBy() {
+		assertEquals(
+				mapOf(),
+				listOf<String>()
+						.groupsBy { setOf(it) }
+		)
+		assertEquals(
+				mapOf(
+						"A" to setOf("Arnold", "Adam"),
+						"B" to setOf("Brian", "Bob"),
+						"C" to setOf("Chris"),
+						"D" to setOf("David")
+				),
+				listOf("Arnold", "Adam", "Brian", "Bob", "Chris", "David")
+						.groupsBy { setOf(it[0].toString()) }
+		)
+		assertEquals(
+				mapOf(
+						"A" to setOf("Arnold", "Adam"),
+						"B" to setOf("Brian", "Bob"),
+						"C" to setOf("Chris"),
+						"D" to setOf("David", "Arnold"),
+						"S" to setOf("Chris"),
+						"N" to setOf("Brian"),
+						"M" to setOf("Adam")
+				),
+				listOf("Arnold", "Adam", "Brian", "Bob", "Chris", "David")
+						.groupsBy { setOf(it.first().toUpperCase().toString(), it.last().toUpperCase().toString()) }
+		)
+
+		data class User(val name: String, val roles: List<String>)
+
+		assertEquals(
+				mapOf(
+						"admin" to setOf(
+								User("bob", roles = listOf("admin", "employee"))
+						),
+						"employee" to setOf(
+								User("bob", roles = listOf("admin", "employee")),
+								User("mike", roles = listOf("employee", "manager"))
+						),
+						"manager" to setOf(
+								User("mike", roles = listOf("employee", "manager"))
+						)
+				),
+				listOf(
+						User("bob", roles = listOf("admin", "employee")),
+						User("mike", roles = listOf("employee", "manager"))
+				).groupsBy(User::roles)
+		)
 	}
 
 }
