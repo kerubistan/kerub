@@ -26,7 +26,7 @@ object CreateOvsGrePortFactory : AbstractOperationalStepFactory<CreateOvsGrePort
 				// no to the same host, that is pointless of course
 				targetHost ->
 				targetHost.id != sourceHost.id
-						&& targetHost.config?.networkConfiguration?.none { networkConfig ->
+						&& sourceHost.config?.networkConfiguration?.none { networkConfig ->
 					networkConfig is OvsNetworkConfiguration
 							&& networkConfig.ports.hasAny<OvsGrePort> { it.remoteAddress == targetHost.stat.address }
 				} ?: false
