@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedService
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object ClearSshKeyFactory : AbstractOperationalStepFactory<ClearSshKey>() {
@@ -15,7 +15,7 @@ object ClearSshKeyFactory : AbstractOperationalStepFactory<ClearSshKey>() {
 
 	override fun produce(state: OperationalState): List<ClearSshKey> {
 
-		val allInstalledSshKeys = state.hosts.values.mapNotNull { it.config?.acceptedPublicKeys }.join().toSet()
+		val allInstalledSshKeys = state.hosts.values.mapNotNull { it.config?.acceptedPublicKeys }.concat().toSet()
 
 		return state.hosts.values.filter { it.dynamic?.status == HostStatus.Up }
 				.filter { it.config?.publicKey != null && it.config.publicKey !in allInstalledSshKeys }

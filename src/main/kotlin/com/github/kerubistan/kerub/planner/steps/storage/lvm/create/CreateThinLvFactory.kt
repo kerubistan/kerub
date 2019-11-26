@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorageFactory
 import com.github.kerubistan.kerub.utils.any
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmThinLv
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>() {
@@ -35,6 +35,6 @@ object CreateThinLvFactory : AbstractCreateVirtualStorageFactory<CreateThinLv>()
 							)
 						}
 					}
-				}.join().join()
+				}.concat().concat()
 			}
 }

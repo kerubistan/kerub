@@ -10,10 +10,10 @@ import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.model.expectations.StorageAvailabilityExpectation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.utils.contains
-import com.github.kerubistan.kerub.utils.groupsBy
 import com.github.kerubistan.kerub.utils.hasAny
 import com.github.kerubistan.kerub.utils.mapInstances
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
+import io.github.kerubistan.kroki.collections.groupsBy
 import java.util.UUID
 
 class OperationalStateIndex(private val indexOf: OperationalState) {
@@ -124,7 +124,7 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 					device.networkId
 				} else null
 			}
-		}.join().toSet()
+		}.concat().toSet()
 	}
 
 	/**

@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.model.AssetOwner
 import com.github.kerubistan.kerub.model.AssetOwnerType
 import com.github.kerubistan.kerub.model.paging.SearchResultPage
 import com.github.kerubistan.kerub.model.paging.SortResultPage
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import nl.komponents.kovenant.task
 import org.apache.shiro.SecurityUtils.getSubject
 import java.util.UUID
@@ -77,7 +77,7 @@ class AssetAccessControllerImpl(
 					AssetOwner(ownerId = it.groupId, ownerType = AssetOwnerType.project)
 				}
 			}
-	).map { it.get() }.join()
+	).map { it.get() }.concat()
 
 
 	override fun <T : Asset> searchWithFilter(

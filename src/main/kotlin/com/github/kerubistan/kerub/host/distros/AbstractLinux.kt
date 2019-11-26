@@ -59,7 +59,7 @@ import com.github.kerubistan.kerub.utils.junix.vmstat.VmStat
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.update
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.collections.mergeInstancesWith
 import io.github.kerubistan.kroki.objects.find
 import io.github.kerubistan.kroki.strings.isUUID
@@ -86,7 +86,7 @@ abstract class AbstractLinux : Distribution {
 		val packsNeeded =
 				arrayOf(VmStat, MPStat)
 						.map { util -> getRequiredPackages(util, host.capabilities) }
-						.join()
+						.concat()
 		if (packsNeeded.isNotEmpty()) {
 			getPackageManager(session).install(*packsNeeded.toTypedArray())
 		}
@@ -482,7 +482,7 @@ abstract class AbstractLinux : Distribution {
 		"aarch64" -> CpuInfo.listArm(session).map { it.flags }
 		"x86_64" -> CpuInfo.list(session).map { it.flags }
 		else -> CpuInfo.listPpc(session).map { it.flags }
-	}.join().toSet().toList()
+	}.concat().toSet().toList()
 
 
 	override fun getHostOs(): OperatingSystem = OperatingSystem.Linux

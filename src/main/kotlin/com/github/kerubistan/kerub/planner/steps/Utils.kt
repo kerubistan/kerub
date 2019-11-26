@@ -15,20 +15,3 @@ inline fun <T> produceIf(condition: Boolean, producer: () -> T): T? =
 		if (condition) {
 			producer()
 		} else null
-
-/*
- * TODO: issue #120 - move this whole thing to utils package
- */
-// moved to kroki
-fun <T> Collection<T>.replace(
-		filter: (T) -> Boolean,
-		replacer: (T) -> T
-): List<T> {
-	return this.map {
-		if (filter(it)) {
-			replacer(it)
-		} else {
-			it
-		}
-	}
-}

@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.expectations.CoreDedicationExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.utils.any
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetector<CoreDedicationExpectation>() {
 	override fun checkWithHost(
@@ -52,7 +52,7 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 
 		return notDedicatedCoreVms
 				.map { it.dynamic?.coreAffinity ?: allCpus.value }
-				.join().toSet().size +
+				.concat().toSet().size +
 				dedicatedCoreVms
 						.sumBy(vmNrOfCpus) < hostCoreCnt.value
 	}

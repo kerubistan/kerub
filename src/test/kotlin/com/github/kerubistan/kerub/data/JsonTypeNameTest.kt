@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.data
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeName
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import org.junit.Test
 import org.reflections.Reflections
 import org.reflections.scanners.SubTypesScanner
@@ -44,7 +44,7 @@ class JsonTypeNameTest {
 				.forEach { (clazz, annotation) ->
 					val subtypes = reflections.getSubTypesOf(clazz.java)
 							.map { setOf(it) + reflections.getSubTypesOf(it) }
-							.join()
+							.concat()
 							.filter { !it.isInterface && !it.kotlin.isAbstract }
 							.toSet()
 					val annotationSubtypes = annotation.value.map { it.value.java }.toSet()

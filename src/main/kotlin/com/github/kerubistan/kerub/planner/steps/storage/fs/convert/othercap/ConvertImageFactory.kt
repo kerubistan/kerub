@@ -8,8 +8,8 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
 import com.github.kerubistan.kerub.planner.steps.storage.CreateDiskFactory
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
-import com.github.kerubistan.kerub.utils.update
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
+import io.github.kerubistan.kroki.collections.update
 import kotlin.reflect.KClass
 
 object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {
@@ -57,6 +57,6 @@ object ConvertImageFactory : AbstractOperationalStepFactory<ConvertImage>() {
 				}
 
 			}
-		}.join().join()
+		}.concat().concat()
 	}
 }

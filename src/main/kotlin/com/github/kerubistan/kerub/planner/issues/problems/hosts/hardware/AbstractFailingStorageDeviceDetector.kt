@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 abstract class AbstractFailingStorageDeviceDetector<T : Problem> : ProblemDetector<T> {
 	final override fun detect(plan: Plan) = plan.state.hosts.values.mapNotNull { host: HostDataCollection ->
@@ -12,7 +12,7 @@ abstract class AbstractFailingStorageDeviceDetector<T : Problem> : ProblemDetect
 			if (healthy) null else
 				createProblems(host, device, plan)
 		}
-	}.join().join()
+	}.concat().concat()
 
 	/**
 	 * Create problem instances out of failed failingDevice with the host record.

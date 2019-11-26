@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.normalizePath
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {
@@ -17,7 +17,7 @@ object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {
 
 	override fun produce(state: OperationalState): List<UnmountNfs> {
 		return state.hosts.values.mapNotNull { hostColl ->
-			val storage = state.vmsOnHost(hostColl.stat.id).map { it.virtualStorageLinks }.join()
+			val storage = state.vmsOnHost(hostColl.stat.id).map { it.virtualStorageLinks }.concat()
 					.mapNotNull { state.vStorage[it.virtualStorageId] }
 			hostColl.config?.services?.filterIsInstance<NfsMount>()?.filter {
 				storage.none {
@@ -28,7 +28,7 @@ object UnmountNfsFactory : AbstractOperationalStepFactory<UnmountNfs>() {
 			}?.map {
 				UnmountNfs(host = hostColl.stat, mountDir = it.localDirectory.normalizePath())
 			}
-		}.join()
+		}.concat()
 
 	}
 }

@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.hasAny
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object RemoveOvsPortFactory : AbstractOperationalStepFactory<RemoveOvsPort>() {
@@ -25,8 +25,8 @@ object RemoveOvsPortFactory : AbstractOperationalStepFactory<RemoveOvsPort>() {
 					)
 				} else null
 			}
-		}?.join()
-	}.join()
+		}?.concat()
+	}.concat()
 
 	private fun portNotUsed(
 			port: OvsDataPort,

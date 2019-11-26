@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
 import com.github.kerubistan.kerub.utils.any
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object UnusedServiceDetector : ProblemDetector<UnusedService> {
 	override fun detect(plan: Plan): Collection<UnusedService> =
@@ -20,7 +20,7 @@ object UnusedServiceDetector : ProblemDetector<UnusedService> {
 				hostColl.config?.services?.filterNot { isUsed(it, plan.state, hostColl) }
 						?.map { UnusedService(host = hostColl.stat, service = it) }
 						?: listOf()
-			}.join()
+			}.concat()
 
 	private fun isUsed(hostService: HostService,
 					   state: OperationalState,

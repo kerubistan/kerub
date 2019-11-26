@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.github.kerubistan.kerub.planner.costs.TimeCost
 import com.github.kerubistan.kerub.planner.costs.Violation
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 /**
  * Compares two plans by costs (time, IO, risk), violations, outcome.
@@ -20,7 +20,7 @@ import io.github.kerubistan.kroki.collections.join
  */
 object PlanComparator : Comparator<Plan> {
 
-	private val Plan.costs get() = this.steps.map { it.getCost() }.join().groupBy { it.javaClass.kotlin }
+	private val Plan.costs get() = this.steps.map { it.getCost() }.concat().groupBy { it.javaClass.kotlin }
 
 	/**
 	 * The order that tells which cost types to compare first when comparing plans.

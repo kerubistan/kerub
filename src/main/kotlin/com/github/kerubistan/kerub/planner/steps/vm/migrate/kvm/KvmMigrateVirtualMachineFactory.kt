@@ -11,7 +11,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.vm.match
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 /**
@@ -37,7 +37,7 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 						} else null
 					} else null
 				}
-			}.join()
+			}.concat()
 
 	private fun allStorageShared(vm: VirtualMachineDataCollection, state: OperationalState): Boolean =
 			vm.stat.virtualStorageLinks.all { link ->

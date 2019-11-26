@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.messages.EntityMessage
 import com.github.kerubistan.kerub.model.messages.Message
 import com.github.kerubistan.kerub.security.EntityAccessController
 import com.github.kerubistan.kerub.utils.getLogger
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.upsert
 import org.apache.shiro.subject.Subject
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
@@ -33,7 +33,7 @@ class SpringSocketClientConnection(
 	override
 	fun removeSubscription(channel: String) {
 		val sub = ChannelSubscription.fromChannel(channel)
-		subscriptions = subscriptions.update(
+		subscriptions = subscriptions.upsert(
 				sub.entityClass,
 				{ it - sub },
 				{ listOf() }
@@ -44,7 +44,7 @@ class SpringSocketClientConnection(
 	override
 	fun addSubscription(channel: String) {
 		val sub = ChannelSubscription.fromChannel(channel)
-		subscriptions = subscriptions.update(
+		subscriptions = subscriptions.upsert(
 				sub.entityClass,
 				{ it + sub },
 				{ listOf(sub) }

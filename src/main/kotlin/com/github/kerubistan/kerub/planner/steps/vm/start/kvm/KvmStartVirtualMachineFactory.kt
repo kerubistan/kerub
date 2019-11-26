@@ -14,7 +14,7 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.kerubistan.kerub.planner.steps.vm.virtualStorageLinkInfo
 import com.github.kerubistan.kerub.utils.junix.common.anyPackageNamed
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {
@@ -42,7 +42,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 
 					} else null
 				}
-			}.join()
+			}.concat()
 
 	private fun isHostKvmReady(hostData: HostDataCollection): Boolean =
 			(hostData.stat.capabilities?.os == OperatingSystem.Linux

@@ -26,7 +26,7 @@ import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.justToString
 import com.github.kerubistan.kerub.utils.logAndReturn
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 class CompositeStepFactory(
 		private val planViolationDetector: PlanViolationDetector,
@@ -75,18 +75,18 @@ class CompositeStepFactory(
 	override fun produce(state: Plan): List<AbstractOperationalStep> {
 		val unsatisfiedExpectations = planViolationDetector.listViolations(state)
 		logger.trace("unsatisfied expectations: {}", unsatisfiedExpectations)
-		val stepFactories = unsatisfiedExpectations.values.join()
+		val stepFactories = unsatisfiedExpectations.values.concat()
 				.map {
 					violationHints[it.javaClass.kotlin] ?: defaultFactories
-				}.join().toSet()
+				}.concat().toSet()
 
 		val planProblems = problemDetector.detect(state)
 		logger.trace("problemHints {}", planProblems)
 		val problemStepFactories = planProblems
 				.map { it.javaClass.kotlin }
-				.map { problemHints[it] ?: defaultFactories }.join().distinct()
+				.map { problemHints[it] ?: defaultFactories }.concat().distinct()
 
-		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.join(),
+		val steps = sort(list = (stepFactories + problemStepFactories).map { it.produce(state.state) }.concat(),
 				state = state)
 		logger.trace("{} steps generated: {}", steps.size, steps)
 

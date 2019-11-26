@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("clear-ssh-key")
 data class ClearSshKey (val host : Host) : AbstractOperationalStep, InvertibleStep {

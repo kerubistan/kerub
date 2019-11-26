@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.utils
 
 import com.github.kerubistan.kerub.model.Entity
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> {
-	return this.map { x -> other.map { y -> x to y } }.join()
+	return this.map { x -> other.map { y -> x to y } }.concat()
 }
 
 inline fun <reified C : Any> Iterable<*>.hasAny(predicate : (C) -> Boolean = { true })
@@ -89,7 +89,7 @@ fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<L
 	var ret = listOf<List<T>>()
 
 	var start : Int? = null
-	for(idx in 0..(this.size - 1)) {
+	for (idx in 0 until this.size) {
 		val match = selector(this[idx])
 		if(start != null) {
 			if(!match) {
@@ -119,13 +119,3 @@ inline fun <reified C : Any, reified R : Any> Iterable<*>.mapInstances(predicate
 
 operator fun <T> Collection<T>?.contains(element: T): Boolean =
 		this?.contains(element) ?: false
-
-/**
- * Creates multiple groups out of a list. Each item can be grouped into more than one group.
- */
-// move this to kroki
-// this should be checked for performance and likely there is a better solution
-inline fun <V : Any, K : Any> Collection<V>.groupsBy(keys: (V) -> Iterable<K>): Map<K, Set<V>> =
-		map(keys).map { it.toList() }.join().map { key ->
-			key to this.filter { keys(it).contains(key) }.toSet()
-		}.toMap()

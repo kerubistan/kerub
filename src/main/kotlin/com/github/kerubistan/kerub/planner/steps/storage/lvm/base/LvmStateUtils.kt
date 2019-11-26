@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.planner.steps.replace
+import io.github.kerubistan.kroki.collections.replace
 import java.math.BigInteger
 
 

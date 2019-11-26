@@ -14,7 +14,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.Failin
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.produceIf
 import com.github.kerubistan.kerub.utils.mapInstances
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.math.BigInteger
 import kotlin.reflect.KClass
 
@@ -67,7 +67,7 @@ object MirrorVolumeFactory : AbstractOperationalStepFactory<MirrorVolume>() {
 						}
 					}
 				}
-			}.join().join()
+			}.concat().concat()
 
 	private fun getCapabilityAvailable(allocation: VirtualStorageLvmAllocation, state: OperationalState): BigInteger? =
 			state.hosts[allocation.hostId]?.let { host ->

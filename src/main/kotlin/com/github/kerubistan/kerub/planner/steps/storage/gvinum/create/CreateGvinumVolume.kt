@@ -15,7 +15,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.costs.Risk
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorage
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import io.github.kerubistan.kroki.time.now
 
 @JsonTypeName("create-gvinum-volume")

@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("clear-cpu-affinity")
 data class ClearCpuAffinity(val vm: VirtualMachine, override val host: Host) : HostStep {

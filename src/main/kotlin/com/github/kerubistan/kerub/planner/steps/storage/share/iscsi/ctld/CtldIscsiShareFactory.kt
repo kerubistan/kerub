@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.utils.iscsiShareableDisks
 import com.github.kerubistan.kerub.utils.junix.iscsi.ctld.Ctld
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.util.UUID
 import kotlin.reflect.KClass
 
@@ -29,7 +29,7 @@ object CtldIscsiShareFactory : AbstractOperationalStepFactory<CtldIscsiShare>() 
 						)
 					}
 
-				}.join()
+				}.concat()
 			}
 
 	private fun isCtldAvailable(state: OperationalState, hostId: UUID): Boolean =

@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 data class Plan(
 		val states: List<OperationalState>,
@@ -39,5 +39,5 @@ data class Plan(
 		get() = states.last()
 
 	fun reservations(): Collection<Reservation<*>> =
-			steps.map { it.reservations() }.join().toSet()
+			steps.map { it.reservations() }.concat().toSet()
 }

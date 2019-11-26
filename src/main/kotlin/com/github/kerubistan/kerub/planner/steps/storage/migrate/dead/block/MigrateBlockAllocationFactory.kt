@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLvFact
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.unallocate.UnAllocateLvFactory
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.AbstractMigrateAllocationFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateBlockAllocation>() {
 
@@ -48,7 +48,7 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 
 				}
 
-			}.join().join().filter { isSslKeyInstalled(it, state) }
+			}.concat().concat().filter { isSslKeyInstalled(it, state) }
 
 	private fun generateDeAllocationSteps(
 			state: OperationalState,
@@ -57,14 +57,14 @@ object MigrateBlockAllocationFactory : AbstractMigrateAllocationFactory<MigrateB
 		val unallocationState = generteUnallocationState(state, candidateStorage)
 		return deAllocationFactories.map { factory ->
 			factory.produce(unallocationState)
-		}.join().filter { it.vstorage.id == candidateStorage.id }
+		}.concat().filter { it.vstorage.id == candidateStorage.id }
 	}
 
 
 	private fun generateAllocationSteps(
 			candidateStorage: VirtualStorageDataCollection,
 			unAllocatedState: OperationalState
-	) = allocationFactories.map { it.produce(unAllocatedState) }.join().filter { step ->
+	) = allocationFactories.map { it.produce(unAllocatedState) }.concat().filter { step ->
 		candidateStorage.dynamic?.allocations?.none { it.hostId == step.allocation.hostId }
 				?: false
 	}.filter { targetAllocation ->

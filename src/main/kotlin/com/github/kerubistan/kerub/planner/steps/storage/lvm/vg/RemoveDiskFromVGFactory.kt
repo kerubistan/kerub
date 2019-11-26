@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.FailingStorageDevice
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.math.BigInteger
 import kotlin.reflect.KClass
 
@@ -28,7 +28,7 @@ object RemoveDiskFromVGFactory : AbstractOperationalStepFactory<RemoveDiskFromVG
 				}
 			} else null
 		} ?: listOf()
-	}.join().join()
+	}.concat().concat()
 
 	override val problemHints = setOf(FailingStorageDevice::class)
 	override val expectationHints: Set<KClass<out Expectation>>

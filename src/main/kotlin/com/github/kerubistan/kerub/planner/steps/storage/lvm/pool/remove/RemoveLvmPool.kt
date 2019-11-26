@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.base.updateHostDynLvmWithAllocation
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("remove-lvm-pool")
 data class RemoveLvmPool(

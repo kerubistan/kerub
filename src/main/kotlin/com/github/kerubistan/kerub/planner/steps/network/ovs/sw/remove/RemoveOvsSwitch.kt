@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitch
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("remove-ovs-switch")
 data class RemoveOvsSwitch(

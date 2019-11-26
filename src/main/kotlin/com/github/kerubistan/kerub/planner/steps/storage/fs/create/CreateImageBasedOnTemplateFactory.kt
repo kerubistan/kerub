@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.size.MB
 import java.math.BigInteger
 import kotlin.reflect.KClass
@@ -55,7 +55,7 @@ object CreateImageBasedOnTemplateFactory : AbstractOperationalStepFactory<Create
 											}
 										}
 							}
-				}.join().join().join()
+				}.concat().concat().concat()
 
 	override val problemHints: Set<KClass<out Problem>>
 		get() = setOf()

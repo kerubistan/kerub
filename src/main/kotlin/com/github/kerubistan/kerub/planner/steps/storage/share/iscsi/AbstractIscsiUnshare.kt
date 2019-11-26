@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.steps.storage.share.iscsi
 
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.OperationalState
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 interface AbstractIscsiUnshare : AbstractIscsiOperation {
 	override fun take(state: OperationalState): OperationalState

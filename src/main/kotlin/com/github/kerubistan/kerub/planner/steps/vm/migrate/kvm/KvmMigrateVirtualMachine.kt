@@ -19,7 +19,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachine
 import com.github.kerubistan.kerub.utils.any
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 import java.util.ArrayList
 import java.util.HashMap

@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.issues.problems.vms
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.time.now
 import java.util.Date
 
@@ -20,5 +20,5 @@ object VmOnOldHostDetector : ProblemDetector<VmOnOldHost> {
 									hostExpiredSince = (now() - (stat.endOfPlannedLifetime!!.time)).toInt()
 							)
 						}
-			}.join()
+			}.concat()
 }

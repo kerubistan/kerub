@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.costs.Cost
 import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("host-power-down")
 data class PowerDownHost(val host: Host) : AbstractOperationalStep {

@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailability
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object CreateOvsSwitchFactory : AbstractOperationalStepFactory<CreateOvsSwitch>() {
@@ -18,7 +18,7 @@ object CreateOvsSwitchFactory : AbstractOperationalStepFactory<CreateOvsSwitch>(
 				)
 			}
 		}
-	}.join().join()
+	}.concat().concat()
 
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf(

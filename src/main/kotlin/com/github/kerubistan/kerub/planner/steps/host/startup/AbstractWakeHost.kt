@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.costs.TimeCost
 import com.github.kerubistan.kerub.planner.reservations.FullHostReservation
 import com.github.kerubistan.kerub.planner.reservations.Reservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 
 abstract class AbstractWakeHost : AbstractOperationalStep {

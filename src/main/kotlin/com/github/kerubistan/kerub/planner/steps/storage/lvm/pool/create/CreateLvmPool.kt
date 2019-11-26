@@ -17,7 +17,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.lvm.base.updateHostDynL
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateThinLv
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.volumeGroupId
 import com.github.kerubistan.kerub.planner.steps.storage.migrate.dead.block.MigrateBlockAllocation
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 
 @JsonTypeName("create-lvm-pool")

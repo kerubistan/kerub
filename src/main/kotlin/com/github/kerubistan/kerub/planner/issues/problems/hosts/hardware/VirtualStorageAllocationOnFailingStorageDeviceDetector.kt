@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware
 import com.github.kerubistan.kerub.model.VolumeManagerStorageCapability
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.planner.Plan
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object VirtualStorageAllocationOnFailingStorageDeviceDetector
 	: AbstractFailingStorageDeviceDetector<VirtualStorageAllocationOnFailingStorageDevice>() {
@@ -23,5 +23,5 @@ object VirtualStorageAllocationOnFailingStorageDeviceDetector
 						} else null
 					}
 				}
-			}?.join()?.join()
+			}?.concat()?.concat()
 }

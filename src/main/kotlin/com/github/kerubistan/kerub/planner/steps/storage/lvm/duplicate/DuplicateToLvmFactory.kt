@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHost
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHost
 import com.github.kerubistan.kerub.planner.steps.storage.block.duplicate.AbstractBlockDuplicateFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.util.hasEnoughFreeCapacity
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
@@ -54,7 +54,7 @@ object DuplicateToLvmFactory : AbstractBlockDuplicateFactory<DuplicateToLvm>() {
 												}
 									}
 						}
-			}.join().join().filterNotNull().join()
+			}.concat().concat().filterNotNull().concat()
 
 	private fun isHostkeyInstalled(sourceHost: HostDataCollection, targetHostColl: HostDataCollection) =
 			(sourceHost.config?.publicKey != null &&

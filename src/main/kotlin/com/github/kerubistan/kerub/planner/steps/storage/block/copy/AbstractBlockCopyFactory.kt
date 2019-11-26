@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolumeFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLvFactory
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import kotlin.reflect.KClass
 
 abstract class AbstractBlockCopyFactory<T : AbstractBlockCopy> : AbstractOperationalStepFactory<T>() {

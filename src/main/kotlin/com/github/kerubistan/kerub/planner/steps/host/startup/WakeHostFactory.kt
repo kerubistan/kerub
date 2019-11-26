@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 /**
@@ -41,7 +41,7 @@ object WakeHostFactory : AbstractOperationalStepFactory<AbstractWakeHost>() {
 							else -> null
 						}
 					} ?: listOf()
-				}.join().filterNotNull()
+				}.concat().filterNotNull()
 
 			}
 }

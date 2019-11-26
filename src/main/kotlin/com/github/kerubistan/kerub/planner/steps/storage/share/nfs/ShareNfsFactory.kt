@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.utils.any
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {
@@ -26,7 +26,7 @@ object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {
 			factoryFeature(state.controllerConfig.storageTechnologies.nfsEnabled) {
 				val fileAllocations = state.vStorage.values.map {
 					it.dynamic?.allocations ?: listOf()
-				}.join().filterIsInstance(VirtualStorageFsAllocation::class.java)
+				}.concat().filterIsInstance(VirtualStorageFsAllocation::class.java)
 
 				getHostsRunningNfs(state).map { hostColl ->
 					fileAllocations
@@ -39,7 +39,7 @@ object ShareNfsFactory : AbstractOperationalStepFactory<ShareNfs>() {
 							.map {
 								ShareNfs(host = hostColl.stat, directory = it.mountPoint)
 							}
-				}.join()
+				}.concat()
 			}
 
 	private fun getHostsRunningNfs(state: OperationalState): List<HostDataCollection> =

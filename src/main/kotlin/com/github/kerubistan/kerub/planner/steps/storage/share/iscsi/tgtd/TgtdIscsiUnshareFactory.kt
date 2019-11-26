@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.utils.iscsiSharedDisks
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object TgtdIscsiUnshareFactory : AbstractOperationalStepFactory<TgtdIscsiUnshare>() {
@@ -35,5 +35,5 @@ object TgtdIscsiUnshareFactory : AbstractOperationalStepFactory<TgtdIscsiUnshare
 									vstorage = diskData.stat
 							)
 						}
-			}.join()
+			}.concat()
 }

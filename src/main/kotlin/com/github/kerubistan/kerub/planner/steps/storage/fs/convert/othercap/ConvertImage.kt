@@ -11,6 +11,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservation
 import com.github.kerubistan.kerub.planner.steps.storage.fs.convert.AbstractConvertImage
 import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 
 /**

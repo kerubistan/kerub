@@ -17,7 +17,7 @@ import com.github.kerubistan.kerub.utils.bd
 import com.github.kerubistan.kerub.utils.decimalAvgBy
 import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.subLists
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import org.infinispan.Cache
 import org.infinispan.query.dsl.Query
 import java.io.Serializable
@@ -54,10 +54,10 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 		internal fun changedPropertyNames(changes: List<HistoryEntry>) =
 				changes.filterIsInstance(ChangeEvent::class.java).map {
 					it.changes.map { it.property }
-				}.join().toSet() +
+				}.concat().toSet() +
 						changes.filterIsInstance(HistorySummary::class.java).map {
 							it.changes.map { it.property }
-						}.join().toSet()
+						}.concat().toSet()
 
 
 		internal fun changesOfProperty(propName: String, changes: List<HistoryEntry>) =

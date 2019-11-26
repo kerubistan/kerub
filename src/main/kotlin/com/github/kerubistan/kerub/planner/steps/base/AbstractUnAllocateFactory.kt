@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.dynamic.HostStatus
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 abstract class AbstractUnAllocateFactory<T : AbstractUnAllocate<S>, S : VirtualStorageAllocation> :
@@ -20,7 +20,7 @@ abstract class AbstractUnAllocateFactory<T : AbstractUnAllocate<S>, S : VirtualS
 						null
 					}
 				}
-			}.join().filterNotNull()
+			}.concat().filterNotNull()
 
 	private fun hasOverAllocation(it: VirtualStorageDataCollection) =
 			it.stat.readOnly && it.dynamic?.allocations?.size ?: 0 > 1

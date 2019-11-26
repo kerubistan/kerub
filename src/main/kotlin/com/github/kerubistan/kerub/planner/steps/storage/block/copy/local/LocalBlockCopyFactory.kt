@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageBlockDeviceAlloca
 import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.AbstractBlockCopyFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object LocalBlockCopyFactory : AbstractBlockCopyFactory<LocalBlockCopy>() {
 
@@ -27,6 +27,6 @@ object LocalBlockCopyFactory : AbstractBlockCopyFactory<LocalBlockCopy>() {
 								}
 							}
 						}
-			}.join().join().join()
+			}.concat().concat().concat()
 
 }

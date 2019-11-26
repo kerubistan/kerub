@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.pool.common.percents
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmThinLv
 
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.size.GB
 import java.math.BigInteger
 import java.util.UUID
@@ -47,7 +47,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 						}
 					}
 
-		}.join().map { (capability, hostData, freeCap) ->
+		}.concat().map { (capability, hostData, freeCap) ->
 			percents.map { percent ->
 				CreateLvmPool(
 						host = hostData.stat,
@@ -56,6 +56,6 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 						vgName = capability.volumeGroupName
 				)
 			}
-		}.join()
+		}.concat()
 	}
 }

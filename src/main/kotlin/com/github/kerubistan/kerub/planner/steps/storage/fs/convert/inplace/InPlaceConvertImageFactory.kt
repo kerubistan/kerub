@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.produceIf
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 /**
@@ -31,7 +31,7 @@ object InPlaceConvertImageFactory : AbstractOperationalStepFactory<InPlaceConver
 				}
 			}
 		}
-	}.join().join()
+	}.concat().concat()
 
 	/*
 	 * TODO: this checks if the virtual disk is used by any running VM

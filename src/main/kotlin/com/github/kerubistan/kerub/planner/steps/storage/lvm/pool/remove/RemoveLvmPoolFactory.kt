@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object RemoveLvmPoolFactory : AbstractOperationalStepFactory<RemoveLvmPool>() {
@@ -17,12 +17,12 @@ object RemoveLvmPoolFactory : AbstractOperationalStepFactory<RemoveLvmPool>() {
 	override fun produce(state: OperationalState): List<RemoveLvmPool> {
 		val usedPools = state.vStorage.values.mapNotNull {
 			it.dynamic?.allocations?.filterIsInstance(VirtualStorageLvmAllocation::class.java)
-		}.join().mapNotNull { it.pool }.distinct()
+		}.concat().mapNotNull { it.pool }.distinct()
 
 		val notUsedPools = state.hosts.mapNotNull { host ->
 			host.value.config?.storageConfiguration?.filterIsInstance(LvmPoolConfiguration::class.java)
 					?.filterNot { it.poolName in usedPools }?.map { host to it }
-		}.join()
+		}.concat()
 
 		return notUsedPools.map {
 			RemoveLvmPool(

@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("remove-public-key")
 data class RemovePublicKey(val hostOfKey: Host, val host: Host, val publicKey: String) : AbstractOperationalStep,

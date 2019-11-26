@@ -2,7 +2,7 @@ package com.github.kerubistan.kerub.planner.issues.problems.vstorage
 
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.issues.problems.ProblemDetector
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object VStorageDeviceOnRecyclingHostDetector : ProblemDetector<VStorageDeviceOnRecyclingHost> {
 	override fun detect(plan: Plan): Collection<VStorageDeviceOnRecyclingHost> {
@@ -22,7 +22,7 @@ object VStorageDeviceOnRecyclingHostDetector : ProblemDetector<VStorageDeviceOnR
 						)
 					}
 				} ?: listOf()
-			}.join()
+			}.concat()
 		}
 	}
 

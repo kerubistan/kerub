@@ -4,14 +4,14 @@ import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.ExpectationLevel
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.PlanViolationDetector
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.util.Comparator
 
 class StepBenefitComparator(private val planViolationDetector: PlanViolationDetector, val plan: Plan) :
 		Comparator<AbstractOperationalStep> {
 
 	private fun listViolations(plan: Plan) =
-			planViolationDetector.listViolations(plan).map { it.value }.join()
+			planViolationDetector.listViolations(plan).map { it.value }.concat()
 
 	override fun compare(first: AbstractOperationalStep, second: AbstractOperationalStep): Int {
 		//TODO: issue #128

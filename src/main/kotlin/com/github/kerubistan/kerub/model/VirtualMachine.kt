@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.model.expectations.VirtualMachineReference
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Simple
 import com.github.kerubistan.kerub.utils.validateSize
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import org.hibernate.search.annotations.Indexed
@@ -88,7 +88,7 @@ data class VirtualMachine constructor(
 					VirtualMachine::class to expectations
 							.filter { it is VirtualMachineReference }
 							.map { (it as VirtualMachineReference).referredVmIds }
-							.join(),
+							.concat(),
 					VirtualStorageDevice::class to virtualStorageLinks.map { it.virtualStorageId }
 			).filter { it.value.isNotEmpty() }
 

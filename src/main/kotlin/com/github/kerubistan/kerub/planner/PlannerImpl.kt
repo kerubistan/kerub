@@ -17,7 +17,7 @@ import com.github.kerubistan.kerub.planner.reservations.VmReservation
 import com.github.kerubistan.kerub.planner.steps.CompositeStepFactory
 import com.github.kerubistan.kerub.utils.debugLazy
 import com.github.kerubistan.kerub.utils.getLogger
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.time.now
 import java.util.Timer
 import java.util.TimerTask
@@ -120,7 +120,7 @@ class PlannerImpl(
 
 	private fun buildState(): OperationalState {
 		return builder.buildState().copy(
-				reservations = reservations.values.join()
+				reservations = reservations.values.concat()
 		)
 	}
 
@@ -165,7 +165,7 @@ class PlannerImpl(
 			logger.debug("No plan generated.")
 		} else {
 			val planReservations = plan.reservations()
-			if (checkReservations(planReservations, reservations.values.join(), state)) {
+			if (checkReservations(planReservations, reservations.values.concat(), state)) {
 				reservations[plan] = planReservations.toList()
 				executor.execute(plan) {
 					reservations.remove(plan)

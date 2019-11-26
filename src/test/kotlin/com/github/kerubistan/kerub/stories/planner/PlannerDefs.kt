@@ -72,7 +72,6 @@ import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.planner.steps.host.startup.AbstractWakeHost
-import com.github.kerubistan.kerub.planner.steps.replace
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
@@ -106,7 +105,8 @@ import cucumber.api.java.en.And
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
+import io.github.kerubistan.kroki.collections.replace
 import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Assert
@@ -320,12 +320,12 @@ class PlannerDefs {
 											deviceName = it.key,
 											storageCapacity = it.value)
 								}
-							}.join()
+							}.concat()
 					)
 			)
 		})
 		hostDyns = hostDyns.replace({ it.id == host.id }, { dyn ->
-			val blockDevices = lvmCapabilities.map { it.physicalVolumes.map { it.key to true } }.join().toMap()
+			val blockDevices = lvmCapabilities.map { it.physicalVolumes.map { it.key to true } }.concat().toMap()
 			dyn.copy(
 					storageStatus = dyn.storageStatus + lvmCapabilities.map {
 						CompositeStorageDeviceDynamic(id = it.id, reportedFreeCapacity = it.size)
@@ -528,7 +528,7 @@ class PlannerDefs {
 										row[0].split(",").map {
 											SoftwarePackage(name = it, version = Version.fromVersionString(row[1]))
 										}
-									}.join()
+									}.concat()
 							)
 					)
 				}

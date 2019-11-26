@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.ProducedBy
 import com.github.kerubistan.kerub.planner.steps.vm.base.HostStep
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @ProducedBy(KsmFactory::class)
 @JsonTypeName("enable-ksm")

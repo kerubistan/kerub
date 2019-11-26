@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object RemovePublicKeyFactory : AbstractOperationalStepFactory<RemovePublicKey>() {
@@ -17,6 +17,6 @@ object RemovePublicKeyFactory : AbstractOperationalStepFactory<RemovePublicKey>(
 				servers.map { server ->
 					RemovePublicKey(host = server, hostOfKey = host.stat, publicKey = host.config?.publicKey!!)
 				}
-			}.join()
+			}.concat()
 
 }

@@ -22,35 +22,4 @@ class MapUtilsTest {
 		)
 
 	}
-
-	@Test
-	fun mapUpdate() {
-		assertEquals(
-				mapOf(
-						1 to "one",
-						2 to "two",
-						3 to "three"
-				),
-				mapOf(
-						1 to "one",
-						2 to "two",
-						3 to "drei"
-				).update(3, { "three" }, { "" })
-		)
-		assertEquals(
-				mapOf(
-						1 to "one",
-						2 to "two",
-						3 to "three",
-						4 to "four"
-				),
-				mapOf(
-						1 to "one",
-						2 to "two",
-						3 to "three"
-				).update(4, { "" }, { "four" })
-		)
-
-	}
-
 }

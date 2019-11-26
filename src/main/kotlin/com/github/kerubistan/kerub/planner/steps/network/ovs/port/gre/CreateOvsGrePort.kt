@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.model.config.OvsNetworkConfiguration
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.reservations.UseHostReservation
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import io.github.kerubistan.kroki.collections.updateInstances
 
 @JsonTypeName("create-ovs-gre-port")

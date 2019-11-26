@@ -10,7 +10,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.host.security.clear.ClearSshKey
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("generate-ssh-key")
 data class GenerateSshKey(val host: Host) : AbstractOperationalStep, InvertibleStep {

@@ -4,7 +4,7 @@ import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object CreateOvsGrePortFactory : AbstractOperationalStepFactory<CreateOvsGrePort>() {
@@ -20,7 +20,7 @@ object CreateOvsGrePortFactory : AbstractOperationalStepFactory<CreateOvsGrePort
 			)
 		}
 
-	}.join()
+	}.concat()
 
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()

@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.utils.normalizePath
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
 
 object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
@@ -36,7 +36,7 @@ object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
 								directory = "/mnt/${remote.id}/${it.directory}".normalizePath(),
 								remoteDirectory = it.directory.normalizePath())
 						}
-					}.join()
-				}.join()
+					}.concat()
+				}.concat()
 			}
 }

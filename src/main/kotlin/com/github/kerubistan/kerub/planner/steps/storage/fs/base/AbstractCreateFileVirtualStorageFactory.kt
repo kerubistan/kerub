@@ -7,7 +7,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalStep> :
 		AbstractOperationalStepFactory<S>() {
@@ -27,7 +27,7 @@ abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalSt
 										createStep(storage, hostData, mount)
 									}
 								}
-					}.join().join()
+					}.concat().concat()
 
 	abstract fun createStep(storage: VirtualStorageDevice, hostData: HostDataCollection, mount: FsStorageCapability): S
 

@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.model.expectations.VirtualStorageExpectation
 import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.model.views.Simple
 import com.github.kerubistan.kerub.utils.validateSize
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import org.hibernate.search.annotations.DocumentId
 import org.hibernate.search.annotations.Field
 import java.math.BigInteger
@@ -51,7 +51,7 @@ VirtualStorageDevice(
 				VirtualStorageDevice::class to expectations
 						.filter { it is VirtualStorageDeviceReference }
 						.map { (it as VirtualStorageDeviceReference).virtualStorageDeviceReferences }
-						.join()
+						.concat()
 		)
 		return mapOf.filter { it.value.isNotEmpty() }
 	}

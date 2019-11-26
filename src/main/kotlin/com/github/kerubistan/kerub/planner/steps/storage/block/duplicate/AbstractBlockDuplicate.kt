@@ -15,7 +15,7 @@ import com.github.kerubistan.kerub.planner.reservations.VirtualStorageReservatio
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.InvertibleStep
 import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocate
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 
 abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> : AbstractOperationalStep,

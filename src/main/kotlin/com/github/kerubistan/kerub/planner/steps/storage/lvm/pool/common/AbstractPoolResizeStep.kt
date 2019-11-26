@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import com.github.kerubistan.kerub.planner.steps.SimilarStep
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.base.updateHostDynLvmWithAllocation
-import com.github.kerubistan.kerub.utils.update
+import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
 
 abstract class AbstractPoolResizeStep : AbstractOperationalStep, SimilarStep {

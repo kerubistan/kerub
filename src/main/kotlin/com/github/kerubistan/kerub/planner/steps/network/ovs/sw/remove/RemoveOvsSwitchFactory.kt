@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
 import com.github.kerubistan.kerub.utils.mapInstances
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.util.UUID
 import kotlin.reflect.KClass
 
@@ -23,7 +23,7 @@ object RemoveOvsSwitchFactory : AbstractOperationalStepFactory<RemoveOvsSwitch>(
 				)
 			} else null
 		}
-	}.join()
+	}.concat()
 
 	private fun networkNotUsed(virtualNetworkId: UUID, vmsOnHost: List<VirtualMachine>): Boolean =
 			vmsOnHost.all { vm ->

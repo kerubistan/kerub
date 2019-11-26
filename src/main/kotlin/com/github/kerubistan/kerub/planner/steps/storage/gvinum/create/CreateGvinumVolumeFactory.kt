@@ -13,7 +13,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.factoryFeature
 import com.github.kerubistan.kerub.planner.steps.storage.AbstractCreateVirtualStorageFactory
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 import java.math.BigInteger
 import kotlin.reflect.KClass
 
@@ -31,8 +31,8 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 						simpleGvinumAllocations(host, virtualStorage) +
 								concatenatedGvinumAllocations(host, virtualStorage)
 
-					}.join()
-				}.join()
+					}.concat()
+				}.concat()
 			}
 
 
@@ -79,7 +79,7 @@ object CreateGvinumVolumeFactory : AbstractCreateVirtualStorageFactory<CreateGvi
 							size = (size - diskCap.value).coerceAtLeast(BigInteger.ZERO)
 					).map { it + (diskCap.key to diskCap.value) }
 				}
-			}.join().toSet().toList()
+			}.concat().toSet().toList()
 
 	private fun simpleGvinumAllocations(
 			host: HostDataCollection, virtualStorage: VirtualStorageDevice

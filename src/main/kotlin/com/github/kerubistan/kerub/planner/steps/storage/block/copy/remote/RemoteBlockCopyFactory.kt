@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.model.expectations.CloneOfStorageExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.steps.storage.block.copy.AbstractBlockCopyFactory
 import com.github.kerubistan.kerub.utils.contains
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object RemoteBlockCopyFactory : AbstractBlockCopyFactory<RemoteBlockCopy>() {
 	override fun produce(state: OperationalState): List<RemoteBlockCopy> =
@@ -35,5 +35,5 @@ object RemoteBlockCopyFactory : AbstractBlockCopyFactory<RemoteBlockCopy>() {
 
 					}
 				}
-			}.join().join().filterNotNull().join()
+			}.concat().concat().filterNotNull().concat()
 }

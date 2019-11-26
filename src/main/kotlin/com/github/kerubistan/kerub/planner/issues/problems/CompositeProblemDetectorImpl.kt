@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.Virtua
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHostDetector
-import io.github.kerubistan.kroki.collections.join
+import io.github.kerubistan.kroki.collections.concat
 
 object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 
@@ -28,6 +28,5 @@ object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 			RecyclingStorageDeviceDetector
 	)
 
-	override fun detect(plan: Plan): Collection<Problem>
-			= detectors.map { it.detect(plan) }.join()
+	override fun detect(plan: Plan): Collection<Problem> = detectors.map { it.detect(plan) }.concat()
 }

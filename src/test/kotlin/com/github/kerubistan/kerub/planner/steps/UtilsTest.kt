@@ -1,5 +1,6 @@
 package com.github.kerubistan.kerub.planner.steps
 
+import io.github.kerubistan.kroki.collections.replace
 import org.hamcrest.CoreMatchers
 import org.junit.Assert
 import org.junit.Test
