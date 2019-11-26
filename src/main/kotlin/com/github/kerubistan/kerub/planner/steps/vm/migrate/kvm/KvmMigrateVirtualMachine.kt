@@ -1,12 +1,9 @@
 package com.github.kerubistan.kerub.planner.steps.vm.migrate.kvm
 
 import com.fasterxml.jackson.annotation.JsonTypeName
-import com.github.kerubistan.kerub.model.Constrained
-import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.expectations.NoMigrationExpectation
-import com.github.kerubistan.kerub.model.expectations.NotSameHostExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.costs.ComputationCost
 import com.github.kerubistan.kerub.planner.costs.Cost
@@ -21,8 +18,6 @@ import com.github.kerubistan.kerub.planner.steps.vm.migrate.MigrateVirtualMachin
 import com.github.kerubistan.kerub.utils.any
 import io.github.kerubistan.kroki.collections.update
 import java.math.BigInteger
-import java.util.ArrayList
-import java.util.HashMap
 
 @JsonTypeName("kvm-migrate-vm")
 data class KvmMigrateVirtualMachine(
@@ -39,26 +34,6 @@ data class KvmMigrateVirtualMachine(
 			UseHostReservation(target),
 			UseHostReservation(source)
 	)
-
-	override fun violations(state: OperationalState): Map<Constrained<Expectation>, List<Expectation>> {
-		/**
-		 * TODO
-		 */
-		val ret = HashMap<Constrained<Expectation>, List<Expectation>>()
-		val vmViolations = ArrayList<Expectation>()
-		for (expectation in vm.expectations) {
-			when (expectation) {
-				is NoMigrationExpectation ->
-					vmViolations.add(expectation)
-				is NotSameHostExpectation ->
-					if (state.vmsOnHost(target.id).any { expectation.otherVmId == it.id }) {
-						vmViolations.add(expectation)
-					}
-				//TODO: and so on
-			}
-		}
-		return ret
-	}
 
 	override fun take(state: OperationalState): OperationalState {
 		val vmDyn = requireNotNull(state.vms[vm.id]?.dynamic)

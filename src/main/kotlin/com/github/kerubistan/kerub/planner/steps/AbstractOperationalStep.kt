@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.github.k0zka.finder4j.backtrack.Step
-import com.github.kerubistan.kerub.model.Constrained
 import com.github.kerubistan.kerub.model.ExecutionStep
-import com.github.kerubistan.kerub.model.Expectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.Plan
 import com.github.kerubistan.kerub.planner.costs.Cost
@@ -163,12 +161,6 @@ interface AbstractOperationalStep : Step<Plan>, ExecutionStep {
 	 */
 	@JsonIgnore
 	fun getCost(): List<Cost> = listOf()
-
-	/**
-	 * Returns a map of violated resources.
-	 */
-	fun violations(state: OperationalState)
-			: Map<Constrained<Expectation>, List<Expectation>> = mapOf()
 
 	/**
 	 * List both the physical and virtual resources reserved for the execution of the step.

@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 /**
  * Abstract baseclass for step factories.
- * Step factoryes should only care about the <strong>possibility</strong> of a step
+ * Step factories should only care about the <strong>possibility</strong> of a step
  * not the <strong>feasibility</strong>
  */
 abstract class AbstractOperationalStepFactory<out S : AbstractOperationalStep> : StepFactory<S, Plan> {
