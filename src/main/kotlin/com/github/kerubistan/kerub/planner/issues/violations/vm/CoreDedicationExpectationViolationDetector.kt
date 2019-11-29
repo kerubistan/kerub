@@ -15,8 +15,8 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 			state: OperationalState,
 			host: Host
 	): Boolean {
-		val vmsOnHost = lazy { state.vmDataOnHost(host.id) }
-		val hostCoreCnt = lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
+		val vmsOnHost by lazy { state.vmDataOnHost(host.id) }
+		val hostCoreCnt by lazy { host.capabilities?.cpus?.sumBy { it.coreCount ?: 0 } ?: 0 }
 		val coredDedicated: (VirtualMachineDataCollection) -> Boolean =
 				{ it.stat.expectations.any<CoreDedicationExpectation>() }
 		val vmNrOfCpus: (VirtualMachineDataCollection) -> Int = { it.stat.nrOfCpus }
@@ -25,7 +25,7 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 		// means this expectation is not met... however I would say that may be true even with
 		// non-dedicated vcpus
 		// to be on the safe side, let's check and break this expectation if so
-		return entity.nrOfCpus <= requireNotNull(state.vms[entity.id]).dynamic?.coreAffinity?.size ?: hostCoreCnt.value
+		return entity.nrOfCpus <= requireNotNull(state.vms[entity.id]).dynamic?.coreAffinity?.size ?: hostCoreCnt
 				&&
 				isUnderUtilized(vmsOnHost, vmNrOfCpus, hostCoreCnt)
 				||
@@ -39,22 +39,22 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 	 * @param vmsOnHost list of virtual machines running on the host
 	 */
 	private fun isSafelyOverUtilized(
-			vmsOnHost: Lazy<List<VirtualMachineDataCollection>>,
+			vmsOnHost: List<VirtualMachineDataCollection>,
 			coredDedicated: (VirtualMachineDataCollection) -> Boolean,
 			vmNrOfCpus: (VirtualMachineDataCollection) -> Int,
-			hostCoreCnt: Lazy<Int>
+			hostCoreCnt: Int
 	): Boolean {
 
-		val vmsByDedication = vmsOnHost.value.groupBy(coredDedicated)
+		val vmsByDedication = vmsOnHost.groupBy(coredDedicated)
 		val dedicatedCoreVms = vmsByDedication[true] ?: listOf()
 		val notDedicatedCoreVms = vmsByDedication[false] ?: listOf()
-		val allCpus = lazy { (1..hostCoreCnt.value).toList() }
+		val allCpus by lazy { (1..hostCoreCnt).toList() }
 
 		return notDedicatedCoreVms
-				.map { it.dynamic?.coreAffinity ?: allCpus.value }
+				.map { it.dynamic?.coreAffinity ?: allCpus }
 				.concat().toSet().size +
 				dedicatedCoreVms
-						.sumBy(vmNrOfCpus) < hostCoreCnt.value
+						.sumBy(vmNrOfCpus) < hostCoreCnt
 	}
 
 	/**
@@ -63,9 +63,9 @@ object CoreDedicationExpectationViolationDetector : AbstractVmHostViolationDetec
 	 * to the cores in the host -> no further enforcement needed, it is fine
 	 */
 	private fun isUnderUtilized(
-			vmsOnHost: Lazy<List<VirtualMachineDataCollection>>,
+			vmsOnHost: List<VirtualMachineDataCollection>,
 			vmNrOfCpus: (VirtualMachineDataCollection) -> Int,
-			hostCoreCnt: Lazy<Int>
-	) = vmsOnHost.value.sumBy(vmNrOfCpus) <= hostCoreCnt.value
+			hostCoreCnt: Int
+	) = vmsOnHost.sumBy(vmNrOfCpus) <= hostCoreCnt
 
 }

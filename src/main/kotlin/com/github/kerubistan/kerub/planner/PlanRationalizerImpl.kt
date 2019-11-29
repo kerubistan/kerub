@@ -46,8 +46,8 @@ class PlanRationalizerImpl(
 
 	private fun canRemoveStep(step: AbstractOperationalStep, plan: Plan): Boolean {
 		val stepIndex = plan.steps.indexOf(step)
-		val stepsAfter = lazy { plan.steps.takeLast(plan.steps.size - stepIndex - 1).map { it.javaClass.kotlin } }
-		return step.useBefore?.none { it in stepsAfter.value } ?: false
+		val stepsAfter by lazy { plan.steps.takeLast(plan.steps.size - stepIndex - 1).map { it.javaClass.kotlin } }
+		return step.useBefore?.none { it in stepsAfter } ?: false
 	}
 
 	internal fun tryRemoveInverses(plan: Plan): Plan {

@@ -1,12 +1,13 @@
 package com.github.kerubistan.kerub.model.controller.config
 
+import com.github.kerubistan.kerub.model.AbstractDataRepresentationTest
 import com.github.kerubistan.kerub.model.FsStorageCapability
 import io.github.kerubistan.kroki.size.GB
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
-class StorageTechnologiesConfigTest {
+class StorageTechnologiesConfigTest : AbstractDataRepresentationTest<StorageTechnologiesConfig>() {
 
 	@Test
 	fun validations() {
@@ -34,5 +35,10 @@ class StorageTechnologiesConfigTest {
 		assertEquals(capabilities,
 				listOf(shouldPass))
 	}
+
+	override val testInstances: Collection<StorageTechnologiesConfig>
+		get() = listOf(StorageTechnologiesConfig())
+	override val clazz: Class<StorageTechnologiesConfig>
+		get() = StorageTechnologiesConfig::class.java
 
 }

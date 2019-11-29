@@ -12,7 +12,7 @@ import java.util.UUID.randomUUID
 import kotlin.reflect.KClass
 
 object CreateOvsGrePortFactory : AbstractOperationalStepFactory<CreateOvsGrePort>() {
-	override fun produce(state: OperationalState) = state.index.virtualNetworksNeeded.mapNotNull {
+	override fun produce(state: OperationalState) = state.index.virtualNetworksNeeded.map {
 		// for each network needed by any client workload
 		neededNetworkId ->
 

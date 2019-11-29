@@ -37,6 +37,16 @@ import com.github.kerubistan.kerub.planner.steps.host.security.remove.RemovePubl
 import com.github.kerubistan.kerub.planner.steps.host.startup.IpmiWakeHost
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostExecutor
 import com.github.kerubistan.kerub.planner.steps.host.startup.WolWakeHost
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPortExecutor
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.gre.CreateOvsGrePort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.gre.CreateOvsGrePortExecutor
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.remove.RemoveOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.remove.RemoveOvsPortExecutor
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitch
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitchExecutor
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.remove.RemoveOvsSwitch
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.remove.RemoveOvsSwitchExecutor
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageBasedOnTemplate
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImageBasedOnTemplateExecutor
@@ -182,7 +192,13 @@ class PlanExecutorImpl(
 			RemovePublicKey::class to RemovePublicKeyExecutor(hostCommandExecutor, hostConfigurationDao),
 
 			MigrateBlockAllocation::class to MigrateBlockAllocationExecutor(
-					hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao)
+					hostCommandExecutor, virtualStorageDeviceDynamicDao, hostDynamicDao),
+
+			CreateOvsSwitch::class to CreateOvsSwitchExecutor(hostCommandExecutor, hostConfigurationDao),
+			RemoveOvsSwitch::class to RemoveOvsSwitchExecutor(hostCommandExecutor, hostConfigurationDao),
+			CreateOvsPort::class to CreateOvsPortExecutor(hostCommandExecutor, hostConfigurationDao),
+			RemoveOvsPort::class to RemoveOvsPortExecutor(hostCommandExecutor, hostConfigurationDao),
+			CreateOvsGrePort::class to CreateOvsGrePortExecutor(hostCommandExecutor, hostConfigurationDao)
 
 	)
 

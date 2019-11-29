@@ -42,7 +42,7 @@ class CreateGvinumVolumeExecutor(
 					else -> TODO("Not handled gvinum configuration type: ${step.config}")
 				}
 			}
-			val updatedDisksByName = lazy { updatedDisks.associateBy { it.name } }
+			val updatedDisksByName by lazy { updatedDisks.associateBy { it.name } }
 			hostDynamicDao.update(step.host.id) {
 				it.copy(
 						storageStatus = it.storageStatus.update(
@@ -55,12 +55,12 @@ class CreateGvinumVolumeExecutor(
 										is CompositeStorageDeviceDynamic -> deviceDynamic.copy(
 												items = deviceDynamic.items.update(
 														selector = { item ->
-															updatedDisksByName.value.containsKey(item.name)
+															updatedDisksByName.containsKey(item.name)
 														},
 														map = { item ->
 															item.copy(
 																	freeCapacity =
-																	requireNotNull(updatedDisksByName.value[item.name])
+																	requireNotNull(updatedDisksByName[item.name])
 																			.available
 															)
 														}

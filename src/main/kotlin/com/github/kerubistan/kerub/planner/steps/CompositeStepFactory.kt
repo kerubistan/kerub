@@ -10,6 +10,11 @@ import com.github.kerubistan.kerub.planner.steps.host.powerdown.PowerDownHostFac
 import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHostFactory
 import com.github.kerubistan.kerub.planner.steps.host.security.HostSecurityCompositeFactory
 import com.github.kerubistan.kerub.planner.steps.host.startup.WakeHostFactory
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPortFactory
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.gre.CreateOvsGrePortFactory
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.remove.RemoveOvsPortFactory
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitchFactory
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.remove.RemoveOvsSwitchFactory
 import com.github.kerubistan.kerub.planner.steps.storage.CreateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.UnallocateDiskFactory
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.duplicate.DuplicateToLvmFactory
@@ -54,7 +59,13 @@ class CompositeStepFactory(
 				KvmMigrateVirtualMachineFactory,
 				RemoveDiskFromVGFactory,
 				MirrorVolumeFactory,
-				MigrateBlockAllocationFactory)
+				MigrateBlockAllocationFactory,
+				CreateOvsSwitchFactory,
+				CreateOvsPortFactory,
+				CreateOvsGrePortFactory,
+				RemoveOvsPortFactory,
+				RemoveOvsSwitchFactory
+		)
 
 		private val violationHints = logger.logAndReturn(LogLevel.Info, "violation hints {}",
 				defaultFactories.flatMap { it.expectationHints }

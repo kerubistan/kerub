@@ -19,6 +19,7 @@ import org.junit.runner.RunWith
 			"classpath:stories/general/planner/storage-migration.feature",
 			"classpath:stories/general/planner/hardware/storage-smart-failure.feature",
 			"classpath:stories/general/planner/storage.nfs.feature",
+			"classpath:stories/general/planner/virtual-network-ovs.feature",
 //			"classpath:stories/general/planner/power-save.feature",
 //			"classpath:stories/general/planner/host-failure.feature",
 			"classpath:stories/general/planner/expectations/storage-notsame.feature",

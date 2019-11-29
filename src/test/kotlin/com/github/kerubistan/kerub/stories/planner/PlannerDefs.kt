@@ -16,10 +16,12 @@ import com.github.kerubistan.kerub.model.StorageCapability
 import com.github.kerubistan.kerub.model.Version
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
+import com.github.kerubistan.kerub.model.VirtualNetwork
 import com.github.kerubistan.kerub.model.VirtualStorageDevice
 import com.github.kerubistan.kerub.model.VirtualStorageLink
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.controller.config.ControllerConfig
+import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.dynamic.CompositeStorageDeviceDynamicItem
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
@@ -112,11 +114,35 @@ import io.github.kerubistan.kroki.time.now
 import org.junit.Assert
 import java.math.BigInteger
 import java.util.UUID
+import java.util.UUID.randomUUID
 import java.util.concurrent.ForkJoinPool
 import kotlin.test.assertTrue
 
+/**
+ * Cucumber step definitions for Planner integration tests.
+ * The idea behind these step definitions is that here we create a complete representation of the
+ * state of the kerub installation the way the planner sees it, and then we can trigger the planner
+ * and we have other cucumber definitions here to check that the desired plans were created by
+ * the planner.
+ *
+ * In the beginning of course this class used to be small, but as the data model grew and the number
+ * of possible operations increased, it has became a kitchen-sink.
+ *
+ * It should be broken up to multiple classes handling separately
+ *  - VMs
+ *  - hosts
+ *  - physical storage
+ *  - physical networks
+ *  - virtual networks
+ *  - virtual disks
+ *  - controller
+ *
+ *  All the above functional areas should include their own verifications,
+ *  and maybe only the invocation of the planner should remain here.
+ */
 class PlannerDefs {
 
+	var vnets = listOf<VirtualNetwork>()
 	var vms = listOf<VirtualMachine>()
 	var hosts = listOf<Host>()
 	private var vdisks = listOf<VirtualStorageDevice>()
@@ -152,6 +178,7 @@ class PlannerDefs {
 					vmDyns = vmDyns,
 					vStorage = vdisks,
 					vStorageDyns = vstorageDyns,
+					virtualNetworks = vnets,
 					config = controllerConfig
 			)
 		}
@@ -159,6 +186,17 @@ class PlannerDefs {
 			executedPlans = executedPlans + (it.arguments[0] as Plan)
 			Unit
 		}.whenever(executor).execute(any(), any())
+	}
+
+	@Given("^virtual networks:$")
+	fun setVirtualNetworks(vmsTable: DataTable) {
+		val raw = vmsTable.raw().skip()
+		vnets = raw.map {
+			VirtualNetwork(
+					name = it[0],
+					id = randomUUID()
+			)
+		}
 	}
 
 	@Given("^VMs:$")
@@ -273,8 +311,7 @@ class PlannerDefs {
 	fun setHostGvinumCapabilities(hostAddr: String, disks: DataTable) {
 		val diskCapabilities = listOf(
 				GvinumStorageCapability(
-						devices = disks.raw().skip().map {
-							row ->
+						devices = disks.raw().skip().map { row ->
 							GvinumStorageCapabilityDrive(
 									name = row[0],
 									size = row[2].toSize(),
@@ -364,6 +401,21 @@ class PlannerDefs {
 		})
 	}
 
+	@Given("^VM (\\S+) has NIC of type (\\S+) connected to network (\\S+)$")
+	fun setVmNetworkCard(vmName: String, nicType: String, networkName: String) {
+		vms = vms.update(
+				selector = { it.name == vmName },
+				map = { vm ->
+					vm.copy(
+							devices = vm.devices + NetworkDevice(
+									networkId = vnets.single { vnet -> vnet.name == networkName }.id,
+									adapterType = enumValueOf(nicType)
+							)
+					)
+				}
+		)
+	}
+
 	@When("^VM (\\S+) is started$")
 	fun startVm(vm: String) {
 		vms = vms.map {
@@ -384,6 +436,30 @@ class PlannerDefs {
 				obj = vms.first { it.name == vm },
 				date = now()
 		))
+	}
+
+	@When("^VMs (\\S+) are started$")
+	fun startVms(vmNames: String) {
+		val vmsToStart = vmNames.split(",").toSet()
+		vms = vms.map {
+			if (it.name in vmsToStart) {
+				it.copy(expectations = (
+						it.expectations
+								+ VirtualMachineAvailabilityExpectation(
+								level = ExpectationLevel.DealBreaker,
+								up = true
+						)
+						)
+				)
+			} else {
+				it
+			}
+		}
+		planner.onEvent(
+				EntityUpdateMessage(
+						obj = vms.single { it.name == vmsToStart.toList().first() },
+						date = now()
+				))
 	}
 
 	@Then("^host (\\S+) will be recycled as step (\\d+)$")
@@ -493,8 +569,17 @@ class PlannerDefs {
 		})
 	}
 
+	@Then("^VM (\\S+) gets scheduled on host (\\S+)$")
+	fun verifyVmGetsScheduled(vmName: String, targetHostAddr: String) {
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is KvmStartVirtualMachine
+					&& step.host.address == targetHostAddr
+					&& step.vm.name == vmName
+		})
+	}
+
 	@Then("^VM (\\S+) gets scheduled on host (\\S+) as step (\\d+)$")
-	fun verifyVmGetsScheduled(vmName: String, targetHostAddr: String, stepNo: Int) {
+	fun verifyVmGetsScheduledWithStepNumber(vmName: String, targetHostAddr: String, stepNo: Int) {
 		val startStep = executedPlans.first().steps[stepNo - 1]
 		Assert.assertTrue(startStep is KvmStartVirtualMachine)
 		Assert.assertEquals((startStep as KvmStartVirtualMachine).host.address, targetHostAddr)
@@ -604,12 +689,10 @@ class PlannerDefs {
 		)
 	}
 
-	private inline fun <reified T : StorageCapability> getStorageCapability(hostAddr: String, selector : (T) -> Boolean) : T
-			= requireNotNull(getHostByAddr(hostAddr).capabilities?.storageCapabilities)
+	private inline fun <reified T : StorageCapability> getStorageCapability(hostAddr: String, selector : (T) -> Boolean) : T = requireNotNull(getHostByAddr(hostAddr).capabilities?.storageCapabilities)
 			.filterIsInstance<T>().single(selector)
 
-	private inline fun <reified T : StorageCapability> getStorageCapabilityId(hostAddr: String, selector : (T) -> Boolean) : UUID
-			= getStorageCapability(hostAddr, selector).id
+	private inline fun <reified T : StorageCapability> getStorageCapabilityId(hostAddr: String, selector : (T) -> Boolean) : UUID = getStorageCapability(hostAddr, selector).id
 
 	@Given("virtual storage (\\S+) allocated on host (\\S+) using fs mount point (\\S+)")
 	fun createVirtualStorageFsAllocation(name: String, hostAddr: String, mountPoint: String) {
@@ -1219,8 +1302,7 @@ class PlannerDefs {
 	@Then("host ssh key of (\\S+) must be installed on (\\S+) as step (\\d+)")
 	fun verifyHostSShKeyInstall(sourceHostAddr: String, targetHostAddr: String, stepNr: Int) {
 		assertTrue("step $stepNr must be ssh key installation ") {
-			executedPlans.any {
-				plan ->
+			executedPlans.any { plan ->
 				plan.steps.getOrNull(stepNr - 1)?.let {
 					it is InstallPublicKey &&
 							it.sourceHost.address == sourceHostAddr
@@ -1239,8 +1321,8 @@ class PlannerDefs {
 			executedPlans.any {
 				it.steps.getOrNull(stepNr - 1)?.let {
 					it is DuplicateToLvm
-						&& it.targetHost.address == targetHostAddr
-						&& it.target.vgName == targetVg
+							&& it.targetHost.address == targetHostAddr
+							&& it.target.vgName == targetVg
 							&& it.virtualStorageDevice.name == diskName
 				} ?: false
 			}

@@ -5,6 +5,7 @@ import com.github.kerubistan.kerub.model.collection.HostDataCollection
 import com.github.kerubistan.kerub.model.collection.VirtualMachineDataCollection
 import com.github.kerubistan.kerub.model.config.OvsNetworkConfiguration
 import com.github.kerubistan.kerub.model.devices.NetworkDevice
+import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
@@ -19,7 +20,7 @@ object CreateOvsPortFactory : AbstractOperationalStepFactory<CreateOvsPort>() {
 		state.index.runningHosts.filter {
 			it.config?.networkConfiguration?.mapInstances { ovsConfig: OvsNetworkConfiguration -> ovsConfig.virtualNetworkId }?.containsAll(requiredNetworks)
 					?: false
-		}?.mapNotNull { host ->
+		}.map { host ->
 			// this host has all virtual networks required by the vm, so we can create ports
 			// but let's do this only for the ports not yet created
 			requiredNetworks.mapNotNull { requiredNetworkId ->
@@ -39,5 +40,7 @@ object CreateOvsPortFactory : AbstractOperationalStepFactory<CreateOvsPort>() {
 					?: false
 
 	override val problemHints = setOf<KClass<out Problem>>()
-	override val expectationHints = setOf<KClass<out Expectation>>()
+	override val expectationHints = setOf<KClass<out Expectation>>(
+			VirtualMachineAvailabilityExpectation::class
+	)
 }
