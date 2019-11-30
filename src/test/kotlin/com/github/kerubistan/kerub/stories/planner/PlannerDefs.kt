@@ -74,6 +74,8 @@ import com.github.kerubistan.kerub.planner.steps.host.recycle.RecycleHost
 import com.github.kerubistan.kerub.planner.steps.host.security.generate.GenerateSshKey
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.planner.steps.host.startup.AbstractWakeHost
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitch
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolume
 import com.github.kerubistan.kerub.planner.steps.storage.lvm.create.CreateLv
@@ -566,6 +568,25 @@ class PlannerDefs {
 						&& step.sourceHost.address == sourceHostAddr
 						&& step.targetHost.address == targetHostAddr
 			}
+		})
+	}
+
+	@Then("ovs switch will be created on host (\\S+) for network (\\S+)")
+	fun verifyVirtualSwitchCreated(hostAddr: String, networkName: String) {
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is CreateOvsSwitch
+					&& step.host.address == hostAddr
+					&& step.network.name == networkName
+		})
+	}
+
+	@Then("ovs port will be created on host (\\S+) on network (\\S+) for (\\S+)")
+	fun verifyPortCreated(hostAddr: String, networkName: String, vmName: String) {
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is CreateOvsPort
+					&& step.host.address == hostAddr
+					&& step.virtualNetwork == vnets.single { it.name == networkName }
+					&& step.portName == vms.single { it.name == vmName }.idStr
 		})
 	}
 

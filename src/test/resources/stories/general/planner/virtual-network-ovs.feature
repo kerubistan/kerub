@@ -22,8 +22,11 @@ Feature: Virtual networking with openVSwitch
 	And VM vm1 has NIC of type virtio connected to network vnet-1
 	And VM vm2 has NIC of type virtio connected to network vnet-1
 	When VMs vm1,vm2 are started
-	Then VM vm1 gets scheduled on host host-1.example.com
-	Then VM vm2 gets scheduled on host host-1.example.com
+	Then ovs switch will be created on host host-1.example.com for network vnet-1
+	And ovs port will be created on host host-1.example.com on network vnet-1 for vm1
+	And ovs port will be created on host host-1.example.com on network vnet-1 for vm2
+	And VM vm1 gets scheduled on host host-1.example.com
+	And VM vm2 gets scheduled on host host-1.example.com
 
 	Examples:
 	  | OS    | distro       | version | libvirt-package |
