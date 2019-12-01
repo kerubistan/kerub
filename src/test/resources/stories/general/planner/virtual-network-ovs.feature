@@ -31,3 +31,5 @@ Feature: Virtual networking with openVSwitch
 	Examples:
 	  | OS    | distro       | version | libvirt-package |
 	  | Linux | CentOS Linux | 7.1     | libvirt-client  |
+	  | Linux | openSUSE     | 42.0    | libvirt-client  |
+	  | Linux | Ubuntu       | 18.04   | libvirt-bin     |
