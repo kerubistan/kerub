@@ -10,6 +10,8 @@ import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStepFactory
+import com.github.kerubistan.kerub.planner.steps.vm.common.allNetworksAvailable
+import com.github.kerubistan.kerub.planner.steps.vm.common.getVirtualNetworkConnections
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import io.github.kerubistan.kroki.collections.concat
 import kotlin.reflect.KClass
@@ -25,8 +27,11 @@ object KvmMigrateVirtualMachineFactory : AbstractOperationalStepFactory<KvmMigra
 	override fun produce(state: OperationalState): List<KvmMigrateVirtualMachine> =
 			state.index.runningHosts.map { hostData ->
 				state.index.runningVms.mapNotNull { vmData ->
+					val virtualNetworkConnections by lazy { getVirtualNetworkConnections(vmData.stat, hostData) }
 
-					if (match(hostData, vmData.stat) && allStorageShared(vmData, state)) {
+					if (match(hostData, vmData.stat)
+							&& allStorageShared(vmData, state)
+							&& allNetworksAvailable(vmData.stat, virtualNetworkConnections)) {
 						val sourceId = vmData.dynamic?.hostId
 						if (sourceId != hostData.stat.id) {
 							KvmMigrateVirtualMachine(

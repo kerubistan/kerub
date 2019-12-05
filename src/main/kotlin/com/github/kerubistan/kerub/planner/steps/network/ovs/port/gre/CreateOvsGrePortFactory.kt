@@ -16,7 +16,7 @@ object CreateOvsGrePortFactory : AbstractOperationalStepFactory<CreateOvsGrePort
 		// for each network needed by any client workload
 		neededNetworkId ->
 
-		val hosts = state.index.hostsByVirtualNetworks.getValue(neededNetworkId)
+		val hosts = state.index.hostsByVirtualNetworks[neededNetworkId] ?: setOf()
 
 		hosts.map {
 			//for each host that has the network

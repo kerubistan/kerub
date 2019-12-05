@@ -5,21 +5,18 @@ import com.github.kerubistan.kerub.model.Host
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.model.VirtualMachine
 import com.github.kerubistan.kerub.model.collection.HostDataCollection
-import com.github.kerubistan.kerub.model.config.OvsDataPort
-import com.github.kerubistan.kerub.model.config.OvsNetworkConfiguration
-import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
 import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.planner.issues.problems.Problem
 import com.github.kerubistan.kerub.planner.steps.vm.allStorageAvailable
+import com.github.kerubistan.kerub.planner.steps.vm.common.allNetworksAvailable
+import com.github.kerubistan.kerub.planner.steps.vm.common.getVirtualNetworkConnections
 import com.github.kerubistan.kerub.planner.steps.vm.match
 import com.github.kerubistan.kerub.planner.steps.vm.start.AbstractStartVmFactory
 import com.github.kerubistan.kerub.planner.steps.vm.virtualStorageLinkInfo
 import com.github.kerubistan.kerub.utils.junix.common.anyPackageNamed
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
-import com.github.kerubistan.kerub.utils.mapInstances
 import io.github.kerubistan.kroki.collections.concat
-import java.util.UUID
 import kotlin.reflect.KClass
 
 object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMachine>() {
@@ -36,11 +33,7 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 								links = vm.virtualStorageLinks,
 								targetHostId = hostData.stat.id)
 					}
-					val virtualNetworkConnections by lazy {
-						vm.devices.mapInstances { device: NetworkDevice -> device.networkId }.map { networkId ->
-							networkId to hostData.config?.index?.ovsNetworkConfigurations?.get(networkId)
-						}.toMap()
-					}
+					val virtualNetworkConnections by lazy { getVirtualNetworkConnections(vm, hostData) }
 					if (isHostKvmReady(hostData)
 							&& isHostCapableOfVm(hostData, vm)
 							&& allStorageAvailable(vm, virtualStorageLinks)
@@ -55,12 +48,6 @@ object KvmStartVirtualMachineFactory : AbstractStartVmFactory<KvmStartVirtualMac
 				}
 			}.concat()
 
-	private fun allNetworksAvailable(
-			vm: VirtualMachine,
-			virtualNetworkConnections: Map<UUID, OvsNetworkConfiguration?>
-	) = virtualNetworkConnections.all { (_, value) ->
-		value != null && value.ports.any { port -> port is OvsDataPort && port.name == vm.idStr }
-	}
 
 	private fun isHostKvmReady(hostData: HostDataCollection): Boolean =
 			(hostData.stat.capabilities?.os == OperatingSystem.Linux

@@ -7,6 +7,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.CpuOve
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.FailingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.VirtualStorageAllocationOnFailingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
+import com.github.kerubistan.kerub.planner.issues.problems.vnet.VirtualNetworkPartitionedDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.VStorageDeviceOnRecyclingHostDetector
 import io.github.kerubistan.kroki.collections.concat
@@ -25,7 +26,9 @@ object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 			VmOnRecyclingHostDetector,
 			//vstorage
 			VStorageDeviceOnRecyclingHostDetector,
-			RecyclingStorageDeviceDetector
+			RecyclingStorageDeviceDetector,
+			// virtual networks
+			VirtualNetworkPartitionedDetector
 	)
 
 	override fun detect(plan: Plan): Collection<Problem> = detectors.map { it.detect(plan) }.concat()
