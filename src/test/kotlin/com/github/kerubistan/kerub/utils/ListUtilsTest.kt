@@ -110,6 +110,13 @@ class ListUtilsTest {
 	}
 
 	@Test
+	fun hasNone() {
+		assertTrue(listOf("A", 1, "B", 2).hasNone<Int> { it > 3 })
+		assertTrue(listOf("A", 1, "B", 2).hasNone(String::isEmpty))
+		assertFalse(listOf("A", 1, "B", 2).hasNone<String> { it.startsWith("A") })
+	}
+
+	@Test
 	fun noInstanceOf() {
 		assertFalse(listOf("A", 1, true).none<String>())
 		assertTrue(listOf("A", 1, true).none<List<String>>())

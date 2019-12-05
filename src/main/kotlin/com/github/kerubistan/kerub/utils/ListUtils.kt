@@ -7,8 +7,11 @@ operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> 
 	return this.map { x -> other.map { y -> x to y } }.concat()
 }
 
-inline fun <reified C : Any> Iterable<*>.hasAny(predicate : (C) -> Boolean = { true })
-		= this.any { it is C && predicate(it) }
+// move to kroki
+inline fun <reified C : Any> Iterable<*>.hasAny(predicate : (C) -> Boolean = { true }) = this.any { it is C && predicate(it) }
+
+// move to kroki
+inline fun <reified C : Any> Iterable<*>.hasNone(predicate: (C) -> Boolean = { true }) = !this.hasAny(predicate)
 
 inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
