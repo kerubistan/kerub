@@ -16,7 +16,7 @@ data class Plan(
 		inline fun planBy(initial: OperationalState,
 				   steps: List<AbstractOperationalStep>,
 				   verify : (AbstractOperationalStep, Plan) -> Boolean = ::noop): Plan {
-			var states = listOf(initial)
+			val states = mutableListOf(initial)
 			steps.forEachIndexed { index, step ->
 				val state = states.last()
 				val subPlan = Plan(steps = steps.subList(fromIndex = 0, toIndex = index), states = states)
