@@ -1,4 +1,3 @@
-
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=coverage)](https://sonarcloud.io/dashboard?id=Debugistan)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Debugistan)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=security_rating)](https://sonarcloud.io/dashboard?id=Debugistan)
@@ -6,6 +5,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Debugistan)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=Debugistan)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Debugistan&metric=ncloc)](https://sonarcloud.io/dashboard?id=Debugistan)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkerubistan%2Fkerub.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkerubistan%2Fkerub?ref=badge_shield)
 
 [![FreeBSD](https://img.shields.io/badge/FreeBSD-10+-red.svg)](http://freebsd.org)
 [![CentOs](https://img.shields.io/badge/CentOs-6+-blue.svg)](https://centos.org/)
@@ -100,3 +100,7 @@ OS Packages
 | ubuntu			| [kerub-ubuntu](https://github.com/kerubistan/kerub-ubuntu)   | development |
 | openSUSE			| [kerub-openuse](https://github.com/kerubistan/kerub-opensuse)| maintained  |
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkerubistan%2Fkerub.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkerubistan%2Fkerub?ref=badge_large)
