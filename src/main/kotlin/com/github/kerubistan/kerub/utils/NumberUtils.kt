@@ -6,8 +6,6 @@ import java.math.MathContext
 
 /* move all this to kroki --> */
 
-operator fun BigInteger.compareTo(other : BigDecimal) = this.toBigDecimal().compareTo(other)
-
 fun <T : Comparable<T>> T.between(lower: T, higher: T): Boolean =
 		this >= lower && this <= higher
 

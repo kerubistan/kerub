@@ -5,11 +5,11 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.LvmPoolConfiguration
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
-import com.github.kerubistan.kerub.utils.compareTo
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LogicalVolume
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmThinLv
 import com.github.kerubistan.kerub.utils.junix.storagemanager.lvm.LvmVg
+import io.github.kerubistan.kroki.numbers.compareTo
 import io.github.kerubistan.kroki.numbers.times
 
 class CreateLvmPoolExecutor(
