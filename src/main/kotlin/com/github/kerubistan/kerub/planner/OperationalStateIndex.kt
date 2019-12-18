@@ -93,6 +93,17 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 		indexOf.vStorage.values.filter { it.dynamic?.allocations?.isNotEmpty() ?: false }
 	}
 
+	/**
+	 * capability id -> set of virtual storage IDs
+	 */
+	val allocatedStoragePerCapability: Map<UUID, Set<UUID>> by lazy {
+		allocatedStorage.groupsBy { virtualDisk ->
+			virtualDisk.dynamic?.allocations?.map { capability ->
+				capability.capabilityId
+			} ?: listOf()
+		}.mapValues { pair -> pair.value.map { it.id }.toSet() }
+	}
+
 	val storageCloneRequirement by lazy {
 		indexOf.vStorage.values.filter { it.stat.expectations.hasAny<CloneOfStorageExpectation>() }
 	}

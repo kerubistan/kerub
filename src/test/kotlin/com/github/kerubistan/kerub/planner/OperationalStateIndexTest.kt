@@ -2,17 +2,27 @@ package com.github.kerubistan.kerub.planner
 
 import com.github.kerubistan.kerub.hostDown
 import com.github.kerubistan.kerub.hostUp
+import com.github.kerubistan.kerub.model.FsStorageCapability
+import com.github.kerubistan.kerub.model.LvmStorageCapability
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.config.OvsGrePort
 import com.github.kerubistan.kerub.model.config.OvsNetworkConfiguration
 import com.github.kerubistan.kerub.model.devices.NetworkAdapterType
 import com.github.kerubistan.kerub.model.devices.NetworkDevice
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
+import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.expectations.VirtualMachineAvailabilityExpectation
+import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
+import com.github.kerubistan.kerub.testCdrom
+import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
+import com.github.kerubistan.kerub.testHostCapabilities
 import com.github.kerubistan.kerub.testOtherHost
 import com.github.kerubistan.kerub.testVirtualNetwork
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.vmUp
+import io.github.kerubistan.kroki.size.TB
 import org.junit.jupiter.api.Test
 import java.util.UUID.randomUUID
 import kotlin.test.assertEquals
@@ -210,5 +220,79 @@ internal class OperationalStateIndexTest {
 						virtualNetworks = listOf(testNetwork1, testNetwork2)
 				).index.hostsByVirtualNetworks.mapValues { it.value.map { it.stat }.toSet() }
 		)
+	}
+
+	@Test
+	fun allocatedStoragePerCapability() {
+		assertTrue(
+				OperationalState.fromLists().index.allocatedStoragePerCapability.isEmpty(),
+				"Empty state - blank index"
+		)
+
+		run {
+			val host1Cap = LvmStorageCapability(
+					id = randomUUID(),
+					size = 1.TB,
+					volumeGroupName = "vg-1",
+					physicalVolumes = mapOf(
+							"/dev/sda" to 1.TB
+					)
+			)
+			val host1 = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									host1Cap
+							)
+					)
+			)
+			val host2Cap = FsStorageCapability(
+					id = randomUUID(),
+					size = 2.TB,
+					mountPoint = "/kerub",
+					fsType = "ext4"
+			)
+			val host2 = testHost.copy(
+					id = randomUUID(),
+					capabilities = testHostCapabilities.copy(
+							storageCapabilities = listOf(
+									host2Cap
+							)
+					)
+			)
+			val state = OperationalState.fromLists(
+					hosts = listOf(host1, host2),
+					hostDyns = listOf(hostUp(host1), hostUp(host2)),
+					vStorage = listOf(testCdrom, testDisk),
+					vStorageDyns = listOf(
+							VirtualStorageDeviceDynamic(
+									id = testCdrom.id,
+									allocations = listOf(
+											VirtualStorageLvmAllocation(
+													capabilityId = host1Cap.id,
+													vgName = host1Cap.volumeGroupName,
+													hostId = host1.id,
+													path = "",
+													actualSize = testCdrom.size
+											),
+											VirtualStorageFsAllocation(
+													capabilityId = host2Cap.id,
+													mountPoint = host2Cap.mountPoint,
+													hostId = host2.id,
+													actualSize = testCdrom.size,
+													type = VirtualDiskFormat.raw,
+													fileName = "/kerub/$testCdrom.raw"
+											)
+									)
+							)
+					)
+			)
+
+			assertEquals(
+					mapOf(host1Cap.id to setOf(testCdrom.id), host2Cap.id to setOf(testCdrom.id)),
+					state.index.allocatedStoragePerCapability
+			)
+		}
+
 	}
 }
