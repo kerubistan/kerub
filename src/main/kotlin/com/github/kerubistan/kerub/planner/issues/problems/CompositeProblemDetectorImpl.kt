@@ -6,6 +6,7 @@ import com.github.kerubistan.kerub.planner.issues.problems.hosts.UnusedServiceDe
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.CpuOverheatDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.FailingStorageDeviceDetector
 import com.github.kerubistan.kerub.planner.issues.problems.hosts.hardware.VirtualStorageAllocationOnFailingStorageDeviceDetector
+import com.github.kerubistan.kerub.planner.issues.problems.storage.LvmPoolAlmostFullDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vms.VmOnRecyclingHostDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vnet.VirtualNetworkPartitionedDetector
 import com.github.kerubistan.kerub.planner.issues.problems.vstorage.RecyclingStorageDeviceDetector
@@ -22,6 +23,8 @@ object CompositeProblemDetectorImpl : ProblemDetector<Problem> {
 			CpuOverheatDetector,
 			FailingStorageDeviceDetector,
 			VirtualStorageAllocationOnFailingStorageDeviceDetector,
+			// physical storage
+			LvmPoolAlmostFullDetector,
 			//vms
 			VmOnRecyclingHostDetector,
 			//vstorage
