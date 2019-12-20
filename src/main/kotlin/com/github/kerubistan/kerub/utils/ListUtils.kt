@@ -88,24 +88,24 @@ inline fun <T : Any, U : Any, I : Any> List<T>.update(
 	}.filterNotNull()
 }
 
-fun <T> List<T>.subLists(minLength: Int = 1, selector : (T) -> Boolean) : List<List<T>> {
-	var ret = listOf<List<T>>()
+fun <T> List<T>.subLists(minLength: Int = 1, selector: (T) -> Boolean): List<List<T>> {
+	val ret = mutableListOf<List<T>>()
 
-	var start : Int? = null
-	for (idx in 0 until this.size) {
+	var start: Int? = null
+	for (idx in this.indices) {
 		val match = selector(this[idx])
-		if(start != null) {
-			if(!match) {
+		if (start != null) {
+			if (!match) {
 				if (idx - 1 - start > minLength) {
 					ret += listOf(this.subList(start, idx))
 				}
 				start = null
 			}
-		} else if(match) {
+		} else if (match) {
 			start = idx
 		}
 	}
-	if(start != null && this.size - 1 - start >= minLength) {
+	if (start != null && this.size - 1 - start >= minLength) {
 		ret += listOf(this.subList(start, this.size + 1))
 	}
 
