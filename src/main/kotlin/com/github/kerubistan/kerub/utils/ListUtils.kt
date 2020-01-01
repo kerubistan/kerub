@@ -17,7 +17,7 @@ inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
 inline fun <reified C : Any> Iterable<*>.none() = this.none { it is C }
 
-// move to kroki
+// moved to kroki
 fun <T> List<T>.skip(): List<T> =
 		if (this.isEmpty()) {
 			listOf()
