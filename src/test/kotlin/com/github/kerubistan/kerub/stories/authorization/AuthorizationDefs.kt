@@ -35,13 +35,13 @@ import com.github.kerubistan.kerub.testWsUrl
 import com.github.kerubistan.kerub.utils.createObjectMapper
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.silent
-import com.github.kerubistan.kerub.utils.skip
 import com.nhaarman.mockito_kotlin.mock
 import cucumber.api.DataTable
 import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import io.github.kerubistan.kroki.collections.skip
 import org.apache.commons.io.input.NullInputStream
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory
 import org.apache.cxf.jaxrs.client.WebClient

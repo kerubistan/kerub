@@ -95,7 +95,6 @@ import com.github.kerubistan.kerub.planner.steps.vm.start.virtualbox.VirtualBoxS
 import com.github.kerubistan.kerub.stories.config.ControllerConfigDefs
 import com.github.kerubistan.kerub.testVm
 import com.github.kerubistan.kerub.utils.silent
-import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
 import com.github.kerubistan.kerub.utils.update
 import com.nhaarman.mockito_kotlin.any
@@ -111,6 +110,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import io.github.kerubistan.kroki.collections.concat
 import io.github.kerubistan.kroki.collections.replace
+import io.github.kerubistan.kroki.collections.skip
 import io.github.kerubistan.kroki.size.GB
 import io.github.kerubistan.kroki.time.now
 import org.junit.Assert

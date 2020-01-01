@@ -2,8 +2,8 @@ package com.github.kerubistan.kerub.utils.junix.zfs
 
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.flag
-import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.collections.skip
 import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 

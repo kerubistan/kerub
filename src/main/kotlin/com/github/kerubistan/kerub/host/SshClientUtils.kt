@@ -1,6 +1,7 @@
 package com.github.kerubistan.kerub.host
 
 import com.github.kerubistan.kerub.utils.getLogger
+import io.github.kerubistan.kroki.bytes.toBase64
 import org.apache.commons.io.input.NullInputStream
 import org.apache.sshd.client.ClientBuilder
 import org.apache.sshd.client.SshClient

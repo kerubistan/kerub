@@ -5,8 +5,8 @@ import com.github.kerubistan.kerub.model.HostCapabilities
 import com.github.kerubistan.kerub.model.OperatingSystem
 import com.github.kerubistan.kerub.utils.flag
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.skip
 import com.github.kerubistan.kerub.utils.toSize
+import io.github.kerubistan.kroki.collections.skip
 import org.apache.sshd.client.session.ClientSession
 
 object Lsblk : OsCommand {

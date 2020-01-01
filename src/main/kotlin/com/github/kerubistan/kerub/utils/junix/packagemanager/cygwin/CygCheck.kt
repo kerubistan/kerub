@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.utils.junix.packagemanager.cygwin
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.model.SoftwarePackage
 import com.github.kerubistan.kerub.model.Version
-import com.github.kerubistan.kerub.utils.skip
+import io.github.kerubistan.kroki.collections.skip
 import org.apache.sshd.client.session.ClientSession
 
 object CygCheck {

@@ -2,8 +2,8 @@ package com.github.kerubistan.kerub.utils.junix.bridgectl
 
 import com.github.kerubistan.kerub.host.executeOrDie
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
-import com.github.kerubistan.kerub.utils.skip
 import io.github.kerubistan.kroki.collections.replace
+import io.github.kerubistan.kroki.collections.skip
 import org.apache.sshd.client.session.ClientSession
 
 object BridgeCtl : OsCommand {

@@ -17,14 +17,6 @@ inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
 inline fun <reified C : Any> Iterable<*>.none() = this.none { it is C }
 
-// moved to kroki
-fun <T> List<T>.skip(): List<T> =
-		if (this.isEmpty()) {
-			listOf()
-		} else {
-			this.subList(1, this.size)
-		}
-
 fun <T> Collection<T>.containsAny(vararg elems: T) =
 		elems.any {
 			this.contains(it)

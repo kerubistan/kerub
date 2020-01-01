@@ -7,13 +7,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class ListUtilsTest {
-	@Test
-	fun skip() {
-		assertEquals(listOf("B", "C"), listOf("A", "B", "C").skip())
-		assertEquals(listOf("C"), listOf("A", "B", "C").skip().skip())
-		assertEquals(listOf(), listOf<String>().skip())
-		assertEquals(listOf(), listOf("A").skip())
-	}
 
 	data class TestEntity(override val id: Int, val name: String) : Entity<Int>
 
