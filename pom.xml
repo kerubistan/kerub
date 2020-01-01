@@ -642,6 +642,9 @@
 									<value>dev-auth</value>
 								</systemProperty>
 							</systemProperties>
+							<httpConnector>
+								<port>8081</port>
+							</httpConnector>
 						</configuration>
 						<executions>
 							<execution>
