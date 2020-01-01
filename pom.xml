@@ -440,50 +440,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
-				<configuration>
-					<stopPort>${jetty.port.stop}</stopPort>
-					<stopKey>stop</stopKey>
-					<contextXml>src/build/env/jetty.xml</contextXml>
-					<systemProperties>
-						<systemProperty>
-							<name>spring.profiles.active</name>
-							<value>dev-auth</value>
-						</systemProperty>
-					</systemProperties>
-				</configuration>
-				<executions>
-					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
-						<goals>
-							<goal>run-exploded</goal>
-						</goals>
-						<configuration>
-							<dumpOnStart>true</dumpOnStart>
-							<daemon>true</daemon>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.eclipse.jetty</groupId>
-						<artifactId>jetty-util</artifactId>
-						<version>${jetty.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.22.1</version>
@@ -609,6 +565,117 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>node-1</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty.version}</version>
+						<configuration>
+							<stopPort>${jetty.port.stop}</stopPort>
+							<stopKey>stop</stopKey>
+							<contextXml>src/build/env/jetty.xml</contextXml>
+							<systemProperties>
+								<systemProperty>
+									<name>spring.profiles.active</name>
+									<value>dev-auth</value>
+								</systemProperty>
+							</systemProperties>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-exploded</goal>
+								</goals>
+								<configuration>
+									<dumpOnStart>true</dumpOnStart>
+									<daemon>true</daemon>
+									<scanIntervalSeconds>0</scanIntervalSeconds>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-jetty</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.eclipse.jetty</groupId>
+								<artifactId>jetty-util</artifactId>
+								<version>${jetty.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>node-2</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty.version}</version>
+						<configuration>
+							<stopPort>${jetty.port.stop}</stopPort>
+							<stopKey>stop</stopKey>
+							<contextXml>src/build/node-2/jetty.xml</contextXml>
+							<systemProperties>
+								<systemProperty>
+									<name>spring.profiles.active</name>
+									<value>dev-auth</value>
+								</systemProperty>
+							</systemProperties>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run-exploded</goal>
+								</goals>
+								<configuration>
+									<dumpOnStart>true</dumpOnStart>
+									<daemon>true</daemon>
+									<scanIntervalSeconds>0</scanIntervalSeconds>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-jetty</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.eclipse.jetty</groupId>
+								<artifactId>jetty-util</artifactId>
+								<version>${jetty.version}</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 	</profiles>
 
 </project>
