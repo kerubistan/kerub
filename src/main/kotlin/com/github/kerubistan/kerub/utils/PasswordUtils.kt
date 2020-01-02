@@ -4,25 +4,23 @@ import java.nio.charset.Charset
 import java.util.Base64
 import java.util.Random
 
-private val pwdCharacters = (charsBetween('a', 'z') +
-		charsBetween('A', 'Z') +
-		charsBetween('0', '9') +
-		listOf('_', '-', '.')).toCharArray()
+private val pwdCharacters = (
+		('a'..'z').toList() +
+				('A'..'Z').toList() +
+				('0'..'9').toList() +
+				listOf('_', '-', '.')).toCharArray()
 
 private val random = Random()
 
-private fun charsBetween(start: Char, end: Char): List<Char> {
-	return CharArray(end - start) { start + it }.toList()
-}
-
-fun genPassword(length: Int = 16): String {
-	return buildString(length) {
-		for (i in 1..length) {
-			append(pwdCharacters[random.nextInt(pwdCharacters.size - 1)])
-		}
+// move to kroki
+fun genPassword(length: Int = 16, rnd: Random = random) = buildString(length) {
+	repeat(length) {
+		append(pwdCharacters[rnd.nextInt(pwdCharacters.size - 1)])
 	}
 }
 
+// move to kroki
 fun String.base64(charset: Charset = Charsets.UTF_8) = Base64.getEncoder().encode(this.toByteArray(charset))
 
+// move to kroki
 fun ByteArray.base64decode(charset: Charset = Charsets.UTF_8) = Base64.getDecoder().decode(this).toString(charset)
