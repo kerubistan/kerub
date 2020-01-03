@@ -12,7 +12,7 @@ private val pwdCharacters = (
 
 private val random = Random()
 
-// move to kroki
+// moved to kroki
 fun genPassword(length: Int = 16, rnd: Random = random) = buildString(length) {
 	repeat(length) {
 		append(pwdCharacters[rnd.nextInt(pwdCharacters.size - 1)])
