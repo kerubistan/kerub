@@ -163,13 +163,14 @@ class OperationalStateIndex(private val indexOf: OperationalState) {
 	val hostVirtualNetworkConnections: Map<UUID, Map<UUID, Set<UUID>>> by lazy {
 		runningHosts.mapNotNull { sourceHost ->
 			if (sourceHost.config == null) null else {
-				val networkIdsToRemoteHostIds = sourceHost.config.networkConfiguration.mapInstances { ovsConfig: OvsNetworkConfiguration ->
-					val remoteHostIds = ovsConfig.ports.mapInstances { grePort: OvsGrePort ->
-						hostsByAddress[grePort.remoteAddress]?.id
-					}.toSet()
-					if (remoteHostIds.isEmpty()) null else
-						ovsConfig.virtualNetworkId to remoteHostIds
-				}.toMap()
+				val networkIdsToRemoteHostIds =
+						sourceHost.config.networkConfiguration.mapInstances { ovsConfig: OvsNetworkConfiguration ->
+							val remoteHostIds = ovsConfig.ports.mapInstances { grePort: OvsGrePort ->
+								hostsByAddress[grePort.remoteAddress]?.id
+							}.toSet()
+							if (remoteHostIds.isEmpty()) null else
+								ovsConfig.virtualNetworkId to remoteHostIds
+						}.toMap()
 				if (networkIdsToRemoteHostIds.isEmpty()) null else
 					sourceHost.id to networkIdsToRemoteHostIds
 			}

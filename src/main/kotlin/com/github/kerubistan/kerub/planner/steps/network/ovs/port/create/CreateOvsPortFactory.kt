@@ -18,8 +18,9 @@ object CreateOvsPortFactory : AbstractOperationalStepFactory<CreateOvsPort>() {
 	override fun produce(state: OperationalState): List<CreateOvsPort> = state.index.vmsThatMustStart.mapNotNull { vm ->
 		val requiredNetworks = vm.stat.devices.mapInstances { device: NetworkDevice -> device.networkId }
 		state.index.runningHosts.filter {
-			it.config?.networkConfiguration?.mapInstances { ovsConfig: OvsNetworkConfiguration -> ovsConfig.virtualNetworkId }?.containsAll(requiredNetworks)
-					?: false
+			it.config?.networkConfiguration
+					?.mapInstances { ovsConfig: OvsNetworkConfiguration -> ovsConfig.virtualNetworkId }
+					?.containsAll(requiredNetworks) ?: false
 		}.map { host ->
 			// this host has all virtual networks required by the vm, so we can create ports
 			// but let's do this only for the ports not yet created

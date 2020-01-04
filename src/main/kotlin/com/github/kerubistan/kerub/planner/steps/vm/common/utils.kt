@@ -8,11 +8,10 @@ import com.github.kerubistan.kerub.model.devices.NetworkDevice
 import com.github.kerubistan.kerub.utils.mapInstances
 import java.util.UUID
 
-fun getVirtualNetworkConnections(vm: VirtualMachine, hostData: HostDataCollection): Map<UUID, OvsNetworkConfiguration?> {
-	return vm.devices.mapInstances { device: NetworkDevice -> device.networkId }.map { networkId ->
-		networkId to hostData.config?.index?.ovsNetworkConfigurations?.get(networkId)
-	}.toMap()
-}
+fun getVirtualNetworkConnections(vm: VirtualMachine, hostData: HostDataCollection) =
+		vm.devices.mapInstances { device: NetworkDevice -> device.networkId }.map { networkId ->
+			networkId to hostData.config?.index?.ovsNetworkConfigurations?.get(networkId)
+		}.toMap()
 
 fun allNetworksAvailable(
 		vm: VirtualMachine,
