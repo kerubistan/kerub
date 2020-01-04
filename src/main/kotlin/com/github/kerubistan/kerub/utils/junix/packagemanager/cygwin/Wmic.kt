@@ -8,8 +8,6 @@ import org.apache.sshd.client.session.ClientSession
 
 object Wmic {
 
-	private val spaces = "\\s+".toRegex()
-
 	fun list(session: ClientSession): List<SoftwarePackage> {
 		val output = session.executeOrDie("wmic product list", { false }, charset("UTF-16")).lines()
 		val header = output.first()
@@ -23,9 +21,11 @@ object Wmic {
 		val versionStart = header.indexOf("Version")
 		require(versionStart >= 0) { "'Version' not found in header: $header" }
 
-		return data.map {
-			pack ->
-			SoftwarePackage(name = pack.substring(nameStart, nameEnd).trim(), version = Version.fromVersionString(pack.substring(versionStart).trim()))
+		return data.map { pack ->
+			SoftwarePackage(
+					name = pack.substring(nameStart, nameEnd).trim(),
+					version = Version.fromVersionString(pack.substring(versionStart).trim())
+			)
 		}
 	}
 }

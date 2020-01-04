@@ -9,14 +9,13 @@ import org.apache.sshd.client.session.ClientSession
 import java.math.BigInteger
 
 object LvmThinLv : Lvm() {
-	override fun available(osVersion: SoftwarePackage, packages: List<SoftwarePackage>): Boolean {
-		return super.available(osVersion, packages)
-				// package indirectly used by lvm when allocating thin pools
-				&& (osVersion.name in debianFamily && packages.any { it.name == "thin-provisioning-tools" })
-				|| (osVersion.name in redHatFamily && packages.any { it.name == "device-mapper-persistent-data" })
-				|| (osVersion.name == openSuse && packages.any { it.name == "device-mapper" || it.name == "thin-provisioning-tools" }
-				)
-	}
+	override fun available(osVersion: SoftwarePackage, packages: List<SoftwarePackage>): Boolean =
+			super.available(osVersion, packages)
+					// package indirectly used by lvm when allocating thin pools
+					&& (osVersion.name in debianFamily && packages.any { it.name == "thin-provisioning-tools" })
+					|| (osVersion.name in redHatFamily && packages.any { it.name == "device-mapper-persistent-data" })
+					|| (osVersion.name == openSuse
+					&& packages.any { it.name == "device-mapper" || it.name == "thin-provisioning-tools" })
 
 	fun createPool(session: ClientSession, vgName: String, name: String, size: BigInteger, metaSize: BigInteger) =
 			session.executeOrDie(
