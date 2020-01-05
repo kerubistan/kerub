@@ -19,12 +19,11 @@ class InfinispanJsonExternalizer : AdvancedExternalizer<Entity<*>> {
 					.value.map { it.value.java as Class<out Entity<*>> }
 					.toSet()
 
-	override fun writeObject(output: ObjectOutput, `object`: Entity<*>?) {
-		mapper.writeValue(output, `object`)
+	override fun writeObject(output: ObjectOutput, entity: Entity<*>?) {
+		mapper.writeValue(output, entity)
 	}
 
-	override fun readObject(input: ObjectInput): Entity<*>
-			= mapper.readValue(input, Entity::class.java)
+	override fun readObject(input: ObjectInput): Entity<*> = mapper.readValue(input, Entity::class.java)
 
 	override fun getId(): Int = 6666
 }
