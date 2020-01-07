@@ -1,22 +1,21 @@
-<code_scheme name="Default (1)">
+<code_scheme name="kerub" version="173">
   <option name="OTHER_INDENT_OPTIONS">
     <value>
-      <option name="INDENT_SIZE" value="4" />
-      <option name="CONTINUATION_INDENT_SIZE" value="8" />
-      <option name="TAB_SIZE" value="4" />
-      <option name="USE_TAB_CHARACTER" value="true" />
-      <option name="SMART_TABS" value="false" />
-      <option name="LABEL_INDENT_SIZE" value="0" />
-      <option name="LABEL_INDENT_ABSOLUTE" value="false" />
-      <option name="USE_RELATIVE_INDENTS" value="false" />
+      <option name="USE_TAB_CHARACTER" value="true"/>
+      <option name="SMART_TABS" value="false"/>
+      <option name="LABEL_INDENT_SIZE" value="0"/>
+      <option name="LABEL_INDENT_ABSOLUTE" value="false"/>
+      <option name="USE_RELATIVE_INDENTS" value="false"/>
     </value>
   </option>
+  <option name="FORMATTER_TAGS_ENABLED" value="true"/>
   <JetCodeStyleSettings>
     <option name="PACKAGES_TO_USE_STAR_IMPORTS">
       <value />
     </option>
     <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="2147483647" />
     <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="2147483647" />
+    <option name="WRAP_EXPRESSION_BODY_FUNCTIONS" value="1"/>
   </JetCodeStyleSettings>
   <XML>
     <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
@@ -50,8 +49,12 @@
     </indentOptions>
   </codeStyleSettings>
   <codeStyleSettings language="kotlin">
+    <option name="KEEP_FIRST_COLUMN_COMMENT" value="false"/>
+    <option name="METHOD_PARAMETERS_WRAP" value="1"/>
+    <option name="EXTENDS_LIST_WRAP" value="1"/>
+    <option name="METHOD_CALL_CHAIN_WRAP" value="1"/>
     <indentOptions>
-      <option name="USE_TAB_CHARACTER" value="true" />
+      <option name="USE_TAB_CHARACTER" value="true"/>
     </indentOptions>
   </codeStyleSettings>
 </code_scheme>
