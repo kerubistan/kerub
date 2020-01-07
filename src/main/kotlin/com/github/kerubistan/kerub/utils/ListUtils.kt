@@ -8,10 +8,12 @@ operator fun <X, Y> Collection<X>.times(other: Collection<Y>): List<Pair<X, Y>> 
 }
 
 // move to kroki
-inline fun <reified C : Any> Iterable<*>.hasAny(predicate: (C) -> Boolean = { true }) = this.any { it is C && predicate(it) }
+inline fun <reified C : Any> Iterable<*>.hasAny(predicate: (C) -> Boolean = { true }) =
+		this.any { it is C && predicate(it) }
 
 // move to kroki
-inline fun <reified C : Any> Iterable<*>.hasNone(predicate: (C) -> Boolean = { true }) = !this.hasAny(predicate)
+inline fun <reified C : Any> Iterable<*>.hasNone(crossinline predicate: (C) -> Boolean = { true }) =
+		!this.hasAny(predicate)
 
 inline fun <reified C : Any> Iterable<*>.any() = this.any { it is C }
 
