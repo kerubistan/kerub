@@ -13,7 +13,7 @@ data class HostConfiguration(
 		override val id: UUID = UUID.randomUUID(),
 		val services: List<HostService> = listOf(),
 		val storageConfiguration: List<HostStorageConfiguration> = listOf(),
-		val publicKey : String? = null,
+		val publicKey: String? = null,
 		val acceptedPublicKeys: List<String> = listOf(),
 		val networkConfiguration: List<HostNetworkConfiguration> = listOf()
 ) : Entity<UUID>, Indexed<HostConfigurationIndex> {

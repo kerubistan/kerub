@@ -13,8 +13,7 @@ import io.github.kerubistan.kroki.collections.update
 @JsonTypeName("clear-cpu-affinity")
 data class ClearCpuAffinity(val vm: VirtualMachine, override val host: Host) : HostStep {
 	override fun take(state: OperationalState): OperationalState = state.copy(
-			vms = state.vms.update(vm.id) {
-				vmData ->
+			vms = state.vms.update(vm.id) { vmData ->
 				vmData.copy(
 						dynamic = requireNotNull(vmData.dynamic).copy(
 								coreAffinity = null

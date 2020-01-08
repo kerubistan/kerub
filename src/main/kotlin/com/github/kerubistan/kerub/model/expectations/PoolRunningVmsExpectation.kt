@@ -9,8 +9,9 @@ import com.github.kerubistan.kerub.model.ExpectationLevel
  */
 @JsonTypeName("pool-running-vms")
 data class PoolRunningVmsExpectation @JsonCreator constructor(val min: Int = 0,
-									 val max: Int? = null,
-									 override val level: ExpectationLevel = ExpectationLevel.Want) : PoolExpectation {
+															  val max: Int? = null,
+															  override val level: ExpectationLevel = ExpectationLevel.Want) :
+		PoolExpectation {
 	init {
 		check(min >= 0) { "Minimal amount of VMS ($min) can not be less than 0" }
 		check(max?.let { it > min } ?: true) { "maximal amount ($max) must be more than minimum ($min)" }

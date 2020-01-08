@@ -9,7 +9,7 @@ data class NetworkLinkDownAlert(
 		override val created: Long,
 		override val resolved: Long?,
 		override val open: Boolean,
-		val hostId : UUID
+		val hostId: UUID
 ) : InfrastructureAlert {
 	init {
 		this.validate()

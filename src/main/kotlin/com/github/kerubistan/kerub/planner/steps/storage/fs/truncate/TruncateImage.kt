@@ -15,8 +15,8 @@ import io.github.kerubistan.kroki.collections.update
 @JsonTypeName("truncate-image")
 data class TruncateImage(override val host: Host,
 						 override val capability: FsStorageCapability,
-					override val disk: VirtualStorageDevice,
-					override val allocation: VirtualStorageFsAllocation)
+						 override val disk: VirtualStorageDevice,
+						 override val allocation: VirtualStorageFsAllocation)
 	: AbstractCreateVirtualStorage<VirtualStorageFsAllocation, FsStorageCapability> {
 
 	@get:JsonIgnore

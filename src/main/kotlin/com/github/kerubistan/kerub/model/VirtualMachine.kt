@@ -39,7 +39,7 @@ data class VirtualMachine constructor(
 		@Field
 		@JsonView(Simple::class)
 		@JsonProperty("architecture")
-		val architecture : String = "x86_64",
+		val architecture: String = "x86_64",
 
 		/**
 		 * The number of vCPUs of the VM.
@@ -81,8 +81,7 @@ data class VirtualMachine constructor(
 		@JsonProperty("devices")
 		val devices: List<VirtualDevice> = listOf()
 
-)
-	: Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
+) : Entity<UUID>, Constrained<VirtualMachineExpectation>, Asset, Named {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> =
 			mapOf<KClass<out Asset>, List<UUID>>(
 					VirtualMachine::class to expectations

@@ -7,8 +7,8 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageAllocation
 import com.github.kerubistan.kerub.planner.issues.problems.HostProblem
 
 data class VirtualStorageAllocationOnFailingStorageDevice(
-		val storageDevice : VirtualStorageDevice,
-		val allocation : VirtualStorageAllocation,
+		val storageDevice: VirtualStorageDevice,
+		val allocation: VirtualStorageAllocation,
 		val capability: StorageCapability,
 		override val host: Host
 ) : HostProblem {

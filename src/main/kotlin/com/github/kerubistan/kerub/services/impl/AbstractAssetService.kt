@@ -92,14 +92,13 @@ abstract class AbstractAssetService<T : Asset>(
 	override fun listAll(start: Long, limit: Int, sort: String): SortResultPage<T> =
 			accessController.listWithFilter(dao, start, limit, sort)
 
-	override fun getByName(name: String): List<T>
-			= accessController.filter(dao.getByName(name) as List<T>)
+	override fun getByName(name: String): List<T> = accessController.filter(dao.getByName(name) as List<T>)
 
 	override fun search(field: String, value: String, start: Long, limit: Int): SearchResultPage<T> =
 			accessController.searchWithFilter(dao, field, value, start, limit)
 
-	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T>
-			= TODO("https://github.com/kerubistan/kerub/issues/173")
+	override fun getByNameAndOwner(ownerType: AssetOwnerType, ownerId: UUID, name: String): List<T> =
+			TODO("https://github.com/kerubistan/kerub/issues/173")
 
 	override fun autoName(): String {
 		//TODO: this is checking globally, it should only be allowed when accounts are not mandatory

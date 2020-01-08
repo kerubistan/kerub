@@ -7,8 +7,8 @@ private const val sessionID = "JSESSIONID="
 
 val WebSocketSession.servletSessionId: String
 	get() =
-	requireNotNull(this.handshakeHeaders["COOKIE"]?.firstOrNull { it.contains(sessionID) }
-			?.substringAfter(sessionID)
-			?.substringBefore(";")
-			?.removePrefix(doubleQuote)
-			?.removeSuffix(doubleQuote)) { "session ID should be set" }
+		requireNotNull(this.handshakeHeaders["COOKIE"]?.firstOrNull { it.contains(sessionID) }
+				?.substringAfter(sessionID)
+				?.substringBefore(";")
+				?.removePrefix(doubleQuote)
+				?.removeSuffix(doubleQuote)) { "session ID should be set" }

@@ -9,7 +9,8 @@ import org.hibernate.search.annotations.Field
 import java.util.UUID
 import kotlin.reflect.KClass
 
-@JsonTypeName("project") data class Project @JsonCreator constructor(
+@JsonTypeName("project")
+data class Project @JsonCreator constructor(
 		@DocumentId
 		@JsonProperty("id")
 		override val id: UUID = UUID.randomUUID(),
@@ -29,7 +30,6 @@ import kotlin.reflect.KClass
 		@JsonProperty("quota")
 		val quota: Quota? = null,
 		override val owner: AssetOwner? = null
-)
-	: Entity<UUID>, Named, Constrained<Expectation>, Asset {
+) : Entity<UUID>, Named, Constrained<Expectation>, Asset {
 	override fun references(): Map<KClass<out Asset>, List<UUID>> = mapOf()
 }

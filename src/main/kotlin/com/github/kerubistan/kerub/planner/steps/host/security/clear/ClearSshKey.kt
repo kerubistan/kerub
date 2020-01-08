@@ -11,7 +11,7 @@ import com.github.kerubistan.kerub.planner.steps.host.security.generate.Generate
 import io.github.kerubistan.kroki.collections.update
 
 @JsonTypeName("clear-ssh-key")
-data class ClearSshKey (val host : Host) : AbstractOperationalStep, InvertibleStep {
+data class ClearSshKey(val host: Host) : AbstractOperationalStep, InvertibleStep {
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			hosts = state.hosts.update(host.id) {
 				it.copy(
@@ -22,5 +22,5 @@ data class ClearSshKey (val host : Host) : AbstractOperationalStep, InvertibleSt
 
 	override fun reservations(): List<Reservation<*>> = listOf(UseHostReservation(host))
 
-	override fun isInverseOf(other: AbstractOperationalStep): Boolean  = other is GenerateSshKey && other.host == host
+	override fun isInverseOf(other: AbstractOperationalStep): Boolean = other is GenerateSshKey && other.host == host
 }

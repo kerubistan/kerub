@@ -26,7 +26,7 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> :
 	abstract val sourceHost: Host
 	abstract val target: T
 	abstract val targetHost: Host
-	abstract val targetCapability : StorageCapability
+	abstract val targetCapability: StorageCapability
 
 	override fun isInverseOf(other: AbstractOperationalStep): Boolean =
 			(other is AbstractUnAllocate<*>
@@ -51,10 +51,9 @@ abstract class AbstractBlockDuplicate<T : VirtualStorageBlockDeviceAllocation> :
 					hosts = state.hosts.update(targetHost.id) {
 						it.copy(
 								dynamic = it.dynamic!!.copy(
-										storageStatus = it.dynamic.storageStatus.map {
-											storageStatus ->
-											if(storageStatus.id == targetCapability.id) {
-												when(storageStatus) {
+										storageStatus = it.dynamic.storageStatus.map { storageStatus ->
+											if (storageStatus.id == targetCapability.id) {
+												when (storageStatus) {
 													is SimpleStorageDeviceDynamic ->
 														storageStatus.copy(
 																freeCapacity = (storageStatus.freeCapacity - target.actualSize)

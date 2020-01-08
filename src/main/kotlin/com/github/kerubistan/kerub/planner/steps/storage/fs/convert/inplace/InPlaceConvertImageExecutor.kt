@@ -19,29 +19,28 @@ class InPlaceConvertImageExecutor(
 	}
 
 	override fun perform(step: InPlaceConvertImage) =
-		hostCommandExecutor.execute(step.host) {session ->
-			val sourcePath = step.sourceAllocation.getPath(step.virtualStorage.id)
-			val targetPath = sourcePath.replaceAfter(step.virtualStorage.id.toString(), ".${step.targetFormat}")
-			QemuImg.convert(
-					session = session,
-					path = sourcePath,
-					targetPath = targetPath,
-					targetFormat = step.targetFormat
-			)
-			logger.info("done with conversion to $targetPath, checking")
-			QemuImg.check(session, path = targetPath, format = step.targetFormat)
-			logger.info("done checking $targetPath, moving to $sourcePath")
-			Rm.remove(session, sourcePath)
+			hostCommandExecutor.execute(step.host) { session ->
+				val sourcePath = step.sourceAllocation.getPath(step.virtualStorage.id)
+				val targetPath = sourcePath.replaceAfter(step.virtualStorage.id.toString(), ".${step.targetFormat}")
+				QemuImg.convert(
+						session = session,
+						path = sourcePath,
+						targetPath = targetPath,
+						targetFormat = step.targetFormat
+				)
+				logger.info("done with conversion to $targetPath, checking")
+				QemuImg.check(session, path = targetPath, format = step.targetFormat)
+				logger.info("done checking $targetPath, moving to $sourcePath")
+				Rm.remove(session, sourcePath)
 
-			targetPath to DU.du(session, targetPath)
-		}
+				targetPath to DU.du(session, targetPath)
+			}
 
 	override fun update(step: InPlaceConvertImage, updates: Pair<String, BigInteger>) {
 		virtualStorageDynamicDao.update(step.virtualStorage.id) {
 			it.copy(
-					allocations = it.allocations.map {
-						allocation ->
-						if(allocation == step.sourceAllocation) {
+					allocations = it.allocations.map { allocation ->
+						if (allocation == step.sourceAllocation) {
 							step.sourceAllocation.copy(
 									type = step.targetFormat,
 									fileName = updates.first,

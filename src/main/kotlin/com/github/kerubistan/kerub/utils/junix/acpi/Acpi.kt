@@ -24,11 +24,11 @@ object Acpi : OsCommand {
 					.map(::parseBatteryInfo)
 					.sortedBy { it.batteryId }
 
-	class AcpiBatteryOutputHandler(val handler : (List<BatteryStatus>) -> Unit) : OutputStream() {
+	class AcpiBatteryOutputHandler(val handler: (List<BatteryStatus>) -> Unit) : OutputStream() {
 		private val buffer = StringBuilder()
 		override fun write(data: Int) {
 			buffer.append(data.toChar())
-			if(buffer.endsWith(separator)) {
+			if (buffer.endsWith(separator)) {
 				handler(
 						buffer.lines().filterNot(String::isEmpty).filter { it != separator }.map(::parseBatteryInfo)
 				)
@@ -37,7 +37,7 @@ object Acpi : OsCommand {
 		}
 	}
 
-	fun monitorBatteryInfo(session: ClientSession, interval: Int = 1, handler : (List<BatteryStatus>) -> Unit) {
+	fun monitorBatteryInfo(session: ClientSession, interval: Int = 1, handler: (List<BatteryStatus>) -> Unit) {
 		session.bashMonitor("acpi -b", interval, separator, AcpiBatteryOutputHandler(handler))
 	}
 

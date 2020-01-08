@@ -10,7 +10,7 @@ object MPStat : OsCommand {
 
 	private val spaces = "\\s+".toRegex()
 
-	private fun parseRows(rows : String) = rows.lines().filterNot { it.isBlank() }.mapNotNull { line ->
+	private fun parseRows(rows: String) = rows.lines().filterNot { it.isBlank() }.mapNotNull { line ->
 		val fields = line.split(spaces)
 		if (fields.size == 13 && fields[2] != "all" && fields[2] != "CPU") {
 			CpuStat(

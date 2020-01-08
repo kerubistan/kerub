@@ -31,7 +31,7 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 	}
 
 	override fun addAll(entities: Collection<T>) =
-		cache.putAll(entities.byId())
+			cache.putAll(entities.byId())
 
 	override fun get(id: I): T? = cache[id]
 
@@ -86,18 +86,19 @@ abstract class IspnDaoBase<T : Entity<I>, I>(protected val cache: Cache<I, T>,
 				oldMeta: Metadata?,
 				newValue: Any?,
 				newMeta: Metadata?,
-				type: EventType?)
-				= key == id
+				type: EventType?) = key == id
 	}
 
 	class Converter<I, T> : CacheEventConverter<I, T, T> {
-		override fun convert(key: I, oldValue: T, oldMeta: Metadata?, newValue: T, newMeta: Metadata?, type: EventType?): T =
+		override fun convert(key: I, oldValue: T, oldMeta: Metadata?, newValue: T, newMeta: Metadata?,
+							 type: EventType?): T =
 				newValue
 	}
 
 	private fun listen(listener: Any) = cache.advancedCache.addListener(listener)
 
-	private fun listen(listener: Any, id: I) = cache.advancedCache.addListener(listener, IdFilter(id), Converter<I, T>())
+	private fun listen(listener: Any, id: I) =
+			cache.advancedCache.addListener(listener, IdFilter(id), Converter<I, T>())
 
 	override fun listenCreate(action: (T) -> Boolean) = listen(CreateListener(cache, action))
 

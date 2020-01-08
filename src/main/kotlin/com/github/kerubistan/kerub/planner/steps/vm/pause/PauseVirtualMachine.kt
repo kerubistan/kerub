@@ -13,8 +13,7 @@ import io.github.kerubistan.kroki.collections.update
 @JsonTypeName("pause-vm")
 data class PauseVirtualMachine(val vm: VirtualMachine, override val host: Host) : HostStep {
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(VmReservation(vm))
+	override fun reservations(): List<Reservation<*>> = listOf(VmReservation(vm))
 
 	override fun take(state: OperationalState): OperationalState {
 		//TODO: should also transform host CPU load data to show any useful

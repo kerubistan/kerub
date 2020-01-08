@@ -12,8 +12,8 @@ object Dpkg {
 				"dpkg-query -W")
 				.trim()
 				.lines().map {
-			parseDpkgOutputLine(it)
-		}
+					parseDpkgOutputLine(it)
+				}
 	}
 
 	fun listPackages(session: ClientSession): List<SoftwarePackage> {
@@ -21,8 +21,8 @@ object Dpkg {
 				"dpkg-query -W --showformat '\${Package}\\t\${Version}\\n'")
 				.trim()
 				.lines().map {
-			parseDpkgOutputLine(it)
-		}
+					parseDpkgOutputLine(it)
+				}
 	}
 
 	private fun parseDpkgOutputLine(it: String): SoftwarePackage {

@@ -22,9 +22,13 @@ object Exports : OsCommand {
 			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Ubuntu, Debian) } to listOf("nfs-kernel-server")
 	)
 
-	fun export(session: ClientSession, directory: String, write : Boolean = false) {
+	fun export(session: ClientSession, directory: String, write: Boolean = false) {
 		session.createSftpClient().appendToFile(exportsFile, """
-			$directory		*(no_root_squash,no_subtree_check,${if (write) {"rw"} else {"ro"} })
+			$directory		*(no_root_squash,no_subtree_check,${if (write) {
+			"rw"
+		} else {
+			"ro"
+		}})
 		""".trimIndent() + "\n")
 		refresh(session)
 	}
@@ -35,8 +39,7 @@ object Exports : OsCommand {
 				it.readLines()
 			}
 			val filtered = lines.filterNot { it.startsWith(directory) }
-			sftp.write(exportsFile).bufferedWriter(Charsets.US_ASCII).use {
-				writer ->
+			sftp.write(exportsFile).bufferedWriter(Charsets.US_ASCII).use { writer ->
 				filtered.forEach {
 					writer.write(it)
 					writer.newLine()

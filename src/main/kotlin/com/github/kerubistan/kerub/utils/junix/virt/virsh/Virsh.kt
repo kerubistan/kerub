@@ -37,7 +37,7 @@ object Virsh : OsCommand {
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Centos, Fedora, openSuse) }
 					to listOf("libvirt-client"),
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Debian) } to listOf("libvirt-clients",
-																					   "libvirt-daemon"),
+					"libvirt-daemon"),
 			{ distro: SoftwarePackage -> distro.name.equalsAnyOf(Ubuntu) } to listOf("libvirt-bin")
 	)
 
@@ -180,9 +180,9 @@ object Virsh : OsCommand {
 				},
 				cpuStats = (0 until vcpuMax).map { vcpuid ->
 					toCpuStat(props
-									  .filter { it.key.toString().startsWith("vcpu.$vcpuid.") }
-									  .map { it.key.toString() to it.value.toString() }
-									  .toMap(), vcpuid)
+							.filter { it.key.toString().startsWith("vcpu.$vcpuid.") }
+							.map { it.key.toString() to it.value.toString() }
+							.toMap(), vcpuid)
 				}
 		)
 	}
@@ -219,7 +219,7 @@ object Virsh : OsCommand {
 	fun capabilities(session: ClientSession): LibvirtCapabilities {
 		val capabilities = session.executeOrDie("virsh capabilities")
 		val jaxbContext = JAXBContext.newInstance(LibvirtXmlArch::class.java, LibvirtXmlCapabilities::class.java,
-												  LibvirtXmlGuest::class.java)
+				LibvirtXmlGuest::class.java)
 		return StringReader(capabilities).use {
 			val xmlCapabilities = jaxbContext.createUnmarshaller().unmarshal(it) as LibvirtXmlCapabilities
 			LibvirtCapabilities(xmlCapabilities.guests.map { xmlGuest ->

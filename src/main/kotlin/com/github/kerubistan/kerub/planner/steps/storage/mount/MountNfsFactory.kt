@@ -31,10 +31,11 @@ object MountNfsFactory : AbstractOperationalStepFactory<MountNfs>() {
 											?: true
 								}
 					}.mapNotNull { (remote, shares) ->
-						shares?.map { MountNfs(host = hostColl.stat,
-								remoteHost = remote,
-								directory = "/mnt/${remote.id}/${it.directory}".normalizePath(),
-								remoteDirectory = it.directory.normalizePath())
+						shares?.map {
+							MountNfs(host = hostColl.stat,
+									remoteHost = remote,
+									directory = "/mnt/${remote.id}/${it.directory}".normalizePath(),
+									remoteDirectory = it.directory.normalizePath())
 						}
 					}.concat()
 				}.concat()

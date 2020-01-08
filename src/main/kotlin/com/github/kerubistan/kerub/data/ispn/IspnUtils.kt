@@ -61,8 +61,7 @@ fun <K, V : Any> Cache<K, V>.fieldSearch(
 				.list()
 
 
-fun <K, V : Any> Cache<K, V>.parallelStream()
-		= this.advancedCache.cacheEntrySet().parallelStream()
+fun <K, V : Any> Cache<K, V>.parallelStream() = this.advancedCache.cacheEntrySet().parallelStream()
 
 inline fun <reified K, reified V> Cache<K, V>.search(
 		start: Long = 0,

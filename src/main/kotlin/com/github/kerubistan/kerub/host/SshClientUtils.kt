@@ -35,14 +35,14 @@ private fun <T> Logger.debugAndReturn(msg: String, x: T): T {
 }
 
 fun <T> AbstractClientChannel.use(fn: (AbstractClientChannel) -> T): T =
-	try {
-		if(!this.open().await(GLOBAL_SSH_TIMEOUT_MS)) {
-			logger.warn("Channel await $GLOBAL_SSH_TIMEOUT_MS returned false")
+		try {
+			if (!this.open().await(GLOBAL_SSH_TIMEOUT_MS)) {
+				logger.warn("Channel await $GLOBAL_SSH_TIMEOUT_MS returned false")
+			}
+			fn(this)
+		} finally {
+			this.close(true)
 		}
-		fn(this)
-	} finally {
-		this.close(true)
-	}
 
 fun ClientSession.execute(command: String): String {
 	return this.createExecChannel(command).use {
@@ -57,14 +57,14 @@ fun ClientSession.execute(command: String): String {
  * output on stderr is considered error.
  */
 fun ClientSession.executeOrDie(command: String): String =
-	this.executeOrDie(command, String::isNotBlank)
+		this.executeOrDie(command, String::isNotBlank)
 
-class StdErrLoggingOutputStream(private val session : ClientSession) : OutputStream() {
+class StdErrLoggingOutputStream(private val session: ClientSession) : OutputStream() {
 
 	private val buff = StringBuilder()
 
 	override fun write(data: Int) {
-		if(data.toChar() == '\n') {
+		if (data.toChar() == '\n') {
 			logger.warn("${session.connectAddress}/stderr: $buff")
 			buff.clear()
 		} else {
@@ -80,7 +80,7 @@ const val GLOBAL_SSH_TIMEOUT_MS = 10_000.toLong()
 /**
  * Starts a process that runs on the output.
  */
-fun ClientSession.process(command: String, output : OutputStream) {
+fun ClientSession.process(command: String, output: OutputStream) {
 	val exec = this.createExecChannel(command)
 	exec.`in` = NullInputStream(0)
 	exec.err = StdErrLoggingOutputStream(this)
@@ -88,14 +88,13 @@ fun ClientSession.process(command: String, output : OutputStream) {
 	exec.open().verify(GLOBAL_SSH_TIMEOUT_MS)
 }
 
-fun ClientSession.bashMonitor(command: String, interval: Int, separator : String, output: OutputStream)
-		= this.process("""bash -c "while true; do $command; echo $separator; sleep $interval; done;" """, output)
+fun ClientSession.bashMonitor(command: String, interval: Int, separator: String, output: OutputStream) =
+		this.process("""bash -c "while true; do $command; echo $separator; sleep $interval; done;" """, output)
 
 fun ClientSession.executeOrDie(command: String, isError: (String) -> Boolean, cs: Charset = charset("ASCII")): String {
-	logger.debug("executing command on host {}: {}",this.connectAddress, command)
+	logger.debug("executing command on host {}: {}", this.connectAddress, command)
 	return createExecChannel(command).use {
-		it.invertedErr?.reader(cs)?.readText()?.let {
-			error ->
+		it.invertedErr?.reader(cs)?.readText()?.let { error ->
 			if (isError(error)) {
 				throw IOException(error)
 			} else if (error.isNotBlank()) {
@@ -164,8 +163,8 @@ fun ClientSession.getFileContents(file: String) = this.createSftpClient().use { 
  * This should be used only on small files, usually configuration files.
  */
 fun SftpClient.getFileContents(file: String): String = this.read(file).use {
-		logger.debugAndReturn("Contents of file $file: ", it.reader(Charsets.US_ASCII).readText())
-	}
+	logger.debugAndReturn("Contents of file $file: ", it.reader(Charsets.US_ASCII).readText())
+}
 
 inline fun <T, S : Session> S.use(action: (S) -> T): T {
 	try {
@@ -185,7 +184,7 @@ fun getSshFingerPrint(key: PublicKey) = KeyUtils.getFingerPrint(digest, key).sub
 fun encodePublicKey(key: PublicKey): String {
 	val out = ByteArrayOutputStream()
 
-	when(key) {
+	when (key) {
 		is RSAPublicKey -> {
 			out.write(encodeString("ssh-rsa"))
 			out.write(encodeByteArray(key.publicExponent.toByteArray()))

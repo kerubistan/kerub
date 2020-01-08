@@ -15,8 +15,7 @@ data class PowerDownHost(val host: Host) : AbstractOperationalStep {
 		return listOf()
 	}
 
-	override fun reservations(): List<Reservation<Host>>
-			= listOf(FullHostReservation(host))
+	override fun reservations(): List<Reservation<Host>> = listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
 		return state.copy(

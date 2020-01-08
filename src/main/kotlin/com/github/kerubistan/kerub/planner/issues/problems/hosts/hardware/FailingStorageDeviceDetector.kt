@@ -6,14 +6,15 @@ import com.github.kerubistan.kerub.planner.Plan
 
 object FailingStorageDeviceDetector : AbstractFailingStorageDeviceDetector<FailingStorageDevice>() {
 
-	override fun createProblems(host: HostDataCollection, failingDevice: String, plan: Plan): List<FailingStorageDevice>? =
-		host.stat.capabilities?.storageCapabilities?.filterIsInstance<VolumeManagerStorageCapability>()?.filter {
-			failingDevice in it.storageDevices
-		}?.map {
-			FailingStorageDevice(
-					device = failingDevice,
-					storageCapability = it,
-					host = host.stat
-			)
-		}
+	override fun createProblems(host: HostDataCollection, failingDevice: String,
+								plan: Plan): List<FailingStorageDevice>? =
+			host.stat.capabilities?.storageCapabilities?.filterIsInstance<VolumeManagerStorageCapability>()?.filter {
+				failingDevice in it.storageDevices
+			}?.map {
+				FailingStorageDevice(
+						device = failingDevice,
+						storageCapability = it,
+						host = host.stat
+				)
+			}
 }

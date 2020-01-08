@@ -38,14 +38,14 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 		internal fun getPropertyType(property: String, ofClazz: KClass<out Any>) =
 				ofClazz.java.declaredFields.firstOrNull { it.name == property }?.type
 
-		internal fun isNumber(clazz : Class<*>) =
-				if(clazz.isPrimitive) {
-					clazz.name.equalsAnyOf("double","float","byte","char","int", "long")
+		internal fun isNumber(clazz: Class<*>) =
+				if (clazz.isPrimitive) {
+					clazz.name.equalsAnyOf("double", "float", "byte", "char", "int", "long")
 				} else {
 					Number::class.java.isAssignableFrom(clazz)
 				}
 
-		internal fun isData(clazz : Class<*>): Boolean = clazz.kotlin.isData
+		internal fun isData(clazz: Class<*>): Boolean = clazz.kotlin.isData
 
 		internal fun isList(clazz: Class<*>): Boolean =
 				clazz.isAssignableFrom(List::class.java)
@@ -88,7 +88,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 		 *  There should be a maximum number of extremes, if there are more extremes than that,
 		 *  then maybe we should call it the normal behavior of the application.
 		 */
-		internal fun detectExtremes(changes: List<Pair<Long, PropertyChange>>) : List<List<PropertyChange>> {
+		internal fun detectExtremes(changes: List<Pair<Long, PropertyChange>>): List<List<PropertyChange>> {
 			val sortedChanges = changes.sortedBy(nevValueAsNumber)
 
 			val totalAvg = changes.decimalAvgBy(nevValueAsNumber)
@@ -165,7 +165,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 		}
 	}
 
-	internal abstract val dynClass : KClass<out DynamicEntity>
+	internal abstract val dynClass: KClass<out DynamicEntity>
 
 	open fun sum(changes: List<HistoryEntry>): List<PropertyChangeSummary> =
 			changedPropertyNames(changes).map {
@@ -177,7 +177,8 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 				when {
 					propertyType == null -> TODO()
 					isNumber(propertyType) -> {
-						fun genericSelector(summarySelector : (HistorySummary) -> BigDecimal) : (HistoryEntry) -> BigDecimal =
+						fun genericSelector(
+								summarySelector: (HistorySummary) -> BigDecimal): (HistoryEntry) -> BigDecimal =
 								{
 									when (it) {
 										is HistorySummary ->
@@ -202,7 +203,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 
 						NumericPropertyChangeSummary(
 								property = changedProperty,
-								average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/},
+								average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/ },
 								//there is at least one element, therefore there must be a maximum
 								max = requireNotNull(propertyChanges.map(maxSelector).max()),
 								//and same for minimums

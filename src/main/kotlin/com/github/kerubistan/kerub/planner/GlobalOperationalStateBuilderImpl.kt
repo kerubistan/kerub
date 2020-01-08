@@ -28,9 +28,9 @@ class GlobalOperationalStateBuilderImpl(
 	private fun <T : Entity<UUID>> retrieveAllRelated(
 			dao: DaoOperations.Read<T, UUID>,
 			ids: Collection<Entity<UUID>>): Promise<List<T>, Exception> =
-		task {
-			dao[ids.map { it.id }]
-		}
+			task {
+				dao[ids.map { it.id }]
+			}
 
 	override fun buildState(): OperationalState {
 		val hosts = task { hostDao.list(start = 0, limit = Int.MAX_VALUE) }

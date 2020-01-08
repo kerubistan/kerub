@@ -33,7 +33,7 @@ class AnyAssetDaoImpl(
 	)
 
 	override fun <T : Asset> get(clazz: KClass<T>, id: UUID): T =
-			requireNotNull(getDao(clazz) [id]) {
+			requireNotNull(getDao(clazz)[id]) {
 				"$clazz with $id not found"
 			}
 

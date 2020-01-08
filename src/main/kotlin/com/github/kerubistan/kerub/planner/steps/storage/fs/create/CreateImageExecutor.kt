@@ -8,7 +8,7 @@ import com.github.kerubistan.kerub.utils.junix.qemu.ImageInfo
 import com.github.kerubistan.kerub.utils.junix.qemu.QemuImg
 import java.math.BigInteger
 
-class CreateImageExecutor(exec: HostCommandExecutor,dynDao: VirtualStorageDeviceDynamicDao) :
+class CreateImageExecutor(exec: HostCommandExecutor, dynDao: VirtualStorageDeviceDynamicDao) :
 		AbstractCreateImageExecutor<CreateImage>(exec, dynDao) {
 
 	companion object {

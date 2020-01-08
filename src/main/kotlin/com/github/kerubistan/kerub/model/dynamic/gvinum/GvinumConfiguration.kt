@@ -14,5 +14,5 @@ import java.io.Serializable
 )
 interface GvinumConfiguration : Serializable {
 	@get:JsonIgnore
-	val diskNames : Collection<String>
+	val diskNames: Collection<String>
 }

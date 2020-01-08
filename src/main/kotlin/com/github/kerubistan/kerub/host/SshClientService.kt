@@ -32,5 +32,5 @@ interface SshClientService {
 	 */
 	fun getPublicKey(): String
 
-	fun getHostPublicKey(addr : String) : PublicKey
+	fun getHostPublicKey(addr: String): PublicKey
 }

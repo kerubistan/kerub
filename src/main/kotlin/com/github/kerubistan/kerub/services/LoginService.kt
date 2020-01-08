@@ -11,7 +11,8 @@ import javax.ws.rs.core.MediaType
 
 @Path("auth")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON) interface LoginService {
+@Consumes(MediaType.APPLICATION_JSON)
+interface LoginService {
 	data class UserData(
 			val name: String,
 			val roles: List<Roles>

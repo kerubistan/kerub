@@ -51,8 +51,7 @@ class RcServiceManager(private val session: ClientSession) : ServiceManager {
 
 	override fun enable(service: OsCommand) {
 		val serviceName = requireNotNull(serviceMap[service])
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			val config = readConfig(sftp)
 			if (isEnabled(serviceName, config)) {
 				logger.info("service {} is already enabled in host, skipping")
@@ -67,8 +66,7 @@ class RcServiceManager(private val session: ClientSession) : ServiceManager {
 
 	override fun disable(service: OsCommand) {
 		val serviceName = requireNotNull(serviceMap[service])
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			val config = readConfig(sftp)
 			if (isEnabled(serviceName, config)) {
 				logger.info("service {} is already enabled in host, skipping")

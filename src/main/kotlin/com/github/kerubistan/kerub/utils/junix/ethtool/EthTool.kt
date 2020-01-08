@@ -10,8 +10,8 @@ import java.math.BigInteger
 
 object EthTool : OsCommand {
 
-	override fun available(hostCapabilities: HostCapabilities?)
-			= hostCapabilities?.installedSoftware?.any { it.name.equalsAnyIgnoreCase( "ethtool") } ?: false
+	override fun available(hostCapabilities: HostCapabilities?) =
+			hostCapabilities?.installedSoftware?.any { it.name.equalsAnyIgnoreCase("ethtool") } ?: false
 
 	fun getDeviceInformation(session: ClientSession, deviceName: String): EthernetDeviceInformation =
 			parse(session.execute("ethtool $deviceName"))

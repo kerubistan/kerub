@@ -60,12 +60,11 @@ open class HostManagerImpl(
 	}
 
 	override fun getHypervisor(host: Host): Hypervisor? =
-		connections[host.id].let {
-			connection ->
-			if (connection != null && Virsh.available(host.capabilities)) {
-				KvmHypervisor(connection.first, host, vmDynamicDao)
-			} else null
-		}
+			connections[host.id].let { connection ->
+				if (connection != null && Virsh.available(host.capabilities)) {
+					KvmHypervisor(connection.first, host, vmDynamicDao)
+				} else null
+			}
 
 	override fun getFireWall(host: Host): FireWall {
 		val conn = requireNotNull(connections[host.id])
@@ -89,8 +88,7 @@ open class HostManagerImpl(
 			sshClientService.loginWithPublicKey(
 					address = host.address,
 					userName = "root",
-					hostPublicKey = host.publicKey).use {
-				session ->
+					hostPublicKey = host.publicKey).use { session ->
 				action(session)
 			}
 		} else {
@@ -190,8 +188,7 @@ open class HostManagerImpl(
 	) : DefaultSshEventListener() {
 		override fun sessionClosed(session: Session) {
 			logger.info("Session closed for host:\n addrs: {}\n id: {}", host.address, host.id)
-			hostDynamicDao.doWithDyn(host.id) {
-				dyn ->
+			hostDynamicDao.doWithDyn(host.id) { dyn ->
 				dyn.copy(
 						status = HostStatus.Down,
 						memFree = null,
@@ -319,6 +316,6 @@ open class HostManagerImpl(
 	}
 
 	override fun getHostPublicKey(address: String): PublicKey =
-		sshClientService.getHostPublicKey(address)
+			sshClientService.getHostPublicKey(address)
 
 }

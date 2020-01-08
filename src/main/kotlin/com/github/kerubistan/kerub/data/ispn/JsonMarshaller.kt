@@ -51,20 +51,17 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 		return ByteBufferImpl(bytes, 0, bytes.size)
 	}
 
-	override fun objectToByteBuffer(obj: Any?, estimatedSize: Int): ByteArray
-			= objectToByteArray(obj, objectMapper, estimatedSize)
+	override fun objectToByteBuffer(obj: Any?, estimatedSize: Int): ByteArray =
+			objectToByteArray(obj, objectMapper, estimatedSize)
 
-	override fun objectToByteBuffer(obj: Any?): ByteArray
-			= objectToByteArray(obj, objectMapper)
+	override fun objectToByteBuffer(obj: Any?): ByteArray = objectToByteArray(obj, objectMapper)
 
 	override fun isMarshallable(o: Any?): Boolean = Entity::class.java.isAssignableFrom(o?.javaClass)
 
-	override fun objectFromByteBuffer(buf: ByteArray?): Any?
-			= byteArrayToObject(objectMapper, buf ?: ByteArray(0))
+	override fun objectFromByteBuffer(buf: ByteArray?): Any? = byteArrayToObject(objectMapper, buf ?: ByteArray(0))
 
-	override fun objectFromByteBuffer(buf: ByteArray?, offset: Int, length: Int): Any?
-			= byteArrayToObject(objectMapper, buf ?: ByteArray(0), offset, length)
+	override fun objectFromByteBuffer(buf: ByteArray?, offset: Int, length: Int): Any? =
+			byteArrayToObject(objectMapper, buf ?: ByteArray(0), offset, length)
 
-	override fun getBufferSizePredictor(o: Any?): BufferSizePredictor
-			= Predictor
+	override fun getBufferSizePredictor(o: Any?): BufferSizePredictor = Predictor
 }

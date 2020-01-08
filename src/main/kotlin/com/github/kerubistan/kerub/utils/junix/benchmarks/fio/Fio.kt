@@ -12,16 +12,14 @@ import java.util.UUID
 
 object Fio : OsCommand {
 
-	override fun available(hostCapabilities: HostCapabilities?): Boolean
-			= hostCapabilities.anyPackageNamed("fio")
+	override fun available(hostCapabilities: HostCapabilities?): Boolean = hostCapabilities.anyPackageNamed("fio")
 
 	private const val runtimeLimit = 10
 	private val mapper = createObjectMapper(prettyPrint = false)
 			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 	fun benchmarkIoDevice(session: ClientSession, device: String): FioBenchmarkResults {
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			val iniFile = "/tmp/${UUID.randomUUID()}"
 			sftp.write(iniFile).writer(Charsets.US_ASCII).use {
 				it.write("""

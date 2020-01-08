@@ -8,7 +8,7 @@ import org.apache.sshd.client.session.ClientSession
 object Mv : OsCommand {
 	override fun available(hostCapabilities: HostCapabilities?) = true
 
-	fun move(session: ClientSession, source : String, target : String) {
+	fun move(session: ClientSession, source: String, target: String) {
 		session.executeOrDie("mv $source $target")
 	}
 }

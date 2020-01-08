@@ -15,7 +15,7 @@ abstract class AbstractDynamicEntityDao<T : DynamicEntity>(
 	@Suppress("UNCHECKED_CAST")
 	override fun update(id: UUID, retrieve: (UUID) -> T, change: (T) -> T) {
 		val oldData = retrieve(id)
-		val newData : T = change(oldData).updatedNow() as T
+		val newData: T = change(oldData).updatedNow() as T
 
 		historyDao.log(oldData, newData)
 		update(

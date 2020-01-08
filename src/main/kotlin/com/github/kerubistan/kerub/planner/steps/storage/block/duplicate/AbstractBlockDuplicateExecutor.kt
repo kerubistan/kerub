@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
 import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 
-abstract class AbstractBlockDuplicateExecutor<T : AbstractBlockDuplicate<*>>: AbstractStepExecutor<T, Unit>() {
+abstract class AbstractBlockDuplicateExecutor<T : AbstractBlockDuplicate<*>> : AbstractStepExecutor<T, Unit>() {
 
 	abstract val hostCommandExecutor: HostCommandExecutor
 	abstract val virtualStorageDynamicDao: VirtualStorageDeviceDynamicDao

@@ -7,7 +7,7 @@ data class VmFromTemplateRequest(
 		/**
 		 * The name of the new VM, or null of automatic name requested - in this case it will come from the template.
 		 */
-		val vmName : String? = null,
-		val templateId : UUID,
-		val owner : AssetOwner? = null
+		val vmName: String? = null,
+		val templateId: UUID,
+		val owner: AssetOwner? = null
 )

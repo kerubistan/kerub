@@ -13,5 +13,5 @@ fun hasEnoughFreeCapacity(volGroup: LvmStorageCapability,
 
 fun actualFreeCapacity(hostDynamic: HostDynamic?, volGroup: LvmStorageCapability) =
 		(hostDynamic?.storageStatus?.firstOrNull { it.id == volGroup.id }?.freeCapacity)
-		?: BigInteger.ZERO
+				?: BigInteger.ZERO
 

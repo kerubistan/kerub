@@ -33,7 +33,7 @@ data class OperationalState(
 		val templates: Map<UUID, Template> = mapOf(),
 		val reservations: List<Reservation<*>> = listOf(),
 		val controllerConfig: ControllerConfig = ControllerConfig()
-): Indexed<OperationalStateIndex> {
+) : Indexed<OperationalStateIndex> {
 
 	@get:JsonIgnore
 	override val index: OperationalStateIndex by lazy { OperationalStateIndex(this) }
@@ -53,7 +53,8 @@ data class OperationalState(
 		}
 
 		private fun <I, T : Entity<I>, D : DynamicEntity, C : DataCollection<I, T, D>>
-				mapToCollection(staticData: List<T>, dynamicData: List<D>, transform: (static: T, dynamic: D?) -> C): Map<I, C> {
+				mapToCollection(staticData: List<T>, dynamicData: List<D>,
+								transform: (static: T, dynamic: D?) -> C): Map<I, C> {
 			val dynMap: Map<UUID, D> = dynamicData.byId()
 			return staticData.map { transform(it, dynMap[it.id as UUID]) }.associateBy { it.id }
 		}

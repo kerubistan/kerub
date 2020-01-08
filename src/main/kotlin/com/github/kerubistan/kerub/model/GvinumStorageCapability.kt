@@ -25,6 +25,7 @@ data class GvinumStorageCapability(
 			"there is no gvinum capability if there are no gvinum disks"
 		}
 	}
+
 	@get:JsonIgnore
 	val devicesByName by lazy { devices.associateBy { it.name } }
 	@get:JsonIgnore

@@ -30,15 +30,14 @@ data class CreateLvmPool(
 	init {
 		val capability = requireNotNull(host.capabilities?.storageCapabilities)
 				.filterIsInstance<LvmStorageCapability>()
-				.first {it.volumeGroupName == vgName }
+				.first { it.volumeGroupName == vgName }
 		check(capability.size > size) {
 			"lvm capability ${host.address}/${capability.volumeGroupName} size (${capability.size})" +
 					" is less than the requested pool size $size"
 		}
 	}
 
-	override fun isLikeStep(other: Step<Plan>)
-			= other is CreateLvmPool && other.host == host && other.vgName == vgName
+	override fun isLikeStep(other: Step<Plan>) = other is CreateLvmPool && other.host == host && other.vgName == vgName
 
 	override val useBefore get() = listOf(CreateThinLv::class, MigrateBlockAllocation::class)
 

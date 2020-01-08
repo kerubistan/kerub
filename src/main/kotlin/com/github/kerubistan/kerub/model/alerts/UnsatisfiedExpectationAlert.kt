@@ -10,7 +10,7 @@ data class UnsatisfiedExpectationAlert(
 		override val created: Long,
 		override val resolved: Long?,
 		override val open: Boolean,
-		val entityId : UUID,
+		val entityId: UUID,
 		val expectation: Expectation
 ) : VirtualResourceAlert {
 	init {

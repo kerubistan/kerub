@@ -9,7 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 import io.github.kerubistan.kroki.collections.update
 
 abstract class AbstractNfsStep : AbstractOperationalStep {
-	abstract val host : Host
+	abstract val host: Host
 	override fun reservations(): List<Reservation<*>> = listOf(
 			UseHostReservation(host)
 	)
@@ -22,5 +22,5 @@ abstract class AbstractNfsStep : AbstractOperationalStep {
 			}
 	)
 
-	abstract fun updateHostConfig(config: HostConfiguration) : HostConfiguration
+	abstract fun updateHostConfig(config: HostConfiguration): HostConfiguration
 }

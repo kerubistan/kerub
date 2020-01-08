@@ -10,8 +10,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 @JsonTypeName("install-software")
 data class InstallSoftware(val packageName: String, val host: Host) : AbstractOperationalStep {
 
-	override fun reservations(): List<Reservation<*>>
-			= listOf(FullHostReservation(host))
+	override fun reservations(): List<Reservation<*>> = listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
 		throw UnsupportedOperationException()

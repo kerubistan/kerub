@@ -29,7 +29,8 @@ class VersionInfo @JsonCreator constructor(
 @Api(description = "Version information", value = "s/r/meta/version")
 @Produces("application/json")
 @Consumes("application/json")
-@Path("/meta/version") interface VersionService {
+@Path("/meta/version")
+interface VersionService {
 
 	@ApiOperation(value = "Get version", notes = "Get the Kerub version")
 	@ApiResponses(ApiResponse(code = 200, message = "OK", response = VersionInfo::class))

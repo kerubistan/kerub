@@ -19,9 +19,7 @@ class EntityAccessControllerImpl(
 				clazz.java.getAnnotation(Dynamic::class.java)?.value
 	}
 
-	internal fun statFromDynamic(obj: DynamicEntity): Entity<UUID>?
-			= statClassOf(obj.javaClass.kotlin)?.let {
-		clazz ->
+	internal fun statFromDynamic(obj: DynamicEntity): Entity<UUID>? = statClassOf(obj.javaClass.kotlin)?.let { clazz ->
 		anyEntityDao.get(clazz, obj.id)
 	}
 
@@ -32,8 +30,7 @@ class EntityAccessControllerImpl(
 				assetAccessController.checkAndDo(obj, action)
 			is DynamicEntity ->
 				//if it is a dyn record of an asset, let's get the asset and decide based on that
-				statFromDynamic(obj)?.let {
-					stat ->
+				statFromDynamic(obj)?.let { stat ->
 					if (stat is Asset) {
 						assetAccessController.checkAndDo(stat, action)
 					} else handleNonAssetChanges(action)

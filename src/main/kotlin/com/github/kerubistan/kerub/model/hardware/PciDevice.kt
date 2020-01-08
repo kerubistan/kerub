@@ -15,5 +15,4 @@ data class PciDevice(
 		val vendor: String,
 		@Field
 		val device: String
-)
-	: Serializable
+) : Serializable

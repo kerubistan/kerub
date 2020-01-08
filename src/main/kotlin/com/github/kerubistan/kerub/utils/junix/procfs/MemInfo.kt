@@ -11,10 +11,8 @@ object MemInfo : AbstractProcFs {
 			getMemInfo(session).substringBetween("MemTotal:", "\n").trim().toSize()
 
 	private fun getMemInfo(session: ClientSession): String =
-			session.createSftpClient().use {
-				sftp ->
-				sftp.read("/proc/meminfo").reader().use {
-					reader ->
+			session.createSftpClient().use { sftp ->
+				sftp.read("/proc/meminfo").reader().use { reader ->
 					reader.readText()
 				}
 			}

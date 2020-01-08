@@ -103,7 +103,7 @@ object OpenSsh {
 
 	private val String?.pipeOut get() = if (this == null) "" else "$this |"
 
-	private fun Any?.flag(paramName : String) = if(this == null) {
+	private fun Any?.flag(paramName: String) = if (this == null) {
 		""
 	} else {
 		"$paramName=$this"
@@ -115,13 +115,13 @@ object OpenSsh {
 			targetAddress: String,
 			targetDevice: String,
 			filters: Pair<String, String>? = null,
-			bytes : BigInteger? = null
+			bytes: BigInteger? = null
 	) {
 		session.executeOrDie(
 				"""
 					bash -c "
 					dd if=$sourceDevice ${bytes.flag("count")} ${filters?.first.pipeIn} 
-					${if (bytes != null) "iflag=count_bytes" else "" }
+					${if (bytes != null) "iflag=count_bytes" else ""}
 					| ssh -o BatchMode=true $targetAddress ${filters?.second.pipeOut} dd of=$targetDevice
 					" """.trimIndent().replace("\n", ""),
 				isError = {

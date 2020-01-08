@@ -9,7 +9,7 @@ import java.math.BigInteger
 object Truncate : OsCommand {
 	override fun available(hostCapabilities: HostCapabilities?): Boolean = true
 
-	fun truncate(session:ClientSession, path : String, virtualSize : BigInteger) {
+	fun truncate(session: ClientSession, path: String, virtualSize: BigInteger) {
 		session.executeOrDie("truncate -s $virtualSize $path")
 	}
 

@@ -59,7 +59,7 @@ interface Distribution {
 
 	fun getPackageManager(session: ClientSession): PackageManager
 
-	fun installMonitorPackages(session: ClientSession, host : Host)
+	fun installMonitorPackages(session: ClientSession, host: Host)
 
 	/**
 	 * Start monitoring processes
@@ -130,6 +130,6 @@ interface Distribution {
 	 * Also, a somewhat usable distro adapter can't let this method blank, so the default implementation too
 	 * must go away.
 	 */
-	fun detectHostCapabilities(capabilities: HostCapabilities, session: ClientSession) :HostCapabilities = capabilities
+	fun detectHostCapabilities(capabilities: HostCapabilities, session: ClientSession): HostCapabilities = capabilities
 
 }

@@ -20,10 +20,10 @@ object Pkg {
 		session.execute("""pkg uninstall ${packs.joinToString(separator = " ")}""")
 	}
 
-	fun listPackages(session: ClientSession): List<SoftwarePackage>
-			= session.execute("""pkg list """).lines().filter { it.isNotEmpty() }.map {
-		val split = it.split('\t')
-		SoftwarePackage(split[0], Version.fromVersionString(split[1]))
-	}
+	fun listPackages(session: ClientSession): List<SoftwarePackage> =
+			session.execute("""pkg list """).lines().filter { it.isNotEmpty() }.map {
+				val split = it.split('\t')
+				SoftwarePackage(split[0], Version.fromVersionString(split[1]))
+			}
 
 }

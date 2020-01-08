@@ -8,5 +8,5 @@ interface PlanRationalizer {
 	 * rationalize a plan
 	 * @return the rationalized plan
 	 */
-	fun rationalize(plan : Plan) : Plan
+	fun rationalize(plan: Plan): Plan
 }

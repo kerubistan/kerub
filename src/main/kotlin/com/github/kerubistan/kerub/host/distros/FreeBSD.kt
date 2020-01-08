@@ -58,7 +58,7 @@ class FreeBSD : Distribution {
 			session: ClientSession, osVersion: SoftwarePackage, packages: List<SoftwarePackage>
 	): List<StorageCapability> {
 		return GVinum.listDrives(session).let { gvinumDrives ->
-			if(gvinumDrives.isEmpty()) {
+			if (gvinumDrives.isEmpty()) {
 				listOf()
 			} else {
 				listOf(
@@ -77,7 +77,7 @@ class FreeBSD : Distribution {
 		return RcServiceManager(session)
 	}
 
-	override fun installMonitorPackages(session: ClientSession, host : Host) {
+	override fun installMonitorPackages(session: ClientSession, host: Host) {
 		//TODO issue #57
 	}
 
@@ -105,8 +105,7 @@ class FreeBSD : Distribution {
 			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 			controllerConfig: ControllerConfig
 	) {
-		BsdVmStat.vmstat(session, {
-			event ->
+		BsdVmStat.vmstat(session, { event ->
 			val dyn = hostDynDao[host.id] ?: HostDynamic(
 					id = host.id,
 					status = HostStatus.Up
@@ -119,8 +118,7 @@ class FreeBSD : Distribution {
 					idleCpu = event.idleCpu
 			))
 		})
-		GVinum.monitorDrives(session) {
-			disks ->
+		GVinum.monitorDrives(session) { disks ->
 			val gvinumCapabilities = host.capabilities
 					?.storageCapabilities
 					?.filter { it is GvinumStorageCapability }
@@ -131,18 +129,15 @@ class FreeBSD : Distribution {
 						storageStatus = it
 								.storageStatus
 								.filterNot { storageStat -> gvinumDiskIds.contains(storageStat.id) }
-								+ disks.map {
-							disk ->
+								+ disks.map { disk ->
 							val cap = gvinumCapabilities.filterIsInstance<GvinumStorageCapability>().single()
 							SimpleStorageDeviceDynamic(id = cap.id, freeCapacity = disk.available)
 						}
 				)
 			}
 		}
-		BsdSysCtl.monitorCpuTemperatures(session) {
-			temperatures ->
-			hostDynDao.doWithDyn(host.id) {
-				hostDynamic ->
+		BsdSysCtl.monitorCpuTemperatures(session) { temperatures ->
+			hostDynDao.doWithDyn(host.id) { hostDynamic ->
 				hostDynamic.copy(
 						cpuTemperature = temperatures.sortedBy { it.first }.map { it.second }
 				)
@@ -167,8 +162,7 @@ class FreeBSD : Distribution {
 		return cpuTypeMap[cpuType] ?: cpuType
 	}
 
-	override fun detectHostCpuFlags(session: ClientSession): List<String>
-			= BsdDmesg.listCpuFlags(session)
+	override fun detectHostCpuFlags(session: ClientSession): List<String> = BsdDmesg.listCpuFlags(session)
 
 	private fun cpuTypeByOS(session: ClientSession): String {
 		val processorType = UName.processorType(session)

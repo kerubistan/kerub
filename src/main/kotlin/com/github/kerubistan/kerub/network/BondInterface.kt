@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 data class BondInterface(
 		override val name: String,
 		override val portSpeedPerSec: Int,
-		val devices : List<String>
+		val devices: List<String>
 ) : NetworkInterface

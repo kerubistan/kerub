@@ -17,5 +17,5 @@ import javax.ws.rs.core.MediaType
 interface TemplateService : AssetService<Template>, RestCrud<Template> {
 	@PUT
 	@Path("/helpers/from-vm/{vmId}")
-	fun buildFromVm(@PathParam("vmId") vmId: UUID) : Template
+	fun buildFromVm(@PathParam("vmId") vmId: UUID): Template
 }

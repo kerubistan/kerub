@@ -17,8 +17,7 @@ import com.github.kerubistan.kerub.utils.storage.iscsiDefaultUser as user
 
 object TgtAdmin : OsCommand {
 
-	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>>
-			= listOf(
+	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(
 			{ distro: SoftwarePackage -> distro.name.equalsAnyIgnoreCase(Fedora, Centos) }
 					to listOf("scsi-target-utils"),
 			{ distro: SoftwarePackage -> distro.name == openSuse } to listOf("tgt"),
@@ -32,10 +31,8 @@ object TgtAdmin : OsCommand {
 			path: String,
 			readOnly: Boolean = false,
 			password: String? = null) {
-		session.createSftpClient().use {
-			ftp ->
-			ftp.write(configurationPath(id)).use {
-				out ->
+		session.createSftpClient().use { ftp ->
+			ftp.write(configurationPath(id)).use { out ->
 				//it needs to be backing-store for LVM volumes
 				//with direct-store tgtd tries to read scsi info
 				out.write("""
@@ -53,8 +50,7 @@ object TgtAdmin : OsCommand {
 
 	fun unshareBlockDevice(session: ClientSession, id: UUID) {
 		//first remove the configuration, if anyone calls tgt-admin -e, this will be automatically removed
-		session.createSftpClient().use {
-			ftp ->
+		session.createSftpClient().use { ftp ->
 			ftp.remove(configurationPath(id))
 		}
 		//remove the configuration from the tgt admin

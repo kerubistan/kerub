@@ -8,5 +8,5 @@ import com.github.kerubistan.kerub.planner.issues.problems.HostProblem
 data class VStorageDeviceOnRecyclingHost(
 		val vstorage: VirtualStorageDevice,
 		val allocation: VirtualStorageAllocation,
-		override val host : Host
+		override val host: Host
 ) : HostProblem

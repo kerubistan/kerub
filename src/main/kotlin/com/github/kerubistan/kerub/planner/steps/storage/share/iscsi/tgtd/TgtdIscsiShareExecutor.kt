@@ -13,8 +13,7 @@ class TgtdIscsiShareExecutor(
 	: AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
 
 	override fun perform(step: TgtdIscsiShare, password: String) {
-		hostExecutor.execute(step.host) {
-			session ->
+		hostExecutor.execute(step.host) { session ->
 
 			hostManager.getServiceManager(step.host).start(TgtAdmin)
 			hostManager.getFireWall(step.host).open(

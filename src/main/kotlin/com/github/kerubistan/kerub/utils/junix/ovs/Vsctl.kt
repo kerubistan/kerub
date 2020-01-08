@@ -36,12 +36,13 @@ object Vsctl : OsCommand {
 		session.executeOrDie("ovs-vsctl del-port $bridgeName $portName")
 	}
 
-	fun listBridges(session: ClientSession): List<OvsBridge> = parseAsCsv(session.executeOrDie("ovs-vsctl list br")).map {
-		OvsBridge(
-				id = it.getValue("_uuid").toUUID(),
-				name = it.getValue("name")
-		)
-	}
+	fun listBridges(session: ClientSession): List<OvsBridge> =
+			parseAsCsv(session.executeOrDie("ovs-vsctl list br")).map {
+				OvsBridge(
+						id = it.getValue("_uuid").toUUID(),
+						name = it.getValue("name")
+				)
+			}
 
 	fun listPorts(session: ClientSession): List<OvsPort> = parseAsCsv(session.executeOrDie("ovs-vsctl list port")).map {
 		OvsPort(

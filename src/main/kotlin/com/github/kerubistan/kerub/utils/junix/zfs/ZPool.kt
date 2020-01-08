@@ -14,8 +14,7 @@ object ZPool {
 					.lines()
 					.skip()
 					.filter { it.isNotBlank() }
-					.map {
-						line ->
+					.map { line ->
 						val fields = line.split(spaces)
 						ZfsPool(
 								name = fields[0],

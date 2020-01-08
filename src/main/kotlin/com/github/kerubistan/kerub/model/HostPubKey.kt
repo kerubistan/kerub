@@ -4,4 +4,4 @@ class HostPubKey(
 		val algorithm: String?,
 		val format: String?,
 		val fingerprint: String,
-		val encoded : String)
+		val encoded: String)

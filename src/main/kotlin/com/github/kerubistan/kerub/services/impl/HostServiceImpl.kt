@@ -19,10 +19,10 @@ class HostServiceImpl(
 		private val sshClientService: SshClientService)
 	: ListableBaseService<Host>("host"), HostService {
 
-	override fun getFeatures(id: UUID): List<HostService.HostFeatureSummary>
-			= assertExist("host", getById(id), id).capabilities.let {
-		listOf()
-	}
+	override fun getFeatures(id: UUID): List<HostService.HostFeatureSummary> =
+			assertExist("host", getById(id), id).capabilities.let {
+				listOf()
+			}
 
 
 	override fun remove(id: UUID) =
@@ -52,14 +52,12 @@ class HostServiceImpl(
 				)
 			}
 
-	override fun getPubkey(): String
-			= sshClientService.getPublicKey()
+	override fun getPubkey(): String = sshClientService.getPublicKey()
 
-	override fun joinWithoutPassword(details: HostJoinDetails): Host
-			= manager.join(details.host, details.powerManagement)
+	override fun joinWithoutPassword(details: HostJoinDetails): Host =
+			manager.join(details.host, details.powerManagement)
 
-	override fun join(hostPwd: HostAndPassword): Host
-			= manager.join(hostPwd.host, hostPwd.password)
+	override fun join(hostPwd: HostAndPassword): Host = manager.join(hostPwd.host, hostPwd.password)
 
 	override fun getHostPubkey(address: String): HostPubKey {
 		val publicKey = manager.getHostPublicKey(address)

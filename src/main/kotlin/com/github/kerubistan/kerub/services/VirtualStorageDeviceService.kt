@@ -19,7 +19,8 @@ import javax.ws.rs.core.MediaType
 
 @RequiresAuthentication
 @Api("s/r/virtual-storage", description = "Virtual storage operations")
-@Path("/virtual-storage") interface VirtualStorageDeviceService :
+@Path("/virtual-storage")
+interface VirtualStorageDeviceService :
 		RestCrud<VirtualStorageDevice>,
 		RestOperations.List<VirtualStorageDevice>,
 		RestOperations.SimpleSearch<VirtualStorageDevice>,

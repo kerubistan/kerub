@@ -62,8 +62,8 @@ inline fun <T : Any, U : Any, I : Any> List<T>.update(
  * @param selfKey       extract the join key from the original list
  * @param upKey         extract the join key from the update list
  * @param merge         creates an updated instance from the original
- * @param updateMiss	handle items that did not get updated
- * @param selfMiss		handle updates that do not match any data
+ * @param updateMiss    handle items that did not get updated
+ * @param selfMiss        handle updates that do not match any data
  */
 inline fun <T : Any, U : Any, I : Any> List<T>.update(
 		updateList: List<U>,

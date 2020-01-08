@@ -13,8 +13,7 @@ class EventDaoImpl(private val cache: AdvancedCache<UUID, Event>) : EventDao {
 		cache.putAll(entities.byId())
 	}
 
-	override fun get(ids: Collection<UUID>): List<Event>
-			= cache.advancedCache.getAll(ids.toHashSet()).values.toList()
+	override fun get(ids: Collection<UUID>): List<Event> = cache.advancedCache.getAll(ids.toHashSet()).values.toList()
 
 	override fun count() = cache.count()
 

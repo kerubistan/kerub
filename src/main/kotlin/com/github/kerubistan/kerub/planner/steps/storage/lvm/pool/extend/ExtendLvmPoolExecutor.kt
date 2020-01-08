@@ -17,7 +17,7 @@ class ExtendLvmPoolExecutor(
 		private val hostDynDao: HostDynamicDao)
 	: AbstractStepExecutor<ExtendLvmPool, Pair<BigInteger, BigInteger>>() {
 	override fun update(step: ExtendLvmPool, updates: Pair<BigInteger, BigInteger>) {
-		val capability = requireNotNull(step.host.capabilities) {"capabilities required for ${step.host}"}
+		val capability = requireNotNull(step.host.capabilities) { "capabilities required for ${step.host}" }
 				.storageCapabilities.single {
 			it is LvmStorageCapability && it.volumeGroupName == step.vgName
 		}

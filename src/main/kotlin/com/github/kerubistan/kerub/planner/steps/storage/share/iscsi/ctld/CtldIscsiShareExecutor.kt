@@ -9,10 +9,10 @@ import com.github.kerubistan.kerub.utils.junix.iscsi.ctld.Ctld
 
 class CtldIscsiShareExecutor(hostConfigDao: HostConfigurationDao,
 							 hostExecutor: HostCommandExecutor,
-							 hostManager: HostManager) : AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
+							 hostManager: HostManager) :
+		AbstractIscsiExecutor<TgtdIscsiShare>(hostConfigDao, hostExecutor, hostManager) {
 	override fun perform(step: TgtdIscsiShare, password: String) {
-		hostExecutor.execute(host = step.host) {
-			session ->
+		hostExecutor.execute(host = step.host) { session ->
 			Ctld.share(
 					session = session,
 					id = step.vstorage.id,

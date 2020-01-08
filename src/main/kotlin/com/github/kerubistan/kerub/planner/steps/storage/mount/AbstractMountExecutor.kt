@@ -22,8 +22,8 @@ abstract class AbstractMountExecutor<T : AbstractNfsMount> : AbstractStepExecuto
 
 	final override fun update(step: T, updates: Unit) {
 		hostConfigurationDao.update(step.host.id,
-									retrieve = { hostConfigurationDao[step.host.id] ?: HostConfiguration() },
-									change = { updateHostConfiguration(it, step) })
+				retrieve = { hostConfigurationDao[step.host.id] ?: HostConfiguration() },
+				change = { updateHostConfiguration(it, step) })
 	}
 
 	abstract fun updateHostConfiguration(

@@ -28,28 +28,25 @@ object GVinum {
 	private val volumeHeader = Regex.fromLiteral("Volume ")
 	private const val up = "up"
 
-	private fun gvinum(command: String, session: ClientSession): String
-			= session.executeOrDie("gvinum $command -v")
+	private fun gvinum(command: String, session: ClientSession): String = session.executeOrDie("gvinum $command -v")
 
 	internal fun parseDriveList(output: String): List<GvinumDrive> =
 			output.substringAfter("drives:\n")
-					.substringAfter("1 drive:").split(driveHeader).filter { it.isNotBlank() }.map {
-				str ->
-				GvinumDrive(
-						name = str.substringBefore(":"),
-						device = str.substringBetween("Device ", "\n"),
-						available = str.substringBetween("Available:", " (").toSize(),
-						size = str.substringBetween("Size:", " (").toSize(),
-						up = isUp(str),
-						used = str.substringBetween("Used:", " (").toSize()
-				)
-			}
+					.substringAfter("1 drive:").split(driveHeader).filter { it.isNotBlank() }.map { str ->
+						GvinumDrive(
+								name = str.substringBefore(":"),
+								device = str.substringBetween("Device ", "\n"),
+								available = str.substringBetween("Available:", " (").toSize(),
+								size = str.substringBetween("Size:", " (").toSize(),
+								up = isUp(str),
+								used = str.substringBetween("Used:", " (").toSize()
+						)
+					}
 
 	private fun isUp(str: String) = str.substringBetween("State: ", "\n") == up
 
 	internal fun parseSubDiskList(output: String): List<GvinumSubDisk> =
-			output.substringAfter("subdisks:").split(subdiskHeader).filter { it.isNotBlank() }.map {
-				str ->
+			output.substringAfter("subdisks:").split(subdiskHeader).filter { it.isNotBlank() }.map { str ->
 				GvinumSubDisk(
 						name = str.substringBefore(":").trim(),
 						drive = str.substringBetween("Drive ", " ("),
@@ -61,8 +58,7 @@ object GVinum {
 			}
 
 	internal fun parsePlexesList(output: String): List<GvinumPlex> =
-			output.substringAfter("plexes:").split(plexHeader).filter { it.isNotBlank() }.map {
-				str ->
+			output.substringAfter("plexes:").split(plexHeader).filter { it.isNotBlank() }.map { str ->
 				GvinumPlex(
 						name = str.substringBefore(":").trim(),
 						subdisks = str.substringBetween("Subdisks:", "\n").trim().toInt(),
@@ -71,15 +67,14 @@ object GVinum {
 				)
 			}
 
-	internal fun parseVolumeList(output: String): List<GvinumVolume>
-			= output.substringAfter("volumes:").split(volumeHeader).filter { it.isNotBlank() }.map {
-		str ->
-		GvinumVolume(
-				name = str.substringBefore(":").trim(),
-				size = str.substringBetween("Size: ", " (").toSize(),
-				up = isUp(str)
-		)
-	}
+	internal fun parseVolumeList(output: String): List<GvinumVolume> =
+			output.substringAfter("volumes:").split(volumeHeader).filter { it.isNotBlank() }.map { str ->
+				GvinumVolume(
+						name = str.substringBefore(":").trim(),
+						size = str.substringBetween("Size: ", " (").toSize(),
+						up = isUp(str)
+				)
+			}
 
 	private fun roundUpKb(size: BigInteger): BigInteger {
 		val kbs = size / KB.toBigInteger()
@@ -103,8 +98,7 @@ object GVinum {
 			volume $volName
 			  plex org concat
 					""")
-			disks.forEach {
-				disk ->
+			disks.forEach { disk ->
 				append("sd length ").append(roundUpKb(disk.value)).append(" drive ").append(disk.key).append("\n")
 			}
 		}, session = session, volName = volName)
@@ -112,11 +106,9 @@ object GVinum {
 
 	private fun createVolume(config: String, session: ClientSession, volName: String) {
 		logger.debug("creating gvinum volume $volName with config $config")
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			val tempConfigFile = "/tmp/$volName"
-			sftp.write(tempConfigFile).writer(charset("ASCII")).use {
-				writer ->
+			sftp.write(tempConfigFile).writer(charset("ASCII")).use { writer ->
 				writer.write(config)
 			}
 			session.executeOrDie("gvinum create $tempConfigFile")

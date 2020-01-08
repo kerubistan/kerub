@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.utils.junix.ssh.openssh.OpenSsh
 class InstallPublicKeyExecutor(private val hostCommandExecutor: HostCommandExecutor,
 							   private val hostManager: HostManager,
 							   private val hostCfgDao: HostConfigurationDao)
-	: AbstractStepExecutor<InstallPublicKey, Unit>(){
+	: AbstractStepExecutor<InstallPublicKey, Unit>() {
 
 	private val logger = getLogger(InstallPublicKeyExecutor::class)
 
@@ -41,7 +41,7 @@ class InstallPublicKeyExecutor(private val hostCommandExecutor: HostCommandExecu
 	}
 
 	override fun verify(step: InstallPublicKey) {
-		hostCommandExecutor.execute(step.sourceHost) {session ->
+		hostCommandExecutor.execute(step.sourceHost) { session ->
 			OpenSsh.verifySshConnection(session, step.targetHost.address)
 		}
 	}

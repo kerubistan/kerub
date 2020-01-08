@@ -15,8 +15,7 @@ object Stat : AbstractProcFs {
 			buffer.append(input.toChar())
 			if (buffer.endsWith(separator)) {
 				handler(
-						buffer.removeSuffix(separator).toString().trim().lines().filterNot { it == separator }.map {
-							line ->
+						buffer.removeSuffix(separator).toString().trim().lines().filterNot { it == separator }.map { line ->
 							val fields = line.split(fieldSeparator)
 							require(fields.size > 4) { "Something is missing from here: $line" }
 							fields[0] to
@@ -39,8 +38,7 @@ object Stat : AbstractProcFs {
 
 	fun cpuLoadMonitorIncremental(session: ClientSession, handler: (Map<String, CpuStat>) -> Unit) {
 		var previous: Map<String, CpuStat>? = null
-		cpuLoadMonitor(session) {
-			newStats ->
+		cpuLoadMonitor(session) { newStats ->
 			synchronized(this) {
 				if (previous != null) {
 					handler(previous!!.map {

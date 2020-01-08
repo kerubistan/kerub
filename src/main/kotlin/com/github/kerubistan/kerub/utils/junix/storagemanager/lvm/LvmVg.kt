@@ -14,12 +14,11 @@ object LvmVg : Lvm() {
 		)
 	}
 
-	fun list(session: ClientSession, vgName : String? = null): List<VolumeGroup> =
+	fun list(session: ClientSession, vgName: String? = null): List<VolumeGroup> =
 			parseOutput(session.executeOrDie(
 					"lvm vgs ${vgName ?: ""} -o $vgFields $listOptions"))
 
-	private fun parseOutput(output : String) = output.trim().lines().filterNot { it.isEmpty() }.map {
-		row ->
+	private fun parseOutput(output: String) = output.trim().lines().filterNot { it.isEmpty() }.map { row ->
 		parseRow(row)
 	}
 
@@ -36,7 +35,7 @@ object LvmVg : Lvm() {
 		)
 	}
 
-	fun reduce(session: ClientSession, vgName: String, pv : String) {
+	fun reduce(session: ClientSession, vgName: String, pv: String) {
 		session.executeOrDie("lvm vgreduce $vgName $pv")
 	}
 

@@ -13,6 +13,6 @@ class VirtualMachineDynamicHistoryDaoImpl(cache: Cache<UUID, HistoryEntry>)
 
 	override val dynClass: KClass<out DynamicEntity> = VirtualMachineDynamic::class
 
-	override fun changes(oldEntry: VirtualMachineDynamic, newEntry: VirtualMachineDynamic): List<PropertyChange>
-			= diff(oldEntry, newEntry)
+	override fun changes(oldEntry: VirtualMachineDynamic, newEntry: VirtualMachineDynamic): List<PropertyChange> =
+			diff(oldEntry, newEntry)
 }

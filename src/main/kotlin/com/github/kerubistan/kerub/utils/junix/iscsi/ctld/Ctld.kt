@@ -14,9 +14,9 @@ object Ctld : OsCommand {
 
 	private const val configFilePath = "/etc/ctl.conf"
 
-	override fun available(hostCapabilities: HostCapabilities?): Boolean
-			= hostCapabilities?.os == OperatingSystem.BSD &&
-			hostCapabilities.distribution?.name == FreeBSD
+	override fun available(hostCapabilities: HostCapabilities?): Boolean =
+			hostCapabilities?.os == OperatingSystem.BSD &&
+					hostCapabilities.distribution?.name == FreeBSD
 
 	private fun begin(id: UUID) = "#cfg-begin $id"
 	private fun end(id: UUID) = "#cfg-end $id"
@@ -40,8 +40,7 @@ object Ctld : OsCommand {
 		}
 s	}
 	s${end(id)}""".trimIndent()
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			sftp.appendToFile(configFilePath, config)
 		}
 	}
@@ -53,8 +52,7 @@ s	}
 	}
 
 	fun unshare(session: ClientSession, id: UUID) {
-		session.createSftpClient().use {
-			sftp ->
+		session.createSftpClient().use { sftp ->
 			val config = sftp.read(configFilePath).reader(Charsets.US_ASCII).use {
 				it.readText().removeSurrounding(begin(id), end(id))
 			}

@@ -36,14 +36,13 @@ data class Host constructor(
 		@JsonView(Simple::class)
 		@Field
 		@JsonProperty("eol")
-		val endOfPlannedLifetime : Date? = null,
+		val endOfPlannedLifetime: Date? = null,
 		@Field
 		@JsonProperty("capabilities")
 		@JsonView(Detailed::class)
 		val capabilities: HostCapabilities? = null,
 		override val recycling: Boolean = false,
 		val dead: Boolean = false
-)
-	: Entity<UUID>, Recyclable {
+) : Entity<UUID>, Recyclable {
 	override fun toString(): String = "Host(id=$id,addr=$address)"
 }

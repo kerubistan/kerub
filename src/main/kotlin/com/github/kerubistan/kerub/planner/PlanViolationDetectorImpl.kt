@@ -82,7 +82,7 @@ object PlanViolationDetectorImpl : PlanViolationDetector {
 			check: (T, C, Plan) -> Boolean): Map<Constrained<C>, List<Expectation>> =
 			entities.mapNotNull { entity ->
 				entity.expectations.filterNot { check(entity, it, plan) }.let {
-					if(it.isNotEmpty())
+					if (it.isNotEmpty())
 						entity to it
 					else null
 				}

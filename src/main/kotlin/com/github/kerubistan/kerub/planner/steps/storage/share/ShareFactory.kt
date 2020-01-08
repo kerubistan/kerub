@@ -11,8 +11,8 @@ import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StartN
 import com.github.kerubistan.kerub.planner.steps.storage.share.nfs.daemon.StopNfsDaemonFactory
 
 object ShareFactory : StepFactoryCollection(listOf(ShareNfsFactory, MountNfsFactory, UnmountNfsFactory,
-												   UnshareNfsFactory, StartNfsDaemonFactory, StopNfsDaemonFactory,
-												   IscsiShareFactory)) {
+		UnshareNfsFactory, StartNfsDaemonFactory, StopNfsDaemonFactory,
+		IscsiShareFactory)) {
 	override val expectationHints = super.expectationHints + VirtualMachineAvailabilityExpectation::class
 
 }

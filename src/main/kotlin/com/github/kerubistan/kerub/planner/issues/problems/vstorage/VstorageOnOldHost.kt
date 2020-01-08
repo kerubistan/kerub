@@ -6,6 +6,6 @@ import com.github.kerubistan.kerub.planner.issues.problems.HostProblem
 
 data class VstorageOnOldHost(
 		override val host: Host,
-		val vStorage : VirtualStorageDevice,
+		val vStorage: VirtualStorageDevice,
 		val hostExpiredSince: Int
 ) : HostProblem

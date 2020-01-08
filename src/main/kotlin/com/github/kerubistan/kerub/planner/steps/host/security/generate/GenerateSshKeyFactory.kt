@@ -11,6 +11,6 @@ object GenerateSshKeyFactory : AbstractOperationalStepFactory<GenerateSshKey>() 
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
 	override fun produce(state: OperationalState): List<GenerateSshKey> = state.index.runningHosts
-			.filter {  it.config?.publicKey == null }
+			.filter { it.config?.publicKey == null }
 			.map { GenerateSshKey(host = it.stat) }
 }

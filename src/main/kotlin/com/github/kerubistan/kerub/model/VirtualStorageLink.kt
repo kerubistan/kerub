@@ -25,8 +25,9 @@ data class VirtualStorageLink(
 	companion object {
 		private val cdromBusTypes = listOf(BusType.ide, BusType.sata, BusType.scsi)
 	}
+
 	init {
-		if(device == DeviceType.cdrom) {
+		if (device == DeviceType.cdrom) {
 			check(bus in cdromBusTypes) { "cdrom can only be used with $cdromBusTypes bus types" }
 		}
 	}

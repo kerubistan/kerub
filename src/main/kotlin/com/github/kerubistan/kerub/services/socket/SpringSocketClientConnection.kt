@@ -62,7 +62,7 @@ class SpringSocketClientConnection(
 						logger.warn("Entity type not handled: {}", entityClass)
 					} else {
 						synchronized(subscriptions) {
-							if (subscriptions[entityClass]?.any { it.interested(msg) } ?: false)
+							if (subscriptions[entityClass]?.any { it.interested(msg) } == true)
 								session.sendMessage(TextMessage(mapper.writeValueAsString(msg)))
 						}
 					}

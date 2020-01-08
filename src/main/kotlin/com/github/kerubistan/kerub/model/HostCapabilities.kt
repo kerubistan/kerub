@@ -38,9 +38,9 @@ data class HostCapabilities(
 		@Field
 		val blockDevices: List<BlockDevice> = listOf(),
 		@Field
-		val networkPorts : List<EthernetPort> = listOf(),
+		val networkPorts: List<EthernetPort> = listOf(),
 		@Field
-		val networkInterfaces : List<NetworkInterface> = listOf(),
+		val networkInterfaces: List<NetworkInterface> = listOf(),
 		@JsonView(Simple::class)
 		@Field
 		val cpuArchitecture: String,

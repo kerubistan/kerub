@@ -14,8 +14,7 @@ abstract class AbstractKsmExecutor<T : HostStep>(private val exec: HostCommandEx
 	}
 
 	final override fun update(step: T, updates: Unit) {
-		hostDynDao.update(step.host.id) {
-			host ->
+		hostDynDao.update(step.host.id) { host ->
 			host.copy(
 					ksmEnabled = enabled
 			)

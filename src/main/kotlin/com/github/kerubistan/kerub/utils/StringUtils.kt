@@ -16,14 +16,12 @@ fun <T> String.doWithDelimiter(delimiter: String, action: (idx: Int) -> T): T? {
 	return if (idx < 0) null else action(idx)
 }
 
-fun String.substringAfterOrNull(delimiter: String): String?
-		= doWithDelimiter(delimiter) {
+fun String.substringAfterOrNull(delimiter: String): String? = doWithDelimiter(delimiter) {
 	this.substring(it + delimiter.length, this.length)
 }
 
-fun String.substringBeforeOrNull(delimiter: String): String?
-		= doWithDelimiter(delimiter) {
+fun String.substringBeforeOrNull(delimiter: String): String? = doWithDelimiter(delimiter) {
 	this.substring(0, it)
 }
 
-fun String.normalizePath() : String = this.replace(duplicateSlashesPattern, "/")
+fun String.normalizePath(): String = this.replace(duplicateSlashesPattern, "/")

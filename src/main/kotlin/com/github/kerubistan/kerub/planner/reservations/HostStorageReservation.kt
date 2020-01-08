@@ -7,12 +7,13 @@ import java.util.UUID
 data class HostStorageReservation(
 		override val host: Host,
 		override val reservedStorage: BigInteger,
-		val storageCapabilityId : UUID
+		val storageCapabilityId: UUID
 ) : HostReservation, StorageReservation<Host> {
 	init {
 		check(reservedStorage > BigInteger.ZERO) {
 			"reserved storage ($reservedStorage) must be bigger then 0"
 		}
 	}
+
 	override fun isShared() = true
 }

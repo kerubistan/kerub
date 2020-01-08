@@ -12,8 +12,7 @@ class ControllerConfigDaoImpl(private val cache: Cache<String, ControllerConfig>
 							  private val auditManager: AuditManager,
 							  private val eventListener: EventListener)
 	: ControllerConfigDao {
-	override fun get(): ControllerConfig
-			= cache[emptyString] ?: ControllerConfig()
+	override fun get(): ControllerConfig = cache[emptyString] ?: ControllerConfig()
 
 	override fun set(config: ControllerConfig) {
 		auditManager.auditUpdate(old = get(), new = config)

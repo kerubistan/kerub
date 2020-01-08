@@ -17,10 +17,10 @@ object Pkg {
 		session.execute("""pkg remove -y ${packs.joinToString(separator = " ")}""")
 	}
 
-	fun listPackages(session: ClientSession): List<SoftwarePackage>
-			= session.execute("""pkg query "%n\t%v" """).lines().filter { it.isNotEmpty() }.map {
-		val split = it.split('\t')
-		SoftwarePackage(split[0], Version.fromVersionString(split[1]))
-	}
+	fun listPackages(session: ClientSession): List<SoftwarePackage> =
+			session.execute("""pkg query "%n\t%v" """).lines().filter { it.isNotEmpty() }.map {
+				val split = it.split('\t')
+				SoftwarePackage(split[0], Version.fromVersionString(split[1]))
+			}
 
 }

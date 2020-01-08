@@ -18,14 +18,15 @@ import kotlin.reflect.KClass
 )
 interface VirtualStorageAllocation : Serializable {
 	val hostId: UUID
-	val capabilityId : UUID
+	val capabilityId: UUID
 	val actualSize: BigInteger
 	val type: VirtualDiskFormat
-	fun requires() : KClass<out StorageCapability>
-	fun getPath(id : UUID) : String
+	fun requires(): KClass<out StorageCapability>
+	fun getPath(id: UUID): String
 	// I would not need this with data class hierarchy
 	// promissed for kotlin 1.2 - still not here with kotlin 1.3
-	fun resize(newSize : BigInteger) : VirtualStorageAllocation
+	fun resize(newSize: BigInteger): VirtualStorageAllocation
+
 	@JsonIgnore
 	fun getRedundancyLevel(): Byte
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 
 @JsonTypeName("power")
 data class Power @JsonCreator constructor(
-		val handle : String?,
+		val handle: String?,
 		override val id: String?,
 		override val description: String?,
 		override val configuration: Map<String, String>?,

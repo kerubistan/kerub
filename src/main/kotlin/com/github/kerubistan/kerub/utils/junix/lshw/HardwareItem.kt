@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 		JsonSubTypes.Type(NetworkInterface::class)
 )
 interface HardwareItem {
-	val id : String?
+	val id: String?
 	val description: String?
 	val configuration: Map<String, String>?
 	val children: List<HardwareItem>?

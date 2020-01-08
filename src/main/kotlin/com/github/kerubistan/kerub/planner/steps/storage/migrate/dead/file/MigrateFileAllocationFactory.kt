@@ -16,8 +16,7 @@ import io.github.kerubistan.kroki.collections.concat
 
 object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFileAllocation>() {
 
-	override val allocationFactories
-			= listOf(TruncateImageFactory, CreateImageFactory)
+	override val allocationFactories = listOf(TruncateImageFactory, CreateImageFactory)
 
 	private val deAllocationFactories = listOf(UnAllocateFsFactory)
 
@@ -35,19 +34,19 @@ object MigrateFileAllocationFactory : AbstractMigrateAllocationFactory<MigrateFi
 				generateAllocationSteps(unAllocatedState, candidateStorage)
 						.filter { format == null || it.format == format }
 						.map { allocationStep ->
-					generateDeAllocationSteps(state, candidateStorage)
-							.map { deAllocationStep ->
-						MigrateFileAllocation(
-								sourceHost = deAllocationStep.host,
-								deAllocationStep = deAllocationStep,
-								allocationStep = allocationStep,
-								targetHost = allocationStep.host,
-								virtualStorage = candidateStorage.stat,
-								sourceAllocation = deAllocationStep.allocation
-						)
-					}
+							generateDeAllocationSteps(state, candidateStorage)
+									.map { deAllocationStep ->
+										MigrateFileAllocation(
+												sourceHost = deAllocationStep.host,
+												deAllocationStep = deAllocationStep,
+												allocationStep = allocationStep,
+												targetHost = allocationStep.host,
+												virtualStorage = candidateStorage.stat,
+												sourceAllocation = deAllocationStep.allocation
+										)
+									}
 
-				}
+						}
 			}.concat().concat().filter { isSslKeyInstalled(it, state) }
 
 	private fun generateDeAllocationSteps(

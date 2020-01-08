@@ -11,8 +11,7 @@ object IfConfig {
 	private val itemRegex = "\n(\\b)".toRegex()
 
 	fun list(session: ClientSession): List<NetInterface> =
-			session.executeOrDie("ifconfig").split(itemRegex, Pattern.DOTALL).filter { it.isNotBlank() }.map {
-				str ->
+			session.executeOrDie("ifconfig").split(itemRegex, Pattern.DOTALL).filter { it.isNotBlank() }.map { str ->
 				NetInterface(
 						name = str.substringBefore(":"),
 						mtu = str.substringBetween("mtu ", "\n").toInt(),

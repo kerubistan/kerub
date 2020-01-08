@@ -31,8 +31,8 @@ object VBoxManage : OsCommand {
 
 	private val supportedFormats = setOf(VirtualDiskFormat.vdi, VirtualDiskFormat.vmdk)
 
-	override fun available(hostCapabilities: HostCapabilities?)
-			= hostCapabilities?.installedSoftware?.any { knownPackages.contains(it.name.toLowerCase()) } == true
+	override fun available(hostCapabilities: HostCapabilities?) =
+			hostCapabilities?.installedSoftware?.any { knownPackages.contains(it.name.toLowerCase()) } == true
 
 	private val mediatype = mapOf(
 			DeviceType.disk to "hdd",
@@ -50,8 +50,7 @@ object VBoxManage : OsCommand {
 			// memory is meant in megabytes, kerub has it in bytes, let's round it up
 			session.executeOrDie("VBoxManage modifyvm ${vm.id} --memory ${round(vm.memory.min)} ")
 			session.executeOrDie("VBoxManage modifyvm ${vm.id} --cpus ${vm.nrOfCpus} ")
-			vm.virtualStorageLinks.forEach {
-				link ->
+			vm.virtualStorageLinks.forEach { link ->
 				val storage = requireNotNull(storageMap[link.virtualStorageId])
 				val device = storage.first
 				val dyn = storage.second
@@ -103,8 +102,7 @@ object VBoxManage : OsCommand {
 							avg = this["$prefix:avg"].let(transform)
 					)
 
-			fun netRate(input: String?): Int
-					= input?.substringBefore("/s")?.toSize()?.toInt() ?: 0
+			fun netRate(input: String?): Int = input?.substringBefore("/s")?.toSize()?.toInt() ?: 0
 
 			fun size(input: String?): BigInteger = input?.toSize() ?: ZERO
 			fun percent(input: String?): Float = input?.percent() ?: 0.toFloat()
@@ -175,24 +173,24 @@ object VBoxManage : OsCommand {
 
 	private fun controlVm(session: ClientSession,
 						  vm: VirtualMachine,
-						  command : String,
-						  args : String? = null) =
-		session.executeOrDie("VBoxManage controlvm ${vm.id} $command ${args ?: ""}")
+						  command: String,
+						  args: String? = null) =
+			session.executeOrDie("VBoxManage controlvm ${vm.id} $command ${args ?: ""}")
 
 	fun pauseVm(session: ClientSession, vm: VirtualMachine) =
-		controlVm(session, vm, "pause")
+			controlVm(session, vm, "pause")
 
 	fun resumeVm(session: ClientSession, vm: VirtualMachine) =
-		controlVm(session, vm, "resume")
+			controlVm(session, vm, "resume")
 
 	fun resetVm(session: ClientSession, vm: VirtualMachine) =
-		controlVm(session, vm, "reset")
+			controlVm(session, vm, "reset")
 
 	fun teleportVm(session: ClientSession, vm: VirtualMachine, address: String, port: Int, password: String,
 				   listener: (Int) -> Unit) =
 			controlVm(session, vm, "teleport", "--host $address --port $port --password $password")
 
-	private fun vboxType(type: DeviceType) = when(type) {
+	private fun vboxType(type: DeviceType) = when (type) {
 		DeviceType.cdrom -> "dvd"
 		else -> type.name
 	}

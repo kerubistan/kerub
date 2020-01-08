@@ -11,13 +11,12 @@ object NotSameStorageExpectationViolationDetector : VStorageViolationDetector<No
 					   state: OperationalState): Boolean {
 		fun VirtualStorageDeviceDynamic.hostIds() = this.allocations.map { it.hostId }
 		val diskDyn = state.vStorage[entity.id]?.dynamic
-		return diskDyn == null || expectation.otherDiskId.let {
-			otherVdiskId ->
+		return diskDyn == null || expectation.otherDiskId.let { otherVdiskId ->
 			val otherDiskDyn = state.vStorage[otherVdiskId]?.dynamic
 			otherDiskDyn == null
 					|| otherDiskDyn.allocations.isEmpty()
 					|| diskDyn.allocations.isEmpty()
-					|| !diskDyn.hostIds().containsAll( otherDiskDyn.hostIds() )
+					|| !diskDyn.hostIds().containsAll(otherDiskDyn.hostIds())
 		}
 
 	}

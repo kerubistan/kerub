@@ -5,5 +5,5 @@ import java.math.BigInteger
 
 data class BlockDevice(
 		val deviceName: String,
-		val storageCapacity : BigInteger
+		val storageCapacity: BigInteger
 ) : Serializable

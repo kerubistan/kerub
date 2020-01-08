@@ -20,6 +20,5 @@ class AccountMembershipServiceImpl(private val dao: AccountMembershipDao) : Acco
 		dao.remove(membershipId)
 	}
 
-	override fun list(accountId: UUID): List<AccountMembership>
-			= dao.listByGroupId(accountId)
+	override fun list(accountId: UUID): List<AccountMembership> = dao.listByGroupId(accountId)
 }

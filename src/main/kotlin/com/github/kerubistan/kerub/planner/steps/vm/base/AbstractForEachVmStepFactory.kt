@@ -22,8 +22,7 @@ abstract class AbstractForEachVmStepFactory<T : AbstractOperationalStep> : Abstr
 	final override fun produce(state: OperationalState): List<T> {
 		return state.vms.values
 				.filter { it.dynamic != null && filter(it.dynamic) }
-				.map {
-					vm ->
+				.map { vm ->
 					create(vm, state)
 				}
 	}

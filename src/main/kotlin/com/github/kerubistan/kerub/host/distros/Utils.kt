@@ -7,8 +7,7 @@ import com.github.kerubistan.kerub.utils.junix.mount.FsMount
 fun joinMountsAndDF(df: List<FilesystemInfo>, mnts: List<FsMount>): List<FsStorageCapability> {
 	val mounts = mnts.map { it.mountPoint to it }.toMap()
 	return df.mapNotNull { fs -> mounts[fs.mountPoint]?.let { fs to it } }
-			.map {
-				mount ->
+			.map { mount ->
 				FsStorageCapability(
 						size = mount.first.free + mount.first.used,
 						mountPoint = mount.first.mountPoint,

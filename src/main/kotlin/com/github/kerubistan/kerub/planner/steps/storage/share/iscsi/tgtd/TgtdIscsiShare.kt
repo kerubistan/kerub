@@ -11,7 +11,7 @@ import com.github.kerubistan.kerub.planner.steps.storage.share.iscsi.AbstractIsc
 @JsonTypeName("tgtd-iscsi-share")
 data class TgtdIscsiShare(override val host: Host,
 						  override val vstorage: VirtualStorageDevice,
-						  override val allocation : VirtualStorageAllocation
+						  override val allocation: VirtualStorageAllocation
 ) : AbstractIscsiShare, InvertibleStep {
 	override fun isInverseOf(other: AbstractOperationalStep) =
 			other is TgtdIscsiUnshare && other.host == host

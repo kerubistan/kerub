@@ -6,5 +6,5 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 data class SimpleInterface(
 		override val name: String,
 		override val portSpeedPerSec: Int,
-		val device : String
+		val device: String
 ) : NetworkInterface

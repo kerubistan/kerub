@@ -38,7 +38,7 @@ object CreateLvmPoolFactory : AbstractOperationalStepFactory<CreateLvmPool>() {
 					}?.mapNotNull { lvmCapability ->
 						val freeCapacity: BigInteger? = hostData.dynamic?.storageStatus
 								?.singleOrNull { it.id == lvmCapability.id }?.freeCapacity
-						if(freeCapacity != null
+						if (freeCapacity != null
 								&& freeCapacity >= minimumThinGroupSize
 								&& freeCapacity <= lvmCapability.size) {
 							Triple(lvmCapability, hostData, freeCapacity)

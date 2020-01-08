@@ -27,8 +27,7 @@ class OpenIndiana : Distribution {
 
 	override val operatingSystem: OperatingSystem = OperatingSystem.Unix
 
-	override fun getVersion(session: ClientSession): Version
-			= Version.fromVersionString(UName.kernelVersion(session))
+	override fun getVersion(session: ClientSession): Version = Version.fromVersionString(UName.kernelVersion(session))
 
 	override fun name(): String = "openindiana"
 
@@ -36,8 +35,8 @@ class OpenIndiana : Distribution {
 
 	override fun detect(session: ClientSession): Boolean = session.executeOrDie("uname -n") == name()
 
-	override fun getPackageManager(session: ClientSession): PackageManager
-			= TODO("https://github.com/kerubistan/kerub/issues/180")
+	override fun getPackageManager(session: ClientSession): PackageManager =
+			TODO("https://github.com/kerubistan/kerub/issues/180")
 
 	override fun installMonitorPackages(session: ClientSession, host: Host) {
 		TODO("https://github.com/kerubistan/kerub/issues/180")

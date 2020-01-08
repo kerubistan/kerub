@@ -12,10 +12,10 @@ data class HistorySummary(
 		val time: Range<Long>,
 		val changes: List<PropertyChangeSummary>
 ) : HistoryEntry, Serializable {
-	val start : Long
+	val start: Long
 		@Field
 		get() = time.min
-	val end : Long
+	val end: Long
 		@Field
 		get() = time.max
 }

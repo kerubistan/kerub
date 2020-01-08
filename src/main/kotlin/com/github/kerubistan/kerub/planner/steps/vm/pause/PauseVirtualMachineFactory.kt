@@ -13,8 +13,7 @@ object PauseVirtualMachineFactory : AbstractForEachVmStepFactory<PauseVirtualMac
 	override val problemHints = setOf<KClass<out Problem>>()
 	override val expectationHints = setOf<KClass<out Expectation>>()
 
-	override fun filter(vmDyn: VirtualMachineDynamic): Boolean
-			= vmDyn.status == VirtualMachineStatus.Up
+	override fun filter(vmDyn: VirtualMachineDynamic): Boolean = vmDyn.status == VirtualMachineStatus.Up
 
 	override fun create(vmData: VirtualMachineDataCollection, state: OperationalState): PauseVirtualMachine =
 			PauseVirtualMachine(

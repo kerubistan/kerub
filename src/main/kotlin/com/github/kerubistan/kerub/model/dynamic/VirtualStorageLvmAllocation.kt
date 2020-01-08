@@ -14,8 +14,8 @@ data class VirtualStorageLvmAllocation(
 		override val actualSize: BigInteger,
 		val path: String,
 		val pool: String? = null,
-		val vgName : String,
-		val mirrors : Byte = 0
+		val vgName: String,
+		val mirrors: Byte = 0
 ) : VirtualStorageBlockDeviceAllocation {
 
 	@JsonIgnore

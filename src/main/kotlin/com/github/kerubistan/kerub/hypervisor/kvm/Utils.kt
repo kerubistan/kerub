@@ -37,7 +37,7 @@ private fun storageToXml(
 
 private fun kvmDeviceType(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
 		if (isRemoteHost(linkInfo, targetHost)) {
-			when(linkInfo.hostServiceUsed) {
+			when (linkInfo.hostServiceUsed) {
 				is NfsService -> "file"
 				is IscsiService -> "network"
 				else -> TODO("not handled service type: $linkInfo")
@@ -56,14 +56,14 @@ fun allocationType(deviceDyn: VirtualStorageLinkInfo): String = deviceDyn.alloca
 
 fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String =
 		if (isRemoteHost(linkInfo, targetHost)) {
-			when(linkInfo.hostServiceUsed) {
+			when (linkInfo.hostServiceUsed) {
 				is NfsService ->
 					"""
 						<!-- nfs -->
 						<source file='/mnt/${linkInfo.allocation.hostId}/${linkInfo.allocation.getPath(linkInfo.device.stat.id)}'/>
 					""".trimIndent()
 				is IscsiService -> {
-					val auth = if(linkInfo.hostServiceUsed.password != null) {
+					val auth = if (linkInfo.hostServiceUsed.password != null) {
 						"""
 							<auth username="$iscsiUser">
 								<secret type='iscsi'  uuid='${linkInfo.device.stat.id}'/>
@@ -78,7 +78,7 @@ fun allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Host): String 
 					</source>
 					$auth
 					""".trimIndent()
-			}
+				}
 				else -> TODO("not handled service type: $linkInfo")
 			}
 		} else {

@@ -74,7 +74,7 @@ class CompositeStepFactory(
 						}.toMap(), ::justToString)
 
 		private val problemHints =
-		// all problem classes
+				// all problem classes
 				logger.logAndReturn(LogLevel.Info, "problem hints {}",
 						defaultFactories.flatMap { it.problemHints }
 								.map { problemClass ->

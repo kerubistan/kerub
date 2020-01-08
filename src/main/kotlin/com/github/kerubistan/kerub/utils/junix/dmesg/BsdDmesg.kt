@@ -7,8 +7,7 @@ import org.apache.sshd.client.session.ClientSession
 
 object BsdDmesg {
 	fun listCpuFlags(session: ClientSession): List<String> {
-		return session.executeOrDie("grep Features /var/run/dmesg.boot").lines().map {
-			line ->
+		return session.executeOrDie("grep Features /var/run/dmesg.boot").lines().map { line ->
 			line.substringBetween("<", ">").split(",").toList().map(String::toLowerCase)
 		}.concat()
 	}

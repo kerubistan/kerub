@@ -34,6 +34,6 @@ object CtldIscsiShareFactory : AbstractOperationalStepFactory<CtldIscsiShare>() 
 
 	private fun isCtldAvailable(state: OperationalState, hostId: UUID): Boolean =
 			state.hosts[hostId]?.let {
-						Ctld.available(it.stat.capabilities)
+				Ctld.available(it.stat.capabilities)
 			} ?: false
 }

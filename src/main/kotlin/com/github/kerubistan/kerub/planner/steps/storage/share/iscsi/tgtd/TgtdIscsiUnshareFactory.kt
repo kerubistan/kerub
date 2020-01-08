@@ -21,11 +21,10 @@ object TgtdIscsiUnshareFactory : AbstractOperationalStepFactory<TgtdIscsiUnshare
 						.filter { allocation ->
 							state.hosts[allocation.hostId]?.dynamic?.status == HostStatus.Up
 									&& state.vms.values.none {
-										it.dynamic?.status == VirtualMachineStatus.Up
-									&& it.stat.virtualStorageLinks.none {
-											link ->
-											link.virtualStorageId == diskData.stat.id
-										}
+								it.dynamic?.status == VirtualMachineStatus.Up
+										&& it.stat.virtualStorageLinks.none { link ->
+									link.virtualStorageId == diskData.stat.id
+								}
 							}
 						}
 						.map { allocation ->

@@ -14,7 +14,7 @@ data class ControllerConfig(
 		/**
 		 * The amount of time in milliseconds after which the controller should give up trying to satisfy a requirement.
 		 */
-		val plannerTimeout : Int? = null,
+		val plannerTimeout: Int? = null,
 
 		/**
 		 * If accounts are required, the controller allows creating virtual resources only in accounts
@@ -45,7 +45,7 @@ data class ControllerConfig(
 		/**
 		 * The maximum redundancy level allowed by the controller.
 		 */
-		val maximumRedundancyAllowed : Short = 4,
+		val maximumRedundancyAllowed: Short = 4,
 		/**
 		 * All hypervisor-related here.
 		 */

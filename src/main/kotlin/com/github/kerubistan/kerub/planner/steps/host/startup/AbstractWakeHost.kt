@@ -15,8 +15,7 @@ import java.math.BigInteger
 abstract class AbstractWakeHost : AbstractOperationalStep {
 	abstract val host: Host
 
-	override fun reservations(): List<Reservation<Host>>
-			= listOf(FullHostReservation(host))
+	override fun reservations(): List<Reservation<Host>> = listOf(FullHostReservation(host))
 
 	override fun take(state: OperationalState): OperationalState {
 		val dyn = HostDynamic(

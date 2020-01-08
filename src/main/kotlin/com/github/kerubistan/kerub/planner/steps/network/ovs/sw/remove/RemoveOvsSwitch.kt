@@ -15,7 +15,8 @@ data class RemoveOvsSwitch(
 		val host: Host, val virtualNetwork: VirtualNetwork
 ) : AbstractOperationalStep, InvertibleStep {
 
-	override fun isInverseOf(other: AbstractOperationalStep): Boolean = other is CreateOvsSwitch && other.isInverseOf(this)
+	override fun isInverseOf(other: AbstractOperationalStep): Boolean =
+			other is CreateOvsSwitch && other.isInverseOf(this)
 
 	override fun take(state: OperationalState): OperationalState = state.copy(
 			hosts = state.hosts.update(host.id) { hostData ->

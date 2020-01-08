@@ -39,7 +39,7 @@ object QemuImg : OsCommand {
 			format: VirtualDiskFormat = VirtualDiskFormat.raw,
 			size: BigInteger,
 			path: String,
-			backingFile : String? = null
+			backingFile: String? = null
 	) {
 		val options = backingFile?.let { "-o backing_file=$it" } ?: ""
 		session.executeOrDie("qemu-img create -f $format $options $path $size")

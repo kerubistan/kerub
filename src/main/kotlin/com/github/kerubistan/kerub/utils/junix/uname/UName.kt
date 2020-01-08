@@ -9,11 +9,11 @@ object UName : OsCommand {
 	// any unix-like OS should have an uname
 	override fun available(hostCapabilities: HostCapabilities?): Boolean = true
 
-	fun kernelName(session : ClientSession) = session.executeOrDie("uname -s").trim()
+	fun kernelName(session: ClientSession) = session.executeOrDie("uname -s").trim()
 
-	fun machineType(session : ClientSession) = session.executeOrDie("uname -m").trim()
+	fun machineType(session: ClientSession) = session.executeOrDie("uname -m").trim()
 
-	fun processorType(session : ClientSession) = session.executeOrDie("uname -p").trim()
+	fun processorType(session: ClientSession) = session.executeOrDie("uname -p").trim()
 
 	fun kernelVersion(session: ClientSession) = session.executeOrDie("uname -r").trim()
 

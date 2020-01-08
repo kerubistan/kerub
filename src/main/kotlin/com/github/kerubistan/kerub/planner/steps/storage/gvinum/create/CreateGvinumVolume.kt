@@ -76,16 +76,14 @@ data class CreateGvinumVolume(
 			"Host dynamic not found - host must be running"
 		}
 		return state.copy(
-				hosts = state.hosts.update(host.id) {
-					hostData ->
+				hosts = state.hosts.update(host.id) { hostData ->
 					hostData.copy(
 							dynamic = hostDyn.copy(
 									storageStatus = hostDyn.storageStatus // TODO tell about the storage
 							)
 					)
 				},
-				vStorage = state.vStorage.update(disk.id) {
-					vStorageData ->
+				vStorage = state.vStorage.update(disk.id) { vStorageData ->
 					vStorageData.copy(
 							dynamic = VirtualStorageDeviceDynamic(
 									id = disk.id,

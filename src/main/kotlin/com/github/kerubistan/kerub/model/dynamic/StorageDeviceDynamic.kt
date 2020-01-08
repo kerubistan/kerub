@@ -16,6 +16,6 @@ interface StorageDeviceDynamic : Serializable {
 	val id: UUID
 	val freeCapacity: BigInteger
 
-	fun withFreeCapacity(freeCapacity : BigInteger) : StorageDeviceDynamic
+	fun withFreeCapacity(freeCapacity: BigInteger): StorageDeviceDynamic
 }
 

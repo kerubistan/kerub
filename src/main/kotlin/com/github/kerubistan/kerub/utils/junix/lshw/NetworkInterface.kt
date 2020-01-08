@@ -10,8 +10,8 @@ data class NetworkInterface @JsonCreator constructor(
 		override val configuration: Map<String, String>?,
 		override val children: List<HardwareItem>?,
 		override val description: String?,
-		val serial : String?,
+		val serial: String?,
 		@JsonProperty("logicalname")
-		val logicalName : String?,
-		val capacity : Int?
+		val logicalName: String?,
+		val capacity: Int?
 ) : HardwareItem

@@ -24,10 +24,8 @@ class AssetAccessControllerImpl(
 	override fun <T : Asset> filter(items: List<T>): List<T> {
 		return if (controllerConfigDao.get().accountsRequired) {
 			val memberships = memberships(getSubject().principal.toString())
-			items.filter {
-				item ->
-				memberships.any {
-					membership ->
+			items.filter { item ->
+				memberships.any { membership ->
 					item.owner?.ownerId == membership.ownerId
 							&& item.owner?.ownerType == membership.ownerType
 				}
@@ -37,7 +35,8 @@ class AssetAccessControllerImpl(
 		}
 	}
 
-	override fun <T : Asset> listWithFilter(dao: AssetDao<T>, start: Long, limit: Int, sort: String): SortResultPage<T> {
+	override fun <T : Asset> listWithFilter(dao: AssetDao<T>, start: Long, limit: Int,
+											sort: String): SortResultPage<T> {
 		return if (filterNotRequired()) {
 			val list = dao.list(start, limit, sort)
 			SortResultPage(
@@ -65,8 +64,7 @@ class AssetAccessControllerImpl(
 		}
 	}
 
-	internal fun memberships(userName: String)
-			= listOf(
+	internal fun memberships(userName: String) = listOf(
 			task {
 				accountMembershipDao.listByUsername(userName).map {
 					AssetOwner(ownerId = it.groupId, ownerType = AssetOwnerType.account)

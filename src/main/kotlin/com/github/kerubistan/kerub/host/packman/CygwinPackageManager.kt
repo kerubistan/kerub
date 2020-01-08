@@ -31,8 +31,7 @@ class CygwinPackageManager(private val session: ClientSession) : PackageManager 
 
 	private fun consolidate(list: List<SoftwarePackage>): List<SoftwarePackage> {
 		//a registry of known windows applications
-		return list.map {
-			winSoftware ->
+		return list.map { winSoftware ->
 			val pattern = packageMatchers.keys.firstOrNull {
 				winSoftware.name.matches(it)
 			}

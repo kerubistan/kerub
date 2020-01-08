@@ -49,9 +49,9 @@ fun <T> Iterable<T>.decimalAvgBy(selector: (T) -> BigDecimal): BigDecimal {
 /**
  * Whatever we get in a numeric property change, let's just make a BigDecimal from it
  */
-fun bd(something : Any?) =
+fun bd(something: Any?) =
 		something?.let {
-			when(it) {
+			when (it) {
 				is BigDecimal -> it
 				is BigInteger -> BigDecimal(it)
 				is Long -> BigDecimal(it)

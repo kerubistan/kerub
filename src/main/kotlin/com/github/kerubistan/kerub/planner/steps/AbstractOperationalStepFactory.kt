@@ -20,9 +20,9 @@ abstract class AbstractOperationalStepFactory<out S : AbstractOperationalStep> :
 	final override fun produce(state: Plan): List<S> =
 			produce(state.state)
 
-	abstract val problemHints : Set<KClass<out Problem>>
+	abstract val problemHints: Set<KClass<out Problem>>
 
-	abstract val expectationHints : Set<KClass<out Expectation>>
+	abstract val expectationHints: Set<KClass<out Expectation>>
 
 	// All implementations are objects, so a short name should be enough
 	override fun toString(): String = this.javaClass.simpleName

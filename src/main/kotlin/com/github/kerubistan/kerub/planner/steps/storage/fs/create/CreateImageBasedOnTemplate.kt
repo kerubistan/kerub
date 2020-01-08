@@ -16,8 +16,8 @@ data class CreateImageBasedOnTemplate(
 		override val disk: VirtualStorageDevice,
 		override val capability: FsStorageCapability,
 		override val format: VirtualDiskFormat,
-		val baseAllocation : VirtualStorageFsAllocation,
-		val baseDisk : VirtualStorageDevice
+		val baseAllocation: VirtualStorageFsAllocation,
+		val baseDisk: VirtualStorageDevice
 ) : AbstractCreateImage() {
 
 	@get:JsonIgnore

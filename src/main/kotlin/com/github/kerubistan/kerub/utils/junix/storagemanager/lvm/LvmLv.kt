@@ -21,9 +21,9 @@ object LvmLv : Lvm() {
 	fun roundUp(size: BigInteger, minimum: BigInteger = minimalSize): BigInteger =
 			if (size.mod(minimum) == BigInteger.ZERO && size != BigInteger.ZERO) {
 				size
-		} else {
+			} else {
 				val newSize = (size.div(minimum) + BigInteger.ONE) * minimum
-			logger.info("Rounded up requested size {} to {}", size, newSize)
+				logger.info("Rounded up requested size {} to {}", size, newSize)
 				newSize
 			}
 
@@ -90,8 +90,8 @@ object LvmLv : Lvm() {
 		return session.executeOrDie(
 				"lvm lvs -o $fields $listOptions $filter")
 				.lines().filterNot { it.isEmpty() }.map { row ->
-			parseRow(row)
-		}
+					parseRow(row)
+				}
 	}
 
 	const val cacheMetaRatio = 1000
@@ -175,7 +175,7 @@ object LvmLv : Lvm() {
 		session.executeOrDie("lvm lvremove -f $volumeName")
 	}
 
-	fun mirror(session: ClientSession, volumeName: String, vgName : String, mirrors : Short) {
+	fun mirror(session: ClientSession, volumeName: String, vgName: String, mirrors: Short) {
 		require(mirrors >= 0) {
 			"mirrors ($mirrors) must be at least 0"
 		}

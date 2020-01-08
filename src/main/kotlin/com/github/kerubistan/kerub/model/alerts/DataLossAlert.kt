@@ -10,7 +10,7 @@ data class DataLossAlert(
 		override val created: Long = now(),
 		override val resolved: Long?,
 		override val open: Boolean = true,
-		val storageId : UUID
+		val storageId: UUID
 ) : VirtualResourceAlert {
 	init {
 		this.validate()

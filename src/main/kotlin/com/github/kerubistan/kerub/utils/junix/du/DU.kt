@@ -16,10 +16,10 @@ object DU {
 			session.executeOrDie("du -B 1 $file").substringBefore("\t").toBigInteger()
 
 
-	fun monitor(session: ClientSession, directory : String, callback : (Map<String, BigInteger>) -> Unit ) {
+	fun monitor(session: ClientSession, directory: String, callback: (Map<String, BigInteger>) -> Unit) {
 
-		fun parseOutput(output : String) = output.lines().filterNot { it.isEmpty() }.map {
-			it.split(spaces).let {  columns -> columns[1].removePrefix(directory) to columns.first().toBigInteger() }
+		fun parseOutput(output: String) = output.lines().filterNot { it.isEmpty() }.map {
+			it.split(spaces).let { columns -> columns[1].removePrefix(directory) to columns.first().toBigInteger() }
 		}.toMap()
 
 		session.bashMonitor(

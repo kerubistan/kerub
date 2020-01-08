@@ -12,7 +12,7 @@ import io.github.kerubistan.kroki.collections.concat
 abstract class AbstractCreateFileVirtualStorageFactory<S : AbstractOperationalStep> :
 		AbstractOperationalStepFactory<S>() {
 
-	abstract val requiredOsCommand : OsCommand
+	abstract val requiredOsCommand: OsCommand
 
 	final override fun produce(state: OperationalState): List<S> =
 			state.index.runningHosts.filter { requiredOsCommand.available(it.stat.capabilities) }

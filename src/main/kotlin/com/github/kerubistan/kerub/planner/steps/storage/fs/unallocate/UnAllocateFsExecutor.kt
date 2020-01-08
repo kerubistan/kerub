@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageFsAllocation
 import com.github.kerubistan.kerub.planner.steps.base.AbstractUnAllocateExecutor
 
 class UnAllocateFsExecutor(
-		private val hostExecutor : HostCommandExecutor,
+		private val hostExecutor: HostCommandExecutor,
 		override val vssDynDao: VirtualStorageDeviceDynamicDao
 ) : AbstractUnAllocateExecutor<UnAllocateFs, VirtualStorageFsAllocation>() {
 	override fun perform(step: UnAllocateFs): Unit = hostExecutor.execute(step.host) { session ->

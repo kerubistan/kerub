@@ -9,8 +9,7 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 
 @JsonTypeName("fence-host")
 data class FenceHost(val host: Host) : AbstractOperationalStep {
-	override fun reservations(): List<Reservation<*>>
-			= listOf(FullHostReservation(host = host))
+	override fun reservations(): List<Reservation<*>> = listOf(FullHostReservation(host = host))
 
 	override fun take(state: OperationalState): OperationalState {
 		throw UnsupportedOperationException()

@@ -10,8 +10,7 @@ open class IpmiClient {
 	fun sendPing(address: String, timeOutMs: Int = 1000) =
 			task {
 				val inetAddress = InetAddress.getByName(address)
-				DatagramSocket().use {
-					socket ->
+				DatagramSocket().use { socket ->
 					socket.connect(inetAddress, rmcpPort)
 					val nr = 0x42.toByte()
 					socket.soTimeout = timeOutMs
@@ -22,8 +21,7 @@ open class IpmiClient {
 			}
 
 	private fun makeAsfPingMessage(nr: Byte): ByteArray =
-			ByteArray(8) {
-				idx ->
+			ByteArray(8) { idx ->
 				when (idx) {
 					0 -> 4
 					1 -> 5
@@ -36,8 +34,7 @@ open class IpmiClient {
 			}
 
 	private fun makeRmcpHeader(type: Byte): ByteArray =
-			ByteArray(4) {
-				idx ->
+			ByteArray(4) { idx ->
 				when (idx) {
 					0 -> rmpCpVersion1_0.toByte()
 					2 -> 0xFF.toByte()

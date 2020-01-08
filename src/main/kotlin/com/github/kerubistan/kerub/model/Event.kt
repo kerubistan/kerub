@@ -14,5 +14,4 @@ data class Event(
 		val message: String,
 		val date: Long,
 		val messageType: EventType
-)
-	: Entity<UUID>
+) : Entity<UUID>

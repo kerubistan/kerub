@@ -6,5 +6,5 @@ import com.github.kerubistan.kerub.planner.steps.AbstractOperationalStep
 
 abstract class AbstractConvertImage : AbstractOperationalStep {
 	abstract val virtualStorage: VirtualStorageDevice
-	abstract val sourceAllocation : VirtualStorageAllocation
+	abstract val sourceAllocation: VirtualStorageAllocation
 }

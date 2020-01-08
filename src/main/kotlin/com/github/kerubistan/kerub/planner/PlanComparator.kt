@@ -39,7 +39,7 @@ object PlanComparator : Comparator<Plan> {
 
 		val costTypes = (firstCosts.keys + secondCosts.keys).sortedBy {
 			val index = costTypeOrder.indexOf(it)
-			if(index == -1) {
+			if (index == -1) {
 				costTypeOrder.size + 1
 			} else {
 				index

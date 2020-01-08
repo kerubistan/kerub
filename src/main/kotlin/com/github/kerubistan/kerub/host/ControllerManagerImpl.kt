@@ -16,7 +16,7 @@ class ControllerManagerImpl(val dao: ControllerDynamicDao,
 	private fun getHostName(): String? {
 		return try {
 			InetAddress.getLocalHost().hostName
-		} catch(ioe: IOException) {
+		} catch (ioe: IOException) {
 			null
 		}
 	}

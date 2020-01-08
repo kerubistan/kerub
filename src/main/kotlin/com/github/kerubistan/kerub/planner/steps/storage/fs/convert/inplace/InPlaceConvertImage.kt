@@ -17,14 +17,15 @@ data class InPlaceConvertImage(
 		override val virtualStorage: VirtualStorageDevice,
 		override val sourceAllocation: VirtualStorageFsAllocation,
 		val host: Host,
-		val targetFormat : VirtualDiskFormat
+		val targetFormat: VirtualDiskFormat
 ) : AbstractConvertImage() {
 
 	init {
 		check(host.id == sourceAllocation.hostId) {
 			"allocation host id (${sourceAllocation.hostId}) does not match the host id (${host.id})"
 		}
-		check(host.capabilities?.index?.storageCapabilitiesById?.keys?.let { sourceAllocation.capabilityId in it } ?: false) {
+		check(host.capabilities?.index?.storageCapabilitiesById?.keys?.let { sourceAllocation.capabilityId in it }
+				?: false) {
 			"source allocation refers to capability (${sourceAllocation.capabilityId}) not registered in the host record." +
 					"known capabilities are ${host.capabilities?.index?.storageCapabilitiesById}"
 		}

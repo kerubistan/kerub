@@ -18,7 +18,7 @@ abstract class AbstractUnAllocate<T : VirtualStorageAllocation> : AbstractOperat
 	override fun take(state: OperationalState) =
 			state.copy(
 					vStorage = state.vStorage.update(vstorage.id) { vStorage ->
-						vStorage.updateWithDynamic {dyn ->
+						vStorage.updateWithDynamic { dyn ->
 							dyn.copy(allocations = dyn.allocations - allocation)
 						}
 					},

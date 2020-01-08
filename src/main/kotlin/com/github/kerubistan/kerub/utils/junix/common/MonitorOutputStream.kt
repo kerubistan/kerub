@@ -5,7 +5,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 import java.io.OutputStream
 
 class MonitorOutputStream<T>(
-		private val separator : String,
+		private val separator: String,
 		private val callback: (T) -> Unit,
 		private val parser: (String) -> T) : OutputStream() {
 

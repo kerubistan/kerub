@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonTypeName
 @JsonTypeName("data-change")
 data class DataPropertyChangeSummary(
 		override val property: String,
-		val changes : Map<String, PropertyChangeSummary>
+		val changes: Map<String, PropertyChangeSummary>
 ) : PropertyChangeSummary

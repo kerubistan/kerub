@@ -5,7 +5,7 @@ import java.io.Serializable
 import java.math.BigInteger
 
 data class CompositeStorageDeviceDynamicItem(
-		val name : String,
+		val name: String,
 		val freeCapacity: BigInteger
 ) : Serializable {
 	init {

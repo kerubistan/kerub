@@ -28,10 +28,8 @@ object WakeHostFactory : AbstractOperationalStepFactory<AbstractWakeHost>() {
 					it.stat.capabilities?.powerManagment?.isNotEmpty() ?: false
 							&& (it.dynamic == null || it.dynamic.status == HostStatus.Down)
 
-				}.map {
-					(stat) ->
-					stat.capabilities?.powerManagment?.map {
-						lom ->
+				}.map { (stat) ->
+					stat.capabilities?.powerManagment?.map { lom ->
 						when (lom) {
 							is WakeOnLanInfo -> {
 								if (state.controllerConfig.wakeOnLanEnabled) {

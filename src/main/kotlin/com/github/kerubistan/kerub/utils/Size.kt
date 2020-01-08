@@ -43,7 +43,7 @@ fun String.toSize() =
 			validateSize("size")
 		}
 
-fun BigInteger.validateSize(name : String) {
+fun BigInteger.validateSize(name: String) {
 	check(this >= BigInteger.ZERO) {
 		"$name ($this) must be greater or equal to zero"
 	}

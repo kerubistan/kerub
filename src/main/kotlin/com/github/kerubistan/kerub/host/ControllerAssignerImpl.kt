@@ -79,11 +79,11 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 	companion object {
 		private val logger = getLogger(ControllerAssignerImpl::class)
 		fun controllerScore(state: ControllerDynamic?): Int =
-			if (state == null) {
-				-1
-			} else {
-				state.maxHosts - state.totalHosts
-			}
+				if (state == null) {
+					-1
+				} else {
+					state.maxHosts - state.totalHosts
+				}
 	}
 
 	override fun assignControllers(hosts: List<Host>) {
@@ -100,17 +100,16 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 				strategy,
 				strategy
 		)
-		strategy.solution?.assignments?.forEach {
-			assignment ->
+		strategy.solution?.assignments?.forEach { assignment ->
 			hostAssignmentDao.add(Assignment(
 					entityId = assignment.key.id,
 					controller = assignment.value,
 					type = AssignmentType.host))
 			interController.sendToController(assignment.value,
-											 HostAssignedMessage(
-													 hostId = assignment.key.id,
-													 conrollerId = assignment.value
-											 ))
+					HostAssignedMessage(
+							hostId = assignment.key.id,
+							conrollerId = assignment.value
+					))
 
 		}
 	}

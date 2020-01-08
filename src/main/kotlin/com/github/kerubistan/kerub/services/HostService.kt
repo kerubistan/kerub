@@ -91,5 +91,5 @@ interface HostService : RestCrud<Host>, RestOperations.List<Host>, RestOperation
 	@GET
 	@Path("{id}/features")
 	@Produces(MediaType.APPLICATION_JSON)
-	fun getFeatures(@PathParam("id") id : UUID) : List<HostFeatureSummary>
+	fun getFeatures(@PathParam("id") id: UUID): List<HostFeatureSummary>
 }

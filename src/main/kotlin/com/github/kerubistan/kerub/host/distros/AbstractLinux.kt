@@ -204,56 +204,53 @@ abstract class AbstractLinux : Distribution {
 		host.capabilities?.storageCapabilities
 				?.filterIsInstance<FsStorageCapability>()
 				?.filter { fsCapability ->
-					controllerConfig.storageTechnologies.fsPathEnabled.any {
-						enabledPath -> fsCapability.mountPoint.startsWith(enabledPath)
+					controllerConfig.storageTechnologies.fsPathEnabled.any { enabledPath ->
+						fsCapability.mountPoint.startsWith(enabledPath)
 					}
 				}
 				?.forEach { fsCapability ->
-			DU.monitor(session, fsCapability.mountPoint) {
-				fileSizes ->
-				fun String.virtualDiskName() = this.substringAfterLast("/").substringBeforeLast(".")
-				fileSizes.entries.filter { it.key.virtualDiskName().isUUID() }.forEach {
-					(fileName, fileSize) ->
-					val vDiskId = fileName.virtualDiskName().toUUID()
-					val type = fileName.substringAfterLast(".", "raw")
-					vStorageDeviceDynamicDao.update(
-							vDiskId,
-							retrieve = {
-								vStorageDeviceDynamicDao[it]
-									?: VirtualStorageDeviceDynamic(id = vDiskId, allocations = listOf())
-							},
-							change = {
-								dyn ->
-								dyn.copy(
-										allocations = dyn.allocations.update(
-												selector = {
-													it is VirtualStorageFsAllocation
-															&& it.hostId == host.id
-															&& it.capabilityId == fsCapability.id
-												},
-												default = {
-													VirtualStorageFsAllocation(
-															hostId = host.id,
-															actualSize = fileSize,
-															type = silent { VirtualDiskFormat.valueOf(type) }
-																	?: VirtualDiskFormat.raw,
-															capabilityId = fsCapability.id,
-															fileName = "${fsCapability.mountPoint}/$fileName",
-															mountPoint = fsCapability.mountPoint
-													)
-												},
-												map = {
-													(it as VirtualStorageFsAllocation).copy(
-															actualSize = fileSize
-													)
-												}
+					DU.monitor(session, fsCapability.mountPoint) { fileSizes ->
+						fun String.virtualDiskName() = this.substringAfterLast("/").substringBeforeLast(".")
+						fileSizes.entries.filter { it.key.virtualDiskName().isUUID() }.forEach { (fileName, fileSize) ->
+							val vDiskId = fileName.virtualDiskName().toUUID()
+							val type = fileName.substringAfterLast(".", "raw")
+							vStorageDeviceDynamicDao.update(
+									vDiskId,
+									retrieve = {
+										vStorageDeviceDynamicDao[it]
+												?: VirtualStorageDeviceDynamic(id = vDiskId, allocations = listOf())
+									},
+									change = { dyn ->
+										dyn.copy(
+												allocations = dyn.allocations.update(
+														selector = {
+															it is VirtualStorageFsAllocation
+																	&& it.hostId == host.id
+																	&& it.capabilityId == fsCapability.id
+														},
+														default = {
+															VirtualStorageFsAllocation(
+																	hostId = host.id,
+																	actualSize = fileSize,
+																	type = silent { VirtualDiskFormat.valueOf(type) }
+																			?: VirtualDiskFormat.raw,
+																	capabilityId = fsCapability.id,
+																	fileName = "${fsCapability.mountPoint}/$fileName",
+																	mountPoint = fsCapability.mountPoint
+															)
+														},
+														map = {
+															(it as VirtualStorageFsAllocation).copy(
+																	actualSize = fileSize
+															)
+														}
+												)
 										)
-								)
-							}
-					)
+									}
+							)
+						}
+					}
 				}
-			}
-		}
 
 	}
 
@@ -282,20 +279,20 @@ abstract class AbstractLinux : Distribution {
 	) {
 		LvmLv.monitor(session) { volumes ->
 			val pools = volumes.filter { it.layout.contains("pool") }
-			if(pools.isNotEmpty()) {
+			if (pools.isNotEmpty()) {
 				val poolsByVolumeGroup = pools.groupBy { it.volumeGroupName }
 				hostDynDao.update(
 						host.id,
-						retrieve = { hostDynDao[host.id] ?: HostDynamic(id = host.id, status = HostStatus.Up) } ) { dyn ->
+						retrieve = {
+							hostDynDao[host.id] ?: HostDynamic(id = host.id, status = HostStatus.Up)
+						}) { dyn ->
 					dyn.copy(
 							storageStatus = dyn.storageStatus.mergeInstancesWith(
 									leftItems = poolsByVolumeGroup.entries,
-									merge = {
-										devDyn : CompositeStorageDeviceDynamic,
-										(_, volumes: List<LogicalVolume>) ->
+									merge = { devDyn: CompositeStorageDeviceDynamic,
+											  (_, volumes: List<LogicalVolume>) ->
 										devDyn.copy(
-												pools = volumes.map {
-													poolVolume ->
+												pools = volumes.map { poolVolume ->
 													StoragePoolDynamic(
 															name = poolVolume.name,
 															size = poolVolume.size,
@@ -305,8 +302,7 @@ abstract class AbstractLinux : Distribution {
 										)
 									},
 									rightValue = CompositeStorageDeviceDynamic::id,
-									leftValue = {
-										(volumeGroupName, _) ->
+									leftValue = { (volumeGroupName, _) ->
 										host.capabilities?.index?.lvmStorageCapabilitiesByVolumeGroupName
 												?.get(volumeGroupName)?.id
 									},
@@ -345,38 +341,34 @@ abstract class AbstractLinux : Distribution {
 
 		LvmVg.monitor(session) { volGroups ->
 			hostDynDao.update(host.id) {
-				logger.debug( "updating {} vgs", host.id)
+				logger.debug("updating {} vgs", host.id)
 				it.copy(
 						storageStatus =
-								it.storageStatus.mergeInstancesWith(
-										leftItems = volGroups,
-										rightValue = StorageDeviceDynamic::id,
-										leftValue = { volumeGroup -> lvmCapsByName?.get(volumeGroup.name)?.id },
-										merge = {
-											storageDeviceDynamic : CompositeStorageDeviceDynamic, volumeGroup ->
-											storageDeviceDynamic.copy(
-												reportedFreeCapacity = volumeGroup.freeSize
+						it.storageStatus.mergeInstancesWith(
+								leftItems = volGroups,
+								rightValue = StorageDeviceDynamic::id,
+								leftValue = { volumeGroup -> lvmCapsByName?.get(volumeGroup.name)?.id },
+								merge = { storageDeviceDynamic: CompositeStorageDeviceDynamic, volumeGroup ->
+									storageDeviceDynamic.copy(
+											reportedFreeCapacity = volumeGroup.freeSize
+									)
+								},
+								missLeft = { volGroup ->
+									if (lvmCapsByName != null) {
+										logger.debug("vol group new: {}", volGroup.name)
+										lvmCapsByName[volGroup.name]?.let { lvmCap ->
+											CompositeStorageDeviceDynamic(
+													id = lvmCap.id,
+													reportedFreeCapacity = volGroup.freeSize,
+													items = listOf() // lvm pvs monitor should fill it
 											)
-										},
-										missLeft = {
-											volGroup ->
-											if(lvmCapsByName != null) {
-												logger.debug("vol group new: {}", volGroup.name)
-												lvmCapsByName[volGroup.name]?.let {
-													lvmCap ->
-													CompositeStorageDeviceDynamic(
-															id = lvmCap.id,
-															reportedFreeCapacity = volGroup.freeSize,
-															items = listOf() // lvm pvs monitor should fill it
-													)
-												}
-											} else null
-										})
+										}
+									} else null
+								})
 				)
 			}
 		}
-		LvmPv.monitor(session) {
-			physicalVolumes ->
+		LvmPv.monitor(session) { physicalVolumes ->
 			val physicalVolumesByVg: Map<String, List<PhysicalVolume>> = physicalVolumes.groupBy(PhysicalVolume::volumeGroupName)
 			hostDynDao.update(host.id) { hostDynamic ->
 				hostDynamic.copy(
@@ -499,14 +491,15 @@ abstract class AbstractLinux : Distribution {
 						selector = { it.children ?: listOf() }
 				).filterIsInstance<LshwNetworkInterface>().filter { it.configuration?.get("driver") != "bonding" }.map {
 					EthernetPort(
-							device = it.logicalName?: "",
+							device = it.logicalName ?: "",
 							portSpeed = it.capacity?.toLong() ?: 0,
 							switchId = null
 					)
 				}
 			} else listOf()
 
-	private fun detectNetworkInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
+	private fun detectNetworkInterfaces(capabilities: HostCapabilities,
+										session: ClientSession): List<NetworkInterface> =
 			listInterfaces(capabilities, session) + (silent { listBonds(capabilities, session) } ?: listOf())
 
 	private fun listInterfaces(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
@@ -514,14 +507,14 @@ abstract class AbstractLinux : Distribution {
 
 	private fun listBonds(capabilities: HostCapabilities, session: ClientSession): List<NetworkInterface> =
 			if (Bonding.available(capabilities)) {
-				Bonding.listBondInterfaces(session).map { it to Bonding.getBondInfo(session, it) }.map {
-					(name, bondInfo) ->
-					BondInterface(
-							name = name,
-							devices = bondInfo.slaves.map { it.name },
-							portSpeedPerSec = bondInfo.slaves.sumBy { (it.speedMbps ?: 0) } /* * MB*/
-					)
-				}
+				Bonding.listBondInterfaces(session).map { it to Bonding.getBondInfo(session, it) }
+						.map { (name, bondInfo) ->
+							BondInterface(
+									name = name,
+									devices = bondInfo.slaves.map { it.name },
+									portSpeedPerSec = bondInfo.slaves.sumBy { (it.speedMbps ?: 0) } /* * MB*/
+							)
+						}
 			} else listOf()
 
 }

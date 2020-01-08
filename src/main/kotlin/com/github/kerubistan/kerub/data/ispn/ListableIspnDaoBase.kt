@@ -13,8 +13,7 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 		private val auditManager: AuditManager)
 	: IspnDaoBase<T, I>(cache, eventListener),
 		DaoOperations.PagedList<T, I>,
-		DaoOperations.ListMany<I, T>
-{
+		DaoOperations.ListMany<I, T> {
 
 	override fun add(entity: T): I {
 		auditManager.auditAdd(entity)
@@ -49,8 +48,7 @@ abstract class ListableIspnDaoBase<T : Entity<I>, I>(
 	}
 
 	override fun update(id: I, retrieve: (I) -> T, change: (T) -> T) {
-		super.update(id, retrieve) {
-			old ->
+		super.update(id, retrieve) { old ->
 			val new = change(old)
 			auditManager.auditUpdate(old, new)
 			new

@@ -10,8 +10,8 @@ import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 
 object BsdMount : OsCommand {
-	override fun available(hostCapabilities: HostCapabilities?): Boolean
-			= hostCapabilities?.os == OperatingSystem.BSD && hostCapabilities.distribution?.name == FreeBSD
+	override fun available(hostCapabilities: HostCapabilities?): Boolean =
+			hostCapabilities?.os == OperatingSystem.BSD && hostCapabilities.distribution?.name == FreeBSD
 
 	fun listMounts(session: ClientSession): List<FsMount> =
 			session.executeOrDie("mount").lines().map {

@@ -28,7 +28,7 @@ import java.math.BigInteger
 
 class Cygwin : Distribution {
 	override fun listBlockDevices(session: ClientSession): List<BlockDevice>
-			// TODO : find a way to get block device list from windows - wmic maybe?
+	// TODO : find a way to get block device list from windows - wmic maybe?
 			= listOf()
 
 	override fun getVersion(session: ClientSession) =
@@ -37,11 +37,9 @@ class Cygwin : Distribution {
 	override fun name(): String =
 			"Cygwin"
 
-	override fun handlesVersion(version: Version): Boolean
-			= version.major.toInt() >= 2
+	override fun handlesVersion(version: Version): Boolean = version.major.toInt() >= 2
 
-	override fun detect(session: ClientSession): Boolean
-			= UName.operatingSystem(session) == "Cygwin"
+	override fun detect(session: ClientSession): Boolean = UName.operatingSystem(session) == "Cygwin"
 
 	override fun getPackageManager(session: ClientSession): PackageManager = CygwinPackageManager(session)
 
@@ -56,16 +54,14 @@ class Cygwin : Distribution {
 			vStorageDeviceDynamicDao: VirtualStorageDeviceDynamicDao,
 			controllerConfig: ControllerConfig
 	) {
-		Stat.cpuLoadMonitorIncremental(session) {
-			cpus ->
+		Stat.cpuLoadMonitorIncremental(session) { cpus ->
 
 			val idle = cpus["cpu"]?.idle ?: 0
 			val user = cpus["cpu"]?.user ?: 0
 			val system = cpus["cpu"]?.system ?: 0
 			val sum = system + idle + user
 
-			hostDynDao.doWithDyn(host.id) {
-				dyn ->
+			hostDynDao.doWithDyn(host.id) { dyn ->
 				dyn.copy(
 						status = HostStatus.Up,
 						idleCpu = idle.asPercentOf(sum).toByte(),

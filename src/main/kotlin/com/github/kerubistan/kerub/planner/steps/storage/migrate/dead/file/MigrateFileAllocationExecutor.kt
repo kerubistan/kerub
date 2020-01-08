@@ -14,9 +14,9 @@ class MigrateFileAllocationExecutor(
 ) : AbstractStepExecutor<MigrateFileAllocation, Unit>() {
 	override fun perform(step: MigrateFileAllocation) {
 		stepExecutor.execute(step.allocationStep)
-		hostCommandExecutor.execute(step.sourceHost) {session ->
+		hostCommandExecutor.execute(step.sourceHost) { session ->
 			OpenSsh.copyBlockDevice(
-				session = session,
+					session = session,
 					sourceDevice = step.sourceAllocation.getPath(step.virtualStorage.id),
 					targetDevice = step.allocationStep.allocation.getPath(step.virtualStorage.id),
 					targetAddress = step.targetHost.address
@@ -35,7 +35,7 @@ class MigrateFileAllocationExecutor(
 		 	TODO
 		 	here too, we should update the host state based on the info retrieved by perform
 		 */
-		virtualStorageDeviceDynamicDao.update(step.virtualStorage.id) {dyn ->
+		virtualStorageDeviceDynamicDao.update(step.virtualStorage.id) { dyn ->
 			dyn.copy(
 					allocations = dyn.allocations - step.sourceAllocation + step.allocationStep.allocation
 			)

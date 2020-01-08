@@ -17,7 +17,7 @@ class VirtualBoxHypervisor(private val client: ClientSession) : Hypervisor {
 	}
 
 	override fun suspend(vm: VirtualMachine) {
-		 VBoxManage.pauseVm(session = client, vm = vm)
+		VBoxManage.pauseVm(session = client, vm = vm)
 	}
 
 	override fun resume(vm: VirtualMachine) {

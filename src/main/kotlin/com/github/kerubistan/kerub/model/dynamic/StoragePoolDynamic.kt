@@ -5,9 +5,9 @@ import java.io.Serializable
 import java.math.BigInteger
 
 data class StoragePoolDynamic(
-		val name : String,
-		val size : BigInteger,
-		val freeSize : BigInteger
+		val name: String,
+		val size: BigInteger,
+		val freeSize: BigInteger
 ) : Serializable {
 	init {
 		size.validateSize("size")
