@@ -11,11 +11,11 @@ import com.github.kerubistan.kerub.model.hardware.SystemInformation
 import com.github.kerubistan.kerub.model.hypervisor.HypervisorCapabilities
 import com.github.kerubistan.kerub.model.index.Indexed
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
+import com.github.kerubistan.kerub.model.network.EthernetPort
+import com.github.kerubistan.kerub.model.network.NetworkInterface
 import com.github.kerubistan.kerub.model.views.Detailed
 import com.github.kerubistan.kerub.model.views.Full
 import com.github.kerubistan.kerub.model.views.Simple
-import com.github.kerubistan.kerub.network.EthernetPort
-import com.github.kerubistan.kerub.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.validateSize
 import org.hibernate.search.annotations.Field
 import java.io.Serializable

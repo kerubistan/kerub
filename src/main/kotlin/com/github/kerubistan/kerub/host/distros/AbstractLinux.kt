@@ -30,9 +30,9 @@ import com.github.kerubistan.kerub.model.hardware.BlockDevice
 import com.github.kerubistan.kerub.model.io.VirtualDiskFormat
 import com.github.kerubistan.kerub.model.lom.PowerManagementInfo
 import com.github.kerubistan.kerub.model.lom.WakeOnLanInfo
-import com.github.kerubistan.kerub.network.BondInterface
-import com.github.kerubistan.kerub.network.EthernetPort
-import com.github.kerubistan.kerub.network.NetworkInterface
+import com.github.kerubistan.kerub.model.network.BondInterface
+import com.github.kerubistan.kerub.model.network.EthernetPort
+import com.github.kerubistan.kerub.model.network.NetworkInterface
 import com.github.kerubistan.kerub.utils.LogLevel
 import com.github.kerubistan.kerub.utils.getLogger
 import com.github.kerubistan.kerub.utils.junix.common.OsCommand
@@ -156,9 +156,10 @@ abstract class AbstractLinux : Distribution {
 		if (SmartCtl.available(host.capabilities)) {
 			host.capabilities?.blockDevices?.forEach { storageDevice ->
 				SmartCtl.monitor(session, device = "/dev/${storageDevice.deviceName}") { healthy ->
-					hostDynDao.doWithDyn(host.id) {
-						it.copy(
-								storageDeviceHealth = it.storageDeviceHealth + (storageDevice.deviceName to healthy)
+					hostDynDao.doWithDyn(host.id) { original ->
+						original.copy(
+								storageDeviceHealth = original.storageDeviceHealth
+										+ (storageDevice.deviceName to healthy)
 						)
 					}
 				}

@@ -1,9 +1,11 @@
-package com.github.kerubistan.kerub.network
+package com.github.kerubistan.kerub.model.network
 
+import com.fasterxml.jackson.annotation.JsonTypeName
 import com.github.kerubistan.kerub.model.Entity
 import java.util.UUID
 import java.util.UUID.randomUUID
 
+@JsonTypeName("network-switch")
 data class NetworkSwitch(
 		override
 		val id: UUID = randomUUID(),

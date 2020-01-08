@@ -1,4 +1,4 @@
-package com.github.kerubistan.kerub.network
+package com.github.kerubistan.kerub.model.network
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import java.io.Serializable

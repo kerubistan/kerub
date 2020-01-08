@@ -18,6 +18,7 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualNetworkDynamic
 import com.github.kerubistan.kerub.model.dynamic.VirtualStorageDeviceDynamic
 import com.github.kerubistan.kerub.model.errors.HardwareError
+import com.github.kerubistan.kerub.model.network.NetworkSwitch
 import java.io.Serializable
 
 /**
@@ -42,6 +43,7 @@ import java.io.Serializable
 		JsonSubTypes.Type(Pool::class),
 		JsonSubTypes.Type(Template::class),
 		JsonSubTypes.Type(Network::class),
+		JsonSubTypes.Type(NetworkSwitch::class),
 		JsonSubTypes.Type(AddEntry::class),
 		JsonSubTypes.Type(DeleteEntry::class),
 		JsonSubTypes.Type(UpdateEntry::class),
