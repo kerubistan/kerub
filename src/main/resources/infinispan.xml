@@ -19,6 +19,12 @@
 			<transaction mode="BATCH"/>
 		</distributed-cache>
 
+		<serialization>
+			<advanced-externalizer
+					id="6666"
+					class="com.github.kerubistan.kerub.utils.ispn.InfinispanJsonExternalizer"/>
+		</serialization>
+
 		<replicated-cache name="controllerConfigCache" statistics="true">
 			<persistence>
 				<file-store path="${store.dir}/store/controller/cfg"/>
