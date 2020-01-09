@@ -8,7 +8,8 @@ data class HostOverheatingAlert(
 		override val id: UUID,
 		override val created: Long,
 		override val resolved: Long?,
-		override val open: Boolean
+		override val open: Boolean,
+		val hostId: UUID
 ) : InfrastructureAlert {
 	init {
 		this.validate()

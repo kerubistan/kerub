@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.model.alerts
 import com.fasterxml.jackson.annotation.JsonTypeName
 import java.util.UUID
 
-@JsonTypeName("data-loss-alert")
+@JsonTypeName("network-link-down-alert")
 data class NetworkLinkDownAlert(
 		override val id: UUID,
 		override val created: Long,
