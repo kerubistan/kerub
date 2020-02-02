@@ -9,10 +9,10 @@ import com.github.kerubistan.kerub.model.dynamic.DisplaySettings
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
-import com.github.kerubistan.kerub.utils.genPassword
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.SecretType
 import com.github.kerubistan.kerub.utils.junix.virt.virsh.Virsh
 import com.github.kerubistan.kerub.utils.kick
+import io.github.kerubistan.kroki.random.genPassword
 import java.math.BigInteger
 
 class KvmStartVirtualMachineExecutor(

@@ -11,7 +11,7 @@ import com.github.kerubistan.kerub.planner.OperationalState
 import com.github.kerubistan.kerub.testDisk
 import com.github.kerubistan.kerub.testHost
 import com.github.kerubistan.kerub.testLvmCapability
-import com.github.kerubistan.kerub.utils.genPassword
+import io.github.kerubistan.kroki.random.genPassword
 import org.junit.Test
 import kotlin.test.assertEquals
 

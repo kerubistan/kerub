@@ -6,7 +6,7 @@ import com.github.kerubistan.kerub.host.HostManager
 import com.github.kerubistan.kerub.model.config.HostConfiguration
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.planner.execution.AbstractStepExecutor
-import com.github.kerubistan.kerub.utils.genPassword
+import io.github.kerubistan.kroki.random.genPassword
 
 abstract class AbstractIscsiExecutor<T : AbstractIscsiOperation>(
 		private val hostConfigDao: HostConfigurationDao,
