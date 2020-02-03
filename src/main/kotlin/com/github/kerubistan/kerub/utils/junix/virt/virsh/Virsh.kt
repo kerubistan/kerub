@@ -8,7 +8,6 @@ import com.github.kerubistan.kerub.model.hypervisor.LibvirtArch
 import com.github.kerubistan.kerub.model.hypervisor.LibvirtCapabilities
 import com.github.kerubistan.kerub.model.hypervisor.LibvirtGuest
 import com.github.kerubistan.kerub.utils.LogLevel
-import com.github.kerubistan.kerub.utils.base64
 import com.github.kerubistan.kerub.utils.equalsAnyOf
 import com.github.kerubistan.kerub.utils.flag
 import com.github.kerubistan.kerub.utils.getLogger
@@ -20,6 +19,7 @@ import com.github.kerubistan.kerub.utils.junix.common.Ubuntu
 import com.github.kerubistan.kerub.utils.junix.common.openSuse
 import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toBigInteger
+import io.github.kerubistan.kroki.bytes.toBase64
 import io.github.kerubistan.kroki.strings.substringBetween
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
@@ -56,7 +56,7 @@ object Virsh : OsCommand {
 					file.write(secretDef.toByteArray(utf8))
 				}
 				session.executeOrDie("virsh secret-define $secretDefFile")
-				session.executeOrDie("virsh secret-set-value $id ${value.base64().toString(Charsets.US_ASCII)}")
+				session.executeOrDie("virsh secret-set-value $id ${value.toByteArray().toBase64()}")
 			} finally {
 				sftp.remove(secretDefFile)
 			}
