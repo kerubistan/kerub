@@ -29,7 +29,7 @@ import java.math.BigInteger
 interface Distribution {
 
 	companion object {
-		val logger = getLogger(Distribution::class)
+		val logger = getLogger()
 	}
 
 	val operatingSystem: OperatingSystem

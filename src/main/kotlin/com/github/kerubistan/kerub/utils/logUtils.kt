@@ -21,6 +21,14 @@ fun getLogger(cl: KClass<*>): Logger {
 	return LoggerFactory.getLogger(cl.java)!!
 }
 
+fun <T : Any> T.getLogger(): Logger {
+	return if (this::class.isCompanion) {
+		LoggerFactory.getLogger(this::class.java.enclosingClass)
+	} else {
+		LoggerFactory.getLogger(this::class.java)
+	}
+}
+
 fun getLogger(logger: String): Logger {
 	return LoggerFactory.getLogger(logger)!!
 }

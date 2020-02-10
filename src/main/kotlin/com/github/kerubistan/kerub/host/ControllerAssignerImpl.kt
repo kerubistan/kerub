@@ -77,7 +77,7 @@ class ControllerAssignerImpl(private val backtrack: BacktrackService,
 	}
 
 	companion object {
-		private val logger = getLogger(ControllerAssignerImpl::class)
+		private val logger = getLogger()
 		fun controllerScore(state: ControllerDynamic?): Int =
 				if (state == null) {
 					-1

@@ -14,7 +14,7 @@ class InstallPublicKeyExecutor(private val hostCommandExecutor: HostCommandExecu
 							   private val hostCfgDao: HostConfigurationDao)
 	: AbstractStepExecutor<InstallPublicKey, Unit>() {
 
-	private val logger = getLogger(InstallPublicKeyExecutor::class)
+	private val logger = getLogger()
 
 	override fun perform(step: InstallPublicKey) {
 		val publicKey = requireNotNull(hostCfgDao[step.sourceHost.id]?.publicKey)

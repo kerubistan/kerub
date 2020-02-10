@@ -16,7 +16,7 @@ class IspnConfiguration {
 	var siteId = "default-site"
 
 	companion object {
-		private val logger = getLogger(IspnConfiguration::class)
+		private val logger = getLogger()
 	}
 
 	private var globalConfig: GlobalConfiguration? = null

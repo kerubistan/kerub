@@ -34,7 +34,7 @@ import com.github.kerubistan.kerub.utils.getLogger
 
 object PlanViolationDetectorImpl : PlanViolationDetector {
 
-	private val logger = getLogger(PlanViolationDetectorImpl::class)
+	private val logger = getLogger()
 
 	private fun checkVmExpectation(vm: VirtualMachine, expectation: VirtualMachineExpectation,
 								   plan: Plan) =

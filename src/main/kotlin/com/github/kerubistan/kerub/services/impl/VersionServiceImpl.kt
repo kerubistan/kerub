@@ -14,7 +14,7 @@ class VersionServiceImpl : VersionService {
 	}
 
 	companion object {
-		private val logger = getLogger(VersionServiceImpl::class)
+		private val logger = getLogger()
 		fun buildVersionInfo(): VersionInfo {
 			val pack = VersionServiceImpl::class.java.`package`
 			return VersionInfo(pack?.implementationVersion ?: "dev",

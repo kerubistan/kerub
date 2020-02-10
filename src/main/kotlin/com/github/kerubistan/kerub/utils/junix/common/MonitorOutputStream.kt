@@ -12,7 +12,7 @@ class MonitorOutputStream<T>(
 	private val buffer = StringBuilder()
 
 	companion object {
-		private val logger = getLogger(MonitorOutputStream::class)
+		private val logger = getLogger()
 	}
 
 	override fun write(data: ByteArray) {

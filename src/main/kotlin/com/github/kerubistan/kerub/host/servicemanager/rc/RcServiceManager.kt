@@ -15,7 +15,7 @@ class RcServiceManager(private val session: ClientSession) : ServiceManager {
 
 	companion object {
 		private const val configFile = "/etc/rc.conf"
-		private val logger = getLogger(RcServiceManager::class)
+		private val logger = getLogger()
 		private val serviceMap = mapOf(
 				Ctld to "ctld",
 				Exports to "nfs"

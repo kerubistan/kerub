@@ -44,7 +44,7 @@ class ExpectationJacksonSerializationTest {
 	lateinit var parameter: Any
 
 	companion object {
-		private val logger = getLogger(ExpectationJacksonSerializationTest::class)
+		private val logger = getLogger()
 		@JvmStatic
 		@Parameterized.Parameters
 		fun parameters() = listOf(

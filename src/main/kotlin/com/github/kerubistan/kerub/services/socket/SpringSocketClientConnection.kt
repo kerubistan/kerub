@@ -26,7 +26,7 @@ class SpringSocketClientConnection(
 			services.map { it.key to listOf<ChannelSubscription>() }.toMap()
 
 	private companion object {
-		private val logger = getLogger(SpringSocketClientConnection::class)
+		private val logger = getLogger()
 	}
 
 	@Synchronized

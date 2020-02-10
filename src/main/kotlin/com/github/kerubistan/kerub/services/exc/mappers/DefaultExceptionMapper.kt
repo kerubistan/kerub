@@ -23,7 +23,7 @@ import javax.ws.rs.ext.ExceptionMapper
 class DefaultExceptionMapper : ExceptionMapper<Throwable> {
 
 	companion object {
-		private val logger = getLogger(DefaultExceptionMapper::class)
+		private val logger = getLogger()
 		val jsonMappingError = RestError("MAP1", "Mapping error.")
 		val jsonParseError = RestError("MAP2", "Json parsing error")
 	}

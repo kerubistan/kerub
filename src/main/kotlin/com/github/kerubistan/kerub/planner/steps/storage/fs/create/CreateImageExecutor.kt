@@ -12,7 +12,7 @@ class CreateImageExecutor(exec: HostCommandExecutor, dynDao: VirtualStorageDevic
 		AbstractCreateImageExecutor<CreateImage>(exec, dynDao) {
 
 	companion object {
-		private val logger = getLogger(CreateImageExecutor::class)
+		private val logger = getLogger()
 	}
 
 	override fun createAllocation(step: CreateImage, updates: ImageInfo): VirtualStorageFsAllocation =

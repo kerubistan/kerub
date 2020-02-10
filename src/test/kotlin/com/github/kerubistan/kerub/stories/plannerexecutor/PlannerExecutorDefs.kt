@@ -47,7 +47,7 @@ import kotlin.test.assertEquals
 class PlannerExecutorDefs {
 
 	companion object {
-		private val logger = getLogger(PlannerExecutorDefs::class)
+		private val logger = getLogger()
 	}
 
 	class MockExecutor : PlanExecutor {

@@ -9,7 +9,7 @@ import org.apache.sshd.common.session.SessionListener
 open class DefaultSshEventListener : SessionListener {
 
 	companion object {
-		private val logger = getLogger(DefaultSshEventListener::class)
+		private val logger = getLogger()
 	}
 
 	override fun sessionException(session: Session, exc: Throwable) {

@@ -11,7 +11,7 @@ import java.util.UUID
 class ExecutionResultDaoImpl(private val cache: Cache<UUID, ExecutionResult>) : ExecutionResultDao {
 
 	companion object {
-		private val logger = getLogger(ExecutionResultDaoImpl::class)
+		private val logger = getLogger()
 	}
 
 	override fun addAll(entities: Collection<ExecutionResult>) {

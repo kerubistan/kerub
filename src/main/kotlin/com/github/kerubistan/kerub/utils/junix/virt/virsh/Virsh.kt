@@ -30,7 +30,7 @@ import javax.xml.bind.JAXBContext
 
 object Virsh : OsCommand {
 
-	private val logger = getLogger(Virsh::class)
+	private val logger = getLogger()
 	private val utf8 = charset("UTF-8")
 
 	override fun providedBy(): List<Pair<(SoftwarePackage) -> Boolean, List<String>>> = listOf(

@@ -30,7 +30,7 @@ class ControllerManagerImpl(val dao: ControllerDynamicDao,
 	override fun getControllerId(): String = id ?: cacheManager.address.toString()
 
 	companion object {
-		private val logger = getLogger(ControllerManagerImpl::class)
+		private val logger = getLogger()
 	}
 
 	fun start() {

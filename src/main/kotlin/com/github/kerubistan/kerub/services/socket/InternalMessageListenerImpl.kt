@@ -12,7 +12,7 @@ import com.github.kerubistan.kerub.model.messages.Message as KerubMessage
 open class InternalMessageListenerImpl(private val planner: Planner) : MessageListener, InternalMessageListener {
 
 	companion object {
-		private val logger = getLogger(InternalMessageListenerImpl::class)
+		private val logger = getLogger()
 	}
 
 	private val channels: MutableMap<String, Map<String, ClientConnection>> = hashMapOf()

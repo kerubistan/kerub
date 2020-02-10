@@ -16,7 +16,7 @@ open class WakeHostExecutor(
 ) : AbstractStepExecutor<AbstractWakeHost, Unit>() {
 
 	companion object {
-		private val logger = getLogger(WakeHostExecutor::class)
+		private val logger = getLogger()
 		private const val defaultMaxRetries = 8
 		private const val defaultWaitBetweenTries = 30000.toLong()
 	}

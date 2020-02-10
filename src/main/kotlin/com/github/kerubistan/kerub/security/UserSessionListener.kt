@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSessionListener
 class UserSessionListener : HttpSessionListener {
 
 	companion object {
-		private val logger = getLogger(UserSessionListener::class)
+		private val logger = getLogger()
 	}
 
 	override fun sessionDestroyed(se: HttpSessionEvent) {

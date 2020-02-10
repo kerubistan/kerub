@@ -15,7 +15,7 @@ class InPlaceConvertImageExecutor(
 	: AbstractStepExecutor<InPlaceConvertImage, Pair<String, BigInteger>>() {
 
 	companion object {
-		private val logger = getLogger(InPlaceConvertImageExecutor::class)
+		private val logger = getLogger()
 	}
 
 	override fun perform(step: InPlaceConvertImage) =

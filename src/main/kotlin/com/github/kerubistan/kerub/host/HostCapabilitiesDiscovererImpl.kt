@@ -40,7 +40,7 @@ class HostCapabilitiesDiscovererImpl(private val controllerConfigDao: Controller
 		HostCapabilitiesDiscoverer {
 
 	companion object {
-		private val logger = getLogger(HostCapabilitiesDiscovererImpl::class)
+		private val logger = getLogger()
 		internal val distributions = listOf(
 				//RPM-based distros
 				Fedora(),

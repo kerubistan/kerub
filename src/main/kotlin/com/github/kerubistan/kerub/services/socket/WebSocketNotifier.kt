@@ -23,7 +23,7 @@ class WebSocketNotifier(
 ) : TextWebSocketHandler() {
 	companion object {
 		private val objectMapper = createObjectMapper()
-		private val logger: Logger = getLogger(WebSocketNotifier::class)
+		private val logger: Logger = getLogger()
 	}
 
 	fun send(session: WebSocketSession, message: Message) {

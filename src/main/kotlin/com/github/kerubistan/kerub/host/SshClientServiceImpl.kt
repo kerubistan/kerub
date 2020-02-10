@@ -31,7 +31,7 @@ class SshClientServiceImpl(
 	}
 
 	companion object {
-		private val logger = getLogger(SshClientServiceImpl::class)
+		private val logger = getLogger()
 
 		fun checkServerFingerPrint(session: Session, expected: String) {
 			val serverKey = (session as AbstractSession).kex.serverKey

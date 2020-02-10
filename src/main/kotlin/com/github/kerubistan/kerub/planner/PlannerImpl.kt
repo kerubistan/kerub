@@ -85,7 +85,7 @@ class PlannerImpl(
 					else -> TODO("check not implemented: $requestedReservation")
 				}
 
-		private val logger = getLogger(PlannerImpl::class)
+		private val logger = getLogger()
 	}
 
 	fun start() {

@@ -77,7 +77,7 @@ abstract class AbstractLinux : Distribution {
 	override val operatingSystem = OperatingSystem.Linux
 
 	companion object {
-		private val logger = getLogger(AbstractLinux::class)
+		private val logger = getLogger()
 		private val nonStorageFilesystems = listOf("proc", "devtmpfs", "tmpfs", "cgroup", "debugfs", "pstore")
 	}
 

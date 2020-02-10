@@ -34,7 +34,7 @@ class EntityDefs {
 	private var entities = mapOf<String, Entity<UUID>>()
 
 	companion object {
-		private val logger = getLogger(EntityDefs::class)
+		private val logger = getLogger()
 		private val insanceTl = ThreadLocal<EntityDefs>()
 
 		val instance: EntityDefs

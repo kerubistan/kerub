@@ -19,7 +19,7 @@ object DmiDecoder : OsCommand {
 
 	fun run(session: ClientSession) = parse(session.executeOrDie("dmidecode"))
 
-	private val logger = getLogger(DmiDecoder::class)
+	private val logger = getLogger()
 
 	fun split(input: String): List<String> =
 			input.split("\n\n".toRegex()).toTypedArray() //empty line

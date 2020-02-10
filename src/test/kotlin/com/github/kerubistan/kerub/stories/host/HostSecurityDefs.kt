@@ -20,7 +20,7 @@ class HostSecurityDefs {
 	private var responseCode = 200
 
 	companion object {
-		private val logger = getLogger(HostSecurityDefs::class)
+		private val logger = getLogger()
 	}
 
 	@Given("A controller")

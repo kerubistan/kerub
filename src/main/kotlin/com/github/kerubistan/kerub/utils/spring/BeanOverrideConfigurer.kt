@@ -9,7 +9,7 @@ import java.util.Properties
 class BeanOverrideConfigurer : PropertyOverrideConfigurer() {
 
 	companion object {
-		private val log = getLogger(BeanOverrideConfigurer::class)
+		private val log = getLogger()
 		private const val classOverideSuffix = ".class"
 		private val classOverrideFilter: (String) -> Boolean = { it.endsWith(classOverideSuffix) }
 		private val propertyOverrideFilter: (String) -> Boolean = { !classOverrideFilter(it) }

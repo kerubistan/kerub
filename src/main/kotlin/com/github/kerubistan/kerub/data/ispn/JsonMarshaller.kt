@@ -32,7 +32,7 @@ class JsonMarshaller(private val objectMapper: ObjectMapper) : Marshaller {
 
 	companion object {
 		const val KB = 1024
-		private val logger = getLogger(JsonMarshaller::class)
+		private val logger = getLogger()
 	}
 
 	private fun objectToByteArray(o: Any?, objectMapper: ObjectMapper, estimatedSize: Int? = null): ByteArray =

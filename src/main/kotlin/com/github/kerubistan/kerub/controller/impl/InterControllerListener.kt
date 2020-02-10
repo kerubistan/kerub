@@ -17,7 +17,7 @@ class InterControllerListener(
 		private val listener: InternalMessageListener
 ) : MessageListener {
 	companion object {
-		private val logger = getLogger(InterControllerListener::class)
+		private val logger = getLogger()
 	}
 
 	override fun onMessage(message: Message?) {

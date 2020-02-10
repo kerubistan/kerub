@@ -17,7 +17,7 @@ import com.github.kerubistan.kerub.model.Range as serializableRange
 class UtilsTest {
 
 	companion object {
-		private val logger = getLogger(UtilsTest::class)
+		private val logger = getLogger()
 	}
 
 

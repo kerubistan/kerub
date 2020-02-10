@@ -16,7 +16,7 @@ import java.util.concurrent.BlockingQueue
 class SocketListener(private val queue: BlockingQueue<String>) {
 
 	companion object {
-		private val logger = getLogger(SocketListener::class)
+		private val logger = getLogger()
 	}
 
 	@OnWebSocketConnect

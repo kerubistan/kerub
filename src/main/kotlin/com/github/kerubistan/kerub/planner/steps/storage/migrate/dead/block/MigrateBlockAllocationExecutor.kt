@@ -24,7 +24,7 @@ class MigrateBlockAllocationExecutor(
 		hostDynDao: HostDynamicDao
 ) : AbstractStepExecutor<MigrateBlockAllocation, Pair<Any, Any>>() {
 
-	private val logger = getLogger(MigrateBlockAllocationExecutor::class)
+	private val logger = getLogger()
 
 	private val createLvExecutor = CreateLvExecutor(hostCommandExecutor, vssDynDao)
 	private val createGvinumExecutor = CreateGvinumVolumeExecutor(hostCommandExecutor, vssDynDao, hostDynDao)

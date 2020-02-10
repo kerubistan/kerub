@@ -40,7 +40,7 @@ class CompositeStepFactory(
 		StepFactory<AbstractOperationalStep, Plan> {
 
 	companion object {
-		private val logger = getLogger(CompositeStepFactory::class)
+		private val logger = getLogger()
 		@ExperimentalUnsignedTypes
 		internal val defaultFactories = setOf(
 				MigrateVirtualMachineFactory,

@@ -15,7 +15,7 @@ class HistoryManager(private val timer: Timer,
 					 private val controllerManager: ControllerManager) {
 
 	companion object {
-		private val logger = getLogger(HistoryManager::class)
+		private val logger = getLogger()
 	}
 
 	class Compress(

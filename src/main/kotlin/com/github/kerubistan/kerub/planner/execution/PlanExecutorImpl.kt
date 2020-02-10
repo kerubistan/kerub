@@ -124,7 +124,7 @@ class PlanExecutorImpl(
 ) : PlanExecutor, StepExecutor<AbstractOperationalStep> {
 
 	companion object {
-		private val logger = getLogger(PlanExecutorImpl::class)
+		private val logger = getLogger()
 	}
 
 	@ExperimentalUnsignedTypes

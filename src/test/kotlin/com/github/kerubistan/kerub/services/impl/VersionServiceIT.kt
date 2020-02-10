@@ -10,7 +10,9 @@ import org.junit.Test
 
 class VersionServiceIT {
 
-	private companion object val logger = getLogger(VersionServiceIT::class)
+	private companion object
+
+	val logger = getLogger()
 
 	@Test
 	fun getVersionInfo() {

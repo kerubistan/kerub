@@ -14,7 +14,7 @@ import java.math.BigInteger
  * junix utility wrapper to manipulate the configuration files of openssh client and server
  */
 object OpenSsh {
-	private val logger = getLogger(OpenSsh::class)
+	private val logger = getLogger()
 	private const val knownHosts = ".ssh/known_hosts"
 	private const val authorizedKeys = ".ssh/authorized_keys"
 

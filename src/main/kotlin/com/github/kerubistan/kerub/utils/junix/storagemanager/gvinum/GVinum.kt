@@ -12,7 +12,7 @@ import java.math.BigInteger
 
 object GVinum {
 
-	private val logger = getLogger(GVinum::class)
+	private val logger = getLogger()
 
 	fun listDrives(session: ClientSession) = parseDriveList(gvinum("ld", session))
 	fun listSubDisks(session: ClientSession): List<GvinumSubDisk> = parseSubDiskList(gvinum("ls", session))
