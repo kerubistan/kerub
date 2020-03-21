@@ -13,5 +13,6 @@
     </root>
 
     <logger name="com.github.kerubistan.kerub" level="debug"/>
+    <logger name="com.github.k0zka.finder4j.backtrack" level="debug"/>
 
 </configuration>

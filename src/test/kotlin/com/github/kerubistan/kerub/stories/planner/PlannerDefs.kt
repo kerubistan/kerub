@@ -75,6 +75,7 @@ import com.github.kerubistan.kerub.planner.steps.host.security.generate.Generate
 import com.github.kerubistan.kerub.planner.steps.host.security.install.InstallPublicKey
 import com.github.kerubistan.kerub.planner.steps.host.startup.AbstractWakeHost
 import com.github.kerubistan.kerub.planner.steps.network.ovs.port.create.CreateOvsPort
+import com.github.kerubistan.kerub.planner.steps.network.ovs.port.gre.CreateOvsGrePort
 import com.github.kerubistan.kerub.planner.steps.network.ovs.sw.create.CreateOvsSwitch
 import com.github.kerubistan.kerub.planner.steps.storage.fs.create.CreateImage
 import com.github.kerubistan.kerub.planner.steps.storage.gvinum.create.CreateGvinumVolume
@@ -580,13 +581,47 @@ class PlannerDefs {
 		})
 	}
 
-	@Then("ovs port will be created on host (\\S+) on network (\\S+) for (\\S+)")
+	@Then("^ovs gre port will be created on (\\S+) for network (\\S+) to (\\S+)$")
+	fun verifyGrePortCreated(sourceHostAddr: String, networkName: String, targetHostAddr: String) {
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is CreateOvsGrePort
+					&& step.firstHost.address == sourceHostAddr
+					&& step.virtualNetwork == vnets.single { it.name == networkName }
+					&& step.secondHost.address == targetHostAddr
+		})
+	}
+
+	//	@Then("ovs port will be created on host (\\S+) on network (\\S+) for any of vms (\\S+)")
+	//	fun verifyOvsPortCreatedForAnyOf() {
+	//
+	//	}
+
+	@Then("^ovs port will be created on host (\\S+) on network (\\S+) for (\\S+)\$")
 	fun verifyPortCreated(hostAddr: String, networkName: String, vmName: String) {
 		assertTrue(executedPlans.first().steps.any { step ->
 			step is CreateOvsPort
 					&& step.host.address == hostAddr
 					&& step.virtualNetwork == vnets.single { it.name == networkName }
 					&& step.portName == vms.single { it.name == vmName }.idStr
+		})
+	}
+
+	@Then("^ovs port will be created on host (\\S+) on network (\\S+) for any of vms (\\S+)$")
+	fun verifyOvsPortCreatedForVmFromList(hostAddr: String, networkName: String, vmNamesCsv: String) {
+		val vmNames = vmNamesCsv.split(",").toSet()
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is CreateOvsPort
+					&& step.host.address == hostAddr
+					&& step.virtualNetwork == vnets.single { it.name == networkName }
+					&& step.portName == vms.single { it.name in vmNames }.idStr
+		})
+	}
+
+	@Then("^VM (\\S+) gets scheduled on some host$")
+	fun verifyVmGetScheduled(vmName: String) {
+		assertTrue(executedPlans.first().steps.any { step ->
+			step is KvmStartVirtualMachine
+					&& step.vm.name == vmName
 		})
 	}
 
