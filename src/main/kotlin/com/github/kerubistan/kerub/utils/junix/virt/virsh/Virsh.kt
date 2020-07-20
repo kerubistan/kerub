@@ -21,6 +21,7 @@ import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toBigInteger
 import io.github.kerubistan.kroki.bytes.toBase64
 import io.github.kerubistan.kroki.strings.substringBetween
+import io.github.kerubistan.kroki.xml
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.io.StringReader
@@ -43,17 +44,16 @@ object Virsh : OsCommand {
 
 	fun setSecret(session: ClientSession, id: UUID, type: SecretType, value: String) {
 		val secretDefFile = "/tmp/$id-secret.xml"
-		val secretDef = """<?xml version="1.0" encoding="UTF-8"?>
-<secret ephemeral='no' private='yes'>
-	<uuid>$id</uuid>
-	<usage type='$type'>
-		<target>$id</target>
-	</usage>
-</secret>"""
+		val secretDef = xml(root = "secret", atts = *arrayOf("ephemeral" to "no", "private" to "yes")) {
+			"uuid" { -id }
+			"usage"("type" to type) {
+				"target" { -id }
+			}
+		}.use { it.readBytes() }
 		session.createSftpClient().use { sftp ->
 			try {
 				sftp.write(secretDefFile).use { file ->
-					file.write(secretDef.toByteArray(utf8))
+					file.write(secretDef)
 				}
 				session.executeOrDie("virsh secret-define $secretDefFile")
 				session.executeOrDie("virsh secret-set-value $id ${value.toByteArray().toBase64()}")

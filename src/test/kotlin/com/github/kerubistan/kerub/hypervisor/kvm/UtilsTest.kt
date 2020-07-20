@@ -38,7 +38,7 @@ class UtilsTest {
 				publicKey = ""
 		)
 
-		val libvirtXml = vmDefinitiontoXml(vm, listOf(), "", targetHost = host)
+		val libvirtXml = vmDefinitionToXml(vm, listOf(), "", targetHost = host)
 
 		val dom = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(libvirtXml)))
 		val xPath = XPathFactory.newInstance().newXPath()

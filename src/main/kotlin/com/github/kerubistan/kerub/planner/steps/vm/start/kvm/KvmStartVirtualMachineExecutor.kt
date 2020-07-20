@@ -3,7 +3,7 @@ package com.github.kerubistan.kerub.planner.steps.vm.start.kvm
 import com.github.kerubistan.kerub.data.dynamic.VirtualMachineDynamicDao
 import com.github.kerubistan.kerub.host.HostCommandExecutor
 import com.github.kerubistan.kerub.host.HostManager
-import com.github.kerubistan.kerub.hypervisor.kvm.vmDefinitiontoXml
+import com.github.kerubistan.kerub.hypervisor.kvm.vmDefinitionToXml
 import com.github.kerubistan.kerub.model.VirtualMachineStatus
 import com.github.kerubistan.kerub.model.dynamic.DisplaySettings
 import com.github.kerubistan.kerub.model.dynamic.VirtualMachineDynamic
@@ -48,7 +48,7 @@ class KvmStartVirtualMachineExecutor(
 							}
 					}
 				}
-				Virsh.create(client, step.vm.id, vmDefinitiontoXml(step.vm, step.storageLinks, consolePwd, step.host))
+				Virsh.create(client, step.vm.id, vmDefinitionToXml(step.vm, step.storageLinks, consolePwd, step.host))
 				val display = kick(8) {
 					// why kicking it again? it does happen sometimes that this fails after successful vm start
 					// (noticed on opensuse 42)
