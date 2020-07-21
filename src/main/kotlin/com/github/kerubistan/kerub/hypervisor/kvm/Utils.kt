@@ -47,7 +47,7 @@ fun allocationType(deviceDyn: VirtualStorageLinkInfo): String = deviceDyn.alloca
 	when (it) {
 		is VirtualStorageLvmAllocation -> "raw"
 		is VirtualStorageFsAllocation -> it.type.name.toLowerCase()
-		else -> TODO("")
+		else -> TODO("not handled allocation type: ${it.javaClass.name}")
 	}
 }
 
@@ -81,7 +81,7 @@ fun XmlBuilder.allocationToXml(linkInfo: VirtualStorageLinkInfo, targetHost: Hos
 				!"local lvm allocation"
 				source(dev to allocation.path)
 			}
-			else -> TODO()
+			else -> TODO("not handled allocation type: ${allocation.javaClass.name}")
 		}
 	}
 }
