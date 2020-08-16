@@ -8,9 +8,9 @@ import com.github.kerubistan.kerub.model.dynamic.VirtualStorageLvmAllocation
 import com.github.kerubistan.kerub.model.services.IscsiService
 import com.github.kerubistan.kerub.model.services.NfsService
 import com.github.kerubistan.kerub.utils.storage.iscsiStorageId
-import io.github.kerubistan.kroki.XmlBuilder
 import io.github.kerubistan.kroki.io.readText
-import io.github.kerubistan.kroki.xml
+import io.github.kerubistan.kroki.xml.XmlBuilder
+import io.github.kerubistan.kroki.xml.xml
 import com.github.kerubistan.kerub.utils.storage.iscsiDefaultUser as iscsiUser
 
 private const val file = "file"

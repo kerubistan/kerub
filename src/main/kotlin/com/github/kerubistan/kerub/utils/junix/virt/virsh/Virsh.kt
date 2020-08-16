@@ -21,7 +21,7 @@ import com.github.kerubistan.kerub.utils.silent
 import com.github.kerubistan.kerub.utils.toBigInteger
 import io.github.kerubistan.kroki.bytes.toBase64
 import io.github.kerubistan.kroki.strings.substringBetween
-import io.github.kerubistan.kroki.xml
+import io.github.kerubistan.kroki.xml.xml
 import org.apache.sshd.client.session.ClientSession
 import java.io.OutputStream
 import java.io.StringReader
