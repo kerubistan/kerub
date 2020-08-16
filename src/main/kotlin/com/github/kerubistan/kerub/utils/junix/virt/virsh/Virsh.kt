@@ -44,16 +44,15 @@ object Virsh : OsCommand {
 
 	fun setSecret(session: ClientSession, id: UUID, type: SecretType, value: String) {
 		val secretDefFile = "/tmp/$id-secret.xml"
-		val secretDef = xml(root = "secret", atts = *arrayOf("ephemeral" to "no", "private" to "yes")) {
-			"uuid" { -id }
-			"usage"("type" to type) {
-				"target" { -id }
-			}
-		}.use { it.readBytes() }
 		session.createSftpClient().use { sftp ->
 			try {
 				sftp.write(secretDefFile).use { file ->
-					file.write(secretDef)
+					xml(out = file, root = "secret", atts = *arrayOf("ephemeral" to "no", "private" to "yes")) {
+						"uuid" { -id }
+						"usage"("type" to type) {
+							"target" { -id }
+						}
+					}
 				}
 				session.executeOrDie("virsh secret-define $secretDefFile")
 				session.executeOrDie("virsh secret-set-value $id ${value.toByteArray().toBase64()}")
