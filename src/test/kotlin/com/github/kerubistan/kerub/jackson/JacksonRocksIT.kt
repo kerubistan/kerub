@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
 
-class JacksonFuckIT {
+class JacksonRocksIT {
 
 	data class Something(val listOfNotNulls: List<String> = listOf())
 
