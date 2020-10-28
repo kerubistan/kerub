@@ -1,12 +1,14 @@
 package com.github.kerubistan.kerub.utils
 
+import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 
 fun createObjectMapper(prettyPrint: Boolean = true): ObjectMapper =
-		ObjectMapper().registerModule(KotlinModule())
+		ObjectMapper().registerModule(KotlinModule(strictNullChecks = true))
+				.enable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION)
 				.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true)
 				// also the default but I'd like to explicitly state here that
 				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true)

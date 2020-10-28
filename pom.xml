@@ -60,7 +60,7 @@
 		<angular-bootstrap.version>1.1.1-1</angular-bootstrap.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<cucumber.version>1.2.5</cucumber.version>
-		<jackson.version>2.11.2</jackson.version>
+		<jackson.version>2.12.0-rc1</jackson.version>
 		<jetty.version>9.4.31.v20200723</jetty.version>
 		<shiro.version>1.6.0</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
@@ -97,6 +97,11 @@
 					<artifactId>aalto-xml</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.github.kerubistan.kroki</groupId>
+			<artifactId>kroki-coroutines</artifactId>
+			<version>${kroki.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
@@ -608,7 +613,6 @@
 								</goals>
 								<configuration>
 									<dumpOnStart>true</dumpOnStart>
-									<daemon>true</daemon>
 									<scanIntervalSeconds>0</scanIntervalSeconds>
 								</configuration>
 							</execution>
@@ -666,7 +670,6 @@
 								</goals>
 								<configuration>
 									<dumpOnStart>true</dumpOnStart>
-									<daemon>true</daemon>
 									<scanIntervalSeconds>0</scanIntervalSeconds>
 								</configuration>
 							</execution>
