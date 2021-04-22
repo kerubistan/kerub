@@ -62,7 +62,7 @@
 		<cucumber.version>1.2.5</cucumber.version>
 		<jackson.version>2.9.9</jackson.version>
 		<jetty.version>9.2.2.v20140723</jetty.version>
-		<shiro.version>1.4.2</shiro.version>
+		<shiro.version>1.7.1</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
 		<dokka.version>0.9.18</dokka.version>
 	</properties>
