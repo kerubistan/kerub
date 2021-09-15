@@ -23,9 +23,9 @@ class PlanRationalizerImpl(
 	override fun rationalize(plan: Plan): Plan =
 			if (plan.steps.size > 1) {
 				val cleanup = tryRemoveSingles(tryRemoveInverses(plan))
-				(1..(cleanup.steps.size - 1)).mapNotNull {
+				(1 until cleanup.steps.size).mapNotNull {
 					subPlan(cleanup, it)
-				}.minBy { it.steps.size } ?: cleanup
+				}.minByOrNull { it.steps.size } ?: cleanup
 			} else plan
 
 
