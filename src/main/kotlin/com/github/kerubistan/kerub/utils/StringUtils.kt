@@ -6,6 +6,7 @@ const val emptyString = ""
 
 private val duplicateSlashesPattern = "(/+)".toRegex()
 
+// use kroki
 fun String.toBigInteger() = BigInteger(this)
 
 fun String.substringBetweenOrNull(prefix: String, postfix: String): String? =
