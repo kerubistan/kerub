@@ -8,6 +8,7 @@ import com.github.kerubistan.kerub.security.EntityAccessController
 import com.github.kerubistan.kerub.utils.getLogger
 import io.github.kerubistan.kroki.collections.upsert
 import org.apache.shiro.subject.Subject
+import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import kotlin.reflect.KClass
@@ -19,7 +20,7 @@ class SpringSocketClientConnection(
 		private val subject: Subject) : ClientConnection {
 
 	override fun close() {
-		session.close()
+		session.close(CloseStatus.NORMAL)
 	}
 
 	private var subscriptions: Map<KClass<*>, List<ChannelSubscription>> =

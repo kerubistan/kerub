@@ -1,10 +1,10 @@
 package com.github.kerubistan.kerub.utils
 
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException
-import com.fasterxml.jackson.databind.exc.InvalidDefinitionException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kerubistan.kerub.model.ProjectMembership
 import com.github.kerubistan.kerub.model.VirtualMachine
@@ -71,7 +71,7 @@ class ObjectMapperUtilsKtTest {
 		""".trimIndent())
 		}
 
-		assertThrows<InvalidDefinitionException>("test that we do not bypass the validation") {
+		assertThrows<ValueInstantiationException>("test that we do not bypass the validation") {
 			createObjectMapper().readValue<TimeCost>("""
 			{
 				"minMs": 1000,
