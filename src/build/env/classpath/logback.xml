@@ -18,9 +18,9 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="com.github.kerubistan.kerub" level="debug">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+    <logger name="com.github.kerubistan.kerub" level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </logger>
 
 </configuration>

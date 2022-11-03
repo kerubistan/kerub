@@ -32,6 +32,7 @@ fun <T> silent(level: LogLevel = LogLevel.Info, actionName: String = "", body: (
 	}
 }
 
+// moved to kroki
 fun <T> insist(tries: Int, action: () -> T): T {
 	for (attempt in 0 until tries) {
 		try {

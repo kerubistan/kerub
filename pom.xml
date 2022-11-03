@@ -59,8 +59,8 @@
 		<angularjs.version>1.4.9</angularjs.version>
 		<angular-bootstrap.version>1.1.1-1</angular-bootstrap.version>
 		<slf4j.version>1.7.36</slf4j.version>
-		<cucumber.version>1.2.5</cucumber.version>
-		<jetty.version>9.4.42.v20210604</jetty.version>
+		<cucumber.version>1.2.6</cucumber.version>
+		<jetty.version>9.4.49.v20220914</jetty.version>
 		<jackson.version>2.13.4</jackson.version>
 		<shiro.version>1.10.0</shiro.version>
 		<kovenant.version>3.3.0</kovenant.version>
@@ -98,6 +98,11 @@
 					<artifactId>aalto-xml</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.github.kerubistan.kroki</groupId>
+			<artifactId>kroki-coroutines</artifactId>
+			<version>${kroki.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>

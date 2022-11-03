@@ -1,18 +1,16 @@
 package com.github.kerubistan.kerub.jackson
 
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.kerubistan.kerub.model.dynamic.HostDynamic
 import com.github.kerubistan.kerub.utils.createObjectMapper
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID.randomUUID
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
-class JacksonFuckIT {
+class JacksonRocksIT {
 
 	data class Something(val listOfNotNulls: List<String> = listOf())
 
@@ -22,17 +20,14 @@ class JacksonFuckIT {
 
 	@Test
 	fun nullThroughJackson() {
-		val something = createObjectMapper()
-				.readValue("""
+		assertThrows<JsonMappingException> {
+			val something = createObjectMapper()
+					.readValue("""
 					{
 						"listOfNotNulls":["foo","bar",null,"baz"]
 					}
 					""".trimIndent(), Something::class.java)
-		assertNotNull(something)
-		// TODO https://github.com/kerubistan/kerub/issues/205 - nulls injected through json
-		// this here is obviiously wrong and should fail instead
-		assertTrue(something.listOfNotNulls.any { it == null })
-		assertEquals(4, something.listOfNotNulls.size)
+		}
 	}
 
 	@Test
@@ -57,32 +52,30 @@ class JacksonFuckIT {
 					""".trimIndent(), DataWithMap::class.java)
 		}
 
-		// TODO https://github.com/kerubistan/kerub/issues/205 - nulls injected through json
-		// this should not work either, but it does
-		createObjectMapper()
-				.readValue("""
+		assertThrows<JsonMappingException> {
+			createObjectMapper()
+					.readValue("""
 				{
 					"map": {"A":1, "B":null}
 				}
 				""".trimIndent(), DataWithMap::class.java)
+		}
 
-		// TODO https://github.com/kerubistan/kerub/issues/205 - nulls injected through json
-		// and again, this is a wtf
-		createObjectMapper()
-				.readValue("""
+		assertThrows<JsonMappingException> {
+			createObjectMapper()
+					.readValue("""
 				{
 					"map": {"A":1, "B":""}
 				}
 				""".trimIndent(), DataWithMap::class.java)
+		}
 
 	}
 
 
-	@Ignore
 	@Test
 	fun otherProblems() {
-		// TODO this too should fail, but it does not
-		assertThrows<InvalidFormatException>("duplicate keys not allowed") {
+		assertThrows<JsonParseException>("duplicate keys not allowed") {
 			createObjectMapper().readValue<HostDynamic>("""
 			{
 				"@type": "host-dyn",
