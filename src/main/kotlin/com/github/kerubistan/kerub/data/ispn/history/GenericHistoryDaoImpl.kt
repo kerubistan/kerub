@@ -92,7 +92,7 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 			val sortedChanges = changes.sortedBy(nevValueAsNumber)
 
 			val totalAvg = changes.decimalAvgBy(nevValueAsNumber)
-			val median = sortedChanges.minBy {
+			val median = sortedChanges.minByOrNull {
 				(nevValueAsNumber(it) - totalAvg).abs()
 			}
 			val medianPosition = sortedChanges.indexOf(median)
@@ -205,9 +205,9 @@ abstract class GenericHistoryDaoImpl<in T : DynamicEntity>(
 								property = changedProperty,
 								average = propertyChanges.decimalAvgBy { BigDecimal.ZERO /*TODO*/ },
 								//there is at least one element, therefore there must be a maximum
-								max = requireNotNull(propertyChanges.map(maxSelector).max()),
+								max = requireNotNull(propertyChanges.map(maxSelector).maxOrNull()),
 								//and same for minimums
-								min = requireNotNull(propertyChanges.map(minSelector).min()),
+								min = requireNotNull(propertyChanges.map(minSelector).minOrNull()),
 								extremes = listOf()
 						)
 

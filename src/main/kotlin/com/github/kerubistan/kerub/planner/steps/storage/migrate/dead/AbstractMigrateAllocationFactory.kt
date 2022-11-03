@@ -86,7 +86,7 @@ abstract class AbstractMigrateAllocationFactory<out T : AbstractMigrateAllocatio
 			unAllocatedState: OperationalState,
 			targetAllocation: AbstractCreateVirtualStorage<out VirtualStorageAllocation, out StorageCapability>
 	): Boolean {
-		val sizeNeededOnTarget = candidateStorage.dynamic?.allocations?.maxBy { it.actualSize }?.actualSize
+		val sizeNeededOnTarget = candidateStorage.dynamic?.allocations?.maxByOrNull { it.actualSize }?.actualSize
 		return unAllocatedState.hosts[targetAllocation.host.id]?.dynamic
 				?.storageStatus
 				?.singleOrNull { it.id == targetAllocation.allocation.capabilityId }

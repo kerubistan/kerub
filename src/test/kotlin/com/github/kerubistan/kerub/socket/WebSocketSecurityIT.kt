@@ -49,7 +49,7 @@ class WebSocketSecurityIT {
 				createObjectMapper().writeValueAsString(PingMessage(sent = now()))
 		)
 
-		var messages = listOf<String>()
+		val messages = mutableListOf<String>()
 		var msg = queue.poll(1, TimeUnit.SECONDS)
 		while (msg != null) {
 			messages += msg
@@ -67,7 +67,7 @@ class WebSocketSecurityIT {
 			msg = queue.poll(1, TimeUnit.SECONDS)
 		}
 
-		assertTrue(messages.last() == "closed")
+		assertTrue(messages.last() == "closed", "messages: $messages")
 
 	}
 
