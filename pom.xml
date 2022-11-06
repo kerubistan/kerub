@@ -280,6 +280,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- to override the vulnerable dependency by artemis -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
+		</dependency>
 		<!--needed by artemis-->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
